@@ -9,7 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import AddAdmin from "./addAdmin";
 import EditAdmin from "./editAdmin";
 
-import { ArchitectheadCells } from "../../../utils/tableHeads";
+import { AdminheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
@@ -136,7 +136,7 @@ export default function Index() {
             />
           </div>
           <ArchitectsTable
-            headCells={ArchitectheadCells}
+            headCells={AdminheadCells}
             data={architectsData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
