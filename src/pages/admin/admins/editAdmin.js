@@ -90,7 +90,7 @@ export default function AddExpense(props) {
         </div>
       </div>
       <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full  px-3">
+        <div className="w-full md:w-1/2  px-3">
           <TextInput
             type="email"
             placeholder="Email"

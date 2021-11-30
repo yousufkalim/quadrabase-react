@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // Import layouts
 import AdminLayout from "../containers/admin";
 import AuthLayout from "../containers/auth";
-import { getToken } from "../utils/Auth";
+import { getToken, handleLogout } from "../utils/Auth";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { focusHandling } from "cruip-js-toolkit";
 import "../charts/ChartjsConfig";
@@ -16,6 +16,9 @@ export default function Index() {
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
     focusHandling("outline");
+    if (isMyTokenExpired) {
+      handleLogout();
+    }
   }, [location.pathname]); // triggered on route change
   return (
     <Switch>

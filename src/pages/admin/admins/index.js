@@ -82,7 +82,8 @@ export default function Index() {
         },
       });
       let data = response.data.admins;
-      setarchitectsData(data);
+      let newData = data.filter((dat) => dat.email !== "admin@quadrabase.com");
+      setarchitectsData(newData);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
