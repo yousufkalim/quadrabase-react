@@ -80,12 +80,6 @@ export default function Navbar() {
             >
               Login
             </a>
-            <a
-              href="/auth/register"
-              className="bg-blue-600 text-gray-200  p-2  p-2 pl-6 pr-6 rounded  hover:bg-blue-500 hover:text-gray-100"
-            >
-              Register
-            </a>
           </div>
         </div>
       </div>

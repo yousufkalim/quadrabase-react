@@ -6,6 +6,7 @@ import Axios from "axios";
 import { baseUrl } from "../../utils/BaseUrl";
 import { handleLogin } from "../../utils/Auth";
 import { Redirect } from "react-router-dom";
+import Notifier from "../../utils/Notifier";
 export default function Login() {
   const [isLoading, setisLoading] = React.useState(false);
   const [isRedirect, setisRedirect] = React.useState(false);
@@ -22,13 +23,15 @@ export default function Login() {
           data: values,
         });
         const { token, user } = response.data.result;
+        Notifier(response.data.message, "success");
         handleLogin(token, user);
         setisRedirect(true);
         setisLoading(false);
-        window.location.reload();
       } catch (err) {
         setisLoading(false);
-
+        if (err.response) {
+          Notifier(err.response.data.message, "error");
+        }
         console.log("Errror->>>", err);
       }
     },
@@ -90,7 +93,7 @@ export default function Login() {
                       onChange={formik.handleChange}
                       value={formik.values.password}
                       type="password"
-                      placeholder="******************"
+                      placeholder="********"
                     />
                     {formik.touched.password && formik.errors.password ? (
                       <div className="text-red-500">
