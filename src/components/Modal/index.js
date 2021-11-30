@@ -1,0 +1,34 @@
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "55%",
+  transform: "translate(-50%, -50%)",
+  width: "60%",
+
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "12px",
+  outlineColor: "#fff",
+  outline: "none",
+  boxShadow: 24,
+  p: 2,
+};
+
+export default function BasicModal(props) {
+  return (
+    <Modal open={props.open} onClose={props.onOpen}>
+      <Box sx={style}>
+        <div className="flex justify-center">
+          <h2 className="text-gray-600 capitalize font-semibold text-3xl">
+            {props.title}
+          </h2>
+        </div>
+        {props.component}
+      </Box>
+    </Modal>
+  );
+}
