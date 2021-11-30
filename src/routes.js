@@ -1,6 +1,7 @@
 import Admin from "./pages/admin";
 import Architects from "./pages/admin/architects";
-import Admins from "./pages/admin/admins";
+import AdminsList from "./pages/admin/admins";
+import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
@@ -8,28 +9,35 @@ import Register from "./pages/auth/register";
 var routes = [
   //admin  side routes
   {
-    path: "/index",
+    path: "/index", //admin dashboard
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Admin,
     layout: "/admin",
   },
   {
-    path: "/architects",
+    path: "/architects", //architects list
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Architects,
     layout: "/admin",
   },
   {
-    path: "/admins",
+    path: "/admins", //admins list
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    component: Admins,
+    component: AdminsList,
+    layout: "/admin",
+  },
+  {
+    path: "/settings",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: profileSettings,
     layout: "/admin",
   },
 
-  // ********
+  // ******** auth routes
   {
     path: "/login",
     name: "Auth",
