@@ -141,13 +141,7 @@ export default function Index() {
             data={architectsData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
-            rows={[
-              "first_name",
-              "last_name",
-              "email",
-              "establishment",
-              "service",
-            ]}
+            rows={["first_name", "last_name", "email"]}
           />
         </div>
       </div>

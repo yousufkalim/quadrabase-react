@@ -11,7 +11,7 @@ export default function index(props) {
       </label>
       <input
         className="appearance-none block w-full  text-gray-700 border border-gray-500 rounded py-2 px-4 mb-2 leading-tight focus:outline-none focus:bg-gray-100"
-        type={props.text}
+        type={props.type}
         placeholder={props.placeholder}
         name={props.name}
         disabled={props.disabled ? props.disabled : false}

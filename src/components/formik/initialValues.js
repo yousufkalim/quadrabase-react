@@ -18,3 +18,8 @@ export const ADMIN_STATE = {
   password: "",
   confirm_password: "",
 };
+export const LIBRARY_STATE = {
+  name: "",
+  type: "",
+  ranking: "",
+};

@@ -75,3 +75,36 @@ export const AdminheadCells = [
     label: "Action",
   },
 ];
+export const LibraryheadCells = [
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Name",
+  },
+  {
+    id: "type",
+    numeric: true,
+    disablePadding: false,
+    label: "Type",
+  },
+  {
+    id: "ranking",
+    numeric: true,
+    disablePadding: false,
+    label: "Ranking",
+  },
+
+  {
+    id: "date",
+    numeric: true,
+    disablePadding: false,
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+    numeric: true,
+    disablePadding: false,
+    label: "Action",
+  },
+];
