@@ -13,6 +13,9 @@ export const getUser = () => {
   let user = cooky && JSON.parse(cooky);
   return user;
 };
+export const setUser = (user) => {
+  return localStorage.setItem("user", JSON.stringify(user));
+};
 export const getToken = () => {
   let token = localStorage.getItem("token");
   return token;
