@@ -42,3 +42,36 @@ export const ArchitectheadCells = [
     label: "Action",
   },
 ];
+export const AdminheadCells = [
+  {
+    id: "first_name",
+    numeric: false,
+    disablePadding: true,
+    label: "First Name",
+  },
+  {
+    id: "last_name",
+    numeric: true,
+    disablePadding: false,
+    label: "Last Name",
+  },
+  {
+    id: "email",
+    numeric: true,
+    disablePadding: false,
+    label: "Email",
+  },
+
+  {
+    id: "date",
+    numeric: true,
+    disablePadding: false,
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+    numeric: true,
+    disablePadding: false,
+    label: "Action",
+  },
+];

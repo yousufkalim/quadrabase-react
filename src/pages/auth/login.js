@@ -27,7 +27,6 @@ export default function Login() {
         handleLogin(token, user);
         setisRedirect(true);
         setisLoading(false);
-        window.location.reload();
       } catch (err) {
         setisLoading(false);
         if (err.response) {
