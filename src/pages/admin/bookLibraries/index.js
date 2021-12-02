@@ -4,6 +4,8 @@ import Button from "../../../components/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
+import List from "../../../components/List";
+
 import Notifier from "../../../utils/Notifier";
 
 import AddLibrary from "./addLibrary";
@@ -19,6 +21,7 @@ export default function Index() {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
+  const [headCells, setheadCells] = React.useState("");
 
   const [libraryId, setlibraryId] = React.useState("");
   const [libraryDeleteId, setlibraryDeleteId] = React.useState("");
@@ -92,7 +95,13 @@ export default function Index() {
   useEffect(() => {
     getBookLibraries();
   }, [modal, editmodal, deletemodal]);
-
+  useEffect(() => {
+    let array = [];
+    LibraryheadCells.slice(0, LibraryheadCells.length - 1).map((cell) =>
+      array.push(cell.id)
+    );
+    setheadCells(array);
+  }, []);
   return (
     <>
       <Modal
@@ -125,23 +134,11 @@ export default function Index() {
           />
         }
       />
-      <div className="w-full  md:mx-auto py-9 ">
+      <div className="w-full  md:mx-auto py-20 ">
         <div className="container mx-auto px-6">
-          <div className="flex justify-end  pb-3">
-            <Button
-              variant="outlined"
-              label="Add Library"
-              onClick={handleModal}
-              startIcon={<AddIcon />}
-            />
+          <div className="w-1/2 mx-auto ">
+            <List />
           </div>
-          <ArchitectsTable
-            headCells={LibraryheadCells}
-            data={librariesData}
-            handleEdit={handleEditModal}
-            handleDelete={handleDeleteModal}
-            rows={["name", "type", "ranking"]}
-          />
         </div>
       </div>
     </>

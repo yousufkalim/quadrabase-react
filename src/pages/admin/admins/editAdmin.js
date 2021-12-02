@@ -18,7 +18,7 @@ export default function AddExpense(props) {
     validationSchema: EDIT_ADMIN_YUP,
     onSubmit: async (values) => {
       setisLoading(true);
-
+      console.log(values, "values");
       try {
         let response = await Axios({
           method: "put",
@@ -43,13 +43,10 @@ export default function AddExpense(props) {
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
+
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
-        if (
-          Object.keys(initialValues).includes(dat) &&
-          dat !== "password" &&
-          dat !== "confirm_password"
-        ) {
+        if (Object.keys(initialValues).includes(dat)) {
           formik.setFieldValue(dat, editData[dat]);
         }
       });

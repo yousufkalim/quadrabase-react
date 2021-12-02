@@ -261,7 +261,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               >
                 <NavLink
                   exact
-                  to="/admin/libraries"
+                  to="/admin/providers"
                   className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
                     pathname === "/" && "hover:text-gray-200"
                   }`}
@@ -288,7 +288,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Libraries
+                      Providers
                     </span>
                   </div>
                 </NavLink>
@@ -385,11 +385,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
-                              to="/admin/index"
+                              to="/admin/libraries"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Team - Tabs
+                                General Libraries
                               </span>
                             </NavLink>
                           </li>
