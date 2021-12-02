@@ -30,7 +30,7 @@ export const ArchitectheadCells = [
     label: "Service",
   },
   {
-    id: "date",
+    id: "createdAt",
     numeric: true,
     disablePadding: false,
     label: "Date/Time",
@@ -63,7 +63,109 @@ export const AdminheadCells = [
   },
 
   {
-    id: "date",
+    id: "createdAt",
+    numeric: true,
+    disablePadding: false,
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+    numeric: true,
+    disablePadding: false,
+    label: "Action",
+  },
+];
+export const LibraryheadCells = [
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Name",
+  },
+  {
+    id: "type",
+    numeric: true,
+    disablePadding: false,
+    label: "Type",
+  },
+  {
+    id: "ranking",
+    numeric: true,
+    disablePadding: false,
+    label: "Ranking",
+  },
+
+  {
+    id: "createdAt",
+    numeric: true,
+    disablePadding: false,
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+    numeric: true,
+    disablePadding: false,
+    label: "Action",
+  },
+];
+export const ProviderheadCells = [
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Name",
+  },
+
+  {
+    id: "email",
+    numeric: true,
+    disablePadding: false,
+    label: "Email",
+  },
+  {
+    id: "telephone_no",
+    numeric: true,
+    disablePadding: false,
+    label: "Telephone No.",
+  },
+  {
+    id: "contact_no",
+    numeric: true,
+    disablePadding: false,
+    label: "Contact No.",
+  },
+  {
+    id: "address1",
+    numeric: true,
+    disablePadding: false,
+    label: "Address 1",
+  },
+  {
+    id: "address2",
+    numeric: true,
+    disablePadding: false,
+    label: "Address 2",
+  },
+  {
+    id: "city",
+    numeric: true,
+    disablePadding: false,
+    label: "City",
+  },
+  {
+    id: "zipcode",
+    numeric: true,
+    disablePadding: false,
+    label: "ZipCode",
+  },
+  {
+    id: "url",
+    numeric: true,
+    disablePadding: false,
+    label: "url",
+  },
+  {
+    id: "createdAt",
     numeric: true,
     disablePadding: false,
     label: "Date/Time",

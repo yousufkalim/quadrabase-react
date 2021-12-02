@@ -19,6 +19,7 @@ export default function Index() {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
+  const [headCells, setheadCells] = React.useState("");
 
   const [adminId, setadminId] = React.useState("");
   const [adminDeleteId, setadminDeleteId] = React.useState("");
@@ -93,7 +94,13 @@ export default function Index() {
   useEffect(() => {
     getAdmins();
   }, [modal, editmodal, deletemodal]);
-
+  useEffect(() => {
+    let array = [];
+    AdminheadCells.slice(0, AdminheadCells.length - 1).map((cell) =>
+      array.push(cell.id)
+    );
+    setheadCells(array);
+  }, []);
   return (
     <>
       <Modal
@@ -141,13 +148,7 @@ export default function Index() {
             data={architectsData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
-            rows={[
-              "first_name",
-              "last_name",
-              "email",
-              "establishment",
-              "service",
-            ]}
+            rows={headCells}
           />
         </div>
       </div>

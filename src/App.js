@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import "./css/style.scss";
+
 import { Toaster } from "react-hot-toast";
 
 import Main from "./containers";

@@ -330,15 +330,18 @@ export default function EnhancedTable(props) {
                     >
                       <TableCell padding="checkbox"></TableCell>
 
-                      {props.rows.map((record, index) => (
-                        <TableCell key={index} align="right">
-                          {row[record]}
-                        </TableCell>
-                      ))}
+                      {props.rows.map((record, index) =>
+                        record == "createdAt" ? (
+                          <TableCell align="right">
+                            {moment(row[record]).format("DD/MM/YYYY HH:mm")}
+                          </TableCell>
+                        ) : (
+                          <TableCell key={index} align="right">
+                            {row[record]}
+                          </TableCell>
+                        )
+                      )}
 
-                      <TableCell align="right">
-                        {moment(row.date).format("DD/MM/YYYY HH:mm")}
-                      </TableCell>
                       <TableCell align="right">
                         <IconButton
                           color="info"

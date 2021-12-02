@@ -1,5 +1,8 @@
 import Admin from "./pages/admin";
 import Architects from "./pages/admin/architects";
+import BookLibraries from "./pages/admin/bookLibraries";
+import Providers from "./pages/admin/providers";
+
 import AdminsList from "./pages/admin/admins";
 import profileSettings from "./pages/admin/profileSettings";
 
@@ -34,6 +37,20 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: profileSettings,
+    layout: "/admin",
+  },
+  {
+    path: "/libraries",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: BookLibraries,
+    layout: "/admin",
+  },
+  {
+    path: "/providers",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Providers,
     layout: "/admin",
   },
 

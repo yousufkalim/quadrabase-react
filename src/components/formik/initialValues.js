@@ -18,3 +18,20 @@ export const ADMIN_STATE = {
   password: "",
   confirm_password: "",
 };
+
+export const PROVIDER_STATE = {
+  name: "",
+  email: "",
+  telephone_no: "",
+  contact_no: "",
+  address1: "",
+  address2: "",
+  city: "",
+  zipcode: "",
+  url: "",
+};
+export const LIBRARY_STATE = {
+  name: "",
+  type: "",
+  ranking: "",
+};

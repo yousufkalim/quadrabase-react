@@ -54,7 +54,7 @@ export default function AddExpense(props) {
         }
       });
     }
-  }, []);
+  }, [props.editmodal]);
   return (
     <form className="w-full  pt-9">
       <div className="flex no-wrap -mx-3 mb-2">

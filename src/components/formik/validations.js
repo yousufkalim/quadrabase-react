@@ -54,3 +54,12 @@ export const EDIT_ADMIN_YUP = Yup.object({
   last_name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
 });
+export const LIBRARY_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  type: Yup.string().required("Required"),
+  ranking: Yup.number().required("Required"),
+});
+export const PROVIDER_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email address").required("Required"),
+});
