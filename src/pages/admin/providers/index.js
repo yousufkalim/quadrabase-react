@@ -24,7 +24,7 @@ export default function Index() {
   const [providerId, setproviderId] = React.useState("");
   const [providerDeleteId, setproviderDeleteId] = React.useState("");
 
-  const [architectsData, setarchitectsData] = React.useState([]);
+  const [providersData, setprovidersData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
 
   const handleModal = () => setModal(!modal);
@@ -55,20 +55,8 @@ export default function Index() {
   const handleEditModal = async (id) => {
     if (id) {
       setproviderId(id);
-      try {
-        let response = await Axios({
-          method: "get",
-          url: `${baseUrl}/Providers/${id}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        let data = response.data.provider;
-
-        seteditData(data);
-      } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
-      }
+      let filteredData = providersData.find((data) => data._id == id);
+      seteditData(filteredData);
     }
     seteditModal(!editmodal);
   };
@@ -83,7 +71,7 @@ export default function Index() {
         },
       });
       let data = response.data.providers;
-      setarchitectsData(data);
+      setprovidersData(data);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -144,7 +132,7 @@ export default function Index() {
           </div>
           <ArchitectsTable
             headCells={ProviderheadCells}
-            data={architectsData}
+            data={providersData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}
