@@ -367,7 +367,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Team - Tiles
+                                Units
                               </span>
                             </NavLink>
                           </li>
@@ -378,7 +378,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Profile
+                                VAT
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/index"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                CCTP
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/index"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Chap0
                               </span>
                             </NavLink>
                           </li>

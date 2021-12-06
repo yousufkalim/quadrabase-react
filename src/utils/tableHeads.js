@@ -1,7 +1,7 @@
 export const ArchitectheadCells = [
   {
     id: "first_name",
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: "First Name",
   },
@@ -111,7 +111,7 @@ export const LibraryheadCells = [
 export const ProviderheadCells = [
   {
     id: "name",
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: "Name",
   },
@@ -160,7 +160,7 @@ export const ProviderheadCells = [
   },
   {
     id: "url",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "url",
   },
