@@ -1,92 +1,67 @@
 import * as React from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ListItem from "@mui/material/ListItem";
-import ListMenu from "./listMenu";
+import SubListItem from "./subListItem";
 
-import StarBorder from "@mui/icons-material/StarBorder";
-
-import {
-  faCaretDown,
-  faCaretUp,
-  faAngleRight,
-  faAngleDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
-const lists = [
-  {
-    key: "testLibrary",
-    label: "Test Library",
-    icon: InboxIcon,
-    // color: "#afafaf",
-    items: [
-      {
-        key: "equipmentRemoval",
-        label: "Equipment Removal(lev2)",
-        icon: StarBorder,
-        color: "a4aab2",
-        items: [
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-        ],
-      },
-      {
-        key: "various",
-        label: "Various Works(lev2)",
-        icon: StarBorder,
-        color: "a4aab2",
-        items: [
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-          { key: "item2", label: "Item2", icon: StarBorder },
-        ],
-      },
-    ],
-  },
-  {
-    key: "pavement",
-    label: "Pavement",
-    icon: InboxIcon,
-    // color: "#afafaf",
+import { LibrariesList } from "../../utils/libraryList";
+function reducer(state, action) {
+  let obj = action.obj;
+  switch (action.type) {
+    case "level1":
+      return { ...state, level1: obj };
+    case "level2":
+      return { ...state, level2: obj };
+    case "level3":
+      return { ...state, level3: obj };
 
-    items: [
-      {
-        key: "unratedMaterial",
-        label: "UnRated Materials",
-        icon: StarBorder,
-        items: [{ key: "storage", label: "Storage2", icon: StarBorder }],
-      },
-    ],
-  },
-];
-
+    default:
+      throw new Error();
+  }
+}
+const initialState = {
+  level1: {},
+  level2: {},
+  level3: {},
+};
 function NestedList() {
-  const [open, setOpen] = React.useState({});
-  const [open2, setOpen2] = React.useState({});
-  const [anchorEl, setAnchorEl] = React.useState(false);
-
-  const handleClick = (key) => () => {
-    setOpen({ [key]: !open[key] });
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [Text, setText] = React.useState(null);
+  console.log(state, "state");
+  const openanchorEl = Boolean(anchorEl);
+  const handleanchorEl = (event, level) => {
+    switch (level) {
+      case "level1":
+        setText("Add Category");
+        break;
+      case "level2":
+        setText("Add Work");
+        break;
+      case "level3":
+        setText("Add Work Detail");
+        break;
+      default:
+        setText("");
+        break;
+    }
+    setAnchorEl(event.currentTarget);
   };
-  const handleClick2 = (key) => () => {
-    setOpen2({ [key]: !open2[key] });
+  const handleClose = () => {
+    setAnchorEl(null);
   };
-  const handleanchorEl = () => {
-    setAnchorEl(!anchorEl);
+  const handleClick = (level, obj) => {
+    dispatch({
+      type: level,
+      obj,
+    });
   };
   return (
     <div className="shadow-xl">
-      <ListMenu onClick={handleanchorEl} anchorEl={anchorEl} />
       <List
         component="nav"
         subheader={
@@ -95,79 +70,130 @@ function NestedList() {
           </ListSubheader>
         }
       >
-        {lists.map(({ key, label, icon: Icon, items, color }) => {
-          const opens = open[key] || false;
-
+        {LibrariesList.map(({ key, label, items, level: level1 }) => {
+          let openlevel1 = state[level1][key] || false;
           return (
             <div key={key}>
-              <ListItem
-                // sx={{ backgroundColor: color }}
-                onClick={handleClick(key)}
-                button
-              >
-                {opens ? (
-                  <FontAwesomeIcon icon={faAngleDown} />
-                ) : (
-                  <FontAwesomeIcon icon={faAngleRight} />
-                )}
-                <ListItemText inset primary={label} />
-                {/* <h2 className="font-semibold text-lg pl-4">{label}</h2> */}
+              <SubListItem
+                nodeKey={key}
+                level={level1}
+                label={label}
+                handleanchorEl={handleanchorEl}
+                handleClose={handleClose}
+                openanchorEl={openanchorEl}
+                text={Text}
+                anchorEl={anchorEl}
+                state={state}
+                handleClick={handleClick}
+                open={openlevel1}
+              />
 
-                {opens ? (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    onClick={handleanchorEl}
-                    id="demo-customized-button"
-                  />
-                )}
-              </ListItem>
-              <Collapse in={opens} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+              <Collapse in={openlevel1} timeout="auto" unmountOnExit>
+                <List
+                  sx={{ paddingLeft: "1rem" }}
+                  component="div"
+                  disablePadding
+                >
                   {items.map(
                     ({
                       key: childKey,
                       label: childLabel,
-                      icon: ChildIcon,
-                      items: childItems,
-                      color,
+                      items2,
+                      level: level2,
                     }) => {
-                      const opens2 = open2[childKey] || false;
+                      let openlevel2 = state[level2][childKey] || false;
 
                       return (
                         <>
-                          <ListItem
-                            key={key}
-                            button
-                            //   sx={{ backgroundColor: "#c1c2c3" }}
-                            onClick={handleClick2(childKey)}
+                          <SubListItem
+                            nodeKey={childKey}
+                            level={level2}
+                            label={childLabel}
+                            handleanchorEl={handleanchorEl}
+                            handleClose={handleClose}
+                            openanchorEl={openanchorEl}
+                            text={Text}
+                            anchorEl={anchorEl}
+                            state={state}
+                            handleClick={handleClick}
+                            open={openlevel2}
+                          />
+                          <Collapse
+                            in={openlevel2}
+                            timeout="auto"
+                            unmountOnExit
                           >
-                            {opens2 ? (
-                              <FontAwesomeIcon icon={faAngleDown} />
-                            ) : (
-                              <FontAwesomeIcon icon={faAngleRight} />
-                            )}
-                            <ListItemText inset primary={childLabel} />
-                            {opens2 ? (
-                              <FontAwesomeIcon icon={faCaretUp} />
-                            ) : (
-                              <FontAwesomeIcon icon={faCaretDown} />
-                            )}
-                          </ListItem>
-                          <Collapse in={opens2} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                              {childItems.map(
+                            <List
+                              component="div"
+                              disablePadding
+                              sx={{ paddingLeft: "2rem" }}
+                            >
+                              {items2.map(
                                 ({
-                                  key: childKey,
-                                  label: childLabel,
-                                  icon: ChildIcon,
-                                }) => (
-                                  <ListItem key={childKey} button>
-                                    <FontAwesomeIcon icon={faAngleRight} />
-                                    <ListItemText inset primary={childLabel} />
-                                  </ListItem>
-                                )
+                                  key: key3,
+                                  label: childLabel3,
+                                  items: subchildItems,
+                                  level: level3,
+                                }) => {
+                                  let openlevel3 = state[level3][key3] || false;
+
+                                  return (
+                                    <>
+                                      <SubListItem
+                                        nodeKey={key3}
+                                        level={level3}
+                                        label={childLabel3}
+                                        handleanchorEl={handleanchorEl}
+                                        handleClose={handleClose}
+                                        openanchorEl={openanchorEl}
+                                        text={Text}
+                                        anchorEl={anchorEl}
+                                        state={state}
+                                        handleClick={handleClick}
+                                        open={openlevel3}
+                                      />
+                                      <Collapse
+                                        in={openlevel3}
+                                        timeout="auto"
+                                        unmountOnExit
+                                      >
+                                        <List
+                                          component="div"
+                                          disablePadding
+                                          sx={{ paddingLeft: "2rem" }}
+                                        >
+                                          {subchildItems &&
+                                            subchildItems.map(
+                                              ({
+                                                key: key4,
+                                                label: childLabel,
+                                              }) => {
+                                                return (
+                                                  <ListItem key={key4} button>
+                                                    <FontAwesomeIcon
+                                                      icon={faBookmark}
+                                                      sx={{
+                                                        fontSize: "1rem",
+                                                      }}
+                                                    />
+                                                    <ListItemText
+                                                      inset
+                                                      primary={childLabel}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                      icon={faEllipsisV}
+                                                      onClick={handleanchorEl}
+                                                      id="demo-customized-button"
+                                                    />
+                                                  </ListItem>
+                                                );
+                                              }
+                                            )}
+                                        </List>
+                                      </Collapse>
+                                    </>
+                                  );
+                                }
                               )}
                             </List>
                           </Collapse>

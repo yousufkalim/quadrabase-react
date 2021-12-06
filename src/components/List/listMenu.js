@@ -1,25 +1,20 @@
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import EditIcon from "@mui/icons-material/Edit";
 import Divider from "@mui/material/Divider";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import FontAwesomeIcon from "../FontAwesomeIcon";
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: "bottom",
-      horizontal: "right",
+      horizontal: "left",
     }}
     transformOrigin={{
-      vertical: "top",
-      horizontal: "right",
+      vertical: "tp",
+      horizontal: "left",
     }}
     {...props}
   />
@@ -57,31 +52,46 @@ export default function CustomizedMenus(props) {
   return (
     <div>
       <StyledMenu
-        id="demo-customized-menu"
+        id="demo-customized-button"
+        anchorEl={props.anchorEl}
+        open={props.open}
+        onClose={props.onClose}
         MenuListProps={{
           "aria-labelledby": "demo-customized-button",
         }}
-        // anchorEl={anchorEl}
-        open={props.anchorEl}
-        onClose={props.onClick}
       >
-        <MenuItem onClick={props.onClick} disableRipple>
-          <EditIcon />
+        <MenuItem onClick={props.onClose} disableRipple>
+          <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
           Edit
         </MenuItem>
-        <MenuItem onClick={props.onClick} disableRipple>
-          <FileCopyIcon />
-          Duplicate
+        <MenuItem onClick={props.onClose} disableRipple>
+          <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
+          Delete
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={props.onClick} disableRipple>
-          <ArchiveIcon />
-          Archive
-        </MenuItem>
-        <MenuItem onClick={props.onClick} disableRipple>
-          <MoreHorizIcon />
-          More
-        </MenuItem>
+        <div style={{ paddingLeft: "0.6rem" }}>
+          <MenuItem onClick={props.onClose} disableRipple>
+            Up
+          </MenuItem>
+          <MenuItem onClick={props.onClose} disableRipple>
+            Down
+          </MenuItem>
+          <MenuItem onClick={props.onClose} disableRipple>
+            Rise
+          </MenuItem>
+          <MenuItem onClick={props.onClose} disableRipple>
+            Go Down
+          </MenuItem>
+          {props.text && (
+            <>
+              <Divider sx={{ my: 0.5 }} />
+
+              <MenuItem onClick={props.onClose} disableRipple>
+                {props.text}
+              </MenuItem>
+            </>
+          )}
+        </div>
       </StyledMenu>
     </div>
   );

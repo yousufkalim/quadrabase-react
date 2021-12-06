@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import ArchitectsTable from "../../../components/Table";
-import Button from "../../../components/Button";
-import AddIcon from "@mui/icons-material/Add";
+
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
-import List from "../../../components/List";
+import List from "../../../components/List/index.js";
 
 import Notifier from "../../../utils/Notifier";
 
@@ -136,7 +134,7 @@ export default function Index() {
       />
       <div className="w-full  md:mx-auto py-20 ">
         <div className="container mx-auto px-6">
-          <div className="w-1/2 mx-auto ">
+          <div className="w-3/4 mx-auto ">
             <List />
           </div>
         </div>

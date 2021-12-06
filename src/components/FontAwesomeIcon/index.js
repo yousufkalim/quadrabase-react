@@ -4,7 +4,13 @@ import IconButton from "@mui/material/IconButton";
 
 export default function index(props) {
   return (
-    <IconButton id={props.id} onClick={props.onClick} aria-label="Example">
+    <IconButton
+      className={props.className}
+      id={props.id}
+      sx={props.sx}
+      onClick={props.onClick}
+      aria-label="Example"
+    >
       <FontAwesomeIcon icon={props.icon} />
     </IconButton>
   );
