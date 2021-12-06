@@ -1,11 +1,11 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { blueGrey, red } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 
 const ColorButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== "color" && prop !== "myProp",
-})(({ theme, myProp, defaultTheme, backgroundColor }) => ({
+})(({ theme, defaultTheme, backgroundColor }) => ({
   color: theme.palette.getContrastText(blueGrey[500]),
   backgroundColor: defaultTheme == false ? backgroundColor[500] : blueGrey[500],
   borderColor: blueGrey[500],

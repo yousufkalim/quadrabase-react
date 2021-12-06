@@ -15,43 +15,13 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import Stack from "@mui/material/Stack";
-
-function createData(name, calories, fat, carbs, protein) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -83,46 +53,11 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: "amount",
-    numeric: false,
-    disablePadding: true,
-    label: "Amount",
-  },
-  {
-    id: "description",
-    numeric: true,
-    disablePadding: false,
-    label: "Description",
-  },
-  {
-    id: "comments",
-    numeric: true,
-    disablePadding: false,
-    label: "Comments",
-  },
-  {
-    id: "date",
-    numeric: true,
-    disablePadding: false,
-    label: "Date/Time",
-  },
-  {
-    id: "action",
-    numeric: true,
-    disablePadding: false,
-    label: "Action",
-  },
-];
-
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
+
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -234,7 +169,6 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -281,10 +215,6 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty props.data.
@@ -295,11 +225,7 @@ export default function EnhancedTable(props) {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -316,7 +242,6 @@ export default function EnhancedTable(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row._id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -364,7 +289,7 @@ export default function EnhancedTable(props) {
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: 33 * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />

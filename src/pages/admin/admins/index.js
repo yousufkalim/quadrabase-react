@@ -24,7 +24,7 @@ export default function Index() {
   const [adminId, setadminId] = React.useState("");
   const [adminDeleteId, setadminDeleteId] = React.useState("");
 
-  const [architectsData, setarchitectsData] = React.useState([]);
+  const [adminsData, setadminsData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
 
   const handleModal = () => setModal(!modal);
@@ -56,16 +56,8 @@ export default function Index() {
     if (id) {
       setadminId(id);
       try {
-        let response = await Axios({
-          method: "get",
-          url: `${baseUrl}/Admins/${id}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        let data = response.data.admin;
-
-        seteditData(data);
+        let filteredData = adminsData.find((data) => data._id == id);
+        seteditData(filteredData);
       } catch (error) {
         if (error.response) console.log(error.response.data.message, "error ");
       }
@@ -84,7 +76,7 @@ export default function Index() {
       });
       let data = response.data.admins;
       let newData = data.filter((dat) => dat.email !== "admin@quadrabase.com");
-      setarchitectsData(newData);
+      setadminsData(newData);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -145,7 +137,7 @@ export default function Index() {
           </div>
           <ArchitectsTable
             headCells={AdminheadCells}
-            data={architectsData}
+            data={adminsData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}

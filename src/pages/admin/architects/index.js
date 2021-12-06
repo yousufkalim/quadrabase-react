@@ -55,20 +55,8 @@ export default function Index() {
   const handleEditModal = async (id) => {
     if (id) {
       setarchitectId(id);
-      try {
-        let response = await Axios({
-          method: "get",
-          url: `${baseUrl}/Architects/${id}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        let data = response.data.architect;
-
-        seteditData(data);
-      } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
-      }
+      let filteredData = architectsData.find((data) => data._id == id);
+      seteditData(filteredData);
     }
     seteditModal(!editmodal);
   };
