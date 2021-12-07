@@ -21,6 +21,8 @@ export default function subList(props) {
     open,
     nodeKey,
     handleClick,
+    onAdd,
+    parentLevel,
   } = props;
   let obj = {};
   obj[`${nodeKey}`] = nodeKey;
@@ -31,9 +33,12 @@ export default function subList(props) {
       <ListMenu
         onClick={handleanchorEl}
         onClose={handleClose}
+        onAdd={onAdd}
         open={openanchorEl}
         anchorEl={anchorEl}
         text={text}
+        parentLevel={parentLevel}
+        level={level}
       />
       <ListItem key={nodeKey} button>
         {open ? (

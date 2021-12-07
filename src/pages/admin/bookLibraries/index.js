@@ -13,9 +13,64 @@ import { LibraryheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
+import LibraryReducer from "./reducer";
+import { initialState } from "./initialState";
+import actionTypes from "./actionTypes";
 
 export default function Index() {
   const token = getToken();
+  const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
+
+  const handleClick = (level, obj) => {
+    dispatch({
+      type: level,
+      obj,
+    });
+  };
+  const handleModalClick = (type, value, id) => {
+    if (type == actionTypes.LEVEL_0) {
+      switch (value) {
+        case "Add_Library":
+          dispatch({
+            type: actionTypes.ADD_LIBRARY,
+            addlibrary: true,
+          });
+          break;
+        case "Edit":
+          if (id) {
+            setlibraryId(id);
+            let filteredData = librariesData.find((data) => data._id == id);
+            seteditData(filteredData);
+          }
+          dispatch({
+            type: actionTypes.EDIT_LIBRARY,
+            editlibrary: true,
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  };
+  const handleClose = (type) => {
+    switch (type) {
+      case "Add_Library":
+        dispatch({
+          type: actionTypes.ADD_LIBRARY,
+          addlibrary: false,
+        });
+        break;
+      case "Edit":
+        dispatch({
+          type: actionTypes.EDIT_LIBRARY,
+          editlibrary: false,
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
@@ -103,20 +158,18 @@ export default function Index() {
   return (
     <>
       <Modal
-        title="Add Libarary"
-        open={modal}
-        onClose={handleModal}
-        component={<AddLibrary handleModal={handleModal} />}
+        title="Add Library"
+        open={state.addlibrary}
+        component={<AddLibrary handleClose={handleClose} />}
       />
       <Modal
-        title="Edit Libarary"
-        open={editmodal}
-        onClose={handleEditModal}
+        title="Edit Library"
+        open={state.editlibrary}
         component={
           <EditLibrary
             editData={editData}
-            editmodal={editmodal}
-            handleModal={handleEditModal}
+            editmodal={state.editlibrary}
+            handleClose={handleClose}
             libraryId={libraryId}
           />
         }
@@ -135,7 +188,11 @@ export default function Index() {
       <div className="w-full  md:mx-auto py-20 ">
         <div className="container mx-auto px-6">
           <div className="w-3/4 mx-auto ">
-            <List />
+            <List
+              state={state}
+              handleClick={handleClick}
+              onAdd={handleModalClick}
+            />
           </div>
         </div>
       </div>

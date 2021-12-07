@@ -9,41 +9,28 @@ import SubListItem from "./subListItem";
 import { faEllipsisV, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
 import { LibrariesList } from "../../utils/libraryList";
-function reducer(state, action) {
-  let obj = action.obj;
-  switch (action.type) {
-    case "level1":
-      return { ...state, level1: obj };
-    case "level2":
-      return { ...state, level2: obj };
-    case "level3":
-      return { ...state, level3: obj };
 
-    default:
-      throw new Error();
-  }
-}
-const initialState = {
-  level1: {},
-  level2: {},
-  level3: {},
-};
-function NestedList() {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+function NestedList(props) {
+  const { handleClick, state, onAdd } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [parentLevel, setparentLevel] = React.useState(false);
+
   const [Text, setText] = React.useState(null);
-  console.log(state, "state");
   const openanchorEl = Boolean(anchorEl);
   const handleanchorEl = (event, level) => {
     switch (level) {
+      case "level0":
+        setText("Add_Library");
+        setparentLevel(true);
+        break;
       case "level1":
-        setText("Add Category");
+        setText("Add_Category");
         break;
       case "level2":
-        setText("Add Work");
+        setText("Add_Work");
         break;
       case "level3":
-        setText("Add Work Detail");
+        setText("Add_Work_Detail");
         break;
       default:
         setText("");
@@ -54,19 +41,21 @@ function NestedList() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClick = (level, obj) => {
-    dispatch({
-      type: level,
-      obj,
-    });
-  };
+
   return (
     <div className="shadow-xl">
       <List
         component="nav"
         subheader={
           <ListSubheader>
-            <h1 className="font-semibold text-lg p-3">General Libraries</h1>
+            <div className="flex justify-between">
+              <h1 className="font-semibold text-lg p-3">General Libraries</h1>
+              <FontAwesomeIcon
+                icon={faEllipsisV}
+                onClick={(e) => handleanchorEl(e, "level0")}
+                id="demo-customized-button"
+              />
+            </div>
           </ListSubheader>
         }
       >
@@ -77,11 +66,13 @@ function NestedList() {
               <SubListItem
                 nodeKey={key}
                 level={level1}
+                onAdd={onAdd}
                 label={label}
                 handleanchorEl={handleanchorEl}
                 handleClose={handleClose}
                 openanchorEl={openanchorEl}
                 text={Text}
+                parentLevel={parentLevel}
                 anchorEl={anchorEl}
                 state={state}
                 handleClick={handleClick}
@@ -113,6 +104,7 @@ function NestedList() {
                             handleClose={handleClose}
                             openanchorEl={openanchorEl}
                             text={Text}
+                            parentLevel={parentLevel}
                             anchorEl={anchorEl}
                             state={state}
                             handleClick={handleClick}
@@ -147,6 +139,7 @@ function NestedList() {
                                         handleClose={handleClose}
                                         openanchorEl={openanchorEl}
                                         text={Text}
+                                        parentLevel={parentLevel}
                                         anchorEl={anchorEl}
                                         state={state}
                                         handleClick={handleClick}

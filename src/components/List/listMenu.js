@@ -49,6 +49,12 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
+  const handleClick = () => {
+    props.parentLevel == true
+      ? props.onAdd("level0", props.text)
+      : props.onAdd(props.level, props.text);
+  };
+
   return (
     <div>
       <StyledMenu
@@ -60,7 +66,7 @@ export default function CustomizedMenus(props) {
           "aria-labelledby": "demo-customized-button",
         }}
       >
-        <MenuItem onClick={props.onClose} disableRipple>
+        <MenuItem onClick={handleClick} disableRipple>
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
           Edit
         </MenuItem>
@@ -85,9 +91,8 @@ export default function CustomizedMenus(props) {
           {props.text && (
             <>
               <Divider sx={{ my: 0.5 }} />
-
-              <MenuItem onClick={props.onClose} disableRipple>
-                {props.text}
+              <MenuItem onClick={handleClick}>
+                {props.text.replace("_", " ")}
               </MenuItem>
             </>
           )}
