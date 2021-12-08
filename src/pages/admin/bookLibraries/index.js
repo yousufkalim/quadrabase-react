@@ -20,7 +20,7 @@ import actionTypes from "./actionTypes";
 export default function Index() {
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
-
+  console.log(state, "state");
   const handleClick = (level, obj) => {
     dispatch({
       type: level,
@@ -137,8 +137,7 @@ export default function Index() {
         },
       });
       let data = response.data.bookLibraries;
-      let newData = data.filter((dat) => dat.email !== "admin@quadrabase.com");
-      setlibrariesData(newData);
+      setlibrariesData(data);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -190,6 +189,7 @@ export default function Index() {
           <div className="w-3/4 mx-auto ">
             <List
               state={state}
+              librariesData={librariesData}
               handleClick={handleClick}
               onAdd={handleModalClick}
             />

@@ -43,7 +43,7 @@ function NestedList(props) {
   };
 
   return (
-    <div className="shadow-xl">
+    <div className="shadow-md">
       <List
         component="nav"
         subheader={
@@ -59,82 +59,79 @@ function NestedList(props) {
           </ListSubheader>
         }
       >
-        {LibrariesList.map(({ key, label, items, level: level1 }) => {
-          let openlevel1 = state[level1][key] || false;
-          return (
-            <div key={key}>
-              <SubListItem
-                nodeKey={key}
-                level={level1}
-                onAdd={onAdd}
-                label={label}
-                handleanchorEl={handleanchorEl}
-                handleClose={handleClose}
-                openanchorEl={openanchorEl}
-                text={Text}
-                parentLevel={parentLevel}
-                anchorEl={anchorEl}
-                state={state}
-                handleClick={handleClick}
-                open={openlevel1}
-              />
+        {props.librariesData &&
+          props.librariesData.map(
+            ({
+              _id,
+              name,
+              categories: items,
+              works: items2,
+              work_details: subchildItems,
+            }) => {
+              let openlevel1 = state["level1"][name] || false;
+              return (
+                <div key={_id}>
+                  <SubListItem
+                    nodeKey={name}
+                    level={"level1"}
+                    onAdd={onAdd}
+                    name={name}
+                    handleanchorEl={handleanchorEl}
+                    handleClose={handleClose}
+                    openanchorEl={openanchorEl}
+                    text={Text}
+                    parentLevel={parentLevel}
+                    anchorEl={anchorEl}
+                    state={state}
+                    handleClick={handleClick}
+                    open={openlevel1}
+                  />
 
-              <Collapse in={openlevel1} timeout="auto" unmountOnExit>
-                <List
-                  sx={{ paddingLeft: "1rem" }}
-                  component="div"
-                  disablePadding
-                >
-                  {items.map(
-                    ({
-                      key: childKey,
-                      label: childLabel,
-                      items2,
-                      level: level2,
-                    }) => {
-                      let openlevel2 = state[level2][childKey] || false;
+                  <Collapse in={openlevel1} timeout="auto" unmountOnExit>
+                    <List
+                      sx={{ paddingLeft: "1rem" }}
+                      component="div"
+                      disablePadding
+                    >
+                      {items.map(({ name: childName }) => {
+                        let openlevel2 = state["level2"][childName] || false;
 
-                      return (
-                        <>
-                          <SubListItem
-                            nodeKey={childKey}
-                            level={level2}
-                            label={childLabel}
-                            handleanchorEl={handleanchorEl}
-                            handleClose={handleClose}
-                            openanchorEl={openanchorEl}
-                            text={Text}
-                            parentLevel={parentLevel}
-                            anchorEl={anchorEl}
-                            state={state}
-                            handleClick={handleClick}
-                            open={openlevel2}
-                          />
-                          <Collapse
-                            in={openlevel2}
-                            timeout="auto"
-                            unmountOnExit
-                          >
-                            <List
-                              component="div"
-                              disablePadding
-                              sx={{ paddingLeft: "2rem" }}
+                        return (
+                          <>
+                            <SubListItem
+                              nodeKey={childName}
+                              level={"level2"}
+                              name={childName}
+                              handleanchorEl={handleanchorEl}
+                              handleClose={handleClose}
+                              openanchorEl={openanchorEl}
+                              text={Text}
+                              parentLevel={parentLevel}
+                              anchorEl={anchorEl}
+                              state={state}
+                              handleClick={handleClick}
+                              open={openlevel2}
+                            />
+                            <Collapse
+                              in={openlevel2}
+                              timeout="auto"
+                              unmountOnExit
                             >
-                              {items2.map(
-                                ({
-                                  key: key3,
-                                  label: childLabel3,
-                                  items: subchildItems,
-                                  level: level3,
-                                }) => {
-                                  let openlevel3 = state[level3][key3] || false;
+                              <List
+                                component="div"
+                                disablePadding
+                                sx={{ paddingLeft: "2rem" }}
+                              >
+                                {items2.map(({ name: childName3 }) => {
+                                  let openlevel3 =
+                                    state["level3"][childName3] || false;
 
                                   return (
                                     <>
                                       <SubListItem
-                                        nodeKey={key3}
-                                        level={level3}
-                                        label={childLabel3}
+                                        nodeKey={childName3}
+                                        level={"level3"}
+                                        name={childName3}
                                         handleanchorEl={handleanchorEl}
                                         handleClose={handleClose}
                                         openanchorEl={openanchorEl}
@@ -158,8 +155,8 @@ function NestedList(props) {
                                           {subchildItems &&
                                             subchildItems.map(
                                               ({
-                                                key: key4,
-                                                label: childLabel,
+                                                _id: key4,
+                                                name: childname,
                                               }) => {
                                                 return (
                                                   <ListItem key={key4} button>
@@ -171,7 +168,7 @@ function NestedList(props) {
                                                     />
                                                     <ListItemText
                                                       inset
-                                                      primary={childLabel}
+                                                      primary={childname}
                                                     />
                                                     <FontAwesomeIcon
                                                       icon={faEllipsisV}
@@ -186,19 +183,18 @@ function NestedList(props) {
                                       </Collapse>
                                     </>
                                   );
-                                }
-                              )}
-                            </List>
-                          </Collapse>
-                        </>
-                      );
-                    }
-                  )}
-                </List>
-              </Collapse>
-            </div>
-          );
-        })}
+                                })}
+                              </List>
+                            </Collapse>
+                          </>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                </div>
+              );
+            }
+          )}
       </List>
     </div>
   );

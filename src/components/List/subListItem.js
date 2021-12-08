@@ -17,7 +17,7 @@ export default function subList(props) {
     openanchorEl,
     anchorEl,
     text,
-    label,
+    name,
     open,
     nodeKey,
     handleClick,
@@ -48,7 +48,7 @@ export default function subList(props) {
         )}
         <ListItemText
           inset
-          primary={label}
+          primary={name}
           onClick={() => handleClick(level, obj)}
         />
         <FontAwesomeIcon
