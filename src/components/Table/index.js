@@ -67,12 +67,11 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox"></TableCell>
         {props.headCells &&
           props.headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "right" : "left"}
+              align={"center"}
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -169,7 +168,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -253,21 +252,19 @@ export default function EnhancedTable(props) {
                       key={row._id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox"></TableCell>
-
                       {props.rows.map((record, index) =>
                         record == "createdAt" ? (
-                          <TableCell align="right">
+                          <TableCell align="center">
                             {moment(row[record]).format("DD/MM/YYYY HH:mm")}
                           </TableCell>
                         ) : (
-                          <TableCell key={index} align="right">
+                          <TableCell key={index} align="center">
                             {row[record]}
                           </TableCell>
                         )
                       )}
 
-                      <TableCell align="right">
+                      <TableCell align="center">
                         <IconButton
                           color="info"
                           aria-label="edit"
@@ -299,7 +296,7 @@ export default function EnhancedTable(props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 15, 30, 50]}
+          rowsPerPageOptions={[15, 30, 50, 100]}
           component="div"
           count={props.data.length}
           rowsPerPage={rowsPerPage}

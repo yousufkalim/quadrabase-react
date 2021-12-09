@@ -9,6 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
+import RadioButton from "../../../components/RadioButton";
 
 export default function AddExpense(props) {
   const token = getToken();
@@ -138,6 +139,15 @@ export default function AddExpense(props) {
               <small>{formik.errors.service}</small>
             ) : null}
           </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <RadioButton
+            label="Authorize"
+            name="authorized"
+            onChange={formik.handleChange}
+            value={formik.values.authorized}
+            options={["Yes", "No"]}
+          />
         </div>
       </div>
       <div className="flex pb-2 justify-end ">

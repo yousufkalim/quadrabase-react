@@ -20,7 +20,7 @@ const style = {
 
 export default function BasicModal(props) {
   return (
-    <Modal open={props.open} onClose={props.onOpen}>
+    <Modal open={props.open}>
       <Box sx={style}>
         <div className="flex justify-center">
           <h2 className="text-gray-600 capitalize font-semibold text-3xl">

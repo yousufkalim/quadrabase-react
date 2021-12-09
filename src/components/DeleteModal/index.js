@@ -38,8 +38,8 @@ export default function Index(props) {
       {/*footer*/}
       <div className="p-3  mt-2 text-center space-x-4 md:block">
         <button
-          onClick={props.handleModal}
-          className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
+          onClick={() => props.handleClose("Delete")}
+          className="mb-2 md:mb-0bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
         >
           Cancel
         </button>

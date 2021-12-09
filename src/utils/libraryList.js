@@ -1,30 +1,30 @@
 export const LibrariesList = [
   {
-    key: "pavement",
-    label: "Pavement",
+    _id: "pavement",
+    name: "Pavement",
     level: "level1",
     subMenuName: "Add Category",
     items: [
       {
-        key: "unratedMaterial",
-        label: "UnRated Materials",
+        _id: "unratedMaterial",
+        name: "UnRated Materials",
         level: "level2",
         subMenuName: "Add Work",
         items2: [
           {
-            key: "storage",
-            label: "Storage2",
+            _id: "storage",
+            name: "Storage2",
             level: "level3",
             subMenuName: "Add Work Detail",
             items: [
               {
-                key: "localSupport",
-                label: "Local Support",
+                _id: "localSupport",
+                name: "Local Support",
                 level: "level4",
               },
               {
-                key: "envoirment",
-                label: "Envoirment Collection",
+                _id: "envoirment",
+                name: "Envoirment Collection",
                 level: "level4",
               },
             ],
@@ -34,50 +34,50 @@ export const LibrariesList = [
     ],
   },
   {
-    key: "testLibrary",
-    label: "Test Library",
+    _id: "testLibrary",
+    name: "Test Library",
     level: "level1",
     subMenuName: "Add Category",
     items: [
       {
-        key: "equipmentRemoval",
-        label: "Equipment Removal(lev2)",
+        _id: "equipmentRemoval",
+        name: "Equipment Removal(lev2)",
         level: "level2",
         subMenuName: "Add Work",
 
         items2: [
           {
-            key: "watering",
-            label: "Watering",
+            _id: "watering",
+            name: "Watering",
             level: "level3",
             subMenuName: "Add Work Detail",
             items: [
               {
-                key: "civilWorks",
-                label: "Civil Engineering Works",
+                _id: "civilWorks",
+                name: "Civil Engineering Works",
                 level: "level4",
               },
               {
-                key: "triColor",
-                label: "TriColor Light",
+                _id: "triColor",
+                name: "TriColor Light",
                 level: "level4",
               },
             ],
           },
           {
-            key: "securityDevices",
-            label: "Security Devices",
+            _id: "securityDevices",
+            name: "Security Devices",
             level: "level3",
             subMenuName: "Add Work Detail",
             items: [
               {
-                key: "localSupport",
-                label: "Local Support",
+                _id: "localSupport",
+                name: "Local Support",
                 level: "level4",
               },
               {
-                key: "envoirment",
-                label: "Envoirment Collection",
+                _id: "envoirment",
+                name: "Envoirment Collection",
                 level: "level4",
               },
             ],
