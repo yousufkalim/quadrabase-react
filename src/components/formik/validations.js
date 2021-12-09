@@ -59,6 +59,10 @@ export const LIBRARY_YUP = Yup.object({
   type: Yup.string().required("Required"),
   ranking: Yup.number().required("Required"),
 });
+export const CATEGORY_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  ranking: Yup.number().required("Required"),
+});
 export const PROVIDER_YUP = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),

@@ -12,10 +12,11 @@ import EditAdmin from "./editAdmin";
 import { AdminheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
+import { getToken, getUser } from "../../../utils/Auth";
 
 export default function Index() {
   const token = getToken();
+  const USER = getUser();
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
@@ -75,7 +76,7 @@ export default function Index() {
         },
       });
       let data = response.data.admins;
-      let newData = data.filter((dat) => dat.email !== "admin@quadrabase.com");
+      let newData = data.filter((dat) => dat.email !== USER.email);
       setadminsData(newData);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");

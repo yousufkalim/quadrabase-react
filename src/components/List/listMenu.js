@@ -49,28 +49,52 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
-  const handleClick = () => {
+  const handleClick = (text) => {
     props.parentLevel == true
-      ? props.onAdd("level0", props.text)
-      : props.onAdd(props.level, props.text);
+      ? props.onAdd("level0", text)
+      : props.onAdd(props.level, text);
   };
-
+  if (props.parentLevel == true) {
+    return (
+      <div>
+        <StyledMenu
+          id={props.id}
+          anchorEl={props.anchorEl}
+          open={props.open}
+          onClose={props.onClose}
+          MenuListProps={{
+            "aria-labelledby": props.id,
+          }}
+        >
+          <div style={{ paddingLeft: "0.6rem" }}>
+            {props.text && (
+              <>
+                <MenuItem onClick={() => handleClick(props.text)}>
+                  {props.text.replace("_", " ")}
+                </MenuItem>
+              </>
+            )}
+          </div>
+        </StyledMenu>
+      </div>
+    );
+  }
   return (
     <div>
       <StyledMenu
-        id="demo-customized-button"
+        id={props.id}
         anchorEl={props.anchorEl}
         open={props.open}
         onClose={props.onClose}
         MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
+          "aria-labelledby": props.id,
         }}
       >
-        <MenuItem onClick={handleClick} disableRipple>
+        <MenuItem onClick={() => handleClick("Edit")} disableRipple>
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
           Edit
         </MenuItem>
-        <MenuItem onClick={props.onClose} disableRipple>
+        <MenuItem onClick={() => handleClick("Delete")} disableRipple>
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
           Delete
         </MenuItem>
@@ -91,7 +115,7 @@ export default function CustomizedMenus(props) {
           {props.text && (
             <>
               <Divider sx={{ my: 0.5 }} />
-              <MenuItem onClick={handleClick}>
+              <MenuItem onClick={() => handleClick(props.text)}>
                 {props.text.replace("_", " ")}
               </MenuItem>
             </>

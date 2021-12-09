@@ -7,6 +7,8 @@ import List from "../../../components/List/index.js";
 import Notifier from "../../../utils/Notifier";
 
 import AddLibrary from "./addLibrary";
+import AddCategory from "./addCategory";
+
 import EditLibrary from "./editLibrary";
 
 import { LibraryheadCells } from "../../../utils/tableHeads";
@@ -20,33 +22,103 @@ import actionTypes from "./actionTypes";
 export default function Index() {
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
-  console.log(state, "state");
+  const [librariesData, setlibrariesData] = React.useState([]);
+
+  const [libraryId, setlibraryId] = React.useState("");
+  const [BookLibraryId, setBookLibraryId] = React.useState("");
+
+  const [libraryDeleteId, setlibraryDeleteId] = React.useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [LevelID, setLevelID] = React.useState("");
+  const [Level, setLevel] = React.useState("");
+
+  const [parentLevel, setparentLevel] = React.useState(false);
+
+  const [Text, setText] = React.useState(null);
+  const openanchorEl = Boolean(anchorEl);
+  const handleanchorEl = (event, id, level) => {
+    setLevel(level);
+    setLevelID(id);
+
+    switch (level) {
+      case "level0":
+        setText("Add_Library");
+        setparentLevel(true);
+        break;
+      case "level1":
+        setText("Add_Category");
+        setparentLevel(false);
+        break;
+      case "level2":
+        setText("Add_Work");
+        setparentLevel(false);
+
+        break;
+      case "level3":
+        setText("Add_Work_Detail");
+        setparentLevel(false);
+
+        break;
+      default:
+        setparentLevel(false);
+
+        setText("");
+        break;
+    }
+
+    setAnchorEl(event.currentTarget);
+  };
+  const handleanchorElClose = () => {
+    setAnchorEl(null);
+  };
   const handleClick = (level, obj) => {
     dispatch({
       type: level,
       obj,
     });
   };
-  const handleModalClick = (type, value, id) => {
-    if (type == actionTypes.LEVEL_0) {
+  const handleModalClick = (type, value) => {
+    if (Level == actionTypes.LEVEL_0) {
       switch (value) {
         case "Add_Library":
           dispatch({
             type: actionTypes.ADD_LIBRARY,
             addlibrary: true,
           });
+          handleanchorElClose();
+          break;
+
+        default:
+          break;
+      }
+    } else if (Level == actionTypes.LEVEL_1) {
+      switch (value) {
+        case "Add_Category":
+          setBookLibraryId(LevelID);
+          dispatch({
+            type: actionTypes.ADD_CATEGORY,
+            addcategory: true,
+          });
           break;
         case "Edit":
-          if (id) {
-            setlibraryId(id);
-            let filteredData = librariesData.find((data) => data._id == id);
-            seteditData(filteredData);
-          }
+          let filteredData = handleEditLibrary(LevelID);
           dispatch({
             type: actionTypes.EDIT_LIBRARY,
             editlibrary: true,
+            editLibraryData: filteredData,
           });
+
           break;
+        case "Delete":
+          handleDeleteLibraryModal(LevelID);
+          dispatch({
+            type: actionTypes.DELETE_LIBRARY,
+            deletelibrary: true,
+            deletecategory: true,
+          });
+          handleanchorElClose();
+          break;
+
         default:
           break;
       }
@@ -66,32 +138,27 @@ export default function Index() {
           editlibrary: false,
         });
         break;
+      case "Delete":
+        dispatch({
+          type: actionTypes.DELETE_LIBRARY,
+          deletelibrary: false,
+          deletecategory: false,
+        });
+      case "Add_Category":
+        dispatch({
+          type: actionTypes.ADD_CATEGORY,
+          addcategory: false,
+        });
+
+        break;
+
       default:
         break;
     }
   };
 
-  const [modal, setModal] = React.useState(false);
-  const [editmodal, seteditModal] = React.useState(false);
-  const [deletemodal, setdeleteModal] = React.useState(false);
-  const [headCells, setheadCells] = React.useState("");
-
-  const [libraryId, setlibraryId] = React.useState("");
-  const [libraryDeleteId, setlibraryDeleteId] = React.useState("");
-
-  const [librariesData, setlibrariesData] = React.useState([]);
-  const [editData, seteditData] = React.useState([]);
-
-  const handleModal = () => setModal(!modal);
-  //   delete architect modal
-  const handleDeleteModal = (id) => {
-    if (id) {
-      setlibraryDeleteId(id);
-    }
-    setdeleteModal(!deletemodal);
-  };
-  //delete architect
-  const handleDelete = async () => {
+  //delete library
+  const handleDeleteLibrary = async () => {
     try {
       let response = await Axios({
         method: "delete",
@@ -100,31 +167,40 @@ export default function Index() {
           Authorization: `Bearer ${token}`,
         },
       });
+      handleClose("Delete");
       Notifier(response.data.message, "success");
     } catch (error) {
       if (error.response) Notifier(error.response.data.message, "error ");
     }
-
-    setdeleteModal(!deletemodal);
   };
-  const handleEditModal = async (id) => {
+  //delete Category
+  const handleDeleteCategory = async () => {
+    try {
+      let response = await Axios({
+        method: "delete",
+        url: `${baseUrl}/BookLibraries/deleteCategory/${libraryDeleteId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      handleClose("Delete");
+      Notifier(response.data.message, "success");
+    } catch (error) {
+      if (error.response) Notifier(error.response.data.message, "error ");
+    }
+  };
+  const handleEditLibrary = (id) => {
+    let filteredData;
     if (id) {
       setlibraryId(id);
-      try {
-        let response = await Axios({
-          method: "get",
-          url: `${baseUrl}/BookLibraries/${id}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        let data = response.data.bookLibrary;
-        seteditData(data);
-      } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
-      }
+      filteredData = librariesData.find((data) => data._id == id);
     }
-    seteditModal(!editmodal);
+    return filteredData;
+  };
+  const handleDeleteLibraryModal = (id) => {
+    if (id) {
+      setlibraryDeleteId(id);
+    }
   };
 
   const getBookLibraries = async () => {
@@ -143,17 +219,11 @@ export default function Index() {
     }
     //}
   };
-
   useEffect(() => {
     getBookLibraries();
-  }, [modal, editmodal, deletemodal]);
-  useEffect(() => {
-    let array = [];
-    LibraryheadCells.slice(0, LibraryheadCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
-    setheadCells(array);
-  }, []);
+    handleanchorElClose();
+  }, [state]);
+
   return (
     <>
       <Modal
@@ -162,11 +232,21 @@ export default function Index() {
         component={<AddLibrary handleClose={handleClose} />}
       />
       <Modal
+        title="Add Category"
+        open={state.addcategory}
+        component={
+          <AddCategory
+            handleClose={handleClose}
+            BookLibraryId={BookLibraryId}
+          />
+        }
+      />
+      <Modal
         title="Edit Library"
         open={state.editlibrary}
         component={
           <EditLibrary
-            editData={editData}
+            editData={state.editLibraryData}
             editmodal={state.editlibrary}
             handleClose={handleClose}
             libraryId={libraryId}
@@ -175,12 +255,11 @@ export default function Index() {
       />
       <Modal
         // title="Add Architect"
-        open={deletemodal}
-        onClose={handleDeleteModal}
+        open={state.deletelibrary}
         component={
           <DeleteModal
-            handleModal={handleDeleteModal}
-            handleDelete={handleDelete}
+            handleClose={handleClose}
+            handleDelete={handleDeleteLibrary}
           />
         }
       />
@@ -192,6 +271,12 @@ export default function Index() {
               librariesData={librariesData}
               handleClick={handleClick}
               onAdd={handleModalClick}
+              Text={Text}
+              parentLevel={parentLevel}
+              openanchorEl={openanchorEl}
+              handleanchorEl={handleanchorEl}
+              anchorEl={anchorEl}
+              handleanchorElClose={handleanchorElClose}
             />
           </div>
         </div>

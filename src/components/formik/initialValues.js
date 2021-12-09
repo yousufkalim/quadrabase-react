@@ -10,6 +10,7 @@ export const ARCHITECT_STATE = {
   confirm_password: "",
   establishment: "",
   service: "",
+  authorized: "No",
 };
 export const ADMIN_STATE = {
   first_name: "",
@@ -33,5 +34,9 @@ export const PROVIDER_STATE = {
 export const LIBRARY_STATE = {
   name: "",
   type: "",
+  ranking: "",
+};
+export const CATEGORY_STATE = {
+  name: "",
   ranking: "",
 };
