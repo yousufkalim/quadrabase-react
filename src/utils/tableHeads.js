@@ -71,7 +71,60 @@ export const AdminheadCells = [
     label: "Action",
   },
 ];
-export const LibraryheadCells = [
+
+export const UnitheadCells = [
+  {
+    id: "name",
+
+    label: "Name",
+  },
+  {
+    id: "symbol",
+
+    label: "Symbol",
+  },
+  {
+    id: "ranking",
+
+    label: "Ranking",
+  },
+
+  {
+    id: "createdAt",
+
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+
+    label: "Action",
+  },
+];
+
+export const VatheadCells = [
+  {
+    id: "value",
+
+    label: "Value",
+  },
+  {
+    id: "ranking",
+
+    label: "Ranking",
+  },
+
+  {
+    id: "createdAt",
+
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+
+    label: "Action",
+  },
+];
+export const CctpheadCells = [
   {
     id: "name",
 
@@ -99,6 +152,30 @@ export const LibraryheadCells = [
     label: "Action",
   },
 ];
+export const Chap0headCells = [
+  {
+    id: "title",
+
+    label: "Title",
+  },
+  {
+    id: "text",
+
+    label: "Text",
+  },
+
+  {
+    id: "createdAt",
+
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+
+    label: "Action",
+  },
+];
+
 export const ProviderheadCells = [
   {
     id: "name",

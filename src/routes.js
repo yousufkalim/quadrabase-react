@@ -9,6 +9,11 @@ import profileSettings from "./pages/admin/profileSettings";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 
+import Units from "./pages/admin/bookLibraries/Units";
+import VAT from "./pages/admin/bookLibraries/VAT";
+import CCTP from "./pages/admin/bookLibraries/CCTP";
+import Chap0 from "./pages/admin/bookLibraries/Chap0";
+
 var routes = [
   //admin  side routes
   {
@@ -51,6 +56,34 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Providers,
+    layout: "/admin",
+  },
+  {
+    path: "/units",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Units,
+    layout: "/admin",
+  },
+  {
+    path: "/vat",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: VAT,
+    layout: "/admin",
+  },
+  {
+    path: "/cctp",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: CCTP,
+    layout: "/admin",
+  },
+  {
+    path: "/chap0",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Chap0,
     layout: "/admin",
   },
 

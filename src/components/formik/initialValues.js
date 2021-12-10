@@ -54,3 +54,24 @@ export const WORK_DETAIL_STATE = {
   unit_price: "",
   quantity: "",
 };
+export const UNIT_STATE = {
+  name: "",
+  symbol: "",
+  ranking: "",
+};
+
+export const VAT_STATE = {
+  value: "",
+  ranking: "",
+};
+
+export const CCTP_STATE = {
+  name: "",
+  type: "",
+  ranking: "",
+};
+
+export const CHAP0_STATE = {
+  title: "",
+  text: "",
+};
