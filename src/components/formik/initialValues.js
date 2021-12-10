@@ -40,7 +40,20 @@ export const CATEGORY_STATE = {
   name: "",
   ranking: "",
 };
-
+export const WORK_STATE = {
+  name: "",
+  ranking: "",
+  unit: "",
+  unit_price: "",
+  quantity: "",
+};
+export const WORK_DETAIL_STATE = {
+  name: "",
+  ranking: "",
+  unit: "",
+  unit_price: "",
+  quantity: "",
+};
 export const UNIT_STATE = {
   name: "",
   symbol: "",
