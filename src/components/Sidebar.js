@@ -363,7 +363,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
-                              to="/admin/index"
+                              to="/admin/units"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -374,7 +374,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
-                              to="/admin/index"
+                              to="/admin/vat"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -385,7 +385,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
-                              to="/admin/index"
+                              to="/admin/cctp"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -396,7 +396,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
-                              to="/admin/index"
+                              to="/admin/chap0"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

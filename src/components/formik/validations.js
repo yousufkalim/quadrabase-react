@@ -67,3 +67,24 @@ export const PROVIDER_YUP = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
 });
+export const UNIT_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  symbol: Yup.string().required("Required"),
+  ranking: Yup.number().required("Required"),
+});
+
+export const VAT_YUP = Yup.object({
+  value: Yup.string().required("Required"),
+  ranking: Yup.number().required("Required"),
+});
+
+export const CCTP_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  type: Yup.string().required("Required"),
+  ranking: Yup.number().required("Required"),
+});
+
+export const CHAP0_YUP = Yup.object({
+  title: Yup.string().required("Required"),
+  text: Yup.string().required("Required"),
+});

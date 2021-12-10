@@ -40,3 +40,25 @@ export const CATEGORY_STATE = {
   name: "",
   ranking: "",
 };
+
+export const UNIT_STATE = {
+  name: "",
+  symbol: "",
+  ranking: "",
+};
+
+export const VAT_STATE = {
+  value: "",
+  ranking: "",
+};
+
+export const CCTP_STATE = {
+  name: "",
+  type: "",
+  ranking: "",
+};
+
+export const CHAP0_STATE = {
+  title: "",
+  text: "",
+};
