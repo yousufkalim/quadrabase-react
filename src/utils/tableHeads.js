@@ -19,13 +19,13 @@ export const ArchitectheadCells = [
     label: "Authorize",
   },
   {
-    id: "client_code",
-    label: "Client Code",
+    id: "subscription",
+    label: "Subscription",
   },
   {
-    id: "establishment",
+    id: "subscriptionEndDate",
 
-    label: "Establishment",
+    label: "Subscription End Date",
   },
   {
     id: "service",
