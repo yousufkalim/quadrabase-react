@@ -13,6 +13,7 @@ import { ArchitectheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
+import SubscriptionModal from "./SubscriptionModal";
 
 export default function Index() {
   const token = getToken();
@@ -26,6 +27,10 @@ export default function Index() {
 
   const [architectsData, setarchitectsData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
+
+  const [subscriptionModal, setSubscriptionModal] = React.useState(false);
+  const [subscriptionArchitextId, setSubscriptionArchitextId] =
+    React.useState();
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
@@ -60,6 +65,13 @@ export default function Index() {
     }
     seteditModal(!editmodal);
   };
+  // Subscription Modal
+  const handleSubscriptionModal = (id) => {
+    if (id) {
+      setSubscriptionArchitextId(id);
+    }
+    setSubscriptionModal(!subscriptionModal);
+  };
 
   const getArchitects = async () => {
     try {
@@ -80,7 +92,7 @@ export default function Index() {
 
   useEffect(() => {
     getArchitects();
-  }, [modal, editmodal, deletemodal]);
+  }, [modal, editmodal, deletemodal, subscriptionModal]);
   useEffect(() => {
     let array = [];
     ArchitectheadCells.slice(0, ArchitectheadCells.length - 1).map((cell) =>
@@ -120,6 +132,17 @@ export default function Index() {
           />
         }
       />
+      <Modal
+        title="Set Subscription"
+        open={subscriptionModal}
+        onClose={handleSubscriptionModal}
+        component={
+          <SubscriptionModal
+            handleModal={handleSubscriptionModal}
+            architectId={subscriptionArchitextId}
+          />
+        }
+      />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
@@ -137,6 +160,8 @@ export default function Index() {
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}
+            subscription={true}
+            handleSubscription={handleSubscriptionModal}
           />
         </div>
       </div>

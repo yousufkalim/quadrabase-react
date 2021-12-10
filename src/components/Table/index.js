@@ -19,7 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
@@ -257,6 +257,20 @@ export default function EnhancedTable(props) {
                           <TableCell align="center">
                             {moment(row[record]).format("DD/MM/YYYY HH:mm")}
                           </TableCell>
+                        ) : record == "subscriptionEndDate" ? (
+                          <TableCell align="center">
+                            {row?.subscriptions?.end_date
+                              ? moment(row?.subscriptions?.end_date).format(
+                                  "DD/MM/YYYY"
+                                )
+                              : "N/A"}
+                          </TableCell>
+                        ) : record === "subscription" ? (
+                          <TableCell key={index} align="center">
+                            {row?.subscriptions?.id?.name
+                              ? row?.subscriptions?.id?.name
+                              : "N/A"}
+                          </TableCell>
                         ) : (
                           <TableCell key={index} align="center">
                             {row[record]}
@@ -265,6 +279,16 @@ export default function EnhancedTable(props) {
                       )}
 
                       <TableCell align="center">
+                        {props.subscription && (
+                          <IconButton
+                            color="info"
+                            aria-label="edit"
+                            onClick={() => props.handleSubscription(row._id)}
+                          >
+                            <PostAddIcon />
+                          </IconButton>
+                        )}
+
                         <IconButton
                           color="info"
                           aria-label="edit"
