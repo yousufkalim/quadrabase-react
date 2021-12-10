@@ -11,7 +11,6 @@ import AddCategory from "./addCategory";
 
 import EditLibrary from "./editLibrary";
 
-import { LibraryheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
