@@ -9,7 +9,6 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
-import actionTypes from "./actionTypes";
 
 export default function AddExpense(props) {
   const token = getToken();
@@ -32,7 +31,8 @@ export default function AddExpense(props) {
 
         Notifier(response.data.message, "success");
         setisLoading(false);
-        props.handleClose(actionTypes.ADD_CATEGORY);
+        props.handleClose();
+
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
@@ -82,7 +82,7 @@ export default function AddExpense(props) {
       <div className="flex pb-2 justify-end ">
         <div className="">
           <Button
-            onClick={() => props.handleClose(actionTypes.ADD_CATEGORY)}
+            onClick={() => props.handleClose()}
             label="Close"
             backgroundColor={red}
             default={false}

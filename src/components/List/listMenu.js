@@ -49,12 +49,14 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
+  const { level, parentLevel, onAdd } = props;
+
   const handleClick = (text) => {
-    props.parentLevel == true
-      ? props.onAdd("level0", text)
-      : props.onAdd(props.level, text);
+    let concatText = text + "_" + level;
+    onAdd(concatText);
   };
-  if (props.parentLevel == true) {
+
+  if (parentLevel == true) {
     return (
       <div>
         <StyledMenu
@@ -98,9 +100,9 @@ export default function CustomizedMenus(props) {
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
           Delete
         </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
+        {/* <Divider sx={{ my: 0.5 }} /> */}
         <div style={{ paddingLeft: "0.6rem" }}>
-          <MenuItem onClick={props.onClose} disableRipple>
+          {/* <MenuItem onClick={() => handleClick("Up")} disableRipple>
             Up
           </MenuItem>
           <MenuItem onClick={props.onClose} disableRipple>
@@ -111,7 +113,7 @@ export default function CustomizedMenus(props) {
           </MenuItem>
           <MenuItem onClick={props.onClose} disableRipple>
             Go Down
-          </MenuItem>
+          </MenuItem> */}
           {props.text && (
             <>
               <Divider sx={{ my: 0.5 }} />
