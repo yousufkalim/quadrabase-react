@@ -25,11 +25,7 @@ const SubscriptionModal = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      let tempOptions = [];
-      response.data.subscription.map((item) => {
-        tempOptions.push({ value: item._id, name: item.name });
-      });
-      setOptions(tempOptions);
+      setOptions(response.data.subscription);
     } catch (error) {
       console.log(error?.response?.data?.message, "error ");
     }
@@ -50,6 +46,7 @@ const SubscriptionModal = (props) => {
   };
 
   useEffect(() => {
+    setValue(props.currentSubscription?.id?._id);
     getAllSubscriptions();
   }, []);
 

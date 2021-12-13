@@ -2,23 +2,22 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "55%",
-  transform: "translate(-50%, -50%)",
-  width: "60%",
-
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "12px",
-  outlineColor: "#fff",
-  outline: "none",
-  boxShadow: 24,
-  p: 2,
-};
-
 export default function BasicModal(props) {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "55%",
+    transform: "translate(-50%, -50%)",
+    width: props.width ? props.width : "60%",
+
+    bgcolor: "background.paper",
+    border: "none",
+    borderRadius: "12px",
+    outlineColor: "#fff",
+    outline: "none",
+    boxShadow: 24,
+    p: 2,
+  };
   return (
     <Modal open={props.open}>
       <Box sx={style}>
