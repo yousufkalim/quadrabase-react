@@ -119,6 +119,7 @@ export default function Index() {
         // title="Add Architect"
         open={deletemodal}
         onClose={handleDeleteModal}
+        width="35%"
         component={
           <DeleteModal
             handleClose={handleDeleteModal}

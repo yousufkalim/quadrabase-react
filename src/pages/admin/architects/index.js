@@ -31,6 +31,7 @@ export default function Index() {
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
   const [subscriptionArchitextId, setSubscriptionArchitextId] =
     React.useState();
+  const [currentSubscription, setCurrentSubscription] = React.useState();
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
@@ -69,6 +70,8 @@ export default function Index() {
   const handleSubscriptionModal = (id) => {
     if (id) {
       setSubscriptionArchitextId(id);
+      let filteredData = architectsData.find((data) => data._id == id);
+      setCurrentSubscription(filteredData?.subscriptions);
     }
     setSubscriptionModal(!subscriptionModal);
   };
@@ -125,9 +128,10 @@ export default function Index() {
         // title="Add Architect"
         open={deletemodal}
         onClose={handleDeleteModal}
+        width="35%"
         component={
           <DeleteModal
-            handleModal={handleDeleteModal}
+            handleClose={handleDeleteModal}
             handleDelete={handleDelete}
           />
         }
@@ -136,10 +140,12 @@ export default function Index() {
         title="Set Subscription"
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
+        width="35%"
         component={
           <SubscriptionModal
             handleModal={handleSubscriptionModal}
             architectId={subscriptionArchitextId}
+            currentSubscription={currentSubscription}
           />
         }
       />

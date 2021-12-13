@@ -11,7 +11,7 @@ export default function index(props) {
         {props.label}
       </label>
       <TextField
-        className="appearance-none block w-full  text-gray-700 border border-gray-500 rounded py-2 px-4 mb-2 leading-tight focus:outline-none focus:bg-gray-100"
+        className="appearance-none block w-full text-gray-700 border border-gray-500 rounded py-2 px-4 mb-2 leading-tight focus:outline-none focus:bg-gray-100"
         name={props.name}
         onChange={props.onChange}
         select
@@ -22,7 +22,7 @@ export default function index(props) {
         <option value="">Select An Option</option>
 
         {props?.options?.map((option) => (
-          <option value={option.value}>{option.name}</option>
+          <option value={option._id}>{option.name}</option>
         ))}
       </TextField>
     </div>
