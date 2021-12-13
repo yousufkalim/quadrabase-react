@@ -7,6 +7,7 @@ import { baseUrl } from "../../utils/BaseUrl";
 import { handleLogin } from "../../utils/Auth";
 import { Redirect } from "react-router-dom";
 import Notifier from "../../utils/Notifier";
+import TextInput from "../../components/TextInput";
 export default function Login() {
   const [isLoading, setisLoading] = React.useState(false);
   const [isRedirect, setisRedirect] = React.useState(false);
@@ -46,54 +47,49 @@ export default function Login() {
             <div className="w-full xl:w-3/4 lg:w-11/12 flex">
               {/* Col */}
               <div
-                className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+                className="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
                 style={{
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  borderRight: "1px solid",
+                  borderColor: "#eaeaea",
                   backgroundImage:
-                    'url("https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bG9naW58ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60")',
+                    'url("https://img.freepik.com/free-vector/online-registration-sign-up-with-man-sitting-near-smartphone_268404-95.jpg?size=626&ext=jpg")',
                 }}
               />
               {/* Col */}
-              <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
-                <h3 className="pt-4 text-3xl text-center">Login</h3>
+              <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+                <h3 className="pt-4 text-3xl  text-purple-400 text-center">
+                  Login
+                </h3>
                 <form
                   onSubmit={formik.handleSubmit}
                   className="px-8 pt-6 pb-8 mb-4 bg-white rounded"
                 >
                   <div>
-                    <label
-                      className="block mb-2 text-sm font-bold text-gray-700"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    <TextInput
                       id="email"
                       type="email"
                       name="email"
                       onChange={formik.handleChange}
                       value={formik.values.email}
                       placeholder="Email"
+                      label="Email"
                     />
+
                     {formik.touched.email && formik.errors.email ? (
                       <div className="text-red-500">{formik.errors.email}</div>
                     ) : null}
                   </div>
                   <div className="mb-4">
-                    <label
-                      className="block mb-2 text-sm font-bold text-gray-700"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    <TextInput
                       id="email"
                       name="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
                       type="password"
                       placeholder="********"
+                      label="Password"
                     />
                     {formik.touched.password && formik.errors.password ? (
                       <div className="text-red-500">
@@ -104,7 +100,7 @@ export default function Login() {
 
                   <div className="mb-3 text-center">
                     <button
-                      className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                      className="w-full px-4 py-2 font-bold text-white bg-purple-400 rounded-full hover:bg-purple-500 focus:outline-none focus:shadow-outline"
                       type="submit"
                       disabled={isLoading}
                     >
