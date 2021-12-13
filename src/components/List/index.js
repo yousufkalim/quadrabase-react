@@ -105,84 +105,94 @@ function NestedList(props) {
                                   disablePadding
                                   sx={{ paddingLeft: "2rem" }}
                                 >
-                                  {items2.map(
-                                    (
-                                      { _id: childId3, name: childName3 },
-                                      index
-                                    ) => {
-                                      let openlevel3 =
-                                        state["level3"][childName3] || false;
+                                  {items2
+                                    .filter((dt) => dt.category === childId)
+                                    .map(
+                                      (
+                                        { _id: childId3, name: childName3 },
+                                        index
+                                      ) => {
+                                        let openlevel3 =
+                                          state["level3"][childName3] || false;
 
-                                      return (
-                                        <>
-                                          <SubListItem
-                                            nodeKey={childName3}
-                                            level={"level3"}
-                                            _id={childId3}
-                                            Index={index}
-                                            name={childName3}
-                                            handleanchorEl={handleanchorEl}
-                                            parentLevel={parentLevel}
-                                            state={state}
-                                            handleClick={handleClick}
-                                            open={openlevel3}
-                                          />
-                                          <Collapse
-                                            in={openlevel3}
-                                            timeout="auto"
-                                            unmountOnExit
-                                          >
-                                            <List
-                                              component="div"
-                                              disablePadding
-                                              sx={{ paddingLeft: "2rem" }}
+                                        return (
+                                          <>
+                                            <SubListItem
+                                              nodeKey={childName3}
+                                              level={"level3"}
+                                              _id={childId3}
+                                              Index={index}
+                                              name={childName3}
+                                              handleanchorEl={handleanchorEl}
+                                              parentLevel={parentLevel}
+                                              state={state}
+                                              handleClick={handleClick}
+                                              open={openlevel3}
+                                            />
+                                            <Collapse
+                                              in={openlevel3}
+                                              timeout="auto"
+                                              unmountOnExit
                                             >
-                                              {subchildItems &&
-                                                subchildItems.map(
-                                                  (
-                                                    {
-                                                      _id: key4,
-                                                      name: childname,
-                                                    },
-                                                    index
-                                                  ) => {
-                                                    return (
-                                                      <ListItem
-                                                        key={key4}
-                                                        button
-                                                      >
-                                                        <FontAwesomeIcon
-                                                          icon={faBookmark}
-                                                          sx={{
-                                                            fontSize: "1rem",
-                                                          }}
-                                                        />
-                                                        <ListItemText
-                                                          inset
-                                                          primary={childname}
-                                                        />
-                                                        <FontAwesomeIcon
-                                                          icon={faEllipsisV}
-                                                          onClick={(e) =>
-                                                            handleanchorEl(
-                                                              e,
-                                                              key4,
-                                                              "level4",
-                                                              index
-                                                            )
-                                                          }
-                                                          id="demo-customized-button"
-                                                        />
-                                                      </ListItem>
-                                                    );
-                                                  }
-                                                )}
-                                            </List>
-                                          </Collapse>
-                                        </>
-                                      );
-                                    }
-                                  )}
+                                              <List
+                                                component="div"
+                                                disablePadding
+                                                sx={{ paddingLeft: "2rem" }}
+                                              >
+                                                {subchildItems &&
+                                                  subchildItems
+                                                    .filter(
+                                                      (dt) =>
+                                                        dt.work === childId3
+                                                    )
+                                                    .map(
+                                                      (
+                                                        {
+                                                          _id: key4,
+                                                          name: childname,
+                                                        },
+                                                        index
+                                                      ) => {
+                                                        return (
+                                                          <ListItem
+                                                            key={key4}
+                                                            button
+                                                          >
+                                                            <FontAwesomeIcon
+                                                              icon={faBookmark}
+                                                              sx={{
+                                                                fontSize:
+                                                                  "1rem",
+                                                              }}
+                                                            />
+                                                            <ListItemText
+                                                              inset
+                                                              primary={
+                                                                childname
+                                                              }
+                                                            />
+                                                            <FontAwesomeIcon
+                                                              icon={faEllipsisV}
+                                                              onClick={(e) =>
+                                                                handleanchorEl(
+                                                                  e,
+                                                                  key4,
+                                                                  "level4",
+                                                                  index
+                                                                )
+                                                              }
+                                                              id="demo-customized-button"
+                                                            />
+                                                          </ListItem>
+                                                        );
+                                                      }
+                                                    )}
+                                              </List>
+                                            </Collapse>
+                                          </>
+                                        );
+                                      }
+                                    )}
                                 </List>
                               </Collapse>
                             </>

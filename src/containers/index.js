@@ -28,9 +28,11 @@ export default function Index() {
           <Redirect from="/" to="/admin/index" />
         </>
       ) : (
-        <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+        <>
+          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+          <Redirect from="/" to="/auth/login" />
+        </>
       )}
-      <Redirect from="/" to="/auth/index" />
     </Switch>
   );
 }

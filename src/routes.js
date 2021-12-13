@@ -95,8 +95,15 @@ var routes = [
     component: Login,
     layout: "/auth",
   },
+  // {
+  //   path: "/register",
+  //   name: "Auth",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: Register,
+  //   layout: "/auth",
+  // },
   {
-    path: "/register",
+    path: "/presentation",
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Register,

@@ -14,6 +14,8 @@ export default function subList(props) {
   let obj = {};
   obj[`${nodeKey}`] = nodeKey;
   obj[nodeKey] = !open;
+  obj["id"] = _id;
+
   return (
     <>
       <ListItem key={_id} button>
@@ -35,7 +37,7 @@ export default function subList(props) {
         />
         <FontAwesomeIcon
           icon={faEllipsisV}
-          onClick={(e) => handleanchorEl(e, _id, level, Index)}
+          onClick={(e) => handleanchorEl(e, _id, level)}
           id="demo-customized-button"
         />
       </ListItem>

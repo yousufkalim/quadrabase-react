@@ -29,6 +29,7 @@ export default function Index() {
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [librariesData, setlibrariesData] = React.useState([]);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [LevelID, setLevelID] = React.useState("");
   const [LibraryID, setLibraryID] = React.useState("");
@@ -36,13 +37,11 @@ export default function Index() {
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
-  const [Index, setIndex] = React.useState(null);
-
   const openanchorEl = Boolean(anchorEl);
-  const handleanchorEl = (event, id, level, Index) => {
+  console.log(state, "state");
+  const handleanchorEl = (event, id, level) => {
     setLevel(level);
     setLevelID(id);
-    setIndex(Index);
     switch (level) {
       case "level0":
         setText("Add_Library");
@@ -85,6 +84,7 @@ export default function Index() {
     let filteredData = handleEditLibrary(id);
     setLevelData(filteredData);
   };
+
   const handleModalClick = (value) => {
     if (Level == actionTypes.LEVEL_0) {
       switch (value) {
