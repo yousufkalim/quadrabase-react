@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "../../../components/Button";
-import DropDown from "../../../components/DropDown";
+import SelectField from "../../../components/SelectField";
 import { red } from "@mui/material/colors";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
@@ -54,7 +54,7 @@ const SubscriptionModal = (props) => {
     <form className="w-full  pt-9">
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full px-3 mb-3">
-          <DropDown
+          <SelectField
             name="subscription"
             label="Select Subscription"
             value={value}

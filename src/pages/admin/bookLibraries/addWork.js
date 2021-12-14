@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { WORK_STATE } from "../../../components/formik/initialValues";
 import { WORK_YUP } from "../../../components/formik/validations";
@@ -8,17 +8,35 @@ import { getToken } from "../../../utils/Auth";
 import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
+import SelectField from "../../../components/SelectField";
+
 import { red } from "@mui/material/colors";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 export default function AddExpense(props) {
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
+  const [cctp_text1, setcctp_text1] = React.useState("");
+  const [cctp_text2, setcctp_text2] = React.useState("");
+  const [cctp_text3, setcctp_text3] = React.useState("");
+  const [cctp_text4, setcctp_text4] = React.useState("");
+  const [bpu_text, setbpu_text] = React.useState("");
+
+  const [options, setOptions] = React.useState([]);
+
   const formik = useFormik({
     initialValues: WORK_STATE,
     validationSchema: WORK_YUP,
     onSubmit: async (values) => {
       setisLoading(true);
       values.categoryId = props.categoryId;
+      let cctp_text = [];
+
+      cctp_text.push(cctp_text1);
+      cctp_text.push(cctp_text2);
+      cctp_text.push(cctp_text3);
+      cctp_text.push(cctp_text4);
+      values.cctp_text = cctp_text;
       try {
         let response = await Axios({
           method: "post",
@@ -42,11 +60,28 @@ export default function AddExpense(props) {
       }
     },
   });
+  const getAllUnits = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Units`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setOptions(response.data.units);
+    } catch (error) {
+      console.log(error?.response?.data?.message, "error ");
+    }
+  };
+  useEffect(() => {
+    getAllUnits();
+  }, []);
 
   return (
     <form className="w-full  pt-9">
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
             placeholder="Name"
@@ -62,31 +97,62 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Ranking"
-            label="Ranking"
-            name="ranking"
+          <SelectField
+            name="unit"
+            label="Select Unit"
+            value={formik.values.unit}
             onChange={formik.handleChange}
-            value={formik.values.ranking}
+            options={options}
           />
-          <div className="text-red-600 ">
-            {formik.touched.ranking && formik.errors.ranking ? (
-              <small>{formik.errors.ranking}</small>
-            ) : null}
-          </div>
         </div>
       </div>
-      <div className="flex no-wrap -mx-3 mb-2">
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text1(value)}
+            value={cctp_text1}
+            label={"CCTP 1"}
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text2(value)}
+            value={cctp_text2}
+            label={"CCTP 2"}
+          />
+        </div>
+      </div>
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text3(value)}
+            value={cctp_text3}
+            label={"CCTP 3"}
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text4(value)}
+            value={cctp_text4}
+            label={"CCTP 4"}
+          />
+        </div>
+      </div>
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setbpu_text(value)}
+            value={bpu_text}
+            label={"BPU"}
+          />
+        </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="text"
-            placeholder="Unit"
-            label="Unit"
+          <SelectField
             name="unit"
+            label="Select Provider"
+            value={formik.values.provider}
             onChange={formik.handleChange}
-            value={formik.values.unit}
+            options={options}
           />
           <div className="text-red-600 ">
             {formik.touched.unit && formik.errors.unit ? (
@@ -94,42 +160,7 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Unit Price"
-            label="Unit Price"
-            name="unit_price"
-            onChange={formik.handleChange}
-            value={formik.values.unit_price}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.unit_price && formik.errors.unit_price ? (
-              <small>{formik.errors.unit_price}</small>
-            ) : null}
-          </div>
-        </div>
       </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Quantity"
-            label="Quantity"
-            name="quantity"
-            onChange={formik.handleChange}
-            value={formik.values.quantity}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.quantity && formik.errors.quantity ? (
-              <small>{formik.errors.quantity}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-
       <div className="flex pb-2 justify-end ">
         <div className="">
           <Button

@@ -386,11 +386,13 @@ export default function Index() {
       </div>
       <Modal
         title="Add Library"
+        width="50%"
         open={state.addlibrary}
         component={<AddLibrary handleClose={handleClose} />}
       />
       <Modal
         title="Add Category"
+        width="50%"
         open={state.addcategory}
         component={
           <AddCategory handleClose={handleClose} BookLibraryId={LevelID} />
@@ -404,6 +406,7 @@ export default function Index() {
       <Modal
         title="Add Work Detail"
         open={state.addworkdetail}
+        width="30%"
         component={<AddWorkDetail handleClose={handleClose} workId={LevelID} />}
       />
       <Modal

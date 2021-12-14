@@ -97,14 +97,16 @@ export default function Index() {
   return (
     <>
       <Modal
-        title="Add Unit"
+        title="Add Chap0"
         open={modal}
         onClose={handleModal}
+        width="30%"
         component={<AddChap0 handleModal={handleModal} />}
       />
       <Modal
-        title="Edit Edit"
+        title="Edit Chap0"
         open={editmodal}
+        width="30%"
         onClose={handleEditModal}
         component={
           <EditChap0
