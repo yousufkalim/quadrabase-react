@@ -71,7 +71,7 @@ function EnhancedTableHead(props) {
           props.headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={"center"}
+              align={"left"}
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -254,11 +254,14 @@ export default function EnhancedTable(props) {
                     >
                       {props.rows.map((record, index) =>
                         record == "createdAt" ? (
-                          <TableCell align="center">
+                          <TableCell align="left" title={row[record]}>
                             {moment(row[record]).format("DD/MM/YYYY HH:mm")}
                           </TableCell>
                         ) : record == "subscriptionEndDate" ? (
-                          <TableCell align="center">
+                          <TableCell
+                            align="left"
+                            title={row?.subscriptions?.end_date}
+                          >
                             {row?.subscriptions?.end_date
                               ? moment(row?.subscriptions?.end_date).format(
                                   "DD/MM/YYYY"
@@ -266,19 +269,36 @@ export default function EnhancedTable(props) {
                               : "N/A"}
                           </TableCell>
                         ) : record === "subscription" ? (
-                          <TableCell key={index} align="center">
+                          <TableCell
+                            key={index}
+                            align="left"
+                            title={row?.subscriptions?.id?.name}
+                          >
                             {row?.subscriptions?.id?.name
-                              ? row?.subscriptions?.id?.name
+                              ? row?.subscriptions?.id?.name.length > 20
+                                ? row?.subscriptions?.id?.name.substring(
+                                    0,
+                                    20
+                                  ) + "..."
+                                : row?.subscriptions?.id?.name
                               : "N/A"}
                           </TableCell>
                         ) : (
-                          <TableCell key={index} align="center">
-                            {row[record]}
+                          <TableCell
+                            key={index}
+                            align="left"
+                            title={row[record]}
+                          >
+                            {row[record]
+                              ? row[record].length > 20
+                                ? row[record].substring(0, 20) + "..."
+                                : row[record]
+                              : "N/A"}
                           </TableCell>
                         )
                       )}
 
-                      <TableCell align="center">
+                      <TableCell align="left">
                         {props.subscription && (
                           <IconButton
                             color="info"
