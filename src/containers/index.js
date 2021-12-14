@@ -6,8 +6,12 @@ import { getToken, handleLogout } from "../utils/Auth";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { focusHandling } from "cruip-js-toolkit";
 import "../charts/ChartjsConfig";
+import { withTranslation } from "react-i18next";
+
 import { isExpired } from "react-jwt";
-export default function Index() {
+function Index(props) {
+  const { t, i18n } = props;
+
   const token = getToken();
   const location = useLocation();
   const isMyTokenExpired = isExpired(token);
@@ -24,15 +28,26 @@ export default function Index() {
     <Switch>
       {token && isMyTokenExpired == false ? (
         <>
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Route
+            path="/admin"
+            render={(props) => (
+              <AdminLayout {...props} i18n={i18n} translate={t} />
+            )}
+          />
           <Redirect from="/" to="/admin/index" />
         </>
       ) : (
         <>
-          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+          <Route
+            path="/auth"
+            render={(props) => (
+              <AuthLayout {...props} i18n={i18n} translate={t} />
+            )}
+          />
           <Redirect from="/" to="/auth/login" />
         </>
       )}
     </Switch>
   );
 }
+export default withTranslation()(Index);
