@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { WORK_DETAIL_STATE } from "../../../components/formik/initialValues";
 import { WORK_YUP } from "../../../components/formik/validations";
@@ -9,10 +9,13 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
+import SelectField from "../../../components/SelectField";
 
 export default function AddExpense(props) {
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
+  const [options, setOptions] = React.useState([]);
+
   const formik = useFormik({
     initialValues: WORK_DETAIL_STATE,
     validationSchema: WORK_YUP,
@@ -42,11 +45,27 @@ export default function AddExpense(props) {
       }
     },
   });
-
+  const getAllUnits = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Units`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setOptions(response.data.units);
+    } catch (error) {
+      console.log(error?.response?.data?.message, "error ");
+    }
+  };
+  useEffect(() => {
+    getAllUnits();
+  }, []);
   return (
     <form className="w-full  pt-9">
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <div className=" -mx-3 mb-2">
+        <div className="w-full  px-3 mb-3">
           <TextInput
             type="text"
             placeholder="Name"
@@ -61,76 +80,18 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Ranking"
-            label="Ranking"
-            name="ranking"
-            onChange={formik.handleChange}
-            value={formik.values.ranking}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.ranking && formik.errors.ranking ? (
-              <small>{formik.errors.ranking}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="text"
-            placeholder="Unit"
-            label="Unit"
+        <div className="w-full  px-3 mb-3">
+          <SelectField
             name="unit"
-            onChange={formik.handleChange}
+            label="Select Unit"
             value={formik.values.unit}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.unit && formik.errors.unit ? (
-              <small>{formik.errors.unit}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Unit Price"
-            label="Unit Price"
-            name="unit_price"
             onChange={formik.handleChange}
-            value={formik.values.unit_price}
+            options={options}
           />
-          <div className="text-red-600 ">
-            {formik.touched.unit_price && formik.errors.unit_price ? (
-              <small>{formik.errors.unit_price}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            min="0"
-            placeholder="Quantity"
-            label="Quantity"
-            name="quantity"
-            onChange={formik.handleChange}
-            value={formik.values.quantity}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.quantity && formik.errors.quantity ? (
-              <small>{formik.errors.quantity}</small>
-            ) : null}
-          </div>
         </div>
       </div>
 
-      <div className="flex pb-2 justify-end ">
+      <div className="flex pt-5 justify-end ">
         <div className="">
           <Button
             onClick={() => props.handleClose()}

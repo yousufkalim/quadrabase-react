@@ -54,8 +54,8 @@ export default function AddExpense(props) {
   }, [props.editmodal]);
   return (
     <form className="w-full  pt-9">
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <div className=" -mx-3 mb-2">
+        <div className="w-full  px-3 mb-3 ">
           <TextInput
             type="text"
             placeholder="Title"
@@ -70,7 +70,7 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2  px-3">
+        <div className="w-full   px-3">
           <TextInput
             type="text"
             placeholder="Text"
@@ -87,7 +87,7 @@ export default function AddExpense(props) {
         </div>
       </div>
 
-      <div className="flex pb-2 justify-end ">
+      <div className="flex pt-5 justify-end ">
         <div className="">
           <Button
             onClick={props.handleModal}
