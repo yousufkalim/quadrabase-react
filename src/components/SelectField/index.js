@@ -1,5 +1,4 @@
 import React from "react";
-import { TextField } from "@mui/material";
 
 export default function index(props) {
   return (
@@ -10,8 +9,8 @@ export default function index(props) {
       >
         {props.label}
       </label>
-      <TextField
-        className="appearance-none block w-full text-gray-700 border border-gray-500 rounded py-2 px-4 mb-2 leading-tight focus:outline-none focus:bg-gray-100"
+      <select
+        className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
         name={props.name}
         onChange={props.onChange}
         select
@@ -19,12 +18,12 @@ export default function index(props) {
         value={props.value}
         variant={props.variant ? props.variant : "outlined"}
       >
-        <option value="">Select An Option</option>
+        <option value="">{props.label}</option>
 
         {props?.options?.map((option) => (
           <option value={option._id}>{option.name}</option>
         ))}
-      </TextField>
+      </select>
     </div>
   );
 }
