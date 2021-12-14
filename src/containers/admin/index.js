@@ -5,14 +5,20 @@ import routes from "../../routes.js";
 
 import { Switch, Redirect, Route } from "react-router-dom";
 function Dashboard(props) {
+  const { translate, i18n } = props;
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
+        let Component = prop.component;
+
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            render={(props) => (
+              <Component translate={translate} i18n={i18n} {...props} />
+            )}
             key={key}
           />
         );

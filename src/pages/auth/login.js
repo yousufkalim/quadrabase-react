@@ -8,15 +8,16 @@ import { handleLogin } from "../../utils/Auth";
 import { Redirect } from "react-router-dom";
 import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
-export default function Login() {
-  const [isLoading, setisLoading] = React.useState(false);
-  const [isRedirect, setisRedirect] = React.useState(false);
+export default function Login(props) {
+  console.log(props, "props");
+  const [IsLoading, setIsLoading] = React.useState(false);
+  const [IsRedirect, setIsRedirect] = React.useState(false);
 
   const formik = useFormik({
     initialValues: LOGIN_STATE,
     validationSchema: LOGIN_YUP,
     onSubmit: async (values) => {
-      setisLoading(true);
+      setIsLoading(true);
       try {
         let response = await Axios({
           method: "post",
@@ -26,10 +27,10 @@ export default function Login() {
         const { token, user } = response.data.result;
         Notifier(response.data.message, "success");
         handleLogin(token, user);
-        setisRedirect(true);
-        setisLoading(false);
+        setIsRedirect(true);
+        setIsLoading(false);
       } catch (err) {
-        setisLoading(false);
+        setIsLoading(false);
         if (err.response) {
           Notifier(err.response.data.message, "error");
         }
@@ -37,7 +38,7 @@ export default function Login() {
       }
     },
   });
-  if (isRedirect == true) return <Redirect to="/admin/index" />;
+  if (IsRedirect == true) return <Redirect to="/admin/index" />;
   else
     return (
       <div className="w-full  md:mx-auto py-6 ">
@@ -102,9 +103,9 @@ export default function Login() {
                     <button
                       className="w-full px-4 py-2 font-bold text-white bg-purple-400 rounded-full hover:bg-purple-500 focus:outline-none focus:shadow-outline"
                       type="submit"
-                      disabled={isLoading}
+                      disabled={IsLoading}
                     >
-                      {isLoading ? "Loading...." : "Login"}
+                      {IsLoading ? "Loading...." : "Login"}
                     </button>
                   </div>
                   <div className="text-center">
