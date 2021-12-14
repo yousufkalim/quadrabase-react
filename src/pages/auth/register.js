@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function login() {
+export default function register(props) {
+      const {translate} = props;
   return (
     <div className="w-full  md:mx-auto my-5 ">
       <div className="container  mx-auto">
@@ -17,7 +18,7 @@ export default function login() {
             />
             {/* Col */}
             <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
-              <h3 className="pt-4 text-2xl text-center">Create an Account!</h3>
+              <h3 className="pt-4 text-2xl text-center">{translate("Create an Account!")}</h3>
               <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                 <div className="mb-4 md:flex md:justify-between">
                   <div className="mb-4 md:mr-2 md:mb-0">
@@ -25,13 +26,14 @@ export default function login() {
                       className="block mb-2 text-sm font-bold text-gray-700"
                       htmlFor="firstName"
                     >
-                      First Name
+                      {translate("First Name")}
                     </label>
                     <input
                       className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                       id="firstName"
                       type="text"
-                      placeholder="First Name"
+                      placeholder={translate("First Name")}
+                      
                     />
                   </div>
                   <div className="md:ml-2">
@@ -39,13 +41,13 @@ export default function login() {
                       className="block mb-2 text-sm font-bold text-gray-700"
                       htmlFor="lastName"
                     >
-                      Last Name
+                      {translate("Last Name")}
                     </label>
                     <input
                       className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                       id="lastName"
                       type="text"
-                      placeholder="Last Name"
+                      placeholder={translate("Last Name")}
                     />
                   </div>
                 </div>
@@ -54,13 +56,13 @@ export default function login() {
                     className="block mb-2 text-sm font-bold text-gray-700"
                     htmlFor="email"
                   >
-                    Email
+                    {translate("Email")}
                   </label>
                   <input
                     className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="email"
                     type="email"
-                    placeholder="Email"
+                    placeholder={translate("Email")}
                   />
                 </div>
                 <div className="mb-4 md:flex md:justify-between">
@@ -69,7 +71,7 @@ export default function login() {
                       className="block mb-2 text-sm font-bold text-gray-700"
                       htmlFor="password"
                     >
-                      Password
+                      {translate("Password")}
                     </label>
                     <input
                       className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -78,7 +80,7 @@ export default function login() {
                       placeholder="******************"
                     />
                     <p className="text-xs italic text-red-500">
-                      Please choose a password.
+                      {translate("Please choose a password.")}
                     </p>
                   </div>
                   <div className="md:ml-2">
@@ -86,7 +88,7 @@ export default function login() {
                       className="block mb-2 text-sm font-bold text-gray-700"
                       htmlFor="c_password"
                     >
-                      Confirm Password
+                      {translate("Confirm Password")}
                     </label>
                     <input
                       className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -101,7 +103,7 @@ export default function login() {
                     className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     type="button"
                   >
-                    Register
+                    {translate("Register")}
                   </button>
                 </div>
 
@@ -110,7 +112,7 @@ export default function login() {
                     className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
                     href="./index.html"
                   >
-                    Already have an account?
+                    {translate("Already have an account?")}
                   </a>
                 </div>
                 <div className="mt-2 text-center">
@@ -118,7 +120,7 @@ export default function login() {
                     className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     type="button"
                   >
-                    Login
+                    {translate("Login")}
                   </button>
                 </div>
               </form>
