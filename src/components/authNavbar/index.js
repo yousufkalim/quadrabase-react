@@ -119,6 +119,8 @@ const { language } = i18n;
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }
               borderColor={blueGrey}
+              color="#74bcfc"
+              paddingY={true}
              backgroundColor={'transparent'}
               default={false}
               startIcon={

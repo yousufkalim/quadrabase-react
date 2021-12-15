@@ -12,6 +12,7 @@ i18n
       en: {
         translations: {
           // header
+          "Dashboard":"Dashboard",
           "Presentation": "Presentation",
           "Educational Materials": "Educational Materials",
           "Documentation": "Documentation",
@@ -137,6 +138,7 @@ i18n
       fr: {
         translations: {
           // header
+          "Dashboard":"Tableau de bord",
           "Presentation":"Présentation",
           "Educational Materials":"Matériel pédagogique",
           "Documentation":"Documentation",
@@ -160,7 +162,7 @@ i18n
           "Subscription End Date":"Date de fin d'abonnemen",
           "Service":"Service",
           "Date/Time":"Date/Heure",
-          "Action":"Action",
+          "Action":"action",
           // AdminheadCells
           "Name":"Nom",
           "Symbol":"Symbole",
