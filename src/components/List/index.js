@@ -11,17 +11,7 @@ import FontAwesomeIcon from "../FontAwesomeIcon";
 import { LibrariesList } from "../../utils/libraryList";
 
 function NestedList(props) {
-  const {
-    handleClick,
-    state,
-    onAdd,
-    Text,
-    parentLevel,
-    openanchorEl,
-    handleanchorElClose,
-    handleanchorEl,
-    anchorEl,
-  } = props;
+  const { handleClick, state, parentLevel, handleanchorEl } = props;
 
   return (
     <div className="shadow-md">

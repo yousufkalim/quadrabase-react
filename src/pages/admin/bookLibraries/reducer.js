@@ -16,6 +16,8 @@ const {
   DELETE_WORK,
   EDIT_WORK_DETAIL,
   DELETE_WORK_DETAIL,
+  anchorEl,
+  MANAGE_FAMILIES,
 } = actionTypes;
 
 function LibraryReducer(state, action) {
@@ -27,9 +29,13 @@ function LibraryReducer(state, action) {
       return { ...state, level2: obj };
     case LEVEL_3:
       return { ...state, level3: obj };
+    case anchorEl:
+      return { ...state, anchorEl: action.anchorEl };
     case CLOSE_MODAL:
       return {
         ...state,
+        anchorEl: null,
+        managefamily: action.managefamily,
         addlibrary: action.addlibrary,
         editlibrary: action.editlibrary,
         deletelibrary: action.deletelibrary,
@@ -48,6 +54,8 @@ function LibraryReducer(state, action) {
         editworkdetail: action.editworkdetail,
         deleteworkdetail: action.deleteworkdetail,
       };
+    case MANAGE_FAMILIES:
+      return { ...state, managefamily: action.managefamily };
     case ADD_LIBRARY:
       return { ...state, addlibrary: action.addlibrary };
     case DELETE_LIBRARY:

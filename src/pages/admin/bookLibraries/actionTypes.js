@@ -4,6 +4,8 @@ const actionTypes = {
   LEVEL_2: "level2",
   LEVEL_3: "level3",
   LEVEL_4: "level4",
+  anchorEl: "anchorEl",
+  MANAGE_FAMILIES: "Manage_Families_level0",
 
   ADD_LIBRARY: "Add_Library_level0",
   EDIT_LIBRARY: "Edit_level1",

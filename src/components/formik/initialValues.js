@@ -10,7 +10,7 @@ export const ARCHITECT_STATE = {
   confirm_password: "",
   establishment: "",
   service: "",
-  authorized: "No",
+  authorized: "Yes",
 };
 export const ADMIN_STATE = {
   first_name: "",
@@ -33,26 +33,21 @@ export const PROVIDER_STATE = {
 };
 export const LIBRARY_STATE = {
   name: "",
-  type: "",
-  ranking: "",
+  cctp_text: "",
 };
 export const CATEGORY_STATE = {
   name: "",
-  ranking: "",
+  cctp_text: "",
+  unit: "",
 };
 export const WORK_STATE = {
   name: "",
-  ranking: "",
-  unit: "",
-  unit_price: "",
-  quantity: "",
+  cctp_text: "",
 };
 export const WORK_DETAIL_STATE = {
   name: "",
-  ranking: "",
   unit: "",
   unit_price: "",
-  quantity: "",
 };
 export const UNIT_STATE = {
   name: "",

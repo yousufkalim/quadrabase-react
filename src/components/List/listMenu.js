@@ -72,7 +72,10 @@ export default function CustomizedMenus(props) {
             {props.text && (
               <>
                 <MenuItem onClick={() => handleClick(props.text)}>
-                  {props.text.replace("_", " ")}
+                  Add Library
+                </MenuItem>
+                <MenuItem onClick={() => handleClick("Manage_Families")}>
+                  Manage Families
                 </MenuItem>
               </>
             )}

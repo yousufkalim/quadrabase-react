@@ -56,19 +56,12 @@ export const EDIT_ADMIN_YUP = Yup.object({
 });
 export const LIBRARY_YUP = Yup.object({
   name: Yup.string().required("Required"),
-  type: Yup.string().required("Required"),
-  ranking: Yup.number().required("Required"),
 });
 export const CATEGORY_YUP = Yup.object({
   name: Yup.string().required("Required"),
-  ranking: Yup.number().required("Required"),
 });
 export const WORK_YUP = Yup.object({
   name: Yup.string().required("Required"),
-  ranking: Yup.number().required("Required"),
-  unit: Yup.string().required("Required"),
-  unit_price: Yup.number().required("Required"),
-  quantity: Yup.number().required("Required"),
 });
 export const PROVIDER_YUP = Yup.object({
   name: Yup.string().required("Required"),
