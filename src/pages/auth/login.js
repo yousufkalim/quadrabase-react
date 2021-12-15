@@ -108,7 +108,7 @@ export default function Login(props) {
                       type="submit"
                       disabled={IsLoading}
                     >
-                      {IsLoading ? "Loading...." : "Login"}
+                      {IsLoading ? `${translate("Loading....")}` : `${translate("Login")}`}
                     </button>
                   </div>
                   <div className="text-center">

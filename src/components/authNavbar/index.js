@@ -1,8 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { NavLink, useLocation } from "react-router-dom";
+import Globe from '../../images/globe.svg'
+import Button from '../Button'
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import LanguageIcon from "@mui/icons-material/Language";
+import { teal,common,blueGrey } from "@mui/material/colors";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const {translate,i18n} = props;
+const { language } = i18n;
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
   return (
     <nav
       id="header"
@@ -49,7 +61,7 @@ export default function Navbar() {
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 to="/auth/presentation"
               >
-                Presentation
+                {translate("Presentation")}
               </NavLink>
             </li>
             <li>
@@ -57,7 +69,7 @@ export default function Navbar() {
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 href="#"
               >
-                Educational Materials
+                {translate("Educational Materials")}
               </a>
             </li>
             <li>
@@ -65,7 +77,7 @@ export default function Navbar() {
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 href="#"
               >
-                Documentation
+                {translate("Documentation")}
               </a>
             </li>
             <li>
@@ -73,7 +85,7 @@ export default function Navbar() {
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 href="#"
               >
-                Manufacturers
+                {translate("Manufacturers")}
               </a>
             </li>
             <li>
@@ -81,21 +93,42 @@ export default function Navbar() {
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 href="#"
               >
-                Ordered
+                {translate("Ordered")}
               </a>
             </li>
           </ul>
         </nav>
       </div>
 
-      <div className="md:hidden  lg:flex ">
-        <NavLink
+      <div className="md:hidden pt-1 px-1  lg:flex ">
+      
+        <div className="flex  content-center flex-nowrap shrink-0 
+        ">
+            {/* <img src={Globe} alt="hello" width={30} /> */}
+            <NavLink
           to="/auth/login"
-          className="bg-transparent text-purple-400 font-bold px-9 py-2 rounded-full border border-gray-300 mr-4 hover:bg-purple-400 hover:text-white"
+          className="bg-transparent text-purple-400 font-bold px-5 w-full w-3/4 text-center  py-2 rounded-full border border-gray-300 mr-4 hover:bg-purple-400 hover:text-white"
         >
-          Login
+          {translate("Login")}
         </NavLink>
+           
+          
+        <Button
+         label={language == "fr" ? "English" : "French"} 
+              onClick={() =>
+                changeLanguage(`${language == "en" ? "fr" : "en"}`)
+              }
+              borderColor={blueGrey}
+             backgroundColor={'transparent'}
+              default={false}
+              startIcon={
+              <IconButton >
+                <LanguageIcon style={{color:'#74bcfc'}}/>
+              </IconButton>}
+            />
+        </div>
       </div>
+      
     </nav>
   );
 }

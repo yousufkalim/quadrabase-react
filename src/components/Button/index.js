@@ -5,17 +5,21 @@ import { blueGrey } from "@mui/material/colors";
 
 const ColorButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== "color" && prop !== "myProp",
-})(({ theme, defaultTheme, backgroundColor }) => ({
-  color: theme.palette.getContrastText(blueGrey[500]),
+})(({ theme, defaultTheme, backgroundColor, color, borderColor }) => ({
+  color:
+    defaultTheme == false
+      ? color
+      : theme.palette.getContrastText(blueGrey[500]),
   backgroundColor: defaultTheme == false ? backgroundColor[500] : blueGrey[500],
-  borderColor: blueGrey[500],
-  borderRadius: "6px",
+  borderColor: defaultTheme == false ? borderColor : blueGrey[500],
+  borderRadius: "26px",
+  border: defaultTheme == false ? "0.1px solid " : "none",
   textTransform: "none",
-  padding: "5px 20px",
+  padding:defaultTheme == false ? "0px 35px":"5px 20px",
   "&:hover": {
     backgroundColor:
       defaultTheme == false ? backgroundColor[700] : blueGrey[700],
-    borderColor: theme.palette.getContrastText(blueGrey[700]),
+    borderColor: defaultTheme == false ? borderColor :theme.palette.getContrastText(blueGrey[700]),
   },
   "&:active": {
     boxShadow: "none",
@@ -31,10 +35,12 @@ export default function CustomizedButtons(props) {
       onClick={props.onClick}
       disabled={props.disabled ? props.disabled : false}
       variant={props.variant}
+      color={props.color}
       defaultTheme={props.default}
+      borderColor={props.borderColor}
       backgroundColor={props.backgroundColor}
     >
-      {props.translate?props.translate(`${props.label}`):props.label}
+      {props.translate ? props.translate(`${props.label}`) : props.label}
     </ColorButton>
   );
 }
