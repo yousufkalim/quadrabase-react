@@ -44,8 +44,8 @@ export default function index(props) {
           "bullet",
           "indent",
           "link",
-          "image",
-          "video",
+          // "image",
+          // "video",
         ]}
         placeholder={props.placeholder}
       />

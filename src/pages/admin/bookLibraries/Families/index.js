@@ -1,0 +1,112 @@
+import React, { useState, useEffect } from "react";
+import MemoizedFamily from "./memoizedFamily";
+import MemoizedFamilies from "./memoizedFamilies";
+
+import { red } from "@mui/material/colors";
+import Button from "../../../../components/Button";
+import Axios from "axios";
+import { baseUrl } from "../../../../utils/BaseUrl";
+import { getToken } from "../../../../utils/Auth";
+import Notifier from "../../../../utils/Notifier";
+export default function Index(props) {
+  const token = getToken();
+  const [data, setData] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+
+  const [show, sethide] = useState(false);
+  const handleAdd = (obj) => {
+    onAdd(obj);
+    // setData([...data, obj]);
+  };
+
+  const handleDelete = async (id) => {
+    // onAdd(obj);
+
+    try {
+      let response = await Axios({
+        method: "delete",
+        url: `${baseUrl}/Families/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
+      setisLoading(false);
+
+      setData(data);
+      Notifier(response.data.message, "success");
+    } catch (err) {
+      setisLoading(false);
+      Notifier(err.response.data.message, "error");
+
+      console.log("Errror->>>", err);
+    }
+  };
+  const onAdd = async (obj) => {
+    setisLoading(true);
+
+    try {
+      let response = await Axios({
+        method: "post",
+        url: `${baseUrl}/Families/create`,
+        data: obj,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
+      setisLoading(false);
+
+      setData(data);
+      Notifier(response.data.message, "success");
+    } catch (err) {
+      setisLoading(false);
+      Notifier(err.response.data.message, "error");
+
+      console.log("Errror->>>", err);
+    }
+  };
+  const getAllFamilies = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Families/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
+      setData(data);
+    } catch (err) {
+      console.log("Errror->>>", err);
+    }
+  };
+  useEffect(() => {
+    getAllFamilies();
+  }, []);
+  return (
+    <div>
+      {data && data.length > 0 ? (
+        data &&
+        data.map(({ _id, name }) => (
+          <div key={_id} className="mt-2">
+            <MemoizedFamilies name={name} onDelete={() => handleDelete(_id)} />
+          </div>
+        ))
+      ) : (
+        <h1 className="text-center"></h1>
+      )}
+      <MemoizedFamily isLoading={isLoading} onAdd={handleAdd} />
+      <div className="flex pt-5 justify-end ">
+        <div className="">
+          <Button
+            onClick={props.handleClose}
+            label="Close"
+            backgroundColor={red}
+            default={false}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -2,6 +2,11 @@ export const initialState = {
   level1: {},
   level2: {},
   level3: {},
+  anchorEl: null,
+
+  //family
+  managefamily: false,
+
   // library
   addlibrary: false,
   editlibrary: false,

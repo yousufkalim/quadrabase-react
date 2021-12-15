@@ -6,6 +6,7 @@ import List from "../../../components/List/index.js";
 import ListMenu from "../../../components/List/listMenu";
 
 import Notifier from "../../../utils/Notifier";
+import Families from "./Families";
 
 import AddLibrary from "./addLibrary";
 import AddCategory from "./addCategory";
@@ -37,9 +38,13 @@ export default function Index() {
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
-  const openanchorEl = Boolean(anchorEl);
-  console.log(state, "state");
+  const openanchorEl = Boolean(state.anchorEl);
   const handleanchorEl = (event, id, level) => {
+    // setAnchorEl(event.currentTarget);
+    dispatch({
+      type: actionTypes.anchorEl,
+      anchorEl: event.currentTarget,
+    });
     setLevel(level);
     setLevelID(id);
     switch (level) {
@@ -64,11 +69,13 @@ export default function Index() {
         setText("");
         break;
     }
-    setAnchorEl(event.currentTarget);
   };
 
   const handleanchorElClose = () => {
-    setAnchorEl(null);
+    dispatch({
+      type: actionTypes.anchorEl,
+      anchorEl: null,
+    });
   };
   const handleClick = (level, id, obj) => {
     dispatch({
@@ -95,10 +102,10 @@ export default function Index() {
           });
 
           break;
-        case `Add_Library_${Level}`:
+        case `Manage_Families_${Level}`:
           dispatch({
-            type: actionTypes.ADD_LIBRARY,
-            addlibrary: true,
+            type: actionTypes.MANAGE_FAMILIES,
+            managefamily: true,
           });
 
           break;
@@ -229,6 +236,7 @@ export default function Index() {
       addworkdetail: false,
       editworkdetail: false,
       deleteworkdetail: false,
+      managefamily: false,
     });
   };
 
@@ -346,7 +354,6 @@ export default function Index() {
   };
   useEffect(() => {
     getBookLibraries();
-    handleanchorElClose();
     if (LibraryID) {
       handleLibraryData(LibraryID);
     }
@@ -359,7 +366,7 @@ export default function Index() {
         onClose={handleanchorElClose}
         onAdd={handleModalClick}
         open={openanchorEl}
-        anchorEl={anchorEl}
+        anchorEl={state.anchorEl}
         text={Text}
         level={Level}
         id={"demo-customized-button"}
@@ -373,17 +380,19 @@ export default function Index() {
               state={state}
               librariesData={librariesData}
               handleClick={handleClick}
-              onAdd={handleModalClick}
-              Text={Text}
               parentLevel={parentLevel}
-              openanchorEl={openanchorEl}
               handleanchorEl={handleanchorEl}
-              anchorEl={anchorEl}
-              handleanchorElClose={handleanchorElClose}
             />
           </div>
         </div>
       </div>
+      {/* All  Modals */}
+      <Modal
+        title="Manage Families"
+        width="40%"
+        open={state.managefamily}
+        component={<Families handleClose={handleClose} />}
+      />
       <Modal
         title="Add Library"
         width="50%"

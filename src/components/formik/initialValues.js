@@ -10,7 +10,7 @@ export const ARCHITECT_STATE = {
   confirm_password: "",
   establishment: "",
   service: "",
-  authorized: "No",
+  authorized: "Yes",
 };
 export const ADMIN_STATE = {
   first_name: "",

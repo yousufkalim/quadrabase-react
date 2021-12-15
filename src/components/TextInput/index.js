@@ -21,7 +21,7 @@ export default function index(props) {
         disabled={props.disabled ? props.disabled : false}
         onChange={props.onChange}
         value={props.value}
-        autocomplete="off"
+        autoComplete="off"
       />
     </div>
   );
