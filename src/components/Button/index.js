@@ -34,7 +34,7 @@ export default function CustomizedButtons(props) {
       defaultTheme={props.default}
       backgroundColor={props.backgroundColor}
     >
-      {props.label}
+      {props.translate?props.translate(`${props.label}`):props.label}
     </ColorButton>
   );
 }

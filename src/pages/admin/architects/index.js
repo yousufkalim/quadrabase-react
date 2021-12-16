@@ -15,7 +15,8 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 import SubscriptionModal from "./SubscriptionModal";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props;
   const token = getToken();
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
@@ -106,19 +107,25 @@ export default function Index() {
   return (
     <>
       <Modal
-        title="Add Architect"
+        title={translate("Add Architect")} 
         open={modal}
         onClose={handleModal}
-        component={<AddArchitect handleModal={handleModal} />}
+        translate={translate}
+        component={<AddArchitect
+          translate={translate}
+          handleModal={handleModal} />}
       />
       <Modal
-        title="Edit Architect"
+        title={translate("Edit Architect")}
         open={editmodal}
         onClose={handleEditModal}
+        translate={translate}
         component={
           <EditArchitect
             editData={editData}
             editmodal={editmodal}
+          translate={translate}
+
             handleModal={handleEditModal}
             architectId={architectId}
           />
@@ -129,6 +136,7 @@ export default function Index() {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        translate={translate}
         component={
           <DeleteModal
             handleClose={handleDeleteModal}
@@ -141,6 +149,7 @@ export default function Index() {
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
         width="35%"
+        translate={translate}
         component={
           <SubscriptionModal
             handleModal={handleSubscriptionModal}
@@ -151,8 +160,8 @@ export default function Index() {
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
-          <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">Architects</h1>
+          <div className="flex justify-between pb-3"t>
+            <h1 className="text-2xl font-bold">{translate("Architects")}</h1>
             <Button
               variant="outlined"
               label="Add Architect"

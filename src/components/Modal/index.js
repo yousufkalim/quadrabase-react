@@ -23,7 +23,7 @@ export default function BasicModal(props) {
       <Box sx={style}>
         <div className="flex justify-center">
           <h2 className="text-gray-600 capitalize font-semibold text-3xl">
-            {props.title}
+          {props.translate?props.translate(`${props.title}`):props.title}
           </h2>
         </div>
         {props.component}
