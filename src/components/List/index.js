@@ -11,7 +11,18 @@ import FontAwesomeIcon from "../FontAwesomeIcon";
 import { LibrariesList } from "../../utils/libraryList";
 
 function NestedList(props) {
-  const { handleClick, state, parentLevel, handleanchorEl } = props;
+  const { translate } = props;
+  const {
+    handleClick,
+    state,
+    onAdd,
+    Text,
+    parentLevel,
+    openanchorEl,
+    handleanchorElClose,
+    handleanchorEl,
+    anchorEl,
+  } = props;
 
   return (
     <div className="shadow-md">
@@ -20,7 +31,9 @@ function NestedList(props) {
         subheader={
           <ListSubheader>
             <div className="flex justify-between">
-              <h1 className="font-semibold text-lg p-3">General Libraries</h1>
+              <h1 className="font-semibold text-lg p-3">
+                {translate("General Libraries")}
+              </h1>
               <FontAwesomeIcon
                 icon={faEllipsisV}
                 onClick={(e) => handleanchorEl(e, "", "level0")}

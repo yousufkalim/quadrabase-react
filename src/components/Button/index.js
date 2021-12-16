@@ -5,24 +5,52 @@ import { blueGrey } from "@mui/material/colors";
 
 const ColorButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== "color" && prop !== "myProp",
-})(({ theme, defaultTheme, backgroundColor }) => ({
-  color: theme.palette.getContrastText(blueGrey[500]),
-  backgroundColor: defaultTheme == false ? backgroundColor[500] : blueGrey[500],
-  borderColor: blueGrey[500],
-  borderRadius: "6px",
-  textTransform: "none",
-  padding: "5px 20px",
-  "&:hover": {
+})(
+  ({ theme, defaultTheme, backgroundColor, color, borderColor, paddingY }) => ({
+    color:
+      defaultTheme == false
+        ? color
+          ? color
+          : theme.palette.getContrastText(blueGrey[500])
+        : theme.palette.getContrastText(blueGrey[500]),
     backgroundColor:
-      defaultTheme == false ? backgroundColor[700] : blueGrey[700],
-    borderColor: theme.palette.getContrastText(blueGrey[700]),
-  },
-  "&:active": {
-    boxShadow: "none",
-    backgroundColor: blueGrey[500],
-    borderColor: blueGrey[500],
-  },
-}));
+      defaultTheme == false
+        ? backgroundColor
+          ? backgroundColor[500]
+          : blueGrey[500]
+        : blueGrey[500],
+    borderColor:
+      defaultTheme == false
+        ? borderColor
+          ? borderColor
+          : blueGrey[500]
+        : blueGrey[500],
+    borderRadius: "26px",
+    border: defaultTheme == false ? "0.1px solid " : "none",
+    textTransform: "none",
+    padding:
+      defaultTheme == false ? (paddingY ? "0px 35px" : "5px 20px") : "5px 20px",
+    "&:hover": {
+      backgroundColor:
+        defaultTheme == false
+          ? backgroundColor
+            ? backgroundColor[700]
+            : blueGrey[700]
+          : blueGrey[700],
+      borderColor:
+        defaultTheme == false
+          ? borderColor
+            ? borderColor
+            : theme.palette.getContrastText(blueGrey[700])
+          : theme.palette.getContrastText(blueGrey[700]),
+    },
+    "&:active": {
+      boxShadow: "none",
+      backgroundColor: blueGrey[500],
+      borderColor: blueGrey[500],
+    },
+  })
+);
 
 export default function CustomizedButtons(props) {
   return (
@@ -31,10 +59,13 @@ export default function CustomizedButtons(props) {
       onClick={props.onClick}
       disabled={props.disabled ? props.disabled : false}
       variant={props.variant}
+      color={props.color}
       defaultTheme={props.default}
+      borderColor={props.borderColor}
+      paddingY={props.paddingY}
       backgroundColor={props.backgroundColor}
     >
-      {props.label}
+      {props.translate ? props.translate(`${props.label}`) : props.label}
     </ColorButton>
   );
 }

@@ -26,7 +26,8 @@ import LibraryReducer from "./reducer";
 import { initialState } from "./initialState";
 import actionTypes from "./actionTypes";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props;
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [librariesData, setlibrariesData] = React.useState([]);
@@ -377,6 +378,7 @@ export default function Index() {
         <div className="container mx-auto px-6">
           <div className="w-3/4 mx-auto ">
             <List
+              translate={translate}
               state={state}
               librariesData={librariesData}
               handleClick={handleClick}

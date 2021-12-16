@@ -8,6 +8,7 @@ import { getToken } from "../../../utils/Auth";
 import Notifier from "../../../utils/Notifier";
 
 const SubscriptionModal = (props) => {
+  const {translate} = props;
   const token = getToken();
   const [value, setValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -59,6 +60,7 @@ const SubscriptionModal = (props) => {
             label="Select Subscription"
             value={value}
             onChange={handleChange}
+            translate={translate}
             options={options}
           />
         </div>
@@ -68,12 +70,13 @@ const SubscriptionModal = (props) => {
           <Button
             onClick={props.handleModal}
             label="Close"
+            translate={translate}
             backgroundColor={red}
             default={false}
           />
         </div>
         <div className=" ml-3">
-          <Button onClick={handleSubmit} label="Save" default={true} />
+          <Button onClick={handleSubmit} label="Save" default={true}  translate={translate} />
         </div>
       </div>
     </form>

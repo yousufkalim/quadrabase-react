@@ -11,6 +11,7 @@ import TextInput from "../../../../components/TextInput";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
+  const {translate} = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -61,6 +62,7 @@ export default function AddExpense(props) {
             placeholder="Title"
             label="Title"
             name="title"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.title}
           />
@@ -76,6 +78,7 @@ export default function AddExpense(props) {
             placeholder="Text"
             label="Text"
             name="text"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.text}
           />
@@ -92,6 +95,7 @@ export default function AddExpense(props) {
           <Button
             onClick={props.handleModal}
             label="Close"
+            translate={translate}
             backgroundColor={red}
             default={false}
           />
@@ -100,6 +104,7 @@ export default function AddExpense(props) {
           <Button
             onClick={formik.handleSubmit}
             disabled={isLoading}
+            translate={translate}
             label={isLoading ? "Updating" : "Update"}
             default={true}
           />

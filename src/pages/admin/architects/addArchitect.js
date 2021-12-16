@@ -13,6 +13,7 @@ import RadioButton from "../../../components/RadioButton";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
+  const {translate} = props ;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -50,11 +51,12 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
-            placeholder="Full Name"
-            label="Full Name"
+            placeholder="First Name"
+            label="First Name"
             name="first_name"
             onChange={formik.handleChange}
             value={formik.values.first_name}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.first_name && formik.errors.first_name ? (
@@ -70,6 +72,7 @@ export default function AddExpense(props) {
             name="last_name"
             onChange={formik.handleChange}
             value={formik.values.last_name}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.last_name && formik.errors.last_name ? (
@@ -87,6 +90,7 @@ export default function AddExpense(props) {
             name="email"
             onChange={formik.handleChange}
             value={formik.values.email}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.email && formik.errors.email ? (
@@ -102,6 +106,7 @@ export default function AddExpense(props) {
             name="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.password && formik.errors.password ? (
@@ -119,6 +124,7 @@ export default function AddExpense(props) {
             name="confirm_password"
             onChange={formik.handleChange}
             value={formik.values.confirm_password}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.confirm_password &&
@@ -135,6 +141,7 @@ export default function AddExpense(props) {
             name="establishment"
             onChange={formik.handleChange}
             value={formik.values.establishment}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.establishment && formik.errors.establishment ? (
@@ -152,6 +159,7 @@ export default function AddExpense(props) {
             name="service"
             onChange={formik.handleChange}
             value={formik.values.service}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.service && formik.errors.service ? (
@@ -166,6 +174,7 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.authorized}
             options={["Yes", "No"]}
+            translate={translate}
           />
         </div>
       </div>
@@ -176,6 +185,7 @@ export default function AddExpense(props) {
             label="Close"
             backgroundColor={red}
             default={false}
+            translate={translate}
           />
         </div>
         <div className=" ml-3">
@@ -184,6 +194,7 @@ export default function AddExpense(props) {
             disabled={isLoading}
             label={isLoading ? "Creating" : "Create"}
             default={true}
+            translate={translate}
           />
         </div>
       </div>

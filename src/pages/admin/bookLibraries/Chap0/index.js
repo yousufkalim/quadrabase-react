@@ -14,7 +14,8 @@ import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -101,15 +102,20 @@ export default function Index() {
         open={modal}
         onClose={handleModal}
         width="30%"
-        component={<AddChap0 handleModal={handleModal} />}
+        translate={translate}
+        component={<AddChap0 
+          translate={translate}
+          handleModal={handleModal} />}
       />
       <Modal
         title="Edit Chap0"
         open={editmodal}
         width="30%"
+        translate={translate}
         onClose={handleEditModal}
         component={
           <EditChap0
+            translate={translate}
             editData={editData}
             editmodal={editmodal}
             handleModal={handleEditModal}
@@ -122,8 +128,10 @@ export default function Index() {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        translate={translate}
         component={
           <DeleteModal
+          translate={translate}
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
           />
@@ -132,17 +140,20 @@ export default function Index() {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">Chap0</h1>
+            <h1 className="text-2xl font-bold">{translate("Chap0")}</h1>
             <Button
               variant="outlined"
               label="Add Chap0"
+              translate={translate}
               onClick={handleModal}
               startIcon={<AddIcon />}
             />
           </div>
           <UnitsTable
+             translate={translate}
             headCells={Chap0headCells}
             data={adminsData}
+            translate={translate}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}

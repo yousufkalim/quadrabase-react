@@ -12,6 +12,7 @@ import { red } from "@mui/material/colors";
 import TextArea from "../../../components/TextArea";
 
 export default function AddExpense(props) {
+  const {translate} = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -61,6 +62,7 @@ export default function AddExpense(props) {
             placeholder="Name"
             label="Name"
             name="name"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.name}
           />
@@ -76,6 +78,7 @@ export default function AddExpense(props) {
             placeholder="Email"
             label="Email"
             name="email"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.email}
           />
@@ -93,6 +96,7 @@ export default function AddExpense(props) {
             placeholder="Telephone No"
             label="Telephone No"
             name="telephone_no"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.telephone_no}
           />
@@ -108,6 +112,7 @@ export default function AddExpense(props) {
             placeholder="Contact No"
             label="Contact No"
             name="contact_no"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.contact_no}
           />
@@ -125,6 +130,7 @@ export default function AddExpense(props) {
             placeholder="City"
             label="City"
             name="city"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.city}
           />
@@ -140,6 +146,7 @@ export default function AddExpense(props) {
             placeholder="ZipCode"
             label="ZipCode"
             name="zipcode"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.zipcode}
           />
@@ -157,6 +164,7 @@ export default function AddExpense(props) {
             placeholder="Address1"
             label="Address1"
             name="address1"
+            translate={translate}
             rows={6}
             onChange={formik.handleChange}
             value={formik.values.address1}
@@ -173,6 +181,7 @@ export default function AddExpense(props) {
             placeholder="Address2"
             label="Address2"
             name="address2"
+            translate={translate}
             rows={6}
             onChange={formik.handleChange}
             value={formik.values.address2}
@@ -191,6 +200,7 @@ export default function AddExpense(props) {
             placeholder="Url"
             label="Url"
             name="url"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.url}
           />
@@ -207,6 +217,7 @@ export default function AddExpense(props) {
           <Button
             onClick={props.handleModal}
             label="Close"
+            translate={translate}
             backgroundColor={red}
             default={false}
           />
@@ -215,6 +226,7 @@ export default function AddExpense(props) {
           <Button
             onClick={formik.handleSubmit}
             disabled={isLoading}
+            translate={translate}
             label={isLoading ? "Updating" : "Update"}
             default={true}
           />

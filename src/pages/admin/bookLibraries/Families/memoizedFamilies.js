@@ -11,16 +11,12 @@ function Index(props) {
   const [testErrorMessage, settestErrorMessage] = useState("");
 
   const handleUpdate = () => {
-    if (!Name) {
-      settestErrorMessage("Required");
-      return;
-    } else {
-      settestErrorMessage("");
+    setEdit(!Edit);
+    if (Edit == true) {
+      props.handleUpdate(Name, props._id);
     }
-
-    let obj = { name: Name };
-    props.onAdd(obj);
   };
+
   useEffect(() => {
     setName(props.name);
   }, [props]);
@@ -45,7 +41,7 @@ function Index(props) {
           <div className="w-full flex items-end justify-between md:w-1/3 mb-1  ">
             <div className="px-4">
               <Button
-                onClick={() => setEdit(!Edit)}
+                onClick={handleUpdate}
                 disabled={isLoading}
                 label={Edit ? "Update" : "Edit"}
                 default={true}

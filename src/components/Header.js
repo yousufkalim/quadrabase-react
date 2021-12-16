@@ -3,8 +3,21 @@ import SearchModal from "./header/SearchModal";
 import Notifications from "./header/Notifications";
 import Help from "./header/Help";
 import UserMenu from "./header/UserMenu";
+import Button from './Button'
+import LanguageIcon from "@mui/icons-material/Language";
+import { teal,common,blueGrey } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
 
-function Header({ sidebarOpen, setSidebarOpen }) {
+function Header(props) {
+  const {translate,i18n,
+  
+    sidebarOpen, setSidebarOpen
+  } = props;
+  const { language } = i18n;
+  
+    const changeLanguage = (lng) => {
+      i18n.changeLanguage(lng);
+    };
   return (
     <header className="sticky top-0 bg-white border-b border-gray-200 z-30">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -33,6 +46,21 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center">
+          <Button
+         label={language == "fr" ? "English" : "French"} 
+              onClick={() =>
+                changeLanguage(`${language == "en" ? "fr" : "en"}`)
+              }
+              borderColor={'#74bcfc'}
+             backgroundColor={'transparent'}
+              default={false}
+              paddingY={true}
+              color="#74bcfc"
+              startIcon={
+              <IconButton >
+                <LanguageIcon style={{color:'#74bcfc'}}/>
+              </IconButton>}
+            />
             <SearchModal />
             <Notifications />
             <Help />

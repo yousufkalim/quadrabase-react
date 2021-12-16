@@ -3,7 +3,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 export default function ControlledRadioButtonsGroup(props) {
   return (
@@ -12,7 +11,7 @@ export default function ControlledRadioButtonsGroup(props) {
         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
         htmlFor="grid-first-name"
       >
-        {props.label}
+        {props.translate?props.translate(`${props.label}`):props.label}
       </label>
       <RadioGroup
         aria-label="gender"
@@ -23,7 +22,7 @@ export default function ControlledRadioButtonsGroup(props) {
       >
         {props.options &&
           props.options.map((opt) => (
-            <FormControlLabel value={opt} control={<Radio />} label={opt} />
+            <FormControlLabel value={opt} control={<Radio />} label={props.translate?props.translate(`${opt}`):opt} />
           ))}
       </RadioGroup>
     </FormControl>

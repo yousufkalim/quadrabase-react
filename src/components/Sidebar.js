@@ -6,7 +6,7 @@ import Logo from "../images/Logo_QBSoft_12.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
-function Sidebar({ sidebarOpen, setSidebarOpen }) {
+function Sidebar({ sidebarOpen, setSidebarOpen , translate}) {
   const location = useLocation();
   const { pathname } = location;
 
@@ -111,7 +111,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 •••
               </span>
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                Pages
+                {translate("Pages")}
               </span>
             </h3>
             <ul className="mt-3">
@@ -131,7 +131,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                     <DashboardIcon className="text-gray-400" />
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Dashboard
+                      {translate("Dashboard")}
                     </span>
                   </div>
                 </NavLink>
@@ -165,7 +165,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Architects
+                      {translate("Architects")}
                     </span>
                   </div>
                 </NavLink>
@@ -199,7 +199,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Admins
+                      {translate("Admins")}
                     </span>
                   </div>
                 </NavLink>
@@ -239,7 +239,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Providers
+                      {translate("Providers")}
                     </span>
                   </div>
                 </NavLink>
@@ -266,7 +266,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="flex items-center">
                             <LibraryBooksIcon className="text-gray-500" />
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Libraries
+                              {translate("Libraries")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -291,7 +291,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                General Libraries
+                                {translate("General Libraries")}
                               </span>
                             </NavLink>
                           </li>
@@ -302,7 +302,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Units
+                                {translate("Units")}
                               </span>
                             </NavLink>
                           </li>
@@ -313,7 +313,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                VAT
+                                {translate("VAT")}
                               </span>
                             </NavLink>
                           </li>
@@ -324,7 +324,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                CCTP
+                                {translate("CCTP")}
                               </span>
                             </NavLink>
                           </li>
@@ -335,7 +335,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Chap0
+                                {translate("Chap0")}
                               </span>
                             </NavLink>
                           </li>

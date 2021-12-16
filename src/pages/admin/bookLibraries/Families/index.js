@@ -18,7 +18,28 @@ export default function Index(props) {
     onAdd(obj);
     // setData([...data, obj]);
   };
+  const handleUpdate = async (name, id) => {
+    try {
+      let response = await Axios({
+        method: "put",
+        url: `${baseUrl}/Families/${id}`,
+        data: { name: name },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
+      setisLoading(false);
 
+      setData(data);
+      Notifier(response.data.message, "success");
+    } catch (err) {
+      setisLoading(false);
+      Notifier(err.response.data.message, "error");
+
+      console.log("Errror->>>", err);
+    }
+  };
   const handleDelete = async (id) => {
     // onAdd(obj);
 
@@ -90,7 +111,12 @@ export default function Index(props) {
         data &&
         data.map(({ _id, name }) => (
           <div key={_id} className="mt-2">
-            <MemoizedFamilies name={name} onDelete={() => handleDelete(_id)} />
+            <MemoizedFamilies
+              _id={_id}
+              name={name}
+              onDelete={() => handleDelete(_id)}
+              handleUpdate={handleUpdate}
+            />
           </div>
         ))
       ) : (

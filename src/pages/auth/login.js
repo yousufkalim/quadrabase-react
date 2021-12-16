@@ -10,6 +10,7 @@ import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
 export default function Login(props) {
   console.log(props, "props");
+  const { translate } = props;
   const [IsLoading, setIsLoading] = React.useState(false);
   const [IsRedirect, setIsRedirect] = React.useState(false);
 
@@ -61,7 +62,7 @@ export default function Login(props) {
               {/* Col */}
               <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
                 <h3 className="pt-4 text-3xl  text-purple-400 text-center">
-                  Login
+                  {translate("Login")}
                 </h3>
                 <form
                   onSubmit={formik.handleSubmit}
@@ -74,8 +75,9 @@ export default function Login(props) {
                       name="email"
                       onChange={formik.handleChange}
                       value={formik.values.email}
-                      placeholder="Email"
+                      placeholder={translate("Email")}
                       label="Email"
+                      translate={translate}
                     />
 
                     {formik.touched.email && formik.errors.email ? (
@@ -84,13 +86,14 @@ export default function Login(props) {
                   </div>
                   <div className="mb-4">
                     <TextInput
-                      id="email"
+                      id="password"
                       name="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
                       type="password"
                       placeholder="********"
                       label="Password"
+                      translate={translate}
                     />
                     {formik.touched.password && formik.errors.password ? (
                       <div className="text-red-500">
@@ -105,7 +108,7 @@ export default function Login(props) {
                       type="submit"
                       disabled={IsLoading}
                     >
-                      {IsLoading ? "Loading...." : "Login"}
+                      {IsLoading ? `${translate("Loading....")}` : `${translate("Login")}`}
                     </button>
                   </div>
                   <div className="text-center">
@@ -113,7 +116,7 @@ export default function Login(props) {
                       className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
                       href="#"
                     >
-                      Forgot Password?
+                      {translate("Forgot Password?")}
                     </a>
                   </div>
                 </form>
