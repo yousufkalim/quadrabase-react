@@ -31,6 +31,7 @@ function LibraryReducer(state, action) {
       return { ...state, level3: obj };
     case anchorEl:
       return { ...state, anchorEl: action.anchorEl };
+
     case CLOSE_MODAL:
       return {
         ...state,

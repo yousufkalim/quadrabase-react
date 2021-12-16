@@ -21,5 +21,9 @@ const actionTypes = {
   ADD_WORK_DETAIL: "Add_Work_Detail_level3",
   EDIT_WORK_DETAIL: "Edit_level4",
   DELETE_WORK_DETAIL: "Delete_level4",
+
+  // up & down
+  LIBRARY_UP: "Up_level1",
+  LIBRARY_DOWN: "LIBRARY_DOWN",
 };
 export default actionTypes;

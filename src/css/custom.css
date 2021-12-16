@@ -1,3 +1,6 @@
 .ql-container {
   min-height: 5rem !important;
 }
+input[disabled] {
+  background-color: #e5e5e5;
+}

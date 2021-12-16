@@ -11,7 +11,7 @@ import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
