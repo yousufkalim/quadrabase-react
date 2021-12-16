@@ -9,6 +9,7 @@ export default function BasicModal(props) {
     left: "55%",
     transform: "translate(-50%, -50%)",
     width: props.width ? props.width : "60%",
+    height: props.height ? props.height : "60%",
 
     bgcolor: "background.paper",
     border: "none",
@@ -23,7 +24,7 @@ export default function BasicModal(props) {
       <Box sx={style}>
         <div className="flex justify-center">
           <h2 className="text-gray-600 capitalize font-semibold text-3xl">
-          {props.translate?props.translate(`${props.title}`):props.title}
+            {props.translate ? props.translate(`${props.title}`) : props.title}
           </h2>
         </div>
         {props.component}

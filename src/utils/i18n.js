@@ -72,7 +72,7 @@ i18n
           // set subscription
           "Set Subscription": "Set Subscription",
           "Select Subscription": "Select Subscription",
-          Save: "Save1",
+          Save: "Save",
           "Select An Option": "Select An Option",
           "3 months subscription": "3 months subscription",
           "6 months subscription": "6 months subscriptiondfre",

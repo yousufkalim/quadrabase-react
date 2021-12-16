@@ -1,6 +1,6 @@
 import React from "react";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 export default function index(props) {
   return (
     <div>
@@ -23,7 +23,7 @@ export default function index(props) {
               { indent: "-1" },
               { indent: "+1" },
             ],
-            ["link", "image", "video"],
+            // ["link", "image", "video"],
             ["clean"],
           ],
           clipboard: {

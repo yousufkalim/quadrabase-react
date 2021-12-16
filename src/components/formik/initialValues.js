@@ -43,6 +43,9 @@ export const CATEGORY_STATE = {
 export const WORK_STATE = {
   name: "",
   cctp_text: "",
+  unit: "",
+
+  providers: "",
 };
 export const WORK_DETAIL_STATE = {
   name: "",

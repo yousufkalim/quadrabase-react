@@ -13,6 +13,7 @@ export const initialState = {
   deletelibrary: false,
   libraryDeleteId: "",
   editlibraryId: "",
+
   // category
   addcategory: false,
   editcategory: false,
