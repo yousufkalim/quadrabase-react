@@ -154,8 +154,8 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
-            placeholder="service"
-            label="service"
+            placeholder="Service"
+            label="Service"
             name="service"
             onChange={formik.handleChange}
             value={formik.values.service}

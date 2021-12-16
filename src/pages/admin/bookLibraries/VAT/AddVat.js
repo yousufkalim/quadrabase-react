@@ -66,7 +66,7 @@ export default function AddExpense(props) {
           <TextInput
             type="number"
             placeholder="Ranking"
-            label="ranking"
+            label="Ranking"
             name="ranking"
             translate={translate}
             onChange={formik.handleChange}

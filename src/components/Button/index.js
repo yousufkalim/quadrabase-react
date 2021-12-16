@@ -28,6 +28,8 @@ const ColorButton = styled(Button, {
     borderRadius: "26px",
     border: defaultTheme == false ? "0.1px solid " : "none",
     textTransform: "none",
+    margin:
+      defaultTheme == false ? (paddingY ? "0px 20px 0px 0px" : "") : "",
     padding:
       defaultTheme == false ? (paddingY ? "0px 35px" : "5px 20px") : "5px 20px",
     "&:hover": {

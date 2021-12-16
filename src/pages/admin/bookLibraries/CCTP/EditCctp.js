@@ -76,7 +76,7 @@ export default function AddExpense(props) {
           <TextInput
             type="text"
             placeholder="Type"
-            label="type"
+            label="Type"
             name="type"
             translate={translate}
             onChange={formik.handleChange}
