@@ -63,7 +63,6 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
   return (
     <TableHead>
       <TableRow>
@@ -80,7 +79,7 @@ function EnhancedTableHead(props) {
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
-                {headCell.label}
+                {props.translate?props.translate(`${headCell.label}`):headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === "desc"
@@ -228,6 +227,7 @@ export default function EnhancedTable(props) {
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
+              translate={props.translate}
               headCells={props.headCells}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
@@ -342,6 +342,7 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[15, 30, 50, 100]}
           component="div"
+          labelRowsPerPage={props.translate?props.translate("Rows per page:"):""}
           count={props.data.length}
           rowsPerPage={rowsPerPage}
           page={page}

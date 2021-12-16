@@ -11,6 +11,7 @@ import TextInput from "../../../../components/TextInput";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
+  const {translate} = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -51,6 +52,7 @@ export default function AddExpense(props) {
             placeholder="Name"
             label="Name"
             name="name"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.name}
           />
@@ -66,6 +68,7 @@ export default function AddExpense(props) {
             placeholder="Symbol"
             label="Symbol"
             name="symbol"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.symbol}
           />
@@ -83,6 +86,7 @@ export default function AddExpense(props) {
             placeholder="Ranking"
             label="Ranking"
             name="ranking"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.ranking}
           />
@@ -99,12 +103,14 @@ export default function AddExpense(props) {
           <Button
             onClick={props.handleModal}
             label="Close"
+            translate={translate}
             backgroundColor={red}
             default={false}
           />
         </div>
         <div className=" ml-3">
           <Button
+          translate={translate}
             onClick={formik.handleSubmit}
             disabled={isLoading}
             label={isLoading ? "Creating" : "Create"}

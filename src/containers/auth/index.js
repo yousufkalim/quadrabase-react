@@ -29,7 +29,9 @@ function Dashboard(props) {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header />
+        <Header 
+        translate={translate} i18n={i18n}
+        />
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/auth/login" />

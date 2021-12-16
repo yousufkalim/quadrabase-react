@@ -11,6 +11,7 @@ import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
+  const {translate} = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -48,9 +49,10 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
-            placeholder="Full Name"
-            label="Full Name"
+            placeholder="First Name"
+            label="First Name"
             name="first_name"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.first_name}
           />
@@ -66,6 +68,7 @@ export default function AddExpense(props) {
             placeholder="Last Name"
             label="Last Name"
             name="last_name"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.last_name}
           />
@@ -83,6 +86,7 @@ export default function AddExpense(props) {
             placeholder="Email"
             label="Email"
             name="email"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.email}
           />
@@ -98,6 +102,7 @@ export default function AddExpense(props) {
             placeholder="Password"
             label="Password"
             name="password"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.password}
           />
@@ -115,6 +120,7 @@ export default function AddExpense(props) {
             placeholder="Confirm Password"
             label="Confirm Password"
             name="confirm_password"
+            translate={translate}
             onChange={formik.handleChange}
             value={formik.values.confirm_password}
           />
@@ -132,6 +138,7 @@ export default function AddExpense(props) {
           <Button
             onClick={props.handleModal}
             label="Close"
+            translate={translate}
             backgroundColor={red}
             default={false}
           />
@@ -140,6 +147,7 @@ export default function AddExpense(props) {
           <Button
             onClick={formik.handleSubmit}
             disabled={isLoading}
+            translate={translate}
             label={isLoading ? "Creating" : "Create"}
             default={true}
           />

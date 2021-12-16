@@ -14,7 +14,8 @@ import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props;
   const token = getToken();
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
@@ -94,14 +95,19 @@ export default function Index() {
         title="Add Provider"
         open={modal}
         onClose={handleModal}
-        component={<AddProvider handleModal={handleModal} />}
+        translate={translate}
+        component={<AddProvider 
+          translate={translate}
+          handleModal={handleModal} />}
       />
       <Modal
         title="Edit Provider"
         open={editmodal}
         onClose={handleEditModal}
+        translate={translate}
         component={
           <EditProvider
+            translate={translate}
             editData={editData}
             editmodal={editmodal}
             handleModal={handleEditModal}
@@ -116,6 +122,7 @@ export default function Index() {
         width="35%"
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
           />
@@ -124,17 +131,19 @@ export default function Index() {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">Providers</h1>
+            <h1 className="text-2xl font-bold">{translate("Providers")}</h1>
             <Button
               variant="outlined"
               label="Add Provider"
               onClick={handleModal}
+              translate={translate}
               startIcon={<AddIcon />}
             />
           </div>
           <ArchitectsTable
             headCells={ProviderheadCells}
             data={providersData}
+            translate={translate}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}

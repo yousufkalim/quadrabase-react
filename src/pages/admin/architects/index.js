@@ -116,7 +116,7 @@ export default function Index(props) {
           handleModal={handleModal} />}
       />
       <Modal
-        title={translate("Edit Architect")}
+        title="Edit Architect"
         open={editmodal}
         onClose={handleEditModal}
         translate={translate}
@@ -124,8 +124,7 @@ export default function Index(props) {
           <EditArchitect
             editData={editData}
             editmodal={editmodal}
-          translate={translate}
-
+            translate={translate}
             handleModal={handleEditModal}
             architectId={architectId}
           />
@@ -136,22 +135,23 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
-        translate={translate}
         component={
           <DeleteModal
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
+            translate={translate}
           />
         }
       />
       <Modal
-        title="Set Subscription"
+        title={translate("Set Subscription")}
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
         width="35%"
         translate={translate}
         component={
           <SubscriptionModal
+            translate={translate}
             handleModal={handleSubscriptionModal}
             architectId={subscriptionArchitextId}
             currentSubscription={currentSubscription}
@@ -163,6 +163,7 @@ export default function Index(props) {
           <div className="flex justify-between pb-3"t>
             <h1 className="text-2xl font-bold">{translate("Architects")}</h1>
             <Button
+             translate={translate}
               variant="outlined"
               label="Add Architect"
               onClick={handleModal}
@@ -172,6 +173,7 @@ export default function Index(props) {
           <ArchitectsTable
             headCells={ArchitectheadCells}
             data={architectsData}
+            translate={translate}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}

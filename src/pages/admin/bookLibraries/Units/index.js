@@ -14,7 +14,8 @@ import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props ;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -98,16 +99,21 @@ export default function Index() {
     <>
       <Modal
         title="Add Unit"
+        translate={translate}
         open={modal}
         onClose={handleModal}
-        component={<AddUnit handleModal={handleModal} />}
+        component={<AddUnit 
+          translate={translate}
+          handleModal={handleModal} />}
       />
       <Modal
-        title="Edit Edit"
+        title="Edit Unit"
         open={editmodal}
+        translate={translate}
         onClose={handleEditModal}
         component={
           <EditUnit
+            translate={translate}
             editData={editData}
             editmodal={editmodal}
             handleModal={handleEditModal}
@@ -122,6 +128,7 @@ export default function Index() {
         width="35%"
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
           />
@@ -130,10 +137,11 @@ export default function Index() {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">Units</h1>
+            <h1 className="text-2xl font-bold">{translate("Units")}</h1>
             <Button
               variant="outlined"
               label="Add Unit"
+              translate={translate}
               onClick={handleModal}
               startIcon={<AddIcon />}
             />
@@ -144,6 +152,7 @@ export default function Index() {
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}
+            translate={translate}
           />
         </div>
       </div>

@@ -14,7 +14,9 @@ import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../utils/Auth";
 
-export default function Index() {
+export default function Index(props) {
+  const {translate} = props;
+  //  console.log(translate);
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -99,12 +101,16 @@ export default function Index() {
       <Modal
         title="Add Admin"
         open={modal}
+        translate={translate}
         onClose={handleModal}
-        component={<AddAdmin handleModal={handleModal} />}
+        component={<AddAdmin 
+          translate={translate}
+          handleModal={handleModal} />}
       />
       <Modal
         title="Edit Admin"
         open={editmodal}
+        translate={translate}
         onClose={handleEditModal}
         component={
           <EditAdmin
@@ -112,6 +118,7 @@ export default function Index() {
             editmodal={editmodal}
             handleModal={handleEditModal}
             adminId={adminId}
+            translate={translate}
           />
         }
       />
@@ -124,22 +131,25 @@ export default function Index() {
           <DeleteModal
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
+            translate={translate}
           />
         }
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">Admins</h1>
+            <h1 className="text-2xl font-bold">{translate("Admins")}</h1>
             <Button
               variant="outlined"
               label="Add Admin"
               onClick={handleModal}
+              translate={translate}
               startIcon={<AddIcon />}
             />
           </div>
           <ArchitectsTable
             headCells={AdminheadCells}
+            translate={translate}
             data={adminsData}
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
