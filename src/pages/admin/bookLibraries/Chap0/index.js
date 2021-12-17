@@ -15,7 +15,7 @@ import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -47,9 +47,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier("Chap0 Deleted!", "success");
+      Notifier("Chap0 Deleted!", "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -103,9 +104,7 @@ export default function Index(props) {
         onClose={handleModal}
         width="30%"
         translate={translate}
-        component={<AddChap0 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={<AddChap0 translate={translate} handleModal={handleModal} />}
       />
       <Modal
         title="Edit Chap0"
@@ -131,7 +130,7 @@ export default function Index(props) {
         translate={translate}
         component={
           <DeleteModal
-          translate={translate}
+            translate={translate}
             handleClose={handleDeleteModal}
             handleDelete={handleDelete}
           />
@@ -150,7 +149,7 @@ export default function Index(props) {
             />
           </div>
           <UnitsTable
-             translate={translate}
+            translate={translate}
             headCells={Chap0headCells}
             data={adminsData}
             translate={translate}

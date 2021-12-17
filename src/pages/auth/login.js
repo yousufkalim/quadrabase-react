@@ -26,14 +26,14 @@ export default function Login(props) {
           data: values,
         });
         const { token, user } = response.data.result;
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         handleLogin(token, user);
         setIsRedirect(true);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
         if (err.response) {
-          Notifier(err.response.data.message, "error");
+          Notifier(err.response.data.message, "error", translate);
         }
         console.log("Errror->>>", err);
       }
@@ -108,7 +108,9 @@ export default function Login(props) {
                       type="submit"
                       disabled={IsLoading}
                     >
-                      {IsLoading ? `${translate("Loading....")}` : `${translate("Login")}`}
+                      {IsLoading
+                        ? `${translate("Loading....")}`
+                        : `${translate("Login")}`}
                     </button>
                   </div>
                   <div className="text-center">

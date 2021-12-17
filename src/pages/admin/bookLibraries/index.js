@@ -427,21 +427,30 @@ export default function Index(props) {
       <Modal
         title="Manage Families"
         width="40%"
+        translate={translate}
         open={state.managefamily}
-        component={<Families handleClose={handleClose} />}
+        component={<Families translate={translate} handleClose={handleClose} />}
       />
       <Modal
         title="Add Library"
         width="50%"
+        translate={translate}
         open={state.addlibrary}
-        component={<AddLibrary handleClose={handleClose} />}
+        component={
+          <AddLibrary translate={translate} handleClose={handleClose} />
+        }
       />
       <Modal
         title="Add Category"
         width="50%"
         open={state.addcategory}
+        translate={translate}
         component={
-          <AddCategory handleClose={handleClose} BookLibraryId={LevelID} />
+          <AddCategory
+            translate={translate}
+            handleClose={handleClose}
+            BookLibraryId={LevelID}
+          />
         }
       />
       <Modal
@@ -450,19 +459,35 @@ export default function Index(props) {
         height="95%"
         // left="50%"
         open={state.addwork}
-        component={<AddWork handleClose={handleClose} categoryId={LevelID} />}
+        translate={translate}
+        component={
+          <AddWork
+            translate={translate}
+            handleClose={handleClose}
+            categoryId={LevelID}
+          />
+        }
       />
       <Modal
         title="Add Work Detail"
         open={state.addworkdetail}
+        translate={translate}
         width="30%"
-        component={<AddWorkDetail handleClose={handleClose} workId={LevelID} />}
+        component={
+          <AddWorkDetail
+            translate={translate}
+            handleClose={handleClose}
+            workId={LevelID}
+          />
+        }
       />
       <Modal
         title="Edit Library"
+        translate={translate}
         open={state.editlibrary}
         component={
           <EditLibrary
+            translate={translate}
             editData={state.editLibraryData}
             editmodal={state.editlibrary}
             handleClose={handleClose}
@@ -473,8 +498,10 @@ export default function Index(props) {
       <Modal
         title="Edit Category"
         open={state.editcategory}
+        translate={translate}
         component={
           <EditCategory
+            translate={translate}
             editData={state.editCategoryData}
             editmodal={state.editcategory}
             handleClose={handleClose}
@@ -485,9 +512,11 @@ export default function Index(props) {
       <Modal
         title="Edit Work"
         open={state.editwork}
+        translate={translate}
         height="95%"
         component={
           <EditWork
+            translate={translate}
             editData={state.editWorkData}
             editmodal={state.editwork}
             handleClose={handleClose}
@@ -498,8 +527,10 @@ export default function Index(props) {
       <Modal
         title="Edit Work Detail"
         open={state.editworkdetail}
+        translate={translate}
         component={
           <EditWorkDetail
+            translate={translate}
             editData={state.editWorkDetailData}
             editmodal={state.editworkdetail}
             handleClose={handleClose}
@@ -511,6 +542,7 @@ export default function Index(props) {
         open={state.deletelibrary}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteLibrary}
           />
@@ -520,6 +552,7 @@ export default function Index(props) {
         open={state.deletecategory}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteCategory}
           />
@@ -529,6 +562,7 @@ export default function Index(props) {
         open={state.deletework}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWork}
           />
@@ -538,6 +572,7 @@ export default function Index(props) {
         open={state.deleteworkdetail}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWorkDetail}
           />
