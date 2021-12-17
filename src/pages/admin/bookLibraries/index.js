@@ -764,6 +764,7 @@ export default function Index(props) {
         open={state.deletelibrary}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteLibrary}
           />
@@ -773,6 +774,7 @@ export default function Index(props) {
         open={state.deletecategory}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteCategory}
           />
@@ -782,6 +784,7 @@ export default function Index(props) {
         open={state.deletework}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWork}
           />
@@ -791,6 +794,7 @@ export default function Index(props) {
         open={state.deleteworkdetail}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWorkDetail}
           />

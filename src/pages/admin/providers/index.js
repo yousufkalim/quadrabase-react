@@ -113,7 +113,11 @@ export default function Index(props) {
       <Modal
         title="List Of Works"
         open={providerModal}
-        height={provider && provider.works.length > 15 ? "60%" : "20%"}
+        height={
+          provider && provider.works && provider.works.length > 15
+            ? "60%"
+            : "20%"
+        }
         onClose={handleProvider}
         translate={translate}
         component={
