@@ -27,6 +27,8 @@ export default function Index(props) {
   const [architectDeleteId, setarchitectDeleteId] = React.useState("");
 
   const [architectsData, setarchitectsData] = React.useState([]);
+  const [architectData, setarchitectData] = React.useState("");
+
   const [editData, seteditData] = React.useState([]);
 
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
@@ -73,6 +75,7 @@ export default function Index(props) {
     if (id) {
       setSubscriptionArchitextId(id);
       let filteredData = architectsData.find((data) => data._id == id);
+      setarchitectData(filteredData);
       setCurrentSubscription(filteredData?.subscriptions);
     }
     setSubscriptionModal(!subscriptionModal);
@@ -156,6 +159,7 @@ export default function Index(props) {
             handleModal={handleSubscriptionModal}
             architectId={subscriptionArchitextId}
             currentSubscription={currentSubscription}
+            architectData={architectData}
           />
         }
       />

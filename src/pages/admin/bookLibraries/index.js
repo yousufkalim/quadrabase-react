@@ -31,9 +31,9 @@ export default function Index(props) {
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [librariesData, setlibrariesData] = React.useState([]);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [LevelID, setLevelID] = React.useState("");
+  const [Index, setIndex] = React.useState("");
+
   const [LibraryID, setLibraryID] = React.useState("");
   const [LevelData, setLevelData] = React.useState([]);
   const [Level, setLevel] = React.useState("");
@@ -47,6 +47,7 @@ export default function Index(props) {
       anchorEl: event.currentTarget,
     });
     setLevel(level);
+
     setLevelID(id);
     switch (level) {
       case "level0":
@@ -136,6 +137,9 @@ export default function Index(props) {
             deletelibrary: true,
             libraryDeleteId: LevelID,
           });
+          break;
+        case `Up_${Level}`:
+          handleLibraryUp(LevelID);
           break;
         default:
           break;
@@ -240,7 +244,38 @@ export default function Index(props) {
       managefamily: false,
     });
   };
+  const handleLibraryUp = async (id) => {
+    // setIndex(id);
+    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+    if (filteredIndex != 0) {
+      let tempArr = [...librariesData];
+      let prevIndex = filteredIndex - 1;
 
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        console.log("success");
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = librariesData[filteredIndex - 1];
+      tempArr[filteredIndex - 1] = librariesData[filteredIndex];
+      setlibrariesData(tempArr);
+    }
+  };
   //delete library
   const handleDeleteLibrary = async () => {
     try {
@@ -420,6 +455,9 @@ export default function Index(props) {
       />
       <Modal
         title="Add Work"
+        // width="100%"
+        height="95%"
+        // left="50%"
         open={state.addwork}
         translate={translate}
         component={
@@ -475,6 +513,7 @@ export default function Index(props) {
         title="Edit Work"
         open={state.editwork}
         translate={translate}
+        height="95%"
         component={
           <EditWork
             translate={translate}

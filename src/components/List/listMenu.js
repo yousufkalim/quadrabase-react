@@ -105,18 +105,13 @@ export default function CustomizedMenus(props) {
         </MenuItem>
         {/* <Divider sx={{ my: 0.5 }} /> */}
         <div style={{ paddingLeft: "0.6rem" }}>
-          {/* <MenuItem onClick={() => handleClick("Up")} disableRipple>
+          <MenuItem onClick={() => handleClick("Up")} disableRipple>
             Up
           </MenuItem>
-          <MenuItem onClick={props.onClose} disableRipple>
+          <MenuItem onClick={() => handleClick("Down")} disableRipple>
             Down
           </MenuItem>
-          <MenuItem onClick={props.onClose} disableRipple>
-            Rise
-          </MenuItem>
-          <MenuItem onClick={props.onClose} disableRipple>
-            Go Down
-          </MenuItem> */}
+
           {props.text && (
             <>
               <Divider sx={{ my: 0.5 }} />
