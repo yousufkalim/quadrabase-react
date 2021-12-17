@@ -13,6 +13,7 @@ import SelectField from "../../../components/SelectField";
 
 export default function AddExpense(props) {
   const token = getToken();
+  const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
   const [options, setOptions] = React.useState([]);
 
@@ -32,14 +33,14 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         setisLoading(false);
         props.handleClose();
 
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error");
+        Notifier(err.response.data.message, "error", translate);
 
         console.log("Errror->>>", err);
       }

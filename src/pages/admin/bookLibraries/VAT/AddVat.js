@@ -11,7 +11,7 @@ import TextInput from "../../../../components/TextInput";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
@@ -30,13 +30,13 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         setisLoading(false);
         props.handleModal();
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error");
+        Notifier(err.response.data.message, "error", translate);
 
         console.log("Errror->>>", err);
       }
@@ -66,7 +66,7 @@ export default function AddExpense(props) {
           <TextInput
             type="number"
             placeholder="Ranking"
-            label="ranking"
+            label="Ranking"
             name="ranking"
             translate={translate}
             onChange={formik.handleChange}

@@ -30,13 +30,13 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         setisLoading(false);
         props.handleModal();
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error");
+        Notifier(err.response.data.message, "error", translate);
 
         console.log("Errror->>>", err);
       }

@@ -12,6 +12,7 @@ import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
   const token = getToken();
+  const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
   const formik = useFormik({
     initialValues: WORK_DETAIL_STATE,
@@ -29,12 +30,12 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         setisLoading(false);
         props.handleClose();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error");
+        Notifier(err.response.data.message, "error", translate);
 
         console.log("Errror->>>", err);
       }

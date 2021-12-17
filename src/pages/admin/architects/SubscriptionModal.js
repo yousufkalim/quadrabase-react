@@ -11,7 +11,6 @@ import Notifier from "../../../utils/Notifier";
 
 const SubscriptionModal = (props) => {
   const { translate, architectData } = props;
-
   const token = getToken();
   const [value, setValue] = React.useState("");
   const [credit, setCredit] = React.useState(1);
@@ -39,16 +38,20 @@ const SubscriptionModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let response = await Axios({
-      method: "put",
-      url: `${baseUrl}/Architects/addsubscription/${props.architectId}`,
-      data: { subscriptionId: value, credit: credit },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    Notifier(response.data.message, "success");
-    props.handleModal();
+    try {
+      let response = await Axios({
+        method: "put",
+        url: `${baseUrl}/Architects/addsubscription/${props.architectId}`,
+        data: { subscriptionId: value },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      Notifier(response.data.message, "success", translate);
+      props.handleModal();
+    } catch (error) {
+      Notifier(error.response.data.message, "error", translate);
+    }
   };
 
   useEffect(() => {

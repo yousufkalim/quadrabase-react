@@ -51,9 +51,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);

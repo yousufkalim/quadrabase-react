@@ -15,7 +15,7 @@ import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props ;
+  const { translate } = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -47,9 +47,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier("Unit Deleted!", "success");
+      Notifier("Unit Deleted!", "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -102,9 +103,7 @@ export default function Index(props) {
         translate={translate}
         open={modal}
         onClose={handleModal}
-        component={<AddUnit 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={<AddUnit translate={translate} handleModal={handleModal} />}
       />
       <Modal
         title="Edit Unit"

@@ -10,6 +10,7 @@ import { getToken } from "../../../../utils/Auth";
 import Notifier from "../../../../utils/Notifier";
 export default function Index(props) {
   const token = getToken();
+  const { translate } = props;
   const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
 
@@ -32,10 +33,10 @@ export default function Index(props) {
       setisLoading(false);
 
       setData(data);
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (err) {
       setisLoading(false);
-      Notifier(err.response.data.message, "error");
+      Notifier(err.response.data.message, "error", translate);
 
       console.log("Errror->>>", err);
     }
@@ -55,10 +56,10 @@ export default function Index(props) {
       setisLoading(false);
 
       setData(data);
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (err) {
       setisLoading(false);
-      Notifier(err.response.data.message, "error");
+      Notifier(err.response.data.message, "error", translate);
 
       console.log("Errror->>>", err);
     }
@@ -79,10 +80,10 @@ export default function Index(props) {
       setisLoading(false);
 
       setData(data);
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (err) {
       setisLoading(false);
-      Notifier(err.response.data.message, "error");
+      Notifier(err.response.data.message, "error", translate);
 
       console.log("Errror->>>", err);
     }

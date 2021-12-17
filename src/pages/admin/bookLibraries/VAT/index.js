@@ -15,7 +15,7 @@ import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -47,9 +47,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier("VAT Deleted!", "success");
+      Notifier("VAT Deleted!", "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -102,9 +103,7 @@ export default function Index(props) {
         open={modal}
         translate={translate}
         onClose={handleModal}
-        component={<AddVat 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={<AddVat translate={translate} handleModal={handleModal} />}
       />
       <Modal
         title="Edit VAT"
@@ -113,7 +112,7 @@ export default function Index(props) {
         onClose={handleEditModal}
         component={
           <EditVat
-          translate={translate}
+            translate={translate}
             editData={editData}
             editmodal={editmodal}
             handleModal={handleEditModal}

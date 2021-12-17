@@ -46,24 +46,11 @@ function Header(props) {
 
           {/* Header: Right side */}
           <div className="flex items-center">
-          <Button
-         label={language == "fr" ? "English" : "French"} 
-              onClick={() =>
-                changeLanguage(`${language == "en" ? "fr" : "en"}`)
-              }
-              borderColor={'#74bcfc'}
-             backgroundColor={'transparent'}
-              default={false}
-              paddingY={true}
-              color="#74bcfc"
-              startIcon={
-              <IconButton >
-                <LanguageIcon style={{color:'#74bcfc'}}/>
-              </IconButton>}
-            />
+        
             <SearchModal />
             <Notifications />
-            <Help />
+            <Help lang={true} i18n={i18n}/>
+            {/* <Help /> */}
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 mx-3" />
             <UserMenu />

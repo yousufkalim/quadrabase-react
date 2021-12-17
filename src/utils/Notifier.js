@@ -1,7 +1,9 @@
 import toast from "react-hot-toast";
 
-const Notifier = (message, status) =>
-  toast[status](message, {
+const Notifier = (message, status, translate = (message) => message) => {
+  let customMessage = translate(message);
+
+  toast[status](customMessage, {
     duration: 3000,
     position: "top-center",
     // Styling
@@ -20,4 +22,5 @@ const Notifier = (message, status) =>
       "aria-live": "polite",
     },
   });
+};
 export default Notifier;
