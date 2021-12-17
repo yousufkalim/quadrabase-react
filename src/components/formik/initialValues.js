@@ -34,6 +34,7 @@ export const PROVIDER_STATE = {
 export const LIBRARY_STATE = {
   name: "",
   cctp_text: "",
+  familyId: "",
 };
 export const CATEGORY_STATE = {
   name: "",

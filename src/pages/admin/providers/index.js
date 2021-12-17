@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ArchitectsTable from "../../../components/Table";
 import Button from "../../../components/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,6 +8,7 @@ import Notifier from "../../../utils/Notifier";
 
 import AddProvider from "./addProvider";
 import EditProvider from "./editProvider";
+import ListOfWork from "./listOfWork";
 
 import { ProviderheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
@@ -20,9 +21,13 @@ export default function Index(props) {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
+  const [providerModal, setproviderModal] = React.useState(false);
+  const [provider, setprovider] = useState([]);
+
   const [headCells, setheadCells] = React.useState("");
 
   const [providerId, setproviderId] = React.useState("");
+
   const [providerDeleteId, setproviderDeleteId] = React.useState("");
 
   const [providersData, setprovidersData] = React.useState([]);
@@ -62,7 +67,11 @@ export default function Index(props) {
     }
     seteditModal(!editmodal);
   };
-
+  const handleProvider = (id) => {
+    let filteredData = providersData.find((data) => data._id == id);
+    setprovider(filteredData);
+    setproviderModal(!providerModal);
+  };
   const getProviders = async () => {
     try {
       let response = await Axios({
@@ -95,6 +104,7 @@ export default function Index(props) {
       <Modal
         title="Add Provider"
         open={modal}
+        height="70%"
         onClose={handleModal}
         translate={translate}
         component={
@@ -102,8 +112,27 @@ export default function Index(props) {
         }
       />
       <Modal
+        title="List Of Works"
+        open={providerModal}
+        height={
+          provider && provider.works && provider.works.length > 15
+            ? "60%"
+            : "20%"
+        }
+        onClose={handleProvider}
+        translate={translate}
+        component={
+          <ListOfWork
+            translate={translate}
+            handleModal={handleProvider}
+            provider={provider}
+          />
+        }
+      />
+      <Modal
         title="Edit Provider"
         open={editmodal}
+        height="70%"
         onClose={handleEditModal}
         translate={translate}
         component={
@@ -121,6 +150,7 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        height="40%"
         component={
           <DeleteModal
             translate={translate}
@@ -129,6 +159,7 @@ export default function Index(props) {
           />
         }
       />
+
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
@@ -148,6 +179,8 @@ export default function Index(props) {
             handleEdit={handleEditModal}
             handleDelete={handleDeleteModal}
             rows={headCells}
+            provider={true}
+            handleProvider={handleProvider}
           />
         </div>
       </div>

@@ -9,6 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import RichTextEditor from "../../../components/RichTextEditor";
+import SelectField from "../../../components/SelectField";
 
 import { red } from "@mui/material/colors";
 
@@ -16,6 +17,8 @@ export default function AddExpense(props) {
   const token = getToken();
   const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
+  const [familiesOptions, setFamilies] = React.useState([]);
+
   const [cctp_text1, setcctp_text1] = React.useState("");
   const [cctp_text2, setcctp_text2] = React.useState("");
   const [cctp_text3, setcctp_text3] = React.useState("");
@@ -32,7 +35,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text3);
       cctp_text.push(cctp_text4);
       values.cctp_text = cctp_text;
-
+      values.ranking = props.librariesData.length;
       try {
         let response = await Axios({
           method: "post",
@@ -55,9 +58,54 @@ export default function AddExpense(props) {
       }
     },
   });
+  const getBookLibraries = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Families/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
 
+      setFamilies(data);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+    //}
+  };
+  React.useEffect(() => {
+    getBookLibraries();
+  }, []);
   return (
     <form className="w-full  pt-9">
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <TextInput
+            type="text"
+            placeholder="Name"
+            label="Name"
+            name="name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.name && formik.errors.name ? (
+              <small>{formik.errors.name}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <SelectField
+            name="familyId"
+            label="Select Family"
+            value={formik.values.familyId}
+            onChange={formik.handleChange}
+            options={familiesOptions}
+          />
+        </div>
+      </div>
       <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <RichTextEditor
@@ -90,23 +138,7 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <TextInput
-            type="text"
-            placeholder="Name"
-            label="Name"
-            name="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
+
       <div className="flex pt-5 justify-end ">
         <div className="">
           <Button

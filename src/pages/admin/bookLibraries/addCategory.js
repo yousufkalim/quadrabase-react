@@ -59,40 +59,8 @@ export default function AddExpense(props) {
 
   return (
     <form className="w-full  pt-9">
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <RichTextEditor
-            onChange={(value) => setcctp_text1(value)}
-            value={cctp_text1}
-            label={"CCTP 1"}
-          />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <RichTextEditor
-            onChange={(value) => setcctp_text2(value)}
-            value={cctp_text2}
-            label={"CCTP 2"}
-          />
-        </div>
-      </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <RichTextEditor
-            onChange={(value) => setcctp_text3(value)}
-            value={cctp_text3}
-            label={"CCTP 3"}
-          />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <RichTextEditor
-            onChange={(value) => setcctp_text4(value)}
-            value={cctp_text4}
-            label={"CCTP 4"}
-          />
-        </div>
-      </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+      <div className="flex no-wrap  -mx-3 mb-3">
+        <div className="w-full  px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
             placeholder="Name"
@@ -108,6 +76,39 @@ export default function AddExpense(props) {
           </div>
         </div>
       </div>
+      <div className="flex no-wrap  -mx-3 mb-3">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text1(value)}
+            value={cctp_text1}
+            label={"CCTP 1"}
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text2(value)}
+            value={cctp_text2}
+            label={"CCTP 2"}
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text4(value)}
+            value={cctp_text4}
+            label={"CCTP 4"}
+          />
+        </div>
+      </div>
+      <div className="flex no-wrap  -mx-3 mb-3">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text3(value)}
+            value={cctp_text3}
+            label={"CCTP 3"}
+          />
+        </div>
+      </div>
+
       <div className="flex pb-2 justify-end ">
         <div className="">
           <Button
