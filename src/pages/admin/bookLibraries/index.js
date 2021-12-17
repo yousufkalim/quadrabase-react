@@ -27,7 +27,7 @@ import { initialState } from "./initialState";
 import actionTypes from "./actionTypes";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [librariesData, setlibrariesData] = React.useState([]);
@@ -394,18 +394,16 @@ export default function Index(props) {
         width="40%"
         translate={translate}
         open={state.managefamily}
-        component={<Families 
-          translate={translate}
-          handleClose={handleClose} />}
+        component={<Families translate={translate} handleClose={handleClose} />}
       />
       <Modal
         title="Add Library"
         width="50%"
         translate={translate}
         open={state.addlibrary}
-        component={<AddLibrary 
-          translate={translate}
-          handleClose={handleClose} />}
+        component={
+          <AddLibrary translate={translate} handleClose={handleClose} />
+        }
       />
       <Modal
         title="Add Category"
@@ -413,27 +411,37 @@ export default function Index(props) {
         open={state.addcategory}
         translate={translate}
         component={
-          <AddCategory 
-          translate={translate}
-          handleClose={handleClose} BookLibraryId={LevelID} />
+          <AddCategory
+            translate={translate}
+            handleClose={handleClose}
+            BookLibraryId={LevelID}
+          />
         }
       />
       <Modal
         title="Add Work"
         open={state.addwork}
         translate={translate}
-        component={<AddWork 
-          translate={translate}
-          handleClose={handleClose} categoryId={LevelID} />}
+        component={
+          <AddWork
+            translate={translate}
+            handleClose={handleClose}
+            categoryId={LevelID}
+          />
+        }
       />
       <Modal
         title="Add Work Detail"
         open={state.addworkdetail}
         translate={translate}
         width="30%"
-        component={<AddWorkDetail 
-          translate={translate}
-          handleClose={handleClose} workId={LevelID} />}
+        component={
+          <AddWorkDetail
+            translate={translate}
+            handleClose={handleClose}
+            workId={LevelID}
+          />
+        }
       />
       <Modal
         title="Edit Library"
@@ -441,6 +449,7 @@ export default function Index(props) {
         open={state.editlibrary}
         component={
           <EditLibrary
+            translate={translate}
             editData={state.editLibraryData}
             editmodal={state.editlibrary}
             handleClose={handleClose}
@@ -454,7 +463,7 @@ export default function Index(props) {
         translate={translate}
         component={
           <EditCategory
-          translate={translate}
+            translate={translate}
             editData={state.editCategoryData}
             editmodal={state.editcategory}
             handleClose={handleClose}
@@ -494,6 +503,7 @@ export default function Index(props) {
         open={state.deletelibrary}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteLibrary}
           />
@@ -503,6 +513,7 @@ export default function Index(props) {
         open={state.deletecategory}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteCategory}
           />
@@ -512,6 +523,7 @@ export default function Index(props) {
         open={state.deletework}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWork}
           />
@@ -521,6 +533,7 @@ export default function Index(props) {
         open={state.deleteworkdetail}
         component={
           <DeleteModal
+            translate={translate}
             handleClose={handleClose}
             handleDelete={handleDeleteWorkDetail}
           />

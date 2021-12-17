@@ -15,7 +15,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
@@ -46,9 +46,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -96,9 +97,9 @@ export default function Index(props) {
         open={modal}
         onClose={handleModal}
         translate={translate}
-        component={<AddProvider 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={
+          <AddProvider translate={translate} handleModal={handleModal} />
+        }
       />
       <Modal
         title="Edit Provider"

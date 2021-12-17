@@ -14,6 +14,7 @@ import RichTextEditor from "../../../components/RichTextEditor";
 
 export default function AddExpense(props) {
   const token = getToken();
+  const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
   const [cctp_text1, setcctp_text1] = React.useState("");
   const [cctp_text2, setcctp_text2] = React.useState("");
@@ -44,12 +45,12 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success");
+        Notifier(response.data.message, "success", translate);
         setisLoading(false);
         props.handleClose();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error");
+        Notifier(err.response.data.message, "error", translate);
 
         console.log("Errror->>>", err);
       }

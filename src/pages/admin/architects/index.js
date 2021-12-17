@@ -16,7 +16,7 @@ import { getToken } from "../../../utils/Auth";
 import SubscriptionModal from "./SubscriptionModal";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
@@ -52,9 +52,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -107,13 +108,13 @@ export default function Index(props) {
   return (
     <>
       <Modal
-        title={translate("Add Architect")} 
+        title={translate("Add Architect")}
         open={modal}
         onClose={handleModal}
         translate={translate}
-        component={<AddArchitect
-          translate={translate}
-          handleModal={handleModal} />}
+        component={
+          <AddArchitect translate={translate} handleModal={handleModal} />
+        }
       />
       <Modal
         title="Edit Architect"
@@ -160,10 +161,10 @@ export default function Index(props) {
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
-          <div className="flex justify-between pb-3"t>
+          <div className="flex justify-between pb-3" t>
             <h1 className="text-2xl font-bold">{translate("Architects")}</h1>
             <Button
-             translate={translate}
+              translate={translate}
               variant="outlined"
               label="Add Architect"
               onClick={handleModal}

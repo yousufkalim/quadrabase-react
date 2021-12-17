@@ -8,7 +8,7 @@ import { getToken } from "../../../utils/Auth";
 import Notifier from "../../../utils/Notifier";
 
 const SubscriptionModal = (props) => {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const [value, setValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -34,16 +34,20 @@ const SubscriptionModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let response = await Axios({
-      method: "put",
-      url: `${baseUrl}/Architects/addsubscription/${props.architectId}`,
-      data: { subscriptionId: value },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    Notifier(response.data.message, "success");
-    props.handleModal();
+    try {
+      let response = await Axios({
+        method: "put",
+        url: `${baseUrl}/Architects/addsubscription/${props.architectId}`,
+        data: { subscriptionId: value },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      Notifier(response.data.message, "success", translate);
+      props.handleModal();
+    } catch (error) {
+      Notifier(error.response.data.message, "error", translate);
+    }
   };
 
   useEffect(() => {
@@ -76,7 +80,12 @@ const SubscriptionModal = (props) => {
           />
         </div>
         <div className=" ml-3">
-          <Button onClick={handleSubmit} label="Save" default={true}  translate={translate} />
+          <Button
+            onClick={handleSubmit}
+            label="Save"
+            default={true}
+            translate={translate}
+          />
         </div>
       </div>
     </form>

@@ -15,7 +15,7 @@ import { baseUrl } from "../../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props;
+  const { translate } = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -47,9 +47,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier("CCTP Deleted!", "success");
+      Notifier("CCTP Deleted!", "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -100,11 +101,8 @@ export default function Index(props) {
       <Modal
         title="Add CCTP"
         open={modal}
-        
         onClose={handleModal}
-        component={<AddCctp 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={<AddCctp translate={translate} handleModal={handleModal} />}
       />
       <Modal
         title="Edit CCTP"

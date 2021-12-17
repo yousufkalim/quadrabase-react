@@ -15,8 +15,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../utils/Auth";
 
 export default function Index(props) {
-  const {translate} = props;
-  //  console.log(translate);
+  const { translate } = props;
   const token = getToken();
   const USER = getUser();
   const [modal, setModal] = React.useState(false);
@@ -48,9 +47,10 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -62,7 +62,8 @@ export default function Index(props) {
         let filteredData = adminsData.find((data) => data._id == id);
         seteditData(filteredData);
       } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
+        if (error.response)
+          Notifier(error.response.data.message, "error ", translate);
       }
     }
     seteditModal(!editmodal);
@@ -81,7 +82,8 @@ export default function Index(props) {
       let newData = data.filter((dat) => dat.email !== USER.email);
       setadminsData(newData);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
     //}
   };
@@ -103,9 +105,7 @@ export default function Index(props) {
         open={modal}
         translate={translate}
         onClose={handleModal}
-        component={<AddAdmin 
-          translate={translate}
-          handleModal={handleModal} />}
+        component={<AddAdmin translate={translate} handleModal={handleModal} />}
       />
       <Modal
         title="Edit Admin"
