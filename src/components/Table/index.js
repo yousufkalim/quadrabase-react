@@ -79,7 +79,9 @@ function EnhancedTableHead(props) {
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
-                {props.translate?props.translate(`${headCell.label}`):headCell.label}
+                {props.translate
+                  ? props.translate(`${headCell.label}`)
+                  : headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === "desc"
@@ -308,7 +310,15 @@ export default function EnhancedTable(props) {
                             <PostAddIcon />
                           </IconButton>
                         )}
-
+                        {props.provider && (
+                          <IconButton
+                            color="info"
+                            aria-label="edit"
+                            onClick={() => props.handleProvider(row._id)}
+                          >
+                            <PostAddIcon />
+                          </IconButton>
+                        )}
                         <IconButton
                           color="info"
                           aria-label="edit"
@@ -342,7 +352,9 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[15, 30, 50, 100]}
           component="div"
-          labelRowsPerPage={props.translate?props.translate("Rows per page:"):""}
+          labelRowsPerPage={
+            props.translate ? props.translate("Rows per page:") : ""
+          }
           count={props.data.length}
           rowsPerPage={rowsPerPage}
           page={page}

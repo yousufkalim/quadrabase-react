@@ -91,6 +91,7 @@ export default function Index(props) {
   };
   const handleLibraryData = (id) => {
     let filteredData = handleEditLibrary(id);
+
     setLevelData(filteredData);
   };
 
@@ -141,6 +142,9 @@ export default function Index(props) {
         case `Up_${Level}`:
           handleLibraryUp(LevelID);
           break;
+        case `Down_${Level}`:
+          handleLibraryDown(LevelID);
+          break;
         default:
           break;
       }
@@ -168,6 +172,13 @@ export default function Index(props) {
             categoryDeleteId: LevelID,
           });
           break;
+        case `Up_${Level}`:
+          handleCategoryUp(LevelID);
+          break;
+        case `Down_${Level}`:
+          handleCategoryDown(LevelID);
+          break;
+
         default:
           break;
       }
@@ -196,6 +207,12 @@ export default function Index(props) {
             workDeleteId: LevelID,
           });
           break;
+        case `Up_${Level}`:
+          handleWorkUp(LevelID);
+          break;
+        case `Down_${Level}`:
+          handleWorkDown(LevelID);
+          break;
         default:
           break;
       }
@@ -217,6 +234,12 @@ export default function Index(props) {
             deleteworkdetail: true,
             workDetailDeleteId: LevelID,
           });
+          break;
+        case `Up_${Level}`:
+          handleWorkDetailUp(LevelID);
+          break;
+        case `Down_${Level}`:
+          handleWorkDetailDown(LevelID);
           break;
         default:
           break;
@@ -244,6 +267,7 @@ export default function Index(props) {
       managefamily: false,
     });
   };
+  //LibraryUp
   const handleLibraryUp = async (id) => {
     // setIndex(id);
     let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
@@ -261,7 +285,6 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       }).then(() => {
-        console.log("success");
         Axios({
           method: "put",
           url: `${baseUrl}/BookLibraries/${prev._id}`,
@@ -274,6 +297,226 @@ export default function Index(props) {
       tempArr[filteredIndex] = librariesData[filteredIndex - 1];
       tempArr[filteredIndex - 1] = librariesData[filteredIndex];
       setlibrariesData(tempArr);
+    }
+  };
+  //Library Down
+  const handleLibraryDown = async (id) => {
+    // setIndex(id);
+    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== librariesData.length - 1) {
+      let tempArr = [...librariesData];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/${id}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = librariesData[nextIndex];
+      tempArr[nextIndex] = librariesData[filteredIndex];
+      setlibrariesData(tempArr);
+    }
+  };
+  //categoryUp
+  const handleCategoryUp = async (id) => {
+    // setIndex(id);
+    let categories = LevelData.categories;
+    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== 0) {
+      let tempArr = [...categories];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editCategory/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editCategory/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+    }
+  };
+  //categoryDown
+  const handleCategoryDown = async (id) => {
+    // setIndex(id);
+    let categories = LevelData.categories;
+    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== categories.length - 1) {
+      let tempArr = [...categories];
+      let prevIndex = filteredIndex + 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editCategory/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editCategory/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+    }
+  };
+  //workUp
+  const handleWorkUp = async (id) => {
+    // setIndex(id);
+
+    let works = LevelData.works;
+    let filteredIndex = works.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== 0) {
+      let tempArr = [...works];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWork/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editWork/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+    }
+  };
+  //workDown
+  const handleWorkDown = async (id) => {
+    // setIndex(id);
+    let works = LevelData.works;
+    let filteredIndex = works.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== works.length - 1) {
+      let tempArr = [...works];
+      let prevIndex = filteredIndex + 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWork/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editWork/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+    }
+  };
+
+  //workdetailUp
+  const handleWorkDetailUp = async (id) => {
+    // setIndex(id);
+    let work_details = LevelData.work_details;
+    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== 0) {
+      let tempArr = [...work_details];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editWorkDetail/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+    }
+  };
+  //workdetailDown
+  const handleWorkDetailDown = async (id) => {
+    // setIndex(id);
+    let work_details = LevelData.work_details;
+    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== work_details.length - 1) {
+      let tempArr = [...work_details];
+      let prevIndex = filteredIndex + 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/BookLibraries/editWorkDetail/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
     }
   };
   //delete library
@@ -382,6 +625,12 @@ export default function Index(props) {
         },
       });
       let data = response.data.bookLibraries;
+      data.map((dt) => {
+        dt.categories = dt.categories.sort((a, b) => a.ranking - b.ranking);
+        dt.works = dt.works.sort((a, b) => a.ranking - b.ranking);
+        dt.work_details = dt.work_details.sort((a, b) => a.ranking - b.ranking);
+      });
+
       setlibrariesData(data);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
@@ -432,13 +681,16 @@ export default function Index(props) {
       />
       <Modal
         title="Add Library"
-        width="50%"
+        height="60%"
         open={state.addlibrary}
-        component={<AddLibrary handleClose={handleClose} />}
+        component={
+          <AddLibrary librariesData={librariesData} handleClose={handleClose} />
+        }
       />
       <Modal
         title="Add Category"
-        width="50%"
+        // width="50%"
+        height="65%"
         open={state.addcategory}
         component={
           <AddCategory handleClose={handleClose} BookLibraryId={LevelID} />
@@ -460,6 +712,7 @@ export default function Index(props) {
       />
       <Modal
         title="Edit Library"
+        height="60%"
         open={state.editlibrary}
         component={
           <EditLibrary

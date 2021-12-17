@@ -9,7 +9,6 @@ import { Redirect } from "react-router-dom";
 import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
 export default function Login(props) {
-  console.log(props, "props");
   const { translate } = props;
   const [IsLoading, setIsLoading] = React.useState(false);
   const [IsRedirect, setIsRedirect] = React.useState(false);
@@ -108,7 +107,9 @@ export default function Login(props) {
                       type="submit"
                       disabled={IsLoading}
                     >
-                      {IsLoading ? `${translate("Loading....")}` : `${translate("Login")}`}
+                      {IsLoading
+                        ? `${translate("Loading....")}`
+                        : `${translate("Login")}`}
                     </button>
                   </div>
                   <div className="text-center">

@@ -9,7 +9,7 @@ export default function BasicModal(props) {
     left: "55%",
     transform: "translate(-50%, -50%)",
     width: props.width ? props.width : "60%",
-    height: props.height ? props.height : "60%",
+    height: props.height ? props.height : "70%",
 
     bgcolor: "background.paper",
     border: "none",
