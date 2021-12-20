@@ -11,6 +11,7 @@ import TextInput from "../../../components/TextInput";
 import SelectField from "../../../components/SelectField";
 import AddMemoizedProvider from "./addMemoizedProvider";
 import AddMemoizedProviders from "./addMemoizedProviders";
+import DocViewer from "../../../components/DocViewer";
 
 import { red } from "@mui/material/colors";
 import RichTextEditor from "../../../components/RichTextEditor";
@@ -43,6 +44,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text4);
       values.cctp_text = cctp_text;
       values.providers = ProviderDataArr;
+
       try {
         let response = await Axios({
           method: "put",
@@ -106,10 +108,12 @@ export default function AddExpense(props) {
     setProviderDataArr([...ProviderDataArr, obj]);
   };
   const handleUpdate = (obj) => {
+    console.log(obj, "obj");
     let filteredIndex = ProviderDataArr.findIndex(
-      (dt) => dt.provider !== obj.provider
+      (dt) => dt.provider == obj.provider
     );
     ProviderDataArr[filteredIndex] = obj;
+    setProviderDataArr(ProviderDataArr);
   };
   React.useEffect(() => {
     let editData = props.editData;
@@ -133,7 +137,7 @@ export default function AddExpense(props) {
     }
   }, [props.editmodal]);
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full  pt-1">
       <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
@@ -209,7 +213,7 @@ export default function AddExpense(props) {
         <div className="w-full   ">
           {ProviderDataArr && ProviderDataArr.length > 0 ? (
             <>
-              <div className="h-44 overflow-y-auto border px-10 py-3">
+              <div className="h-72 overflow-y-auto border px-10 py-3">
                 {ProviderDataArr &&
                   ProviderDataArr.map(({ documents, provider }, index) => (
                     <div key={index} className="mt-2">
@@ -221,6 +225,13 @@ export default function AddExpense(props) {
                         onDelete={() => handleDelete(provider)}
                         handleUpdate={handleUpdate}
                       />
+                      <div>
+                        <DocViewer
+                          documents={documents}
+                          height="200"
+                          delete={true}
+                        />
+                      </div>
                     </div>
                   ))}
               </div>
