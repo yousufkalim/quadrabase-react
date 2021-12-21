@@ -14,7 +14,7 @@ import AddMemoizedProviders from "./addMemoizedProviders";
 
 import { red } from "@mui/material/colors";
 import RichTextEditor from "../../../components/RichTextEditor";
-
+import DocViewer from "../../../components/DocViewer";
 export default function AddExpense(props) {
   const token = getToken();
   const { translate } = props;
@@ -112,8 +112,8 @@ export default function AddExpense(props) {
     ProviderDataArr[filteredIndex] = obj;
   };
   return (
-    <form className="w-full  pt-9">
-      <div className="flex no-wrap  -mx-3 mb-3">
+    <form className="w-full  pt-1">
+      <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
@@ -123,11 +123,11 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.name}
           />
-          <div className="text-red-600 ">
+          <small className="text-red-600 ">
             {formik.touched.name && formik.errors.name ? (
               <small>{formik.errors.name}</small>
             ) : null}
-          </div>
+          </small>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <SelectField
@@ -188,7 +188,7 @@ export default function AddExpense(props) {
         <div className="w-full   ">
           {ProviderDataArr && ProviderDataArr.length > 0 ? (
             <>
-              <div className="h-44 overflow-y-auto border px-10 py-3">
+              <div className="h-80 overflow-y-auto border px-10 py-1">
                 {ProviderDataArr &&
                   ProviderDataArr.map(({ documents, provider }, index) => (
                     <div key={index} className="mt-2">
@@ -200,6 +200,9 @@ export default function AddExpense(props) {
                         onDelete={() => handleDelete(provider)}
                         handleUpdate={handleUpdate}
                       />
+                      <div>
+                        <DocViewer documents={documents} height="200" />
+                      </div>
                     </div>
                   ))}
               </div>
@@ -208,7 +211,7 @@ export default function AddExpense(props) {
             ""
           )}
         </div>
-        <div className="flex pb-2 pt-6  self-end	items-end justify-end  ">
+        <div className="flex  pt-2  self-end	items-end justify-end  ">
           <div className="">
             <Button
               onClick={() => props.handleClose()}

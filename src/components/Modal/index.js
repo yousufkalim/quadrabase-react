@@ -6,7 +6,7 @@ export default function BasicModal(props) {
   const style = {
     position: "absolute",
     top: "50%",
-    left: "55%",
+    left: props.left ? props.left : "55%",
     transform: "translate(-50%, -50%)",
     width: props.width ? props.width : "60%",
     height: props.height ? props.height : "70%",

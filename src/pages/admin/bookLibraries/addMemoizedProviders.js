@@ -28,11 +28,12 @@ function Index(props) {
     } else {
       setdocErrorMessage("");
       settestErrorMessage("");
-
+      console.log(documents, "documents");
       let obj = { provider: Name, documents: documents };
       props.handleUpdate(obj, props._id);
     }
   };
+  console.log(documents, "documents2");
 
   useEffect(() => {
     setName(props.name);
@@ -51,15 +52,20 @@ function Index(props) {
         url: `${baseUrl}/fileUploader`,
         data: form_data,
       });
-      let documents = response.data.files;
-      setDocuments(documents);
+      let document = response.data.files;
+      if (documents && documents.length > 0) {
+        let newArray = documents.concat(document);
+        setDocuments(newArray);
+      } else {
+        setDocuments(document);
+      }
     } catch (error) {
       console.log(error?.response?.data?.message, "error ");
     }
   };
   return (
     <div>
-      <form className="w-full   ">
+      <form className="w-full  py-1 ">
         <div className="flex no-wrap  -mx-3 ">
           <div className="w-full  pt-0.5 px-1 ">
             <SelectField
@@ -86,7 +92,7 @@ function Index(props) {
               disabled={Edit ? false : true}
               onChange={handleFileChange}
               value={documents}
-              multiple={false}
+              multiple={true}
             />
             <div className="text-red-600 ">
               <small>{docErrorMessage}</small>

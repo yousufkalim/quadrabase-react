@@ -686,7 +686,11 @@ export default function Index(props) {
         translate={translate}
         open={state.addlibrary}
         component={
-          <AddLibrary librariesData={librariesData} translate={translate} handleClose={handleClose} />
+          <AddLibrary
+            librariesData={librariesData}
+            translate={translate}
+            handleClose={handleClose}
+          />
         }
       />
       <Modal
@@ -705,9 +709,9 @@ export default function Index(props) {
       />
       <Modal
         title="Add Work"
-        // width="100%"
-        height="95%"
-        // left="50%"
+        width="70%"
+        height="98%"
+        left="50%"
         open={state.addwork}
         translate={translate}
         component={
@@ -764,7 +768,9 @@ export default function Index(props) {
         title="Edit Work"
         open={state.editwork}
         translate={translate}
-        height="95%"
+        width="70%"
+        height="98%"
+        left="50%"
         component={
           <EditWork
             translate={translate}
