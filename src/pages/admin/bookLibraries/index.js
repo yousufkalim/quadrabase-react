@@ -342,7 +342,6 @@ export default function Index(props) {
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
-
       Axios({
         method: "put",
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
@@ -358,7 +357,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };
@@ -389,7 +388,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };
@@ -421,7 +420,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };
@@ -452,7 +451,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };
@@ -484,7 +483,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };
@@ -515,7 +514,7 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => handleanchorElClose());
       });
     }
   };

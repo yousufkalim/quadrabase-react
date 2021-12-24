@@ -33,7 +33,6 @@ function Index(props) {
       props.handleUpdate(obj, props._id);
     }
   };
-  console.log(documents, "documents2");
 
   useEffect(() => {
     setName(props.name);
