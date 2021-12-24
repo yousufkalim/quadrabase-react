@@ -75,6 +75,23 @@ export default function AddExpense(props) {
   return (
     <form className="w-full  pt-9">
       <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full  px-3 mb-6 md:mb-0 ">
+          <TextInput
+            type="text"
+            placeholder="Name"
+            label="Name"
+            name="name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.name && formik.errors.name ? (
+              <small>{formik.errors.name}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <RichTextEditor
             onChange={(value) => setcctp_text1(value)}
@@ -106,23 +123,7 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <TextInput
-            type="text"
-            placeholder="Name"
-            label="Name"
-            name="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
+
       <div className="flex pb-2 justify-end ">
         <div className="">
           <Button

@@ -5,7 +5,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../../components/Modal";
 import DeleteModal from "../../../../components/DeleteModal";
 import Notifier from "../../../../utils/Notifier";
-
+import { useFormik } from "formik";
+import { VAT_STATE } from "../../../../components/formik/initialValues";
+import { VAT_YUP } from "../../../../components/formik/validations";
 import AddVat from "./AddVat";
 import EditVat from "./EditVat";
 
@@ -96,6 +98,55 @@ export default function Index(props) {
     );
     setheadCells(array);
   }, []);
+
+  //create Vat
+  const formik = useFormik({
+    initialValues: VAT_STATE,
+    validationSchema: VAT_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/VAT/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleModal();
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+
+  //edit VAt
+  const edit_formik = useFormik({
+    initialValues: VAT_STATE,
+    validationSchema: VAT_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/VAT/${adminId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+        console.log("Errror->>>", err);
+      }
+    },
+  });
   return (
     <>
       <Modal
@@ -103,20 +154,23 @@ export default function Index(props) {
         open={modal}
         translate={translate}
         onClose={handleModal}
-        component={<AddVat translate={translate} handleModal={handleModal} />}
+        onSubmit={formik.handleSubmit}
+        buttonLabel="Create"
+        component={<AddVat translate={translate} formik={formik} />}
       />
       <Modal
         title="Edit VAT"
         translate={translate}
         open={editmodal}
+        onSubmit={edit_formik.handleSubmit}
+        buttonLabel="Update"
         onClose={handleEditModal}
         component={
           <EditVat
             translate={translate}
             editData={editData}
             editmodal={editmodal}
-            handleModal={handleEditModal}
-            adminId={adminId}
+            formik={edit_formik}
           />
         }
       />
@@ -125,6 +179,7 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        delete={true}
         component={
           <DeleteModal
             translate={translate}

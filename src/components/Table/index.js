@@ -71,7 +71,7 @@ function EnhancedTableHead(props) {
             <TableCell
               key={headCell.id}
               align={"left"}
-              padding={headCell.disablePadding ? "none" : "normal"}
+              // padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
@@ -225,7 +225,7 @@ export default function EnhancedTable(props) {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+          <Table sx={{ width: "100%" }} aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -252,6 +252,7 @@ export default function EnhancedTable(props) {
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row._id}
+                      align={"left"}
                       selected={isItemSelected}
                     >
                       {props.rows.map((record, index) =>

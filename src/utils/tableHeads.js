@@ -19,6 +19,10 @@ export const ArchitectheadCells = [
     label: "Authorize",
   },
   {
+    id: "credit",
+    label: "Total Credits",
+  },
+  {
     id: "subscription",
     label: "Subscription",
   },

@@ -23,7 +23,7 @@ function Index(props) {
 
   return (
     <div>
-      <form className="w-full px-3  pt-3">
+      <form className="w-full px-3  py-3">
         <div className="flex no-wrap  -mx-3 ">
           <div className="w-full  px-1 ">
             <TextInput

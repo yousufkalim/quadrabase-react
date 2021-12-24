@@ -51,7 +51,6 @@ function Index(props) {
       console.log(error?.response?.data?.message, "error ");
     }
   };
-  console.log(documents, "documents");
 
   return (
     <div>

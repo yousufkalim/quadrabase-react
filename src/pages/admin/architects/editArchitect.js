@@ -1,47 +1,9 @@
 import React from "react";
-import { useFormik } from "formik";
-import { ARCHITECT_STATE } from "../../../components/formik/initialValues";
-import { EDIT_ARCHITECT_YUP } from "../../../components/formik/validations";
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
-import Notifier from "../../../utils/Notifier";
-import Button from "../../../components/Button";
+
 import TextInput from "../../../components/TextInput";
-import { red } from "@mui/material/colors";
 import RadioButton from "../../../components/RadioButton";
-
 export default function AddExpense(props) {
-  const { translate } = props;
-  const token = getToken();
-  const [isLoading, setisLoading] = React.useState(false);
-  const formik = useFormik({
-    initialValues: ARCHITECT_STATE,
-    validationSchema: EDIT_ARCHITECT_YUP,
-    onSubmit: async (values) => {
-      setisLoading(true);
-
-      try {
-        let response = await Axios({
-          method: "put",
-          url: `${baseUrl}/Architects/${props.architectId}`,
-          data: values,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        Notifier(response.data.message, "success", translate);
-        setisLoading(false);
-        props.handleModal();
-      } catch (err) {
-        setisLoading(false);
-        Notifier(err.response.data.message, "error", translate);
-
-        console.log("Errror->>>", err);
-      }
-    },
-  });
+  const { translate, formik } = props;
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
@@ -154,26 +116,6 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.authorized}
             options={["Yes", "No"]}
-          />
-        </div>
-      </div>
-      <div className="flex pb-2 justify-end ">
-        <div className="">
-          <Button
-            onClick={props.handleModal}
-            label="Close"
-            translate={translate}
-            backgroundColor={red}
-            default={false}
-          />
-        </div>
-        <div className=" ml-3">
-          <Button
-            translate={translate}
-            onClick={formik.handleSubmit}
-            disabled={isLoading}
-            label={isLoading ? "Updating" : "Update"}
-            default={true}
           />
         </div>
       </div>

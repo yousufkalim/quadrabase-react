@@ -5,7 +5,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
 import Notifier from "../../../utils/Notifier";
-
+import { useFormik } from "formik";
+import { PROVIDER_STATE } from "../../../components/formik/initialValues";
+import { PROVIDER_YUP } from "../../../components/formik/validations";
 import AddProvider from "./addProvider";
 import EditProvider from "./editProvider";
 import ListOfWork from "./listOfWork";
@@ -67,9 +69,26 @@ export default function Index(props) {
     }
     seteditModal(!editmodal);
   };
-  const handleProvider = (id) => {
-    let filteredData = providersData.find((data) => data._id == id);
-    setprovider(filteredData);
+  const handleProvider = async (id) => {
+    if (id) {
+      try {
+        let response = await Axios({
+          method: "get",
+          url: `${baseUrl}/Providers/works/${id}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        let data = response.data.works;
+        if (data && data.length == 0) {
+          alert("No works of list is found for this provider");
+          return;
+        }
+        setprovider(data);
+      } catch (error) {
+        if (error.response) console.log(error.response.data.message, "error ");
+      }
+    }
     setproviderModal(!providerModal);
   };
   const getProviders = async () => {
@@ -99,47 +118,87 @@ export default function Index(props) {
     );
     setheadCells(array);
   }, []);
+  //create provider
+  const formik = useFormik({
+    initialValues: PROVIDER_STATE,
+    validationSchema: PROVIDER_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/Providers/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleModal();
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+  // edit peovider
+  const edit_formik = useFormik({
+    initialValues: PROVIDER_STATE,
+    validationSchema: PROVIDER_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Providers/${providerId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
   return (
     <>
       <Modal
         title="Add Provider"
         open={modal}
-        height="70%"
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
         onClose={handleModal}
         translate={translate}
-        component={
-          <AddProvider translate={translate} handleModal={handleModal} />
-        }
+        component={<AddProvider translate={translate} formik={formik} />}
       />
       <Modal
         title="List Of Works"
         open={providerModal}
-        height={"90%"}
         width={"70%"}
-        left={"50%"}
         onClose={handleProvider}
         translate={translate}
-        component={
-          <ListOfWork
-            translate={translate}
-            handleModal={handleProvider}
-            provider={provider}
-          />
-        }
+        component={<ListOfWork translate={translate} provider={provider} />}
       />
       <Modal
         title="Edit Provider"
         open={editmodal}
-        height="70%"
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
         onClose={handleEditModal}
         translate={translate}
         component={
           <EditProvider
             translate={translate}
             editData={editData}
+            formik={edit_formik}
             editmodal={editmodal}
-            handleModal={handleEditModal}
-            providerId={providerId}
           />
         }
       />
@@ -149,6 +208,7 @@ export default function Index(props) {
         onClose={handleDeleteModal}
         width="35%"
         height="40%"
+        delete={true}
         component={
           <DeleteModal
             translate={translate}

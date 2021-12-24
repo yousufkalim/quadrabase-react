@@ -10,6 +10,8 @@ import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
 import RichTextEditor from "../../../components/RichTextEditor";
+import SelectField from "../../../components/SelectField";
+import MultiSelectField from "../../../components/MultiSelectField";
 
 export default function AddExpense(props) {
   const token = getToken();
@@ -19,6 +21,7 @@ export default function AddExpense(props) {
   const [cctp_text2, setcctp_text2] = React.useState("");
   const [cctp_text3, setcctp_text3] = React.useState("");
   const [cctp_text4, setcctp_text4] = React.useState("");
+  const [familiesOptions, setFamilies] = React.useState([]);
 
   const formik = useFormik({
     initialValues: LIBRARY_STATE,
@@ -53,14 +56,26 @@ export default function AddExpense(props) {
       }
     },
   });
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    formik.setFieldValue(
+      "families",
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
-
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
         if (Object.keys(initialValues).includes(dat)) {
-          if (dat == "cctp_text") {
+          if (
+            dat == "cctp_text" &&
+            editData["cctp_text"] &&
+            editData["cctp_text"].length > 0
+          ) {
             setcctp_text1(editData[dat][0]);
             setcctp_text2(editData[dat][1]);
             setcctp_text3(editData[dat][2]);
@@ -72,8 +87,60 @@ export default function AddExpense(props) {
       });
     }
   }, [props.editmodal]);
+  const getFamilies = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Families/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families;
+
+      setFamilies(data);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+    //}
+  };
+  React.useEffect(() => {
+    getFamilies();
+  }, []);
   return (
     <form className="w-full  pt-9">
+      <div className="flex no-wrap  -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <TextInput
+            type="text"
+            placeholder="Name"
+            label="Name"
+            name="name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.name && formik.errors.name ? (
+              <small>{formik.errors.name}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-first-name"
+          >
+            Select Family
+          </label>
+          <MultiSelectField
+            name="families"
+            label="Select Family"
+            value={formik.values.families}
+            onChange={handleChange}
+            options={familiesOptions}
+          />
+        </div>
+      </div>
       <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <RichTextEditor
@@ -104,23 +171,6 @@ export default function AddExpense(props) {
             value={cctp_text4}
             label={"CCTP 4"}
           />
-        </div>
-      </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <TextInput
-            type="text"
-            placeholder="Name"
-            label="Name"
-            name="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
-            ) : null}
-          </div>
         </div>
       </div>
 

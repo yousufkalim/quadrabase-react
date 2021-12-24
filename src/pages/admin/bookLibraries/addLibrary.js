@@ -9,7 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import RichTextEditor from "../../../components/RichTextEditor";
-import SelectField from "../../../components/SelectField";
+import MultiSelectField from "../../../components/MultiSelectField";
 
 import { red } from "@mui/material/colors";
 
@@ -18,7 +18,6 @@ export default function AddExpense(props) {
   const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
   const [familiesOptions, setFamilies] = React.useState([]);
-
   const [cctp_text1, setcctp_text1] = React.useState("");
   const [cctp_text2, setcctp_text2] = React.useState("");
   const [cctp_text3, setcctp_text3] = React.useState("");
@@ -58,7 +57,16 @@ export default function AddExpense(props) {
       }
     },
   });
-  const getBookLibraries = async () => {
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    formik.setFieldValue(
+      "families",
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+  const getFamilies = async () => {
     try {
       let response = await Axios({
         method: "get",
@@ -76,7 +84,7 @@ export default function AddExpense(props) {
     //}
   };
   React.useEffect(() => {
-    getBookLibraries();
+    getFamilies();
   }, []);
   return (
     <form className="w-full  pt-9">
@@ -97,11 +105,17 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <SelectField
-            name="familyId"
+          <label
+            className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-first-name"
+          >
+            Select Family
+          </label>
+          <MultiSelectField
+            name="families"
             label="Select Family"
-            value={formik.values.familyId}
-            onChange={formik.handleChange}
+            value={formik.values.families}
+            onChange={handleChange}
             options={familiesOptions}
           />
         </div>

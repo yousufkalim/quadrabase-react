@@ -5,10 +5,14 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
 import Notifier from "../../../utils/Notifier";
-
+import { ARCHITECT_STATE } from "../../../components/formik/initialValues";
+import {
+  ARCHITECT_YUP,
+  EDIT_ARCHITECT_YUP,
+} from "../../../components/formik/validations";
 import AddArchitect from "./addArchitect";
 import EditArchitect from "./editArchitect";
-
+import { useFormik } from "formik";
 import { ArchitectheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
@@ -34,7 +38,35 @@ export default function Index(props) {
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
   const [subscriptionArchitextId, setSubscriptionArchitextId] =
     React.useState();
+  const [value, setValue] = React.useState("");
+  const [credit, setCredit] = React.useState(1);
+
   const [currentSubscription, setCurrentSubscription] = React.useState();
+
+  const [options, setOptions] = React.useState([]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name == "subscription") {
+      setValue(value);
+    } else {
+      setCredit(value);
+    }
+  };
+  const getAllSubscriptions = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Subscriptions`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setOptions(response.data.subscription);
+    } catch (error) {
+      console.log(error?.response?.data?.message, "error ");
+    }
+  };
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
@@ -102,12 +134,90 @@ export default function Index(props) {
     getArchitects();
   }, [modal, editmodal, deletemodal, subscriptionModal]);
   useEffect(() => {
+    setValue(currentSubscription?.id?._id);
+    architectData &&
+      Object.keys(architectData).length > 0 &&
+      setCredit(architectData.credit);
+    getAllSubscriptions();
+  }, [subscriptionModal]);
+
+  useEffect(() => {
     let array = [];
     ArchitectheadCells.slice(0, ArchitectheadCells.length - 1).map((cell) =>
       array.push(cell.id)
     );
     setheadCells(array);
   }, []);
+
+  //create Architect
+  const formik = useFormik({
+    initialValues: ARCHITECT_STATE,
+    validationSchema: ARCHITECT_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/Architects/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        Notifier(response.data.message, "success", translate);
+        handleModal();
+      } catch (err) {
+        if (err.response) {
+          Notifier(err.response.data.message, "error", translate);
+        }
+        console.log("Errror->>>", err);
+      }
+      formik.resetForm();
+    },
+  });
+
+  //edit Architect
+  const edit_formik = useFormik({
+    initialValues: ARCHITECT_STATE,
+    validationSchema: EDIT_ARCHITECT_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Architects/${architectId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleEditModal();
+      } catch (err) {
+        if (err.response) {
+          Notifier(err.response.data.message, "error", translate);
+        }
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+
+  // add subscription
+  const handleSubmit = async () => {
+    try {
+      let response = await Axios({
+        method: "put",
+        url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
+        data: { subscriptionId: value, credit: credit },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      Notifier(response.data.message, "success", translate);
+      handleSubscriptionModal();
+    } catch (error) {
+      Notifier(error.response.data.message, "error", translate);
+    }
+  };
   return (
     <>
       <Modal
@@ -115,22 +225,23 @@ export default function Index(props) {
         open={modal}
         onClose={handleModal}
         translate={translate}
-        component={
-          <AddArchitect translate={translate} handleModal={handleModal} />
-        }
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
+        component={<AddArchitect translate={translate} formik={formik} />}
       />
       <Modal
         title="Edit Architect"
         open={editmodal}
         onClose={handleEditModal}
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
         translate={translate}
         component={
           <EditArchitect
             editData={editData}
             editmodal={editmodal}
             translate={translate}
-            handleModal={handleEditModal}
-            architectId={architectId}
+            formik={edit_formik}
           />
         }
       />
@@ -139,6 +250,7 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        delete={true}
         component={
           <DeleteModal
             handleClose={handleDeleteModal}
@@ -153,13 +265,15 @@ export default function Index(props) {
         onClose={handleSubscriptionModal}
         width="35%"
         translate={translate}
+        onSubmit={handleSubmit}
+        buttonLabel="Save"
         component={
           <SubscriptionModal
             translate={translate}
-            handleModal={handleSubscriptionModal}
-            architectId={subscriptionArchitextId}
-            currentSubscription={currentSubscription}
-            architectData={architectData}
+            onChange={handleChange}
+            options={options}
+            value={value}
+            credit={credit}
           />
         }
       />
