@@ -91,13 +91,6 @@ export default function AddExpense(props) {
             label={"CCTP 2"}
           />
         </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <RichTextEditor
-            onChange={(value) => setcctp_text4(value)}
-            value={cctp_text4}
-            label={"CCTP 4"}
-          />
-        </div>
       </div>
       <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
@@ -105,6 +98,13 @@ export default function AddExpense(props) {
             onChange={(value) => setcctp_text3(value)}
             value={cctp_text3}
             label={"CCTP 3"}
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <RichTextEditor
+            onChange={(value) => setcctp_text4(value)}
+            value={cctp_text4}
+            label={"CCTP 4"}
           />
         </div>
       </div>

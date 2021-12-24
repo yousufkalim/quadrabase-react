@@ -4,3 +4,12 @@
 input[disabled] {
   background-color: #e5e5e5;
 }
+.css-q8hpuo-MuiFormControl-root {
+  height: 38px !important;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  height: 38px !important;
+  border-radius: 4px;
+}

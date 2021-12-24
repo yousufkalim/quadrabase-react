@@ -5,7 +5,12 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
 import Notifier from "../../../utils/Notifier";
-
+import { useFormik } from "formik";
+import { ADMIN_STATE } from "../../../components/formik/initialValues";
+import {
+  ADMIN_YUP,
+  EDIT_ADMIN_YUP,
+} from "../../../components/formik/validations";
 import AddAdmin from "./addAdmin";
 import EditAdmin from "./editAdmin";
 
@@ -98,6 +103,54 @@ export default function Index(props) {
     );
     setheadCells(array);
   }, []);
+
+  const formik = useFormik({
+    initialValues: ADMIN_STATE,
+    validationSchema: ADMIN_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/Admins/register`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleModal();
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+  const edit_formik = useFormik({
+    initialValues: ADMIN_STATE,
+    validationSchema: EDIT_ADMIN_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Admins/${adminId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
   return (
     <>
       <Modal
@@ -105,19 +158,22 @@ export default function Index(props) {
         open={modal}
         translate={translate}
         onClose={handleModal}
-        component={<AddAdmin translate={translate} handleModal={handleModal} />}
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
+        component={<AddAdmin translate={translate} formik={formik} />}
       />
       <Modal
         title="Edit Admin"
         open={editmodal}
         translate={translate}
         onClose={handleEditModal}
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
         component={
           <EditAdmin
             editData={editData}
             editmodal={editmodal}
-            handleModal={handleEditModal}
-            adminId={adminId}
+            formik={edit_formik}
             translate={translate}
           />
         }
@@ -127,6 +183,7 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        delete={true}
         component={
           <DeleteModal
             handleClose={handleDeleteModal}

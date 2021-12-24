@@ -5,7 +5,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../../components/Modal";
 import DeleteModal from "../../../../components/DeleteModal";
 import Notifier from "../../../../utils/Notifier";
-
+import { useFormik } from "formik";
+import { CCTP_STATE } from "../../../../components/formik/initialValues";
+import { CCTP_YUP } from "../../../../components/formik/validations";
 import AddCctp from "./AddCctp";
 import EditCctp from "./EditCctp";
 
@@ -96,26 +98,82 @@ export default function Index(props) {
     );
     setheadCells(array);
   }, []);
+
+  //add CCTP
+  const formik = useFormik({
+    initialValues: CCTP_STATE,
+    validationSchema: CCTP_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/CCTP/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+
+        handleModal();
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+
+  //edit CCTP
+  const edit_formik = useFormik({
+    initialValues: CCTP_STATE,
+    validationSchema: CCTP_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/CCTP/${adminId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
   return (
     <>
       <Modal
         title="Add CCTP"
         open={modal}
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
         onClose={handleModal}
-        component={<AddCctp translate={translate} handleModal={handleModal} />}
+        component={<AddCctp translate={translate} formik={formik} />}
       />
       <Modal
         title="Edit CCTP"
         open={editmodal}
         translate={translate}
         onClose={handleEditModal}
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
         component={
           <EditCctp
             translate={translate}
             editData={editData}
             editmodal={editmodal}
-            handleModal={handleEditModal}
-            adminId={adminId}
+            formik={edit_formik}
           />
         }
       />
@@ -124,6 +182,7 @@ export default function Index(props) {
         open={deletemodal}
         onClose={handleDeleteModal}
         width="35%"
+        delete={true}
         component={
           <DeleteModal
             translate={translate}

@@ -18,7 +18,7 @@ export default function index(props) {
             //   disableHeader: false,
             //   disableFileName: true,
             //   retainURLParams: false,
-            overrideComponent: props.delete ? customHeader : myHeader,
+            overrideComponent: myHeader,
           },
         }}
         style={{
@@ -40,42 +40,6 @@ const myHeader = (state, previousDocument, nextDocument) => {
     <>
       <div className="flex pb-2   px-3 py-2	items-end justify-end  ">
         <div className="flex flex-nowrap justify-end  w-full md:w-3/12">
-          <div className="  ">
-            <FontAwesomeIcon
-              icon={faBackward}
-              onClick={previousDocument}
-              disabled={state.currentFileNo === 0}
-            />
-          </div>
-          <div className="   ">
-            <FontAwesomeIcon
-              icon={faForward}
-              onClick={nextDocument}
-              disabled={state.currentFileNo >= state.documents.length - 1}
-            />
-          </div>
-        </div>
-      </div>
-      {/* <div>{state.currentDocument.uri || ""}</div> */}
-    </>
-  );
-};
-const customHeader = (state, previousDocument, nextDocument) => {
-  if (!state.currentDocument || state.config?.header?.disableFileName) {
-    return null;
-  }
-
-  return (
-    <>
-      <div className="flex pb-2   px-3 py-2	items-end justify-end  ">
-        <div className="flex flex-nowrap justify-end  w-full md:w-3/12">
-          <div className="  ">
-            <FontAwesomeIcon
-              icon={faTrash}
-              onClick={previousDocument}
-              disabled={state.currentFileNo === 0}
-            />
-          </div>
           <div className="  ">
             <FontAwesomeIcon
               icon={faBackward}

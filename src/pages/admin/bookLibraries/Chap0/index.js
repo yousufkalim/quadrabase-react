@@ -5,7 +5,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "../../../../components/Modal";
 import DeleteModal from "../../../../components/DeleteModal";
 import Notifier from "../../../../utils/Notifier";
-
+import { useFormik } from "formik";
+import { CHAP0_STATE } from "../../../../components/formik/initialValues";
+import { CHAP0_YUP } from "../../../../components/formik/validations";
 import AddChap0 from "./AddChap0";
 import EditChap0 from "./EditChap0";
 
@@ -96,6 +98,59 @@ export default function Index(props) {
     );
     setheadCells(array);
   }, []);
+
+  //create Chap0
+  const formik = useFormik({
+    initialValues: CHAP0_STATE,
+    validationSchema: CHAP0_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/Chap0/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+
+        handleModal();
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+  //edit Chap0
+
+  const edit_formik = useFormik({
+    initialValues: CHAP0_STATE,
+    validationSchema: CHAP0_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0/${adminId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
   return (
     <>
       <Modal
@@ -103,8 +158,10 @@ export default function Index(props) {
         open={modal}
         onClose={handleModal}
         width="30%"
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
         translate={translate}
-        component={<AddChap0 translate={translate} handleModal={handleModal} />}
+        component={<AddChap0 translate={translate} formik={formik} />}
       />
       <Modal
         title="Edit Chap0"
@@ -112,13 +169,14 @@ export default function Index(props) {
         width="30%"
         translate={translate}
         onClose={handleEditModal}
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
         component={
           <EditChap0
             translate={translate}
             editData={editData}
             editmodal={editmodal}
-            handleModal={handleEditModal}
-            adminId={adminId}
+            formik={edit_formik}
           />
         }
       />
@@ -128,6 +186,7 @@ export default function Index(props) {
         onClose={handleDeleteModal}
         width="35%"
         translate={translate}
+        delete={true}
         component={
           <DeleteModal
             translate={translate}

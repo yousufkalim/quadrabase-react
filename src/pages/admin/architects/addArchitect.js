@@ -13,37 +13,7 @@ import RadioButton from "../../../components/RadioButton";
 import { red } from "@mui/material/colors";
 
 export default function AddExpense(props) {
-  const { translate } = props;
-  const token = getToken();
-  const [isLoading, setisLoading] = React.useState(false);
-  const formik = useFormik({
-    initialValues: ARCHITECT_STATE,
-    validationSchema: ARCHITECT_YUP,
-    onSubmit: async (values) => {
-      setisLoading(true);
-
-      try {
-        let response = await Axios({
-          method: "post",
-          url: `${baseUrl}/Architects/create`,
-          data: values,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        Notifier(response.data.message, "success", translate);
-        setisLoading(false);
-        props.handleModal();
-        formik.resetForm();
-      } catch (err) {
-        setisLoading(false);
-        Notifier(err.response.data.message, "error", translate);
-
-        console.log("Errror->>>", err);
-      }
-    },
-  });
+  const { translate, formik } = props;
 
   return (
     <form className="w-full  pt-9">
@@ -174,26 +144,6 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.authorized}
             options={["Yes", "No"]}
-            translate={translate}
-          />
-        </div>
-      </div>
-      <div className="flex pb-2 justify-end ">
-        <div className="">
-          <Button
-            onClick={props.handleModal}
-            label="Close"
-            backgroundColor={red}
-            default={false}
-            translate={translate}
-          />
-        </div>
-        <div className=" ml-3">
-          <Button
-            onClick={formik.handleSubmit}
-            disabled={isLoading}
-            label={isLoading ? "Creating" : "Create"}
-            default={true}
             translate={translate}
           />
         </div>

@@ -109,31 +109,23 @@ export default function Index(props) {
   return (
     <div>
       {data && data.length > 0 ? (
-        data &&
-        data.map(({ _id, name }) => (
-          <div key={_id} className="mt-2">
-            <MemoizedFamilies
-              _id={_id}
-              name={name}
-              onDelete={() => handleDelete(_id)}
-              handleUpdate={handleUpdate}
-            />
-          </div>
-        ))
+        <div className="h-96 overflow-y-auto border px-10 py-3">
+          {data &&
+            data.map(({ _id, name }) => (
+              <div key={_id} className="mt-2">
+                <MemoizedFamilies
+                  _id={_id}
+                  name={name}
+                  onDelete={() => handleDelete(_id)}
+                  handleUpdate={handleUpdate}
+                />
+              </div>
+            ))}
+        </div>
       ) : (
         <h1 className="text-center"></h1>
       )}
       <MemoizedFamily isLoading={isLoading} onAdd={handleAdd} />
-      <div className="flex pt-5 justify-end ">
-        <div className="">
-          <Button
-            onClick={props.handleClose}
-            label="Close"
-            backgroundColor={red}
-            default={false}
-          />
-        </div>
-      </div>
     </div>
   );
 }

@@ -104,6 +104,10 @@ export default function AddExpense(props) {
     let filteredData = ProviderDataArr.filter((dt) => dt.provider !== id);
     setProviderDataArr(filteredData);
   };
+  const handleDeleteDocument = async (id) => {
+    let filteredData = ProviderDataArr.filter((dt) => dt.provider !== id);
+    setProviderDataArr(filteredData);
+  };
   const handleAdd = (obj) => {
     setProviderDataArr([...ProviderDataArr, obj]);
   };
@@ -226,11 +230,7 @@ export default function AddExpense(props) {
                         handleUpdate={handleUpdate}
                       />
                       <div>
-                        <DocViewer
-                          documents={documents}
-                          height="200"
-                          delete={true}
-                        />
+                        <DocViewer documents={documents} height="200" />
                       </div>
                     </div>
                   ))}

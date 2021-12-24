@@ -678,11 +678,13 @@ export default function Index(props) {
         width="40%"
         translate={translate}
         open={state.managefamily}
+        onClose={handleClose}
         component={<Families translate={translate} handleClose={handleClose} />}
       />
       <Modal
         title="Add Library"
         height="60%"
+        library={true}
         translate={translate}
         open={state.addlibrary}
         component={
@@ -697,6 +699,7 @@ export default function Index(props) {
         title="Add Category"
         // width="50%"
         height="65%"
+        library={true}
         open={state.addcategory}
         translate={translate}
         component={
@@ -710,8 +713,8 @@ export default function Index(props) {
       <Modal
         title="Add Work"
         width="70%"
-        height="98%"
-        left="50%"
+        addWork={true}
+        library={true}
         open={state.addwork}
         translate={translate}
         component={
@@ -727,6 +730,7 @@ export default function Index(props) {
         open={state.addworkdetail}
         translate={translate}
         width="30%"
+        library={true}
         component={
           <AddWorkDetail
             translate={translate}
@@ -740,6 +744,7 @@ export default function Index(props) {
         height="60%"
         translate={translate}
         open={state.editlibrary}
+        library={true}
         component={
           <EditLibrary
             translate={translate}
@@ -754,6 +759,7 @@ export default function Index(props) {
         title="Edit Category"
         open={state.editcategory}
         translate={translate}
+        library={true}
         component={
           <EditCategory
             translate={translate}
@@ -768,6 +774,8 @@ export default function Index(props) {
         title="Edit Work"
         open={state.editwork}
         translate={translate}
+        library={true}
+        addWork={true}
         width="70%"
         height="98%"
         left="50%"
@@ -785,6 +793,7 @@ export default function Index(props) {
         title="Edit Work Detail"
         open={state.editworkdetail}
         translate={translate}
+        library={true}
         component={
           <EditWorkDetail
             translate={translate}
@@ -797,6 +806,7 @@ export default function Index(props) {
       />
       <Modal
         open={state.deletelibrary}
+        delete={true}
         component={
           <DeleteModal
             translate={translate}
@@ -807,6 +817,7 @@ export default function Index(props) {
       />
       <Modal
         open={state.deletecategory}
+        delete={true}
         component={
           <DeleteModal
             translate={translate}
@@ -817,6 +828,7 @@ export default function Index(props) {
       />
       <Modal
         open={state.deletework}
+        delete={true}
         component={
           <DeleteModal
             translate={translate}
@@ -827,6 +839,7 @@ export default function Index(props) {
       />
       <Modal
         open={state.deleteworkdetail}
+        delete={true}
         component={
           <DeleteModal
             translate={translate}
