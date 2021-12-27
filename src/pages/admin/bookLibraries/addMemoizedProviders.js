@@ -28,7 +28,6 @@ function Index(props) {
     } else {
       setdocErrorMessage("");
       settestErrorMessage("");
-      console.log(documents, "documents");
       let obj = { provider: Name, documents: documents };
       props.handleUpdate(obj, props._id);
     }
