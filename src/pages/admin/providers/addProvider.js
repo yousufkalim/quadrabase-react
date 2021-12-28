@@ -168,6 +168,22 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="Logo"
+            label="Logo"
+            name="logo"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.logo}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.logo && formik.errors.logo ? (
+              <small>{formik.errors.logo}</small>
+            ) : null}
+          </div>
+        </div>
       </div>
     </form>
   );
