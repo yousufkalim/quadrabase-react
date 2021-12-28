@@ -40,6 +40,7 @@ export default function Index(props) {
     React.useState();
   const [value, setValue] = React.useState("");
   const [credit, setCredit] = React.useState(1);
+  const [projects, setProjects] = React.useState(1);
 
   const [currentSubscription, setCurrentSubscription] = React.useState();
 
@@ -49,6 +50,8 @@ export default function Index(props) {
     const { name, value } = e.target;
     if (name == "subscription") {
       setValue(value);
+    } else if (name == "projects") {
+      setProjects(value);
     } else {
       setCredit(value);
     }
@@ -207,7 +210,7 @@ export default function Index(props) {
       let response = await Axios({
         method: "put",
         url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
-        data: { subscriptionId: value, credit: credit },
+        data: { subscriptionId: value, credit: credit, projects: projects },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -274,6 +277,7 @@ export default function Index(props) {
             options={options}
             value={value}
             credit={credit}
+            projects={projects}
           />
         }
       />
