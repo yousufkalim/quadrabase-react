@@ -13,6 +13,7 @@ export default function index(props) {
       <ReactQuill
         value={props.value}
         onChange={props.onChange}
+       
         modules={{
           toolbar: [
             [{ size: [] }],

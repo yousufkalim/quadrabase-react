@@ -133,6 +133,7 @@ export default function AddExpense(props) {
             rows={6}
             onChange={formik.handleChange}
             value={formik.values.address1}
+            lowercase={true}
           />
           <div className="text-red-600 ">
             {formik.touched.address1 && formik.errors.address1 ? (
@@ -150,6 +151,7 @@ export default function AddExpense(props) {
             rows={6}
             onChange={formik.handleChange}
             value={formik.values.address2}
+            lowercase={true}
           />
           <div className="text-red-600 ">
             {formik.touched.address2 && formik.errors.address2 ? (

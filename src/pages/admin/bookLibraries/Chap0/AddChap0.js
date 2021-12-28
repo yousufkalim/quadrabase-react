@@ -26,7 +26,7 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full  px-3">
-          <TextArea
+          <TextInput
             type="text"
             placeholder="Text"
             label="Text"
