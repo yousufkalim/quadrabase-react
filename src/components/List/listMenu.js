@@ -49,41 +49,12 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
-  const { level, parentLevel, onAdd } = props;
+  const { onAdd, parentLevel, onEdit, onDelete, handleDown, handleUp } = props;
 
   const handleClick = (text) => {
-    let concatText = text + "_" + level;
-    onAdd(concatText);
+    onAdd(text);
   };
 
-  if (parentLevel == true) {
-    return (
-      <div>
-        <StyledMenu
-          id={props.id}
-          anchorEl={props.anchorEl}
-          open={props.open}
-          onClose={props.onClose}
-          MenuListProps={{
-            "aria-labelledby": props.id,
-          }}
-        >
-          <div style={{ paddingLeft: "0.6rem" }}>
-            {props.text && (
-              <>
-                <MenuItem onClick={() => handleClick(props.text)}>
-                  Add Library
-                </MenuItem>
-                <MenuItem onClick={() => handleClick("Manage_Families")}>
-                  Manage Families
-                </MenuItem>
-              </>
-            )}
-          </div>
-        </StyledMenu>
-      </div>
-    );
-  }
   return (
     <div>
       <StyledMenu
@@ -95,32 +66,30 @@ export default function CustomizedMenus(props) {
           "aria-labelledby": props.id,
         }}
       >
-        <MenuItem onClick={() => handleClick("Edit")} disableRipple>
-          <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={() => handleClick("Delete")} disableRipple>
-          <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
-          Delete
-        </MenuItem>
-        {/* <Divider sx={{ my: 0.5 }} /> */}
-        <div style={{ paddingLeft: "0.6rem" }}>
-          <MenuItem onClick={() => handleClick("Up")} disableRipple>
-            Up
-          </MenuItem>
-          <MenuItem onClick={() => handleClick("Down")} disableRipple>
-            Down
-          </MenuItem>
-
-          {props.text && (
-            <>
-              <Divider sx={{ my: 0.5 }} />
-              <MenuItem onClick={() => handleClick(props.text)}>
-                {props.text.replace("_", " ")}
+        {parentLevel == false ? (
+          <>
+            <MenuItem onClick={onEdit} disableRipple>
+              <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
+              Edit
+            </MenuItem>
+            <MenuItem onClick={onDelete} disableRipple>
+              <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
+              Delete
+            </MenuItem>
+            <div style={{ paddingLeft: "0.6rem" }}>
+              <MenuItem onClick={handleUp} disableRipple>
+                Up
               </MenuItem>
-            </>
-          )}
-        </div>
+              <MenuItem onClick={handleDown} disableRipple>
+                Down
+              </MenuItem>
+            </div>
+          </>
+        ) : (
+          <div style={{ paddingLeft: "0.6rem" }}>
+            <MenuItem onClick={props.onAddModal}>{props.title}</MenuItem>
+          </div>
+        )}
       </StyledMenu>
     </div>
   );

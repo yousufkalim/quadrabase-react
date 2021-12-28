@@ -4,41 +4,21 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
 
 import {
-  faAngleRight,
+  faBookmark,
   faAngleDown,
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
 export default function subList(props) {
-  let { level, handleanchorEl, name, open, nodeKey, handleClick, Index, _id } =
-    props;
-  let obj = {};
-  obj[`${nodeKey}`] = nodeKey;
-  obj[nodeKey] = !open;
-  obj["id"] = _id;
+  let { handleanchorEl, name, _id } = props;
 
   return (
     <>
       <ListItem key={_id} button>
-        {open ? (
-          <FontAwesomeIcon
-            icon={faAngleDown}
-            onClick={() => handleClick(level, _id, obj)}
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            onClick={() => handleClick(level, _id, obj)}
-          />
-        )}
-        <ListItemText
-          inset
-          primary={name}
-          onClick={() => handleClick(level, _id, obj)}
-        />
+        <ListItemText sx={{ paddingLeft: "10px" }} primary={name} />
         <FontAwesomeIcon
           icon={faEllipsisV}
-          onClick={(e) => handleanchorEl(e, _id, level)}
-          id="demo-customized-button"
+          onClick={(e) => handleanchorEl(e, _id)}
+          id="unit-customized-button"
         />
       </ListItem>
     </>

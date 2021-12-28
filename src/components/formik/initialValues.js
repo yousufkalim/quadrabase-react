@@ -74,3 +74,6 @@ export const CHAP0_STATE = {
   title: "",
   text: "",
 };
+export const STAKEHOLDER_STATE = {
+  name: "",
+};

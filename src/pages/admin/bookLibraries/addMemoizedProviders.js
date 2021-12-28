@@ -14,7 +14,7 @@ function Index(props) {
   const [Edit, setEdit] = useState(false);
   const [testErrorMessage, settestErrorMessage] = useState("");
   const [docErrorMessage, setdocErrorMessage] = useState("");
-  const [documents, setDocuments] = useState("");
+  const [documents, setDocuments] = useState([]);
 
   const handleUpdate = () => {
     setEdit(!Edit);
@@ -23,8 +23,6 @@ function Index(props) {
     }
     if (!Name) {
       settestErrorMessage("Required");
-    } else if (!documents) {
-      setdocErrorMessage("Required");
     } else {
       setdocErrorMessage("");
       settestErrorMessage("");
