@@ -30,6 +30,7 @@ export const PROVIDER_STATE = {
   city: "",
   zipcode: "",
   url: "",
+  logo: ""
 };
 export const LIBRARY_STATE = {
   name: "",

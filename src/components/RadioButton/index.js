@@ -8,7 +8,7 @@ export default function ControlledRadioButtonsGroup(props) {
   return (
     <FormControl component="fieldset">
       <label
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        className={`block ${props?.lowercase ? "lowercase" : "capitalize"} tracking-wide text-gray-700 text-xs font-bold mb-2`}
         htmlFor="grid-first-name"
       >
         {props.translate?props.translate(`${props.label}`):props.label}

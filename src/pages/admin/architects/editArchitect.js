@@ -116,6 +116,7 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.authorized}
             options={["Yes", "No"]}
+            lowercase={true}
           />
         </div>
       </div>
