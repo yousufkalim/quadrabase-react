@@ -23,8 +23,25 @@ export const ArchitectheadCells = [
     label: "Total Credits",
   },
   {
+    id: "total_projects",
+    label: "Total Projects",
+  },
+  {
+    id: "ongoing_projects",
+    label: "Ongoing Projects",
+  },
+  {
+    id: "remaining_projects",
+    label: "Remaining Projects",
+  },
+  {
     id: "subscription",
     label: "Subscription",
+  },
+  {
+    id: "subscriptionStartDate",
+
+    label: "Subscription Start Date",
   },
   {
     id: "subscriptionEndDate",

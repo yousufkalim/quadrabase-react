@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -255,50 +255,103 @@ export default function EnhancedTable(props) {
                       align={"left"}
                       selected={isItemSelected}
                     >
-                      {props.rows.map((record, index) =>
-                        record == "createdAt" ? (
-                          <TableCell align="left" title={row[record]}>
-                            {moment(row[record]).format("DD/MM/YYYY HH:mm")}
-                          </TableCell>
-                        ) : record == "subscriptionEndDate" ? (
-                          <TableCell
-                            align="left"
-                            title={row?.subscriptions?.end_date}
-                          >
-                            {row?.subscriptions?.end_date
-                              ? moment(row?.subscriptions?.end_date).format(
+                      {props.rows.map( (record, index) => {
+                          return record == "createdAt" ? (
+                            <TableCell align="left" title={row[record]}>
+                              {moment(row[record]).format("DD/MM/YYYY HH:mm")}
+                            </TableCell>
+                          ) : record == "subscriptionStartDate" ? (
+                            <TableCell
+                              align="left"
+                              title={row?.subscriptions?.start_date}
+                            >
+                              {row?.subscriptions?.start_date
+                                ? moment(row?.subscriptions?.start_date).format(
                                   "DD/MM/YYYY"
                                 )
-                              : "N/A"}
-                          </TableCell>
-                        ) : record === "subscription" ? (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row?.subscriptions?.id?.name}
-                          >
-                            {row?.subscriptions?.id?.name
-                              ? row?.subscriptions?.id?.name.length > 20
-                                ? row?.subscriptions?.id?.name.substring(
+                                : "N/A"}
+                            </TableCell>
+                          ) : record == "subscriptionEndDate" ? (
+                            <TableCell
+                              align="left"
+                              title={row?.subscriptions?.end_date}
+                            >
+                              {row?.subscriptions?.end_date
+                                ? moment(row?.subscriptions?.end_date).format(
+                                  "DD/MM/YYYY"
+                                )
+                                : "N/A"}
+                            </TableCell>
+                          ) : record === "subscription" ? (
+                            <TableCell
+                              key={index}
+                              align="left"
+                              title={row?.subscriptions?.id?.name}
+                            >
+                              {row?.subscriptions?.id?.name
+                                ? row?.subscriptions?.id?.name.length > 20
+                                  ? row?.subscriptions?.id?.name.substring(
                                     0,
                                     20
                                   ) + "..."
-                                : row?.subscriptions?.id?.name
-                              : "N/A"}
-                          </TableCell>
-                        ) : (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row[record]}
-                          >
-                            {row[record]
-                              ? row[record].length > 20
-                                ? row[record].substring(0, 20) + "..."
-                                : row[record]
-                              : "N/A"}
-                          </TableCell>
-                        )
+                                  : row?.subscriptions?.id?.name
+                                : "N/A"}
+                            </TableCell>
+                          ) : record === "total_projects" ? (
+                            <TableCell
+                              key={index}
+                              align="left"
+                              title={"total_projects"}
+                            >
+                              {row?.subscriptions?.id?.projects
+                                ? row?.subscriptions?.id?.projects.length > 20
+                                  ? row?.subscriptions?.id?.projects.substring(
+                                    0,
+                                    20
+                                  ) + "..."
+                                  : row?.subscriptions?.id?.projects
+                                : "0"}
+                            </TableCell>
+                          ) : record === "ongoing_projects" ? (
+                            <TableCell
+                              key={index}
+                              align="left"
+                              title={"ongoing_projects"}
+                            >
+                              {`${(row?.projects?.length ?? 0)}`.length > 20
+                                ? `${(row?.projects?.length ?? 0)}`.substring(
+                                  0,
+                                  20
+                                ) + "..."
+                                : `${(row?.projects?.length ?? 0)}`}
+                            </TableCell>
+                          ) : record === "remaining_projects" ? (
+                            <TableCell
+                              key={index}
+                              align="left"
+                              title={"remaining_projects"}
+                            >
+                              {`${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 20
+                                ? `${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`.substring(
+                                  0,
+                                  20
+                                ) + "..."
+                                : `${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`}
+                            </TableCell>
+                          ) : (
+                            <TableCell
+                              key={index}
+                              align="left"
+                              title={row[record]}
+                            >
+                              {row[record]
+                                ? row[record].length > 20
+                                  ? row[record].substring(0, 20) + "..."
+                                  : row[record]
+                                : "N/A"}
+                            </TableCell>
+                          );
+                        }
                       )}
 
                       <TableCell align="left">
