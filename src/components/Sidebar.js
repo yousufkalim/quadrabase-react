@@ -6,7 +6,7 @@ import Logo from "../images/Logo_QBSoft_12.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
-function Sidebar({ sidebarOpen, setSidebarOpen , translate}) {
+function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
   const location = useLocation();
   const { pathname } = location;
 
@@ -336,6 +336,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen , translate}) {
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 {translate("Chap0")}
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/stakeholders"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                {translate("StakeHolders")}
                               </span>
                             </NavLink>
                           </li>

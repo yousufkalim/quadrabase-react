@@ -9,7 +9,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 function Index(props) {
   const { isLoading, ProviderOptions } = props;
   const [Name, setName] = useState("");
-  const [documents, setDocuments] = useState("");
+  const [documents, setDocuments] = useState([]);
 
   const [testErrorMessage, settestErrorMessage] = useState("");
   const [docErrorMessage, setdocErrorMessage] = useState("");
@@ -17,10 +17,7 @@ function Index(props) {
   const handleAdd = () => {
     if (!Name) {
       settestErrorMessage("Required");
-    } else if (!documents) {
-      setdocErrorMessage("Required");
     } else {
-      setdocErrorMessage("");
       settestErrorMessage("");
 
       let obj = { provider: Name, documents: documents };

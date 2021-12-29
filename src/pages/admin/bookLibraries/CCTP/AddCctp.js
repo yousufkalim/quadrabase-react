@@ -41,24 +41,6 @@ export default function AddExpense(props) {
           </div>
         </div>
       </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            placeholder="Ranking"
-            label="Ranking"
-            name="ranking"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.ranking}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.ranking && formik.errors.ranking ? (
-              <small>{formik.errors.ranking}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
     </form>
   );
 }
