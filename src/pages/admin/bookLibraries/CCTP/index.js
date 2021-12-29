@@ -10,6 +10,8 @@ import { CCTP_STATE } from "../../../../components/formik/initialValues";
 import { CCTP_YUP } from "../../../../components/formik/validations";
 import AddCctp from "./AddCctp";
 import EditCctp from "./EditCctp";
+import List from "../../../../components/List";
+import ListMenu from "../../../../components/List/listMenu";
 
 import { CctpheadCells } from "../../../../utils/tableHeads";
 import Axios from "axios";
@@ -25,18 +27,34 @@ export default function Index(props) {
   const [deletemodal, setdeleteModal] = React.useState(false);
   const [headCells, setheadCells] = React.useState("");
 
-  const [adminId, setadminId] = React.useState("");
+  const [cctpId, setcctpId] = React.useState("");
   const [adminDeleteId, setadminDeleteId] = React.useState("");
 
-  const [adminsData, setadminsData] = React.useState([]);
+  const [cctpsData, setcctpsData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
+  const [anchorEl, setanchorEl] = React.useState(null);
+  const [parentLevel, setparentLevel] = React.useState(false);
 
-  const handleModal = () => setModal(!modal);
-  //   delete architect modal
-  const handleDeleteModal = (id) => {
-    if (id) {
-      setadminDeleteId(id);
+  const openanchorEl = Boolean(anchorEl);
+
+  const handleanchorEl = (event, id) => {
+    if (id === 0) {
+      setparentLevel(true);
+    } else {
+      setcctpId(id);
+      setparentLevel(false);
     }
+    setanchorEl(event.currentTarget);
+  };
+  const handleanchorElClose = () => {
+    setanchorEl(null);
+  };
+  const onAddModal = () => {
+    setModal(!modal);
+    handleanchorElClose();
+  };
+  //   delete architect modal
+  const handleDeleteModal = () => {
     setdeleteModal(!deletemodal);
   };
   //delete architect
@@ -44,7 +62,7 @@ export default function Index(props) {
     try {
       let response = await Axios({
         method: "delete",
-        url: `${baseUrl}/CCTP/${adminDeleteId}`,
+        url: `${baseUrl}/CCTP/${cctpId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,16 +75,10 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
-  const handleEditModal = async (id) => {
-    if (id) {
-      setadminId(id);
-      try {
-        let filteredData = adminsData.find((data) => data._id == id);
-        seteditData(filteredData);
-      } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
-      }
-    }
+  const handleEditModal = () => {
+    let filteredData = cctpsData.find((data) => data._id == cctpId);
+    seteditData(filteredData);
+
     seteditModal(!editmodal);
   };
 
@@ -81,7 +93,7 @@ export default function Index(props) {
       });
       let data = response.data.cctp;
       let newData = data.filter((dat) => dat.email !== USER.email);
-      setadminsData(newData);
+      setcctpsData(newData);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -116,7 +128,7 @@ export default function Index(props) {
 
         Notifier(response.data.message, "success", translate);
 
-        handleModal();
+        onAddModal();
         formik.resetForm();
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
@@ -134,7 +146,7 @@ export default function Index(props) {
       try {
         let response = await Axios({
           method: "put",
-          url: `${baseUrl}/CCTP/${adminId}`,
+          url: `${baseUrl}/CCTP/${cctpId}`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,14 +163,107 @@ export default function Index(props) {
       }
     },
   });
+
+  // ****************
+  //*** */
+  //UnitsUp
+  const handleCctpUp = async () => {
+    // setIndex(id);
+    let filteredIndex = cctpsData.findIndex((dt) => dt._id == cctpId);
+    if (filteredIndex != 0) {
+      let tempArr = [...cctpsData];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Units/${cctpId}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Units/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = cctpsData[filteredIndex - 1];
+      tempArr[filteredIndex - 1] = cctpsData[filteredIndex];
+      setcctpsData(tempArr);
+    }
+  };
+  //Units Down
+  const handleCctpDown = async () => {
+    // setIndex(id);
+    let filteredIndex = cctpsData.findIndex((dt) => dt._id == cctpId);
+
+    if (filteredIndex !== cctpsData.length - 1) {
+      let tempArr = [...cctpsData];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Units/${cctpId}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Units/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = cctpsData[nextIndex];
+      tempArr[nextIndex] = cctpsData[filteredIndex];
+      setcctpsData(tempArr);
+    }
+  };
+  // ********
   return (
     <>
+      <ListMenu
+        onClick={handleanchorEl}
+        onClose={handleanchorElClose}
+        parentLevel={parentLevel}
+        open={openanchorEl}
+        onAddModal={onAddModal}
+        anchorEl={anchorEl}
+        onEdit={handleEditModal}
+        onDelete={handleDeleteModal}
+        handleUp={handleCctpUp}
+        handleDown={handleCctpDown}
+        id={"unit-customized-button"}
+        title="Add CCTP"
+      />
+      <div className="w-full  md:mx-auto py-9 ">
+        <div className="container mx-auto px-6">
+          <List
+            data={cctpsData}
+            translate={translate}
+            handleanchorEl={handleanchorEl}
+            handleDelete={handleDeleteModal}
+            title="CCTP List"
+          />
+        </div>
+      </div>
       <Modal
         title="Add CCTP"
         open={modal}
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
-        onClose={handleModal}
+        onClose={onAddModal}
         component={<AddCctp translate={translate} formik={formik} />}
       />
       <Modal
@@ -191,28 +296,6 @@ export default function Index(props) {
           />
         }
       />
-      <div className="w-full  md:mx-auto py-9 ">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("CCTP")}</h1>
-            <Button
-              variant="outlined"
-              label="Add CCTP"
-              translate={translate}
-              onClick={handleModal}
-              startIcon={<AddIcon />}
-            />
-          </div>
-          <UnitsTable
-            headCells={CctpheadCells}
-            data={adminsData}
-            translate={translate}
-            handleEdit={handleEditModal}
-            handleDelete={handleDeleteModal}
-            rows={headCells}
-          />
-        </div>
-      </div>
     </>
   );
 }

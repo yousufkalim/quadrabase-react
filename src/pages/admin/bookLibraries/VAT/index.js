@@ -10,7 +10,8 @@ import { VAT_STATE } from "../../../../components/formik/initialValues";
 import { VAT_YUP } from "../../../../components/formik/validations";
 import AddVat from "./AddVat";
 import EditVat from "./EditVat";
-
+import List from "../../../../components/List";
+import ListMenu from "../../../../components/List/listMenu";
 import { VatheadCells } from "../../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
@@ -25,18 +26,34 @@ export default function Index(props) {
   const [deletemodal, setdeleteModal] = React.useState(false);
   const [headCells, setheadCells] = React.useState("");
 
-  const [adminId, setadminId] = React.useState("");
+  const [vatId, setvatId] = React.useState("");
   const [adminDeleteId, setadminDeleteId] = React.useState("");
 
-  const [adminsData, setadminsData] = React.useState([]);
+  const [vatsData, setvatsData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
+  const [anchorEl, setanchorEl] = React.useState(null);
+  const [parentLevel, setparentLevel] = React.useState(false);
 
-  const handleModal = () => setModal(!modal);
-  //   delete architect modal
-  const handleDeleteModal = (id) => {
-    if (id) {
-      setadminDeleteId(id);
+  const openanchorEl = Boolean(anchorEl);
+
+  const handleanchorEl = (event, id) => {
+    if (id === 0) {
+      setparentLevel(true);
+    } else {
+      setvatId(id);
+      setparentLevel(false);
     }
+    setanchorEl(event.currentTarget);
+  };
+  const handleanchorElClose = () => {
+    setanchorEl(null);
+  };
+  const onAddModal = () => {
+    setModal(!modal);
+    handleanchorElClose();
+  };
+  //   delete architect modal
+  const handleDeleteModal = () => {
     setdeleteModal(!deletemodal);
   };
   //delete architect
@@ -44,7 +61,7 @@ export default function Index(props) {
     try {
       let response = await Axios({
         method: "delete",
-        url: `${baseUrl}/Vat/${adminDeleteId}`,
+        url: `${baseUrl}/VAT/${vatId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,16 +74,10 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
-  const handleEditModal = async (id) => {
-    if (id) {
-      setadminId(id);
-      try {
-        let filteredData = adminsData.find((data) => data._id == id);
-        seteditData(filteredData);
-      } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
-      }
-    }
+  const handleEditModal = () => {
+    let filteredData = vatsData.find((data) => data._id == vatId);
+    seteditData(filteredData);
+
     seteditModal(!editmodal);
   };
 
@@ -81,7 +92,7 @@ export default function Index(props) {
       });
       let data = response.data.vat;
       let newData = data.filter((dat) => dat.email !== USER.email);
-      setadminsData(newData);
+      setvatsData(newData);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -115,7 +126,7 @@ export default function Index(props) {
         });
 
         Notifier(response.data.message, "success", translate);
-        handleModal();
+        onAddModal();
         formik.resetForm();
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
@@ -132,7 +143,7 @@ export default function Index(props) {
       try {
         let response = await Axios({
           method: "put",
-          url: `${baseUrl}/VAT/${adminId}`,
+          url: `${baseUrl}/VAT/${vatId}`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -147,13 +158,106 @@ export default function Index(props) {
       }
     },
   });
+  // ****************
+  //*** */
+  //UnitsUp
+  const handleUnitsUp = async () => {
+    // setIndex(id);
+    let filteredIndex = vatsData.findIndex((dt) => dt._id == vatId);
+    if (filteredIndex != 0) {
+      let tempArr = [...vatsData];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/VAT/${vatId}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/VAT/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = vatsData[filteredIndex - 1];
+      tempArr[filteredIndex - 1] = vatsData[filteredIndex];
+      setvatsData(tempArr);
+    }
+  };
+  //Units Down
+  const handleUnitsDown = async () => {
+    // setIndex(id);
+    let filteredIndex = vatsData.findIndex((dt) => dt._id == vatId);
+
+    if (filteredIndex !== vatsData.length - 1) {
+      let tempArr = [...vatsData];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/VAT/${vatId}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/VAT/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = vatsData[nextIndex];
+      tempArr[nextIndex] = vatsData[filteredIndex];
+      setvatsData(tempArr);
+    }
+  };
+  // ********
   return (
     <>
+      <ListMenu
+        onClick={handleanchorEl}
+        onClose={handleanchorElClose}
+        parentLevel={parentLevel}
+        open={openanchorEl}
+        onAddModal={onAddModal}
+        anchorEl={anchorEl}
+        onEdit={handleEditModal}
+        onDelete={handleDeleteModal}
+        handleUp={handleUnitsUp}
+        handleDown={handleUnitsDown}
+        id={"unit-customized-button"}
+        title="Add VAT"
+      />
+      <div className="w-full  md:mx-auto py-9 ">
+        <div className="container mx-auto px-6">
+          <List
+            data={vatsData}
+            translate={translate}
+            handleanchorEl={handleanchorEl}
+            handleDelete={handleDeleteModal}
+            title="VATS List"
+            keyName="value"
+          />
+        </div>
+      </div>
       <Modal
         title="Add VAT"
         open={modal}
         translate={translate}
-        onClose={handleModal}
+        onClose={onAddModal}
         onSubmit={formik.handleSubmit}
         buttonLabel="Create"
         component={<AddVat translate={translate} formik={formik} />}
@@ -188,28 +292,6 @@ export default function Index(props) {
           />
         }
       />
-      <div className="w-full  md:mx-auto py-9 ">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("VAT")}</h1>
-            <Button
-              variant="outlined"
-              label="Add VAT"
-              translate={translate}
-              onClick={handleModal}
-              startIcon={<AddIcon />}
-            />
-          </div>
-          <UnitsTable
-            headCells={VatheadCells}
-            data={adminsData}
-            translate={translate}
-            handleEdit={handleEditModal}
-            handleDelete={handleDeleteModal}
-            rows={headCells}
-          />
-        </div>
-      </div>
     </>
   );
 }

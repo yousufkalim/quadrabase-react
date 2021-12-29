@@ -10,6 +10,8 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 
 import Units from "./pages/admin/bookLibraries/Units";
+import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
+
 import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
@@ -63,6 +65,13 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Units,
+    layout: "/admin",
+  },
+  {
+    path: "/stakeholders",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Stakeholders,
     layout: "/admin",
   },
   {
