@@ -36,8 +36,7 @@ export default function Index(props) {
   const [editData, seteditData] = React.useState([]);
 
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
-  const [subscriptionArchitextId, setSubscriptionArchitextId] =
-    React.useState();
+  const [subscriptionArchitextId, setSubscriptionArchitextId] = React.useState();
   const [value, setValue] = React.useState("");
   const [credit, setCredit] = React.useState(1);
   const [projects, setProjects] = React.useState(1);
@@ -50,7 +49,7 @@ export default function Index(props) {
     const { name, value } = e.target;
     if (name == "subscription") {
       setValue(value);
-    } else if (name == "projects") {
+    }  else if (name == "projects") {
       setProjects(value);
     } else {
       setCredit(value);
@@ -97,6 +96,7 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
+  
   const handleEditModal = async (id) => {
     if (id) {
       setarchitectId(id);
@@ -105,6 +105,7 @@ export default function Index(props) {
     }
     seteditModal(!editmodal);
   };
+
   // Subscription Modal
   const handleSubscriptionModal = (id) => {
     if (id) {
