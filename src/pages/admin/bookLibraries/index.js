@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 
 import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
-import List from "../../../components/List/index.js";
-import ListMenu from "../../../components/List/listMenu";
+import List from "../../../components/LibrariesList/index.js";
+import ListMenu from "../../../components/LibrariesList/listMenu";
 
 import Notifier from "../../../utils/Notifier";
 import Families from "./Families";
