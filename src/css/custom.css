@@ -16,3 +16,14 @@ input[disabled] {
   height: 38px !important;
   border-radius: 4px;
 }
+
+.css-1yhpg23-MuiTableCell-root {
+  padding: 0px !important;
+  text-align: center !important;
+}
+
+.css-1ndpvdd-MuiTableCell-root {
+  text-align: center !important;
+  margin: auto !important;
+  padding-left: 40px !important;
+}

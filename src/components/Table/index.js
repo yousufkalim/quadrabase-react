@@ -57,7 +57,6 @@ function EnhancedTableHead(props) {
   const {
     order,
     orderBy,
-
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -70,8 +69,9 @@ function EnhancedTableHead(props) {
           props.headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={"left"}
+              align={"center"}
               // padding={headCell.disablePadding ? "none" : "normal"}
+              padding={"normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
@@ -252,17 +252,17 @@ export default function EnhancedTable(props) {
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row._id}
-                      align={"left"}
+                      align={"center"}
                       selected={isItemSelected}
                     >
                       {props.rows.map( (record, index) => {
                           return record == "createdAt" ? (
-                            <TableCell align="left" title={row[record]}>
+                            <TableCell align="center" title={row[record]}>
                               {moment(row[record]).format("DD/MM/YYYY HH:mm")}
                             </TableCell>
                           ) : record == "subscriptionStartDate" ? (
                             <TableCell
-                              align="left"
+                              align="center"
                               title={row?.subscriptions?.start_date}
                             >
                               {row?.subscriptions?.start_date
@@ -273,7 +273,7 @@ export default function EnhancedTable(props) {
                             </TableCell>
                           ) : record == "subscriptionEndDate" ? (
                             <TableCell
-                              align="left"
+                              align="center"
                               title={row?.subscriptions?.end_date}
                             >
                               {row?.subscriptions?.end_date
@@ -285,7 +285,7 @@ export default function EnhancedTable(props) {
                           ) : record === "subscription" ? (
                             <TableCell
                               key={index}
-                              align="left"
+                              align="center"
                               title={row?.subscriptions?.id?.name}
                             >
                               {row?.subscriptions?.id?.name
@@ -300,7 +300,7 @@ export default function EnhancedTable(props) {
                           ) : record === "total_projects" ? (
                             <TableCell
                               key={index}
-                              align="left"
+                              align="center"
                               title={"total_projects"}
                             >
                               {row?.subscriptions?.id?.projects
@@ -315,7 +315,7 @@ export default function EnhancedTable(props) {
                           ) : record === "ongoing_projects" ? (
                             <TableCell
                               key={index}
-                              align="left"
+                              align="center"
                               title={"ongoing_projects"}
                             >
                               {`${(row?.projects?.length ?? 0)}`.length > 20
@@ -328,7 +328,7 @@ export default function EnhancedTable(props) {
                           ) : record === "remaining_projects" ? (
                             <TableCell
                               key={index}
-                              align="left"
+                              align="center"
                               title={"remaining_projects"}
                             >
                               {`${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 20
@@ -338,10 +338,22 @@ export default function EnhancedTable(props) {
                                 ) + "..."
                                 : `${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`}
                             </TableCell>
+                          ) : record === "authorized" ? (
+                            <TableCell
+                              key={index}
+                              align="center"
+                              title={"authroized"}
+                            >
+                              {row[record]
+                                ? row[record].length > 20
+                                  ? row[record].substring(0, 20) + "..."
+                                  : row[record]
+                                : "N/A"}
+                            </TableCell>
                           ) : (
                             <TableCell
                               key={index}
-                              align="left"
+                              align="center"
                               title={row[record]}
                             >
                               {row[record]
@@ -354,7 +366,7 @@ export default function EnhancedTable(props) {
                         }
                       )}
 
-                      <TableCell align="left">
+                      <TableCell align="center">
                         {props.subscription && (
                           <IconButton
                             color="info"
