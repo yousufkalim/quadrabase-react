@@ -8,6 +8,7 @@ import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import Presentation from "./pages/auth/presentation";
 
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
@@ -104,18 +105,18 @@ var routes = [
     component: Login,
     layout: "/auth",
   },
-  // {
-  //   path: "/register",
-  //   name: "Auth",
-  //   icon: "ni ni-tv-2 text-primary",
-  //   component: Register,
-  //   layout: "/auth",
-  // },
+  {
+    path: "/register",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Register,
+    layout: "/auth",
+  },
   {
     path: "/presentation",
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
-    component: Register,
+    component: Presentation,
     layout: "/auth",
   },
 ];

@@ -91,6 +91,7 @@ export default function Index(props) {
   useEffect(() => {
     getAdmins();
   }, [modal, editmodal, deletemodal]);
+  
   useEffect(() => {
     let array = [];
     Chap0headCells.slice(0, Chap0headCells.length - 1).map((cell) =>
@@ -195,7 +196,7 @@ export default function Index(props) {
           />
         }
       />
-      <div className="w-full  md:mx-auto py-9 ">
+      <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
             <h1 className="text-2xl font-bold">{translate("Chap0")}</h1>

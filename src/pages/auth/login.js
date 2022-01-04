@@ -8,6 +8,8 @@ import { handleLogin } from "../../utils/Auth";
 import { Redirect } from "react-router-dom";
 import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
+import { NavLink } from "react-router-dom";
+
 export default function Login(props) {
   const { translate } = props;
   const [IsLoading, setIsLoading] = React.useState(false);
@@ -110,6 +112,19 @@ export default function Login(props) {
                       {IsLoading
                         ? `${translate("Loading....")}`
                         : `${translate("Login")}`}
+                    </button>
+                  </div>
+                  <div className="mb-3 text-center">
+                    <button
+                      className="w-full px-4 py-2 font-bold text-white bg-purple-400 rounded-full hover:bg-purple-500 focus:outline-none focus:shadow-outline"
+                      type="button"
+                    >
+                      <NavLink
+                        exact
+                        to="/auth/register"
+                      >
+                        {translate("Register")}
+                      </NavLink>
                     </button>
                   </div>
                   <div className="text-center">
