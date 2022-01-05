@@ -65,36 +65,31 @@ const { language } = i18n;
               </NavLink>
             </li>
             <li>
-              <a
+              <NavLink
+                exact
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                href="#"
+                to="/auth/educational_materials"
               >
                 {translate("Educational Materials")}
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
+              <NavLink
+                exact
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                href="#"
+                to="/auth/documentation"
               >
                 {translate("Documentation")}
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
+              <NavLink
+                exact
                 className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                href="#"
+                to="/auth/manufacturers"
               >
                 {translate("Manufacturers")}
-              </a>
-            </li>
-            <li>
-              <a
-                className="inline-block no-underline text-gray-400 hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                href="#"
-              >
-                {translate("Ordered")}
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

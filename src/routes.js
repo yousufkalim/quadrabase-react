@@ -9,6 +9,9 @@ import profileSettings from "./pages/admin/profileSettings";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Presentation from "./pages/auth/presentation";
+import EducationalMaterial from "./pages/auth/educationalMaterial";
+import Documentation from "./pages/auth/documentation";
+import Manufacturer from "./pages/auth/manufacturers";
 
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
@@ -117,6 +120,27 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Presentation,
+    layout: "/auth",
+  },
+  {
+    path: "/educational_materials",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: EducationalMaterial,
+    layout: "/auth",
+  },
+  {
+    path: "/documentation",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Documentation,
+    layout: "/auth",
+  },
+  {
+    path: "/manufacturers",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Manufacturer,
     layout: "/auth",
   },
 ];

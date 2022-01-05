@@ -4,15 +4,12 @@ import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import Collapsible from "../../components/Collapsible/index";
 
 const primaryCol = "#F96B05";
 
@@ -320,47 +317,7 @@ function SectorOfActivity(){
   );
 }
 
-function QNAListItem(props){
-
-  const { text, expandComponent } = props;
-
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <>
-      <div style={{ minHeight: "40px", borderWidth: "1px", borderRadius: "10px", borderColor: primaryCol, display: "flex", alignItems: "center", marginTop: "5px"}}>
-        <Grid container flex="row" spacing={2}>
-          <Grid item xs={11} md={11}>
-            <div style={{display: "flex", alignItems: "center"}}>
-              <Typography
-                align="left"
-                sx={{ fontWeight: 500, fontSize: 16, color: primaryCol, paddingLeft: "20px" }}
-              >
-                {text}
-              </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={1} md={1}>
-            <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-              <IconButton
-                aria-label="expand row"
-                size="small"
-                onClick={() => setOpen(!open)}
-                sx={{marginRight: 0, paddingRight: 0}}
-              >
-                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-              </IconButton>
-            </div>
-          </Grid>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            {expandComponent}
-          </Collapse>
-        </Grid>
-      </div>
-    </>
-  );
-
-}
+const QNAListItem = Collapsible;
 
 function FirstExpandComponent(){
 
