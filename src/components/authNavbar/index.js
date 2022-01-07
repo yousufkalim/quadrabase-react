@@ -10,7 +10,7 @@ import { teal,common,blueGrey } from "@mui/material/colors";
 
 export default function Navbar(props) {
   const {translate,i18n} = props;
-const { language } = i18n;
+  const { language } = i18n;
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);

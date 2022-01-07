@@ -12,7 +12,6 @@ function Dashboard(props) {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         let Component = prop.component;
-
         return (
           <Route
             path={prop.layout + prop.path}

@@ -14,6 +14,8 @@ function NestedList(props) {
 
   return (
     <div className="shadow-md">
+      {console.log(`THIS THE props.primaryKey: ${props.primaryKey}, props.secondaryKey: ${props.secondaryKey}`)}
+      {console.log(`THIS THE props.primaryKey: ${props.primaryKey}, props.secondaryKey: ${props.secondaryKey}`)}
       <List
         component="nav"
         subheader={
@@ -38,7 +40,8 @@ function NestedList(props) {
                 <SubListItem
                   _id={dat._id}
                   Index={index}
-                  name={props.keyName ? dat[props.keyName] : dat.name}
+                  primaryText={props.primaryKey ? dat[props.primaryKey] : dat.name}
+                  secondaryText={props.secondaryKey ? dat[props.secondaryKey] : null}
                   handleanchorEl={handleanchorEl}
                 />
               </div>

@@ -166,6 +166,7 @@ export default function Index(props) {
       />
       <Modal
         title="Edit Chap0"
+        titleUpperCase={true}
         open={editmodal}
         width="30%"
         translate={translate}
@@ -199,7 +200,7 @@ export default function Index(props) {
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("Chap0")}</h1>
+            <h1 className="text-2xl font-bold">{translate("Chap0").toUpperCase()}</h1>
             <Button
               variant="outlined"
               label="Add Chap0"

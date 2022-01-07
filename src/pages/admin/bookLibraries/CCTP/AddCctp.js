@@ -13,6 +13,7 @@ export default function AddExpense(props) {
             type="text"
             placeholder="Name"
             label="Name"
+            labelUpperCase={true}
             name="name"
             translate={translate}
             onChange={formik.handleChange}
@@ -29,6 +30,7 @@ export default function AddExpense(props) {
             type="text"
             placeholder="Type"
             label="Type"
+            labelUpperCase={true}
             name="type"
             translate={translate}
             onChange={formik.handleChange}

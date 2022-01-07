@@ -1,11 +1,14 @@
 import React from "react";
 
 export default function index(props) {
+
+  const { labelUpperCase } = props;
+
   if (props.type && props.type == "file") {
     return (
       <div>
         <label
-          className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
+          className={`block ${labelUpperCase ? "uppercase" : "capitalize"} tracking-wide text-gray-700 text-xs font-bold mb-2`}
           htmlFor="grid-first-name"
         >
           {props.translate ? props.translate(`${props.label}`) : props.label}
@@ -29,7 +32,7 @@ export default function index(props) {
     return (
       <div>
         <label
-          className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
+          className={`block ${labelUpperCase ? "uppercase" : "capitalize"} tracking-wide text-gray-700 text-xs font-bold mb-2`}
           htmlFor="grid-first-name"
         >
           {props.translate ? props.translate(`${props.label}`) : props.label}

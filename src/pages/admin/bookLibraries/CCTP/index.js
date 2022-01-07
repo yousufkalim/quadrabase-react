@@ -247,10 +247,12 @@ export default function Index(props) {
         id={"unit-customized-button"}
         title="Add CCTP"
       />
-      <div className="w-full  md:mx-auto py-9 ">
+      <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <List
             data={cctpsData}
+            primaryKey="name"
+            secondaryKey="value"
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}
@@ -267,7 +269,7 @@ export default function Index(props) {
         component={<AddCctp translate={translate} formik={formik} />}
       />
       <Modal
-        title="Edit CCTP"
+        title="Edit CCTP Title"
         open={editmodal}
         translate={translate}
         onClose={handleEditModal}

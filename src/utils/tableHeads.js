@@ -1,5 +1,40 @@
 export const ArchitectheadCells = [
   {
+    id: "establishment",
+
+    label: "Establishment",
+  },
+  {
+    id: "address_1",
+
+    label: "Address 1",
+  },
+  {
+    id: "address_2",
+
+    label: "Address 2",
+  },
+  {
+    id: "po_box",
+
+    label: "PO Box",
+  },
+  {
+    id: "postal_code",
+
+    label: "Postal Code",
+  },
+  {
+    id: "city",
+
+    label: "City",
+  },
+  {
+    id: "phone",
+
+    label: "Phone",
+  },
+  {
     id: "first_name",
 
     label: "First Name",
@@ -20,7 +55,7 @@ export const ArchitectheadCells = [
   },
   {
     id: "credit",
-    label: "Total Credits",
+    label: "Total Products",
   },
   {
     id: "total_projects",
@@ -66,15 +101,16 @@ export const ArchitectheadCells = [
 ];
 export const AdminheadCells = [
   {
-    id: "first_name",
-
-    label: "First Name",
-  },
-  {
     id: "last_name",
 
     label: "Last Name",
   },
+  {
+    id: "first_name",
+
+    label: "First Name",
+  },
+  
   {
     id: "email",
 
@@ -129,11 +165,15 @@ export const VatheadCells = [
     label: "Value",
   },
   {
+    id: "symbol",
+
+    label: "Symbol",
+  },
+  {
     id: "ranking",
 
     label: "Ranking",
   },
-
   {
     id: "createdAt",
 
@@ -248,6 +288,26 @@ export const ProviderheadCells = [
     id: "createdAt",
 
     label: "Date/Time",
+  },
+  {
+    id: "po_box",
+
+    label: "PO Box",
+  },
+  {
+    id: "email_address_client",
+
+    label: "Email Address Client",
+  },
+  {
+    id: "client_code",
+
+    label: "Client Code",
+  },
+  {
+    id: "establishment",
+
+    label: "Establishment",
   },
   {
     id: "action",

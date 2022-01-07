@@ -130,10 +130,11 @@ i18n
           //   ChapO
           ChapO: "ChapO",
           "Edit ChapO": "Edit ChapO",
+          "Edit Chap0": "Edit Chap0 Part2",
           "Add Chap0": "Add Chap0",
           //  CCTP
           CCTP: "CCTP",
-          "Edit CCTP": "Edit CCTP",
+          "Edit CCTP Title": "Edit CCTP Title",
           "Add CCTP": "Add CCTP",
 
           /////    Backend Notification
@@ -236,6 +237,24 @@ i18n
           "Subscription deleted successfully":
             "Subscription deleted successfully",
           "Subscription  not found": "Subscription  not found",
+
+
+          // New
+          "Welcome to Quadrabase": "Welcome to Quadrabase",
+          "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)": "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)",
+          "Select Projects": "Select Projects",
+          "Total Projects": "Total Projects",
+          "Total Products": "Total Products",
+          "Address 1": "Address 1",
+          "Address 2": "Address 2",
+          "PO Box": "PO Box",
+          "Postal Code": "Postal Code",
+          "City": "City",
+          "Phone": "Phone",
+          "Email Address (Client)": "Email Address (Client)",
+          "Stakeholders List": "List of types of stakeholders",
+          "Edit Stakeholder": "Edit Stakeholder",
+          "Chap0": "Chap0 Part2"
         },
       },
       fr: {
@@ -251,7 +270,7 @@ i18n
           "Create an Account!": "Créer un compte",
           "First Name": "Prénom",
           "Last Name": "Nom de famille",
-          Email: "E-mail",
+          Email: "Courriel",
           Password: "Mot de passe",
           "Confirm Password": "Confirmer le mot de passe",
           "Please choose a password.": "Veuillez choisir un mot de passe",
@@ -264,7 +283,7 @@ i18n
           Subscription: "Abonnement",
           "Subscription End Date": "Date de fin d'abonnement",
           Service: "Service",
-          "Date/Time": "Date/Heure",
+          "Date/Time": "Date et heure",
           Action: "Action",
           // AdminheadCells
           Admins: "Administrateurs",
@@ -304,7 +323,7 @@ i18n
           "6 months subscription": "6 mois d'abonnemen",
           Yearly: "Annuel",
           // update Architechs
-          "Edit Architect": "Modifier l'architecte",
+          "Edit Architect": "Modifier Prescripteur",
           Update: "Mettre à jour",
           "Are you sure?": "Êtes-vous sûr ?",
           "Do you really want to delete ? This process cannot be undone":
@@ -316,7 +335,7 @@ i18n
           "Add Admin": "Ajouter un administrateur",
           // Providers
           "Add Provider": "Ajouter",
-          Providers: "Fournisseurs",
+          Providers: "Fabricants",
           BPU: "BPU",
           "Edit Provider": "Modifier le fournisseur",
           // Libraries
@@ -353,11 +372,12 @@ i18n
           "Edit VAT": "Modifier TVA",
           // ChapO
           ChapO: "ChapO",
-          "Edit ChapO": "Modifier ChapO",
+          // "Edit ChapO": "Modifier ChapO",
+          "Edit Chap0": "Modifier Chap0 Part2",
           "Add Chap0": "Ajouter Chap0",
           // CCTP
           CCTP: "CCTP",
-          "Edit CCTP": "Modifier CCTP",
+          "Edit CCTP Title": "Modifier Titre CCTP",
           "Add CCTP": "Ajouter CCTP",
 
           /////    Backend Notification
@@ -462,6 +482,25 @@ i18n
           "Subscription deleted successfully":
             "Abonnement Supprimé avec succès",
           "Subscription  not found": "Abonnement introuvable",
+
+
+
+          // New
+          "Welcome to Quadrabase": "Bienvenue sur Quadrabase",
+          "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)": "Quadrabase est une application métier visant à produire automatiquement les pièces écrites techniques des dossiers de consultation des entreprises (DCE) dans le cadre de marchés de travaux",
+          "Select Projects": "Sélection le Produit",
+          "Total Projects": "Nb Projets",
+          "Total Products": "Total des projets",
+          "Address 1": "Adresse 1",
+          "Address 2": "Adresse 2",
+          "PO Box": "Boite Postale",
+          "Postal Code": "Code Postal",
+          "City": "Ville",
+          "Phone": "Téléphone",
+          "Email Address (Client)": "Adresse courriel (Client)",
+          "Stakeholders List": "Liste des types d’intervenants",
+          "Edit Stakeholder": "Modifier le Type d’intervenant",
+          "Chap0": "Chap0 Part2"
         },
       },
     },

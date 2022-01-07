@@ -22,7 +22,7 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2  px-3">
+        <div className="w-full md:w-1/2 px-3">
           <TextInput
             type="text"
             placeholder="Symbol"
