@@ -97,26 +97,25 @@ export default function CustomizedMenus(props) {
       >
         <MenuItem onClick={() => handleClick("Edit")} disableRipple>
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
-          Edit
+          {translate("Edit")}
         </MenuItem>
         <MenuItem onClick={() => handleClick("Delete")} disableRipple>
           <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
-          Delete
+          {translate("Delete")}
         </MenuItem>
         {/* <Divider sx={{ my: 0.5 }} /> */}
         <div style={{ paddingLeft: "0.6rem" }}>
           <MenuItem onClick={() => handleClick("Up")} disableRipple>
-            Up
+            {translate("Up")}
           </MenuItem>
           <MenuItem onClick={() => handleClick("Down")} disableRipple>
-            Down
+            {translate("Down")}
           </MenuItem>
-
           {props.text && (
             <>
               <Divider sx={{ my: 0.5 }} />
               <MenuItem onClick={() => handleClick(props.text)}>
-                {props.text.replace("_", " ")}
+                {translate(props.text.replace("_", " "))}
               </MenuItem>
             </>
           )}

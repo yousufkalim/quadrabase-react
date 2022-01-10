@@ -58,7 +58,7 @@ export default function AddExpense(props) {
   });
 
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full pt-9">
       <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full  px-3 mb-6 md:mb-0 ">
           <TextInput
@@ -76,7 +76,16 @@ export default function AddExpense(props) {
           </div>
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-3">
+      <div className="-mx-3 mb-3">
+        <div className="w-full px-3" style={{height: "300px"}}>
+          <RichTextEditor
+            onChange={(value) => setcctp_text1(value)}
+            value={cctp_text1}
+            label={"CCTP 1"}
+          />
+        </div>
+      </div>
+      {/* <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <RichTextEditor
             onChange={(value) => setcctp_text1(value)}
@@ -92,7 +101,7 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-3">
+      <div className="flex no-wrap -mx-3 mb-3">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <RichTextEditor
             onChange={(value) => setcctp_text3(value)}
@@ -107,7 +116,7 @@ export default function AddExpense(props) {
             label={"CCTP 4"}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="flex pb-2 justify-end ">
         <div className="">

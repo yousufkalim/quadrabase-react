@@ -127,10 +127,10 @@ export default function AddExpense(props) {
       Object.keys(editData).map((dat, i) => {
         if (Object.keys(initialValues).includes(dat)) {
           if (dat == "cctp_text") {
-            setcctp_text1(editData[dat][0] ?? "");
-            setcctp_text2(editData[dat][1] ?? "");
-            setcctp_text3(editData[dat][2] ?? "");
-            setcctp_text4(editData[dat][3] ?? "");
+            setcctp_text1(editData[dat][0]);
+            setcctp_text2(editData[dat][1]);
+            setcctp_text3(editData[dat][2]);
+            setcctp_text4(editData[dat][3]);
           } else if (dat == "providers") {
             setProviderDataArr(editData[dat]);
           } else {

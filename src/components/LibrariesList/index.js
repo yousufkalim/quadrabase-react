@@ -63,6 +63,7 @@ function NestedList(props) {
                     Index={index}
                     level={"level1"}
                     name={name}
+                    nameBold={true}
                     handleanchorEl={handleanchorEl}
                     parentLevel={parentLevel}
                     state={state}

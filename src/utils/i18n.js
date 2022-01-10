@@ -338,7 +338,7 @@ i18n
           "Edit Admin": "Modifier l’Admin",
           "Add Admin": "Ajouter un administrateur",
           // Providers
-          "Add Provider": "Ajouter",
+          "Add Provider": "Ajouter un fournisseur",
           Providers: "Fabricants",
           BPU: "BPU",
           "Edit Provider": "Modifier le fournisseur",
@@ -358,7 +358,7 @@ i18n
           Quantity: "Quantité",
           "Unit Price": "Prix unitaire",
           Required: "Requis",
-          "Edit Category": "Modifier la catégorie",
+          "Edit Category": "Editer la Catégorie",
           "Edit Library": "Editer la Bibliothèque",
           "Edit Work": "Editer un ouvrage",
           development: "Développement",
