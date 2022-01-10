@@ -83,6 +83,10 @@ export const CCTP_YUP = Yup.object({
   type: Yup.string().required("Required"),
 });
 
+export const FAMILIES_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+});
+
 export const CHAP0_YUP = Yup.object({
   title: Yup.string().required("Required"),
   text: Yup.string().required("Required"),

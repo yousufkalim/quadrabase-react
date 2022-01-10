@@ -84,6 +84,11 @@ export const CCTP_STATE = {
   ranking: "",
 };
 
+export const FAMILIES_STATE = {
+  name: "",
+  ranking: "",
+};
+
 export const CHAP0_STATE = {
   title: "",
   text: "",

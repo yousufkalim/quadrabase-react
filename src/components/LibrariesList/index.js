@@ -8,7 +8,6 @@ import SubListItem from "./subListItem";
 import ListMenu from "./listMenu";
 import { faEllipsisV, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
-import { LibrariesList } from "../../utils/libraryList";
 
 function NestedList(props) {
   const { translate } = props;

@@ -1,94 +1,88 @@
-import React, { useState, useEffect } from "react";
-import MemoizedFamily from "./memoizedFamily";
-import MemoizedFamilies from "./memoizedFamilies";
-
-import { red } from "@mui/material/colors";
+import React, { useEffect } from "react";
+import UnitsTable from "../../../../components/Table";
 import Button from "../../../../components/Button";
+import AddIcon from "@mui/icons-material/Add";
+import Modal from "../../../../components/Modal";
+import DeleteModal from "../../../../components/DeleteModal";
+import Notifier from "../../../../utils/Notifier";
+import { useFormik } from "formik";
+import { FAMILIES_STATE } from "../../../../components/formik/initialValues";
+import { FAMILIES_YUP } from "../../../../components/formik/validations";
+import AddFamily from "./AddFamily";
+import EditFamily from "./EditFamily";
+import List from "../../../../components/List";
+import ListMenu from "../../../../components/List/listMenu";
+
+import { FamiliesheadCells } from "../../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
-import { getToken } from "../../../../utils/Auth";
-import Notifier from "../../../../utils/Notifier";
+import { getToken, getUser } from "../../../../utils/Auth";
+
 export default function Index(props) {
-  const token = getToken();
   const { translate } = props;
-  const [data, setData] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
+  const token = getToken();
+  const USER = getUser();
+  const [modal, setModal] = React.useState(false);
+  const [editmodal, seteditModal] = React.useState(false);
+  const [deletemodal, setdeleteModal] = React.useState(false);
+  const [headCells, setheadCells] = React.useState("");
 
-  const [show, sethide] = useState(false);
-  const handleAdd = (obj) => {
-    onAdd(obj);
-    // setData([...data, obj]);
-  };
-  const handleUpdate = async (name, id) => {
-    try {
-      let response = await Axios({
-        method: "put",
-        url: `${baseUrl}/Families/${id}`,
-        data: { name: name },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      let data = response.data.families;
-      setisLoading(false);
+  const [familyId, setfamilyId] = React.useState("");
+  const [adminDeleteId, setadminDeleteId] = React.useState("");
 
-      setData(data);
-      Notifier(response.data.message, "success", translate);
-    } catch (err) {
-      setisLoading(false);
-      Notifier(err.response.data.message, "error", translate);
+  const [familiesData, setfamiliesData] = React.useState([]);
+  const [editData, seteditData] = React.useState([]);
+  const [anchorEl, setanchorEl] = React.useState(null);
+  const [parentLevel, setparentLevel] = React.useState(false);
 
-      console.log("Errror->>>", err);
+  const openanchorEl = Boolean(anchorEl);
+
+  const handleanchorEl = (event, id) => {
+    if (id === 0) {
+      setparentLevel(true);
+    } else {
+      setfamilyId(id);
+      setparentLevel(false);
     }
+    setanchorEl(event.currentTarget);
   };
-  const handleDelete = async (id) => {
-    // onAdd(obj);
-
+  const handleanchorElClose = () => {
+    setanchorEl(null);
+  };
+  const onAddModal = () => {
+    setModal(!modal);
+    handleanchorElClose();
+  };
+  //   delete architect modal
+  const handleDeleteModal = () => {
+    setdeleteModal(!deletemodal);
+  };
+  //delete architect
+  const handleDelete = async () => {
     try {
       let response = await Axios({
         method: "delete",
-        url: `${baseUrl}/Families/${id}`,
+        url: `${baseUrl}/Families/${familyId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.families;
-      setisLoading(false);
-
-      setData(data);
-      Notifier(response.data.message, "success", translate);
-    } catch (err) {
-      setisLoading(false);
-      Notifier(err.response.data.message, "error", translate);
-
-      console.log("Errror->>>", err);
+      Notifier("Family Deleted!", "success", translate);
+    } catch (error) {
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
+
+    setdeleteModal(!deletemodal);
   };
-  const onAdd = async (obj) => {
-    setisLoading(true);
+  const handleEditModal = () => {
+    let filteredData = familiesData.find((data) => data._id == familyId);
+    seteditData(filteredData);
 
-    try {
-      let response = await Axios({
-        method: "post",
-        url: `${baseUrl}/Families/create`,
-        data: obj,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      let data = response.data.families;
-      setisLoading(false);
-
-      setData(data);
-      Notifier(response.data.message, "success", translate);
-    } catch (err) {
-      setisLoading(false);
-      Notifier(err.response.data.message, "error", translate);
-
-      console.log("Errror->>>", err);
-    }
+    seteditModal(!editmodal);
   };
-  const getAllFamilies = async () => {
+
+  const getFamilies = async () => {
     try {
       let response = await Axios({
         method: "get",
@@ -98,34 +92,210 @@ export default function Index(props) {
         },
       });
       let data = response.data.families;
-      setData(data);
-    } catch (err) {
-      console.log("Errror->>>", err);
+      let newData = data.filter((dat) => dat.email !== USER.email);
+      setfamiliesData(newData);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+    //}
+  };
+
+  useEffect(() => {
+    getFamilies();
+  }, [modal, editmodal, deletemodal]);
+  useEffect(() => {
+    let array = [];
+    FamiliesheadCells.slice(0, FamiliesheadCells.length - 1).map((cell) =>
+      array.push(cell.id)
+    );
+    setheadCells(array);
+  }, []);
+
+  //add Family
+  const formik = useFormik({
+    initialValues: FAMILIES_STATE,
+    validationSchema: FAMILIES_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "post",
+          url: `${baseUrl}/Families/create`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        onAddModal();
+        Notifier(response.data.message, "success", translate);
+        formik.resetForm();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+
+  //edit Family
+  const edit_formik = useFormik({
+    initialValues: FAMILIES_STATE,
+    validationSchema: FAMILIES_YUP,
+    onSubmit: async (values) => {
+      try {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Families/${familyId}`,
+          data: values,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        Notifier(response.data.message, "success", translate);
+
+        handleEditModal();
+      } catch (err) {
+        Notifier(err.response.data.message, "error", translate);
+
+        console.log("Errror->>>", err);
+      }
+    },
+  });
+
+  // ****************
+  //*** */
+  //FamiliesUp
+  const handleFamilyUp = async () => {
+    // setIndex(id);
+    let filteredIndex = familiesData.findIndex((dt) => dt._id == familyId);
+    if (filteredIndex != 0) {
+      let tempArr = [...familiesData];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Families/${familyId}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Families/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = familiesData[filteredIndex - 1];
+      tempArr[filteredIndex - 1] = familiesData[filteredIndex];
+      setfamiliesData(tempArr);
     }
   };
-  useEffect(() => {
-    getAllFamilies();
-  }, []);
+  //Units Down
+  const handleFamilyDown = async () => {
+    let filteredIndex = familiesData.findIndex((dt) => dt._id == familyId);
+
+    if (filteredIndex !== familiesData.length - 1) {
+      let tempArr = [...familiesData];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+      handleanchorElClose();
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Families/${familyId}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Families/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => console.log("success2"));
+      });
+      tempArr[filteredIndex] = familiesData[nextIndex];
+      tempArr[nextIndex] = familiesData[filteredIndex];
+      setfamiliesData(tempArr);
+    }
+  };
+  // ********
   return (
-    <div>
-      {data && data.length > 0 ? (
-        <div className="h-96 overflow-y-auto border px-10 py-3">
-          {data &&
-            data.map(({ _id, name }) => (
-              <div key={_id} className="mt-2">
-                <MemoizedFamilies
-                  _id={_id}
-                  name={name}
-                  onDelete={() => handleDelete(_id)}
-                  handleUpdate={handleUpdate}
-                />
-              </div>
-            ))}
+    <>
+      <ListMenu
+        onClick={handleanchorEl}
+        onClose={handleanchorElClose}
+        parentLevel={parentLevel}
+        open={openanchorEl}
+        onAddModal={onAddModal}
+        anchorEl={anchorEl}
+        onEdit={handleEditModal}
+        onDelete={handleDeleteModal}
+        handleUp={handleFamilyUp}
+        handleDown={handleFamilyDown}
+        id={"unit-customized-button"}
+        title={translate("Add Family")} 
+      />
+      <div className="w-full md:mx-auto py-9 ">
+        <div className="container mx-auto px-6">
+          <List
+            data={familiesData}
+            primaryKey="name"
+            secondaryKey="type"
+            translate={translate}
+            handleanchorEl={handleanchorEl}
+            handleDelete={handleDeleteModal}
+            title={translate("Families List")}
+          />
         </div>
-      ) : (
-        <h1 className="text-center"></h1>
-      )}
-      <MemoizedFamily isLoading={isLoading} onAdd={handleAdd} />
-    </div>
+      </div>
+      <Modal
+        title={translate("Add Family")}
+        open={modal}
+        buttonLabel="Create"
+        onSubmit={formik.handleSubmit}
+        onClose={onAddModal}
+        component={<AddFamily translate={translate} formik={formik} />}
+      />
+      <Modal
+        title="Edit Family Title"
+        open={editmodal}
+        translate={translate}
+        onClose={handleEditModal}
+        buttonLabel="Update"
+        onSubmit={edit_formik.handleSubmit}
+        component={
+          <EditFamily
+            translate={translate}
+            editData={editData}
+            editmodal={editmodal}
+            formik={edit_formik}
+          />
+        }
+      />
+      <Modal
+        // title="Add Architect"
+        open={deletemodal}
+        onClose={handleDeleteModal}
+        width="35%"
+        delete={true}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleDeleteModal}
+            handleDelete={handleDelete}
+          />
+        }
+      />
+    </>
   );
 }

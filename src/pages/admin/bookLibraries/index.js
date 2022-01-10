@@ -655,6 +655,7 @@ export default function Index(props) {
         level={Level}
         id={"demo-customized-button"}
         parentLevel={parentLevel}
+        {...props}
       />
 
       <div className="w-full  md:mx-auto py-20 ">
@@ -672,14 +673,14 @@ export default function Index(props) {
         </div>
       </div>
       {/* All  Modals */}
-      <Modal
+      {/* <Modal
         title="Manage Families"
         width="40%"
         translate={translate}
         open={state.managefamily}
         onClose={handleClose}
         component={<Families translate={translate} handleClose={handleClose} />}
-      />
+      /> */}
       <Modal
         title="Add Library"
         height="60%"
@@ -695,7 +696,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Add Category"
+        title={translate("Add Category")}
         // width="50%"
         height="65%"
         library={true}
@@ -739,7 +740,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Library"
+        title={translate("Edit Library")}
         height="60%"
         translate={translate}
         open={state.editlibrary}
@@ -770,6 +771,7 @@ export default function Index(props) {
         }
       />
       <Modal
+        // title={translate("Edit Work")}
         title="Edit Work"
         open={state.editwork}
         translate={translate}
@@ -789,7 +791,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Work Detail"
+        title={translate("Edit Work Detail")}
         open={state.editworkdetail}
         translate={translate}
         library={true}

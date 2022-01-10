@@ -128,7 +128,29 @@ export const AdminheadCells = [
     label: "Action",
   },
 ];
+export const FamiliesheadCells = [
+  {
+    id: "name",
 
+    label: "Name",
+  },
+  {
+    id: "ranking",
+
+    label: "Ranking",
+  },
+
+  {
+    id: "createdAt",
+
+    label: "Date/Time",
+  },
+  {
+    id: "action",
+
+    label: "Action",
+  },
+];
 export const UnitheadCells = [
   {
     id: "name",

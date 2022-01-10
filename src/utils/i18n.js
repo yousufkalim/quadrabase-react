@@ -254,7 +254,11 @@ i18n
           "Email Address (Client)": "Email Address (Client)",
           "Stakeholders List": "List of types of stakeholders",
           "Edit Stakeholder": "Edit Stakeholder",
-          "Chap0": "Chap0 Part2"
+          "Chap0": "Chap0 Part2",
+          "Families": "Families",
+          "Families List": "Families List",
+          "Add Family": "Add Family",
+          "Edit Work Detail": "Edit Work Detail",
         },
       },
       fr: {
@@ -355,13 +359,12 @@ i18n
           "Unit Price": "Prix unitaire",
           Required: "Requis",
           "Edit Category": "Modifier la catégorie",
-          "Edit Library": "Modifier la bibliothèque",
-          "Edit Work": "Modifier Travail",
+          "Edit Library": "Editer la Bibliothèque",
+          "Edit Work": "Editer un ouvrage",
           development: "Développement",
           Category1: "Catégorie1",
           Category2: "Catégorie2",
           Software: "Logiciel",
-          "Manage Families": "Gérer les familles",
           // Unit
           Unitst: "Unités",
           "Add Unit": "Ajouter une Unité",
@@ -484,7 +487,6 @@ i18n
           "Subscription  not found": "Abonnement introuvable",
 
 
-
           // New
           "Welcome to Quadrabase": "Bienvenue sur Quadrabase",
           "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)": "Quadrabase est une application métier visant à produire automatiquement les pièces écrites techniques des dossiers de consultation des entreprises (DCE) dans le cadre de marchés de travaux",
@@ -500,7 +502,11 @@ i18n
           "Email Address (Client)": "Adresse courriel (Client)",
           "Stakeholders List": "Liste des types d’intervenants",
           "Edit Stakeholder": "Modifier le Type d’intervenant",
-          "Chap0": "Chap0 Part2"
+          "Chap0": "Chap0 Part2",
+          "Families": "Domaines",
+          "Families List": "Liste des familles",
+          "Add Family": "Ajouter une famille",
+          "Edit Work Detail": "Modifier les détails du travail"
         },
       },
     },

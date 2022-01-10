@@ -252,7 +252,7 @@ export default function Index(props) {
           <List
             data={cctpsData}
             primaryKey="name"
-            secondaryKey="value"
+            secondaryKey="type"
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}

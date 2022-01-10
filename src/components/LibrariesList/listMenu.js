@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
-  const { level, parentLevel, onAdd } = props;
+  const { level, parentLevel, onAdd, translate } = props;
 
   const handleClick = (text) => {
     let concatText = text + "_" + level;
@@ -72,11 +72,11 @@ export default function CustomizedMenus(props) {
             {props.text && (
               <>
                 <MenuItem onClick={() => handleClick(props.text)}>
-                  Add Library
+                  {translate("Add Library")}
                 </MenuItem>
-                <MenuItem onClick={() => handleClick("Manage_Families")}>
+                {/* <MenuItem onClick={() => handleClick("Manage_Families")}>
                   Manage Families
-                </MenuItem>
+                </MenuItem> */}
               </>
             )}
           </div>
