@@ -13,6 +13,13 @@ import AddMemoizedProvider from "./addMemoizedProvider";
 import AddMemoizedProviders from "./addMemoizedProviders";
 
 import { red } from "@mui/material/colors";
+
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
+import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
+
 import RichTextEditor from "../../../components/RichTextEditor";
 import DocViewer from "../../../components/DocViewer";
 export default function AddExpense(props) {
@@ -28,6 +35,12 @@ export default function AddExpense(props) {
   const [UnitOptions, setUnitOptions] = React.useState([]);
   const [ProviderOptions, setProviderOptions] = React.useState([]);
   const [ProviderDataArr, setProviderDataArr] = React.useState([]);
+
+  const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTabIndex(newValue);
+  };
 
   const formik = useFormik({
     initialValues: WORK_STATE,
@@ -139,45 +152,55 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-3">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+
+      {/* CCTP Tab View */}
+      <Box sx={{ width: "100%", }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
+            <Tab label="CCTP1" {...a11yProps(0)} />
+            <Tab label="CCTP2" {...a11yProps(1)} />
+            <Tab label="CCTP3" {...a11yProps(2)} />
+            <Tab label="CCTP4" {...a11yProps(3)} />
+            <Tab label="BPU" {...a11yProps(4)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={selectedTabIndex} index={0}>
           <RichTextEditor
+            height="260px"
             onChange={(value) => setcctp_text1(value)}
             value={cctp_text1}
-            label={"CCTP 1"}
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={1}>
           <RichTextEditor
+            height="260px"
             onChange={(value) => setcctp_text2(value)}
             value={cctp_text2}
-            label={"CCTP 2"}
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={2}>
           <RichTextEditor
+            height="260px"
             onChange={(value) => setcctp_text3(value)}
             value={cctp_text3}
-            label={"CCTP 3"}
           />
-        </div>
-      </div>
-      <div className="flex no-wrap  -mx-3 mb-1">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={3}>
           <RichTextEditor
+            height="260px"
             onChange={(value) => setcctp_text4(value)}
             value={cctp_text4}
-            label={"CCTP 4"}
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={4}>
           <RichTextEditor
+            height="260px"
             onChange={(value) => setbpu_text(value)}
             value={bpu_text}
-            label={"BPU"}
           />
-        </div>
-      </div>
+        </TabPanel>
+      </Box>
+
       <div className="w-full   mb-3 ">
         <div className="w-full px-2 mb-3">
           <AddMemoizedProvider
