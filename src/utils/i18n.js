@@ -130,7 +130,7 @@ i18n
           //   ChapO
           ChapO: "ChapO",
           "Edit ChapO": "Edit ChapO",
-          "Edit Chap0": "Edit Chap0 Part2",
+          "Edit Chap0": "Chap0 Part2",
           "Add Chap0": "Add Chap0",
           //  CCTP
           CCTP: "CCTP",
@@ -346,7 +346,7 @@ i18n
           Libraries: "Bibliothèques",
           // Libraries => General Libraries
           "General Libraries": "Bibliothèques générales",
-          "Add Library": "Ajouter une bibliothèque",
+          "Add Library": "Editer la Bibliothèque",
           Edit: "Modifier",
           Delete: "Supprimer",
           "Add Category": "Ajouter une catégorie",
@@ -358,7 +358,7 @@ i18n
           Quantity: "Quantité",
           "Unit Price": "Prix unitaire",
           Required: "Requis",
-          "Edit Category": "Editer la Catégorie",
+          "Edit Category": "Editer la Catégorie", // xxyq
           "Edit Library": "Editer la Bibliothèque",
           "Edit Work": "Editer un ouvrage",
           development: "Développement",
@@ -376,7 +376,7 @@ i18n
           // ChapO
           ChapO: "ChapO",
           // "Edit ChapO": "Modifier ChapO",
-          "Edit Chap0": "Modifier Chap0 Part2",
+          "Edit Chap0": "Chap0 Part2",
           "Add Chap0": "Ajouter Chap0",
           // CCTP
           CCTP: "CCTP",
@@ -506,7 +506,8 @@ i18n
           "Families": "Domaines",
           "Families List": "Liste des familles",
           "Add Family": "Ajouter une famille",
-          "Edit Work Detail": "Modifier les détails du travail"
+          "Add Work_Detail": "Ajouter un Détail d’ouvrage",
+          "Edit Work Detail": "Modifier les détails du travail",
         },
       },
     },

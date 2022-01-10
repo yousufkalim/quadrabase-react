@@ -13,6 +13,12 @@ import MultiSelectField from "../../../components/MultiSelectField";
 
 import { red } from "@mui/material/colors";
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
+import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
+
 export default function AddExpense(props) {
   const token = getToken();
   const { translate } = props;
@@ -22,6 +28,12 @@ export default function AddExpense(props) {
   const [cctp_text2, setcctp_text2] = React.useState("");
   const [cctp_text3, setcctp_text3] = React.useState("");
   const [cctp_text4, setcctp_text4] = React.useState("");
+
+  const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTabIndex(newValue);
+  };
 
   const formik = useFormik({
     initialValues: LIBRARY_STATE,
@@ -120,38 +132,46 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+
+      {/* CCTP Tab View */}
+      <Box sx={{ width: "100%", }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
+            <Tab label="CCTP1" {...a11yProps(0)} />
+            <Tab label="CCTP2" {...a11yProps(1)} />
+            <Tab label="CCTP3" {...a11yProps(2)} />
+            <Tab label="CCTP4" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={selectedTabIndex} index={0}>
           <RichTextEditor
+            height="300px"
             onChange={(value) => setcctp_text1(value)}
             value={cctp_text1}
-            label={"CCTP 1"}
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={1}>
           <RichTextEditor
+            height="300px"
             onChange={(value) => setcctp_text2(value)}
             value={cctp_text2}
-            label={"CCTP 2"}
           />
-        </div>
-      </div>
-      <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={2}>
           <RichTextEditor
+            height="300px"
             onChange={(value) => setcctp_text3(value)}
             value={cctp_text3}
-            label={"CCTP 3"}
           />
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={3}>
           <RichTextEditor
+            height="300px"
             onChange={(value) => setcctp_text4(value)}
             value={cctp_text4}
-            label={"CCTP 4"}
           />
-        </div>
-      </div>
+        </TabPanel>
+      </Box>
 
       <div className="flex pt-5 justify-end ">
         <div className="">

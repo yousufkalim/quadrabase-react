@@ -771,8 +771,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        // title={translate("Edit Work")}
-        title="Edit Work"
+        title={translate("Edit Work")}
         open={state.editwork}
         translate={translate}
         library={true}

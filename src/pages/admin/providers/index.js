@@ -81,7 +81,7 @@ export default function Index(props) {
         });
         let data = response.data.works;
         if (data && data.length == 0) {
-          alert("No works of list is found for this provider");
+          alert("No works found for this provider.");
           return;
         }
         setprovider(data);
