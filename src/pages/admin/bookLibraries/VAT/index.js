@@ -245,6 +245,8 @@ export default function Index(props) {
         <div className="container mx-auto px-6">
           <List
             data={vatsData}
+            primaryKey="value"
+            secondaryKey="symbol"
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}

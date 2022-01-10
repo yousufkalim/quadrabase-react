@@ -38,8 +38,8 @@ export default function Index(props) {
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
   const [subscriptionArchitextId, setSubscriptionArchitextId] = React.useState();
   const [value, setValue] = React.useState("");
-  const [credit, setCredit] = React.useState(1);
-  const [projects, setProjects] = React.useState(1);
+
+  const [projects, setProjects] = React.useState(0);
 
   const [currentSubscription, setCurrentSubscription] = React.useState();
 
@@ -47,14 +47,14 @@ export default function Index(props) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     if (name == "subscription") {
       setValue(value);
-    }  else if (name == "projects") {
+    } else if (name == "projects") {
       setProjects(value);
-    } else {
-      setCredit(value);
     }
   };
+
   const getAllSubscriptions = async () => {
     try {
       let response = await Axios({
@@ -141,7 +141,7 @@ export default function Index(props) {
     setValue(currentSubscription?.id?._id);
     architectData &&
       Object.keys(architectData).length > 0 &&
-      setCredit(architectData.credit);
+      setProjects(architectData?.subscriptions?.projects ?? 0);
     getAllSubscriptions();
   }, [subscriptionModal]);
 
@@ -211,7 +211,7 @@ export default function Index(props) {
       let response = await Axios({
         method: "put",
         url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
-        data: { subscriptionId: value, credit: credit, projects: projects },
+        data: { subscriptionId: value, projects: projects },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -277,7 +277,6 @@ export default function Index(props) {
             onChange={handleChange}
             options={options}
             value={value}
-            credit={credit}
             projects={projects}
           />
         }

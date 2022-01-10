@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 export default function index(props) {
   return (
-    <div>
+    <div >
       <label
         className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
         htmlFor="grid-first-name"
@@ -11,9 +11,8 @@ export default function index(props) {
         {props.label}
       </label>
       <ReactQuill
-        value={props.value}
+        value={props.value ?? ""} // This messes up with the entire screen if not fixed
         onChange={props.onChange}
-       
         modules={{
           toolbar: [
             [{ size: [] }],
@@ -48,7 +47,7 @@ export default function index(props) {
           // "image",
           // "video",
         ]}
-        placeholder={props.placeholder}
+        placeholder={props.placeholder ?? ""} // This messes up with the entire screen if not fixed
       />
     </div>
   );

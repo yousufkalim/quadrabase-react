@@ -74,14 +74,15 @@ export default function register(props) {
                       {translate("Password")}
                     </label>
                     <input
-                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      // className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                       id="password"
                       type="password"
                       placeholder="******************"
                     />
-                    <p className="text-xs italic text-red-500">
+                    {/* <p className="text-xs italic text-red-500">
                       {translate("Please choose a password.")}
-                    </p>
+                    </p> */}
                   </div>
                   <div className="md:ml-2">
                     <label
@@ -107,7 +108,8 @@ export default function register(props) {
                   </button>
                 </div>
 
-                <div className="text-center">
+                {/* I don't think we need this*/}
+                {/* <div className="text-center">
                   <a
                     className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
                     href="./index.html"
@@ -122,7 +124,7 @@ export default function register(props) {
                   >
                     {translate("Login")}
                   </button>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

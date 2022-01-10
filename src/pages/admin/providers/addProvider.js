@@ -12,7 +12,7 @@ export default function AddExpense(props) {
     }
   };
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full pt-9" style={{height: "500px", position: "relative", "overflowY": "auto", "overflowX": "hidden"}}>
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
@@ -181,6 +181,78 @@ export default function AddExpense(props) {
           <div className="text-red-600 ">
             {formik.touched.logo && formik.errors.logo ? (
               <small>{formik.errors.logo}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="number"
+            placeholder="12345"
+            label="PO Box"
+            name="po_box"
+            onChange={formik.handleChange}
+            value={formik.values.po_box}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.po_box &&
+            formik.errors.po_box ? (
+              <small>{formik.errors.po_box}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="text"
+            placeholder="Establishment"
+            label="Establishment"
+            name="establishment"
+            onChange={formik.handleChange}
+            value={formik.values.establishment}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.establishment &&
+            formik.errors.establishment ? (
+              <small>{formik.errors.establishment}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="text"
+            placeholder="Email Address"
+            label="Email Address (Client)"
+            name="email_address_client"
+            onChange={formik.handleChange}
+            value={formik.values.email_address_client}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.email_address_client &&
+            formik.errors.email_address_client ? (
+              <small>{formik.errors.email_address_client}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="number"
+            placeholder="1234"
+            label="Client Code"
+            name="client_code"
+            onChange={formik.handleChange}
+            value={formik.values.client_code}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.client_code &&
+            formik.errors.client_code ? (
+              <small>{formik.errors.client_code}</small>
             ) : null}
           </div>
         </div>

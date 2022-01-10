@@ -18,7 +18,7 @@ export default function subList(props) {
 
   return (
     <>
-      <ListItem key={_id} button>
+      <ListItem key={_id} button dense={true}>
         {open ? (
           <FontAwesomeIcon
             icon={faAngleDown}
@@ -33,6 +33,7 @@ export default function subList(props) {
         <ListItemText
           inset
           primary={name}
+          primaryTypographyProps={{ style: { fontWeight: props.nameBold ? "bold" : "normal" } }}
           onClick={() => handleClick(level, _id, obj)}
         />
         <FontAwesomeIcon

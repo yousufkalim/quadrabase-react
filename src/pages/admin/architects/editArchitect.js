@@ -90,7 +90,6 @@ export default function AddExpense(props) {
           </div>
         </div>
       </div>
-
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
@@ -108,6 +107,24 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="text"
+            placeholder="Client Code"
+            label="Client Code"
+            name="client_code"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.client_code}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.client_code && formik.errors.client_code ? (
+              <small>{formik.errors.client_code}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <RadioButton
             label="Authorize"

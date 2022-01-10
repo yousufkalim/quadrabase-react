@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-function WelcomeBanner() {
+function WelcomeBanner(props) {
+
+  const {translate}  = props;
+
   return (
     <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
@@ -69,11 +72,10 @@ function WelcomeBanner() {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-gray-800 font-bold mb-1">
-          Welcome to Quadrabase 👋
+          {translate("Welcome to Quadrabase")} 👋
         </h1>
         <p>
-          Quadrabase is a business application aimed at automatically producing
-          technical written documents for business consultation files (DCE)
+          {translate("Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)")}
         </p>
       </div>
     </div>

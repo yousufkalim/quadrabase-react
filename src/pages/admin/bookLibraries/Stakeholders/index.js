@@ -236,7 +236,7 @@ export default function Index(props) {
         id={"unit-customized-button"}
         title="Add Stakeholder"
       />
-      <div className="w-full  md:mx-auto py-9 ">
+      <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <List
             data={stakeholdersData}
@@ -258,7 +258,7 @@ export default function Index(props) {
         component={<AddStakeholder translate={translate} formik={formik} />}
       />
       <Modal
-        title="Edit Stakeholder"
+        title={translate("Edit Stakeholder")}
         open={editmodal}
         translate={translate}
         onSubmit={edit_formik.handleSubmit}

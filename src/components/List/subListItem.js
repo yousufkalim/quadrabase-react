@@ -9,12 +9,12 @@ import {
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
 export default function subList(props) {
-  let { handleanchorEl, name, _id } = props;
+  let { handleanchorEl, primaryText, secondaryText, _id } = props;
 
   return (
     <>
       <ListItem key={_id} button>
-        <ListItemText sx={{ paddingLeft: "10px" }} primary={name} />
+        <ListItemText sx={{ paddingLeft: "10px" }} primary={primaryText} secondary={secondaryText} />
         <FontAwesomeIcon
           icon={faEllipsisV}
           onClick={(e) => handleanchorEl(e, _id)}

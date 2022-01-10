@@ -5,6 +5,9 @@ import Button from "../Button";
 import { red } from "@mui/material/colors";
 
 export default function BasicModal(props) {
+
+  const { titleUpperCase } = props;
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -27,7 +30,7 @@ export default function BasicModal(props) {
         {props.addWork && props.addWork == true ? (
           <div className="h-132 overflow-y-auto  px-5 py-1">
             <div className="flex justify-center">
-              <h2 className="text-gray-600 capitalize font-semibold text-3xl">
+              <h2 className={`text-gray-600 ${titleUpperCase ? "uppercase" : "capitalize"} font-semibold text-3xl`}>
                 {props.translate
                   ? props.translate(`${props.title}`)
                   : props.title}
@@ -64,7 +67,7 @@ export default function BasicModal(props) {
         ) : (
           <div>
             <div className="flex justify-center">
-              <h2 className="text-gray-600 capitalize font-semibold text-3xl">
+              <h2 className={`text-gray-600 ${titleUpperCase ? "uppercase" : "capitalize"} font-semibold text-3xl`}>
                 {props.translate
                   ? props.translate(`${props.title}`)
                   : props.title}

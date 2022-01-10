@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WelcomeBanner from "../../components/dashboard/WelcomeBanner";
 import DashboardAvatars from "../../components/dashboard/DashboardAvatars";
 import FilterButton from "../../components/actions/FilterButton";
@@ -18,14 +18,14 @@ import DashboardCard12 from "../../components/dashboard/DashboardCard12";
 import DashboardCard13 from "../../components/dashboard/DashboardCard13";
 import Banner from "../../components/Banner";
 
-function Dashboard() {
+function Dashboard(props) {
   return (
     <div>
       {/* Content area */}
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
           {/* Welcome banner */}
-          <WelcomeBanner />
+          <WelcomeBanner {...props} />
 
           {/* Dashboard actions */}
           <div className="sm:flex sm:justify-between sm:items-center mb-8">

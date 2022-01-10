@@ -75,11 +75,16 @@ export const STAKEHOLDER_YUP = Yup.object({
 });
 export const VAT_YUP = Yup.object({
   value: Yup.string().required("Required"),
+  symbol: Yup.string().required("Required"),
 });
 
 export const CCTP_YUP = Yup.object({
   name: Yup.string().required("Required"),
   type: Yup.string().required("Required"),
+});
+
+export const FAMILIES_YUP = Yup.object({
+  name: Yup.string().required("Required"),
 });
 
 export const CHAP0_YUP = Yup.object({

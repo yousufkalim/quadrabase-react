@@ -4,7 +4,7 @@ export default function AddExpense(props) {
   const { translate, formik } = props;
 
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full pt-9">
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
@@ -22,7 +22,7 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2  px-3">
+        <div className="w-full md:w-1/2 px-3">
           <TextInput
             type="text"
             placeholder="Symbol"

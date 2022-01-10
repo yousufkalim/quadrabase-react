@@ -8,10 +8,15 @@ import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import Presentation from "./pages/auth/presentation";
+import EducationalMaterial from "./pages/auth/educationalMaterial";
+import Documentation from "./pages/auth/documentation";
+import Manufacturer from "./pages/auth/manufacturers";
 
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
 
+import Families from "./pages/admin/bookLibraries/Families";
 import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
@@ -104,19 +109,47 @@ var routes = [
     component: Login,
     layout: "/auth",
   },
-  // {
-  //   path: "/register",
-  //   name: "Auth",
-  //   icon: "ni ni-tv-2 text-primary",
-  //   component: Register,
-  //   layout: "/auth",
-  // },
   {
-    path: "/presentation",
+    path: "/register",
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Register,
     layout: "/auth",
+  },
+  {
+    path: "/presentation",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Presentation,
+    layout: "/auth",
+  },
+  {
+    path: "/educational_materials",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: EducationalMaterial,
+    layout: "/auth",
+  },
+  {
+    path: "/documentation",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Documentation,
+    layout: "/auth",
+  },
+  {
+    path: "/manufacturers",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Manufacturer,
+    layout: "/auth",
+  },
+  {
+    path: "/families",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Families,
+    layout: "/admin",
   },
 ];
 export default routes;

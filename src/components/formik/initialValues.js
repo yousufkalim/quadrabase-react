@@ -3,6 +3,13 @@ export const LOGIN_STATE = {
   password: "",
 };
 export const ARCHITECT_STATE = {
+  address_1: "",
+  address_2: "",
+  po_box: "",
+  postal_code: "",
+  city: "",
+  phone: "",
+  client_code: "",
   first_name: "",
   last_name: "",
   email: "",
@@ -30,7 +37,12 @@ export const PROVIDER_STATE = {
   city: "",
   zipcode: "",
   url: "",
-  logo: ""
+  logo: "",
+  po_box: "",
+  postal_code: "",
+  email_address_client: "",
+  client_code: "",
+  establishment: ""
 };
 export const LIBRARY_STATE = {
   name: "",
@@ -63,11 +75,17 @@ export const UNIT_STATE = {
 export const VAT_STATE = {
   value: "",
   ranking: "",
+  symbol: ""
 };
 
 export const CCTP_STATE = {
   name: "",
   type: "",
+  ranking: "",
+};
+
+export const FAMILIES_STATE = {
+  name: "",
   ranking: "",
 };
 

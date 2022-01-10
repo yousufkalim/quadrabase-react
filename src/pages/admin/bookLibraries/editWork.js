@@ -207,7 +207,7 @@ export default function AddExpense(props) {
           />
         </div>
       </div>
-      <div className="w-full   mb-3 ">
+      <div className="w-full mb-3 ">
         <div className="w-full px-2 mb-3">
           <AddMemoizedProvider
             ProviderOptions={ProviderOptions}
