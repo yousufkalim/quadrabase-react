@@ -91,7 +91,7 @@ export const ArchitectheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -110,7 +110,7 @@ export const AdminheadCells = [
 
     label: "First Name",
   },
-  
+
   {
     id: "email",
 
@@ -120,7 +120,7 @@ export const AdminheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -143,7 +143,7 @@ export const FamiliesheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date/",
   },
   {
     id: "action",
@@ -171,7 +171,7 @@ export const UnitheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -199,7 +199,7 @@ export const VatheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -227,7 +227,7 @@ export const CctpheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -250,7 +250,7 @@ export const Chap0headCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "action",
@@ -309,7 +309,7 @@ export const ProviderheadCells = [
   {
     id: "createdAt",
 
-    label: "Date/Time",
+    label: "Date",
   },
   {
     id: "po_box",

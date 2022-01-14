@@ -254,7 +254,7 @@ export default function EnhancedTable(props) {
                       {props.rows.map((record, index) => {
                         return record == "createdAt" ? (
                           <TableCell align="center" title={row[record]}>
-                            {moment(row[record]).format("DD/MM/YYYY HH:mm")}
+                            {moment(row[record]).format("DD/MM/YYYY")}
                           </TableCell>
                         ) : record == "subscriptionStartDate" ? (
                           <TableCell
