@@ -53,7 +53,7 @@ function UserMenu() {
         />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
-            {USER.first_name} {USER.last_name}
+            {USER?.first_name} {USER?.last_name}
           </span>
           <svg
             className="w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400"
