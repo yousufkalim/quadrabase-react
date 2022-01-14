@@ -54,11 +54,7 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -255,116 +251,122 @@ export default function EnhancedTable(props) {
                       align={"center"}
                       selected={isItemSelected}
                     >
-                      {props.rows.map( (record, index) => {
-                          return record == "createdAt" ? (
-                            <TableCell align="center" title={row[record]}>
-                              {moment(row[record]).format("DD/MM/YYYY HH:mm")}
-                            </TableCell>
-                          ) : record == "subscriptionStartDate" ? (
-                            <TableCell
-                              align="center"
-                              title={row?.subscriptions?.start_date}
-                            >
-                              {row?.subscriptions?.start_date
-                                ? moment(row?.subscriptions?.start_date).format(
+                      {props.rows.map((record, index) => {
+                        return record == "createdAt" ? (
+                          <TableCell align="center" title={row[record]}>
+                            {moment(row[record]).format("DD/MM/YYYY HH:mm")}
+                          </TableCell>
+                        ) : record == "subscriptionStartDate" ? (
+                          <TableCell
+                            align="center"
+                            title={row?.subscriptions?.start_date}
+                          >
+                            {row?.subscriptions?.start_date
+                              ? moment(row?.subscriptions?.start_date).format(
                                   "DD/MM/YYYY"
                                 )
-                                : "N/A"}
-                            </TableCell>
-                          ) : record == "subscriptionEndDate" ? (
-                            <TableCell
-                              align="center"
-                              title={row?.subscriptions?.end_date}
-                            >
-                              {row?.subscriptions?.end_date
-                                ? moment(row?.subscriptions?.end_date).format(
+                              : "N/A"}
+                          </TableCell>
+                        ) : record == "subscriptionEndDate" ? (
+                          <TableCell
+                            align="center"
+                            title={row?.subscriptions?.end_date}
+                          >
+                            {row?.subscriptions?.end_date
+                              ? moment(row?.subscriptions?.end_date).format(
                                   "DD/MM/YYYY"
                                 )
-                                : "N/A"}
-                            </TableCell>
-                          ) : record === "subscription" ? (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={row?.subscriptions?.id?.name}
-                            >
-                              {row?.subscriptions?.id?.name
-                                ? row?.subscriptions?.id?.name.length > 20
-                                  ? row?.subscriptions?.id?.name.substring(
+                              : "N/A"}
+                          </TableCell>
+                        ) : record === "subscription" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={row?.subscriptions?.subscription?.name}
+                          >
+                            {row?.subscriptions?.subscription?.name
+                              ? row?.subscriptions?.subscription?.name.length >
+                                20
+                                ? row?.subscriptions?.subscription?.name.substring(
                                     0,
                                     20
                                   ) + "..."
-                                  : row?.subscriptions?.id?.name
-                                : "N/A"}
-                            </TableCell>
-                          ) : record === "total_projects" ? (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={"total_projects"}
-                            >
-                              {row?.subscriptions?.id?.projects
-                                ? row?.subscriptions?.id?.projects.length > 20
-                                  ? row?.subscriptions?.id?.projects.substring(
+                                : row?.subscriptions?.subscription?.name
+                              : "N/A"}
+                          </TableCell>
+                        ) : record === "total_projects" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={"total_projects"}
+                          >
+                            {row?.subscriptions?.projects
+                              ? row?.subscriptions?.projects.length > 20
+                                ? row?.subscriptions?.projects.substring(
                                     0,
                                     20
                                   ) + "..."
-                                  : row?.subscriptions?.id?.projects
-                                : "0"}
-                            </TableCell>
-                          ) : record === "ongoing_projects" ? (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={"ongoing_projects"}
-                            >
-                              {`${(row?.projects?.length ?? 0)}`.length > 20
-                                ? `${(row?.projects?.length ?? 0)}`.substring(
+                                : row?.subscriptions?.projects
+                              : "0"}
+                          </TableCell>
+                        ) : record === "ongoing_projects" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={"ongoing_projects"}
+                          >
+                            {`${row?.projects?.length ?? 0}`.length > 20
+                              ? `${row?.projects?.length ?? 0}`.substring(
                                   0,
                                   20
                                 ) + "..."
-                                : `${(row?.projects?.length ?? 0)}`}
-                            </TableCell>
-                          ) : record === "remaining_projects" ? (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={"remaining_projects"}
-                            >
-                              {`${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 20
-                                ? `${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`.substring(
-                                  0,
-                                  20
-                                ) + "..."
-                                : `${(row?.subscriptions?.id?.projects ?? 0) - (row?.projects?.length ?? 0)}`}
-                            </TableCell>
-                          ) : record === "authorized" ? (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={"authroized"}
-                            >
-                              {row[record]
-                                ? row[record].length > 20
-                                  ? row[record].substring(0, 20) + "..."
-                                  : row[record]
-                                : "N/A"}
-                            </TableCell>
-                          ) : (
-                            <TableCell
-                              key={index}
-                              align="center"
-                              title={row[record]}
-                            >
-                              {row[record]
-                                ? row[record].length > 20
-                                  ? row[record].substring(0, 20) + "..."
-                                  : row[record]
-                                : "N/A"}
-                            </TableCell>
-                          );
-                        }
-                      )}
+                              : `${row?.projects?.length ?? 0}`}
+                          </TableCell>
+                        ) : record === "remaining_projects" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={"remaining_projects"}
+                          >
+                            {`${
+                              (row?.subscriptions?.projects ?? 0) -
+                              (row?.projects?.length ?? 0)
+                            }`.length > 20
+                              ? `${
+                                  (row?.subscriptions?.projects ?? 0) -
+                                  (row?.projects?.length ?? 0)
+                                }`.substring(0, 20) + "..."
+                              : `${
+                                  (row?.subscriptions?.projects ?? 0) -
+                                  (row?.projects?.length ?? 0)
+                                }`}
+                          </TableCell>
+                        ) : record === "authorized" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={"authroized"}
+                          >
+                            {row[record]
+                              ? row[record].length > 20
+                                ? row[record].substring(0, 20) + "..."
+                                : row[record]
+                              : "N/A"}
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={row[record]}
+                          >
+                            {row[record]
+                              ? row[record].length > 20
+                                ? row[record].substring(0, 20) + "..."
+                                : row[record]
+                              : "N/A"}
+                          </TableCell>
+                        );
+                      })}
 
                       <TableCell align="center">
                         {props.subscription && (
