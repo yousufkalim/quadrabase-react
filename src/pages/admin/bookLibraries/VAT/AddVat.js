@@ -3,7 +3,6 @@ import React from "react";
 import TextInput from "../../../../components/TextInput";
 
 export default function AddExpense(props) {
-
   const { translate, formik } = props;
 
   return (
@@ -22,22 +21,6 @@ export default function AddExpense(props) {
           <div className="text-red-600 ">
             {formik.touched.value && formik.errors.value ? (
               <small>{formik.errors.value}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full px-3 mb-6">
-          <TextInput
-            type="text"
-            placeholder="Symbol"
-            label="Symbol"
-            name="symbol"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.symbol}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.symbol && formik.errors.symbol ? (
-              <small>{formik.errors.symbol}</small>
             ) : null}
           </div>
         </div>

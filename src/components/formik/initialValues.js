@@ -42,7 +42,7 @@ export const PROVIDER_STATE = {
   postal_code: "",
   email_address_client: "",
   client_code: "",
-  establishment: ""
+  establishment: "",
 };
 export const LIBRARY_STATE = {
   name: "",
@@ -75,7 +75,6 @@ export const UNIT_STATE = {
 export const VAT_STATE = {
   value: "",
   ranking: "",
-  symbol: ""
 };
 
 export const CCTP_STATE = {

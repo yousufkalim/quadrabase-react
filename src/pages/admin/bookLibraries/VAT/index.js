@@ -119,7 +119,7 @@ export default function Index(props) {
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/VAT/create`,
-          data: values,
+          data: { value: values.value, ranking: values.ranking },
           headers: {
             Authorization: `Bearer ${token}`,
           },
