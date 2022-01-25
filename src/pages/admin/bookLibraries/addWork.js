@@ -131,8 +131,7 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
-            placeholder="Name"
-            label="Name"
+            label={translate("Name")}
             name="name"
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -146,7 +145,7 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <SelectField
             name="unit"
-            label="Select Unit"
+            label={translate("Select Unit")}
             value={formik.values.unit}
             onChange={formik.handleChange}
             options={UnitOptions}
@@ -243,7 +242,7 @@ export default function AddExpense(props) {
           <div className="">
             <Button
               onClick={() => props.handleClose()}
-              label="Close"
+              label={translate("Close")}
               backgroundColor={red}
               default={false}
             />

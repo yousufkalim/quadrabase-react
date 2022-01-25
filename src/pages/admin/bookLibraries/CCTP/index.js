@@ -244,6 +244,7 @@ export default function Index(props) {
         onDelete={handleDeleteModal}
         handleUp={handleCctpUp}
         handleDown={handleCctpDown}
+        translate={translate}
         id={"unit-customized-button"}
         title="Add CCTP"
       />
@@ -265,6 +266,7 @@ export default function Index(props) {
         open={modal}
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
+        translate={translate}
         onClose={onAddModal}
         component={<AddCctp translate={translate} formik={formik} />}
       />

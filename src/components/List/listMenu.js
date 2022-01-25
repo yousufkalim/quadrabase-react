@@ -49,7 +49,15 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
-  const { onAdd, parentLevel, onEdit, onDelete, handleDown, handleUp } = props;
+  const {
+    onAdd,
+    parentLevel,
+    onEdit,
+    onDelete,
+    handleDown,
+    handleUp,
+    translate,
+  } = props;
 
   const handleClick = (text) => {
     onAdd(text);
@@ -78,10 +86,10 @@ export default function CustomizedMenus(props) {
             </MenuItem>
             <div style={{ paddingLeft: "0.6rem" }}>
               <MenuItem onClick={handleUp} disableRipple>
-                Up
+                {translate("Up")}
               </MenuItem>
               <MenuItem onClick={handleDown} disableRipple>
-                Down
+                {translate("Down")}
               </MenuItem>
             </div>
           </>

@@ -731,6 +731,7 @@ export default function Index(props) {
         level={Level}
         id={"demo-customized-button"}
         parentLevel={parentLevel}
+        translate={translate}
         {...props}
       />
 
@@ -810,7 +811,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Add Work Detail"
+        title={translate("Add Work detail")}
         open={state.addworkdetail}
         translate={translate}
         width="30%"

@@ -234,7 +234,8 @@ export default function Index(props) {
         handleUp={handleStakeholdersUp}
         handleDown={handleStakeholdersDown}
         id={"unit-customized-button"}
-        title="Add Stakeholder"
+        title={`Add ${translate("Stakeholders")}`}
+        translate={translate}
       />
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">

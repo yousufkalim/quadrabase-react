@@ -240,6 +240,7 @@ export default function Index(props) {
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}
         title="Add VAT"
+        translate={translate}
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
