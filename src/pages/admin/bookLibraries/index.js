@@ -4,6 +4,7 @@ import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
 import List from "../../../components/LibrariesList/index.js";
 import ListMenu from "../../../components/LibrariesList/listMenu";
+import Loader from "../../../components/Loader";
 
 import Notifier from "../../../utils/Notifier";
 import Families from "./Families";
@@ -42,6 +43,8 @@ export default function Index(props) {
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
   const openanchorEl = Boolean(state.anchorEl);
   const handleanchorEl = (event, id, level) => {
     // setAnchorEl(event.currentTarget);
@@ -649,15 +652,16 @@ export default function Index(props) {
       });
       let data = response.data.bookLibraries;
       setlibrariesData(data);
+      setLoading(false);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+      setLoading(false);
     }
     //}
   };
 
   const getLevel2 = async (id) => {
     try {
-      console.log("hitting");
       let response = await Axios({
         method: "get",
         url: `${baseUrl}/BookLibraries/getLevel2/${id}`,
@@ -713,7 +717,9 @@ export default function Index(props) {
     }
   }, [state, Level]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <ListMenu
         onClick={handleanchorEl}
@@ -750,13 +756,13 @@ export default function Index(props) {
       </div>
       {/* All  Modals */}
       {/* <Modal
-        title="Manage Families"
-        width="40%"
-        translate={translate}
-        open={state.managefamily}
-        onClose={handleClose}
-        component={<Families translate={translate} handleClose={handleClose} />}
-      /> */}
+      title="Manage Families"
+      width="40%"
+      translate={translate}
+      open={state.managefamily}
+      onClose={handleClose}
+      component={<Families translate={translate} handleClose={handleClose} />}
+    /> */}
       <Modal
         title="Add Library"
         height="60%"
