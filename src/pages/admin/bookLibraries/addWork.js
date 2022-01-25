@@ -14,9 +14,9 @@ import AddMemoizedProviders from "./addMemoizedProviders";
 
 import { red } from "@mui/material/colors";
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
 
@@ -68,6 +68,7 @@ export default function AddExpense(props) {
 
         Notifier(response.data.message, "success", translate);
         setisLoading(false);
+        props.getLevel3(props.categoryId);
         props.handleClose();
 
         formik.resetForm();
@@ -154,9 +155,13 @@ export default function AddExpense(props) {
       </div>
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%", }}>
-        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
-          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+          <Tabs
+            value={selectedTabIndex}
+            onChange={handleTabChange}
+            aria-label="CCTPs"
+          >
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />

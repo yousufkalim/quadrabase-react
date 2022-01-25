@@ -35,8 +35,8 @@ export default function AddExpense(props) {
 
         Notifier(response.data.message, "success", translate);
         setisLoading(false);
+        props.getLevel4(props.workId);
         props.handleClose();
-
         formik.resetForm();
       } catch (err) {
         setisLoading(false);

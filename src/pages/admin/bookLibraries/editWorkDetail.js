@@ -34,6 +34,7 @@ export default function AddExpense(props) {
         });
 
         Notifier(response.data.message, "success", translate);
+        props.getLevel4(props.editData.work);
         setisLoading(false);
         props.handleClose();
       } catch (err) {

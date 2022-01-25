@@ -21,6 +21,12 @@ function NestedList(props) {
     handleanchorElClose,
     handleanchorEl,
     anchorEl,
+    getLevel2,
+    Level2,
+    getLevel3,
+    Level3,
+    getLevel4,
+    Level4,
   } = props;
 
   return (
@@ -69,6 +75,7 @@ function NestedList(props) {
                     state={state}
                     handleClick={handleClick}
                     open={openlevel1}
+                    getNextLevel={getLevel2}
                   />
 
                   <Collapse in={openlevel1} timeout="auto" unmountOnExit>
@@ -77,78 +84,82 @@ function NestedList(props) {
                       component="div"
                       disablePadding
                     >
-                      {items.map(
-                        (
-                          { _id: childId, name: childName },
+                      {Level2 &&
+                        Level2.map(
+                          (
+                            { _id: childId, name: childName },
 
-                          index
-                        ) => {
-                          let openlevel2 = state["level2"][childName] || false;
-                          return (
-                            <>
-                              <SubListItem
-                                nodeKey={childName}
-                                _id={childId}
-                                level={"level2"}
-                                Index={index}
-                                name={childName}
-                                handleanchorEl={handleanchorEl}
-                                parentLevel={parentLevel}
-                                state={state}
-                                handleClick={handleClick}
-                                open={openlevel2}
-                              />
-                              <Collapse
-                                in={openlevel2}
-                                timeout="auto"
-                                unmountOnExit
-                              >
-                                <List
-                                  component="div"
-                                  disablePadding
-                                  sx={{ paddingLeft: "2rem" }}
+                            index
+                          ) => {
+                            let openlevel2 =
+                              state["level2"][childName] || false;
+                            return (
+                              <>
+                                <SubListItem
+                                  nodeKey={childName}
+                                  _id={childId}
+                                  level={"level2"}
+                                  Index={index}
+                                  name={childName}
+                                  handleanchorEl={handleanchorEl}
+                                  parentLevel={parentLevel}
+                                  state={state}
+                                  handleClick={handleClick}
+                                  open={openlevel2}
+                                  getNextLevel={getLevel3}
+                                />
+                                <Collapse
+                                  in={openlevel2}
+                                  timeout="auto"
+                                  unmountOnExit
                                 >
-                                  {items2
-                                    .filter((dt) => dt.category === childId)
-                                    .map(
-                                      (
-                                        { _id: childId3, name: childName3 },
-                                        index
-                                      ) => {
-                                        let openlevel3 =
-                                          state["level3"][childName3] || false;
+                                  <List
+                                    component="div"
+                                    disablePadding
+                                    sx={{ paddingLeft: "2rem" }}
+                                  >
+                                    {Level3 &&
+                                      Level3.filter(
+                                        (dt) => dt.category === childId
+                                      ).map(
+                                        (
+                                          { _id: childId3, name: childName3 },
+                                          index
+                                        ) => {
+                                          let openlevel3 =
+                                            state["level3"][childName3] ||
+                                            false;
 
-                                        return (
-                                          <>
-                                            <SubListItem
-                                              nodeKey={childName3}
-                                              level={"level3"}
-                                              _id={childId3}
-                                              Index={index}
-                                              name={childName3}
-                                              handleanchorEl={handleanchorEl}
-                                              parentLevel={parentLevel}
-                                              state={state}
-                                              handleClick={handleClick}
-                                              open={openlevel3}
-                                            />
-                                            <Collapse
-                                              in={openlevel3}
-                                              timeout="auto"
-                                              unmountOnExit
-                                            >
-                                              <List
-                                                component="div"
-                                                disablePadding
-                                                sx={{ paddingLeft: "2rem" }}
+                                          return (
+                                            <>
+                                              <SubListItem
+                                                nodeKey={childName3}
+                                                level={"level3"}
+                                                _id={childId3}
+                                                Index={index}
+                                                name={childName3}
+                                                handleanchorEl={handleanchorEl}
+                                                parentLevel={parentLevel}
+                                                state={state}
+                                                handleClick={handleClick}
+                                                open={openlevel3}
+                                                getNextLevel={getLevel4}
+                                              />
+                                              <Collapse
+                                                in={openlevel3}
+                                                timeout="auto"
+                                                unmountOnExit
                                               >
-                                                {subchildItems &&
-                                                  subchildItems
-                                                    .filter(
+                                                <List
+                                                  component="div"
+                                                  disablePadding
+                                                  sx={{ paddingLeft: "2rem" }}
+                                                >
+                                                  {Level4 &&
+                                                    Level4.filter(
                                                       (dt) =>
                                                         dt.work === childId3
-                                                    )
-                                                    .map(
+                                                    ).map(
                                                       (
                                                         {
                                                           _id: key4,
@@ -190,18 +201,18 @@ function NestedList(props) {
                                                         );
                                                       }
                                                     )}
-                                              </List>
-                                            </Collapse>
-                                          </>
-                                        );
-                                      }
-                                    )}
-                                </List>
-                              </Collapse>
-                            </>
-                          );
-                        }
-                      )}
+                                                </List>
+                                              </Collapse>
+                                            </>
+                                          );
+                                        }
+                                      )}
+                                  </List>
+                                </Collapse>
+                              </>
+                            );
+                          }
+                        )}
                     </List>
                   </Collapse>
                 </div>
