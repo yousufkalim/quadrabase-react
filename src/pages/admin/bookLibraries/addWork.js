@@ -251,7 +251,7 @@ export default function AddExpense(props) {
             <Button
               onClick={formik.handleSubmit}
               disabled={isLoading}
-              label={isLoading ? "Creating" : "Create"}
+              label={translate("Create")}
               default={true}
             />
           </div>
