@@ -230,7 +230,8 @@ export default function Index(props) {
         handleUp={handleUnitsUp}
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}
-        title="Add Unit"
+        title={`Add ${translate("Units")}`}
+        translate={translate}
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
@@ -240,12 +241,12 @@ export default function Index(props) {
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}
-            title="Units List"
+            title={`${translate("Units")} List`}
           />
         </div>
       </div>
       <Modal
-        title="Add Unit"
+        title={`Add ${translate("Units")}`}
         translate={translate}
         open={modal}
         onClose={onAddModal}
@@ -254,7 +255,7 @@ export default function Index(props) {
         component={<AddUnit translate={translate} formik={formik} />}
       />
       <Modal
-        title="Edit Unit"
+        title={`Edit ${translate("Units")}`}
         open={editmodal}
         translate={translate}
         onSubmit={edit_formik.handleSubmit}

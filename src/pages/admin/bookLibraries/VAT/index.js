@@ -119,7 +119,7 @@ export default function Index(props) {
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/VAT/create`,
-          data: values,
+          data: { value: values.value, ranking: values.ranking },
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -240,6 +240,7 @@ export default function Index(props) {
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}
         title="Add VAT"
+        translate={translate}
       />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">

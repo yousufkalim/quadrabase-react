@@ -9,8 +9,17 @@ import {
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
 export default function subList(props) {
-  let { level, handleanchorEl, name, open, nodeKey, handleClick, Index, _id } =
-    props;
+  let {
+    level,
+    handleanchorEl,
+    name,
+    open,
+    nodeKey,
+    handleClick,
+    Index,
+    _id,
+    getNextLevel,
+  } = props;
   let obj = {};
   obj[`${nodeKey}`] = nodeKey;
   obj[nodeKey] = !open;
@@ -22,18 +31,25 @@ export default function subList(props) {
         {open ? (
           <FontAwesomeIcon
             icon={faAngleDown}
-            onClick={() => handleClick(level, _id, obj)}
+            onClick={() => {
+              handleClick(level, _id, obj);
+            }}
           />
         ) : (
           <FontAwesomeIcon
             icon={faAngleRight}
-            onClick={() => handleClick(level, _id, obj)}
+            onClick={() => {
+              getNextLevel(_id);
+              handleClick(level, _id, obj);
+            }}
           />
         )}
         <ListItemText
           inset
           primary={name}
-          primaryTypographyProps={{ style: { fontWeight: props.nameBold ? "bold" : "normal" } }}
+          primaryTypographyProps={{
+            style: { fontWeight: props.nameBold ? "bold" : "normal" },
+          }}
           onClick={() => handleClick(level, _id, obj)}
         />
         <FontAwesomeIcon

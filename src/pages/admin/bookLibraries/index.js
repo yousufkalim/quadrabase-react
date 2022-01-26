@@ -4,6 +4,7 @@ import Modal from "../../../components/Modal";
 import DeleteModal from "../../../components/DeleteModal";
 import List from "../../../components/LibrariesList/index.js";
 import ListMenu from "../../../components/LibrariesList/listMenu";
+import Loader from "../../../components/Loader";
 
 import Notifier from "../../../utils/Notifier";
 import Families from "./Families";
@@ -31,6 +32,9 @@ export default function Index(props) {
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [librariesData, setlibrariesData] = React.useState([]);
+  const [Level2, setLevel2] = React.useState([]);
+  const [Level3, setLevel3] = React.useState([]);
+  const [Level4, setLevel4] = React.useState([]);
   const [LevelID, setLevelID] = React.useState("");
   const [Index, setIndex] = React.useState("");
 
@@ -39,6 +43,8 @@ export default function Index(props) {
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
   const openanchorEl = Boolean(state.anchorEl);
   const handleanchorEl = (event, id, level) => {
     // setAnchorEl(event.currentTarget);
@@ -334,7 +340,7 @@ export default function Index(props) {
   //categoryUp
   const handleCategoryUp = async (id) => {
     // setIndex(id);
-    let categories = LevelData.categories;
+    let categories = Level2;
     let filteredIndex = categories.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== 0) {
@@ -357,14 +363,17 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel2(Level2[0].book_library);
+        });
       });
     }
   };
   //categoryDown
   const handleCategoryDown = async (id) => {
     // setIndex(id);
-    let categories = LevelData.categories;
+    let categories = Level2;
     let filteredIndex = categories.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== categories.length - 1) {
@@ -388,7 +397,10 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel2(Level2[0].book_library);
+        });
       });
     }
   };
@@ -396,7 +408,7 @@ export default function Index(props) {
   const handleWorkUp = async (id) => {
     // setIndex(id);
 
-    let works = LevelData.works;
+    let works = Level3;
     let filteredIndex = works.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== 0) {
@@ -420,14 +432,17 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel3(Level3[0].category);
+        });
       });
     }
   };
   //workDown
   const handleWorkDown = async (id) => {
     // setIndex(id);
-    let works = LevelData.works;
+    let works = Level3;
     let filteredIndex = works.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== works.length - 1) {
@@ -451,7 +466,10 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel3(Level3[0].category);
+        });
       });
     }
   };
@@ -459,7 +477,7 @@ export default function Index(props) {
   //workdetailUp
   const handleWorkDetailUp = async (id) => {
     // setIndex(id);
-    let work_details = LevelData.work_details;
+    let work_details = Level4;
     let filteredIndex = work_details.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== 0) {
@@ -483,14 +501,17 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel4(Level4[0].work);
+        });
       });
     }
   };
   //workdetailDown
   const handleWorkDetailDown = async (id) => {
     // setIndex(id);
-    let work_details = LevelData.work_details;
+    let work_details = Level4;
     let filteredIndex = work_details.findIndex((dt) => dt._id == id);
 
     if (filteredIndex !== work_details.length - 1) {
@@ -514,7 +535,10 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => handleanchorElClose());
+        }).then(() => {
+          handleanchorElClose();
+          getLevel4(Level4[0].work);
+        });
       });
     }
   };
@@ -544,6 +568,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      getLevel2(response?.data?.Category?.book_library);
       handleClose();
       Notifier(response.data.message, "success");
     } catch (error) {
@@ -560,6 +585,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      getLevel3(response?.data?.Work?.category);
       handleClose();
       Notifier(response.data.message, "success");
     } catch (error) {
@@ -576,6 +602,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      getLevel4(response?.data?.WorkDetail?.work);
       handleClose();
       Notifier(response.data.message, "success");
     } catch (error) {
@@ -593,7 +620,7 @@ export default function Index(props) {
   const handleEditCategory = (id) => {
     let filteredData;
     if (id) {
-      filteredData = LevelData.categories.find((data) => data._id == id);
+      filteredData = Level2.find((data) => data._id == id);
     }
     return filteredData;
   };
@@ -601,7 +628,7 @@ export default function Index(props) {
   const handleEditWork = (id) => {
     let filteredData;
     if (id) {
-      filteredData = LevelData.works.find((data) => data._id == id);
+      filteredData = Level3.find((data) => data._id == id);
     }
 
     return filteredData;
@@ -609,7 +636,7 @@ export default function Index(props) {
   const handleEditWorkDetail = (id) => {
     let filteredData;
     if (id) {
-      filteredData = LevelData.work_details.find((data) => data._id == id);
+      filteredData = Level4.find((data) => data._id == id);
     }
 
     return filteredData;
@@ -624,18 +651,65 @@ export default function Index(props) {
         },
       });
       let data = response.data.bookLibraries;
-      data.map((dt) => {
-        dt.categories = dt.categories.sort((a, b) => a.ranking - b.ranking);
-        dt.works = dt.works.sort((a, b) => a.ranking - b.ranking);
-        dt.work_details = dt.work_details.sort((a, b) => a.ranking - b.ranking);
-      });
-
       setlibrariesData(data);
+      setLoading(false);
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+      setLoading(false);
     }
     //}
   };
+
+  const getLevel2 = async (id) => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/BookLibraries/getLevel2/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.categories.sort((a, b) => a.ranking - b.ranking);
+      setLevel2(data);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
+  const getLevel3 = async (id) => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/BookLibraries/getLevel3/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.works.sort((a, b) => a.ranking - b.ranking);
+      setLevel3(data);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
+  const getLevel4 = async (id) => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/BookLibraries/getLevel4/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.workDetails.sort(
+        (a, b) => a.ranking - b.ranking
+      );
+      setLevel4(data);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
   useEffect(() => {
     getBookLibraries();
     if (LibraryID) {
@@ -643,7 +717,9 @@ export default function Index(props) {
     }
   }, [state, Level]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <ListMenu
         onClick={handleanchorEl}
@@ -655,6 +731,7 @@ export default function Index(props) {
         level={Level}
         id={"demo-customized-button"}
         parentLevel={parentLevel}
+        translate={translate}
         {...props}
       />
 
@@ -668,19 +745,25 @@ export default function Index(props) {
               handleClick={handleClick}
               parentLevel={parentLevel}
               handleanchorEl={handleanchorEl}
+              getLevel2={getLevel2}
+              Level2={Level2}
+              getLevel3={getLevel3}
+              Level3={Level3}
+              getLevel4={getLevel4}
+              Level4={Level4}
             />
           </div>
         </div>
       </div>
       {/* All  Modals */}
       {/* <Modal
-        title="Manage Families"
-        width="40%"
-        translate={translate}
-        open={state.managefamily}
-        onClose={handleClose}
-        component={<Families translate={translate} handleClose={handleClose} />}
-      /> */}
+      title="Manage Families"
+      width="40%"
+      translate={translate}
+      open={state.managefamily}
+      onClose={handleClose}
+      component={<Families translate={translate} handleClose={handleClose} />}
+    /> */}
       <Modal
         title="Add Library"
         height="60%"
@@ -707,6 +790,7 @@ export default function Index(props) {
             translate={translate}
             handleClose={handleClose}
             BookLibraryId={LevelID}
+            getLevel2={getLevel2}
           />
         }
       />
@@ -722,11 +806,12 @@ export default function Index(props) {
             translate={translate}
             handleClose={handleClose}
             categoryId={LevelID}
+            getLevel3={getLevel3}
           />
         }
       />
       <Modal
-        title="Add Work Detail"
+        title={translate("Add Work detail")}
         open={state.addworkdetail}
         translate={translate}
         width="30%"
@@ -736,6 +821,7 @@ export default function Index(props) {
             translate={translate}
             handleClose={handleClose}
             workId={LevelID}
+            getLevel4={getLevel4}
           />
         }
       />
@@ -767,6 +853,7 @@ export default function Index(props) {
             editmodal={state.editcategory}
             handleClose={handleClose}
             libraryId={state.editcategoryId}
+            getLevel2={getLevel2}
           />
         }
       />
@@ -786,6 +873,7 @@ export default function Index(props) {
             editmodal={state.editwork}
             handleClose={handleClose}
             libraryId={state.editworkId}
+            getLevel3={getLevel3}
           />
         }
       />
@@ -801,6 +889,7 @@ export default function Index(props) {
             editmodal={state.editworkdetail}
             handleClose={handleClose}
             libraryId={state.editworkdetailId}
+            getLevel4={getLevel4}
           />
         }
       />

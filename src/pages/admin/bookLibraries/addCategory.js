@@ -11,9 +11,9 @@ import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
 import RichTextEditor from "../../../components/RichTextEditor";
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
 
@@ -57,8 +57,8 @@ export default function AddExpense(props) {
 
         Notifier(response.data.message, "success", translate);
         setisLoading(false);
+        props.getLevel2(props.BookLibraryId);
         props.handleClose();
-
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
@@ -75,8 +75,7 @@ export default function AddExpense(props) {
         <div className="w-full  px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
-            placeholder="Name"
-            label="Name"
+            label={translate("Name")}
             name="name"
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -90,9 +89,13 @@ export default function AddExpense(props) {
       </div>
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%", }}>
-        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
-          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+          <Tabs
+            value={selectedTabIndex}
+            onChange={handleTabChange}
+            aria-label="CCTPs"
+          >
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -133,7 +136,7 @@ export default function AddExpense(props) {
         <div className="">
           <Button
             onClick={() => props.handleClose()}
-            label="Close"
+            label={translate("Close")}
             backgroundColor={red}
             default={false}
           />
@@ -142,7 +145,7 @@ export default function AddExpense(props) {
           <Button
             onClick={formik.handleSubmit}
             disabled={isLoading}
-            label={isLoading ? "Creating" : "Create"}
+            label={translate("Create")}
             default={true}
           />
         </div>

@@ -243,7 +243,8 @@ export default function Index(props) {
         handleUp={handleFamilyUp}
         handleDown={handleFamilyDown}
         id={"unit-customized-button"}
-        title={translate("Add Family")} 
+        title={translate("Add Family")}
+        translate={translate}
       />
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
@@ -264,6 +265,7 @@ export default function Index(props) {
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
         onClose={onAddModal}
+        translate={translate}
         component={<AddFamily translate={translate} formik={formik} />}
       />
       <Modal
