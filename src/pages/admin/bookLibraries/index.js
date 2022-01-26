@@ -298,11 +298,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = librariesData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = librariesData[filteredIndex];
+          setlibrariesData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = librariesData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = librariesData[filteredIndex];
-      setlibrariesData(tempArr);
     }
   };
   //Library Down
@@ -330,11 +331,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = librariesData[nextIndex];
+          tempArr[nextIndex] = librariesData[filteredIndex];
+          setlibrariesData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = librariesData[nextIndex];
-      tempArr[nextIndex] = librariesData[filteredIndex];
-      setlibrariesData(tempArr);
     }
   };
   //categoryUp
@@ -650,7 +652,9 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.bookLibraries;
+      let data = response.data.bookLibraries.sort(
+        (a, b) => a.ranking - b.ranking
+      );
       setlibrariesData(data);
       setLoading(false);
     } catch (error) {
