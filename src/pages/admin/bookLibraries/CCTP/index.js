@@ -246,7 +246,7 @@ export default function Index(props) {
         handleDown={handleCctpDown}
         translate={translate}
         id={"unit-customized-button"}
-        title="Add CCTP"
+        title={translate("Add CCTP")}
       />
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
@@ -257,7 +257,7 @@ export default function Index(props) {
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}
-            title="CCTP List"
+            title={translate("CCTP List")}
           />
         </div>
       </div>

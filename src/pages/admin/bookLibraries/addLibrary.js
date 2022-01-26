@@ -120,11 +120,11 @@ export default function AddExpense(props) {
             className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-first-name"
           >
-            Select Family
+            {translate("Select Family")}
           </label>
           <MultiSelectField
             name="families"
-            label="Select Family"
+            label={translate("Select Family")}
             value={formik.values.families}
             onChange={handleChange}
             options={familiesOptions}

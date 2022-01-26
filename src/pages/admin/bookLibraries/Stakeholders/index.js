@@ -234,7 +234,7 @@ export default function Index(props) {
         handleUp={handleStakeholdersUp}
         handleDown={handleStakeholdersDown}
         id={"unit-customized-button"}
-        title={`Add ${translate("Stakeholders")}`}
+        title={`${translate("Add Stakeholder")}`}
         translate={translate}
       />
       <div className="w-full md:mx-auto py-9 ">
@@ -250,7 +250,7 @@ export default function Index(props) {
         </div>
       </div>
       <Modal
-        title="Add Stakeholder"
+        title={`${translate("Add Stakeholder")}`}
         translate={translate}
         open={modal}
         onClose={onAddModal}

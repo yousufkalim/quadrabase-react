@@ -78,11 +78,11 @@ export default function CustomizedMenus(props) {
           <>
             <MenuItem onClick={onEdit} disableRipple>
               <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faEdit} />
-              Edit
+              {translate("Edit")}
             </MenuItem>
             <MenuItem onClick={onDelete} disableRipple>
               <FontAwesomeIcon sx={{ fontSize: "1rem" }} icon={faTrash} />
-              Delete
+              {translate("Delete")}
             </MenuItem>
             <div style={{ paddingLeft: "0.6rem" }}>
               <MenuItem onClick={handleUp} disableRipple>
