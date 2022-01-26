@@ -4,7 +4,6 @@ import DocViewer from "../../../components/DocViewer";
 import { getToken } from "../../../utils/Auth";
 
 export default function AddExpense(props) {
-  
   const token = getToken();
   const { provider, translate } = props;
   const displayWork = () => {
@@ -35,7 +34,7 @@ export default function AddExpense(props) {
   };
 
   return (
-    <div className=" -mx-3 mb-2" style={{height: "500px"}}>
+    <div className=" -mx-3 mb-2" style={{ height: "500px", overflow: "auto" }}>
       <div className="w-full px-3 mb-6 md:mb-0">
         <div className="h-146 overflow-y-auto border px-10 py-3">
           {displayWork()}
@@ -43,5 +42,4 @@ export default function AddExpense(props) {
       </div>
     </div>
   );
-
 }
