@@ -73,7 +73,7 @@ export const UNIT_YUP = Yup.object({
   symbol: Yup.string().required("Required"),
 });
 export const STAKEHOLDER_YUP = Yup.object({
-  name: Yup.string().required("Required"),
+  text: Yup.string().required("Required"),
 });
 export const VAT_YUP = Yup.object({
   value: Yup.string().required("Required"),

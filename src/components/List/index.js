@@ -38,8 +38,16 @@ function NestedList(props) {
                 <SubListItem
                   _id={dat._id}
                   Index={index}
-                  primaryText={props.primaryKey ? dat[props.primaryKey] : dat.name}
-                  secondaryText={props.secondaryKey ? dat[props.secondaryKey] : null}
+                  primaryText={
+                    props.primaryKey
+                      ? dat[props.primaryKey]
+                      : dat.name
+                      ? dat.name
+                      : dat.text
+                  }
+                  secondaryText={
+                    props.secondaryKey ? dat[props.secondaryKey] : null
+                  }
                   handleanchorEl={handleanchorEl}
                 />
               </div>

@@ -7,7 +7,7 @@ export default function AddExpense(props) {
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
-
+    console.log("initialValues", initialValues);
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
         if (Object.keys(initialValues).includes(dat)) {
@@ -22,12 +22,11 @@ export default function AddExpense(props) {
         <div className="w-full px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
-            label={translate("Name")}
-            labelUpperCase={true}
-            name="name"
+            label={translate("Text")}
+            name="text"
             translate={translate}
             onChange={formik.handleChange}
-            value={formik.values.name}
+            value={formik.values.text}
           />
           <div className="text-red-600 ">
             {formik.touched.name && formik.errors.name ? (

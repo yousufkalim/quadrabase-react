@@ -81,12 +81,12 @@ export default function Index(props) {
     try {
       let response = await Axios({
         method: "get",
-        url: `${baseUrl}/Stakeholders/`,
+        url: `${baseUrl}/StakeholderTypes/`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.stakeholders;
+      let data = response.data.stakeholderTypes;
       let newData = data.filter((dat) => dat.email !== USER.email);
       setstakeholdersData(newData);
     } catch (error) {
@@ -107,7 +107,7 @@ export default function Index(props) {
       try {
         let response = await Axios({
           method: "post",
-          url: `${baseUrl}/Stakeholders/create`,
+          url: `${baseUrl}/StakeholderTypes/create`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,7 +133,7 @@ export default function Index(props) {
       try {
         let response = await Axios({
           method: "put",
-          url: `${baseUrl}/Stakeholders/${stakeholdersId}`,
+          url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -165,7 +165,7 @@ export default function Index(props) {
       handleanchorElClose();
       Axios({
         method: "put",
-        url: `${baseUrl}/Stakeholders/${stakeholdersId}`,
+        url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: prevIndex },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -173,7 +173,7 @@ export default function Index(props) {
       }).then(() => {
         Axios({
           method: "put",
-          url: `${baseUrl}/Stakeholders/${prev._id}`,
+          url: `${baseUrl}/StakeholderTypes/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export default function Index(props) {
       handleanchorElClose();
       Axios({
         method: "put",
-        url: `${baseUrl}/Stakeholders/${stakeholdersId}`,
+        url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: nextIndex },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -207,7 +207,7 @@ export default function Index(props) {
       }).then(() => {
         Axios({
           method: "put",
-          url: `${baseUrl}/Stakeholders/${prev._id}`,
+          url: `${baseUrl}/StakeholderTypes/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -239,6 +239,7 @@ export default function Index(props) {
       />
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
+          {console.log("stakeholder data", stakeholdersData)}
           <List
             data={stakeholdersData}
             translate={translate}
@@ -258,6 +259,7 @@ export default function Index(props) {
         buttonLabel="Create"
         component={<AddStakeholder translate={translate} formik={formik} />}
       />
+      {console.log(editData)}
       <Modal
         title={translate("Edit Stakeholder")}
         open={editmodal}

@@ -93,5 +93,5 @@ export const CHAP0_STATE = {
   text: "",
 };
 export const STAKEHOLDER_STATE = {
-  name: "",
+  text: "",
 };
