@@ -170,6 +170,20 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
+          <TextInput
+            type="number"
+            label={translate("PU HT")}
+            name="unit_price"
+            onChange={formik.handleChange}
+            value={formik.values.unit_price}
+          />
+          <small className="text-red-600 ">
+            {formik.touched.unit_price && formik.errors.unit_price ? (
+              <small>{formik.errors.unit_price}</small>
+            ) : null}
+          </small>
+        </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <SelectField
             name="unit"
