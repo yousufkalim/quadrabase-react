@@ -239,7 +239,7 @@ export default function Index(props) {
         handleUp={handleUnitsUp}
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}
-        title="Add VAT"
+        title={translate("Add VAT")}
         translate={translate}
       />
       <div className="w-full  md:mx-auto py-9 ">
@@ -251,13 +251,13 @@ export default function Index(props) {
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}
-            title="VATS List"
+            title={translate("VATS List")}
             keyName="value"
           />
         </div>
       </div>
       <Modal
-        title="Add VAT"
+        title={translate("Add VAT")}
         open={modal}
         translate={translate}
         onClose={onAddModal}
@@ -266,7 +266,7 @@ export default function Index(props) {
         component={<AddVat translate={translate} formik={formik} />}
       />
       <Modal
-        title="Edit VAT"
+        title={translate("Edit VAT")}
         translate={translate}
         open={editmodal}
         onSubmit={edit_formik.handleSubmit}

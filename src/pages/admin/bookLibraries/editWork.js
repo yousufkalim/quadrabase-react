@@ -252,6 +252,7 @@ export default function AddExpense(props) {
           <AddMemoizedProvider
             ProviderOptions={ProviderOptions}
             onAdd={handleAdd}
+            label1={translate("Select Provider")}
           />
         </div>
         <div className="w-full">
@@ -268,6 +269,7 @@ export default function AddExpense(props) {
                         ProviderOptions={ProviderOptions}
                         onDelete={() => handleDelete(provider)}
                         handleUpdate={handleUpdate}
+                        label1={translate("Select Provider")}
                       />
                       <div>
                         <DocViewer documents={documents} height="200" />

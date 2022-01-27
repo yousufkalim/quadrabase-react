@@ -8,7 +8,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { red } from "@mui/material/colors";
 
 function Index(props) {
-  const { isLoading, ProviderOptions } = props;
+  const { isLoading, ProviderOptions, label1 } = props;
 
   const [Name, setName] = useState("");
   const [Edit, setEdit] = useState(false);
@@ -66,7 +66,7 @@ function Index(props) {
           <div className="w-full  pt-0.5 px-1 ">
             <SelectField
               name="Name"
-              label="Select Provider"
+              label={label1}
               disabled={Edit ? false : true}
               value={Name}
               onChange={(e) => {
