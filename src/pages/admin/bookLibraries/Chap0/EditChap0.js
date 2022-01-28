@@ -1,13 +1,15 @@
 import React from "react";
 
 import TextInput from "../../../../components/TextInput";
+import CkEditor from "../../../..//components/CkEditor";
 
 export default function AddExpense(props) {
-  const { translate, formik } = props;
+  const { translate, formik, setEditText } = props;
 
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
+    setEditText(editData.text);
 
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
@@ -37,15 +39,7 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full   px-3">
-          <TextInput
-            type="text"
-            placeholder="Text"
-            label="Text"
-            name="text"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.text}
-          />
+          <CkEditor value={props.editData.text} setValue={setEditText} />
           <div className="text-red-600 ">
             {formik.touched.text && formik.errors.text ? (
               <small>{formik.errors.text}</small>

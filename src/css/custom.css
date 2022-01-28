@@ -26,3 +26,7 @@ input[disabled] {
   margin: auto !important;
   padding-left: 40px !important;
 }
+
+.ck-editor .ck-content {
+  min-height: 200px;
+}
