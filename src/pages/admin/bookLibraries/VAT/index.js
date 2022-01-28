@@ -247,7 +247,6 @@ export default function Index(props) {
           <List
             data={vatsData}
             primaryKey="value"
-            secondaryKey="symbol"
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}

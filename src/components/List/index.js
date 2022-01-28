@@ -40,7 +40,9 @@ function NestedList(props) {
                   Index={index}
                   primaryText={
                     props.primaryKey
-                      ? dat[props.primaryKey]
+                      ? props.primaryKey === "value"
+                        ? `${dat[props.primaryKey]}%`
+                        : dat[props.primaryKey]
                       : dat.name
                       ? dat.name
                       : dat.text
