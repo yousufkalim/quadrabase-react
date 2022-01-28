@@ -1,10 +1,10 @@
 import React from "react";
 
 import TextInput from "../../../../components/TextInput";
-import TextArea from "../../../../components/TextArea";
+import CkEditor from "../../../..//components/CkEditor";
 
 export default function AddExpense(props) {
-  const { translate, formik } = props;
+  const { translate, formik, text, setText } = props;
 
   return (
     <form className="w-full  pt-9">
@@ -26,16 +26,7 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full  px-3">
-          <TextInput
-            type="text"
-            placeholder="Text"
-            label="Text"
-            name="text"
-            translate={translate}
-            rows={3}
-            onChange={formik.handleChange}
-            value={formik.values.text}
-          />
+          <CkEditor value={text} setValue={setText} />
           <div className="text-red-600 ">
             {formik.touched.text && formik.errors.text ? (
               <small>{formik.errors.text}</small>

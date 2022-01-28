@@ -241,11 +241,6 @@ export const Chap0headCells = [
 
     label: "Title",
   },
-  {
-    id: "text",
-
-    label: "Text",
-  },
 
   {
     id: "createdAt",

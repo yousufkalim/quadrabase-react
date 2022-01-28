@@ -90,5 +90,4 @@ export const FAMILIES_YUP = Yup.object({
 
 export const CHAP0_YUP = Yup.object({
   title: Yup.string().required("Required"),
-  text: Yup.string().required("Required"),
 });

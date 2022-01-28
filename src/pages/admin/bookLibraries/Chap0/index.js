@@ -24,6 +24,8 @@ export default function Index(props) {
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
   const [headCells, setheadCells] = React.useState("");
+  const [text, setText] = React.useState("");
+  const [editText, setEditText] = React.useState("");
 
   const [adminId, setadminId] = React.useState("");
   const [adminDeleteId, setadminDeleteId] = React.useState("");
@@ -91,7 +93,7 @@ export default function Index(props) {
   useEffect(() => {
     getAdmins();
   }, [modal, editmodal, deletemodal]);
-  
+
   useEffect(() => {
     let array = [];
     Chap0headCells.slice(0, Chap0headCells.length - 1).map((cell) =>
@@ -106,6 +108,7 @@ export default function Index(props) {
     validationSchema: CHAP0_YUP,
     onSubmit: async (values) => {
       try {
+        values.text = text;
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/Chap0/create`,
@@ -133,6 +136,7 @@ export default function Index(props) {
     validationSchema: CHAP0_YUP,
     onSubmit: async (values) => {
       try {
+        values.text = editText;
         let response = await Axios({
           method: "put",
           url: `${baseUrl}/Chap0/${adminId}`,
@@ -162,7 +166,14 @@ export default function Index(props) {
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
         translate={translate}
-        component={<AddChap0 translate={translate} formik={formik} />}
+        component={
+          <AddChap0
+            translate={translate}
+            formik={formik}
+            text={text}
+            setText={setText}
+          />
+        }
       />
       <Modal
         title="Edit Chap0"
@@ -179,6 +190,8 @@ export default function Index(props) {
             editData={editData}
             editmodal={editmodal}
             formik={edit_formik}
+            editText={editText}
+            setEditText={setEditText}
           />
         }
       />
@@ -200,7 +213,9 @@ export default function Index(props) {
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("Chap0").toUpperCase()}</h1>
+            <h1 className="text-2xl font-bold">
+              {translate("Chap0").toUpperCase()}
+            </h1>
             <Button
               variant="outlined"
               label="Add Chap0"
