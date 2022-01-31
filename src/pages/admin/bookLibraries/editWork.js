@@ -252,7 +252,7 @@ export default function AddExpense(props) {
           <AddMemoizedProvider
             ProviderOptions={ProviderOptions}
             onAdd={handleAdd}
-            label1={translate("Select Provider")}
+            translate={translate}
           />
         </div>
         <div className="w-full">
@@ -269,7 +269,7 @@ export default function AddExpense(props) {
                         ProviderOptions={ProviderOptions}
                         onDelete={() => handleDelete(provider)}
                         handleUpdate={handleUpdate}
-                        label1={translate("Select Provider")}
+                        translate={translate}
                       />
                       <div>
                         <DocViewer documents={documents} height="200" />
@@ -295,7 +295,7 @@ export default function AddExpense(props) {
             <Button
               onClick={formik.handleSubmit}
               disabled={isLoading}
-              label={isLoading ? "Updating..." : "Update"}
+              label={translate("Update")}
               default={true}
             />
           </div>

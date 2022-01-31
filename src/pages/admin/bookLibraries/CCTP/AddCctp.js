@@ -27,8 +27,8 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2  px-3">
           <TextInput
             type="text"
-            placeholder="Type"
-            label="Type"
+            placeholder="Title"
+            label="Title"
             labelUpperCase={true}
             name="type"
             translate={translate}

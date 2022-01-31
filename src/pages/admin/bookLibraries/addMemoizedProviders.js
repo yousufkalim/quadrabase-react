@@ -8,7 +8,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { red } from "@mui/material/colors";
 
 function Index(props) {
-  const { isLoading, ProviderOptions, label1 } = props;
+  const { isLoading, ProviderOptions, translate } = props;
 
   const [Name, setName] = useState("");
   const [Edit, setEdit] = useState(false);
@@ -66,7 +66,7 @@ function Index(props) {
           <div className="w-full  pt-0.5 px-1 ">
             <SelectField
               name="Name"
-              label={label1}
+              label={translate("Select Provider")}
               disabled={Edit ? false : true}
               value={Name}
               onChange={(e) => {
@@ -99,14 +99,14 @@ function Index(props) {
               <Button
                 onClick={handleUpdate}
                 disabled={isLoading}
-                label={Edit ? "Update" : "Edit"}
+                label={Edit ? "Update" : translate("Edit")}
                 default={true}
               />
             </div>
             <Button
               onClick={props.onDelete}
               disabled={isLoading}
-              label={"Delete"}
+              label={translate("Delete")}
               backgroundColor={red}
               default={false}
             />

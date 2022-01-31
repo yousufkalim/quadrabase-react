@@ -269,7 +269,7 @@ export default function Index(props) {
         component={<AddFamily translate={translate} formik={formik} />}
       />
       <Modal
-        title="Edit Family Title"
+        title={translate("Edit Family Title")}
         open={editmodal}
         translate={translate}
         onClose={handleEditModal}
