@@ -8,7 +8,7 @@ import { getToken } from "../../../utils/Auth";
 import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
-import RichTextEditor from "../../../components/RichTextEditor";
+import CkEditor from "../../../components/CkEditor";
 import MultiSelectField from "../../../components/MultiSelectField";
 
 import { red } from "@mui/material/colors";
@@ -147,32 +147,16 @@ export default function AddExpense(props) {
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text1(value)}
-            value={cctp_text1}
-          />
+          <CkEditor setValue={setcctp_text1} value={cctp_text1} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text2(value)}
-            value={cctp_text2}
-          />
+          <CkEditor setValue={setcctp_text2} value={cctp_text2} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text3(value)}
-            value={cctp_text3}
-          />
+          <CkEditor setValue={setcctp_text3} value={cctp_text3} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text4(value)}
-            value={cctp_text4}
-          />
+          <CkEditor setValue={setcctp_text4} value={cctp_text4} />
         </TabPanel>
       </Box>
 
