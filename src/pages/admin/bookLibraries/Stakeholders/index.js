@@ -86,7 +86,9 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.stakeholderTypes;
+      let data = response.data.stakeholderTypes.sort(
+        (a, b) => a.ranking - b.ranking
+      );
       let newData = data.filter((dat) => dat.email !== USER.email);
       setstakeholdersData(newData);
     } catch (error) {
@@ -178,11 +180,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = stakeholdersData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = stakeholdersData[filteredIndex];
+          setstakeholdersData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = stakeholdersData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = stakeholdersData[filteredIndex];
-      setstakeholdersData(tempArr);
     }
   };
   //Stakeholders Down
@@ -212,11 +215,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = stakeholdersData[nextIndex];
+          tempArr[nextIndex] = stakeholdersData[filteredIndex];
+          setstakeholdersData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = stakeholdersData[nextIndex];
-      tempArr[nextIndex] = stakeholdersData[filteredIndex];
-      setstakeholdersData(tempArr);
     }
   };
   // ********

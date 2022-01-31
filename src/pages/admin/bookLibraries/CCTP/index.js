@@ -91,7 +91,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.cctp;
+      let data = response.data.cctp.sort((a, b) => a.ranking - b.ranking);
       let newData = data.filter((dat) => dat.email !== USER.email);
       setcctpsData(newData);
     } catch (error) {
@@ -178,7 +178,7 @@ export default function Index(props) {
       handleanchorElClose();
       Axios({
         method: "put",
-        url: `${baseUrl}/Units/${cctpId}`,
+        url: `${baseUrl}/CCTP/${cctpId}`,
         data: { ranking: prevIndex },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -186,16 +186,17 @@ export default function Index(props) {
       }).then(() => {
         Axios({
           method: "put",
-          url: `${baseUrl}/Units/${prev._id}`,
+          url: `${baseUrl}/CCTP/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = cctpsData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = cctpsData[filteredIndex];
+          setcctpsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = cctpsData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = cctpsData[filteredIndex];
-      setcctpsData(tempArr);
     }
   };
   //Units Down
@@ -210,7 +211,7 @@ export default function Index(props) {
       handleanchorElClose();
       Axios({
         method: "put",
-        url: `${baseUrl}/Units/${cctpId}`,
+        url: `${baseUrl}/CCTP/${cctpId}`,
         data: { ranking: nextIndex },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -218,16 +219,17 @@ export default function Index(props) {
       }).then(() => {
         Axios({
           method: "put",
-          url: `${baseUrl}/Units/${prev._id}`,
+          url: `${baseUrl}/CCTP/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = cctpsData[nextIndex];
+          tempArr[nextIndex] = cctpsData[filteredIndex];
+          setcctpsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = cctpsData[nextIndex];
-      tempArr[nextIndex] = cctpsData[filteredIndex];
-      setcctpsData(tempArr);
     }
   };
   // ********

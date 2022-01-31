@@ -91,7 +91,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.families;
+      let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
       let newData = data.filter((dat) => dat.email !== USER.email);
       setfamiliesData(newData);
     } catch (error) {
@@ -190,11 +190,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = familiesData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = familiesData[filteredIndex];
+          setfamiliesData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = familiesData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = familiesData[filteredIndex];
-      setfamiliesData(tempArr);
     }
   };
   //Units Down
@@ -221,11 +222,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = familiesData[nextIndex];
+          tempArr[nextIndex] = familiesData[filteredIndex];
+          setfamiliesData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = familiesData[nextIndex];
-      tempArr[nextIndex] = familiesData[filteredIndex];
-      setfamiliesData(tempArr);
     }
   };
   // ********

@@ -86,7 +86,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.units;
+      let data = response.data.units.sort((a, b) => a.ranking - b.ranking);
       let newData = data.filter((dat) => dat.email !== USER.email);
       setunitsData(newData);
     } catch (error) {
@@ -176,11 +176,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = unitsData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = unitsData[filteredIndex];
+          setunitsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = unitsData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = unitsData[filteredIndex];
-      setunitsData(tempArr);
     }
   };
   //Units Down
@@ -208,11 +209,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = unitsData[nextIndex];
+          tempArr[nextIndex] = unitsData[filteredIndex];
+          setunitsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = unitsData[nextIndex];
-      tempArr[nextIndex] = unitsData[filteredIndex];
-      setunitsData(tempArr);
     }
   };
   // ********
