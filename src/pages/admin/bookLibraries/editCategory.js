@@ -9,7 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
-import RichTextEditor from "../../../components/RichTextEditor";
+import CkEditor from "../../../components/CkEditor";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -87,7 +87,7 @@ export default function AddExpense(props) {
     }
   }, [props.editmodal]);
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full  pt-9" style={{ maxHeight: 600, overflow: "auto" }}>
       <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full  px-3 mb-6 md:mb-0 ">
           <TextInput
@@ -120,31 +120,27 @@ export default function AddExpense(props) {
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text1(value)}
-            value={cctp_text1}
+          <CkEditor
+            setValue={setcctp_text1}
+            value={props.editData.cctp_text[0]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text2(value)}
-            value={cctp_text2}
+          <CkEditor
+            setValue={setcctp_text2}
+            value={props.editData.cctp_text[1]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text3(value)}
-            value={cctp_text3}
+          <CkEditor
+            setValue={setcctp_text3}
+            value={props.editData.cctp_text[2]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <RichTextEditor
-            height="300px"
-            onChange={(value) => setcctp_text4(value)}
-            value={cctp_text4}
+          <CkEditor
+            setValue={setcctp_text4}
+            value={props.editData.cctp_text[3]}
           />
         </TabPanel>
       </Box>

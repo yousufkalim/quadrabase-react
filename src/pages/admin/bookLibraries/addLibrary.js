@@ -99,7 +99,7 @@ export default function AddExpense(props) {
     getFamilies();
   }, []);
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full  pt-9" style={{ maxHeight: 600, overflow: "auto" }}>
       <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
