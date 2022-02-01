@@ -90,7 +90,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.vat;
+      let data = response.data.vat.sort((a, b) => a.ranking - b.ranking);
       let newData = data.filter((dat) => dat.email !== USER.email);
       setvatsData(newData);
     } catch (error) {
@@ -185,11 +185,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = vatsData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = vatsData[filteredIndex];
+          setvatsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = vatsData[filteredIndex - 1];
-      tempArr[filteredIndex - 1] = vatsData[filteredIndex];
-      setvatsData(tempArr);
     }
   };
   //Units Down
@@ -217,11 +218,12 @@ export default function Index(props) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(() => console.log("success2"));
+        }).then(() => {
+          tempArr[filteredIndex] = vatsData[nextIndex];
+          tempArr[nextIndex] = vatsData[filteredIndex];
+          setvatsData(tempArr);
+        });
       });
-      tempArr[filteredIndex] = vatsData[nextIndex];
-      tempArr[nextIndex] = vatsData[filteredIndex];
-      setvatsData(tempArr);
     }
   };
   // ********

@@ -7,7 +7,7 @@ import SelectField from "../../../components/SelectField";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 function Index(props) {
-  const { isLoading, ProviderOptions, label1 } = props;
+  const { isLoading, ProviderOptions, translate } = props;
   const [Name, setName] = useState("");
   const [documents, setDocuments] = useState([]);
 
@@ -56,7 +56,7 @@ function Index(props) {
           <div className="w-full md:w-5/12  pt-0.5 px-1 ">
             <SelectField
               name="Name"
-              label={label1}
+              label={translate("Select Provider")}
               value={Name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -85,7 +85,7 @@ function Index(props) {
             <Button
               onClick={handleAdd}
               disabled={isLoading}
-              label={isLoading ? "Adding..." : "Add Provider"}
+              label={translate("Add Provider")}
               default={true}
             />
           </div>

@@ -18,6 +18,7 @@ import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 import SubscriptionModal from "./SubscriptionModal";
+import moment from "moment";
 
 export default function Index(props) {
   const { translate } = props;
@@ -36,14 +37,20 @@ export default function Index(props) {
   const [editData, seteditData] = React.useState([]);
 
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
-  const [subscriptionArchitextId, setSubscriptionArchitextId] = React.useState();
-  const [value, setValue] = React.useState("");
-
-  const [projects, setProjects] = React.useState(0);
+  const [subscriptionArchitextId, setSubscriptionArchitextId] =
+    React.useState();
 
   const [currentSubscription, setCurrentSubscription] = React.useState();
 
   const [options, setOptions] = React.useState([]);
+
+  // States for subscription popup
+  const [value, setValue] = React.useState("");
+  const [projects, setProjects] = React.useState(5);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(
+    moment(new Date()).add(1, "years")._d
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,7 +103,7 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
-  
+
   const handleEditModal = async (id) => {
     if (id) {
       setarchitectId(id);
@@ -138,10 +145,14 @@ export default function Index(props) {
     getArchitects();
   }, [modal, editmodal, deletemodal, subscriptionModal]);
   useEffect(() => {
-    setValue(currentSubscription?.id?._id);
+    setValue(currentSubscription?.subscription?._id);
+    currentSubscription?.start_date &&
+      setStartDate(moment(currentSubscription?.start_date)._i);
+    currentSubscription?.end_date &&
+      setEndDate(moment(currentSubscription?.end_date)._i);
     architectData &&
       Object.keys(architectData).length > 0 &&
-      setProjects(architectData?.subscriptions?.projects ?? 0);
+      setProjects(architectData?.subscriptions?.projects ?? 5);
     getAllSubscriptions();
   }, [subscriptionModal]);
 
@@ -211,7 +222,12 @@ export default function Index(props) {
       let response = await Axios({
         method: "put",
         url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
-        data: { subscriptionId: value, projects: projects },
+        data: {
+          subscriptionId: value,
+          start_date: startDate,
+          end_date: endDate,
+          projects: projects,
+        },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -278,6 +294,11 @@ export default function Index(props) {
             options={options}
             value={value}
             projects={projects}
+            architectData={architectData}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
           />
         }
       />

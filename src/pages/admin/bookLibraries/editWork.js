@@ -14,7 +14,7 @@ import AddMemoizedProviders from "./addMemoizedProviders";
 import DocViewer from "../../../components/DocViewer";
 
 import { red } from "@mui/material/colors";
-import RichTextEditor from "../../../components/RichTextEditor";
+import CkEditor from "../../../components/CkEditor";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -211,39 +211,31 @@ export default function AddExpense(props) {
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <RichTextEditor
-            height="260px"
-            onChange={(value) => setcctp_text1(value)}
-            value={cctp_text1}
+          <CkEditor
+            setValue={setcctp_text1}
+            value={props.editData.cctp_text[0]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <RichTextEditor
-            height="260px"
-            onChange={(value) => setcctp_text2(value)}
-            value={cctp_text2}
+          <CkEditor
+            setValue={setcctp_text2}
+            value={props.editData.cctp_text[1]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <RichTextEditor
-            height="260px"
-            onChange={(value) => setcctp_text3(value)}
-            value={cctp_text3}
+          <CkEditor
+            setValue={setcctp_text3}
+            value={props.editData.cctp_text[2]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <RichTextEditor
-            height="260px"
-            onChange={(value) => setcctp_text4(value)}
-            value={cctp_text4}
+          <CkEditor
+            setValue={setcctp_text4}
+            value={props.editData.cctp_text[3]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={4}>
-          <RichTextEditor
-            height="260px"
-            onChange={(value) => setbpu_text(value)}
-            value={bpu_text}
-          />
+          <CkEditor setValue={setbpu_text} value={props.editData.bpu_text[0]} />
         </TabPanel>
       </Box>
 
@@ -252,7 +244,7 @@ export default function AddExpense(props) {
           <AddMemoizedProvider
             ProviderOptions={ProviderOptions}
             onAdd={handleAdd}
-            label1={translate("Select Provider")}
+            translate={translate}
           />
         </div>
         <div className="w-full">
@@ -269,7 +261,7 @@ export default function AddExpense(props) {
                         ProviderOptions={ProviderOptions}
                         onDelete={() => handleDelete(provider)}
                         handleUpdate={handleUpdate}
-                        label1={translate("Select Provider")}
+                        translate={translate}
                       />
                       <div>
                         <DocViewer documents={documents} height="200" />
@@ -295,7 +287,7 @@ export default function AddExpense(props) {
             <Button
               onClick={formik.handleSubmit}
               disabled={isLoading}
-              label={isLoading ? "Updating..." : "Update"}
+              label={translate("Update")}
               default={true}
             />
           </div>
