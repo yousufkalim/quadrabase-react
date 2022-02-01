@@ -58,13 +58,13 @@ export const WORK_STATE = {
   name: "",
   cctp_text: "",
   unit: "",
-  unit_price: 0,
+  unit_price: "0.00",
   providers: "",
 };
 export const WORK_DETAIL_STATE = {
   name: "",
   unit: "",
-  unit_price: 0,
+  unit_price: "0.00",
 };
 export const UNIT_STATE = {
   name: "",
