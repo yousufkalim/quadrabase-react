@@ -6,7 +6,7 @@ import Collapse from "@mui/material/Collapse";
 import ListItem from "@mui/material/ListItem";
 import SubListItem from "./subListItem";
 import ListMenu from "./listMenu";
-import { faEllipsisV, faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faCircle } from "@fortawesome/free-solid-svg-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -257,7 +257,7 @@ function NestedList(props) {
                                                                       >
                                                                         <FontAwesomeIcon
                                                                           icon={
-                                                                            faBookmark
+                                                                            faCircle
                                                                           }
                                                                           sx={{
                                                                             fontSize:
@@ -267,7 +267,16 @@ function NestedList(props) {
                                                                         <ListItemText
                                                                           inset
                                                                           primary={
-                                                                            childname
+                                                                            <i
+                                                                              style={{
+                                                                                fontSize:
+                                                                                  "0.875rem",
+                                                                              }}
+                                                                            >
+                                                                              {
+                                                                                childname
+                                                                              }
+                                                                            </i>
                                                                           }
                                                                         />
                                                                         <FontAwesomeIcon
