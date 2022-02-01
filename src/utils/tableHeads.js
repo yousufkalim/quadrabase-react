@@ -54,14 +54,6 @@ export const ArchitectheadCells = [
     label: "Authorize",
   },
   {
-    id: "credit",
-    label: "Total Products",
-  },
-  {
-    id: "total_projects",
-    label: "Total Projects",
-  },
-  {
     id: "ongoing_projects",
     label: "Ongoing Projects",
   },
