@@ -31,6 +31,8 @@ export default function Index(props) {
   const { translate } = props;
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
+  const [familiesData, setFamiliesData] = React.useState([]);
+  const [currentFamily, setCurrentFamily] = React.useState("");
   const [librariesData, setlibrariesData] = React.useState([]);
   const [Level2, setLevel2] = React.useState([]);
   const [Level3, setLevel3] = React.useState([]);
@@ -44,6 +46,7 @@ export default function Index(props) {
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [loadingData, setLoadingData] = React.useState("");
 
   const openanchorEl = Boolean(state.anchorEl);
   const handleanchorEl = (event, id, level) => {
@@ -554,6 +557,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      getBookLibraries(currentFamily);
       handleClose();
       Notifier(response.data.message, "success");
     } catch (error) {
@@ -643,11 +647,11 @@ export default function Index(props) {
 
     return filteredData;
   };
-  const getBookLibraries = async () => {
+  const getBookLibraries = async (id) => {
     try {
       let response = await Axios({
         method: "get",
-        url: `${baseUrl}/BookLibraries/`,
+        url: `${baseUrl}/BookLibraries/getByFamily/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -656,10 +660,10 @@ export default function Index(props) {
         (a, b) => a.ranking - b.ranking
       );
       setlibrariesData(data);
-      setLoading(false);
+      setLoadingData("");
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
-      setLoading(false);
+      setLoadingData("");
     }
     //}
   };
@@ -675,8 +679,10 @@ export default function Index(props) {
       });
       let data = response.data.categories.sort((a, b) => a.ranking - b.ranking);
       setLevel2(data);
+      setLoadingData("");
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+      setLoadingData("");
     }
   };
 
@@ -691,8 +697,10 @@ export default function Index(props) {
       });
       let data = response.data.works.sort((a, b) => a.ranking - b.ranking);
       setLevel3(data);
+      setLoadingData("");
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+      setLoadingData("");
     }
   };
 
@@ -709,17 +717,40 @@ export default function Index(props) {
         (a, b) => a.ranking - b.ranking
       );
       setLevel4(data);
+      setLoadingData("");
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+      setLoadingData("");
+    }
+  };
+
+  const getFamilies = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Families/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
+      setFamiliesData(data);
+      setLoading(false);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getBookLibraries();
     if (LibraryID) {
       handleLibraryData(LibraryID);
     }
   }, [state, Level]);
+
+  useEffect(() => {
+    getFamilies();
+  }, []);
 
   return loading ? (
     <Loader />
@@ -745,6 +776,7 @@ export default function Index(props) {
             <List
               translate={translate}
               state={state}
+              familiesData={familiesData}
               librariesData={librariesData}
               handleClick={handleClick}
               parentLevel={parentLevel}
@@ -755,6 +787,14 @@ export default function Index(props) {
               Level3={Level3}
               getLevel4={getLevel4}
               Level4={Level4}
+              getBookLibraries={getBookLibraries}
+              setlibrariesData={setlibrariesData}
+              setLevel2={setLevel2}
+              setLevel3={setLevel3}
+              setLevel4={setLevel4}
+              setCurrentFamily={setCurrentFamily}
+              loadingData={loadingData}
+              setLoadingData={setLoadingData}
             />
           </div>
         </div>

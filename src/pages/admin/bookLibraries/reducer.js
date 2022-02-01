@@ -1,5 +1,6 @@
 import actionTypes from "./actionTypes";
 const {
+  LEVEL_0,
   LEVEL_1,
   LEVEL_2,
   LEVEL_3,
@@ -23,6 +24,8 @@ const {
 function LibraryReducer(state, action) {
   let obj = action.obj;
   switch (action.type) {
+    case LEVEL_0:
+      return { ...state, level0: obj };
     case LEVEL_1:
       return { ...state, level1: obj };
     case LEVEL_2:
