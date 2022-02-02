@@ -319,6 +319,20 @@ export const ProviderheadCells = [
     label: "Logo",
   },
   {
+    id: "provider_subscription",
+    label: "Subscription",
+  },
+  {
+    id: "provider_subscriptionStartDate",
+
+    label: "Subscription Start Date",
+  },
+  {
+    id: "provider_subscriptionEndDate",
+
+    label: "Subscription End Date",
+  },
+  {
     id: "createdAt",
 
     label: "Date",

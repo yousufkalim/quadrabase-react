@@ -22,6 +22,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import WorkIcon from "@mui/icons-material/Work";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -353,6 +354,41 @@ export default function EnhancedTable(props) {
                                 : row[record]
                               : "N/A"}
                           </TableCell>
+                        ) : record === "provider_subscription" ? (
+                          <TableCell
+                            key={index}
+                            align="center"
+                            title={row?.subscription?.name}
+                          >
+                            {row?.subscription?.name
+                              ? row?.subscription?.name.length > 20
+                                ? row?.subscription?.name.substring(0, 20) +
+                                  "..."
+                                : row?.subscription?.name
+                              : "N/A"}
+                          </TableCell>
+                        ) : record == "provider_subscriptionStartDate" ? (
+                          <TableCell
+                            align="center"
+                            title={row?.subscription?.start_date}
+                          >
+                            {row?.subscription?.start_date
+                              ? moment(row?.subscription?.start_date).format(
+                                  "DD/MM/YYYY"
+                                )
+                              : "N/A"}
+                          </TableCell>
+                        ) : record == "provider_subscriptionEndDate" ? (
+                          <TableCell
+                            align="center"
+                            title={row?.subscription?.end_date}
+                          >
+                            {row?.subscription?.end_date
+                              ? moment(row?.subscription?.end_date).format(
+                                  "DD/MM/YYYY"
+                                )
+                              : "N/A"}
+                          </TableCell>
                         ) : (
                           <TableCell
                             key={index}
@@ -382,9 +418,18 @@ export default function EnhancedTable(props) {
                           <IconButton
                             color="info"
                             aria-label="edit"
-                            onClick={() => props.handleProvider(row._id)}
+                            onClick={() => props.handleSubscription(row)}
                           >
                             <PostAddIcon />
+                          </IconButton>
+                        )}
+                        {props.provider && (
+                          <IconButton
+                            color="info"
+                            aria-label="edit"
+                            onClick={() => props.handleProvider(row._id)}
+                          >
+                            <WorkIcon />
                           </IconButton>
                         )}
                         <IconButton
