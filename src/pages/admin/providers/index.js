@@ -10,12 +10,14 @@ import { PROVIDER_STATE } from "../../../components/formik/initialValues";
 import { PROVIDER_YUP } from "../../../components/formik/validations";
 import AddProvider from "./addProvider";
 import EditProvider from "./editProvider";
+import SubscriptionModal from "./SubscriptionModal";
 import ListOfWork from "./listOfWork";
 
 import { ProviderheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
+import moment from "moment";
 
 export default function Index(props) {
   const { translate } = props;
@@ -34,6 +36,14 @@ export default function Index(props) {
 
   const [providersData, setprovidersData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
+
+  // states for subscription
+  const [subscriptionModal, setSubscriptionModal] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(
+    moment(new Date()).add(1, "years")._d
+  );
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
@@ -91,6 +101,47 @@ export default function Index(props) {
     }
     setproviderModal(!providerModal);
   };
+
+  const handleSubmit = async () => {
+    try {
+      let response = await Axios({
+        method: "put",
+        url: `${baseUrl}/Providers/addsubscription/${providerId}`,
+        data: {
+          name: name,
+          start_date: startDate,
+          end_date: endDate,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      Notifier(response.data.message, "success", translate);
+      handleSubscriptionModal();
+      getProviders();
+    } catch (error) {
+      console.log(error);
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
+  // Subscription Modal
+  const handleSubscriptionModal = (row) => {
+    if (row?._id) {
+      setproviderId(row._id);
+      if (row.subscription?.name) {
+        setName(row.subscription.name);
+        setStartDate(moment(row.subscription.start_date)._i);
+        setEndDate(moment(row.subscription.end_date)._i);
+      }
+    } else {
+      setName("");
+      setStartDate(new Date());
+      setEndDate(moment(new Date()).add(1, "years")._d);
+    }
+    setSubscriptionModal(!subscriptionModal);
+  };
+
   const getProviders = async () => {
     try {
       let response = await Axios({
@@ -217,7 +268,26 @@ export default function Index(props) {
           />
         }
       />
-
+      <Modal
+        title={translate("Set Subscription")}
+        open={subscriptionModal}
+        onClose={handleSubscriptionModal}
+        width="35%"
+        translate={translate}
+        onSubmit={handleSubmit}
+        buttonLabel="Save"
+        component={
+          <SubscriptionModal
+            translate={translate}
+            name={name}
+            setName={setName}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+        }
+      />
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
@@ -239,6 +309,7 @@ export default function Index(props) {
             rows={headCells}
             provider={true}
             handleProvider={handleProvider}
+            handleSubscription={handleSubscriptionModal}
           />
         </div>
       </div>

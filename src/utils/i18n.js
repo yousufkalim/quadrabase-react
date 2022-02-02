@@ -282,6 +282,8 @@ i18n
           "Add Stakeholder": "Add Stakeholder",
           "Edit Family Title": "Edit Family Title",
           "Client Code": "Client Code",
+          Alerts: "Alerts",
+          Advertising: "Advertising",
         },
       },
       fr: {
@@ -557,6 +559,8 @@ i18n
           "Add Stakeholder": "Ajouter un type d'Intervenant",
           "Edit Family Title": "Modifier le titre",
           "Client Code": "Code Client",
+          Alerts: "Alertes",
+          Advertising: "Publicité",
         },
       },
     },
