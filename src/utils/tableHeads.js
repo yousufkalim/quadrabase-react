@@ -54,14 +54,6 @@ export const ArchitectheadCells = [
     label: "Authorize",
   },
   {
-    id: "credit",
-    label: "Total Products",
-  },
-  {
-    id: "total_projects",
-    label: "Total Projects",
-  },
-  {
     id: "ongoing_projects",
     label: "Ongoing Projects",
   },
@@ -256,25 +248,9 @@ export const Chap0headCells = [
 
 export const ProviderheadCells = [
   {
-    id: "name",
+    id: "establishment",
 
-    label: "Name",
-  },
-
-  {
-    id: "email",
-
-    label: "Email",
-  },
-  {
-    id: "telephone_no",
-
-    label: "Telephone No.",
-  },
-  {
-    id: "contact_no",
-
-    label: "Contact No.",
+    label: "Establishment",
   },
   {
     id: "address1",
@@ -287,9 +263,9 @@ export const ProviderheadCells = [
     label: "Address 2",
   },
   {
-    id: "city",
+    id: "po_box",
 
-    label: "City",
+    label: "PO Box",
   },
   {
     id: "zipcode",
@@ -297,24 +273,35 @@ export const ProviderheadCells = [
     label: "ZipCode",
   },
   {
-    id: "url",
+    id: "city",
 
-    label: "url",
-  },
-  {
-    id: "createdAt",
-
-    label: "Date",
-  },
-  {
-    id: "po_box",
-
-    label: "PO Box",
+    label: "City",
   },
   {
     id: "email_address_client",
 
-    label: "Email Address Client",
+    label: "Email Address (Client)",
+  },
+  {
+    id: "name",
+
+    label: "Name",
+  },
+
+  {
+    id: "telephone_no",
+
+    label: "Telephone No.",
+  },
+  {
+    id: "contact_no",
+
+    label: "Contact No.",
+  },
+  {
+    id: "email",
+
+    label: "Email",
   },
   {
     id: "client_code",
@@ -322,9 +309,19 @@ export const ProviderheadCells = [
     label: "Client Code",
   },
   {
-    id: "establishment",
+    id: "url",
 
-    label: "Establishment",
+    label: "url",
+  },
+  {
+    id: "logo",
+
+    label: "Logo",
+  },
+  {
+    id: "createdAt",
+
+    label: "Date",
   },
   {
     id: "action",
