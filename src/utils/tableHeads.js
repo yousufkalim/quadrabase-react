@@ -5,6 +5,11 @@ export const ArchitectheadCells = [
     label: "Establishment",
   },
   {
+    id: "service",
+
+    label: "Service",
+  },
+  {
     id: "address_1",
 
     label: "Address 1",
@@ -30,9 +35,9 @@ export const ArchitectheadCells = [
     label: "City",
   },
   {
-    id: "phone",
+    id: "last_name",
 
-    label: "Phone",
+    label: "Last Name",
   },
   {
     id: "first_name",
@@ -40,9 +45,9 @@ export const ArchitectheadCells = [
     label: "First Name",
   },
   {
-    id: "last_name",
+    id: "phone",
 
-    label: "Last Name",
+    label: "Phone",
   },
   {
     id: "email",
@@ -50,16 +55,13 @@ export const ArchitectheadCells = [
     label: "Email",
   },
   {
+    id: "client_code",
+
+    label: "Client Code",
+  },
+  {
     id: "authorized",
     label: "Authorize",
-  },
-  {
-    id: "ongoing_projects",
-    label: "Ongoing Projects",
-  },
-  {
-    id: "remaining_projects",
-    label: "Remaining Projects",
   },
   {
     id: "subscription",
@@ -76,9 +78,16 @@ export const ArchitectheadCells = [
     label: "Subscription End Date",
   },
   {
-    id: "service",
-
-    label: "Service",
+    id: "total_projects",
+    label: "Total Projects",
+  },
+  {
+    id: "ongoing_projects",
+    label: "Ongoing Projects",
+  },
+  {
+    id: "remaining_projects",
+    label: "Remaining Projects",
   },
   {
     id: "createdAt",
