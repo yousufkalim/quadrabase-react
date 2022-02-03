@@ -24,7 +24,9 @@ export default function index(props) {
         </option>
 
         {props?.options?.map((option) => (
-          <option value={option._id}>{props.translate(option.name)}</option>
+          <option value={option._id}>
+            {props.translate ? props.translate(option.name) : option.name}
+          </option>
         ))}
       </select>
     </div>
