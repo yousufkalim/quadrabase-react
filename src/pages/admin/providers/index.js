@@ -269,7 +269,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Set Subscription")}
+        title={translate("Provider Subscription")}
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
         width="35%"
