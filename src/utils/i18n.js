@@ -303,8 +303,8 @@ i18n
           // register
           "Create an Account!": "Créer un compte",
           "First Name": "Prénom",
-          "Last Name": "Nom de famille",
-          Email: "Courriel",
+          "Last Name": "Nom",
+          Email: "Adresse Courriel",
           Password: "Mot de passe",
           "Confirm Password": "Confirmer le mot de passe",
           "Please choose a password.": "Veuillez choisir un mot de passe",
@@ -315,7 +315,7 @@ i18n
           // ArchitectheadCells
           Authorize: "Autoriser",
           Subscription: "Abonnement",
-          "Subscription End Date": "Date de fin d'abonnement",
+          "Subscription End Date": "Date fin d'abonnement",
           Service: "Service",
           "Date/Time": "Date et heure",
           Action: "Action",
@@ -524,7 +524,7 @@ i18n
           "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)":
             "Quadrabase est une application métier visant à produire automatiquement les pièces écrites techniques des dossiers de consultation des entreprises (DCE) dans le cadre de marchés de travaux",
           "Select Projects": "Sélection le Produit",
-          "Total Projects": "Nb Projets",
+          "Total Projects": "Projets Nombre",
           "Total Products": "Total des projets",
           "Address 1": "Adresse 1",
           "Address 2": "Adresse 2",
@@ -552,7 +552,7 @@ i18n
           Create: "Créer",
           "Ongoing Projects": "Projets en cours",
           "Remaining Projects": "Projets restants",
-          "Subscription Start Date": "Date de début de l'abonnement",
+          "Subscription Start Date": "Date Début Abonnement",
           "List Of Works": "Liste des travaux",
           "Select Family": "Sélectionnez le Domaine",
           "Select Provider": "Fabricants associés",
