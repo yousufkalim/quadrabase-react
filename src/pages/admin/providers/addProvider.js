@@ -164,22 +164,6 @@ export default function AddExpense(props) {
         </div>
         <div className="w-full md:w-1/2  px-3">
           <TextInput
-            type="text"
-            placeholder="Contact No"
-            label="Contact No"
-            name="contact_no"
-            translate={translate}
-            onChange={handleChange}
-            value={formik.values.contact_no}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.contact_no && formik.errors.contact_no ? (
-              <small>{formik.errors.contact_no}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2  px-3">
-          <TextInput
             type="email"
             placeholder="Email"
             label="Email"
@@ -226,41 +210,6 @@ export default function AddExpense(props) {
           <div className="text-red-600 ">
             {formik.touched.logo && formik.errors.logo ? (
               <small>{formik.errors.logo}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="text"
-            placeholder="Email Address"
-            label="Email Address (Client)"
-            name="email_address_client"
-            onChange={formik.handleChange}
-            value={formik.values.email_address_client}
-            translate={translate}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.email_address_client &&
-            formik.errors.email_address_client ? (
-              <small>{formik.errors.email_address_client}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="number"
-            placeholder="1234"
-            label="Client Code"
-            name="client_code"
-            onChange={formik.handleChange}
-            value={formik.values.client_code}
-            translate={translate}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.client_code && formik.errors.client_code ? (
-              <small>{formik.errors.client_code}</small>
             ) : null}
           </div>
         </div>
