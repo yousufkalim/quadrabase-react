@@ -287,6 +287,8 @@ i18n
           "Provider Subscription": "Provider Subscription",
           "Start Date": "Start Date",
           "End Date": "End Date",
+          "Sub Start Date": "Start Date",
+          "Number of projects": "Total Projects",
         },
       },
       fr: {
@@ -347,7 +349,7 @@ i18n
           Close: "Fermer",
           Create: "Créer",
           // set subscription
-          "Set Subscription": "Définir l’abonnement",
+          "Set Subscription": "Définir l'abonnement",
           "Select Subscription": "Sélectionner l'abonnemen",
           Save: "Enregistrer",
           "Select An Option": "Sélectionner une option",
@@ -567,6 +569,8 @@ i18n
           "Provider Subscription": "Abonnements du Fabricant",
           "Start Date": "Date de démarrage",
           "End Date": "Date de fin",
+          "Sub Start Date": "Date de début",
+          "Number of projects": "Nombre de projets",
         },
       },
     },

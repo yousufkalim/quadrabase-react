@@ -31,7 +31,7 @@ export default function BasicModal(props) {
             <div className="flex justify-center">
               <h2
                 className={`text-gray-600 ${
-                  titleUpperCase ? "uppercase" : "capitalize"
+                  titleUpperCase ? "uppercase" : ""
                 } font-semibold text-3xl`}
               >
                 {props.translate
@@ -72,7 +72,7 @@ export default function BasicModal(props) {
             <div className="flex justify-center">
               <h2
                 className={`text-gray-600 ${
-                  titleUpperCase ? "uppercase" : "capitalize"
+                  titleUpperCase ? "uppercase" : ""
                 } font-semibold text-3xl`}
               >
                 {props.translate
