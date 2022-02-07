@@ -303,11 +303,6 @@ export const ProviderheadCells = [
     label: "Telephone No.",
   },
   {
-    id: "contact_no",
-
-    label: "Contact No.",
-  },
-  {
     id: "email",
 
     label: "Email",
@@ -316,6 +311,10 @@ export const ProviderheadCells = [
     id: "client_code",
 
     label: "Client Code",
+  },
+  {
+    id: "authorized",
+    label: "Authorize",
   },
   {
     id: "url",
