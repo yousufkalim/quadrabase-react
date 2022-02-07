@@ -3,9 +3,19 @@ import React from "react";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import TextArea from "../../../components/TextArea";
+import RadioButton from "../../../components/RadioButton";
 
 export default function AddExpense(props) {
   const { translate, formik } = props;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (["telephone_no", "contact_no", "zipcode"].includes(name)) {
+      formik.setFieldValue(name, value.replace(/\D/g, ""));
+    } else {
+      formik.setFieldValue(name, value);
+    }
+  };
 
   React.useEffect(() => {
     let editData = props.editData;
@@ -19,8 +29,122 @@ export default function AddExpense(props) {
     }
   }, [props.editmodal]);
   return (
-    <form className="w-full  pt-9" style={{height: "500px", position: "relative", "overflowY": "auto", "overflowX": "hidden"}}>
+    <form
+      className="w-full  pt-9"
+      style={{
+        height: "500px",
+        position: "relative",
+        overflowY: "auto",
+        overflowX: "hidden",
+      }}
+    >
       <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full px-3 mb-6 md:mb-0">
+          <TextInput
+            type="text"
+            placeholder="Establishment"
+            label="Establishment"
+            name="establishment"
+            onChange={formik.handleChange}
+            value={formik.values.establishment}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.establishment && formik.errors.establishment ? (
+              <small>{formik.errors.establishment}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextArea
+            type="text"
+            placeholder="Address 1"
+            label="Address 1"
+            name="address1"
+            translate={translate}
+            rows={6}
+            onChange={formik.handleChange}
+            value={formik.values.address1}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.address1 && formik.errors.address1 ? (
+              <small>{formik.errors.address1}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextArea
+            type="text"
+            placeholder="Address 2"
+            label="Address 2"
+            name="address2"
+            translate={translate}
+            rows={6}
+            onChange={formik.handleChange}
+            value={formik.values.address2}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.address2 && formik.errors.address2 ? (
+              <small>{formik.errors.address2}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <TextInput
+            type="number"
+            placeholder="12345"
+            label="PO Box"
+            name="po_box"
+            onChange={formik.handleChange}
+            value={formik.values.po_box}
+            translate={translate}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.po_box && formik.errors.po_box ? (
+              <small>{formik.errors.po_box}</small>
+            ) : null}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="ZipCode"
+            label="ZipCode"
+            name="zipcode"
+            translate={translate}
+            onChange={handleChange}
+            value={formik.values.zipcode}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.zipcode && formik.errors.zipcode ? (
+              <small>{formik.errors.zipcode}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="City"
+            label="City"
+            name="city"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.city}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.city && formik.errors.city ? (
+              <small>{formik.errors.city}</small>
+            ) : null}
+          </div>
+        </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
@@ -34,6 +158,25 @@ export default function AddExpense(props) {
           <div className="text-red-600 ">
             {formik.touched.name && formik.errors.name ? (
               <small>{formik.errors.name}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="Telephone No"
+            label="Telephone No"
+            name="telephone_no"
+            translate={translate}
+            onChange={handleChange}
+            value={formik.values.telephone_no}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.telephone_no && formik.errors.telephone_no ? (
+              <small>{formik.errors.telephone_no}</small>
             ) : null}
           </div>
         </div>
@@ -54,112 +197,7 @@ export default function AddExpense(props) {
           </div>
         </div>
       </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2  px-3">
-          <TextInput
-            type="text"
-            placeholder="Telephone No"
-            label="Telephone No"
-            name="telephone_no"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.telephone_no}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.telephone_no && formik.errors.telephone_no ? (
-              <small>{formik.errors.telephone_no}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2  px-3">
-          <TextInput
-            type="text"
-            placeholder="Contact No"
-            label="Contact No"
-            name="contact_no"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.contact_no}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.contact_no && formik.errors.contact_no ? (
-              <small>{formik.errors.contact_no}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2  px-3">
-          <TextInput
-            type="text"
-            placeholder="City"
-            label="City"
-            name="city"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.city}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.city && formik.errors.city ? (
-              <small>{formik.errors.city}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2  px-3">
-          <TextInput
-            type="text"
-            placeholder="ZipCode"
-            label="ZipCode"
-            name="zipcode"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.zipcode}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.zipcode && formik.errors.zipcode ? (
-              <small>{formik.errors.zipcode}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextArea
-            type="text"
-            placeholder="Address1"
-            label="Address1"
-            name="address1"
-            translate={translate}
-            rows={6}
-            onChange={formik.handleChange}
-            value={formik.values.address1}
-            lowercase={true}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.address1 && formik.errors.address1 ? (
-              <small>{formik.errors.address1}</small>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextArea
-            type="text"
-            placeholder="Address2"
-            label="Address2"
-            name="address2"
-            translate={translate}
-            rows={6}
-            onChange={formik.handleChange}
-            value={formik.values.address2}
-            lowercase={true}
-          />
-          <div className="text-red-600 ">
-            {formik.touched.address2 && formik.errors.address2 ? (
-              <small>{formik.errors.address2}</small>
-            ) : null}
-          </div>
-        </div>
-      </div>
+
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2  px-3">
           <TextInput
@@ -177,58 +215,50 @@ export default function AddExpense(props) {
             ) : null}
           </div>
         </div>
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div className="w-full md:w-1/2  px-3">
           <TextInput
             type="text"
-            placeholder="Email Address"
-            label="Email Address (Client)"
-            name="email_address_client"
-            onChange={formik.handleChange}
-            value={formik.values.email_address_client}
+            placeholder="Logo"
+            label="Logo"
+            name="logo"
             translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.logo}
           />
           <div className="text-red-600 ">
-            {formik.touched.email_address_client &&
-            formik.errors.email_address_client ? (
-              <small>{formik.errors.email_address_client}</small>
+            {formik.touched.logo && formik.errors.logo ? (
+              <small>{formik.errors.logo}</small>
             ) : null}
           </div>
         </div>
       </div>
+
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="number"
-            placeholder="12345"
-            label="PO Box"
-            name="po_box"
+            placeholder="1234"
+            label="Client Code"
+            name="client_code"
             onChange={formik.handleChange}
-            value={formik.values.po_box}
+            value={formik.values.client_code}
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.po_box &&
-            formik.errors.po_box ? (
-              <small>{formik.errors.po_box}</small>
+            {formik.touched.client_code && formik.errors.client_code ? (
+              <small>{formik.errors.client_code}</small>
             ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextInput
-            type="text"
-            placeholder="Establishment"
-            label="Establishment"
-            name="establishment"
+          <RadioButton
+            label="Authorize"
+            name="authorized"
             onChange={formik.handleChange}
-            value={formik.values.establishment}
+            value={formik.values.authorized}
+            options={["Yes", "No"]}
             translate={translate}
           />
-          <div className="text-red-600 ">
-            {formik.touched.establishment &&
-            formik.errors.establishment ? (
-              <small>{formik.errors.establishment}</small>
-            ) : null}
-          </div>
         </div>
       </div>
     </form>
