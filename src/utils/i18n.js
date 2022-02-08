@@ -289,6 +289,8 @@ i18n
           "End Date": "End Date",
           "Sub Start Date": "Start Date",
           "Number of projects": "Total Projects",
+          Top: "Top",
+          Bottom: "Bottom",
         },
       },
       fr: {
@@ -571,6 +573,8 @@ i18n
           "End Date": "Date de fin",
           "Sub Start Date": "Date de début",
           "Number of projects": "Nombre de projets",
+          Top: "En haut",
+          Bottom: "En bas",
         },
       },
     },

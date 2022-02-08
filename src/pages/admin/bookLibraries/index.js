@@ -148,11 +148,18 @@ export default function Index(props) {
             libraryDeleteId: LevelID,
           });
           break;
+
+        case `Top_${Level}`:
+          handleLibraryTop(LevelID);
+          break;
         case `Up_${Level}`:
           handleLibraryUp(LevelID);
           break;
         case `Down_${Level}`:
           handleLibraryDown(LevelID);
+          break;
+        case `Bottom_${Level}`:
+          handleLibraryBottom(LevelID);
           break;
         default:
           break;
@@ -276,6 +283,34 @@ export default function Index(props) {
       managefamily: false,
     });
   };
+
+  //LibraryTop
+  const handleLibraryTop = async (id) => {
+    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        librariesData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...librariesData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setlibrariesData(tempArr);
+      });
+    }
+  };
+
   //LibraryUp
   const handleLibraryUp = async (id) => {
     // setIndex(id);
@@ -342,6 +377,34 @@ export default function Index(props) {
       });
     }
   };
+
+  // Library Bottom
+  const handleLibraryBottom = async (id) => {
+    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== librariesData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        librariesData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...librariesData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setlibrariesData(tempArr);
+      });
+    }
+  };
+
   //categoryUp
   const handleCategoryUp = async (id) => {
     // setIndex(id);
