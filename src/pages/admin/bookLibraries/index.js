@@ -229,11 +229,17 @@ export default function Index(props) {
             workDeleteId: LevelID,
           });
           break;
+        case `Top_${Level}`:
+          handleWorkTop(LevelID);
+          break;
         case `Up_${Level}`:
           handleWorkUp(LevelID);
           break;
         case `Down_${Level}`:
           handleWorkDown(LevelID);
+          break;
+        case `Bottom_${Level}`:
+          handleWorkBottom(LevelID);
           break;
         default:
           break;
@@ -423,7 +429,6 @@ export default function Index(props) {
           return item.ranking;
         })
       );
-      console.log(minRanking);
       Axios({
         method: "put",
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
@@ -536,6 +541,34 @@ export default function Index(props) {
     }
   };
 
+  //Work Top
+  const handleWorkTop = async (id) => {
+    let works = Level3;
+    let filteredIndex = works.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        works.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWork/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...works];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setLevel3(tempArr);
+      });
+    }
+  };
+
   //workUp
   const handleWorkUp = async (id) => {
     // setIndex(id);
@@ -602,6 +635,33 @@ export default function Index(props) {
           handleanchorElClose();
           getLevel3(Level3[0].category);
         });
+      });
+    }
+  };
+  // Work Bottom
+  const handleWorkBottom = async (id) => {
+    let works = Level3;
+    let filteredIndex = works.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== works.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        works.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWork/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...works];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setLevel3(tempArr);
       });
     }
   };
