@@ -188,13 +188,19 @@ export default function Index(props) {
             categoryDeleteId: LevelID,
           });
           break;
+
+        case `Top_${Level}`:
+          handleCategoryTop(LevelID);
+          break;
         case `Up_${Level}`:
           handleCategoryUp(LevelID);
           break;
         case `Down_${Level}`:
           handleCategoryDown(LevelID);
           break;
-
+        case `Bottom_${Level}`:
+          handleCategoryBottom(LevelID);
+          break;
         default:
           break;
       }
@@ -405,6 +411,35 @@ export default function Index(props) {
     }
   };
 
+  //Category Top
+  const handleCategoryTop = async (id) => {
+    let categories = Level2;
+    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        categories.map((item) => {
+          return item.ranking;
+        })
+      );
+      console.log(minRanking);
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editCategory/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...categories];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setLevel2(tempArr);
+      });
+    }
+  };
+
   //categoryUp
   const handleCategoryUp = async (id) => {
     // setIndex(id);
@@ -472,6 +507,35 @@ export default function Index(props) {
       });
     }
   };
+
+  // Category Bottom
+  const handleCategoryBottom = async (id) => {
+    let categories = Level2;
+    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== categories.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        categories.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editCategory/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...categories];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setLevel2(tempArr);
+      });
+    }
+  };
+
   //workUp
   const handleWorkUp = async (id) => {
     // setIndex(id);
