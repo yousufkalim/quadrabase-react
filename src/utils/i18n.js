@@ -211,7 +211,7 @@ i18n
           "VAT deleted successfully": "VAT deleted successfully",
           "VAT Deleted!": "VAT Deleted!",
           //  Unit
-          "Unit already exists": "Unit already exists",
+          "Unit already exists": "Unit already exisfts",
           "Unit created successfully": "Unit created successfully",
           "Unit updated successfully": "Unit updated successfully",
           "Unit deleted successfully": "Unit deleted successfully",
@@ -554,7 +554,7 @@ i18n
           "Remaining Projects": "Projets restants",
           "Subscription Start Date": "Date Début Abonnement",
           "List Of Works": "Liste des travaux",
-          "Select Family": "Sélectionnez le Domaine",
+          "Select Family": "Sélectionnez le domaine",
           "Select Provider": "Fabricants associés",
           "Units List": "Liste des unités",
           "Edit Units": "Modifier les unités",
