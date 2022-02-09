@@ -289,6 +289,8 @@ i18n
           "End Date": "End Date",
           "Sub Start Date": "Start Date",
           "Number of projects": "Total Projects",
+          "Choose file": "Choose file",
+          "no file chosen": "no file chosen",
         },
       },
       fr: {
@@ -571,6 +573,8 @@ i18n
           "End Date": "Date de fin",
           "Sub Start Date": "Date de début",
           "Number of projects": "Nombre de projets",
+          "Choose file": "Choisir le fichier",
+          "no file chosen": "aucun fichier choisi",
         },
       },
     },
