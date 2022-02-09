@@ -68,7 +68,7 @@ export default function Index(props) {
         },
       });
       setanchorEl(null);
-      Notifier("Family Deleted!", "success", translate);
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
       if (error.response)
         Notifier(error.response.data.message, "error ", translate);

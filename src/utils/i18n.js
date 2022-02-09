@@ -217,10 +217,10 @@ i18n
           "Unit deleted successfully": "Unit deleted successfully",
           "Unit Deleted!": "Unit Deleted!",
           // Families
-          "Family already exists": "Unit already exists",
-          "Family created successfully": "Unit created successfully",
-          "Family updated successfully": "Unit updated successfully",
-          "Family deleted successfully": "Unit deleted successfully",
+          "Family already exists": "Family already exists",
+          "Family created successfully": "Family created successfully",
+          "Family updated successfully": "Family updated successfully",
+          "Family deleted successfully": "Family deleted successfully",
           "Family  not found": "Family  not found",
           //// Provider
           "Provider already exists": "Provider already exists",
