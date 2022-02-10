@@ -26,6 +26,7 @@ export default function index(props) {
           disabled={props.disabled ? props.disabled : false}
           onChange={props.onChange}
           autoComplete="off"
+          style={props.style}
         />
       </div>
     );

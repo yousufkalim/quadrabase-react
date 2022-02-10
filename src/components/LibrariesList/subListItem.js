@@ -38,7 +38,7 @@ export default function subList(props) {
         dense={true}
         style={{
           backgroundColor: level === "level0" && "white",
-          height: 42,
+          height: 40,
         }}
       >
         {level !== "level0" &&

@@ -10,6 +10,7 @@ function Index(props) {
   const { isLoading, ProviderOptions, translate } = props;
   const [Name, setName] = useState("");
   const [documents, setDocuments] = useState([]);
+  const [fileName, setFileName] = useState("");
 
   const [testErrorMessage, settestErrorMessage] = useState("");
   const [docErrorMessage, setdocErrorMessage] = useState("");
@@ -40,6 +41,7 @@ function Index(props) {
         data: form_data,
       });
       let documents = response.data.files;
+      setFileName(files[0].name);
       setDocuments(documents);
     } catch (error) {
       if (error.response) {
@@ -68,15 +70,31 @@ function Index(props) {
               <small>{testErrorMessage}</small>
             </div>
           </div>
-          <div className="w-full md:w-5/12   px-1 ">
-            <TextInput
-              type="file"
-              placeholder="Document"
-              label="Document"
-              name="document"
-              onChange={handleFileChange}
-              multiple={true}
-            />
+          <div
+            className="w-full md:w-5/12   px-1 "
+            style={{
+              border: "1px solid gray",
+              height: 35,
+              padding: 4,
+              marginTop: 29,
+              marginLeft: 5,
+              borderRadius: 4,
+            }}
+          >
+            <label style={{ cursor: "pointer" }}>
+              {translate("Choose file")} -{" "}
+              {fileName ? fileName : translate("no file chosen")}
+              <TextInput
+                type="file"
+                placeholder="Document"
+                // label="Document"
+                name="document"
+                onChange={handleFileChange}
+                multiple={true}
+                style={{ display: "none" }}
+              />
+            </label>
+
             <div className="text-red-600 ">
               <small>{docErrorMessage}</small>
             </div>
