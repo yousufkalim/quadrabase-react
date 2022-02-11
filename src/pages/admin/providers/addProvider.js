@@ -80,7 +80,7 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
-            placeholder="12345"
+            placeholder="PO Box"
             label="PO Box"
             name="po_box"
             onChange={formik.handleChange}
