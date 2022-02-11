@@ -559,9 +559,10 @@ export default function Index(props) {
       });
       getBookLibraries(currentFamily);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Category
@@ -576,9 +577,10 @@ export default function Index(props) {
       });
       getLevel2(response?.data?.Category?.book_library);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work
@@ -593,9 +595,10 @@ export default function Index(props) {
       });
       getLevel3(response?.data?.Work?.category);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work Detail
@@ -610,9 +613,10 @@ export default function Index(props) {
       });
       getLevel4(response?.data?.WorkDetail?.work);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   const handleEditLibrary = (id) => {
