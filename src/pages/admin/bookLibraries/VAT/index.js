@@ -256,7 +256,7 @@ export default function Index(props) {
     }
   };
 
-  // Units Bottom
+  // Vats Bottom
   const handleVatsBottom = async () => {
     let filteredIndex = vatsData.findIndex((dt) => dt._id == vatId);
 

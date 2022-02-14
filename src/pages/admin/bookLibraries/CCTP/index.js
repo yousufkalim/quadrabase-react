@@ -167,6 +167,32 @@ export default function Index(props) {
 
   // ****************
   //*** */
+  //CctpTop
+  const handleCctpTop = async () => {
+    let filteredIndex = cctpsData.findIndex((dt) => dt._id == cctpId);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        cctpsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/CCTP/${cctpId}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...cctpsData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setcctpsData(tempArr);
+      });
+    }
+  };
   //UnitsUp
   const handleCctpUp = async () => {
     // setIndex(id);
@@ -233,6 +259,34 @@ export default function Index(props) {
       });
     }
   };
+
+  // Cctp Bottom
+  const handleCctpBottom = async () => {
+    let filteredIndex = cctpsData.findIndex((dt) => dt._id == cctpId);
+
+    if (filteredIndex !== cctpsData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        cctpsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/CCTP/${cctpId}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...cctpsData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setcctpsData(tempArr);
+      });
+    }
+  };
+
   // ********
   return (
     <>
@@ -245,6 +299,8 @@ export default function Index(props) {
         anchorEl={anchorEl}
         onEdit={handleEditModal}
         onDelete={handleDeleteModal}
+        handleTop={handleCctpTop}
+        handleBottom={handleCctpBottom}
         handleUp={handleCctpUp}
         handleDown={handleCctpDown}
         translate={translate}
