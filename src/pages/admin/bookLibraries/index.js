@@ -263,11 +263,17 @@ export default function Index(props) {
             workDetailDeleteId: LevelID,
           });
           break;
+        case `Top_${Level}`:
+          handleWorkDetailTop(LevelID);
+          break;
         case `Up_${Level}`:
           handleWorkDetailUp(LevelID);
           break;
         case `Down_${Level}`:
           handleWorkDetailDown(LevelID);
+          break;
+        case `Bottom_${Level}`:
+          handleWorkDetailBottom(LevelID);
           break;
         default:
           break;
@@ -318,6 +324,7 @@ export default function Index(props) {
         let tempArr = [...librariesData];
         tempArr[filteredIndex].ranking = minRanking - 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setlibrariesData(tempArr);
       });
     }
@@ -412,6 +419,7 @@ export default function Index(props) {
         let tempArr = [...librariesData];
         tempArr[filteredIndex].ranking = maxRanking + 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setlibrariesData(tempArr);
       });
     }
@@ -440,6 +448,7 @@ export default function Index(props) {
         let tempArr = [...categories];
         tempArr[filteredIndex].ranking = minRanking - 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setLevel2(tempArr);
       });
     }
@@ -536,6 +545,7 @@ export default function Index(props) {
         let tempArr = [...categories];
         tempArr[filteredIndex].ranking = maxRanking + 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setLevel2(tempArr);
       });
     }
@@ -564,6 +574,7 @@ export default function Index(props) {
         let tempArr = [...works];
         tempArr[filteredIndex].ranking = minRanking - 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setLevel3(tempArr);
       });
     }
@@ -661,7 +672,36 @@ export default function Index(props) {
         let tempArr = [...works];
         tempArr[filteredIndex].ranking = maxRanking + 1;
         tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
         setLevel3(tempArr);
+      });
+    }
+  };
+
+  //handleWorkDetailTop
+  const handleWorkDetailTop = async (id) => {
+    let work_details = Level4;
+    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        work_details.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...work_details];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
+        setLevel4(tempArr);
       });
     }
   };
@@ -734,6 +774,36 @@ export default function Index(props) {
       });
     }
   };
+
+  // workdetail Bottom
+  const handleWorkDetailBottom = async (id) => {
+    let work_details = Level4;
+    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== work_details.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        work_details.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...work_details];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleClose();
+        setLevel4(tempArr);
+      });
+    }
+  };
+
   //delete library
   const handleDeleteLibrary = async () => {
     try {
