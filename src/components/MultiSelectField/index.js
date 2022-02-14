@@ -38,6 +38,7 @@ export default function MultipleSelectChip(props) {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
+          disabled={props.disabled}
           value={props.value}
           onChange={props.onChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}

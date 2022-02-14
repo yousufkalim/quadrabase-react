@@ -47,6 +47,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text4);
       values.cctp_text = cctp_text;
       values.ranking = props.librariesData.length;
+      values.families = props.parentFamily;
       try {
         let response = await Axios({
           method: "post",
@@ -59,6 +60,7 @@ export default function AddExpense(props) {
 
         Notifier(response.data.message, "success", translate);
         setisLoading(false);
+        props.getBookLibraries(props.parentFamily[0]);
         props.handleClose();
         formik.resetForm();
       } catch (err) {
@@ -125,7 +127,8 @@ export default function AddExpense(props) {
           <MultiSelectField
             name="families"
             label={translate("Select Family")}
-            value={formik.values.families}
+            value={props.parentFamily}
+            disabled={true}
             onChange={handleChange}
             options={familiesOptions}
           />

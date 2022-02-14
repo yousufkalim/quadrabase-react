@@ -42,6 +42,7 @@ export default function Index(props) {
 
   const [LibraryID, setLibraryID] = React.useState("");
   const [LevelData, setLevelData] = React.useState([]);
+  const [parentFamily, setFarentFamily] = React.useState([]);
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
@@ -108,6 +109,7 @@ export default function Index(props) {
     if (Level == actionTypes.LEVEL_0) {
       switch (value) {
         case `Add_Library_${Level}`:
+          setFarentFamily([LevelID]);
           dispatch({
             type: actionTypes.ADD_LIBRARY,
             addlibrary: true,
@@ -559,9 +561,10 @@ export default function Index(props) {
       });
       getBookLibraries(currentFamily);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Category
@@ -576,9 +579,10 @@ export default function Index(props) {
       });
       getLevel2(response?.data?.Category?.book_library);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work
@@ -593,9 +597,10 @@ export default function Index(props) {
       });
       getLevel3(response?.data?.Work?.category);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work Detail
@@ -610,9 +615,10 @@ export default function Index(props) {
       });
       getLevel4(response?.data?.WorkDetail?.work);
       handleClose();
-      Notifier(response.data.message, "success");
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ");
+      if (error.response)
+        Notifier(error.response.data.message, "error ", translate);
     }
   };
   const handleEditLibrary = (id) => {
@@ -817,6 +823,8 @@ export default function Index(props) {
         component={
           <AddLibrary
             librariesData={librariesData}
+            parentFamily={parentFamily}
+            getBookLibraries={getBookLibraries}
             translate={translate}
             handleClose={handleClose}
           />
