@@ -117,7 +117,7 @@ export default function AddExpense(props) {
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
-            className="block capitalize tracking-wide text-gray-700 text-xs font-bold mb-2"
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-first-name"
           >
             {translate("Select Family")}

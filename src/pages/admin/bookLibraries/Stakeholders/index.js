@@ -54,7 +54,7 @@ export default function Index(props) {
     try {
       let response = await Axios({
         method: "delete",
-        url: `${baseUrl}/Stakeholders/${stakeholdersId}`,
+        url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

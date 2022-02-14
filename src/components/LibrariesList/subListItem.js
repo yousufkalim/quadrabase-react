@@ -38,7 +38,7 @@ export default function subList(props) {
         dense={true}
         style={{
           backgroundColor: level === "level0" && "white",
-          height: 42,
+          height: 40,
         }}
       >
         {level !== "level0" &&
@@ -64,13 +64,9 @@ export default function subList(props) {
         <ListItemText
           inset
           primary={
-            level === "level0" ? (
-              `${translate("Libraries")} ${name}`
-            ) : level === "level1" || level === "level2" ? (
-              name.toUpperCase()
-            ) : (
-              <i>{name}</i>
-            )
+            level === "level0"
+              ? `${translate("Libraries")} ${name}`
+              : name.toUpperCase()
           }
           primaryTypographyProps={{
             style: { fontWeight: props.nameBold ? "bold" : "normal" },

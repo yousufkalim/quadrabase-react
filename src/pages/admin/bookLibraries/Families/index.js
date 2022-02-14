@@ -67,7 +67,8 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier("Family Deleted!", "success", translate);
+      setanchorEl(null);
+      Notifier(response.data.message, "success", translate);
     } catch (error) {
       if (error.response)
         Notifier(error.response.data.message, "error ", translate);

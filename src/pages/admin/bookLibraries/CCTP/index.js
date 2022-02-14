@@ -67,6 +67,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      setanchorEl(null);
       Notifier("CCTP Deleted!", "success", translate);
     } catch (error) {
       if (error.response)

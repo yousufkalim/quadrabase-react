@@ -44,6 +44,7 @@ const SubscriptionModal = ({
           <DatePicker
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
             value={startDate}
+            placeholder="YYYY-MM-DD"
             onChange={(date) => {
               setStartDate(date[0]);
             }}
@@ -62,6 +63,7 @@ const SubscriptionModal = ({
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
             options={{ minDate: startDate }}
             value={endDate}
+            placeholder="YYYY-MM-DD"
             onChange={(date) => {
               setEndDate(date[0]);
             }}

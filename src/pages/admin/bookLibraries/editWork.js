@@ -54,6 +54,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text2);
       cctp_text.push(cctp_text3);
       cctp_text.push(cctp_text4);
+      values.bpu_text = [bpu_text];
       values.cctp_text = cctp_text;
       values.providers = ProviderDataArr;
 

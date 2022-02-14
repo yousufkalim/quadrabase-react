@@ -254,6 +254,9 @@ function NestedList(props) {
                                                                           key4
                                                                         }
                                                                         button
+                                                                        style={{
+                                                                          height: 40,
+                                                                        }}
                                                                       >
                                                                         <FontAwesomeIcon
                                                                           icon={

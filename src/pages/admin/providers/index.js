@@ -40,10 +40,8 @@ export default function Index(props) {
   // states for subscription
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
   const [name, setName] = React.useState("");
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(
-    moment(new Date()).add(1, "years")._d
-  );
+  const [startDate, setStartDate] = React.useState();
+  const [endDate, setEndDate] = React.useState();
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
@@ -136,8 +134,8 @@ export default function Index(props) {
       }
     } else {
       setName("");
-      setStartDate(new Date());
-      setEndDate(moment(new Date()).add(1, "years")._d);
+      setStartDate();
+      setEndDate();
     }
     setSubscriptionModal(!subscriptionModal);
   };
