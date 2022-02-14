@@ -151,6 +151,34 @@ export default function Index(props) {
 
   // ****************
   //*** */
+
+  //UnitsTop
+  const handleUnitsTop = async () => {
+    let filteredIndex = unitsData.findIndex((dt) => dt._id == unitId);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        unitsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Units/${unitId}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...unitsData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setunitsData(tempArr);
+      });
+    }
+  };
+
   //UnitsUp
   const handleUnitsUp = async () => {
     // setIndex(id);
@@ -217,6 +245,34 @@ export default function Index(props) {
       });
     }
   };
+
+  // Units Bottom
+  const handleUnitsBottom = async () => {
+    let filteredIndex = unitsData.findIndex((dt) => dt._id == unitId);
+
+    if (filteredIndex !== unitsData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        unitsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Units/${unitId}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...unitsData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setunitsData(tempArr);
+      });
+    }
+  };
+
   // ********
   return (
     <>
@@ -229,6 +285,8 @@ export default function Index(props) {
         anchorEl={anchorEl}
         onEdit={handleEditModal}
         onDelete={handleDeleteModal}
+        handleTop={handleUnitsTop}
+        handleBottom={handleUnitsBottom}
         handleUp={handleUnitsUp}
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}
