@@ -153,6 +153,35 @@ export default function Index(props) {
 
   // ****************
   //*** */
+  //StakeholdersTop
+  const handleStakeholdersTop = async () => {
+    let filteredIndex = stakeholdersData.findIndex(
+      (dt) => dt._id == stakeholdersId
+    );
+    console.log("filtered indexs", filteredIndex);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        stakeholdersData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...stakeholdersData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setstakeholdersData(tempArr);
+      });
+    }
+  };
   //StakeholdersUp
   const handleStakeholdersUp = async () => {
     // setIndex(id);
@@ -223,6 +252,36 @@ export default function Index(props) {
       });
     }
   };
+
+  // Cctp Bottom
+  const handleStakeholdersBottom = async () => {
+    let filteredIndex = stakeholdersData.findIndex(
+      (dt) => dt._id == stakeholdersId
+    );
+
+    if (filteredIndex !== stakeholdersData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        stakeholdersData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...stakeholdersData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setstakeholdersData(tempArr);
+      });
+    }
+  };
+
   // ********
   return (
     <>
@@ -235,6 +294,8 @@ export default function Index(props) {
         anchorEl={anchorEl}
         onEdit={handleEditModal}
         onDelete={handleDeleteModal}
+        handleTop={handleStakeholdersTop}
+        handleBottom={handleStakeholdersBottom}
         handleUp={handleStakeholdersUp}
         handleDown={handleStakeholdersDown}
         id={"unit-customized-button"}
