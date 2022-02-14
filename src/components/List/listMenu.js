@@ -54,6 +54,8 @@ export default function CustomizedMenus(props) {
     parentLevel,
     onEdit,
     onDelete,
+    handleTop,
+    handleBottom,
     handleDown,
     handleUp,
     translate,
@@ -85,11 +87,17 @@ export default function CustomizedMenus(props) {
               {translate("Delete")}
             </MenuItem>
             <div style={{ paddingLeft: "0.6rem" }}>
+              <MenuItem onClick={handleTop} disableRipple>
+                {translate("Top")}
+              </MenuItem>
               <MenuItem onClick={handleUp} disableRipple>
                 {translate("Up")}
               </MenuItem>
               <MenuItem onClick={handleDown} disableRipple>
                 {translate("Down")}
+              </MenuItem>
+              <MenuItem onClick={handleBottom} disableRipple>
+                {translate("Bottom")}
               </MenuItem>
             </div>
           </>
