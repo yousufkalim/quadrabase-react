@@ -42,6 +42,7 @@ export default function Index(props) {
 
   const [LibraryID, setLibraryID] = React.useState("");
   const [LevelData, setLevelData] = React.useState([]);
+  const [parentFamily, setFarentFamily] = React.useState([]);
   const [Level, setLevel] = React.useState("");
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
@@ -108,6 +109,7 @@ export default function Index(props) {
     if (Level == actionTypes.LEVEL_0) {
       switch (value) {
         case `Add_Library_${Level}`:
+          setFarentFamily([LevelID]);
           dispatch({
             type: actionTypes.ADD_LIBRARY,
             addlibrary: true,
@@ -821,6 +823,8 @@ export default function Index(props) {
         component={
           <AddLibrary
             librariesData={librariesData}
+            parentFamily={parentFamily}
+            getBookLibraries={getBookLibraries}
             translate={translate}
             handleClose={handleClose}
           />
