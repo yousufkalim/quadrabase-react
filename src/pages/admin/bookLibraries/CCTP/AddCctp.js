@@ -32,7 +32,7 @@ export default function AddExpense(props) {
             name="type"
             translate={translate}
             onChange={formik.handleChange}
-            value={formik.values.type}
+            value={formik.values.type.toUpperCase()}
           />
           <div className="text-red-600 ">
             {formik.touched.type && formik.errors.type ? (
