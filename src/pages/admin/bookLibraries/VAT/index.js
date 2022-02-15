@@ -161,6 +161,34 @@ export default function Index(props) {
   });
   // ****************
   //*** */
+
+  //VatsTop
+  const handleVatsTop = async () => {
+    let filteredIndex = vatsData.findIndex((dt) => dt._id == vatId);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        vatsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/VAT/${vatId}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...vatsData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setvatsData(tempArr);
+      });
+    }
+  };
+
   //UnitsUp
   const handleUnitsUp = async () => {
     // setIndex(id);
@@ -227,6 +255,34 @@ export default function Index(props) {
       });
     }
   };
+
+  // Vats Bottom
+  const handleVatsBottom = async () => {
+    let filteredIndex = vatsData.findIndex((dt) => dt._id == vatId);
+
+    if (filteredIndex !== vatsData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        vatsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/VAT/${vatId}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...vatsData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setvatsData(tempArr);
+      });
+    }
+  };
+
   // ********
   return (
     <>
@@ -239,6 +295,8 @@ export default function Index(props) {
         anchorEl={anchorEl}
         onEdit={handleEditModal}
         onDelete={handleDeleteModal}
+        handleTop={handleVatsTop}
+        handleBottom={handleVatsBottom}
         handleUp={handleUnitsUp}
         handleDown={handleUnitsDown}
         id={"unit-customized-button"}

@@ -166,6 +166,34 @@ export default function Index(props) {
 
   // ****************
   //*** */
+
+  //FamiliesTop
+  const handleFamiliesTop = async () => {
+    let filteredIndex = familiesData.findIndex((dt) => dt._id == familyId);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        familiesData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Families/${familyId}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...familiesData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setfamiliesData(tempArr);
+      });
+    }
+  };
+
   //FamiliesUp
   const handleFamilyUp = async () => {
     // setIndex(id);
@@ -231,6 +259,32 @@ export default function Index(props) {
       });
     }
   };
+  // Families Bottom
+  const handleFamiliesBottom = async () => {
+    let filteredIndex = familiesData.findIndex((dt) => dt._id == familyId);
+
+    if (filteredIndex !== familiesData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        familiesData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Families/${familyId}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...familiesData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        setfamiliesData(tempArr);
+      });
+    }
+  };
   // ********
   return (
     <>
@@ -243,6 +297,8 @@ export default function Index(props) {
         anchorEl={anchorEl}
         onEdit={handleEditModal}
         onDelete={handleDeleteModal}
+        handleTop={handleFamiliesTop}
+        handleBottom={handleFamiliesBottom}
         handleUp={handleFamilyUp}
         handleDown={handleFamilyDown}
         id={"unit-customized-button"}

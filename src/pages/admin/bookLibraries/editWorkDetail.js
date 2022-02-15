@@ -66,7 +66,7 @@ export default function AddExpense(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      setOptions(response.data.units);
+      setOptions(response.data.units.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
       console.log(error?.response?.data?.message, "error ");
     }
