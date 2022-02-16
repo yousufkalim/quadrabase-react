@@ -105,6 +105,13 @@ export default function Index(props) {
     validationSchema: UNIT_YUP,
     onSubmit: async (values) => {
       try {
+        let maxRanking = Math.max.apply(
+          Math,
+          unitsData.map((item) => {
+            return item.ranking;
+          })
+        );
+        values.ranking = maxRanking + 1;
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/Units/create`,

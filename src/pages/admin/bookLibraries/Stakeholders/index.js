@@ -107,6 +107,14 @@ export default function Index(props) {
     validationSchema: STAKEHOLDER_YUP,
     onSubmit: async (values) => {
       try {
+        let maxRanking = Math.max.apply(
+          Math,
+          stakeholdersData.map((item) => {
+            return item.ranking;
+          })
+        );
+        values.ranking = maxRanking + 1;
+        console.log("ranking", maxRanking);
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/StakeholderTypes/create`,

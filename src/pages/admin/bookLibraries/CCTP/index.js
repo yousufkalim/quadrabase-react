@@ -118,6 +118,13 @@ export default function Index(props) {
     validationSchema: CCTP_YUP,
     onSubmit: async (values) => {
       try {
+        let maxRanking = Math.max.apply(
+          Math,
+          cctpsData.map((item) => {
+            return item.ranking;
+          })
+        );
+        values.ranking = maxRanking + 1;
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/CCTP/create`,

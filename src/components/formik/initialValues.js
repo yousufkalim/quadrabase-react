@@ -94,4 +94,5 @@ export const CHAP0_STATE = {
 };
 export const STAKEHOLDER_STATE = {
   text: "",
+  ranking: "",
 };
