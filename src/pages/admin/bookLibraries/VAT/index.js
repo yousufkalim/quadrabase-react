@@ -117,6 +117,13 @@ export default function Index(props) {
     validationSchema: VAT_YUP,
     onSubmit: async (values) => {
       try {
+        let maxRanking = Math.max.apply(
+          Math,
+          vatsData.map((item) => {
+            return item.ranking;
+          })
+        );
+        values.ranking = maxRanking + 1;
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/VAT/create`,

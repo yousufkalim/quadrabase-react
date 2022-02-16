@@ -293,6 +293,12 @@ i18n
           Bottom: "Bottom",
           "Choose file": "Choose file",
           "no file chosen": "no file chosen",
+          "Stakeholder Type created successfully":
+            "Stakeholder Type created successfully",
+          "Stakeholder type deleted successfully":
+            "Stakeholder type deleted successfully",
+          "Stakeholder type updated successfully":
+            "Stakeholder type updated successfully",
         },
       },
       fr: {
@@ -579,6 +585,12 @@ i18n
           Bottom: "En bas",
           "Choose file": "Choisir le fichier",
           "no file chosen": "aucun fichier choisi",
+          "Stakeholder Type created successfully":
+            "Type de partie prenante créé avec succès",
+          "Stakeholder type deleted successfully":
+            "Type de partie prenante supprimé avec succès",
+          "Stakeholder type updated successfully":
+            "Type de partie prenante mis à jour avec succès",
         },
       },
     },
