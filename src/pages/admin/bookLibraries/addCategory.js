@@ -9,7 +9,7 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
-import CkEditor from "../../../components/CkEditor";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -103,16 +103,16 @@ export default function AddExpense(props) {
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <CkEditor setValue={setcctp_text1} value={cctp_text1} />
+          <RichTextEditor setValue={setcctp_text1} value={cctp_text1} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <CkEditor setValue={setcctp_text2} value={cctp_text2} />
+          <RichTextEditor setValue={setcctp_text2} value={cctp_text2} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <CkEditor setValue={setcctp_text3} value={cctp_text3} />
+          <RichTextEditor setValue={setcctp_text3} value={cctp_text3} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <CkEditor setValue={setcctp_text4} value={cctp_text4} />
+          <RichTextEditor setValue={setcctp_text4} value={cctp_text4} />
         </TabPanel>
       </Box>
 
