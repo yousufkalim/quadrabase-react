@@ -1,7 +1,7 @@
 import React from "react";
 
 import TextInput from "../../../../components/TextInput";
-import CkEditor from "../../../..//components/CkEditor";
+import RichTextEditor from "../../../..//components/RichTextEditor";
 
 export default function AddExpense(props) {
   const { translate, formik, setEditText } = props;
@@ -39,7 +39,7 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full   px-3">
-          <CkEditor value={props.editData.text} setValue={setEditText} />
+          <RichTextEditor value={props.editData.text} setValue={setEditText} />
           <div className="text-red-600 ">
             {formik.touched.text && formik.errors.text ? (
               <small>{formik.errors.text}</small>
