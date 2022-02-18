@@ -14,7 +14,7 @@ import AddMemoizedProviders from "./addMemoizedProviders";
 import DocViewer from "../../../components/DocViewer";
 
 import { red } from "@mui/material/colors";
-import CkEditor from "../../../components/CkEditor";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -212,31 +212,34 @@ export default function AddExpense(props) {
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <CkEditor
+          <RichTextEditor
             setValue={setcctp_text1}
             value={props.editData.cctp_text[0]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <CkEditor
+          <RichTextEditor
             setValue={setcctp_text2}
             value={props.editData.cctp_text[1]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <CkEditor
+          <RichTextEditor
             setValue={setcctp_text3}
             value={props.editData.cctp_text[2]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <CkEditor
+          <RichTextEditor
             setValue={setcctp_text4}
             value={props.editData.cctp_text[3]}
           />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={4}>
-          <CkEditor setValue={setbpu_text} value={props.editData.bpu_text[0]} />
+          <RichTextEditor
+            setValue={setbpu_text}
+            value={props.editData.bpu_text[0]}
+          />
         </TabPanel>
       </Box>
 
