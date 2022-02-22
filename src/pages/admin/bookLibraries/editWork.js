@@ -327,7 +327,7 @@ export default function AddExpense(props) {
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            Provider List
+            {translate("Provider List")}
             <Button
               onClick={handleAddPriovider}
               disabled={!selectedProvider}
@@ -362,7 +362,7 @@ export default function AddExpense(props) {
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            Associated Provider
+            {translate("Associated Provider")}
             <Button
               onClick={handleRemoveProvider}
               label={translate("Remove")}
