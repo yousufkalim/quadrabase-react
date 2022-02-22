@@ -22,6 +22,8 @@ export default function BasicModal(props) {
     outline: "none",
     boxShadow: 24,
     p: 2,
+    maxHeight: "60vh",
+    overflow: "auto",
   };
   return (
     <Modal open={props.open}>
