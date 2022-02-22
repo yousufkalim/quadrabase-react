@@ -9,10 +9,8 @@ import Notifier from "../../../utils/Notifier";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import SelectField from "../../../components/SelectField";
-import AddMemoizedProvider from "./addMemoizedProvider";
-import AddMemoizedProviders from "./addMemoizedProviders";
 
-import { red } from "@mui/material/colors";
+import { red, green } from "@mui/material/colors";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -21,7 +19,6 @@ import Box from "@mui/material/Box";
 import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
 
 import RichTextEditor from "../../../components/RichTextEditor";
-import DocViewer from "../../../components/DocViewer";
 export default function AddExpense(props) {
   const token = getToken();
   const { translate } = props;
@@ -33,10 +30,18 @@ export default function AddExpense(props) {
   const [bpu_text, setbpu_text] = React.useState("");
 
   const [UnitOptions, setUnitOptions] = React.useState([]);
-  const [ProviderOptions, setProviderOptions] = React.useState([]);
   const [ProviderDataArr, setProviderDataArr] = React.useState([]);
 
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+
+  // states to manage provider list
+  const [ProviderOptions, setProviderOptions] = React.useState([]);
+  const [associatedProviders, setAssociatedProviders] = React.useState([]);
+  const [selectedProvider, setSelectedProvider] = React.useState("");
+  const [selectedAssociatedProvider, setSelectedAssociatedProvider] =
+    React.useState("");
+  const [fileName, setFileName] = React.useState("");
+  const [documents, setDocuments] = React.useState([]);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTabIndex(newValue);
@@ -56,7 +61,20 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text4);
       values.bpu_text = [bpu_text];
       values.cctp_text = cctp_text;
-      values.providers = ProviderDataArr;
+      if (documents.length !== 0) {
+        let tempProvider = [];
+        ProviderDataArr.map((item) => {
+          let obj = {
+            provider: item.provider,
+            documents: documents,
+          };
+          tempProvider.push(obj);
+        });
+        values.providers = tempProvider;
+      } else {
+        values.providers = ProviderDataArr;
+      }
+
       try {
         let response = await Axios({
           method: "post",
@@ -126,6 +144,57 @@ export default function AddExpense(props) {
     );
     ProviderDataArr[filteredIndex] = obj;
   };
+
+  // functions for provider list
+  const handleAddPriovider = () => {
+    let flag = associatedProviders.some(
+      (item) => item._id === selectedProvider._id
+    );
+    if (!flag) {
+      let obj = {
+        provider: selectedProvider._id,
+        document: [],
+      };
+      setProviderDataArr([...ProviderDataArr, obj]);
+      setAssociatedProviders([...associatedProviders, selectedProvider]);
+    }
+  };
+
+  const handleRemoveProvider = () => {
+    let filteredData = associatedProviders.filter(
+      (item) => item._id !== selectedAssociatedProvider._id
+    );
+    setAssociatedProviders(filteredData);
+    let filteredProviderData = ProviderDataArr.filter(
+      (item) => item.provider !== selectedAssociatedProvider._id
+    );
+    setProviderDataArr(filteredProviderData);
+  };
+
+  const handleFileChange = async (e) => {
+    const files = e.target.files;
+    let form_data = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      form_data.append(`file`, files[i]);
+    }
+    try {
+      let response = await Axios({
+        method: "post",
+        url: `${baseUrl}/fileUploader`,
+        data: form_data,
+      });
+      let documents = response.data.files;
+      setFileName(files[0].name);
+      setDocuments(documents);
+    } catch (error) {
+      if (error.response) {
+        Notifier(error.response.data.message, "error");
+      }
+      console.log(error?.response?.data?.message, "error ");
+    }
+  };
+
   return (
     <form className="w-full  pt-1">
       <div className="flex no-wrap  -mx-3 mb-2">
@@ -200,42 +269,118 @@ export default function AddExpense(props) {
         </TabPanel>
       </Box>
 
-      <div className="w-full   mb-3 ">
-        <div className="w-full px-2 mb-3">
-          <AddMemoizedProvider
-            ProviderOptions={ProviderOptions}
-            onAdd={handleAdd}
-            translate={translate}
-          />
+      <div className="flex justify-between w-full">
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            Provider List
+            <Button
+              onClick={handleAddPriovider}
+              disabled={!selectedProvider}
+              label={translate("Add")}
+              backgroundColor={green}
+              default={false}
+            />
+          </div>
+          <div
+            style={{
+              height: 180,
+              border: "1px solid black",
+              overflow: "auto",
+            }}
+          >
+            {ProviderOptions?.map((item) => (
+              <h3
+                onClick={() => setSelectedProvider(item)}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor:
+                    selectedProvider._id == item._id && "lightgray",
+                }}
+              >
+                {item.name}
+              </h3>
+            ))}
+          </div>
         </div>
-        <div className="w-full   ">
-          {ProviderDataArr && ProviderDataArr.length > 0 ? (
-            <>
-              <div className="h-80 overflow-y-auto border px-10 py-1">
-                {ProviderDataArr &&
-                  ProviderDataArr.map(({ documents, provider }, index) => (
-                    <div key={index} className="mt-2">
-                      <AddMemoizedProviders
-                        _id={index}
-                        name={provider}
-                        documents={documents}
-                        ProviderOptions={ProviderOptions}
-                        onDelete={() => handleDelete(provider)}
-                        handleUpdate={handleUpdate}
-                        translate={translate}
-                      />
-                      <div>
-                        <DocViewer documents={documents} height="200" />
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </>
-          ) : (
-            ""
-          )}
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            Associated Provider
+            <Button
+              onClick={handleRemoveProvider}
+              label={translate("Remove")}
+              disabled={!selectedAssociatedProvider}
+              backgroundColor={red}
+              default={false}
+            />
+          </div>
+          <div
+            style={{
+              height: 180,
+              border: "1px solid black",
+              overflow: "auto",
+            }}
+          >
+            {associatedProviders?.map((item) => (
+              <h3
+                onClick={() => setSelectedAssociatedProvider(item)}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor:
+                    selectedAssociatedProvider._id == item._id && "lightgray",
+                }}
+              >
+                {item.name}
+              </h3>
+            ))}
+          </div>
         </div>
-        <div className="flex  pt-2  self-end	items-end justify-end  ">
+      </div>
+
+      <div
+        style={{
+          marginTop: 10,
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            Document
+          </div>
+          <div
+            style={{
+              border: "1px solid gray",
+              height: 35,
+              padding: 4,
+              borderRadius: 4,
+            }}
+          >
+            <label style={{ cursor: "pointer" }}>
+              {translate("Choose file")} -{" "}
+              {fileName ? fileName : translate("no file chosen")}
+              <TextInput
+                type="file"
+                placeholder="Document"
+                name="document"
+                onChange={handleFileChange}
+                multiple={true}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="flex">
           <div className="">
             <Button
               onClick={() => props.handleClose()}
