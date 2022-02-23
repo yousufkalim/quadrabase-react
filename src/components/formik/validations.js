@@ -63,6 +63,7 @@ export const CATEGORY_YUP = Yup.object({
 export const WORK_YUP = Yup.object({
   name: Yup.string().required("Required"),
   unit_price: Yup.number().required("Required"),
+  unit: Yup.string().required("Required"),
 });
 export const PROVIDER_YUP = Yup.object({
   name: Yup.string().required("Required"),

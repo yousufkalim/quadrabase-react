@@ -131,25 +131,6 @@ export default function AddExpense(props) {
     getAllUnits();
     getAllProviders();
   }, []);
-  const handleDelete = async (id) => {
-    let filteredData = ProviderDataArr.filter((dt) => dt.provider !== id);
-    setProviderDataArr(filteredData);
-  };
-  const handleDeleteDocument = async (id) => {
-    let filteredData = ProviderDataArr.filter((dt) => dt.provider !== id);
-    setProviderDataArr(filteredData);
-  };
-  const handleAdd = (obj) => {
-    setProviderDataArr([...ProviderDataArr, obj]);
-  };
-  const handleUpdate = (obj) => {
-    console.log(obj, "obj");
-    let filteredIndex = ProviderDataArr.findIndex(
-      (dt) => dt.provider == obj.provider
-    );
-    ProviderDataArr[filteredIndex] = obj;
-    setProviderDataArr(ProviderDataArr);
-  };
 
   // functions for provider list
   const handleAddPriovider = () => {
@@ -272,6 +253,11 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             options={UnitOptions}
           />
+          <small className="text-red-600 ">
+            {formik.touched.unit && formik.errors.unit ? (
+              <small>{formik.errors.unit}</small>
+            ) : null}
+          </small>
         </div>
       </div>
 
