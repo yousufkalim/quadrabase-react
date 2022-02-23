@@ -162,7 +162,7 @@ export default function Index(props) {
         title="Add Chap0"
         open={modal}
         onClose={handleModal}
-        width="30%"
+        width="45%"
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
         translate={translate}
@@ -179,7 +179,7 @@ export default function Index(props) {
         title="Edit Chap0"
         titleUpperCase={true}
         open={editmodal}
-        width="30%"
+        width="45%"
         translate={translate}
         onClose={handleEditModal}
         buttonLabel="Update"
