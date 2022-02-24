@@ -117,13 +117,18 @@ export default function Index(props) {
     initialValues: FAMILIES_STATE,
     validationSchema: FAMILIES_YUP,
     onSubmit: async (values) => {
-      let maxRanking = Math.max.apply(
-        Math,
-        familiesData.map((item) => {
-          return item.ranking;
-        })
-      );
-      values.ranking = maxRanking ? maxRanking + 1 : 0;
+      if (familiesData.length > 0) {
+        let maxRanking = Math.max.apply(
+          Math,
+          familiesData.map((item) => {
+            return item.ranking;
+          })
+        );
+        values.ranking = maxRanking ? maxRanking + 1 : 0;
+      } else {
+        values.ranking = 0;
+      }
+
       try {
         let response = await Axios({
           method: "post",
