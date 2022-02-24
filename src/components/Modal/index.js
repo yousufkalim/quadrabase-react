@@ -29,7 +29,7 @@ export default function BasicModal(props) {
     <Modal open={props.open}>
       <Box sx={style}>
         {props.addWork && props.addWork == true ? (
-          <div className="h-132 overflow-y-auto  px-5 py-1">
+          <div className="h-132 px-5 py-1">
             <div className="flex justify-center">
               <h2
                 className={`text-gray-600 ${

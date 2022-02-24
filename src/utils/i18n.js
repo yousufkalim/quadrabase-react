@@ -299,6 +299,10 @@ i18n
             "Stakeholder type deleted successfully",
           "Stakeholder type updated successfully":
             "Stakeholder type updated successfully",
+          "Provider List": "Provider List",
+          Add: "Add",
+          "Associated Provider": "Associated Provider",
+          Remove: "Remove",
         },
       },
       fr: {
@@ -591,6 +595,10 @@ i18n
             "Type de partie prenante supprimé avec succès",
           "Stakeholder type updated successfully":
             "Type de partie prenante mis à jour avec succès",
+          "Provider List": "Liste des fabricant",
+          Add: "Ajouter",
+          "Associated Provider": "Fabricant associé",
+          Remove: "Retirer",
         },
       },
     },

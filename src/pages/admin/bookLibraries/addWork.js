@@ -131,19 +131,6 @@ export default function AddExpense(props) {
     getAllUnits();
     getAllProviders();
   }, []);
-  const handleDelete = async (id) => {
-    let filteredData = ProviderDataArr.filter((dt) => dt.provider !== id);
-    setProviderDataArr(filteredData);
-  };
-  const handleAdd = (obj) => {
-    setProviderDataArr([...ProviderDataArr, obj]);
-  };
-  const handleUpdate = (obj) => {
-    let filteredIndex = ProviderDataArr.findIndex(
-      (dt) => dt.provider !== obj.provider
-    );
-    ProviderDataArr[filteredIndex] = obj;
-  };
 
   // functions for provider list
   const handleAddPriovider = () => {
@@ -234,6 +221,11 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             options={UnitOptions}
           />
+          <small className="text-red-600 ">
+            {formik.touched.unit && formik.errors.unit ? (
+              <small>{formik.errors.unit}</small>
+            ) : null}
+          </small>
         </div>
       </div>
 
@@ -275,7 +267,7 @@ export default function AddExpense(props) {
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            Provider List
+            {translate("Provider List")}
             <Button
               onClick={handleAddPriovider}
               disabled={!selectedProvider}
@@ -310,7 +302,7 @@ export default function AddExpense(props) {
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            Associated Provider
+            {translate("Associated Provider")}
             <Button
               onClick={handleRemoveProvider}
               label={translate("Remove")}
