@@ -144,6 +144,11 @@ export default function AddExpense(props) {
       };
       setProviderDataArr([...ProviderDataArr, obj]);
       setAssociatedProviders([...associatedProviders, selectedProvider]);
+      let temp = [];
+      temp = ProviderOptions.filter(
+        (item) => item._id !== selectedProvider._id
+      );
+      setProviderOptions(temp);
     }
   };
 
@@ -156,6 +161,7 @@ export default function AddExpense(props) {
       (item) => item.provider !== selectedAssociatedProvider._id
     );
     setProviderDataArr(filteredProviderData);
+    setProviderOptions([...ProviderOptions, selectedAssociatedProvider]);
   };
 
   const handleFileChange = async (e) => {
@@ -183,7 +189,7 @@ export default function AddExpense(props) {
   };
 
   return (
-    <form className="w-full  pt-1">
+    <form className="w-full  pt-1 pb-5">
       <div className="flex no-wrap  -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput

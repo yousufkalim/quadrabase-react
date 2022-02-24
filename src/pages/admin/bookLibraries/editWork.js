@@ -36,6 +36,7 @@ export default function AddExpense(props) {
 
   // states to manage provider list
   const [ProviderOptions, setProviderOptions] = React.useState([]);
+  const [filteredOptions, setFilteredOptions] = React.useState([]);
   const [associatedProviders, setAssociatedProviders] = React.useState([]);
   const [selectedProvider, setSelectedProvider] = React.useState("");
   const [selectedAssociatedProvider, setSelectedAssociatedProvider] =
@@ -144,6 +145,11 @@ export default function AddExpense(props) {
       };
       setProviderDataArr([...ProviderDataArr, obj]);
       setAssociatedProviders([...associatedProviders, selectedProvider]);
+      let temp = [];
+      temp = filteredOptions.filter(
+        (item) => item._id !== selectedProvider._id
+      );
+      setFilteredOptions(temp);
     }
   };
 
@@ -156,6 +162,7 @@ export default function AddExpense(props) {
       (item) => item.provider !== selectedAssociatedProvider._id
     );
     setProviderDataArr(filteredProviderData);
+    setFilteredOptions([...filteredOptions, selectedAssociatedProvider]);
   };
 
   const handleFileChange = async (e) => {
@@ -198,6 +205,7 @@ export default function AddExpense(props) {
             if (editData[dat].length > 0) {
               setProviderDataArr(editData[dat]);
               let temp = [];
+              let tempFilter = [];
               ProviderOptions?.map((item) => {
                 editData[dat]?.map((item2) => {
                   if (item2?.provider === item?._id) {
@@ -205,6 +213,10 @@ export default function AddExpense(props) {
                   }
                 });
               });
+              tempFilter = ProviderOptions.filter((item) => {
+                return !temp.includes(item);
+              });
+              setFilteredOptions(tempFilter);
               setAssociatedProviders(temp);
               setFileName(
                 editData[dat][0]?.documents[0]?.uri.split("/images/")[1]
@@ -219,7 +231,7 @@ export default function AddExpense(props) {
     }
   }, [props.editmodal, ProviderOptions]);
   return (
-    <form className="w-full  pt-1">
+    <form className="w-full  pt-1 pb-5">
       <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
@@ -333,7 +345,7 @@ export default function AddExpense(props) {
               overflow: "auto",
             }}
           >
-            {ProviderOptions?.map((item) => (
+            {filteredOptions?.map((item) => (
               <h3
                 onClick={() => setSelectedProvider(item)}
                 style={{
