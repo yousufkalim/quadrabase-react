@@ -154,6 +154,9 @@ export default function Index(props) {
 
         Notifier(response.data.message, "success", translate);
         handleEditModal();
+        values.name = "";
+        values.symbol = "";
+        values.ranking = "";
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
         console.log("Errror->>>", err);
