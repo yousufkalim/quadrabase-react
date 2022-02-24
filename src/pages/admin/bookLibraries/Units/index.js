@@ -105,13 +105,18 @@ export default function Index(props) {
     validationSchema: UNIT_YUP,
     onSubmit: async (values) => {
       try {
-        let maxRanking = Math.max.apply(
-          Math,
-          unitsData.map((item) => {
-            return item.ranking;
-          })
-        );
-        values.ranking = maxRanking + 1;
+        if (unitsData.length > 0) {
+          let maxRanking = Math.max.apply(
+            Math,
+            unitsData.map((item) => {
+              return item.ranking;
+            })
+          );
+          values.ranking = maxRanking ? maxRanking + 1 : 0;
+        } else {
+          values.ranking = 0;
+        }
+
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/Units/create`,
@@ -149,6 +154,9 @@ export default function Index(props) {
 
         Notifier(response.data.message, "success", translate);
         handleEditModal();
+        values.name = "";
+        values.symbol = "";
+        values.ranking = "";
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
         console.log("Errror->>>", err);

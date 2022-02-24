@@ -195,18 +195,22 @@ export default function AddExpense(props) {
             setcctp_text3(editData[dat][2]);
             setcctp_text4(editData[dat][3]);
           } else if (dat == "providers") {
-            setProviderDataArr(editData[dat]);
-            let temp = [];
-            ProviderOptions.map((item) => {
-              editData[dat].map((item2) => {
-                if (item2.provider === item._id) {
-                  temp.push(item);
-                }
+            if (editData[dat].length > 0) {
+              setProviderDataArr(editData[dat]);
+              let temp = [];
+              ProviderOptions?.map((item) => {
+                editData[dat]?.map((item2) => {
+                  if (item2?.provider === item?._id) {
+                    temp.push(item);
+                  }
+                });
               });
-            });
-            setAssociatedProviders(temp);
-            setFileName(editData[dat][0].documents[0].uri.split("/images/")[1]);
-            setDocuments(editData[dat][0].documents);
+              setAssociatedProviders(temp);
+              setFileName(
+                editData[dat][0]?.documents[0]?.uri.split("/images/")[1]
+              );
+              setDocuments(editData[dat][0]?.documents);
+            }
           } else {
             formik.setFieldValue(dat, editData[dat]);
           }
