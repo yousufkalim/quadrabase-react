@@ -123,7 +123,7 @@ export default function Index(props) {
           return item.ranking;
         })
       );
-      values.ranking = maxRanking + 1;
+      values.ranking = maxRanking ? maxRanking + 1 : 0;
       try {
         let response = await Axios({
           method: "post",
