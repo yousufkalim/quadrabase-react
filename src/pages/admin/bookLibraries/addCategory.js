@@ -70,7 +70,7 @@ export default function AddExpense(props) {
   });
 
   return (
-    <form className="w-full pt-9" style={{ maxHeight: 600, overflow: "auto" }}>
+    <form className="w-full pt-9">
       <div className="flex no-wrap  -mx-3 mb-3">
         <div className="w-full  px-3 mb-6 md:mb-0 ">
           <TextInput
