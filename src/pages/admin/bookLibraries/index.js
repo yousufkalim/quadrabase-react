@@ -1189,6 +1189,7 @@ export default function Index(props) {
       <Modal
         title={translate("Edit Work Detail")}
         open={state.editworkdetail}
+        width="30%"
         translate={translate}
         library={true}
         component={

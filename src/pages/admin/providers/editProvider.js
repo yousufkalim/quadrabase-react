@@ -32,7 +32,6 @@ export default function AddExpense(props) {
     <form
       className="w-full  pt-9"
       style={{
-        height: "500px",
         position: "relative",
         overflowY: "auto",
         overflowX: "hidden",
