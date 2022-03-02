@@ -14,7 +14,11 @@ export default function subList(props) {
   return (
     <>
       <ListItem key={_id} button>
-        <ListItemText sx={{ paddingLeft: "10px" }} primary={primaryText} secondary={secondaryText} />
+        <ListItemText
+          sx={{ paddingLeft: "10px", textTransform: "uppercase" }}
+          primary={primaryText}
+          secondary={secondaryText}
+        />
         <FontAwesomeIcon
           icon={faEllipsisV}
           onClick={(e) => handleanchorEl(e, _id)}
