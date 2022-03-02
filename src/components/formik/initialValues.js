@@ -92,6 +92,19 @@ export const CHAP0_STATE = {
   title: "",
   text: "",
 };
+
+export const CHAP0_Level2_STATE = {
+  title: "",
+  text: "",
+  ranking: 0,
+  parentLevel: "",
+};
+export const CHAP0_Level3_STATE = {
+  title: "",
+  text: "",
+  ranking: 0,
+  parentLevel: "",
+};
 export const STAKEHOLDER_STATE = {
   text: "",
   ranking: "",

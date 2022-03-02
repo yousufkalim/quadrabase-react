@@ -25,5 +25,26 @@ const actionTypes = {
   // up & down
   LIBRARY_UP: "Up_level1",
   LIBRARY_DOWN: "LIBRARY_DOWN",
+
+  // CCTP level
+  Chap0Level1: "Chap0Level1",
+  Chap0Level2: "Chap0Level2",
+  Chap0Level3: "Chap0Level3",
+  Chap0AnchorEl: "Chap0AnchorEl",
+
+  // Level1
+  AddChap0Level1: "AddChap0Level1",
+  EditChap0Level1: "EditChap0Level1",
+  DeleteChap0Level1: "DeleteChap0Level1",
+
+  // Level2
+  AddChap0Level2: "AddChap0Level2",
+  EditChap0Level2: "EditChap0Level2",
+  DeleteChap0Level2: "DeleteChap0Level2",
+
+  // Level3
+  AddChap0Level3: "AddChap0Level3",
+  EditChap0Level3: "EditChap0Level3",
+  DeleteChap0Level3: "DeleteChap0Level3",
 };
 export default actionTypes;
