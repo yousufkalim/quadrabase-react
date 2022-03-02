@@ -5,7 +5,7 @@ import RadioButton from "../../../components/RadioButton";
 export default function AddExpense(props) {
   const { translate, formik } = props;
   return (
-    <form className="w-full  pt-9">
+    <form className="w-full  pt-9" autocomplete="off">
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
@@ -47,6 +47,7 @@ export default function AddExpense(props) {
             placeholder="Email"
             label="Email"
             name="email"
+            autoComplete="off"
             onChange={formik.handleChange}
             value={formik.values.email}
             translate={translate}
@@ -63,6 +64,7 @@ export default function AddExpense(props) {
             placeholder="Password"
             label="Password"
             name="password"
+            autoComplete="off"
             onChange={formik.handleChange}
             value={formik.values.password}
             translate={translate}
@@ -121,8 +123,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_1 &&
-            formik.errors.address_1 ? (
+            {formik.touched.address_1 && formik.errors.address_1 ? (
               <small>{formik.errors.address_1}</small>
             ) : null}
           </div>
@@ -138,8 +139,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_2 &&
-            formik.errors.address_2 ? (
+            {formik.touched.address_2 && formik.errors.address_2 ? (
               <small>{formik.errors.address_2}</small>
             ) : null}
           </div>
@@ -157,8 +157,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.po_box &&
-            formik.errors.po_box ? (
+            {formik.touched.po_box && formik.errors.po_box ? (
               <small>{formik.errors.po_box}</small>
             ) : null}
           </div>
@@ -174,8 +173,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.postal_code &&
-            formik.errors.postal_code ? (
+            {formik.touched.postal_code && formik.errors.postal_code ? (
               <small>{formik.errors.postal_code}</small>
             ) : null}
           </div>
@@ -193,8 +191,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.city &&
-            formik.errors.city ? (
+            {formik.touched.city && formik.errors.city ? (
               <small>{formik.errors.city}</small>
             ) : null}
           </div>
@@ -210,8 +207,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.phone &&
-            formik.errors.phone ? (
+            {formik.touched.phone && formik.errors.phone ? (
               <small>{formik.errors.phone}</small>
             ) : null}
           </div>

@@ -188,7 +188,6 @@ export default function AddExpense(props) {
       console.log(error?.response?.data?.message, "error ");
     }
   };
-
   React.useEffect(() => {
     let editData = props.editData;
     let initialValues = formik.initialValues;
@@ -216,12 +215,15 @@ export default function AddExpense(props) {
               tempFilter = ProviderOptions.filter((item) => {
                 return !temp.includes(item);
               });
+
               setFilteredOptions(tempFilter);
               setAssociatedProviders(temp);
               setFileName(
-                editData[dat][0]?.documents[0]?.uri.split("/images/")[1]
+                editData?.providers[0]?.documents[0]?.uri.split(
+                  "/documents/"
+                )[1]
               );
-              setDocuments(editData[dat][0]?.documents);
+              setDocuments(editData?.providers[0]?.documents);
             }
           } else {
             formik.setFieldValue(dat, editData[dat]);
