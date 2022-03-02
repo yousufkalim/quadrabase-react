@@ -36,9 +36,10 @@ export default function BasicModal(props) {
                   titleUpperCase ? "uppercase" : ""
                 } font-semibold text-3xl`}
               >
-                {props.translate
-                  ? props.translate(`${props.title}`)
-                  : props.title}
+                {props.title &&
+                  (props.translate
+                    ? props.translate(`${props.title}`)
+                    : props.title)}
               </h2>
             </div>
             {props.component}
@@ -77,9 +78,10 @@ export default function BasicModal(props) {
                   titleUpperCase ? "uppercase" : ""
                 } font-semibold text-3xl`}
               >
-                {props.translate
-                  ? props.translate(`${props.title}`)
-                  : props.title}
+                {props.title &&
+                  (props.translate
+                    ? props.translate(`${props.title}`)
+                    : props.title)}
               </h2>
             </div>
             {props.component}

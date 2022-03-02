@@ -19,6 +19,19 @@ const {
   DELETE_WORK_DETAIL,
   anchorEl,
   MANAGE_FAMILIES,
+  Chap0Level1,
+  Chap0Level2,
+  Chap0Level3,
+  Chap0AnchorEl,
+  AddChap0Level1,
+  EditChap0Level1,
+  DeleteChap0Level1,
+  AddChap0Level2,
+  EditChap0Level2,
+  DeleteChap0Level2,
+  AddChap0Level3,
+  EditChap0Level3,
+  DeleteChap0Level3,
 } = actionTypes;
 
 function LibraryReducer(state, action) {
@@ -120,6 +133,89 @@ function LibraryReducer(state, action) {
         ...state,
         deleteworkdetail: action.deleteworkdetail,
         workDetailDeleteId: action.workDetailDeleteId,
+      };
+    default:
+      throw new Error();
+  }
+}
+
+export function Chap0Reducer(state, action) {
+  let obj = action.obj;
+  switch (action.type) {
+    case Chap0Level1:
+      return { ...state, Chap0Level1: obj };
+    case Chap0Level2:
+      return { ...state, Chap0Level2: obj };
+    case Chap0Level3:
+      return { ...state, Chap0Level3: obj };
+    case Chap0AnchorEl:
+      return { ...state, Chap0AnchorEl: action.Chap0AnchorEl };
+
+    case CLOSE_MODAL:
+      return {
+        ...state,
+        Chap0AnchorEl: null,
+        AddChap0Level1: action.AddChap0Level1,
+        EditChap0Level1: action.EditChap0Level1,
+        DeleteChap0Level1: action.DeleteChap0Level1,
+        // Level2
+        AddChap0Level2: action.AddChap0Level2,
+        EditChap0Level2: action.EditChap0Level2,
+        DeleteChap0Level2: action.DeleteChap0Level2,
+        // Level3
+
+        AddChap0Level3: action.AddChap0Level3,
+        EditChap0Level3: action.EditChap0Level3,
+        DeleteChap0Level3: action.DeleteChap0Level3,
+      };
+    // level1
+    case AddChap0Level1:
+      return { ...state, AddChap0Level1: action.AddChap0Level1 };
+    case DeleteChap0Level1:
+      return {
+        ...state,
+        DeleteChap0Level1: action.DeleteChap0Level1,
+        DeleteChap0Level1Id: action.DeleteChap0Level1Id,
+      };
+
+    case EditChap0Level1:
+      return {
+        ...state,
+        EditChap0Level1: action.EditChap0Level1,
+        EditChap0Level1Data: action.EditChap0Level1Data,
+        EditChap0Level1Id: action.EditChap0Level1Id,
+      };
+    // level2
+    case AddChap0Level2:
+      return { ...state, AddChap0Level2: action.AddChap0Level2 };
+    case DeleteChap0Level2:
+      return {
+        ...state,
+        DeleteChap0Level2: action.DeleteChap0Level2,
+        DeleteChap0Level2Id: action.DeleteChap0Level2Id,
+      };
+    case EditChap0Level2:
+      return {
+        ...state,
+        EditChap0Level2: action.EditChap0Level2,
+        EditChap0Level2Data: action.EditChap0Level2Data,
+        EditChap0Level2Id: action.EditChap0Level2Id,
+      };
+    // Level3
+    case AddChap0Level3:
+      return { ...state, AddChap0Level3: action.AddChap0Level3 };
+    case EditChap0Level3:
+      return {
+        ...state,
+        EditChap0Level3: action.EditChap0Level3,
+        EditChap0Level3Data: action.EditChap0Level3Data,
+        EditChap0Level3Id: action.EditChap0Level3Id,
+      };
+    case DeleteChap0Level3:
+      return {
+        ...state,
+        DeleteChap0Level3: action.DeleteChap0Level3,
+        DeleteChap0Level3Id: action.DeleteChap0Level3Id,
       };
     default:
       throw new Error();
