@@ -18,6 +18,7 @@ import { AdminheadCells } from "../../../utils/tableHeads";
 import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../utils/Auth";
+import { useTranslation } from "react-i18next";
 
 export default function Index(props) {
   const { translate } = props;
@@ -33,7 +34,7 @@ export default function Index(props) {
 
   const [adminsData, setadminsData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
-
+  const { t } = useTranslation();
   const handleModal = () => setModal(!modal);
   //   delete architect modal
   const handleDeleteModal = (id) => {
@@ -167,7 +168,7 @@ export default function Index(props) {
         open={editmodal}
         translate={translate}
         onClose={handleEditModal}
-        buttonLabel="Update"
+        buttonLabel={t("Update")}
         onSubmit={edit_formik.handleSubmit}
         component={
           <EditAdmin
