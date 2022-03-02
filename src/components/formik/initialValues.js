@@ -91,6 +91,7 @@ export const FAMILIES_STATE = {
 export const CHAP0_STATE = {
   title: "",
   text: "",
+  ranking: 0,
 };
 
 export const CHAP0_Level2_STATE = {

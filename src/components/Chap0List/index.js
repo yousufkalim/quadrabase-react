@@ -33,7 +33,7 @@ function NestedList(props) {
           <ListSubheader>
             <div className="flex justify-between">
               <h1 className="font-semibold text-lg p-3">
-                {translate("General Libraries")}
+                {translate("Chap0")}
               </h1>
               <FontAwesomeIcon
                 icon={faEllipsisV}

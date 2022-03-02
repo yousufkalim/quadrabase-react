@@ -228,6 +228,17 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         values.text = text;
+        if (adminsData.length > 0) {
+          let maxRanking = Math.max.apply(
+            Math,
+            adminsData.map((item) => {
+              return item.ranking;
+            })
+          );
+          values.ranking = maxRanking ? maxRanking + 1 : 0;
+        } else {
+          values.ranking = 0;
+        }
         let response = await Axios({
           method: "post",
           url: `${baseUrl}/Chap0/create`,
@@ -492,10 +503,24 @@ export default function Index(props) {
             DeleteChap0Level1: true,
           });
           break;
+        case `Top_Chap0Level2`:
+          handleLevel1Top(LevelID);
+          break;
+        case `Up_Chap0Level2`:
+          handleLevel1Up(LevelID);
+          break;
+        case `Down_Chap0Level2`:
+          handleLevel1Down(LevelID);
+          break;
+        case `Bottom_Chap0Level2`:
+          handleLevel1Bottom(LevelID);
+          break;
         default:
           break;
       }
     } else if (Level == actionTypes.Chap0Level3) {
+      console.log(value);
+
       switch (value) {
         case `AddChap0Level3_Chap0Level3`:
           getChap0Level3(LevelID);
@@ -521,6 +546,18 @@ export default function Index(props) {
             DeleteChap0Level2: true,
           });
           break;
+        case `Top_Chap0Level3`:
+          handleLevel2Top(LevelID);
+          break;
+        case `Up_Chap0Level3`:
+          handleLevel2Up(LevelID);
+          break;
+        case `Down_Chap0Level3`:
+          handleLevel2Down(LevelID);
+          break;
+        case `Bottom_Chap0Level3`:
+          handleLevel2Bottom(LevelID);
+          break;
         default:
           break;
       }
@@ -542,6 +579,18 @@ export default function Index(props) {
             type: actionTypes.DeleteChap0Level3,
             DeleteChap0Level3: true,
           });
+          break;
+        case `Top_lastLevel`:
+          handleLevel3Top(LevelID);
+          break;
+        case `Up_lastLevel`:
+          handleLevel3Up(LevelID);
+          break;
+        case `Down_lastLevel`:
+          handleLevel3Down(LevelID);
+          break;
+        case `Bottom_lastLevel`:
+          handleLevel3Bottom(LevelID);
           break;
         default:
           break;
@@ -586,6 +635,379 @@ export default function Index(props) {
       );
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
+  //chap0Top
+  const handleLevel1Top = async (id) => {
+    let filteredIndex = adminsData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        adminsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...adminsData];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setadminsData(tempArr);
+      });
+    }
+  };
+  //chapLevel1
+  const handleLevel1Up = async (id) => {
+    let filteredIndex = adminsData.findIndex((dt) => dt._id == id);
+    if (filteredIndex != 0) {
+      let tempArr = [...adminsData];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = adminsData[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = adminsData[filteredIndex];
+          handleanchorElClose();
+          setadminsData(tempArr);
+        });
+      });
+    }
+  };
+  //ChapLevel1 Down
+  const handleLevel1Down = async (id) => {
+    // setIndex(id);
+    let filteredIndex = adminsData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== adminsData.length - 1) {
+      let tempArr = [...adminsData];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0/${id}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = adminsData[nextIndex];
+          tempArr[nextIndex] = adminsData[filteredIndex];
+          handleanchorElClose();
+          setadminsData(tempArr);
+        });
+      });
+    }
+  };
+
+  // ChapLevel1 Bottom
+  const handleLevel1Bottom = async (id) => {
+    let filteredIndex = adminsData.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== adminsData.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        adminsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...adminsData];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setadminsData(tempArr);
+      });
+    }
+  };
+
+  //Chap0 Level2
+  const handleLevel2Top = async (id) => {
+    let data = chap0Level2Data;
+    let filteredIndex = data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        data.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level2/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...data];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setChap0Level2Data(tempArr);
+      });
+    }
+  };
+
+  //chapLevel2
+  const handleLevel2Up = async (id) => {
+    let filteredIndex = chap0Level2Data.findIndex((dt) => dt._id == id);
+    if (filteredIndex != 0) {
+      let tempArr = [...chap0Level2Data];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level2/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0Level2/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = chap0Level2Data[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = chap0Level2Data[filteredIndex];
+          handleanchorElClose();
+          setChap0Level2Data(tempArr);
+        });
+      });
+    }
+  };
+  //ChapLevel1 Down
+  const handleLevel2Down = async (id) => {
+    // setIndex(id);
+    let filteredIndex = chap0Level2Data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== chap0Level2Data.length - 1) {
+      let tempArr = [...chap0Level2Data];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level2/${id}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0Level2/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = chap0Level2Data[nextIndex];
+          tempArr[nextIndex] = chap0Level2Data[filteredIndex];
+          handleanchorElClose();
+          setChap0Level2Data(tempArr);
+        });
+      });
+    }
+  };
+
+  // ChapLevel1 Bottom
+  const handleLevel2Bottom = async (id) => {
+    let filteredIndex = chap0Level2Data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== chap0Level2Data.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        adminsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level2/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...chap0Level2Data];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setChap0Level2Data(tempArr);
+      });
+    }
+  };
+
+  //Chap0 Level3
+  const handleLevel3Top = async (id) => {
+    let data = chap0Level3Data;
+    let filteredIndex = data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex != 0) {
+      let minRanking = Math.min.apply(
+        Math,
+        data.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level3/${id}`,
+        data: { ranking: minRanking - 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...data];
+        tempArr[filteredIndex].ranking = minRanking - 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setChap0Level3Data(tempArr);
+      });
+    }
+  };
+
+  //chapLevel3
+  const handleLevel3Up = async (id) => {
+    let filteredIndex = chap0Level3Data.findIndex((dt) => dt._id == id);
+    if (filteredIndex != 0) {
+      let tempArr = [...chap0Level3Data];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level3/${id}`,
+        data: { ranking: prevIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0Level3/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = chap0Level3Data[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = chap0Level3Data[filteredIndex];
+          handleanchorElClose();
+          setChap0Level3Data(tempArr);
+        });
+      });
+    }
+  };
+  //ChapLevel3 Down
+  const handleLevel3Down = async (id) => {
+    // setIndex(id);
+    let filteredIndex = chap0Level3Data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== chap0Level3Data.length - 1) {
+      let tempArr = [...chap0Level3Data];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level3/${id}`,
+        data: { ranking: nextIndex },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        Axios({
+          method: "put",
+          url: `${baseUrl}/Chap0Level3/${prev._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          tempArr[filteredIndex] = chap0Level3Data[nextIndex];
+          tempArr[nextIndex] = chap0Level3Data[filteredIndex];
+          handleanchorElClose();
+          setChap0Level3Data(tempArr);
+        });
+      });
+    }
+  };
+
+  // ChapLevel3 Bottom
+  const handleLevel3Bottom = async (id) => {
+    let filteredIndex = chap0Level3Data.findIndex((dt) => dt._id == id);
+
+    if (filteredIndex !== chap0Level3Data.length - 1) {
+      let maxRanking = Math.max.apply(
+        Math,
+        adminsData.map((item) => {
+          return item.ranking;
+        })
+      );
+      Axios({
+        method: "put",
+        url: `${baseUrl}/Chap0Level3/${id}`,
+        data: { ranking: maxRanking + 1 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(() => {
+        let tempArr = [...chap0Level3Data];
+        tempArr[filteredIndex].ranking = maxRanking + 1;
+        tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
+        handleanchorElClose();
+        setChap0Level3Data(tempArr);
+      });
     }
   };
 
