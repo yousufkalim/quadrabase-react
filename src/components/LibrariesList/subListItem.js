@@ -74,22 +74,32 @@ export default function subList(props) {
           // onClick={() => handleClick(level, _id, obj)}
           onClick={() => {
             if(level !== "level0"){
-              setPrevLevel([]);
-              setLoadingData(_id);
-              getNextLevel(_id);
-              handleClick(level, _id, obj);
+              if(open){
+                setLoadingData("");
+                handleClick(level, _id, obj);
+              } else {
+                setPrevLevel([]);
+                setLoadingData(_id);
+                getNextLevel(_id);
+                handleClick(level, _id, obj);
+              }
             } else {
-              setCurrentFamily(_id);
-              setPrevLevel([]);
-              setLoadingData(_id);
-              getNextLevel(_id);
-              handleClick(level, _id, obj);
+              if(open){
+                setLoadingData("");
+                handleClick(level, _id, obj);
+              } else {
+                setCurrentFamily(_id);
+                setPrevLevel([]);
+                setLoadingData(_id);
+                getNextLevel(_id);
+                handleClick(level, _id, obj);
+              }
             }
           }}
           // This will lead to disaster otherwise.
           // Best Wishes,
           // Umar
-          // March 02, 2021.
+          // March 02, 2021. 
         />
         {level === "level0" &&
           (open ? (
