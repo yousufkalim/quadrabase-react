@@ -71,7 +71,25 @@ export default function subList(props) {
           primaryTypographyProps={{
             style: { fontWeight: props.nameBold ? "bold" : "normal" },
           }}
-          onClick={() => handleClick(level, _id, obj)}
+          // onClick={() => handleClick(level, _id, obj)}
+          onClick={() => {
+            if(level !== "level0"){
+              setPrevLevel([]);
+              setLoadingData(_id);
+              getNextLevel(_id);
+              handleClick(level, _id, obj);
+            } else {
+              setCurrentFamily(_id);
+              setPrevLevel([]);
+              setLoadingData(_id);
+              getNextLevel(_id);
+              handleClick(level, _id, obj);
+            }
+          }}
+          // This will lead to disaster otherwise.
+          // Best Wishes,
+          // Umar
+          // March 02, 2021.
         />
         {level === "level0" &&
           (open ? (

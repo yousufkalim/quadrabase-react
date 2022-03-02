@@ -1062,15 +1062,6 @@ export default function Index(props) {
           </div>
         </div>
       </div>
-      {/* All  Modals */}
-      {/* <Modal
-      title="Manage Families"
-      width="40%"
-      translate={translate}
-      open={state.managefamily}
-      onClose={handleClose}
-      component={<Families translate={translate} handleClose={handleClose} />}
-    /> */}
       <Modal
         title="Add Library"
         height="60%"
