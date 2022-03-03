@@ -1,0 +1,95 @@
+.spc_headerdiv {
+  background: url("../../assets/images/headerbg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 650px !important;
+}
+
+.spc_container {
+  padding-left: 10% !important;
+  /* width: 50% !important; */
+  padding-top: 6% !important;
+}
+.spc_Heroheading {
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 82px !important;
+  line-height: 107% !important;
+  /* or 88px */
+  display: flex !important;
+  align-items: center !important;
+  letter-spacing: -0.015em !important;
+
+  color: #ffffff !important;
+
+  text-shadow: 0px 11px 39px rgba(0, 0, 0, 0.6) !important;
+}
+.spc_Heropara {
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 24px !important;
+
+  /* or 35px */
+
+  display: flex !important;
+  align-items: center !important;
+  letter-spacing: -0.015em !important;
+
+  color: #ffffff !important;
+
+  text-shadow: 0px 5px 48px #1f0400 !important;
+}
+.spc_herobtn1 {
+  width: 188.96px !important;
+  height: 60px !important;
+  font-size: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0px 8px 20px rgba(175, 59, 0, 0.16) !important;
+  border-radius: 11px !important;
+  color: #470625 !important;
+}
+.spc_herobtn2 {
+  width: 169.25px !important;
+  height: 60px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  background: rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #ffffff !important;
+  box-sizing: border-box !important;
+  border-radius: 11px !important;
+}
+.spc_btndiv {
+  padding: 4% 0 !important;
+}
+@media only screen and (max-width: 1200px) {
+  .spc_Heroheading {
+    font-size: 34px !important;
+  }
+  .spc_headerdiv {
+    height: 400px !important;
+    background-size: initial !important;
+  }
+  .spc_container {
+    padding-top: 2% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .spc_Heroheading {
+    font-size: 24px !important;
+  }
+  .spc_Heropara {
+    font-size: 16px !important;
+  }
+  .spc_container {
+    padding-top: 8% !important;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .spc_herobtn1 {
+    margin-bottom: 4% !important;
+  }
+}

@@ -1,0 +1,22 @@
+/* Importing all CSS files */
+
+@import url("./components/index.css");
+@import url("./container/index.css");
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Urbanist&display=swap');
+
+/* Defaults */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Poppins;
+  text-transform: capitalize !important;
+}
+
+/* Primary Variables */
+:root {
+  --primary: "green";
+}
+body {
+  background: #ffffff !important;
+}

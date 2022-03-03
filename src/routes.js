@@ -10,6 +10,8 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Presentation from "./pages/auth/presentation";
 import EducationalMaterial from "./pages/auth/educationalMaterial";
+import Home from "./pages/auth/home";
+import Support from "./pages/auth/support";
 import Documentation from "./pages/auth/documentation";
 import Manufacturer from "./pages/auth/manufacturers";
 
@@ -128,6 +130,20 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: EducationalMaterial,
+    layout: "/auth",
+  },
+  {
+    path: "/home",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Home,
+    layout: "/auth",
+  },
+  {
+    path: "/support",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Support,
     layout: "/auth",
   },
   {

@@ -10,6 +10,9 @@ import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
 import { NavLink } from "react-router-dom";
 
+import Appbar from "../../pages/auth/spc/components/Appbar";
+import Quadralogo from "../../pages/auth/spc/assets/images/Quadralogo.svg";
+
 export default function Login(props) {
   const { translate } = props;
   const [IsLoading, setIsLoading] = React.useState(false);
@@ -43,6 +46,8 @@ export default function Login(props) {
   if (IsRedirect == true) return <Redirect to="/admin/index" />;
   else
     return (
+      <>
+      <Appbar logo={Quadralogo} dark={true}/>
       <div className="w-full  md:mx-auto py-6 ">
         <div className="container mx-auto">
           <div className="flex justify-center px-6 my-12">
@@ -141,5 +146,6 @@ export default function Login(props) {
           </div>
         </div>
       </div>
+      </>
     );
 }

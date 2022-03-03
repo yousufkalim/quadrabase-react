@@ -44,7 +44,7 @@ function Index(props) {
               <AuthLayout {...props} i18n={i18n} translate={t} />
             )}
           />
-          <Redirect from="/" to="/auth/login" />
+          <Redirect from="/" to="/auth/home" />
         </>
       )}
     </Switch>

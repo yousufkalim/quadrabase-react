@@ -1,0 +1,42 @@
+.spc_Appbar_contct_btn {
+  background: #f8eee8 !important;
+  border: 1px solid #ffffff !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
+  color: #000000 !important;
+  text-transform: capitalize !important;
+  width: 120px !important;
+  height: 42px !important;
+  margin-left: 2% !important;
+}
+.spc_Appbar_connect_btn {
+  background: linear-gradient(270deg, #f76820 0%, #ff8616 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.37) !important;
+  box-sizing: border-box !important;
+  box-shadow: 0px 14px 35px rgba(95, 34, 0, 0.05) !important;
+  border-radius: 10px !important;
+  text-transform: capitalize !important;
+  color: #ffffff !important;
+  width: 120px !important;
+  height: 42px !important;
+}
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background: none !important;
+  box-shadow: none !important;
+}
+.spc_containerdiv {
+  margin-left: 0px !important;
+  max-width: 100% !important;
+}
+.spc_navitems {
+  display: flex !important;
+  justify-content: center !important;
+}
+.spc_appbardiv {
+  padding: 0 5%;
+}
+.spc_css-1x7skt0 {
+  background: none !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,55 @@
+.spc_supportheaderdiv {
+  background: url("../../assets/images/supportbg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 650px !important;
+}
+.spc_supportheaderdiv_noborder {
+  background: url("../../assets/images/DocumentationBG.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 650px !important;
+}
+.spc_suppportHeroheading {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 60px !important;
+  padding-top: 10% !important;
+  text-align: center !important;
+  letter-spacing: -0.015em !important;
+  color: #ffffff !important;
+  text-shadow: 0px 11px 39px rgba(0, 0, 0, 0.6) !important;
+}
+.spc_title {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 24px !important;
+  /* identical to box height, or 30px */
+  padding-left: 2% !important;
+  display: flex !important;
+  align-items: center !important;
+
+  color: #000000 !important;
+}
+.spc_active {
+  background: #f76820 !important;
+}
+.spc_nonactive {
+  background: #abadb5 !important;
+}
+@media only screen and (max-width: 600px) {
+  .spc_suppportHeroheading {
+    font-size: 40px !important;
+    padding-top: 20% !important;
+  }
+  .spc_title {
+    font-size: 24px !important;
+  }
+  .spc_doctitle {
+    font-size: 13px !important;
+  }
+}

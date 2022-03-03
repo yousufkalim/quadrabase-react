@@ -45,12 +45,6 @@ export default function Navbar(props) {
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
           </svg>
         </label>
-        <input
-          className="hidden"
-          type="checkbox"
-          id="menu-toggle"
-          onClick={() => alert("hello")}
-        />
       </div>
       <div className="w-full md:hidden  lg:flex flex items-center  mt-0 px-6 py-1">
         <nav>

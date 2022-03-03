@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import routes from "../../routes.js";
-import Header from "../../components/authNavbar";
+// import Header from "../../components/authNavbar";
+// import Header from "../../pages/auth/spc/components/Appbar";
 import { Switch, Redirect, Route } from "react-router-dom";
 function Dashboard(props) {
   const { translate, i18n } = props;
@@ -29,9 +30,9 @@ function Dashboard(props) {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header 
-        translate={translate} i18n={i18n}
-        />
+        {/* <Header 
+          translate={translate} i18n={i18n}
+        /> */}
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/auth/login" />
