@@ -1,8 +1,10 @@
 import React from "react";
 import TextInput from "../../../components/TextInput";
 import TextArea from "../../../components/TextArea";
+import { useTranslation } from "react-i18next";
 export default function AddExpense(props) {
   const { translate, formik } = props;
+  const { t } = useTranslation();
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (["telephone_no", "contact_no", "zipcode"].includes(name)) {
@@ -104,7 +106,7 @@ export default function AddExpense(props) {
           />
           <div className="text-red-600 ">
             {formik.touched.zipcode && formik.errors.zipcode ? (
-              <small>{formik.errors.zipcode}</small>
+              <small>{t(formik.errors.zipcode)}</small>
             ) : null}
           </div>
         </div>
@@ -139,7 +141,7 @@ export default function AddExpense(props) {
           />
           <div className="text-red-600 ">
             {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
+              <small>{t(formik.errors.name)}</small>
             ) : null}
           </div>
         </div>
@@ -173,7 +175,7 @@ export default function AddExpense(props) {
           />
           <div className="text-red-600 ">
             {formik.touched.email && formik.errors.email ? (
-              <small>{formik.errors.email}</small>
+              <small>{t(formik.errors.email)}</small>
             ) : null}
           </div>
         </div>

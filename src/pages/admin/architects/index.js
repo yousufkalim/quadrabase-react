@@ -19,6 +19,7 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 import SubscriptionModal from "./SubscriptionModal";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 export default function Index(props) {
   const { translate } = props;
@@ -43,7 +44,7 @@ export default function Index(props) {
   const [currentSubscription, setCurrentSubscription] = React.useState();
 
   const [options, setOptions] = React.useState([]);
-
+  const { t } = useTranslation();
   // States for subscription popup
   const [value, setValue] = React.useState("");
   const [projects, setProjects] = React.useState(5);
@@ -168,7 +169,6 @@ export default function Index(props) {
   const formik = useFormik({
     initialValues: ARCHITECT_STATE,
     validationSchema: ARCHITECT_YUP,
-
     onSubmit: async (values) => {
       try {
         let response = await Axios({
@@ -254,7 +254,7 @@ export default function Index(props) {
         title="Edit Architect"
         open={editmodal}
         onClose={handleEditModal}
-        buttonLabel="Update"
+        buttonLabel={t("Update")}
         onSubmit={edit_formik.handleSubmit}
         translate={translate}
         component={
