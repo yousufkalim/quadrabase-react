@@ -8,7 +8,9 @@ import { handleLogin } from "../../utils/Auth";
 import { Redirect } from "react-router-dom";
 import Notifier from "../../utils/Notifier";
 import TextInput from "../../components/TextInput";
+import Modal from "../../components/Modal";
 import { NavLink } from "react-router-dom";
+import ForgetModal from "./ForgetModal";
 
 import Appbar from "../../pages/auth/spc/components/Appbar";
 import Quadralogo from "../../pages/auth/spc/assets/images/Quadralogo.svg";
@@ -17,6 +19,8 @@ export default function Login(props) {
   const { translate } = props;
   const [IsLoading, setIsLoading] = React.useState(false);
   const [IsRedirect, setIsRedirect] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [email, setEmail] = React.useState("");
 
   const formik = useFormik({
     initialValues: LOGIN_STATE,
@@ -43,10 +47,48 @@ export default function Login(props) {
       }
     },
   });
+
+  const handleForgetPassword = async () => {
+    try {
+      let response = await Axios({
+        method: "post",
+        url: `${baseUrl}/Admins/forgotPassword`,
+        data: {
+          email: email,
+        },
+      });
+      Notifier(response.data.message, "success", translate);
+      handleOpenModal();
+    } catch (err) {
+      setIsLoading(false);
+      if (err.response) {
+        Notifier(err.response.data.message, "error", translate);
+      }
+      console.log("Errror->>>", err);
+    }
+  };
+
+  const handleOpenModal = () => setOpenModal(!openModal);
   if (IsRedirect == true) return <Redirect to="/admin/index" />;
   else
     return (
       <>
+        <Modal
+          title="Forgot Password"
+          open={openModal}
+          width="30%"
+          buttonLabel="Submit"
+          onSubmit={handleForgetPassword}
+          onClose={handleOpenModal}
+          translate={translate}
+          component={
+            <ForgetModal
+              translate={translate}
+              email={email}
+              setEmail={setEmail}
+            />
+          }
+        />
         <Appbar logo={Quadralogo} dark={true} />
         <div className="w-full  md:mx-auto py-6 ">
           <div className="container mx-auto">
@@ -135,12 +177,13 @@ export default function Login(props) {
                     </button>
                   </div> */}
                     <div className="text-center">
-                      <a
+                      <div
                         className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                        href="#"
+                        onClick={handleOpenModal}
+                        style={{ cursor: "pointer" }}
                       >
                         {translate("Forgot Password?")}
-                      </a>
+                      </div>
                     </div>
                   </form>
                 </div>
