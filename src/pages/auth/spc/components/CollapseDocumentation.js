@@ -154,7 +154,7 @@ function SingleDownloadable(props) {
           }
           title={
             <Typography
-              style={{ fontSize: "17px", fontWeight: "600" }}
+              style={{ fontSize: "14px", fontWeight: "600" }}
               className="spc_doctitle"
             >
               {props.title}

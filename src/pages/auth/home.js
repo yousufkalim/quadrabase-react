@@ -96,7 +96,7 @@ export default function Home() {
             <>
               <Grid xs={12} sm={12} md={4} className="spc_homegrid">
                 <img src={items.icon}></img>
-                <Typography className="spc_grid_heading">
+                <Typography className="spc_grid_heading" style={{ paddingTop: "6%", paddingBottom: "8%" }}>
                   {items.heading}
                 </Typography>
                 <Typography className="spc_grid_para">{items.text}</Typography>
@@ -205,8 +205,8 @@ export default function Home() {
             ></img>
           </Grid>
           <Grid xs={12} sm={12} md={6} className="spc_fottergrid">
-            <Typography className="spc_footertypo">
-              Création et gestion <br /> des projets
+            <Typography className="spc_footertypo" style={{ paddingBottom: "5%" }}>
+              Création et gestion des projets
             </Typography>
             <Typography className="spc_footerpara">
               Lorem ipsum dolor sit amet, <br /> consectetur adipiscing elit
@@ -215,7 +215,7 @@ export default function Home() {
             <div className="spc_readmorediv" style={{ paddingTop: "5%" }}>
               <Typography
                 className="spc_readmore"
-                sx={{ paddingBottom: "5%", paddingRight: "2%" }}
+                sx={{ paddingRight: "2%" }}
               >
                 Read more
               </Typography>

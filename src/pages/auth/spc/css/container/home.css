@@ -21,7 +21,7 @@
   font-style: normal !important;
   font-weight: 600 !important;
   font-size: 22px !important;
-  line-height: 130%;
+  line-height: 1.2em !important;
   /* or 29px */
 
   display: flex !important;
@@ -63,7 +63,7 @@
 }
 
 .spc_home_bottom_gird {
-  padding: 2% 6% !important;
+  padding: 2% 2% !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -89,6 +89,7 @@
 }
 .spc_readmorediv {
   display: flex !important;
+  align-items: center;
 }
 .spc_divider {
   width: 2px !important;
@@ -112,6 +113,7 @@
   font-style: normal !important;
   font-weight: 600 !important;
   font-size: 42px !important;
+  line-height: 1.1em !important;
 
   color: #000000 !important;
 }
@@ -201,13 +203,13 @@
   padding-bottom: 2% !important;
 }
 .spc_border {
-  width: 2px !important;
+  width: 1px !important;
   height: 40px !important;
   background: #d0d0d0;
   margin-right: 110px !important;
 }
 .spc_border2 {
-  width: 2px !important;
+  width: 1px !important;
   height: 40px !important;
   background: #d0d0d0;
   margin-left: 200px !important;
