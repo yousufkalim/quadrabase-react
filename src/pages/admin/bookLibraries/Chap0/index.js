@@ -1015,7 +1015,7 @@ export default function Index(props) {
     <>
       {/* Level1 Modals*/}
       <Modal
-        title="Add Chap0"
+        title={translate("Add Chap0")}
         open={state.AddChap0Level1}
         onClose={handleModalClose}
         width="45%"
@@ -1032,7 +1032,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Chap0"
+        title={translate("Edit Chap0")}
         titleUpperCase={true}
         open={state.EditChap0Level1}
         width="45%"
@@ -1068,7 +1068,7 @@ export default function Index(props) {
       />
       {/* Level 2 Modals */}
       <Modal
-        title="Add Chap0 Level2"
+        title={translate("Add Chap0 Level2")}
         open={state.AddChap0Level2}
         onClose={handleModal2Close}
         width="45%"
@@ -1085,7 +1085,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Chap0 Level2"
+        title={translate("Edit Chap0 Level2")}
         titleUpperCase={true}
         open={state.EditChap0Level2}
         width="45%"
@@ -1119,7 +1119,7 @@ export default function Index(props) {
       />
       {/* Level 3 Modals */}
       <Modal
-        title="Add Chap0 Level3"
+        title={translate("Add Chap0 Level3")}
         open={state.AddChap0Level3}
         onClose={handleModal3Close}
         width="45%"
@@ -1136,7 +1136,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Chap0 Level3"
+        title={translate("Edit Chap0 Level3")}
         titleUpperCase={true}
         open={state.EditChap0Level3}
         width="45%"
