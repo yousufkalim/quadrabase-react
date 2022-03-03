@@ -219,9 +219,7 @@ export default function AddExpense(props) {
               setFilteredOptions(tempFilter);
               setAssociatedProviders(temp);
               setFileName(
-                editData?.providers[0]?.documents[0]?.uri.split(
-                  "/documents/"
-                )[1]
+                editData?.providers[0]?.documents[0]?.uri.split("/").pop()
               );
               setDocuments(editData?.providers[0]?.documents);
             }
