@@ -98,7 +98,7 @@ function Single(props) {
           avatar={
             <Avatar
               aria-label="recipe"
-              className={` ${expanded ? "active" : "nonactive"}`}
+              className={` ${expanded ? "spc_active" : "spc_nonactive"}`}
             >
               {props.avatartitle}
             </Avatar>

@@ -6,8 +6,17 @@ import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
 import Quadralogo from "../assets/images/Quadralogo.svg";
 
+import { useHistory } from "react-router-dom";
+
 // Component
 export default function Header() {
+
+  const history = useHistory();
+
+  const navToRegister = () => {
+    history.push("/auth/register");
+  }
+
   return (
     <div className="spc_headerdiv">
       <Appbar logo={Quadralogo}></Appbar>
@@ -29,7 +38,7 @@ export default function Header() {
           <Button className="spc_herobtn1" sx={{ marginRight: "1%" }}>
             En savior plus
           </Button>
-          <Button className="spc_herobtn2">S'inscrire</Button>
+          <Button className="spc_herobtn2" onClick={navToRegister}>S'inscrire</Button>
         </div>
       </div>
     </div>

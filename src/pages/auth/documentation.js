@@ -11,7 +11,7 @@ const Documentation = () => {
       <div className="spc_supportheaderdiv_noborder">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading">
+          <Typography className="spc_suppportHeroheading" style={{ paddingBottom: "14%" }}>
             Documentation
           </Typography>
         </div>

@@ -11,7 +11,7 @@ const Support = () => {
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading">
+          <Typography className="spc_suppportHeroheading" style={{ paddingBottom: "14%" }}>
             LES SUPPORTS PEDAGOGIQUES
           </Typography>
         </div>
