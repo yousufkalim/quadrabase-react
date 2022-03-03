@@ -1,0 +1,258 @@
+.spc_home_heading_typo {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+
+  color: #202020 !important;
+}
+.spc_home_heading {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 5% 0;
+}
+.spc_homegrid {
+  padding: 2% 8% !important;
+}
+.spc_grid_heading {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 22px !important;
+  line-height: 130%;
+  /* or 29px */
+
+  display: flex !important;
+  align-items: center !important;
+  letter-spacing: -0.015em !important;
+
+  color: #000000 !important;
+}
+.spc_grid_para {
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  /* or 20px */
+
+  display: flex !important;
+  align-items: center !important;
+
+  color: #838899 !important;
+}
+.spc_home_btn {
+  background: #f76820 !important;
+  box-shadow: 0px 8px 20px rgba(175, 59, 0, 0.16) !important;
+  border-radius: 11px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  color: #ffffff !important;
+  width: 200px !important;
+  height: 57.89px !important;
+}
+.spc_btn_div {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 3% !important;
+  /* border-bottom: 1px solid !important; */
+  /* margin-bottom: 2% !important; */
+}
+
+.spc_home_bottom_gird {
+  padding: 2% 6% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-sizing: border-box !important;
+  box-shadow: 0px 33px 36px rgba(87, 31, 0, 0.06) !important;
+  border-radius: 30px !important;
+}
+.spc_grid_btm {
+  padding: 0 5%;
+  display: flex !important;
+  justify-content: space-around !important;
+  margin-bottom: 10%;
+}
+.spc_readmore {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  /* margin-top: 5% !important; */
+  color: #4b403a !important;
+}
+.spc_readmorediv {
+  display: flex !important;
+}
+.spc_divider {
+  width: 2px !important;
+  height: 45px;
+  background: #e1e1e1 !important;
+  display: block;
+  padding-top: 11px;
+  margin: 9px 0 0 2%;
+}
+.spc_footer_btn {
+  border-radius: 11px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  color: #a39b96 !important;
+  width: 200px !important;
+  height: 57.89px !important;
+}
+.spc_footertypo {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 42px !important;
+
+  color: #000000 !important;
+}
+.spc_footerpara {
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 20px !important;
+
+  color: #000000 !important;
+}
+.spc_fottergrid {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding-left: 5% !important;
+}
+.spc_servicesdiv {
+  background: #f5f5f5 !important;
+  padding: 5% 0 5% 0 !important;
+  margin-bottom: 5% !important;
+}
+
+.spc_servicegrid {
+  /* padding: 20% !important; */
+  margin: 0 11px !important;
+  padding: 0 !important;
+  background: #ffffff !important;
+  border-radius: 20px !important;
+}
+.spc_Customerreviewcaruseldiv1 {
+  width: 80% !important;
+  margin: auto !important;
+}
+
+.react-multiple-carousel__arrow--right {
+  right: 5% !important;
+  color: #4b403a !important;
+}
+.react-multiple-carousel__arrow--left {
+  left: 5% !important;
+}
+.react-multiple-carousel__arrow {
+  background: none !important;
+}
+.react-multiple-carousel__arrow::before {
+  color: #4b403a !important;
+  /* font-weight: 600 !important; */
+}
+.react-multi-carousel-list {
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  position: initial;
+}
+.spc_customername {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 130% !important;
+  /* identical to box height, or 21px */
+  text-align: center !important;
+  letter-spacing: -0.015em;
+  color: #8b8f9f !important;
+  padding-top: 5% !important;
+}
+.spc_customerdescription {
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 24px !important;
+  line-height: 130% !important;
+  /* or 31px */
+
+  text-align: center !important;
+  letter-spacing: -0.015em;
+
+  color: #4b403a !important;
+  padding-bottom: 5% !important;
+}
+.spc_carouselheading {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 36px !important;
+  line-height: 123%;
+  /* or 44px */
+  text-align: center !important;
+  color: #000000 !important;
+  padding-bottom: 2% !important;
+}
+.spc_border {
+  width: 2px !important;
+  height: 40px !important;
+  background: #d0d0d0;
+  margin-right: 110px !important;
+}
+.spc_border2 {
+  width: 2px !important;
+  height: 40px !important;
+  background: #d0d0d0;
+  margin-left: 200px !important;
+}
+.spc_bottomborder {
+  display: flex !important;
+  padding-left: 14% !important;
+  padding-top: 3% !important;
+  padding-bottom: 4% !important;
+}
+.spc_arrow_ {
+  padding-left: 7px !important;
+  padding-top: 5px !important;
+}
+@media only screen and (max-width: 900px) {
+  .spc_home_bottom_gird {
+    margin-bottom: 5% !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .spc_home_btn {
+    font-size: 12px !important;
+  }
+  .spc_footer_btn {
+    font-size: 12px !important;
+  }
+  .spc_footer_img {
+    padding-top: 2% !important;
+  }
+  .spc_footertypo {
+    font-size: 33px !important;
+  }
+  .spc_footerpara {
+    font-size: 17px !important;
+  }
+  .spc_carouselheading {
+    font-size: 24px !important;
+  }
+  .spc_home_heading_typo {
+    font-size: 24px !important;
+  }
+  .spc_bottomborder {
+    padding-left: 20% !important;
+  }
+  .spc_border2 {
+    margin-left: 88px !important;
+  }
+}

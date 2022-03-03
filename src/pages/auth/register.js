@@ -1,8 +1,13 @@
 import React from "react";
 
+import Appbar from "../../pages/auth/spc/components/Appbar";
+import Quadralogo from "../../pages/auth/spc/assets/images/Quadralogo.svg";
+
 export default function register(props) {
       const {translate} = props;
   return (
+    <>
+    <Appbar logo={Quadralogo} dark={true}/>
     <div className="w-full  md:mx-auto my-5 ">
       <div className="container  mx-auto">
         <div className="flex justify-center px-6 ">
@@ -131,5 +136,6 @@ export default function register(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
