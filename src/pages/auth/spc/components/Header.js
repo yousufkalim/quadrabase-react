@@ -9,13 +9,13 @@ import Quadralogo from "../assets/images/Quadralogo.svg";
 import { useHistory } from "react-router-dom";
 
 // Component
-export default function Header() {
-
+export default function Header(props) {
   const history = useHistory();
 
   const navToRegister = () => {
-    history.push("/auth/register");
-  }
+    // history.push("/auth/register");
+    window.open("https://quadrabase-architect.web.app/signup", "_blank");
+  };
 
   return (
     <div className="spc_headerdiv">
@@ -35,10 +35,16 @@ export default function Header() {
           Géomètres Experts
         </Typography>
         <div className="spc_btndiv">
-          <Button className="spc_herobtn1" sx={{ marginRight: "1%" }}>
+          <Button
+            className="spc_herobtn1"
+            sx={{ marginRight: "1%" }}
+            onClick={props.handleScroll}
+          >
             En savior plus
           </Button>
-          <Button className="spc_herobtn2" onClick={navToRegister}>S'inscrire</Button>
+          <Button className="spc_herobtn2" onClick={navToRegister}>
+            S'inscrire
+          </Button>
         </div>
       </div>
     </div>

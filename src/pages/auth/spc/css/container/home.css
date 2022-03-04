@@ -53,6 +53,7 @@
   color: #ffffff !important;
   width: 200px !important;
   height: 57.89px !important;
+  text-transform: initial !important;
 }
 .spc_btn_div {
   display: flex !important;
@@ -97,7 +98,7 @@
   background: #e1e1e1 !important;
   display: block;
   padding-top: 11px;
-  margin: 9px 0 0 2%;
+  margin: 9px 1% 0 3%;
 }
 .spc_footer_btn {
   border-radius: 11px !important;
@@ -108,6 +109,7 @@
   color: #a39b96 !important;
   width: 200px !important;
   height: 57.89px !important;
+  text-transform: initial !important;
 }
 .spc_footertypo {
   font-style: normal !important;
@@ -223,6 +225,9 @@
 .spc_arrow_ {
   padding-left: 7px !important;
   padding-top: 5px !important;
+}
+.scroll {
+  scroll-behavior: smooth !important;
 }
 @media only screen and (max-width: 900px) {
   .spc_home_bottom_gird {

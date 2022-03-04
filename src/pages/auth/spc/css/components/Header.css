@@ -49,6 +49,7 @@
   box-shadow: 0px 8px 20px rgba(175, 59, 0, 0.16) !important;
   border-radius: 11px !important;
   color: #470625 !important;
+  text-transform: initial !important;
 }
 .spc_herobtn2 {
   width: 169.25px !important;
@@ -59,6 +60,7 @@
   border: 1px solid #ffffff !important;
   box-sizing: border-box !important;
   border-radius: 11px !important;
+  text-transform: capitalize !important;
 }
 .spc_btndiv {
   padding: 4% 0 !important;
