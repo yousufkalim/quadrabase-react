@@ -220,21 +220,25 @@ export default function Index(props) {
   // add subscription
   const handleSubmit = async () => {
     try {
-      let response = await Axios({
-        method: "put",
-        url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
-        data: {
-          subscriptionId: value,
-          start_date: startDate,
-          end_date: endDate,
-          projects: projects,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      Notifier(response.data.message, "success", translate);
-      handleSubscriptionModal();
+      if (!value) {
+        Notifier("Subscription is required", "error", translate);
+      } else {
+        let response = await Axios({
+          method: "put",
+          url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
+          data: {
+            subscriptionId: value,
+            start_date: startDate,
+            end_date: endDate,
+            projects: projects,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        Notifier(response.data.message, "success", translate);
+        handleSubscriptionModal();
+      }
     } catch (error) {
       Notifier(error.response.data.message, "error", translate);
     }
