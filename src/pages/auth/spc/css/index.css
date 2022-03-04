@@ -2,7 +2,7 @@
 
 @import url("./components/index.css");
 @import url("./container/index.css");
-@import url('https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Urbanist&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Urbanist&display=swap");
 
 /* Defaults */
 * {

@@ -85,6 +85,7 @@ export default function AddExpense(props) {
             type="number"
             label={translate("PU HT")}
             name="unit_price"
+            placeholder="0.00"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
           />

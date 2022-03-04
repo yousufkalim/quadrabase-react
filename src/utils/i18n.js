@@ -303,10 +303,32 @@ i18n
           Add: "Add",
           "Associated Provider": "Associated Provider",
           Remove: "Remove",
-          "Must be exactly 5 characters":"Must be exactly 5 characters",
-          "Required":"Required",
-          "Invalid email address":"Invalid email address",
-          
+          "Must be exactly 5 characters": "Must be exactly 5 characters",
+          Required: "Required",
+          "Invalid email address": "Invalid email address",
+          "Add Chap0": "Add Chap0",
+          "Edit Chap0": "Edit Chap0",
+          "Add Chap0 Level2": "Add Chap0 Level2",
+          "Edit Chap0 Level2": "Edit Chap0 Level2",
+          "Add Chap0 Level3": "Add Chap0 Level3",
+          "Edit Chap0 Level3": "Edit Chap0 Level3",
+          "Add Chap0Level1": "Add Chap0Level1",
+          AddChap0Level2: "Add Chap0Level2",
+          AddChap0Level3: "Add Chap0Level3",
+          "Chap0Level2 created successfully":
+            "Chap0Level2 created successfully",
+          "Chap0Level2 updated successfully":
+            "Chap0Level2 updated successfully",
+          "Chap0Level2 deleted successfully":
+            "Chap0Level2 deleted successfully",
+          "Chap0Level3 created successfully":
+            "Chap0Level3 created successfully",
+          "Chap0Level3 updated successfully":
+            "Chap0Level3 updated successfully",
+          "Chap0Level3 deleted successfully":
+            "Chap0Level3 deleted successfully",
+          "Chap0Level3 deleted successfully":
+            "Chap0Level3 deleted successfully",
         },
       },
       fr: {
@@ -489,7 +511,8 @@ i18n
           "Work Detail updated Successfully":
             "Détail d'ouvrage mis à jour avec succès",
           "Work Detail  not found": "Détail du travail introuvable",
-          "WorkDetail deleted successfully": "Détail d'ouvrage supprimé avec succès",
+          "WorkDetail deleted successfully":
+            "Détail d'ouvrage supprimé avec succès",
           //    CCTP
           "CCTP already exists": "Le CCTP existe déjà",
           "CCTP created successfully": "CCTP créé avec succès",
@@ -603,9 +626,28 @@ i18n
           Add: "Ajouter",
           "Associated Provider": "Fabricant associé",
           Remove: "Retirer",
-          "Must be exactly 5 characters":"Code postal incorrect",
-          "Required":"Champ obligatoire",
-          "Invalid email address":"E-mail incorrect",
+          "Must be exactly 5 characters": "Code postal incorrect",
+          Required: "Champ obligatoire",
+          "Invalid email address": "E-mail incorrect",
+          "Add Chap0": "Ajouter Chap0",
+          "Edit Chap0": "Modifier Chap0",
+          "Add Chap0 Level2": "Ajouter Chap0 Level2",
+          "Edit Chap0 Level2": "Modifier Chap0 Level2",
+          "Add Chap0 Level3": "Ajouter Chap0 Level3",
+          "Edit Chap0 Level3": "Modifier Chap0 Level3",
+          "Add Chap0Level1": "Ajouter Chap0Level1",
+          AddChap0Level2: "Ajouter Chap0Level2",
+          AddChap0Level3: "Ajouter Chap0Level3",
+          "Chap0Level2 created successfully": "Chap0Level2 créé avec succès",
+          "Chap0Level2 updated successfully":
+            "Chap0Level2 mis à jour avec succès",
+          "Chap0Level2 deleted successfully":
+            "Chap0Level2 supprimé avec succès",
+          "Chap0Level3 created successfully": "Chap0Level3 créé avec succès",
+          "Chap0Level3 updated successfully":
+            "Chap0Level3 mis à jour avec succès",
+          "Chap0Level3 deleted successfully":
+            "Chap0Level3 supprimé avec succès",
         },
       },
     },
