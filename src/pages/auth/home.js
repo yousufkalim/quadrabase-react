@@ -1,5 +1,7 @@
 // Init
 import React from "react";
+import { useRef } from "react";
+
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -23,6 +25,19 @@ import Header from "../../pages/auth/spc/components/Header";
 
 // Home Component
 export default function Home() {
+  const [index, setIndex] = React.useState(0);
+  const handleChange = (newValue) => {
+    setIndex(newValue);
+  };
+
+  const navToRegister = () => {
+    // history.push("/auth/register");
+    window.open("https://quadrabase-architect.web.app/signup", "_blank");
+  };
+  const myRef = useRef(null);
+  const executeScroll = () =>
+    myRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+
   let data = [
     {
       icon: Icon1,
@@ -83,8 +98,8 @@ export default function Home() {
   ];
   return (
     <>
-      <Header />
-      <div>
+      <Header handleScroll={executeScroll} />
+      <div ref={myRef} className="scroll">
         <div className="spc_home_heading">
           <Typography className="spc_home_heading_typo">
             Intérêt pour le prescripteur
@@ -96,7 +111,10 @@ export default function Home() {
             <>
               <Grid xs={12} sm={12} md={4} className="spc_homegrid">
                 <img src={items.icon}></img>
-                <Typography className="spc_grid_heading" style={{ paddingTop: "6%", paddingBottom: "8%" }}>
+                <Typography
+                  className="spc_grid_heading"
+                  style={{ paddingTop: "6%", paddingBottom: "8%" }}
+                >
                   {items.heading}
                 </Typography>
                 <Typography className="spc_grid_para">{items.text}</Typography>
@@ -105,7 +123,9 @@ export default function Home() {
           ))}
         </Grid>
         <div className="spc_btn_div">
-          <Button className="spc_home_btn">Schedule demo</Button>
+          <Button className="spc_home_btn" onClick={navToRegister}>
+            S'inscrire
+          </Button>
         </div>
         <Divider
           variant="middle"
@@ -139,11 +159,17 @@ export default function Home() {
                     marginBottom: "10%",
                   }}
                 />
-                <Typography className="spc_grid_para" sx={{ paddingBottom: "5%" }}>
+                <Typography
+                  className="spc_grid_para"
+                  sx={{ paddingBottom: "5%" }}
+                >
                   {items.text}
                 </Typography>
                 <div className="spc_readmorediv">
-                  <Typography className="spc_readmore" sx={{ paddingBottom: "5%" }}>
+                  <Typography
+                    className="spc_readmore"
+                    sx={{ paddingBottom: "5%" }}
+                  >
                     {items.button}
                   </Typography>
                   <div>
@@ -166,6 +192,7 @@ export default function Home() {
       <div>
         <div
           className="spc_"
+          index={index}
           style={{
             display: "flex",
 
@@ -173,13 +200,26 @@ export default function Home() {
             padding: "0 7% 0 7%",
           }}
         >
-          <Button className="spc_home_btn">Les fonctionnalités</Button>
-          <div className="spc_divider"></div>
-          <Button className="spc_footer_btn" sx={{ marginLeft: "1%" }}>
+          <Button
+            className={`${index == "0" ? "spc_home_btn" : "spc_footer_btn"}`}
+            onClick={() => handleChange(0)}
+          >
             Les fonctionnalités
           </Button>
           <div className="spc_divider"></div>
-          <Button className="spc_footer_btn" sx={{ marginLeft: "1%" }}>
+          <Button
+            className={`${index == "1" ? "spc_home_btn" : "spc_footer_btn"}`}
+            onClick={() => handleChange(1)}
+            sx={{ marginLeft: "1%" }}
+          >
+            Les fonctionnalités
+          </Button>
+          <div className="spc_divider"></div>
+          <Button
+            className={`${index == "2" ? "spc_home_btn" : "spc_footer_btn"}`}
+            onClick={() => handleChange(2)}
+            sx={{ marginLeft: "1%" }}
+          >
             Les fonctionnalités
           </Button>
         </div>
@@ -189,7 +229,7 @@ export default function Home() {
             sx={{
               background: "#DBDBDB",
               borderWidth: "1px",
-              width: "50% !Important",
+              width: "45% !Important",
               borderRadius: "20px",
               marginTop: "1% !Important",
               marginBottom: "2%",
@@ -204,19 +244,20 @@ export default function Home() {
               className="spc_footer_img"
             ></img>
           </Grid>
-          <Grid xs={12} sm={12} md={6} className="spc_fottergrid">
-            <Typography className="spc_footertypo" style={{ paddingBottom: "5%" }}>
-              Création et gestion des projets
+          <Grid xs={12} sm={12} md={5} className="spc_fottergrid">
+            <Typography
+              className="spc_footertypo"
+              style={{ paddingBottom: "5%" }}
+            >
+              Création et gestion
+              <br /> des projets
             </Typography>
             <Typography className="spc_footerpara">
               Lorem ipsum dolor sit amet, <br /> consectetur adipiscing elit
               fusce varius <br /> justo et scelerisque varius nullam mollis
             </Typography>
             <div className="spc_readmorediv" style={{ paddingTop: "5%" }}>
-              <Typography
-                className="spc_readmore"
-                sx={{ paddingRight: "2%" }}
-              >
+              <Typography className="spc_readmore" sx={{ paddingRight: "2%" }}>
                 Read more
               </Typography>
               <div style={{ paddingLeft: "3% !important" }}>
