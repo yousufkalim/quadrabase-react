@@ -329,6 +329,7 @@ i18n
             "Chap0Level3 deleted successfully",
           "Chap0Level3 deleted successfully":
             "Chap0Level3 deleted successfully",
+          "Subscription is required": "Subscription is required",
         },
       },
       fr: {
@@ -648,6 +649,7 @@ i18n
             "Chap0Level3 mis à jour avec succès",
           "Chap0Level3 deleted successfully":
             "Chap0Level3 supprimé avec succès",
+          "Subscription is required": "L'abonnement est requis",
         },
       },
     },
