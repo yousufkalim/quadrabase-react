@@ -16,30 +16,29 @@ import Quadralogo from "../assets/images/Quadralogo.svg";
 import { useHistory } from "react-router-dom";
 
 const pages = [
-  {
-    title: "Présentation",
-    path: null
-  },
+  // {
+  //   title: "Présentation",
+  //   path: null
+  // },
   {
     title: "Supports pédagogiques",
-    path: "/auth/support"
+    path: "/auth/support",
   },
   {
     title: "Documentation",
-    path: "/auth/documentation"
+    path: "/auth/documentation",
   },
   {
     title: "Fabricants",
-    path: null
+    path: null,
   },
-  {
-    title: "Commande",
-    path: null
-  },
+  // {
+  //   title: "Commande",
+  //   path: null
+  // },
 ];
 
 const ResponsiveAppBar = (props) => {
-
   const history = useHistory();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -54,10 +53,10 @@ const ResponsiveAppBar = (props) => {
   };
 
   const navTo = (path) => {
-    if(path){
+    if (path) {
       history.push(path);
     }
-  }
+  };
 
   return (
     <AppBar position="static" className="spc_appbardiv">
@@ -103,12 +102,10 @@ const ResponsiveAppBar = (props) => {
               {pages.map((page) => (
                 <MenuItem
                   key={page.title}
-                  onClick={
-                    () => {
-                      navTo(page.path);
-                      handleCloseNavMenu();
-                    }
-                  }
+                  onClick={() => {
+                    navTo(page.path);
+                    handleCloseNavMenu();
+                  }}
                 >
                   <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
@@ -136,12 +133,10 @@ const ResponsiveAppBar = (props) => {
             {pages.map((page) => (
               <Button
                 key={page.title}
-                onClick={
-                  () => {
-                    navTo(page.path);
-                    handleCloseNavMenu();
-                  }
-                }
+                onClick={() => {
+                  navTo(page.path);
+                  handleCloseNavMenu();
+                }}
                 sx={{
                   my: 2,
                   color: props.dark ? "black" : "white",
@@ -155,10 +150,16 @@ const ResponsiveAppBar = (props) => {
             ))}
           </Box>
           <Box sx={{ display: "flex" }}>
-            <Button className="spc_Appbar_contct_btn" sx={{ marginRight: "3%" }}>
+            <Button
+              className="spc_Appbar_contct_btn"
+              sx={{ marginRight: "3%" }}
+            >
               Contact
             </Button>
-            <Button className="spc_Appbar_connect_btn" onClick={() => navTo("/auth/login")}>
+            <Button
+              className="spc_Appbar_connect_btn"
+              onClick={() => navTo("/auth/login")}
+            >
               Connect
             </Button>
           </Box>
