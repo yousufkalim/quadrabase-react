@@ -10,50 +10,51 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-const CollapseData = () => {
-  let data = [
-    {
-      title: "Structure de la base de données",
-      avatartitle: "1",
-    },
-    {
-      title: "Connexion à l'application Quadrabase",
-      avatartitle: "2",
-    },
-    {
-      title: "Créer et gérer un Projet",
-      avatartitle: "3",
-    },
-    {
-      title: "Comprendre la page Projet",
-      avatartitle: "4",
-    },
-    {
-      title: "Création de l'Estimation d'un Projet",
-      avatartitle: "5",
-    },
-    {
-      title: "Génération des documents",
-      avatartitle: "6",
-    },
-    {
-      title:
-        "Consultation des textes liés aux différents niveaux (Bibliothèques, Ouvrages).",
-      avatartitle: "7",
-    },
-    {
-      title: "Consultation des sites des Fabricants liés aux ouvrages",
-      avatartitle: "8",
-    },
-    {
-      title: "Création d'un ouvrage spécifique au Projet",
-      avatartitle: "9",
-    },
-  ];
+let mainData = [
+  {
+    title: "Structure de la base de données",
+    avatartitle: "1",
+  },
+  {
+    title: "Connexion à l'application Quadrabase",
+    avatartitle: "2",
+  },
+  {
+    title: "Créer et gérer un Projet",
+    avatartitle: "3",
+  },
+  {
+    title: "Comprendre la page Projet",
+    avatartitle: "4",
+  },
+  {
+    title: "Création de l'Estimation d'un Projet",
+    avatartitle: "5",
+  },
+  {
+    title: "Génération des documents",
+    avatartitle: "6",
+  },
+  {
+    title:
+      "Consultation des textes liés aux différents niveaux (Bibliothèques, Ouvrages).",
+    avatartitle: "7",
+  },
+  {
+    title: "Consultation des sites des Fabricants liés aux ouvrages",
+    avatartitle: "8",
+  },
+  {
+    title: "Création d'un ouvrage spécifique au Projet",
+    avatartitle: "9",
+  },
+];
+
+const CollapseStudyMaterial = () => {
   return (
     <>
       <Grid container spacing={1}>
-        {data.map((v) => (
+        {mainData.map((v) => (
           <Single {...v} />
         ))}
       </Grid>
@@ -81,7 +82,7 @@ function Single(props) {
 
   return (
     <Grid
-      sx={12}
+      xs={12}
       sm={12}
       md={12}
       sx={{ marginTop: "2%", display: "flex", justifyContent: "center" }}
@@ -169,4 +170,4 @@ function Single(props) {
   );
 }
 
-export default CollapseData;
+export default CollapseStudyMaterial;

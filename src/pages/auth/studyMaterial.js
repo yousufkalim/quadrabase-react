@@ -2,7 +2,7 @@ import React from "react";
 import Appbar from "./spc/components/Appbar";
 import Typography from "@mui/material/Typography";
 import Quadralogo from "./spc/assets/images/Quadralogo2.svg";
-import Collapse from "./spc/components/Collapse";
+import CollapseStudyMaterial from "./spc/components/CollapseStudyMaterial";
 import Grid from "@mui/material/Grid";
 
 const Support = () => {
@@ -23,7 +23,7 @@ const Support = () => {
           spacing={1}
           sx={{ paddingTop: "4%", paddingBottom: "4%" }}
         >
-          <Collapse></Collapse>
+          <CollapseStudyMaterial />
         </Grid>
       </div>
     </>
