@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -9,9 +9,11 @@ import DocumentationPDFDownloadIcon from "../assets/images/DocumentationPDFDownl
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import DownloadIcon from "@mui/icons-material/Download";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+
+import Axios from "axios";
+import { baseUrl } from "../../../../utils/BaseUrl";
 
 const dataMain = [
   {
@@ -57,13 +59,38 @@ const dataDownloadables = [
 ];
 
 const CollapseDocumentation = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [downloadables, setDownloadables] = useState([]);
+
+  useEffect(() => {
+    getAllDownloadables();
+  }, []);
+
+  const getAllDownloadables = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/StudyMaterials`,
+      });
+      setDownloadables(response.data.filesArr);
+    } catch (error) {
+      console.log(error?.response?.data?.message, "error ");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <>
-      <Grid container spacing={1}>
-        {dataMain.map((v) => (
-          <Single {...v} />
-        ))}
-      </Grid>
+      {
+        isLoading ?
+        <></> :
+        <Grid container spacing={1}>
+          {dataMain.map((v) => (
+            <Single {...v} downloadables={downloadables} />
+          ))}
+        </Grid>
+      }
     </>
   );
 };
@@ -77,7 +104,7 @@ function Single(props) {
 
   return (
     <Grid
-      sx={12}
+      xs={12}
       sm={12}
       md={12}
       sx={{ marginTop: "2%", display: "flex", justifyContent: "center" }}
@@ -113,7 +140,7 @@ function Single(props) {
           title={<Typography className="spc_title">{props.title}</Typography>}
         />
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {dataDownloadables.map((v) => (
+          {props.downloadables.map((v) => (
             <SingleDownloadable {...v} />
           ))}
         </Collapse>
@@ -123,6 +150,11 @@ function Single(props) {
 }
 
 function SingleDownloadable(props) {
+
+  const triggerDownload = (path) => {
+    window.open(`${process.env.REACT_APP_URI}/${path}`, "_blank")
+  }
+
   return (
     <CardContent sx={{ background: "#F5F6F8", padding: "" }}>
       <Card
@@ -149,7 +181,9 @@ function SingleDownloadable(props) {
               style={{
                 marginTop: "50%",
                 width: "80%",
+                cursor: "pointer"
               }}
+              onClick={() => triggerDownload(props.path)}
             />
           }
           title={
@@ -157,13 +191,13 @@ function SingleDownloadable(props) {
               style={{ fontSize: "14px", fontWeight: "600" }}
               className="spc_doctitle"
             >
-              {props.title}
+              {props.name}
             </Typography>
           }
           subheader={
             <Typography
               style={{ fontSize: "12px", fontWeight: "300" }}
-            >{`${props.size} MB`}</Typography>
+            >{`${props.size}`}</Typography>
           }
         />
       </Card>
