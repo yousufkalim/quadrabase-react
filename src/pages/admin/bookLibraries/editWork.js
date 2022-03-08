@@ -222,6 +222,8 @@ export default function AddExpense(props) {
                 editData?.providers[0]?.documents[0]?.uri.split("/").pop()
               );
               setDocuments(editData?.providers[0]?.documents);
+            } else {
+              setFilteredOptions(ProviderOptions);
             }
           } else {
             formik.setFieldValue(dat, editData[dat]);
@@ -418,6 +420,7 @@ export default function AddExpense(props) {
               height: 35,
               padding: 4,
               borderRadius: 4,
+              backgroundColor: associatedProviders.length === 0 && "lightgray",
             }}
           >
             <label style={{ cursor: "pointer" }}>
@@ -430,6 +433,7 @@ export default function AddExpense(props) {
                 onChange={handleFileChange}
                 multiple={true}
                 style={{ display: "none" }}
+                disabled={associatedProviders.length === 0}
               />
             </label>
           </div>
