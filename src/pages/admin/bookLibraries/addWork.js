@@ -363,6 +363,7 @@ export default function AddExpense(props) {
               height: 35,
               padding: 4,
               borderRadius: 4,
+              backgroundColor: associatedProviders.length === 0 && "lightgray",
             }}
           >
             <label style={{ cursor: "pointer" }}>
@@ -375,6 +376,7 @@ export default function AddExpense(props) {
                 onChange={handleFileChange}
                 multiple={true}
                 style={{ display: "none" }}
+                disabled={associatedProviders.length === 0}
               />
             </label>
           </div>

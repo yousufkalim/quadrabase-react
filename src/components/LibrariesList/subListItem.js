@@ -66,6 +66,8 @@ export default function subList(props) {
           primary={
             level === "level0"
               ? `${translate("Libraries")} ${name}`
+              : level === "level3"
+              ? name
               : name.toUpperCase()
           }
           primaryTypographyProps={{
@@ -73,8 +75,8 @@ export default function subList(props) {
           }}
           // onClick={() => handleClick(level, _id, obj)}
           onClick={() => {
-            if(level !== "level0"){
-              if(open){
+            if (level !== "level0") {
+              if (open) {
                 setLoadingData("");
                 handleClick(level, _id, obj);
               } else {
@@ -84,7 +86,7 @@ export default function subList(props) {
                 handleClick(level, _id, obj);
               }
             } else {
-              if(open){
+              if (open) {
                 setLoadingData("");
                 handleClick(level, _id, obj);
               } else {
@@ -99,7 +101,7 @@ export default function subList(props) {
           // This will lead to disaster otherwise.
           // Best Wishes,
           // Umar
-          // March 02, 2021. 
+          // March 02, 2021.
         />
         {level === "level0" &&
           (open ? (
