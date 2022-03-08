@@ -151,16 +151,10 @@ const ResponsiveAppBar = (props) => {
           </Box>
           <Box sx={{ display: "flex" }}>
             <Button
-              className="spc_Appbar_contct_btn"
-              sx={{ marginRight: "3%" }}
-            >
-              Contact
-            </Button>
-            <Button
               className="spc_Appbar_connect_btn"
               onClick={() => navTo("/auth/login")}
             >
-              Connect
+              Login
             </Button>
           </Box>
         </Toolbar>
