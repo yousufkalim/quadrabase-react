@@ -1193,8 +1193,10 @@ export default function Index(props) {
             handleClick={handleClick}
             getChap0Level2={getChap0Level2}
             items={chap0Level2Data}
+            setItems={setChap0Level2Data}
             getChap0Level3={getChap0Level3}
             items2={chap0Level3Data}
+            setItems2={setChap0Level3Data}
           />
         </div>
       </div>

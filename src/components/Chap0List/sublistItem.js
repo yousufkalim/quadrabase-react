@@ -22,7 +22,7 @@ export default function subList(props) {
     _id,
     getNextLevel,
     translate,
-    // setPrevLevel,
+    setPrevLevel,
     setCurrentFamily,
     setLoadingData,
   } = props;
@@ -39,7 +39,7 @@ export default function subList(props) {
         dense={true}
         style={{
           backgroundColor: level === "level0" && "white",
-          height: 40,
+          height: 43,
         }}
       >
         {level !== "lastLevel" ? (
@@ -47,7 +47,6 @@ export default function subList(props) {
             <FontAwesomeIcon
               icon={faAngleDown}
               onClick={() => {
-                // setLoadingData("");
                 handleClick(level, _id, obj);
               }}
             />
@@ -55,8 +54,7 @@ export default function subList(props) {
             <FontAwesomeIcon
               icon={faAngleRight}
               onClick={() => {
-                // setPrevLevel([]);
-                // setLoadingData(_id);
+                setPrevLevel([]);
                 getNextLevel(_id);
                 handleClick(level, _id, obj);
               }}
@@ -80,7 +78,18 @@ export default function subList(props) {
           primaryTypographyProps={{
             style: { fontWeight: props.nameBold ? "bold" : "normal" },
           }}
-          onClick={() => handleClick(level, _id, obj)}
+          onClick={() => {
+            if (level !== "lastLevel") {
+              if (open) {
+                handleClick(level, _id, obj);
+              } else {
+                setPrevLevel([]);
+                // setLoadingData(_id);
+                getNextLevel(_id);
+                handleClick(level, _id, obj);
+              }
+            }
+          }}
         />
         {level === "level0" &&
           (open ? (
@@ -95,9 +104,6 @@ export default function subList(props) {
             <FontAwesomeIcon
               icon={faAngleUp}
               onClick={() => {
-                // setCurrentFamily(_id);
-                // setPrevLevel([]);
-                // setLoadingData(_id);
                 getNextLevel(_id);
                 handleClick(level, _id, obj);
               }}

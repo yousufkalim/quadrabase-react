@@ -62,6 +62,7 @@ function NestedList(props) {
                   handleClick={handleClick}
                   open={openlevel1}
                   getNextLevel={props.getChap0Level2}
+                  setPrevLevel={props.setItems}
                 />
 
                 <Collapse in={openlevel1} timeout="auto" unmountOnExit>
@@ -88,6 +89,7 @@ function NestedList(props) {
                               handleClick={handleClick}
                               open={openlevel2}
                               getNextLevel={props.getChap0Level3}
+                              setPrevLevel={props.setItems2}
                             />
                             <Collapse
                               in={openlevel2}
