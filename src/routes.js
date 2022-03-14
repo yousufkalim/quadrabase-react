@@ -1,6 +1,7 @@
 import Admin from "./pages/admin";
 import Architects from "./pages/admin/architects";
 import BookLibraries from "./pages/admin/bookLibraries";
+import PrivateLibraries from "./pages/admin/bookLibraries/PrivateLibraries";
 import Providers from "./pages/admin/providers";
 
 import AdminsList from "./pages/admin/admins";
@@ -58,6 +59,13 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: BookLibraries,
+    layout: "/admin",
+  },
+  {
+    path: "/privateLibraries",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: PrivateLibraries,
     layout: "/admin",
   },
   {

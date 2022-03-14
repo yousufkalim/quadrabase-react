@@ -38,6 +38,11 @@ function NestedList(props) {
     setCurrentFamily,
     loadingData,
     setLoadingData,
+    type,
+    handleOpenLib,
+    openLib,
+    openCat,
+    openWork,
   } = props;
 
   return (
@@ -65,6 +70,7 @@ function NestedList(props) {
                   setPrevLevel={setlibrariesData}
                   setCurrentFamily={setCurrentFamily}
                   setLoadingData={setLoadingData}
+                  type={type}
                 />
                 <div style={{ minHeight: 3 }}>
                   {loadingData === item._id && (
@@ -88,10 +94,16 @@ function NestedList(props) {
                             categories: items,
                             works: items2,
                             work_details: subchildItems,
+                            architect,
                           },
                           index
                         ) => {
-                          let openlevel1 = state["level1"][name] || false;
+                          let openlevel1;
+                          if (type === "private") {
+                            openlevel1 = openLib === parentId || false;
+                          } else {
+                            openlevel1 = state["level1"][name] || false;
+                          }
                           return (
                             <div key={parentId}>
                               <SubListItem
@@ -109,6 +121,12 @@ function NestedList(props) {
                                 getNextLevel={getLevel2}
                                 setPrevLevel={setLevel2}
                                 setLoadingData={setLoadingData}
+                                type={type}
+                                architect={
+                                  type === "private" &&
+                                  `${architect.first_name} ${architect.last_name}`
+                                }
+                                handleOpenLib={handleOpenLib}
                               />
                               {loadingData === parentId && (
                                 <Box sx={{ width: "100%" }}>
@@ -132,8 +150,14 @@ function NestedList(props) {
 
                                         index
                                       ) => {
-                                        let openlevel2 =
-                                          state["level2"][childName] || false;
+                                        let openlevel2;
+                                        if (type === "private") {
+                                          openlevel2 =
+                                            openCat === childId || false;
+                                        } else {
+                                          openlevel2 =
+                                            state["level2"][childName] || false;
+                                        }
                                         return (
                                           <>
                                             <SubListItem
@@ -150,6 +174,8 @@ function NestedList(props) {
                                               getNextLevel={getLevel3}
                                               setPrevLevel={setLevel3}
                                               setLoadingData={setLoadingData}
+                                              type={type}
+                                              handleOpenLib={handleOpenLib}
                                             />
                                             {loadingData === childId && (
                                               <Box sx={{ width: "100%" }}>
@@ -183,6 +209,16 @@ function NestedList(props) {
                                                           childName3
                                                         ] || false;
 
+                                                      if (type === "private") {
+                                                        openlevel3 =
+                                                          openWork ===
+                                                            childId3 || false;
+                                                      } else {
+                                                        openlevel3 =
+                                                          state["level3"][
+                                                            childName3
+                                                          ] || false;
+                                                      }
                                                       return (
                                                         <>
                                                           <SubListItem
@@ -210,6 +246,10 @@ function NestedList(props) {
                                                             }
                                                             setLoadingData={
                                                               setLoadingData
+                                                            }
+                                                            type={type}
+                                                            handleOpenLib={
+                                                              handleOpenLib
                                                             }
                                                           />
                                                           {loadingData ===
@@ -282,22 +322,25 @@ function NestedList(props) {
                                                                             </i>
                                                                           }
                                                                         />
-                                                                        <FontAwesomeIcon
-                                                                          icon={
-                                                                            faEllipsisV
-                                                                          }
-                                                                          onClick={(
-                                                                            e
-                                                                          ) =>
-                                                                            handleanchorEl(
-                                                                              e,
-                                                                              key4,
-                                                                              "level4",
-                                                                              index
-                                                                            )
-                                                                          }
-                                                                          id="demo-customized-button"
-                                                                        />
+                                                                        {type !==
+                                                                          "private" && (
+                                                                          <FontAwesomeIcon
+                                                                            icon={
+                                                                              faEllipsisV
+                                                                            }
+                                                                            onClick={(
+                                                                              e
+                                                                            ) =>
+                                                                              handleanchorEl(
+                                                                                e,
+                                                                                key4,
+                                                                                "level4",
+                                                                                index
+                                                                              )
+                                                                            }
+                                                                            id="demo-customized-button"
+                                                                          />
+                                                                        )}
                                                                       </ListItem>
                                                                     );
                                                                   }
