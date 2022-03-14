@@ -24,6 +24,9 @@ export default function subList(props) {
     setPrevLevel,
     setCurrentFamily,
     setLoadingData,
+    type,
+    architect,
+    handleOpenLib,
   } = props;
   let obj = {};
   obj[`${nodeKey}`] = nodeKey;
@@ -47,7 +50,12 @@ export default function subList(props) {
               icon={faAngleDown}
               onClick={() => {
                 setLoadingData("");
-                handleClick(level, _id, obj);
+
+                if (type === "private") {
+                  handleOpenLib("", level);
+                } else {
+                  handleClick(level, _id, obj);
+                }
               }}
             />
           ) : (
@@ -57,7 +65,11 @@ export default function subList(props) {
                 setPrevLevel([]);
                 setLoadingData(_id);
                 getNextLevel(_id);
-                handleClick(level, _id, obj);
+                if (type === "private") {
+                  handleOpenLib(_id, level);
+                } else {
+                  handleClick(level, _id, obj);
+                }
               }}
             />
           ))}
@@ -68,6 +80,8 @@ export default function subList(props) {
               ? `${translate("Libraries")} ${name}`
               : level === "level3"
               ? name
+              : level === "level1" && type === "private"
+              ? `${name.toUpperCase()} - ${architect}`
               : name.toUpperCase()
           }
           primaryTypographyProps={{
@@ -125,11 +139,13 @@ export default function subList(props) {
             />
           ))}
         {level === "level0" && <>&nbsp;&nbsp;&nbsp;&nbsp;</>}
-        <FontAwesomeIcon
-          icon={faEllipsisV}
-          onClick={(e) => handleanchorEl(e, _id, level)}
-          id="demo-customized-button"
-        />
+        {type !== "private" && (
+          <FontAwesomeIcon
+            icon={faEllipsisV}
+            onClick={(e) => handleanchorEl(e, _id, level)}
+            id="demo-customized-button"
+          />
+        )}
       </ListItem>
     </>
   );
