@@ -30,7 +30,7 @@ const pages = [
   },
   {
     title: "Fabricants",
-    path: null,
+    path: "/auth/fabricant",
   },
   // {
   //   title: "Commande",
@@ -150,6 +150,12 @@ const ResponsiveAppBar = (props) => {
             ))}
           </Box>
           <Box sx={{ display: "flex" }}>
+            <Button
+              className="spc_Appbar_contct_btn"
+              onClick={() => navTo("/auth/contact")}
+            >
+              Contact us
+            </Button>
             <Button
               className="spc_Appbar_connect_btn"
               onClick={() => navTo("/auth/login")}
