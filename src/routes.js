@@ -15,7 +15,8 @@ import Home from "./pages/auth/home";
 import StudyMaterial from "./pages/auth/studyMaterial";
 import Documentation from "./pages/auth/documentation";
 import Manufacturer from "./pages/auth/manufacturers";
-
+import Fabricant from "./pages/auth/fabricants";
+import Contact from "./pages/auth/contactUs";
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
 
@@ -159,6 +160,20 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Documentation,
+    layout: "/auth",
+  },
+  {
+    path: "/fabricant",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Fabricant,
+    layout: "/auth",
+  },
+  {
+    path: "/contact",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Contact,
     layout: "/auth",
   },
   {

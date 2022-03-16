@@ -8,10 +8,13 @@ import Grid from "@mui/material/Grid";
 const Documentation = () => {
   return (
     <>
-      <div className="spc_supportheaderdiv_noborder">
+      <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading" style={{ paddingBottom: "14%" }}>
+          <Typography
+            className="spc_suppportHeroheading"
+            style={{ paddingBottom: "14%" }}
+          >
             Documentation
           </Typography>
         </div>
