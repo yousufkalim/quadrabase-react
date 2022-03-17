@@ -1,6 +1,7 @@
 import React from "react";
 import SelectField from "../../../components/SelectField";
 import DatePicker from "react-flatpickr";
+import moment from "moment";
 
 const options = [
   {
@@ -47,6 +48,8 @@ const SubscriptionModal = ({
             placeholder="YYYY-MM-DD"
             onChange={(date) => {
               setStartDate(date[0]);
+              let tempEndDate = moment(date[0]).add(1, "years")._d;
+              setEndDate(tempEndDate);
             }}
           />
         </div>
@@ -64,9 +67,7 @@ const SubscriptionModal = ({
             options={{ minDate: startDate }}
             value={endDate}
             placeholder="YYYY-MM-DD"
-            onChange={(date) => {
-              setEndDate(date[0]);
-            }}
+            disabled={true}
           />
         </div>
       </div>
