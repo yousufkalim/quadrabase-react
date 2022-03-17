@@ -88,6 +88,28 @@ export default function AddExpense(props) {
             placeholder="0.00"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
+            onBlur={() => {
+              let existingDot = formik.values.unit_price
+                .toString()
+                .indexOf(".");
+              if (existingDot === -1) {
+                formik.setFieldValue(
+                  "unit_price",
+                  parseInt(formik.values.unit_price).toFixed(2)
+                );
+              }
+            }}
+            onFocus={() => {
+              let existingDot = formik.values.unit_price
+                .toString()
+                .indexOf(".");
+              if (existingDot === -1) {
+                formik.setFieldValue(
+                  "unit_price",
+                  parseInt(formik.values.unit_price).toFixed(2)
+                );
+              }
+            }}
           />
           <div className="text-red-600 ">
             {formik.touched.unit_price && formik.errors.unit_price ? (

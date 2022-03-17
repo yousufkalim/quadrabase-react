@@ -19,9 +19,11 @@ export default function index(props) {
         value={props.value}
         variant={props.variant ? props.variant : "outlined"}
       >
-        <option value="">
-          {props.translate ? props.translate(`${props.label}`) : props.label}
-        </option>
+        {props.label !== "Subscription" && (
+          <option value="">
+            {props.translate ? props.translate(`${props.label}`) : props.label}
+          </option>
+        )}
 
         {props?.options?.map((option) => (
           <option value={option._id}>

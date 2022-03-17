@@ -27,6 +27,8 @@ export default function index(props) {
           onChange={props.onChange}
           autoComplete="off"
           style={props.style}
+          onBlur={props.onBlur}
+          onFocus={props.onFocus}
         />
       </div>
     );
@@ -60,6 +62,8 @@ export default function index(props) {
           onChange={props.onChange}
           value={props.value}
           autoComplete="off"
+          onBlur={props.onBlur}
+          onFocus={props.onFocus}
         />
       </div>
     );

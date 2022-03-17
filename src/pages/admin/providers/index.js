@@ -39,7 +39,7 @@ export default function Index(props) {
 
   // states for subscription
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
-  const [name, setName] = React.useState("");
+  const [name, setName] = React.useState("Advertising");
   const [startDate, setStartDate] = React.useState();
   const [endDate, setEndDate] = React.useState();
 
