@@ -225,6 +225,11 @@ export default function AddExpense(props) {
             } else {
               setFilteredOptions(ProviderOptions);
             }
+          } else if (dat == "unit_price") {
+            formik.setFieldValue(
+              "unit_price",
+              parseInt(editData[dat]).toFixed(2)
+            );
           } else {
             formik.setFieldValue(dat, editData[dat]);
           }
@@ -256,6 +261,28 @@ export default function AddExpense(props) {
             name="unit_price"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
+            onBlur={() => {
+              let existingDot = formik.values.unit_price
+                .toString()
+                .indexOf(".");
+              if (existingDot === -1) {
+                formik.setFieldValue(
+                  "unit_price",
+                  parseInt(formik.values.unit_price).toFixed(2)
+                );
+              }
+            }}
+            onFocus={() => {
+              let existingDot = formik.values.unit_price
+                .toString()
+                .indexOf(".");
+              if (existingDot === -1) {
+                formik.setFieldValue(
+                  "unit_price",
+                  parseInt(formik.values.unit_price).toFixed(2)
+                );
+              }
+            }}
           />
           <small className="text-red-600 ">
             {formik.touched.unit_price && formik.errors.unit_price ? (
