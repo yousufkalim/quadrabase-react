@@ -42,57 +42,57 @@ export default function Home() {
     {
       icon: Icon1,
       heading: "Gain de temps en conception",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "S’appuyant sur une base de données de plus de 43’000 ouvrages/prestations/produits, Quadrabase couvrira plus de 80% des besoins pour vos projets. Le concept utilisé, déposé et protégé à l’INPI, vous permettra de diviser par 4 le temps de conception de vos documents techniques.",
     },
     {
       icon: Icon2,
       heading: "Textes prérédigés à forte valeur ajoutée",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "Une attention toute particulière à été mise dans le contenu des descriptifs d’ouvrages ainsi que pour les textes composant les différents chapitres du CCTP afin de vous assurer un contenu le plus adapté et complet possible.      ",
     },
     {
       icon: Icon3,
       heading: "Adaptation des textes suivant les spécificités ",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "Vous aurez à tout moment la possibilité de modifier et enrichir les informations de base proposées pour les adapter aux spécificités de votre projet.",
     },
     {
       icon: Icon4,
       heading: "Génération automatique des documents",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "Après la construction de la grille projet, un simple clic sur le document à produire lancera sa génération et sa mise en page automatiquement au format souhaité (Excel, Word ou PDF). Si besoin, vous pourrez toujours revenir modifier votre document initial et autant de fois que nécessaire.",
     },
     {
       icon: Icon5,
       heading: "Sélection de fabricants avec lien vers leur site",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "Nous avons sélectionné pour vous les Fabricants Français des produits du BTP. Ils seront d’une part, listés et classés suivant leur domaine d’activité et d’autre part, référencés au droit des Ouvrages/Prestations/Produits qui les concernent. Un lien hypertexte permettra d’accéder directement sur leur site internet.",
     },
     {
       icon: Icon6,
       heading: "Prix très compétitifs",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius justo et scelerisque varius. Nullam mollis augue et facilisis blandit. Morbi sollicitudin",
+      text: "Les tarifs de nos services ont été spécialement étudiés pour qu’ils soient les plus adaptés à vos budgets.",
     },
   ];
   let cardData = [
     {
       icon: Icon7,
       heading: "ESTIMATION",
-      text: "Ce document n'est pas diffusé.Le montant total de l'estimation financière résulte de.",
+      text: "Ce document n'est pas diffusé.Le montant total de l'estimation financière résulte de la somme des produits des quantités estimées par les prix unitaires.",
       button: "Read more",
     },
     {
       icon: Icon8,
       heading: "DQE",
-      text: "Le Détail Quantitatif et Estimatif (DQE) est le document, en principe non contractuel.",
+      text: "Le Détail Quantitatif et Estimatif (DQE) est le document, en principe non contractuel, qui liste les ouvrages et prestations à réaliser dans le cadre du projet. Il est destiné à permettre la comparaison des prix entre les offres des candidats.",
       button: "Read more",
     },
     {
       icon: Icon9,
       heading: "BPU",
-      text: "Le Bordereau des Prix Unitaire (BPU) est le document contractuel destiné à.",
+      text: "Le Bordereau des Prix Unitaire (BPU) est le document contractuel destiné à décrire plus en détail le contenu des ouvrages et prestations à réaliser. Il représente l'offre financière du candidat pour chacun des ouvrages ou prestations à réaliser dans le cadre du projet.",
       button: "Read more",
     },
     {
       icon: Icon10,
       heading: "CCTP",
-      text: "Le Cahier des Clauses Techniques Particulières (CCTP) est le document.",
+      text: "Le Cahier des Clauses Techniques Particulières (CCTP) est le document contractuel qui rassemble les prescriptions techniques et réglementaires qui devront être prises en compte pour la réalisation des ouvrages ou prestations.Il complète le BPU.",
       button: "Read more",
     },
   ];
@@ -168,7 +168,7 @@ export default function Home() {
                 <div className="spc_readmorediv">
                   <Typography
                     className="spc_readmore"
-                    sx={{ paddingBottom: "5%" }}
+                    sx={{ paddingBottom: "5%", cursor: "pointer" }}
                   >
                     {items.button}
                   </Typography>

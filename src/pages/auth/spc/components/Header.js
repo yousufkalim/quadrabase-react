@@ -40,7 +40,7 @@ export default function Header(props) {
             sx={{ marginRight: "1%" }}
             onClick={props.handleScroll}
           >
-            En savior plus
+            En savoir plus
           </Button>
           <Button className="spc_herobtn2" onClick={navToRegister}>
             S'inscrire
