@@ -38,25 +38,25 @@ const Contact = () => {
             <div className="contactform">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Nom"
                 name="name"
                 className="inputfield"
               />
               <input
                 type="text"
                 name="number"
-                placeholder="Contact No"
+                placeholder="Numéro de contact"
                 className="inputfield"
               />
               <input
                 type="text"
                 name="email"
-                placeholder="Email Address"
+                placeholder="Adresse e-mail"
                 className="inputfield"
               />
               <textarea
                 type="text"
-                placeholder="You want to ask?"
+                placeholder="Vous voulez demander?"
                 name="message"
                 className="textarea"
               />

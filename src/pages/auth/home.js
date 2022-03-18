@@ -13,16 +13,12 @@ import Icon3 from "./spc/assets/images/icon3.svg";
 import Icon4 from "./spc/assets/images/icon4.svg";
 import Icon5 from "./spc/assets/images/icon5.svg";
 import Icon6 from "./spc/assets/images/icon6.svg";
-import Icon7 from "./spc/assets/images/icon7.svg";
-import Icon8 from "./spc/assets/images/icon8.svg";
-import Icon9 from "./spc/assets/images/icon9.svg";
-import Icon10 from "./spc/assets/images/icon10.svg";
 import Arrow from "./spc/assets/images/arrow.svg";
 import Footerimg from "./spc/assets/images/footerimg.svg";
 
 // Importing Components
 import Header from "../../pages/auth/spc/components/Header";
-
+import DocumentProduits from "./spc/components/DocumentProduits";
 // Home Component
 export default function Home() {
   const [index, setIndex] = React.useState(0);
@@ -70,32 +66,7 @@ export default function Home() {
       text: "Les tarifs de nos services ont été spécialement étudiés pour qu’ils soient les plus adaptés à vos budgets.",
     },
   ];
-  let cardData = [
-    {
-      icon: Icon7,
-      heading: "ESTIMATION",
-      text: "Ce document n'est pas diffusé.Le montant total de l'estimation financière résulte de la somme des produits des quantités estimées par les prix unitaires.",
-      button: "Read more",
-    },
-    {
-      icon: Icon8,
-      heading: "DQE",
-      text: "Le Détail Quantitatif et Estimatif (DQE) est le document, en principe non contractuel, qui liste les ouvrages et prestations à réaliser dans le cadre du projet. Il est destiné à permettre la comparaison des prix entre les offres des candidats.",
-      button: "Read more",
-    },
-    {
-      icon: Icon9,
-      heading: "BPU",
-      text: "Le Bordereau des Prix Unitaire (BPU) est le document contractuel destiné à décrire plus en détail le contenu des ouvrages et prestations à réaliser. Il représente l'offre financière du candidat pour chacun des ouvrages ou prestations à réaliser dans le cadre du projet.",
-      button: "Read more",
-    },
-    {
-      icon: Icon10,
-      heading: "CCTP",
-      text: "Le Cahier des Clauses Techniques Particulières (CCTP) est le document contractuel qui rassemble les prescriptions techniques et réglementaires qui devront être prises en compte pour la réalisation des ouvrages ou prestations.Il complète le BPU.",
-      button: "Read more",
-    },
-  ];
+
   return (
     <>
       <Header handleScroll={executeScroll} />
@@ -133,6 +104,9 @@ export default function Home() {
         />
       </div>
       <div>
+        <DocumentProduits />
+      </div>
+      {/* <div>
         <div className="spc_home_heading">
           <Typography className="spc_home_heading_typo">
             Les documents produits
@@ -163,14 +137,15 @@ export default function Home() {
                   className="spc_grid_para"
                   sx={{ paddingBottom: "5%" }}
                 >
-                  {items.text}
+                  {isReadMore ? items.text.slice(0, 150) : items.text}
                 </Typography>
                 <div className="spc_readmorediv">
                   <Typography
                     className="spc_readmore"
                     sx={{ paddingBottom: "5%", cursor: "pointer" }}
+                    onClick={toggleReadMore}
                   >
-                    {items.button}
+                    {isReadMore ? "Read more" : " Show less"}
                   </Typography>
                   <div>
                     <img src={Arrow} className="spc_arrow_"></img>
@@ -180,7 +155,7 @@ export default function Home() {
             </>
           ))}
         </Grid>
-      </div>
+      </div> */}
       <div className="spc_servicesdiv">
         <div>
           <Typography className="spc_carouselheading">
