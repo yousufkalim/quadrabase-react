@@ -15,49 +15,6 @@ import Typography from "@mui/material/Typography";
 import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
 
-const dataMain = [
-  {
-    title: "Guides Techniques - Accessibilité",
-  },
-  {
-    title: "Guides Techniques - Aménagements Cyclables",
-  },
-  {
-    title: "Guides Techniques - Aménagements Urbains",
-  },
-  {
-    title: "Guides Techniques - Assainissements",
-  },
-  {
-    title: "Guides Techniques - Chaussées",
-  },
-  {
-    title: "Guides Techniques - Déchets de Chantiers",
-  },
-  {
-    title: "CCTG",
-  },
-];
-
-const dataDownloadables = [
-  {
-    title: "CCTG_F02_Terrassements Généraux",
-    size: "10",
-  },
-  {
-    title: "CCTG_F02_Terrassements Généraux",
-    size: "10",
-  },
-  {
-    title: "CCTG_F02_Terrassements Généraux",
-    size: "10",
-  },
-  {
-    title: "CCTG_F02_Terrassements Généraux",
-    size: "10",
-  },
-];
-
 const CollapseDocumentation = () => {
 
   const [isLoading, setIsLoading] = useState(true);
@@ -86,8 +43,8 @@ const CollapseDocumentation = () => {
         isLoading ?
         <></> :
         <Grid container spacing={1}>
-          {dataMain.map((v) => (
-            <Single {...v} downloadables={downloadables} />
+          {downloadables.map((v) => (
+            <Single {...v} />
           ))}
         </Grid>
       }
@@ -137,10 +94,10 @@ function Single(props) {
               {expanded ? <RemoveIcon /> : <AddIcon />}
             </IconButton>
           }
-          title={<Typography className="spc_title">{props.title}</Typography>}
+          title={<Typography className="spc_title">{props.name}</Typography>}
         />
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {props.downloadables.map((v) => (
+          {props.files.map((v) => (
             <SingleDownloadable {...v} />
           ))}
         </Collapse>
