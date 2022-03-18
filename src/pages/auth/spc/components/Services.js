@@ -12,7 +12,7 @@ import Services8 from "../assets/images/Services8.jpg";
 import Services9 from "../assets/images/Services9.jpg";
 import Services10 from "../assets/images/Services10.jpg";
 import Services11 from "../assets/images/Services11.jpg";
-import Services12 from "../assets/images/Services12.jpg";
+import Services13 from "../assets/images/Services13.jpg";
 
 const CustomerReviews = () => {
   const Services = [
@@ -45,7 +45,7 @@ const CustomerReviews = () => {
     {
       label: "CUSTOMER SERVICE",
       heading: "Espaces de loisirs",
-      img: Services6,
+      img: Services13,
     },
     {
       label: "CUSTOMER SERVICE",
@@ -75,7 +75,7 @@ const CustomerReviews = () => {
     {
       label: "CUSTOMER SERVICE",
       heading: "Ouvrages de génie civil",
-      img: Services12,
+      img: Services13,
     },
   ];
   const responsive = {
