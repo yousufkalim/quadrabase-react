@@ -44,7 +44,9 @@ const SubscriptionModal = (props) => {
             value={startDate}
             onChange={(date) => {
               setStartDate(date[0]);
-              let tempEndDate = moment(date[0]).add(1, "years")._d;
+              let tempEndDate = moment(date[0])
+                .add(1, "years")
+                .subtract(1, "days")._d;
               setEndDate(tempEndDate);
             }}
           />
