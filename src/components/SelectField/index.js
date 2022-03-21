@@ -19,7 +19,7 @@ export default function index(props) {
         value={props.value}
         variant={props.variant ? props.variant : "outlined"}
       >
-        {props.label !== "Subscription" && (
+        {props.label !== "Subscription" && props.label !== "Abonnement" && (
           <option value="">
             {props.translate ? props.translate(`${props.label}`) : props.label}
           </option>
