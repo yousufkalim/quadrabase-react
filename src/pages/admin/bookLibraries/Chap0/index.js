@@ -107,6 +107,9 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
+      let temp = [];
+      temp = adminsData.filter((dat) => dat._id !== adminDeleteId);
+      setadminsData(temp);
       Notifier("Chap0 Deleted!", "success", translate);
     } catch (error) {
       if (error.response)

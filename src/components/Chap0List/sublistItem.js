@@ -73,7 +73,9 @@ export default function subList(props) {
           primary={
             level === "level0"
               ? `${translate("Libraries")} ${name}`
-              : name.toUpperCase()
+              : level !== "lastLevel"
+              ? name.toUpperCase()
+              : name
           }
           primaryTypographyProps={{
             style: { fontWeight: props.nameBold ? "bold" : "normal" },
