@@ -58,6 +58,7 @@ export default function AddExpense(props) {
 				});
 
 				Notifier(response.data.message, "success", translate);
+				props.getBookLibraries(props.editData.families[0]);
 				setisLoading(false);
 				props.handleClose();
 			} catch (err) {
