@@ -335,32 +335,29 @@ export default function AddExpense(props) {
 				<TabPanel value={selectedTabIndex} index={0}>
 					<RichTextEditor
 						setValue={setcctp_text1}
-						value={props.editData.cctp_text[0]}
+						value={cctp_text1}
 					/>
 				</TabPanel>
 				<TabPanel value={selectedTabIndex} index={1}>
 					<RichTextEditor
 						setValue={setcctp_text2}
-						value={props.editData.cctp_text[1]}
+						value={cctp_text2}
 					/>
 				</TabPanel>
 				<TabPanel value={selectedTabIndex} index={2}>
 					<RichTextEditor
 						setValue={setcctp_text3}
-						value={props.editData.cctp_text[2]}
+						value={cctp_text3}
 					/>
 				</TabPanel>
 				<TabPanel value={selectedTabIndex} index={3}>
 					<RichTextEditor
 						setValue={setcctp_text4}
-						value={props.editData.cctp_text[3]}
+						value={cctp_text4}
 					/>
 				</TabPanel>
 				<TabPanel value={selectedTabIndex} index={4}>
-					<RichTextEditor
-						setValue={setbpu_text}
-						value={props.editData.bpu_text[0]}
-					/>
+					<RichTextEditor setValue={setbpu_text} value={bpu_text} />
 				</TabPanel>
 			</Box>
 			<div className="flex justify-between w-full">
