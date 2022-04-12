@@ -9,6 +9,7 @@ import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import AuthSuccess from "./pages/auth/success";
 import Presentation from "./pages/auth/presentation";
 import EducationalMaterial from "./pages/auth/educationalMaterial";
 import Home from "./pages/auth/home";
@@ -25,7 +26,57 @@ import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
 
+import ArchitectIndex from "./pages/Architect/Home";
+import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
+import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
+import MyProfile from "./pages/Architect/MyProfile/Index";
+import ProjectView from "./pages/Architect/Project/ProjectView";
+import SubscriptionSuccess from "./pages/Architect/Subscription/Success";
+
 var routes = [
+  // architect side routes
+  {
+    path: "/index", //Architect
+    name: "Architect",
+    component: ArchitectIndex,
+    layout: "/architect",
+  },
+
+  {
+    path: "/management", //Architect
+    name: "Architect",
+    component: Management,
+    layout: "/architect",
+  },
+
+  {
+    path: "/libraries", //Architect
+    name: "Architect",
+    component: ProjectLibraries,
+    layout: "/architect",
+  },
+
+  {
+    path: "/profile", //Architect
+    name: "Architect",
+    component: MyProfile,
+    layout: "/architect",
+  },
+
+  {
+    path: "/projectview/:id", //Architect
+    name: "Architect",
+    component: ProjectView,
+    layout: "/architect",
+  },
+
+  {
+    path: "/success", //Architect
+    name: "Architect",
+    component: SubscriptionSuccess,
+    layout: "/architect",
+  },
+
   //admin  side routes
   {
     path: "/index", //admin dashboard
@@ -112,6 +163,14 @@ var routes = [
     layout: "/admin",
   },
 
+  {
+    path: "/families",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Families,
+    layout: "/admin",
+  },
+
   // ******** auth routes
   {
     path: "/login",
@@ -125,6 +184,13 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Register,
+    layout: "/auth",
+  },
+  {
+    path: "/success/:id",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: AuthSuccess,
     layout: "/auth",
   },
   {
@@ -182,13 +248,6 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: Manufacturer,
     layout: "/auth",
-  },
-  {
-    path: "/families",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
-    component: Families,
-    layout: "/admin",
   },
 ];
 export default routes;

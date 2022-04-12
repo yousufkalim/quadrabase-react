@@ -1,0 +1,293 @@
+// Init
+import React, { useState, useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import { useStyles } from "../../css/home";
+import { SubscriptionheadCells } from "../../utils/tableHeads";
+import { ProjectheadCells } from "../../utils/tableHeads";
+import { Store } from "../../StoreContext";
+import api from "../../api";
+import { Divider } from "@mui/material";
+import moment from "moment";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+// Importing Components
+import Header from "../../components/Architect/Header";
+import { Button } from "@mui/material";
+import Table from "../../components/Architect/Tabel";
+import Modal from "../../components/Architect/Modal";
+import BuySubscription from "./Subscription/BuySubscription";
+import AssignSubscription from "./Subscription/AssignSubscription";
+import BuyProjects from "./Subscription/BuyProjects";
+import Renew from "./Subscription/Renew";
+import AddProjectModal from "./Project/AddProjectModal";
+
+// Home Component
+export default function Home() {
+  const { t } = useTranslation();
+  const classes = useStyles();
+  const store = Store();
+  const history = useHistory();
+
+  const [subscriptionsData, setSubscriptionsData] = useState([]);
+  const [mySubscription, setMySubscription] = useState({});
+  const [subscriptionHeadCells, setSubscriptionHeadCells] = useState("");
+  const [projectHeadCells, setProjectHeadCells] = useState("");
+  const [buySubModal, setBuySubModal] = useState(false);
+  const [assignSubModal, setAssignSubModal] = useState(false);
+  const [buyProjectsModal, setBuyProjectsModal] = useState(false);
+  const [renewModal, setRenewModal] = useState(false);
+  const [assignSub, setAssignSub] = useState({
+    id: "",
+    email: "",
+  });
+  const [addProjectModal, setAddProjectModal] = useState(false);
+  const [projectData, setProjectData] = useState([]);
+
+  useEffect(() => {
+    let array = [];
+    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map(
+      (cell) => array.push(cell.id)
+    );
+    setSubscriptionHeadCells(array);
+    let temp = [];
+    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) =>
+      temp.push(cell.id)
+    );
+    setProjectHeadCells(temp);
+  }, []);
+
+  useEffect(() => {
+    getSubscriptions();
+  }, [
+    buySubModal,
+    assignSubModal,
+    buyProjectsModal,
+    renewModal,
+    addProjectModal,
+  ]);
+
+  useEffect(() => {
+    getProjects();
+  }, [addProjectModal]);
+
+  const getSubscriptions = async () => {
+    const result = await api("get", `/licenses/${store.user._id}`);
+    setSubscriptionsData(result.data.license);
+    console.log("result", result);
+    setMySubscription(store?.user?.subscriptions);
+  };
+
+  const getProjects = async () => {
+    const result = await api("get", `/project/byArchitect/${store.user._id}`);
+    const projects = result?.data?.project.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setProjectData(projects);
+  };
+
+  const handleBuySubModal = () => setBuySubModal(!buySubModal);
+  const handleAssignSubModal = (id, email) => {
+    if (id && email) {
+      setAssignSub({ id, email });
+    } else if (id) {
+      setAssignSub({ id });
+    }
+    setAssignSubModal(!assignSubModal);
+  };
+  const handleBuyProjectsModals = () => setBuyProjectsModal(!buyProjectsModal);
+  const handleRenewModalModal = () => setRenewModal(!renewModal);
+  const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
+
+  const handleView = (id) => {
+    history.push(`/architect/projectview/${id}`);
+  };
+
+  return (
+    <div>
+      <Header />
+      <Modal
+        title={t("Buy Subscription")}
+        open={buySubModal}
+        onClose={handleBuySubModal}
+        component={<BuySubscription handleBuySubModal={handleBuySubModal} />}
+      />
+      <Modal
+        title={t("Assign Subscription")}
+        open={assignSubModal}
+        onClose={handleAssignSubModal}
+        component={
+          <AssignSubscription
+            assignSub={assignSub}
+            handleAssignSubModal={handleAssignSubModal}
+          />
+        }
+      />
+      <Modal
+        title={t("Buy Projects")}
+        open={buyProjectsModal}
+        onClose={handleBuyProjectsModals}
+        component={
+          <BuyProjects
+            mySubscription={mySubscription}
+            handleBuyProjectsModals={handleBuyProjectsModals}
+          />
+        }
+      />
+      <Modal
+        title={t("Renew Subscription")}
+        open={renewModal}
+        onClose={handleRenewModalModal}
+        component={
+          <Renew
+            mySubscription={mySubscription}
+            handleRenewModalModal={handleRenewModalModal}
+          />
+        }
+      />
+      <Modal
+        title={t("Add Project")}
+        open={addProjectModal}
+        onClose={handleAddProjectModal}
+        component={
+          <AddProjectModal handleAddProjectModal={handleAddProjectModal} />
+        }
+      />
+      <div className={classes.container}>
+        <div className={classes.left_container}>
+          <div className={classes.flex_container}>
+            <span style={{ fontSize: 24 }}>
+              <i>{t("Subscriptions")}</i>
+            </span>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              style={{ backgroundColor: "#3b373c" }}
+              onClick={handleBuySubModal}
+            >
+              {t("Buy Subscription")}
+            </Button>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <Table
+              headCells={SubscriptionheadCells}
+              data={subscriptionsData}
+              rows={subscriptionHeadCells}
+              handleAssign={handleAssignSubModal}
+            />
+          </div>
+          <span style={{ fontSize: 24 }}>
+            <i>{t("My Subscription")}</i>
+          </span>
+          <div className={classes.my_sub}>
+            {!mySubscription?.assigned_to ? (
+              <span className={classes.my_sub_info}>
+                {t("No Subscription Assigned")}
+              </span>
+            ) : (
+              <>
+                <span className={classes.my_sub_info}>
+                  <div>{t("Number of remaining projects")}:</div>{" "}
+                  <div>
+                    {mySubscription?.projects - store?.user?.projects?.length}
+                  </div>
+                </span>
+                {mySubscription.architect ? (
+                  <>
+                    {mySubscription?.architect === store?.user?._id && (
+                      <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
+                        onClick={handleBuyProjectsModals}
+                      >
+                        {t("Buy Projects")}
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
+                    onClick={handleBuyProjectsModals}
+                  >
+                    {t("Buy Projects")}
+                  </Button>
+                )}
+
+                <Divider variant="middle" style={{ marginBottom: 10 }} />
+                <span className={classes.my_sub_info}>
+                  <div>{t("Subscription Valid until")}:</div>{" "}
+                  <div>
+                    {moment(mySubscription?.end_date).format("DD/MM/YYYY")}
+                  </div>
+                </span>
+                {mySubscription.architect ? (
+                  <>
+                    {mySubscription?.architect === store?.user?._id && (
+                      <Button
+                        variant="contained"
+                        startIcon={<RefreshIcon />}
+                        style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
+                        onClick={handleRenewModalModal}
+                      >
+                        {t("renew")}
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    variant="contained"
+                    startIcon={<RefreshIcon />}
+                    style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
+                    onClick={handleRenewModalModal}
+                  >
+                    {t("renew")}
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+        <div className={classes.right_container}>
+          <div className={classes.flex_container}>
+            <span style={{ fontSize: 24 }}>
+              <i>
+                {t("My Projects")}({store?.user?.projects?.length}/
+                {mySubscription?.projects ? mySubscription?.projects : 0})
+              </i>
+            </span>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              style={{
+                backgroundColor:
+                  !mySubscription?.projects ||
+                  store?.user?.projects?.length >= mySubscription?.projects
+                    ? "lightgray"
+                    : "#3b373c",
+              }}
+              onClick={handleAddProjectModal}
+              disabled={
+                !mySubscription?.projects ||
+                store?.user?.projects?.length >= mySubscription?.projects
+              }
+            >
+              {t("New Project")}
+            </Button>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <Table
+              headCells={ProjectheadCells}
+              data={projectData}
+              rows={projectHeadCells}
+              handleView={handleView}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

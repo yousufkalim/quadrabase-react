@@ -33,8 +33,8 @@ function Dashboard(props) {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         {...props}
-        translate={translate} 
-        i18n={i18n} 
+        translate={translate}
+        i18n={i18n}
         routes={routes}
       />
       {/* Content area */}
@@ -43,7 +43,8 @@ function Dashboard(props) {
         <Header
           {...props}
           sidebarOpen={sidebarOpen}
-          translate={translate} i18n={i18n} 
+          translate={translate}
+          i18n={i18n}
           setSidebarOpen={setSidebarOpen}
         />
         <Switch>

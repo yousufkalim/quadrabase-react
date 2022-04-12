@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 // Import layouts
 import AdminLayout from "../containers/admin";
 import AuthLayout from "../containers/auth";
-import { getToken, handleLogout } from "../utils/Auth";
+import ArchitectLayout from "../containers/Architect";
+import { getToken, handleLogout, getUser } from "../utils/Auth";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { focusHandling } from "cruip-js-toolkit";
 import "../charts/ChartjsConfig";
@@ -13,6 +14,7 @@ function Index(props) {
   const { t, i18n } = props;
 
   const token = getToken();
+  const user = getUser();
   const location = useLocation();
   const isMyTokenExpired = isExpired(token);
   useEffect(() => {
@@ -24,10 +26,10 @@ function Index(props) {
       handleLogout();
     }
   }, [location.pathname]); // triggered on route change
-  return (
-    <Switch>
-      {token && isMyTokenExpired == false ? (
-        <>
+  return token && isMyTokenExpired == false ? (
+    user?.role === "admin" ? (
+      <>
+        <Switch>
           <Route
             path="/admin"
             render={(props) => (
@@ -35,19 +37,33 @@ function Index(props) {
             )}
           />
           <Redirect from="/" to="/admin/index" />
-        </>
-      ) : (
-        <>
+        </Switch>
+      </>
+    ) : (
+      <>
+        <Switch>
           <Route
-            path="/auth"
+            path="/architect"
             render={(props) => (
-              <AuthLayout {...props} i18n={i18n} translate={t} />
+              <ArchitectLayout {...props} i18n={i18n} translate={t} />
             )}
           />
-          <Redirect from="/" to="/auth/home" />
-        </>
-      )}
-    </Switch>
+          <Redirect from="/" to="/architect/index" />
+        </Switch>
+      </>
+    )
+  ) : (
+    <>
+      <Switch>
+        <Route
+          path="/auth"
+          render={(props) => (
+            <AuthLayout {...props} i18n={i18n} translate={t} />
+          )}
+        />
+        <Redirect from="/" to="/auth/home" />
+      </Switch>
+    </>
   );
 }
 export default withTranslation()(Index);

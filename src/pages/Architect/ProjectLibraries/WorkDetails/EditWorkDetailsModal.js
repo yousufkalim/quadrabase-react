@@ -1,0 +1,115 @@
+// init
+import React, { useState, useEffect } from "react";
+import api from "../../../../api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+
+// component
+import InputWithLabel from "../../../../components/Architect/InputWithLabel";
+import { useStyles } from "../../../../css/projectLibraries";
+import { Button } from "@mui/material";
+import InputDropdown from "../../../../components/Architect/InputDropdown";
+
+// component
+const EditWorkDetailsModal = ({
+  handleOpenEditWorkDetailModal,
+  workDetail,
+}) => {
+  const classes = useStyles();
+  const { t } = useTranslation();
+  // states
+  const [values, setValues] = useState({
+    name: "",
+    unit: "",
+    unit_price: "",
+  });
+  const [options, setOptions] = useState([]);
+
+  // useEffect to set initial values
+  useEffect(() => {
+    workDetail &&
+      setValues((prev) => {
+        prev.name = workDetail.name;
+        prev.unit = workDetail.unit;
+        prev.unit_price = workDetail.unit_price;
+        return { ...prev };
+      });
+  }, []);
+
+  // useEffect to get all units
+  useEffect(() => {
+    getUnits();
+  }, []);
+
+  // func to getAll Units
+  const getUnits = async () => {
+    const result = await api("get", `/Units/get`);
+    setOptions(result.data.units);
+  };
+
+  // handle change function
+  const handleChange = (name, value) => {
+    setValues((prev) => {
+      prev[name] = value;
+      return { ...prev };
+    });
+  };
+
+  // handle Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let data = values;
+    const result = await api(
+      "put",
+      `/BookLibraries/edit/WorkDetail/${workDetail._id}`,
+      data,
+      t
+    );
+    toast.success(t(result.data.message));
+    handleOpenEditWorkDetailModal();
+  };
+
+  // jsx
+  return (
+    <form className={classes.smform} onSubmit={handleSubmit}>
+      {/* All fields */}
+      <br />
+      <InputWithLabel
+        label={t("Name")}
+        required={true}
+        name="name"
+        type="text"
+        value={values.name}
+        handleChange={(e) => handleChange(e.target.name, e.target.value)}
+      />
+      <br />
+      <br />
+      <InputWithLabel
+        name="unit_price"
+        label="PU HT"
+        value={values.unit_price}
+        handleChange={(e) => handleChange(e.target.name, e.target.value)}
+        required={true}
+      />
+      <br />
+      <br />
+      <InputDropdown
+        name="unit"
+        label={t("Unit")}
+        value={values.unit}
+        onChange={(e) => handleChange(e.target.name, e.target.value)}
+        options={options}
+        required={true}
+      />
+      <br />
+      {/* create button */}
+      <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} type="submit">
+          {t("Update")}
+        </Button>
+      </div>
+    </form>
+  );
+};
+
+export default EditWorkDetailsModal;

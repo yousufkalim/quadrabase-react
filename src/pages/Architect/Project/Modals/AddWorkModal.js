@@ -1,0 +1,288 @@
+// init
+import React, { useState, useEffect } from "react";
+import api from "../../../../api";
+import { useTranslation } from "react-i18next";
+
+// component
+import { Button } from "@mui/material";
+import InputWithLabel from "../../../../components/Architect/InputWithLabel";
+import InputDropdown from "../../../../components/Architect/InputDropdown";
+import { toast } from "react-toastify";
+
+const AddWorkModal = ({
+  selectedWork,
+  selectedWorkDetail,
+  setOpenWorkModal,
+  projectWorkData,
+  currentProject,
+  setSelectedWorkDetail,
+  setSelectedWork,
+  getworks,
+}) => {
+  const { t } = useTranslation();
+  const [values, setValues] = useState({
+    name: "",
+    unit: "",
+    unit_price: "",
+    quantity: "1.00",
+    ranking: 0,
+    work_details: [],
+  });
+  const [options, setOptions] = useState([]);
+  const [tranchOptions, setTranchOptions] = useState([]);
+  const [tranchFilteredOptions, setTranchFilteredOptions] = useState([]);
+  const [tradeOptions, setTradeOptions] = useState([]);
+  const [tranch, setTranch] = useState("");
+  const [trade, setTrade] = useState("");
+
+  useEffect(() => {
+    selectedWork &&
+      setValues((prev) => {
+        prev.name = selectedWork.name;
+        prev.unit = selectedWork.unit;
+        prev.unit_price = selectedWork.unit_price.toFixed(2);
+        prev.ranking = selectedWork.ranking;
+        return { ...prev };
+      });
+  }, [selectedWork]);
+  // useEffect to get all units
+  useEffect(() => {
+    getUnits();
+    currentProject.market_type === "TradesAndTranches" && getTranches();
+    (currentProject.market_type === "TradesAndTranches" ||
+      currentProject.market_type === "Trades") &&
+      getTrades();
+  }, []);
+
+  const getTranches = async () => {
+    const result = await api("get", `/Tranches/${currentProject._id}`);
+    setTranchOptions(result.data.tranches);
+    setTranchFilteredOptions(result.data.tranches);
+  };
+
+  const getTrades = async () => {
+    const result = await api("get", `/Trades/${currentProject._id}`);
+    setTradeOptions(result.data.trades);
+  };
+
+  // func to getAll Units
+  const getUnits = async () => {
+    const result = await api("get", `/Units/get`);
+    setOptions(result.data.units);
+  };
+
+  // handle change function
+  const handleChange = (name, value) => {
+    setValues((prev) => {
+      prev[name] = value;
+      return { ...prev };
+    });
+  };
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let data = values;
+    data.cctp_text = selectedWork.cctp_text;
+    data.bpu_text = selectedWork.bpu_text;
+    data.work_details = selectedWorkDetail;
+    data.providers = selectedWork.providers;
+    if (currentProject.market_type === "Trades") {
+      if (trade) {
+        data.trade = trade;
+        const result = await api(
+          "post",
+          `/project/addWork/${currentProject._id}`,
+          data,
+          t
+        );
+        toast.success(t(result.data.message));
+        setSelectedWorkDetail([]);
+        setSelectedWork();
+        setOpenWorkModal(false);
+        getworks();
+      } else {
+        toast.error(t("Trade is required"));
+      }
+    } else if (currentProject.market_type === "TradesAndTranches") {
+      if (trade) {
+        data.trade = trade;
+        if (tranch) {
+          data.tranch = tranch;
+          const result = await api(
+            "post",
+            `/project/addWork/${currentProject._id}`,
+            data,
+            t
+          );
+          toast.success(t(result.data.message));
+          setSelectedWorkDetail([]);
+          setSelectedWork();
+          setOpenWorkModal(false);
+          getworks();
+        } else {
+          toast.error(t("Tranch is required"));
+        }
+      } else {
+        toast.error(t("Trade is required"));
+      }
+    } else {
+      const result = await api(
+        "post",
+        `/project/addWork/${currentProject._id}`,
+        data,
+        t
+      );
+      toast.success(t(result.data.message));
+      setSelectedWorkDetail([]);
+      setSelectedWork();
+      setOpenWorkModal(false);
+      getworks();
+    }
+  };
+
+  return (
+    <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
+      <form
+        style={{ marginTop: "auto", marginBottom: "auto" }}
+        onSubmit={handleSubmit}
+      >
+        {/* All fields */}
+        <br />
+        <InputWithLabel
+          label={t("Name")}
+          required={true}
+          name="name"
+          type="text"
+          value={values.name}
+          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+        />
+        <br />
+        <br />
+        <InputDropdown
+          name="unit"
+          label={t("Unit")}
+          value={values.unit}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
+          options={options}
+        />
+        <br />
+        <InputWithLabel
+          label={t("Qty")}
+          required={true}
+          name="quantity"
+          type="text"
+          value={values.quantity}
+          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          onBlur={() => {
+            let existingDot = values.quantity.toString().indexOf(".");
+            if (existingDot === -1) {
+              handleChange("quantity", parseInt(values.quantity).toFixed(2));
+            }
+          }}
+          onFocus={() => {
+            let existingDot = values.quantity.toString().indexOf(".");
+            if (existingDot === -1) {
+              handleChange("quantity", parseInt(values.quantity).toFixed(2));
+            }
+          }}
+        />
+        <br />
+        <br />
+        <InputWithLabel
+          label="PU HT"
+          required={true}
+          name="unit_price"
+          type="text"
+          value={values.unit_price}
+          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          onBlur={() => {
+            let existingDot = values.unit_price.toString().indexOf(".");
+            if (existingDot === -1) {
+              handleChange(
+                "unit_price",
+                parseInt(values.unit_price).toFixed(2)
+              );
+            }
+          }}
+          onFocus={() => {
+            let existingDot = values.unit_price.toString().indexOf(".");
+            if (existingDot === -1) {
+              handleChange(
+                "unit_price",
+                parseInt(values.unit_price).toFixed(2)
+              );
+            }
+          }}
+        />
+        <br />
+        {(currentProject.market_type === "TradesAndTranches" ||
+          currentProject.market_type === "Trades") && (
+          <>
+            <br />
+            <InputDropdown
+              name="trade"
+              label="Trade"
+              value={trade}
+              onChange={(e) => {
+                setTrade(e.target.value);
+                if (currentProject.market_type === "TradesAndTranches") {
+                  let temp = tranchOptions;
+                  temp = temp.filter((item) => item.trade === e.target.value);
+                  setTranchFilteredOptions(temp);
+                }
+              }}
+              options={tradeOptions}
+            />
+            <br />
+          </>
+        )}
+        {currentProject.market_type === "TradesAndTranches" && (
+          <>
+            <br />
+            <InputDropdown
+              name="tranch"
+              label="Tranch"
+              value={tranch}
+              onChange={(e) => setTranch(e.target.value)}
+              options={tranchFilteredOptions}
+              disabled={!trade}
+            />
+            <br />
+          </>
+        )}
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
+        >
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#3b373c",
+              height: "35px",
+            }}
+            onClick={() => {
+              setSelectedWorkDetail([]);
+              setSelectedWork();
+              setOpenWorkModal(false);
+            }}
+          >
+            {t("Close")}
+          </Button>
+          &nbsp;&nbsp;
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#3b373c",
+              height: "35px",
+            }}
+            type="submit"
+          >
+            {t("Submit")}
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddWorkModal;

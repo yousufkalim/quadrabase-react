@@ -26,7 +26,7 @@ export default function BasicModal(props) {
     overflow: "auto",
   };
   return (
-    <Modal open={props.open}>
+    <Modal open={props.open} onClose={props.onClose}>
       <Box sx={style}>
         {props.addWork && props.addWork == true ? (
           <div className="px-5 py-1">
