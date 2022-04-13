@@ -19,11 +19,15 @@ export default function BasicModal(props) {
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <Box sx={style}>
-        <div>
-          <h2>
-            {props.translate ? props.translate(`${props.title}`) : props.title}
-          </h2>
-        </div>
+        <label
+          className={`block tracking-wide text-gray-700 text-xs font-bold mb-2`}
+          htmlFor="grid-first-name"
+          style={{
+            fontSize: props.labelFont ? props.labelFont : 18,
+          }}
+        >
+          {props.translate ? props.translate(`${props.title}`) : props.title}
+        </label>
         {props.component}
       </Box>
     </Modal>

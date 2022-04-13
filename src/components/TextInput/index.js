@@ -11,6 +11,10 @@ export default function index(props) {
             labelUpperCase ? "uppercase" : "capitalize"
           } tracking-wide text-gray-700 text-xs font-bold mb-2`}
           htmlFor="grid-first-name"
+          style={{
+            color: props.labelColor && props.labelColor,
+            fontSize: props.labelFont && props.labelFont,
+          }}
         >
           {props.translate ? props.translate(`${props.label}`) : props.label}
         </label>
@@ -29,6 +33,7 @@ export default function index(props) {
           style={props.style}
           onBlur={props.onBlur}
           onFocus={props.onFocus}
+          required={props.required}
         />
       </div>
     );
@@ -40,6 +45,10 @@ export default function index(props) {
             labelUpperCase ? "uppercase" : "capitalize"
           } tracking-wide text-gray-700 text-xs font-bold mb-2`}
           htmlFor="grid-first-name"
+          style={{
+            color: props.labelColor && props.labelColor,
+            fontSize: props.labelFont && props.labelFont,
+          }}
         >
           {props.translate ? props.translate(`${props.label}`) : props.label}
         </label>
@@ -64,6 +73,8 @@ export default function index(props) {
           autoComplete="off"
           onBlur={props.onBlur}
           onFocus={props.onFocus}
+          style={props.style}
+          required={props.required}
         />
       </div>
     );
