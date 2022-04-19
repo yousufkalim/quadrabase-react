@@ -8,7 +8,8 @@ import AdminsList from "./pages/admin/admins";
 import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
+// import Register from "./pages/auth/register";
+import Register from "./pages/auth/Register2";
 import AuthSuccess from "./pages/auth/success";
 import Presentation from "./pages/auth/presentation";
 import EducationalMaterial from "./pages/auth/educationalMaterial";

@@ -1,0 +1,91 @@
+.register-conatainer{
+    height:100vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 6.14%, rgba(255, 134, 22, 0.14) 97.59%), #FFFFFF;
+    display: flex;
+}
+
+.register-left-container{
+    width: 50%;
+}
+
+.register-right-container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-qb{
+    height: 10vh;
+    position:absolute;
+    top:10%;
+    left:8%;
+    cursor: pointer;
+}
+
+.vector{
+    width: 50vw;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+.register-form-container{
+    width:100%;
+}
+
+.stepperMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.stepper{
+    width:420px;
+}
+
+.register-eye-icon{
+    color: #8C1244;
+    position:relative;
+    margin-top: -85px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.subscription-box{
+    color: #8C1244;
+}
+
+.common-text{
+    line-height: 100%;
+    width:250px;
+}
+
+.amount-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:200px;
+    padding: 0 20px;
+    border-radius: 10px;
+    border:2px solid #8C1244;
+}
+
+.subscription-box-intial{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.subscription-box-extend{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+@media only screen and (max-height: 750px) {
+    .register-form-container {
+        margin-top:10%;
+    }
+}

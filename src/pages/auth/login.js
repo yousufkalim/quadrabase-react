@@ -1,6 +1,6 @@
 // init
 import React, { useState } from "react";
-import "../../css/Login.css";
+import "../../css/login.css";
 import logo from "../../assets/Quadralogo.png";
 import Vector from "../../assets/Vector.png";
 import TextInput from "../../components/TextInput";
@@ -24,7 +24,7 @@ const InputStyle = {
 };
 
 // component
-const Login2 = () => {
+const Login = () => {
   // history object
   const history = useHistory();
 
@@ -150,4 +150,4 @@ const Login2 = () => {
   );
 };
 
-export default Login2;
+export default Login;
