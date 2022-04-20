@@ -1,6 +1,6 @@
 // init
 import React, { useState } from "react";
-import "../../css/login.css";
+import "../../css/Login.css";
 import logo from "../../assets/Quadralogo.png";
 import Vector from "../../assets/Vector.png";
 import TextInput from "../../components/TextInput";

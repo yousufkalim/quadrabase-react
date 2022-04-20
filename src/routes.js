@@ -8,9 +8,7 @@ import AdminsList from "./pages/admin/admins";
 import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
-// import Register from "./pages/auth/register";
-import Register from "./pages/auth/Register2";
-import AuthSuccess from "./pages/auth/success";
+import Register from "./pages/auth/register";
 import Presentation from "./pages/auth/presentation";
 import EducationalMaterial from "./pages/auth/educationalMaterial";
 import Home from "./pages/auth/home";
@@ -185,13 +183,6 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Register,
-    layout: "/auth",
-  },
-  {
-    path: "/success/:id",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
-    component: AuthSuccess,
     layout: "/auth",
   },
   {
