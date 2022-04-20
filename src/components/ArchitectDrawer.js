@@ -16,14 +16,49 @@ import Que from "../assets/Que.png";
 import Quadralogo from "../assets/Quadralogo.png";
 import { useHistory } from "react-router-dom";
 import { UpdateStore } from "../StoreContext";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { useLocation } from "react-router-dom";
+import LanguageIcon from "@mui/icons-material/Language";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
   const { window } = props;
+  const { i18n, t } = useTranslation();
   const history = useHistory();
+  const location = useLocation();
   const updateStore = UpdateStore();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState("");
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+  React.useEffect(() => {
+    let temp = location.pathname.split("/");
+    temp =
+      temp[temp.length - 1].charAt(0).toUpperCase() +
+      temp[temp.length - 1].slice(1);
+    if (temp === "Index") {
+      setCurrentPage("Dashboard");
+    } else {
+      setCurrentPage(temp);
+    }
+    console.log("pathname,", temp);
+  }, [location.pathname]);
+
+  // for language dropdown menu
+
+  const open2 = Boolean(anchorEl2);
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -66,9 +101,7 @@ export default function ResponsiveDrawer(props) {
                 key={item?.text}
                 onClick={() => history.push(item.layout + item.path)}
               >
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item?.text} />
               </ListItem>
             )
@@ -95,21 +128,89 @@ export default function ResponsiveDrawer(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <div>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{
-            mr: 1,
-            ml: 1,
-            display: { md: "none" },
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-      </div>
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
+          backgroundColor: "rgb(238, 238, 238)",
+          color: "black",
+          boxShadow: "none !important",
+          borderBottom: "1px solid white",
+        }}
+      >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                mr: 1,
+                ml: 1,
+                display: { md: "none" },
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h5" noWrap component="div">
+              {currentPage}
+            </Typography>
+          </div>
+          <IconButton
+            id="demo-positioned-button"
+            aria-controls={open2 ? "demo-positioned-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open2 ? "true" : undefined}
+            onClick={handleClick2}
+            style={{ color: "#3b373c" }}
+          >
+            <LanguageIcon />
+          </IconButton>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl2}
+            open={open2}
+            onClose={handleClose2}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{ mt: 2.5 }}
+          >
+            <MenuItem
+              style={{
+                width: 200,
+                height: 30,
+              }}
+              onClick={() => {
+                i18n.changeLanguage("en");
+                handleClose2();
+              }}
+            >
+              {t("English")}
+            </MenuItem>
+            <MenuItem
+              style={{
+                width: 200,
+                height: 30,
+              }}
+              onClick={() => {
+                i18n.changeLanguage("fr");
+                handleClose2();
+              }}
+            >
+              {t("French")}
+            </MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
 
       <Box
         component="nav"
@@ -158,6 +259,7 @@ export default function ResponsiveDrawer(props) {
           width: { md: `calc(100% - ${drawerWidth}px)` },
         }}
       >
+        <Toolbar />
         {props.children}
       </Box>
     </Box>

@@ -33,12 +33,19 @@ import MyProfile from "./pages/Architect/MyProfile/Index";
 import ProjectView from "./pages/Architect/Project/ProjectView";
 import SubscriptionSuccess from "./pages/Architect/Subscription/Success";
 
+// Architect drawer Icons
+import HomeIcon from "@mui/icons-material/Home";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import WorkIcon from "@mui/icons-material/Work";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+
 var routes = [
   // architect side routes
   {
     path: "/index", //Architect
     name: "Architect",
     text: "Home",
+    icon: <HomeIcon />,
     component: ArchitectIndex,
     layout: "/architect",
   },
@@ -47,6 +54,7 @@ var routes = [
     path: "/management", //Architect
     name: "Architect",
     text: "Management",
+    icon: <WorkIcon />,
     component: Management,
     layout: "/architect",
   },
@@ -55,6 +63,7 @@ var routes = [
     path: "/libraries", //Architect
     name: "Architect",
     text: "Libraries",
+    icon: <LibraryBooksIcon />,
     component: ProjectLibraries,
     layout: "/architect",
   },
@@ -63,6 +72,7 @@ var routes = [
     path: "/profile", //Architect
     name: "Architect",
     text: "Profile",
+    icon: <ManageAccountsIcon />,
     component: MyProfile,
     layout: "/architect",
   },
