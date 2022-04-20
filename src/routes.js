@@ -25,7 +25,8 @@ import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
 
-import ArchitectIndex from "./pages/Architect/Home";
+// import ArchitectIndex from "./pages/Architect/Home";
+import ArchitectIndex from "./pages/Architect/Home2";
 import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
 import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
 import MyProfile from "./pages/Architect/MyProfile/Index";
@@ -37,6 +38,7 @@ var routes = [
   {
     path: "/index", //Architect
     name: "Architect",
+    text: "Home",
     component: ArchitectIndex,
     layout: "/architect",
   },
@@ -44,6 +46,7 @@ var routes = [
   {
     path: "/management", //Architect
     name: "Architect",
+    text: "Management",
     component: Management,
     layout: "/architect",
   },
@@ -51,6 +54,7 @@ var routes = [
   {
     path: "/libraries", //Architect
     name: "Architect",
+    text: "Libraries",
     component: ProjectLibraries,
     layout: "/architect",
   },
@@ -58,6 +62,7 @@ var routes = [
   {
     path: "/profile", //Architect
     name: "Architect",
+    text: "Profile",
     component: MyProfile,
     layout: "/architect",
   },
@@ -65,6 +70,7 @@ var routes = [
   {
     path: "/projectview/:id", //Architect
     name: "Architect",
+    text: "ProjectView",
     component: ProjectView,
     layout: "/architect",
   },
@@ -72,6 +78,7 @@ var routes = [
   {
     path: "/success", //Architect
     name: "Architect",
+    text: "Success",
     component: SubscriptionSuccess,
     layout: "/architect",
   },
