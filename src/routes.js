@@ -17,6 +17,7 @@ import Documentation from "./pages/auth/documentation";
 import Manufacturer from "./pages/auth/manufacturers";
 import Fabricant from "./pages/auth/fabricants";
 import Libraries from "./pages/auth/libraries";
+import Services from "./pages/auth/services";
 import Contact from "./pages/auth/contactUs";
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
@@ -259,6 +260,13 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Libraries,
+    layout: "/auth",
+  },
+  {
+    path: "/services",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Services,
     layout: "/auth",
   },
   {
