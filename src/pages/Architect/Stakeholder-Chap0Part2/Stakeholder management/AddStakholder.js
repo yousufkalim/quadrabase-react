@@ -127,8 +127,6 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
-
-          <br />
           <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
@@ -200,7 +198,36 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
           <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button variant="contained" className={classes.btn} type="submit">
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              onClick={handleAddStakeholderModal}
+            >
+              {t("Close")}
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                hover: "none",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+            >
               {t("Create")}
             </Button>
           </div>

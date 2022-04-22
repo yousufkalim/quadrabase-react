@@ -1,0 +1,51 @@
+.login-conatainer{
+    height:100vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 6.14%, rgba(255, 134, 22, 0.14) 97.59%), #FFFFFF;
+    display: flex;
+}
+
+.left-container{
+    width: 50%;
+}
+
+.right-container{
+    width: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.logo-qb{
+    height: 10vh;
+    position:absolute;
+    top:10%;
+    left:8%;
+    cursor: pointer;
+}
+
+.vector{
+    width: 50vw;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+.form-container{
+    width:50%;
+}
+
+.forget-pass{
+    width: 100%;
+    text-align: right;
+}
+
+.login-form{
+    margin-bottom: 2rem;
+}
+
+.eye-icon{
+    color: #8C1244;
+    position:relative;
+    margin-top: -104px;
+    margin-right: 25px;
+    cursor: pointer;
+}

@@ -60,7 +60,6 @@ const EditChap0Part2 = ({ handleEditChap0Part2Modal, Chap0Part2 }) => {
             handleChange={(e) => setTitle(e.target.value)}
           />
           <br />
-          <br />
           <label htmlFor="grid-first-name">{t("Text")}</label>
           <br />
           <br />
@@ -69,7 +68,35 @@ const EditChap0Part2 = ({ handleEditChap0Part2Modal, Chap0Part2 }) => {
 
           {/* create button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button variant="contained" className={classes.btn} type="submit">
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              onClick={handleEditChap0Part2Modal}
+            >
+              {t("Close")}
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              type="submit"
+            >
               {t("Update")}
             </Button>
           </div>

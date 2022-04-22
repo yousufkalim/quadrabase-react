@@ -139,7 +139,7 @@ export default function subList(props) {
             />
           ))}
         {level === "level0" && <>&nbsp;&nbsp;&nbsp;&nbsp;</>}
-        {type !== "private" && (
+        {type !== "private" && type != "static" && (
           <FontAwesomeIcon
             icon={faEllipsisV}
             onClick={(e) => handleanchorEl(e, _id, level)}

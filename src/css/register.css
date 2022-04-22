@@ -1,0 +1,152 @@
+.register-main{
+    min-height: 100vh;
+    display: block;
+    overflow: auto;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 6.14%, rgba(255, 134, 22, 0.14) 97.59%), #FFFFFF;
+}
+
+.register-conatainer{
+    min-height: 100vh;
+    display: flex;
+}
+
+.register-left-container{
+    width: 50%;
+}
+
+.register-right-container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-qb{
+    height: 10vh;
+    position:absolute;
+    top:10%;
+    left:8%;
+    cursor: pointer;
+}
+
+.vector{
+    width: 50vw;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+.register-form-container{
+    width:100%;
+}
+
+.stepperMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.stepper{
+    width:420px;
+}
+
+.register-eye-icon{
+    color: #8C1244;
+    position:relative;
+    margin-top: -75px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.subscription-box{
+    color: #8C1244;
+    width:110%;
+}
+
+.common-text{
+    line-height: 100%;
+    width:250px;
+}
+
+.common-text-2{
+    line-height: 100%;
+    width:350px;
+}
+
+.amount-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width:200px;
+    padding: 0 20px;
+    border-radius: 10px;
+    border:2px solid #8C1244;
+    height: 40px;
+}
+
+.amount-container-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width:200px;
+    height: 40px;
+    color:black;
+}
+
+.amount-container-3{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width:200px;
+    color:black;
+    margin-bottom: 10px;
+}
+
+.subscription-box-intial{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.subscription-box-intial-2{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+}
+
+.subscription-box-extend{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.register-divider{
+    width:100%;
+    height: 1px;
+    background-color: #5E5C5F;
+    margin: 20px 0;
+    width:110%;
+}
+
+.radio-button{
+    accent-color: #8C1244;
+    height: 16px;
+    width: 16px;
+}
+
+.payment-flex-contaner{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+@media only screen and (max-height: 750px) {
+    .register-form-container {
+        margin-top:10%;
+    }
+}

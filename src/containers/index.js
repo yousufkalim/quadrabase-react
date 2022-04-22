@@ -8,8 +8,9 @@ import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { focusHandling } from "cruip-js-toolkit";
 import "../charts/ChartjsConfig";
 import { withTranslation } from "react-i18next";
-
 import { isExpired } from "react-jwt";
+import ProjectView from "../pages/Architect/Project/ProjectView";
+
 function Index(props) {
   const { t, i18n } = props;
 
@@ -42,6 +43,12 @@ function Index(props) {
     ) : (
       <>
         <Switch>
+          <Route
+            path="/projectview/:id"
+            render={(props) => (
+              <ProjectView {...props} i18n={i18n} translate={t} />
+            )}
+          />
           <Route
             path="/architect"
             render={(props) => (

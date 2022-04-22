@@ -1,23 +1,31 @@
 // init
 import React, { useState, useEffect } from "react";
-import { useStyles } from "../../css/register";
-import api from "../../api";
-import { toast } from "react-toastify";
-import validate from "validate.js";
-import Logo from "../../assets/Quadralogo.png";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
-
-// component
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
+import "../../css/register.css";
+import logo from "../../assets/Quadralogo.png";
+import Vector from "../../assets/Vector.png";
+import TextInput from "../../components/TextInput";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { useHistory } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import InputWithLabel from "../../components/Architect/InputWithLabel";
-import InputDropdown from "../../components/Architect/InputDropdown";
+import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
+import { Typography } from "@mui/material";
+import Stepper from "./Components/Stepper";
+import validate from "validate.js";
+import moment from "moment";
+import api from "../../api";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import BasicDropdown from "../../components/Architect/BasicDropdown";
+
+// input styling
+const InputStyle = {
+  borderColor: "#8C1244",
+  marginTop: 5,
+  backgroundColor: "transparent",
+  height: 40,
+  borderRadius: 10,
+};
 
 const steps = [
   "Informations générales",
@@ -117,9 +125,9 @@ const fabricantSubOptions = [
   { _id: "Alertes", title: "Alertes" },
 ];
 
-// Register Component
-const Register = ({ setCurrentPage }) => {
-  const classes = useStyles();
+// component
+const Register = () => {
+  // history object
   const history = useHistory();
 
   // states
@@ -129,6 +137,8 @@ const Register = ({ setCurrentPage }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
   const [invoiceUrl, setInvoiceUrl] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [form1, setForm1] = useState({
     values: {
       establishment: "",
@@ -170,6 +180,7 @@ const Register = ({ setCurrentPage }) => {
       price: 500,
     },
   });
+
   useEffect(() => {
     const errors = validate(form1.values, schema1);
     setForm1((formState) => ({
@@ -216,8 +227,7 @@ const Register = ({ setCurrentPage }) => {
   };
 
   // handle Finish function
-  const handleFinish = async (e) => {
-    e.preventDefault();
+  const handleFinish = async () => {
     // to creating account
     let data = {};
     if (type === "Prescripteur") {
@@ -357,6 +367,66 @@ const Register = ({ setCurrentPage }) => {
     window.location = res.data.url;
   };
 
+  const generateInvoice = async () => {
+    if (type === "Prescripteur") {
+      // to generate invoice
+      let invoiceData = {
+        address1: form1.values.address_1,
+        initialPrice: subAmounts.initial.price,
+        initialCount: subAmounts.initial.count,
+        extendedPrice: subAmounts.extended.price,
+        extendedCount: subAmounts.extended.count,
+        packPrice: subAmounts.pack.price,
+        packCount: subAmounts.pack.count,
+        totalHT:
+          subAmounts.initial.price * subAmounts.initial.count +
+          subAmounts.extended.price * subAmounts.extended.count +
+          subAmounts.pack.price * subAmounts.pack.count,
+        tvaPercentage: 20,
+        tvaAmount:
+          ((subAmounts.initial.price * subAmounts.initial.count +
+            subAmounts.extended.price * subAmounts.extended.count +
+            subAmounts.pack.price * subAmounts.pack.count) *
+            20) /
+          100,
+        TotalCost:
+          ((subAmounts.initial.price * subAmounts.initial.count +
+            subAmounts.extended.price * subAmounts.extended.count +
+            subAmounts.pack.price * subAmounts.pack.count) *
+            20) /
+            100 +
+          subAmounts.initial.price * subAmounts.initial.count +
+          subAmounts.extended.price * subAmounts.extended.count +
+          subAmounts.pack.price * subAmounts.pack.count,
+        paymentMode: "Card",
+      };
+      const result = await api("post", `/Architects/download`, invoiceData);
+      window.open(result.data.path, "_blank");
+    } else {
+      // to generate invoice
+      let invoiceData = {
+        address1: form1.values.address_1,
+        alertPrice: 5000,
+        alertCount: fabricantSub === "Alertes" ? 1 : 0,
+        alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
+        referenPrice: 2000,
+        referenCount: fabricantSub === "Référencement" ? 1 : 0,
+        referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
+        totalHT: fabricantSub === "Référencement" ? 2000 : 0,
+        tvaPercentage: 20,
+        tvaAmount:
+          fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
+        TotalCost:
+          fabricantSub === "Alertes"
+            ? (5000 * 20) / 100 + 5000
+            : (2000 * 20) / 100 + 2000,
+        paymentMode: "Card",
+      };
+      const result = await api("post", `/Providers/download`, invoiceData);
+      window.open(result.data.path, "_blank");
+    }
+  };
+
   const generateQuote = async () => {
     if (type === "Prescripteur") {
       let invoiceData = {
@@ -451,6 +521,8 @@ const Register = ({ setCurrentPage }) => {
     setActiveStep(newActiveStep);
   };
 
+  const handleBack = () => setActiveStep(activeStep - 1);
+
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
@@ -474,478 +546,572 @@ const Register = ({ setCurrentPage }) => {
     }
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
-  // returning jsx
+  // jsx
   return (
-    <div className={classes.mainContainer}>
-      {/* left container */}
-      <div className={classes.left}>
-        {/* Welcome text and login button */}
-        <div className={classes.leftContent}>
-          <img src={Logo} alt="" />
-          <button
-            type="submit"
-            className={classes.btnLogin}
-            onClick={() => {
-              history.push("/auth/login");
-            }}
-          >
-            Connexion
-          </button>
+    <div className="register-main">
+      <div className="register-conatainer">
+        <div className="register-left-container">
+          <img
+            src={logo}
+            alt="QBSoft"
+            className="logo-qb"
+            onClick={() => history.push("/auth/home")}
+          />
+          <img src={Vector} alt="QBSoft" className="vector" />
         </div>
-      </div>
-      <div className={classes.container}>
-        {!startStepper ? (
-          <Box sx={{ width: "70%" }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                pt: 2,
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h4" gutterBottom>
-                Choix du Statut
-              </Typography>
-            </Box>
-
-            <InputDropdown
-              required={true}
-              name="type"
-              value={type}
-              options={typeOptions}
-              type="text"
-              onChange={(e) => setType(e.target.value)}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                pt: 2,
-                justifyContent: "center",
-              }}
-            >
-              <button
-                className={classes.btn}
-                onClick={() => setStartStepper(true)}
-              >
-                Continuez
-              </button>
-            </Box>
-          </Box>
-        ) : (
-          <Box sx={{ width: "80%" }}>
-            <Stepper
-              nonLinear
-              activeStep={activeStep}
-              sx={{
-                "& .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active": {
-                  color: "#3b373c",
-                },
-                "& .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed":
-                  {
-                    color: "#3b373c",
-                  },
-              }}
-            >
-              {steps.map((label, index) => (
-                <Step key={label} completed={completed[index]}>
-                  <StepButton color="inherit" onClick={handleStep(index)}>
-                    {label}
-                  </StepButton>
-                </Step>
-              ))}
-            </Stepper>
-            <div>
-              {allStepsCompleted() ? (
-                <React.Fragment>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    Toutes les étapes terminées -{" "}
-                    <a href={invoiceUrl} target="_blank">
-                      Voir la facture
-                    </a>
+        <div className="register-right-container">
+          <div className="register-form-container">
+            {!startStepper ? (
+              <Box sx={{ width: "70%" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    pt: 2,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="h4" gutterBottom>
+                    Choix du Statut
                   </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button onClick={() => history.push("/")}>
-                      Procéder à la connexion
-                    </Button>
-                  </Box>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    {activeStep === 0 ? (
-                      <>
-                        <br />
-                        <form onSubmit={handleComplete}>
-                          {type === "Prescripteur" ? (
-                            <Grid container spacing={2}>
-                              <Grid item zeroMinWidth xs>
-                                <InputWithLabel
-                                  label="Nom Etablissement"
-                                  required={true}
-                                  name="establishment"
-                                  type="text"
-                                  value={form1.values.establishment}
-                                  handleChange={(e) =>
-                                    handleChange(e.target.name, e.target.value)
-                                  }
-                                  error={
-                                    form1.touched.establishment &&
-                                    form1.errors.establishment
-                                  }
-                                  errorMessage={
-                                    form1.touched.establishment &&
-                                    form1.errors.establishment
-                                  }
-                                />
-                              </Grid>
-                              <Grid item zeroMinWidth xs>
-                                <InputWithLabel
-                                  label="Service"
-                                  name="service"
-                                  type="text"
-                                  value={form1.values.service}
-                                  handleChange={(e) =>
-                                    handleChange(e.target.name, e.target.value)
-                                  }
-                                  error={
-                                    form1.touched.service &&
-                                    form1.errors.service
-                                  }
-                                  errorMessage={
-                                    form1.touched.service &&
-                                    form1.errors.service
-                                  }
-                                />
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>
-                              <InputWithLabel
-                                label="Nom Etablissement"
-                                required={true}
-                                name="establishment"
-                                type="text"
-                                value={form1.values.establishment}
-                                handleChange={(e) =>
-                                  handleChange(e.target.name, e.target.value)
-                                }
-                                error={
-                                  form1.touched.establishment &&
-                                  form1.errors.establishment
-                                }
-                                errorMessage={
-                                  form1.touched.establishment &&
-                                  form1.errors.establishment
-                                }
-                              />
-                              <br />
-                            </>
-                          )}
+                </Box>
 
-                          <br />
-                          <Grid container spacing={2}>
-                            <Grid item zeroMinWidth xs>
-                              <InputWithLabel
-                                label="Address 1"
-                                required={true}
+                <BasicDropdown
+                  required={true}
+                  name="type"
+                  value={type}
+                  options={typeOptions}
+                  type="text"
+                  onChange={(e) => setType(e.target.value)}
+                  style={{
+                    width: "100%",
+                    height: 40,
+                    border: "1px solid #8C1244",
+                    borderRadius: 10,
+                  }}
+                />
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    pt: 2,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    style={{
+                      textTransform: "none",
+                      backgroundColor: "#8C1244",
+                      borderRadius: 8,
+                    }}
+                    onClick={() => setStartStepper(true)}
+                  >
+                    Continuez
+                  </Button>
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{ width: "80%" }}>
+                <Stepper
+                  activeStep={activeStep}
+                  handleStep={handleStep}
+                  completed={completed}
+                />
+                {allStepsCompleted() ? (
+                  <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                      Toutes les étapes terminées -{" "}
+                      <a href={invoiceUrl} target="_blank">
+                        Voir la facture
+                      </a>
+                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                      <Box sx={{ flex: "1 1 auto" }} />
+                      <Button onClick={() => history.push("/")}>
+                        Procéder à la connexion
+                      </Button>
+                    </Box>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                      {activeStep === 0 ? (
+                        <form>
+                          <Grid
+                            container
+                            rowSpacing={1}
+                            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                          >
+                            {type === "Prescripteur" ? (
+                              <>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Name of Establishment *"
+                                    placeholder="xyz"
+                                    type="text"
+                                    name="establishment"
+                                    value={form1.values.establishment}
+                                    onChange={(e) =>
+                                      handleChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
+                                    required={true}
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form1.touched.establishment ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form1.errors.establishment}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Service *"
+                                    placeholder="xyz"
+                                    type="text"
+                                    name="service"
+                                    value={form1.values.service}
+                                    onChange={(e) =>
+                                      handleChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
+                                    required={true}
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form1.touched.service ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form1.errors.service}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                              </>
+                            ) : (
+                              <Grid item xs={12} sx={{ marginBottom: 2 }}>
+                                <TextInput
+                                  label="Name of Establishment *"
+                                  placeholder="xyz"
+                                  type="text"
+                                  name="establishment"
+                                  value={form1.values.establishment}
+                                  onChange={(e) =>
+                                    handleChange(e.target.name, e.target.value)
+                                  }
+                                  required={true}
+                                  labelColor="#8C1244"
+                                  labelFont={18}
+                                  style={InputStyle}
+                                />
+                                <div className="text-red-600 ">
+                                  {form1.touched.establishment ? (
+                                    <div style={{ fontSize: 12 }}>
+                                      {form1.errors.establishment}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </Grid>
+                            )}
+
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
+                                label="Address 1 *"
+                                placeholder="xyz, Paris"
+                                type="text"
                                 name="address_1"
-                                type="text"
                                 value={form1.values.address_1}
-                                handleChange={(e) =>
+                                onChange={(e) =>
                                   handleChange(e.target.name, e.target.value)
                                 }
-                                error={
-                                  form1.touched.address_1 &&
-                                  form1.errors.address_1
-                                }
-                                errorMessage={
-                                  form1.touched.address_1 &&
-                                  form1.errors.address_1
-                                }
+                                required={true}
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
                               />
+                              <div className="text-red-600 ">
+                                {form1.touched.address_1 ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.address_1}
+                                  </div>
+                                ) : null}
+                              </div>
                             </Grid>
-                            <Grid item zeroMinWidth xs>
-                              <InputWithLabel
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
                                 label="Address 2"
+                                placeholder="xyz, Paris"
+                                type="text"
                                 name="address_2"
-                                type="text"
                                 value={form1.values.address_2}
-                                handleChange={(e) =>
+                                onChange={(e) =>
                                   handleChange(e.target.name, e.target.value)
                                 }
+                                required={true}
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
                               />
                             </Grid>
-                          </Grid>
-                          <br />
-                          <Grid container spacing={2}>
-                            <Grid item zeroMinWidth xs>
-                              <InputWithLabel
-                                label="Boite Postale"
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
+                                label="PO Box *"
+                                placeholder="xyz, Paris"
+                                type="text"
                                 name="po_box"
-                                type="text"
                                 value={form1.values.po_box}
-                                handleChange={(e) =>
+                                onChange={(e) =>
                                   handleChange(e.target.name, e.target.value)
                                 }
-                                error={
-                                  form1.touched.po_box && form1.errors.po_box
-                                }
-                                errorMessage={
-                                  form1.touched.po_box && form1.errors.po_box
-                                }
-                              />
-                            </Grid>
-                            <Grid item zeroMinWidth xs>
-                              {type === "Prescripteur" ? (
-                                <InputWithLabel
-                                  label="Code Postal"
-                                  required={true}
-                                  name="postal_code"
-                                  type="number"
-                                  value={form1.values.postal_code}
-                                  handleChange={(e) =>
-                                    handleChange(e.target.name, e.target.value)
-                                  }
-                                  error={
-                                    form1.touched.postal_code &&
-                                    form1.errors.postal_code
-                                  }
-                                  errorMessage={
-                                    form1.touched.postal_code &&
-                                    form1.errors.postal_code
-                                  }
-                                />
-                              ) : (
-                                <InputWithLabel
-                                  label="Code Postal"
-                                  required={true}
-                                  name="postal_code"
-                                  type="number"
-                                  value={form1.values.postal_code}
-                                  handleChange={(e) =>
-                                    handleChange(e.target.name, e.target.value)
-                                  }
-                                  error={
-                                    form1.touched.postal_code &&
-                                    form1.errors.postal_code
-                                  }
-                                  errorMessage={
-                                    form1.touched.postal_code &&
-                                    form1.errors.postal_code
-                                  }
-                                />
-                              )}
-                            </Grid>
-                          </Grid>
-                          <br />
-                          <Grid container spacing={2}>
-                            <Grid item zeroMinWidth xs>
-                              <InputWithLabel
-                                label="Ville"
                                 required={true}
-                                name="city"
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
+                              />
+                              <div className="text-red-600 ">
+                                {form1.touched.po_box ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.po_box}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </Grid>
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
+                                label="Postal Code *"
+                                placeholder="54500"
                                 type="text"
-                                value={form1.values.city}
-                                handleChange={(e) =>
+                                name="postal_code"
+                                value={form1.values.postal_code}
+                                onChange={(e) =>
                                   handleChange(e.target.name, e.target.value)
                                 }
-                                error={form1.touched.city && form1.errors.city}
-                                errorMessage={
-                                  form1.touched.city && form1.errors.city
-                                }
-                              />
-                            </Grid>
-                            <Grid item zeroMinWidth xs>
-                              <InputWithLabel
-                                label="Téléphone"
                                 required={true}
-                                name="phone"
-                                type="number"
-                                value={form1.values.phone}
-                                handleChange={(e) =>
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
+                              />
+                              <div className="text-red-600 ">
+                                {form1.touched.postal_code ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.postal_code}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </Grid>
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
+                                label="City *"
+                                placeholder="xyz, Paris"
+                                type="text"
+                                name="city"
+                                value={form1.values.city}
+                                onChange={(e) =>
                                   handleChange(e.target.name, e.target.value)
                                 }
-                                error={
-                                  form1.touched.phone && form1.errors.phone
-                                }
-                                errorMessage={
-                                  form1.touched.phone && form1.errors.phone
-                                }
+                                required={true}
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
                               />
+                              <div className="text-red-600 ">
+                                {form1.touched.city ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.city}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </Grid>
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                              <TextInput
+                                label="Phone Number *"
+                                placeholder="0900929008"
+                                type="number"
+                                name="phone"
+                                value={form1.values.phone}
+                                onChange={(e) =>
+                                  handleChange(e.target.name, e.target.value)
+                                }
+                                required={true}
+                                labelColor="#8C1244"
+                                labelFont={18}
+                                style={InputStyle}
+                              />
+                              <div className="text-red-600 ">
+                                {form1.touched.phone ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.phone}
+                                  </div>
+                                ) : null}
+                              </div>
                             </Grid>
                           </Grid>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "row",
-                              pt: 2,
-                              justifyContent: "center",
+                          <div
+                            style={{
+                              width: "100%",
+                              textAlign: "center",
+                              marginTop: 20,
                             }}
                           >
-                            <button
-                              type="submit"
-                              className={classes.btn}
+                            <Button
+                              variant="contained"
+                              style={{
+                                textTransform: "none",
+                                backgroundColor: "#8C1244",
+                                borderRadius: 8,
+                              }}
+                              onClick={() => setStartStepper()}
+                            >
+                              Back
+                            </Button>
+                            &nbsp;
+                            <Button
+                              variant="contained"
+                              style={{
+                                textTransform: "none",
+                                backgroundColor:
+                                  form1?.errors?.establishment ||
+                                  form1?.errors?.address_1 ||
+                                  form1?.errors?.postal_code ||
+                                  form1?.errors?.phone
+                                    ? "#d9adad"
+                                    : "#8C1244",
+                                borderRadius: 8,
+                              }}
+                              onClick={() => handleComplete()}
                               disabled={
                                 form1?.errors?.establishment ||
                                 form1?.errors?.address_1 ||
                                 form1?.errors?.postal_code ||
                                 form1?.errors?.phone
                               }
-                              style={{
-                                pointerEvents:
-                                  (form1?.errors?.establishment ||
-                                    form1?.errors?.address_1 ||
-                                    form1?.errors?.postal_code ||
-                                    form1?.errors?.phone) &&
-                                  "none",
-                              }}
                             >
-                              Valider
-                            </button>
-                          </Box>
+                              Next
+                            </Button>
+                          </div>
                         </form>
-                      </>
-                    ) : activeStep === 1 ? (
-                      <>
-                        <br />
-                        <form onSubmit={handleComplete}>
+                      ) : activeStep === 1 ? (
+                        <form>
                           {type === "Prescripteur" ? (
                             <>
-                              <Grid container spacing={2}>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Prénom"
-                                    required={true}
+                              <Grid
+                                container
+                                rowSpacing={1}
+                                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                              >
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="First Name *"
+                                    placeholder="Claude"
+                                    type="text"
                                     name="first_name"
-                                    type="text"
                                     value={form2.values.first_name}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.first_name &&
-                                      form2.errors.first_name
-                                    }
-                                    errorMessage={
-                                      form2.touched.first_name &&
-                                      form2.errors.first_name
-                                    }
-                                  />
-                                </Grid>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Nom"
                                     required={true}
-                                    name="last_name"
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form2.touched.first_name ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.first_name}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Last Name *"
+                                    placeholder="Dubois"
                                     type="text"
+                                    name="last_name"
                                     value={form2.values.last_name}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.last_name &&
-                                      form2.errors.last_name
-                                    }
-                                    errorMessage={
-                                      form2.touched.last_name &&
-                                      form2.errors.last_name
-                                    }
-                                  />
-                                </Grid>
-                              </Grid>
-                              <br />
-                              <InputWithLabel
-                                label="Email"
-                                required={true}
-                                name="email"
-                                type="email"
-                                value={form2.values.email}
-                                handleChange={(e) =>
-                                  handleChange(e.target.name, e.target.value)
-                                }
-                                error={
-                                  form2.touched.email && form2.errors.email
-                                }
-                                errorMessage={
-                                  form2.touched.email && form2.errors.email
-                                }
-                              />
-                              <br />
-                              <br />
-                              <Grid container spacing={2}>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Mot de passe"
                                     required={true}
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form2.touched.last_name ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.last_name}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={12} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Email *"
+                                    placeholder="abc@xyz.com"
+                                    type="email"
+                                    name="email"
+                                    value={form2.values.email}
+                                    onChange={(e) =>
+                                      handleChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
+                                    required={true}
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form2.touched.email ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.email}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Password"
+                                    type={showPassword ? "text" : "password"}
                                     name="password"
-                                    type="password"
                                     value={form2.values.password}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.password &&
-                                      form2.errors.password
-                                    }
-                                    errorMessage={
-                                      form2.touched.password &&
-                                      form2.errors.password
-                                    }
-                                  />
-                                </Grid>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Confirmer le mot de passe"
                                     required={true}
+                                    labelColor="#8C1244"
+                                    placeholder="**********"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="forget-pass">
+                                    {!showPassword ? (
+                                      <VisibilityIcon
+                                        className="register-eye-icon"
+                                        onClick={() => setShowPassword(true)}
+                                      />
+                                    ) : (
+                                      <VisibilityOffIcon
+                                        className="register-eye-icon"
+                                        onClick={() => setShowPassword(false)}
+                                      />
+                                    )}
+                                  </div>
+                                  <div
+                                    className="text-red-600 "
+                                    style={{ marginTop: -22 }}
+                                  >
+                                    {form2.touched.password ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.password}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Confirm Password"
+                                    type={
+                                      showConfirmPassword ? "text" : "password"
+                                    }
                                     name="confirm_password"
-                                    type="password"
                                     value={form2.values.confirm_password}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.confirm_password &&
-                                      form2.errors.confirm_password
-                                    }
-                                    errorMessage={
-                                      form2.touched.confirm_password &&
-                                      form2.errors.confirm_password
-                                    }
+                                    required={true}
+                                    labelColor="#8C1244"
+                                    placeholder="**********"
+                                    labelFont={18}
+                                    style={InputStyle}
                                   />
+                                  <div className="forget-pass">
+                                    {!showConfirmPassword ? (
+                                      <VisibilityIcon
+                                        className="register-eye-icon"
+                                        onClick={() =>
+                                          setShowConfirmPassword(true)
+                                        }
+                                      />
+                                    ) : (
+                                      <VisibilityOffIcon
+                                        className="register-eye-icon"
+                                        onClick={() =>
+                                          setShowConfirmPassword(false)
+                                        }
+                                      />
+                                    )}
+                                  </div>
+                                  <div
+                                    className="text-red-600 "
+                                    style={{ marginTop: -22 }}
+                                  >
+                                    {form2.touched.confirm_password ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.confirm_password}
+                                      </div>
+                                    ) : null}
+                                  </div>
                                 </Grid>
                               </Grid>
-                              <br />
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  pt: 2,
-                                  justifyContent: "center",
+                              <div
+                                style={{
+                                  width: "100%",
+                                  textAlign: "center",
+                                  marginTop: 20,
                                 }}
                               >
-                                <button
-                                  type="submit"
-                                  className={classes.btn}
+                                <Button
+                                  variant="contained"
+                                  style={{
+                                    textTransform: "none",
+                                    backgroundColor: "#8C1244",
+                                    borderRadius: 8,
+                                  }}
+                                  onClick={() => handleBack()}
+                                >
+                                  Back
+                                </Button>
+                                &nbsp;
+                                <Button
+                                  variant="contained"
+                                  style={{
+                                    textTransform: "none",
+                                    backgroundColor:
+                                      form2?.errors?.first_name ||
+                                      form2?.errors?.last_name ||
+                                      form2?.errors?.email ||
+                                      form2?.errors?.password ||
+                                      form2?.errors?.confirm_password
+                                        ? "#d9adad"
+                                        : "#8C1244",
+                                    borderRadius: 8,
+                                  }}
+                                  onClick={() => handleComplete()}
                                   disabled={
                                     form2?.errors?.first_name ||
                                     form2?.errors?.last_name ||
@@ -953,156 +1119,164 @@ const Register = ({ setCurrentPage }) => {
                                     form2?.errors?.password ||
                                     form2?.errors?.confirm_password
                                   }
-                                  style={{
-                                    pointerEvents:
-                                      (form2?.errors?.first_name ||
-                                        form2?.errors?.last_name ||
-                                        form2?.errors?.email ||
-                                        form2?.errors?.password ||
-                                        form2?.errors?.confirm_password) &&
-                                      "none",
-                                  }}
                                 >
-                                  Valider
-                                </button>
-                              </Box>
+                                  Next
+                                </Button>
+                              </div>
                             </>
                           ) : (
                             <>
-                              <Grid container spacing={2}>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Nom"
-                                    required={true}
-                                    name="first_name"
+                              <Grid
+                                container
+                                rowSpacing={1}
+                                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                              >
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Name *"
+                                    placeholder="Claude"
                                     type="text"
+                                    name="first_name"
                                     value={form2.values.first_name}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.first_name &&
-                                      form2.errors.first_name
-                                    }
-                                    errorMessage={
-                                      form2.touched.first_name &&
-                                      form2.errors.first_name
-                                    }
-                                  />
-                                </Grid>
-                                <Grid item zeroMinWidth xs>
-                                  <InputWithLabel
-                                    label="Email"
                                     required={true}
-                                    name="email"
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
+                                  />
+                                  <div className="text-red-600 ">
+                                    {form2.touched.first_name ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.first_name}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                  <TextInput
+                                    label="Email *"
+                                    placeholder="abc@xyz.com"
                                     type="email"
+                                    name="email"
                                     value={form2.values.email}
-                                    handleChange={(e) =>
+                                    onChange={(e) =>
                                       handleChange(
                                         e.target.name,
                                         e.target.value
                                       )
                                     }
-                                    error={
-                                      form2.touched.email && form2.errors.email
-                                    }
-                                    errorMessage={
-                                      form2.touched.email && form2.errors.email
-                                    }
+                                    required={true}
+                                    labelColor="#8C1244"
+                                    labelFont={18}
+                                    style={InputStyle}
                                   />
+                                  <div className="text-red-600 ">
+                                    {form2.touched.email ? (
+                                      <div style={{ fontSize: 12 }}>
+                                        {form2.errors.email}
+                                      </div>
+                                    ) : null}
+                                  </div>
                                 </Grid>
                               </Grid>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  pt: 2,
-                                  justifyContent: "center",
+                              <div
+                                style={{
+                                  width: "100%",
+                                  textAlign: "center",
+                                  marginTop: 20,
                                 }}
                               >
-                                <button
-                                  type="submit"
-                                  className={classes.btn}
+                                <Button
+                                  variant="contained"
+                                  style={{
+                                    textTransform: "none",
+                                    backgroundColor: "#8C1244",
+                                    borderRadius: 8,
+                                  }}
+                                  onClick={() => handleBack()}
+                                >
+                                  Back
+                                </Button>
+                                &nbsp;
+                                <Button
+                                  variant="contained"
+                                  style={{
+                                    textTransform: "none",
+                                    backgroundColor:
+                                      form2?.errors?.first_name ||
+                                      form2?.errors?.email
+                                        ? "#d9adad"
+                                        : "#8C1244",
+                                    borderRadius: 8,
+                                  }}
+                                  onClick={() => handleComplete()}
                                   disabled={
                                     form2?.errors?.first_name ||
                                     form2?.errors?.email
                                   }
-                                  style={{
-                                    pointerEvents:
-                                      (form2?.errors?.first_name ||
-                                        form2?.errors?.email) &&
-                                      "none",
-                                  }}
                                 >
-                                  Valider
-                                </button>
-                              </Box>
+                                  Next
+                                </Button>
+                              </div>
                             </>
                           )}
                         </form>
-                      </>
-                    ) : activeStep === 2 ? (
-                      <>
-                        <br />
-                        <form onSubmit={handleComplete}>
-                          <div className={classes.mainBox}>
-                            {type === "Prescripteur" ? (
-                              <>
-                                {/* Top section */}
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginBottom: 5,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "55%",
-                                    }}
-                                  >
-                                    <span className={classes.borderText}>
-                                      Abonnement
-                                    </span>
-                                    <div className={classes.borderBox}>
-                                      <div className={classes.textContainer}>
-                                        <div>Abonnement Initial 1 an</div>
-                                        <div>
-                                          {subAmounts.initial.price.toFixed(2)}{" "}
-                                          € HT
-                                        </div>
-                                      </div>
-                                      <span style={{ fontSize: 12 }}>
-                                        (avec 1 pack 5 Projets)
+                      ) : activeStep === 2 ? (
+                        <>
+                          {type === "Prescripteur" ? (
+                            <>
+                              {" "}
+                              {/* Subscription */}
+                              <div>
+                                <strong>Subscription</strong>
+                                <div className="subscription-box">
+                                  <div className="subscription-box-intial">
+                                    <div className="common-text">
+                                      <span>
+                                        Initial subscription for 1 year
                                       </span>
-                                      <div className={classes.textContainer}>
-                                        <div>ReAbonnement 1 an</div>
-                                        <div>
-                                          {subAmounts.extended.price.toFixed(2)}{" "}
-                                          € HT
-                                        </div>
+                                      <br />
+                                      <small>(1 year, 5 Projects)</small>
+                                    </div>
+                                    <BasicDropdown
+                                      options={options}
+                                      value={subAmounts.initial.count}
+                                      component="register"
+                                      disabled={true}
+                                      style={{
+                                        backgroundColor: "lightgray",
+                                        borderRadius: 10,
+                                        height: 40,
+                                        width: 60,
+                                        fontSize: 20,
+                                        fontWeight: 700,
+                                        padding: 5,
+                                      }}
+                                    />
+                                    <div className="amount-container">
+                                      <div>Total HT</div>
+                                      <div>
+                                        {subAmounts.initial.price.toFixed(2)} €
                                       </div>
-                                      <span style={{ fontSize: 12 }}>
-                                        (uniquement si déjà abonné)
-                                      </span>
                                     </div>
                                   </div>
-                                  <div className={classes.middleBox}>
-                                    <div style={{ marginBottom: 5 }}>
-                                      <InputDropdown
-                                        options={options}
-                                        height={38}
-                                        disabled={true}
-                                        value={subAmounts.initial.count}
-                                        component="register"
-                                      />
+                                  <div className="subscription-box-extend">
+                                    <div className="common-text">
+                                      <span>
+                                        One-year subscription extension
+                                      </span>
+                                      <br />
+                                      <small>
+                                        (extend you subscription for one year)
+                                      </small>
                                     </div>
-                                    <InputDropdown
+                                    <BasicDropdown
                                       options={options}
-                                      height={38}
                                       value={subAmounts.extended.count}
                                       onChange={(e) => {
                                         setSubAmount((prev) => {
@@ -1112,34 +1286,20 @@ const Register = ({ setCurrentPage }) => {
                                       }}
                                       component="register"
                                       first="notDisable"
+                                      style={{
+                                        backgroundColor: "#f5f5f5",
+                                        borderRadius: 10,
+                                        height: 40,
+                                        width: 60,
+                                        fontSize: 20,
+                                        fontWeight: 700,
+                                        padding: 5,
+                                      }}
                                     />
-                                  </div>
-                                  <div className={classes.rightBox}>
-                                    <span className={classes.borderText}>
-                                      Total HT
-                                    </span>
-                                    <div className={classes.borderBox}>
-                                      <div
-                                        style={{
-                                          position: "relative",
-                                          zIndex: 1,
-                                          width: "100%",
-                                          textAlign: "right",
-                                          backgroundColor: "white",
-                                          padding: 7,
-                                          marginBottom: 5,
-                                        }}
-                                      >
-                                        {subAmounts.initial.price.toFixed(2)} €
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          textAlign: "right",
-                                          backgroundColor: "white",
-                                          padding: 7,
-                                        }}
-                                      >
+                                    <div className="amount-container">
+                                      <div>Total HT</div>
+                                      <div>
+                                        {" "}
                                         {(
                                           subAmounts.extended.count *
                                           subAmounts.extended.price
@@ -1149,39 +1309,20 @@ const Register = ({ setCurrentPage }) => {
                                     </div>
                                   </div>
                                 </div>
-
-                                {/* middle Section */}
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginBottom: 5,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "55%",
-                                    }}
-                                  >
-                                    <span className={classes.borderText}>
-                                      Pack Projets
-                                    </span>
-                                    <div className={classes.middleBorderBox}>
-                                      <div
-                                        className={classes.middleTextContainer}
-                                      >
-                                        <div>Pack de 5 Projets</div>
-                                        <div>
-                                          {subAmounts.pack.price.toFixed(2)} €
-                                          HT
-                                        </div>
-                                      </div>
+                              </div>
+                              {/* Projects */}
+                              <div style={{ padding: "20px 0" }}>
+                                <strong>Projects Pack</strong>
+                                <div className="subscription-box">
+                                  <div className="subscription-box-intial">
+                                    <div className="common-text">
+                                      <span>Pack of 5 Projects</span>
+                                      <br />
+                                      <small>(500.00 € HT)</small>
                                     </div>
-                                  </div>
-                                  <div className={classes.middleBox2}>
-                                    <InputDropdown
+                                    <BasicDropdown
                                       options={options}
-                                      height={38}
+                                      component="register"
                                       value={subAmounts.pack.count}
                                       onChange={(e) => {
                                         setSubAmount((prev) => {
@@ -1189,25 +1330,20 @@ const Register = ({ setCurrentPage }) => {
                                           return { ...prev };
                                         });
                                       }}
-                                      component="register"
+                                      style={{
+                                        backgroundColor: "#f5f5f5",
+                                        borderRadius: 10,
+                                        height: 40,
+                                        width: 60,
+                                        fontSize: 20,
+                                        fontWeight: 700,
+                                        padding: 5,
+                                      }}
                                     />
-                                  </div>
-                                  <div className={classes.rightBox}>
-                                    <span className={classes.borderText}>
-                                      Total HT
-                                    </span>
-                                    <div className={classes.middleBorderBox}>
-                                      <div
-                                        style={{
-                                          position: "relative",
-                                          zIndex: 1,
-                                          width: "100%",
-                                          textAlign: "right",
-                                          backgroundColor: "white",
-                                          padding: 3,
-                                          marginBottom: 5,
-                                        }}
-                                      >
+                                    <div className="amount-container">
+                                      <div>Total HT</div>
+                                      <div>
+                                        {" "}
                                         {(
                                           subAmounts.pack.count *
                                           subAmounts.pack.price
@@ -1217,502 +1353,44 @@ const Register = ({ setCurrentPage }) => {
                                     </div>
                                   </div>
                                 </div>
-
-                                {/* bottom  section */}
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginBottom: 5,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "100%",
-                                    }}
-                                  >
-                                    <span className={classes.borderText}>
-                                      Montant à régler
-                                    </span>
-                                    <div className={classes.borderBox}>
-                                      <div
-                                        style={{
-                                          height: "100%",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div>
-                                          <div>
-                                            Durée total :{" "}
-                                            {parseInt(
-                                              subAmounts.initial.count
-                                            ) +
-                                              parseInt(
-                                                subAmounts.extended.count
-                                              )}{" "}
-                                            an
-                                          </div>
-                                          <div>
-                                            Nombre de projets :{" "}
-                                            {parseInt(subAmounts.pack.count) *
-                                              5}
-                                          </div>
-                                        </div>
-                                        <div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              Total HT :
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {(
-                                                subAmounts.initial.price *
-                                                  subAmounts.initial.count +
-                                                subAmounts.extended.price *
-                                                  subAmounts.extended.count +
-                                                subAmounts.pack.price *
-                                                  subAmounts.pack.count
-                                              ).toFixed(2)}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              T.V.A 20% :
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {(
-                                                ((subAmounts.initial.price *
-                                                  subAmounts.initial.count +
-                                                  subAmounts.extended.price *
-                                                    subAmounts.extended.count +
-                                                  subAmounts.pack.price *
-                                                    subAmounts.pack.count) *
-                                                  20) /
-                                                100
-                                              ).toFixed(2)}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              Total T.T.C:
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {(
-                                                ((subAmounts.initial.price *
-                                                  subAmounts.initial.count +
-                                                  subAmounts.extended.price *
-                                                    subAmounts.extended.count +
-                                                  subAmounts.pack.price *
-                                                    subAmounts.pack.count) *
-                                                  20) /
-                                                  100 +
-                                                subAmounts.initial.price *
-                                                  subAmounts.initial.count +
-                                                subAmounts.extended.price *
-                                                  subAmounts.extended.count +
-                                                subAmounts.pack.price *
-                                                  subAmounts.pack.count
-                                              ).toFixed(2)}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    marginBottom: 5,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "50%",
-                                    }}
-                                  >
-                                    <span className={classes.borderText}>
-                                      Abonnement
-                                    </span>
-                                    <div className={classes.borderBox}>
-                                      <div className={classes.textContainer2}>
-                                        <div>Référencement</div>
-                                        <div>2,000.00 € HT</div>
-                                      </div>
-                                      <div className={classes.textContainer}>
-                                        <div>Alertes</div>
-                                        <div>5,000.00 € HT</div>
-                                      </div>
-                                      <span style={{ fontSize: 12 }}>
-                                        (comprenant le référencement)
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className={classes.middleBox3}>
-                                    <InputDropdown
-                                      options={fabricantSubOptions}
-                                      height={38}
-                                      value={fabricantSub}
-                                      onChange={(e) => {
-                                        setFabricantSub(e.target.value);
-                                      }}
-                                      component="register"
-                                      first="notDisable"
-                                    />
-                                  </div>
-                                  <div className={classes.rightBox2}>
-                                    <span className={classes.borderText}>
-                                      Total HT
-                                    </span>
-                                    <div className={classes.borderBox2}>
-                                      <div
-                                        style={{
-                                          position: "relative",
-                                          zIndex: 1,
-                                          width: "100%",
-                                          textAlign: "right",
-                                          backgroundColor: "white",
-                                          padding: 7,
-                                          marginBottom: 5,
-                                        }}
-                                      >
-                                        {fabricantSub === "Alertes" ? (
-                                          <>5000.00</>
-                                        ) : (
-                                          <>2000.00</>
-                                        )}{" "}
-                                        €
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginBottom: 5,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "100%",
-                                    }}
-                                  >
-                                    <span className={classes.borderText}>
-                                      Montant à régler
-                                    </span>
-                                    <div className={classes.borderBox}>
-                                      <div
-                                        style={{
-                                          height: "100%",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div>
-                                          <div>
-                                            Abonnement sélectionné :{" "}
-                                            {fabricantSub}
-                                          </div>
-                                        </div>
-                                        <div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              Total HT :
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {fabricantSub === "Alertes" ? (
-                                                <>5000.00</>
-                                              ) : (
-                                                <>2000.00</>
-                                              )}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              V.A.T 20% :
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {(fabricantSub === "Alertes"
-                                                ? (5000 * 20) / 100
-                                                : (2000 * 20) / 100
-                                              ).toFixed(2)}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                            }}
-                                          >
-                                            <div style={{ width: 150 }}>
-                                              Total T.T.C :
-                                            </div>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <div
-                                              style={{
-                                                position: "relative",
-                                                zIndex: 1,
-                                                width: "80%",
-                                                textAlign: "right",
-                                                backgroundColor: "white",
-                                                padding: 1,
-                                                marginBottom: 3,
-                                              }}
-                                            >
-                                              {(fabricantSub === "Alertes"
-                                                ? (5000 * 20) / 100 + 5000
-                                                : (2000 * 20) / 100 + 2000
-                                              ).toFixed(2)}{" "}
-                                              €
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                pt: 2,
-                                justifyContent: "center",
-                              }}
-                            >
-                              <button type="submit" className={classes.btn}>
-                                Valider
-                              </button>
-                            </Box>
-                          </div>
-                        </form>
-                      </>
-                    ) : (
-                      <>
-                        <br />
-                        <form onSubmit={handleFinish}>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              marginBottom: 5,
-                            }}
-                          >
-                            {type === "Prescripteur" ? (
-                              <div
-                                style={{
-                                  width: "100%",
-                                }}
-                              >
-                                <span className={classes.borderText}>
-                                  Récapitulatif
-                                </span>
-                                <div className={classes.page4BorderBox}>
-                                  <div style={{ marginBottom: 20 }}>
+                              </div>
+                              {/* Total */}
+                              <div style={{ padding: "20px 0" }}>
+                                <strong>Total</strong>
+                                <div className="subscription-box">
+                                  <div className="subscription-box-intial">
                                     <div
+                                      className="common-text"
                                       style={{
                                         display: "flex",
-                                        justifyContent: "space-between",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
                                       }}
                                     >
-                                      <div>Abonnement Initial 1 an</div>
-                                      <div
-                                        style={{
-                                          backgroundColor: "white",
-                                          padding: "1px 10px",
-                                          marginBottom: 5,
-                                          width: 200,
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div>{subAmounts.initial.price} €</div>
-                                        <div>{subAmounts.initial.count}</div>
-                                        <div>
-                                          {subAmounts.initial.price *
-                                            subAmounts.initial.count}{" "}
-                                          €
-                                        </div>
+                                      <div>
+                                        <span>
+                                          Total Duration:{" "}
+                                          {parseInt(subAmounts.initial.count) +
+                                            parseInt(
+                                              subAmounts.extended.count
+                                            )}{" "}
+                                          Year
+                                        </span>
+                                        <br />
+                                        <span>
+                                          Number of Projects:{" "}
+                                          {parseInt(subAmounts.pack.count) * 5}
+                                        </span>
                                       </div>
                                     </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      <div>ReAbonnement 1 an</div>
-                                      <div
-                                        style={{
-                                          backgroundColor: "white",
-                                          padding: "1px 10px",
-                                          marginBottom: 5,
-                                          width: 200,
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div>{subAmounts.extended.price} €</div>
-                                        <div>{subAmounts.extended.count}</div>
-                                        <div>
-                                          {subAmounts.extended.price *
-                                            subAmounts.extended.count}{" "}
-                                          €
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      <div>Pack de 5 Projets</div>
-                                      <div
-                                        style={{
-                                          backgroundColor: "white",
-                                          padding: "1px 10px",
-                                          marginBottom: 7,
-                                          width: 200,
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div>{subAmounts.pack.price} €</div>
-                                        <div>{subAmounts.pack.count}</div>
-                                        <div>
-                                          {subAmounts.pack.price *
-                                            subAmounts.pack.count}{" "}
-                                          €
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      style={{
-                                        width: "100%",
-                                        height: 2,
-                                        backgroundColor: "lightgray",
-                                      }}
-                                    ></div>
-                                  </div>
-
-                                  <div
-                                    style={{
-                                      height: "35%",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
                                     <div>
                                       <div
-                                        style={{
-                                          display: "flex",
-                                        }}
+                                        className="amount-container"
+                                        style={{ marginBottom: 10 }}
                                       >
-                                        <div style={{ width: 150 }}>
-                                          Total HT:
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
-                                        >
+                                        <div>Total HT</div>
+                                        <div>
+                                          {" "}
                                           {(
                                             subAmounts.initial.price *
                                               subAmounts.initial.count +
@@ -1725,25 +1403,12 @@ const Register = ({ setCurrentPage }) => {
                                         </div>
                                       </div>
                                       <div
-                                        style={{
-                                          display: "flex",
-                                        }}
+                                        className="amount-container"
+                                        style={{ marginBottom: 10 }}
                                       >
-                                        <div style={{ width: 150 }}>
-                                          T.V.A 20% :
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
-                                        >
+                                        <div>VAT 20%</div>
+                                        <div>
+                                          {" "}
                                           {(
                                             ((subAmounts.initial.price *
                                               subAmounts.initial.count +
@@ -1757,26 +1422,10 @@ const Register = ({ setCurrentPage }) => {
                                           €
                                         </div>
                                       </div>
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                        }}
-                                      >
-                                        <div style={{ width: 150 }}>
-                                          Total T.T.C :
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
-                                        >
+                                      <div className="amount-container">
+                                        <div>Total Cost</div>
+                                        <div>
+                                          {" "}
                                           {(
                                             ((subAmounts.initial.price *
                                               subAmounts.initial.count +
@@ -1800,272 +1449,560 @@ const Register = ({ setCurrentPage }) => {
                                   </div>
                                 </div>
                               </div>
-                            ) : (
-                              <div
-                                style={{
-                                  width: "100%",
-                                }}
-                              >
-                                <span className={classes.borderText}>
-                                  Récapitulatif
-                                </span>
-                                <div className={classes.page4BorderBox}>
-                                  <div style={{ marginBottom: 30 }}>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
+                            </>
+                          ) : (
+                            <>
+                              {/* Subscription */}
+                              <div>
+                                <strong>Subscription</strong>
+                                <div className="subscription-box">
+                                  <div className="subscription-box-intial">
+                                    <div className="common-text">
+                                      <span>Référencement: 2,000.00 €</span>
+                                      <br />
+                                      <br />
+                                      <span>Alertes: 5,000.00 €</span>
+                                      <br />
+                                      <small>
+                                        (comprenant le référencement)
+                                      </small>
+                                    </div>
+                                    <BasicDropdown
+                                      options={fabricantSubOptions}
+                                      value={fabricantSub}
+                                      onChange={(e) => {
+                                        setFabricantSub(e.target.value);
                                       }}
-                                    >
-                                      <div>Alertes abonnement</div>
-                                      <div
-                                        style={{
-                                          backgroundColor: "white",
-                                          padding: "1px 10px",
-                                          marginBottom: 5,
-                                          width: 200,
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div> 5000 €</div>
-                                        <div>
-                                          {fabricantSub === "Alertes" ? (
-                                            <>1</>
-                                          ) : (
-                                            <>0</>
-                                          )}
-                                        </div>
-                                        <div>
-                                          {fabricantSub === "Alertes" ? (
-                                            <>5000</>
-                                          ) : (
-                                            <>0</>
-                                          )}
-                                          €
-                                        </div>
+                                      first="notDisable"
+                                      style={{
+                                        backgroundColor: "#f5f5f5",
+                                        borderRadius: 10,
+                                        height: 40,
+                                        fontSize: 16,
+                                        fontWeight: 700,
+                                        padding: 5,
+                                        marginRight: 5,
+                                      }}
+                                    />
+                                    <div className="amount-container">
+                                      <div>Total HT</div>
+                                      <div>
+                                        {fabricantSub === "Alertes" ? (
+                                          <>5000.00</>
+                                        ) : (
+                                          <>2000.00</>
+                                        )}{" "}
+                                        €
                                       </div>
                                     </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        marginTop: 10,
-                                      }}
-                                    >
-                                      <div>Référencement abonnement</div>
-                                      <div
-                                        style={{
-                                          backgroundColor: "white",
-                                          padding: "1px 10px",
-                                          marginBottom: 15,
-                                          width: 200,
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        }}
-                                      >
-                                        <div> 2000 €</div>
-                                        <div>
-                                          {fabricantSub === "Référencement" ? (
-                                            <>1</>
-                                          ) : (
-                                            <>0</>
-                                          )}
-                                        </div>
-                                        <div>
-                                          {fabricantSub === "Référencement" ? (
-                                            <>2000</>
-                                          ) : (
-                                            <>0</>
-                                          )}
-                                          €
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      style={{
-                                        width: "100%",
-                                        height: 2,
-                                        backgroundColor: "lightgray",
-                                      }}
-                                    ></div>
                                   </div>
-
-                                  <div
-                                    style={{
-                                      height: "35%",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    <div>
+                                </div>
+                                <div style={{ padding: "20px 0" }}>
+                                  <strong>Total</strong>
+                                  <div className="subscription-box">
+                                    <div className="subscription-box-intial">
                                       <div
+                                        className="common-text-2"
                                         style={{
                                           display: "flex",
+                                          flexDirection: "column",
+                                          justifyContent: "center",
                                         }}
                                       >
-                                        <div style={{ width: 150 }}>
-                                          Total HT:
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
-                                        >
-                                          {fabricantSub === "Référencement" ? (
-                                            <>2000</>
-                                          ) : (
-                                            <>5000</>
-                                          )}{" "}
-                                          €
+                                        <div>
+                                          <span>
+                                            Abonnement sélectionné :{" "}
+                                            {fabricantSub}
+                                          </span>
                                         </div>
                                       </div>
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                        }}
-                                      >
-                                        <div style={{ width: 150 }}>
-                                          T.V.A 20% :
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                      <div>
                                         <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
+                                          className="amount-container"
+                                          style={{ marginBottom: 10 }}
                                         >
-                                          {(fabricantSub === "Alertes"
-                                            ? (5000 * 20) / 100
-                                            : (2000 * 20) / 100
-                                          ).toFixed(2)}{" "}
-                                          €
+                                          <div>Total HT</div>
+                                          <div>
+                                            {fabricantSub === "Alertes" ? (
+                                              <>5000.00</>
+                                            ) : (
+                                              <>2000.00</>
+                                            )}{" "}
+                                            €
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                        }}
-                                      >
-                                        <div style={{ width: 150 }}>
-                                          Total T.T.C :
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
                                         <div
-                                          style={{
-                                            position: "relative",
-                                            zIndex: 1,
-                                            width: "80%",
-                                            textAlign: "right",
-                                            backgroundColor: "white",
-                                            padding: 1,
-                                            marginBottom: 3,
-                                          }}
+                                          className="amount-container"
+                                          style={{ marginBottom: 10 }}
                                         >
-                                          {(fabricantSub === "Alertes"
-                                            ? (5000 * 20) / 100 + 5000
-                                            : (2000 * 20) / 100 + 2000
-                                          ).toFixed(2)}{" "}
-                                          €
+                                          <div>VAT 20%</div>
+                                          <div>
+                                            {(fabricantSub === "Alertes"
+                                              ? (5000 * 20) / 100
+                                              : (2000 * 20) / 100
+                                            ).toFixed(2)}{" "}
+                                            €
+                                          </div>
+                                        </div>
+                                        <div className="amount-container">
+                                          <div>Total Cost</div>
+                                          <div>
+                                            {(fabricantSub === "Alertes"
+                                              ? (5000 * 20) / 100 + 5000
+                                              : (2000 * 20) / 100 + 2000
+                                            ).toFixed(2)}{" "}
+                                            €
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            )}
-                          </div>
-
-                          {/* <div
+                            </>
+                          )}
+                          {/* Buttons */}
+                          <div
                             style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              marginBottom: 5,
+                              width: "100%",
+                              textAlign: "center",
+                              marginTop: 20,
                             }}
                           >
-                            <div
+                            <Button
+                              variant="contained"
                               style={{
-                                width: "100%",
+                                textTransform: "none",
+                                backgroundColor: "#8C1244",
+                                borderRadius: 8,
                               }}
+                              onClick={() => handleBack()}
                             >
-                              <span className={classes.borderText}>
-                                Mode de paiement
-                              </span>
-                              <div className={classes.page4BottomBorderBox}>
-                                <FormControl>
-                                  <RadioGroup
-                                    row
-                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
-                                  >
-                                    <FormControlLabel
-                                      value="card"
-                                      control={<Radio />}
-                                      label="Card"
-                                    />
-                                    <FormControlLabel
-                                      value="sepa"
-                                      control={<Radio />}
-                                      label="SEPA"
-                                    />
-                                  </RadioGroup>
-                                </FormControl>
+                              Back
+                            </Button>
+                            &nbsp;
+                            <Button
+                              variant="contained"
+                              style={{
+                                textTransform: "none",
+                                backgroundColor: "#8C1244",
+                                borderRadius: 8,
+                              }}
+                              onClick={() => handleComplete()}
+                            >
+                              Next
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {type === "Prescripteur" ? (
+                            <div>
+                              {/* Review */}
+                              <strong>Review</strong>
+                              <div className="subscription-box">
+                                <div className="subscription-box-intial-2">
+                                  <div className="common-text">
+                                    <span>Initial subscription for 1 year</span>
+                                    <br />
+                                  </div>
+                                  <div className="amount-container-2">
+                                    <div>{subAmounts.initial.price} €</div>
+                                    <div>{subAmounts.initial.count}</div>
+                                    <div>
+                                      {subAmounts.initial.price *
+                                        subAmounts.initial.count}{" "}
+                                      €
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="subscription-box-intial-2">
+                                  <div className="common-text">
+                                    <span>One-year subscription extension</span>
+                                    <br />
+                                  </div>
+                                  <div className="amount-container-2">
+                                    <div>{subAmounts.extended.price} €</div>
+                                    <div>{subAmounts.extended.count}</div>
+                                    <div>
+                                      {subAmounts.extended.price *
+                                        subAmounts.extended.count}{" "}
+                                      €
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="subscription-box-intial-2">
+                                  <div className="common-text">
+                                    <span>Pack of 5 Projects</span>
+                                    <br />
+                                  </div>
+                                  <div className="amount-container-2">
+                                    <div>{subAmounts.pack.price} €</div>
+                                    <div>{subAmounts.pack.count}</div>
+                                    <div>
+                                      {subAmounts.pack.price *
+                                        subAmounts.pack.count}{" "}
+                                      €
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* divider */}
+                              <div className="register-divider"></div>
+                              {/* Total */}
+                              <div
+                                style={{
+                                  width: "110%",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-end",
+                                }}
+                              >
+                                <div className="amount-container-3">
+                                  <div>Total HT</div>
+                                  <div>
+                                    {" "}
+                                    {(
+                                      subAmounts.initial.price *
+                                        subAmounts.initial.count +
+                                      subAmounts.extended.price *
+                                        subAmounts.extended.count +
+                                      subAmounts.pack.price *
+                                        subAmounts.pack.count
+                                    ).toFixed(2)}{" "}
+                                    €
+                                  </div>
+                                </div>
+                                <div className="amount-container-3">
+                                  <div>VAT 20%</div>
+                                  <div>
+                                    {" "}
+                                    {(
+                                      ((subAmounts.initial.price *
+                                        subAmounts.initial.count +
+                                        subAmounts.extended.price *
+                                          subAmounts.extended.count +
+                                        subAmounts.pack.price *
+                                          subAmounts.pack.count) *
+                                        20) /
+                                      100
+                                    ).toFixed(2)}{" "}
+                                    €
+                                  </div>
+                                </div>
+                                <div className="amount-container-3">
+                                  <div>Total Cost</div>
+                                  <div>
+                                    {(
+                                      ((subAmounts.initial.price *
+                                        subAmounts.initial.count +
+                                        subAmounts.extended.price *
+                                          subAmounts.extended.count +
+                                        subAmounts.pack.price *
+                                          subAmounts.pack.count) *
+                                        20) /
+                                        100 +
+                                      subAmounts.initial.price *
+                                        subAmounts.initial.count +
+                                      subAmounts.extended.price *
+                                        subAmounts.extended.count +
+                                      subAmounts.pack.price *
+                                        subAmounts.pack.count
+                                    ).toFixed(2)}{" "}
+                                    €
+                                  </div>
+                                </div>
+                              </div>
+                              {/* payment method */}
+                              <strong>Payment Method</strong>
+                              <div className="subscription-box">
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>Card</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="card"
+                                    className="radio-button"
+                                    checked
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>SEPA</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="sepa"
+                                    className="radio-button"
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>Mandat administratif</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="admin"
+                                    className="radio-button"
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              {/* exports */}
+                              <div
+                                style={{
+                                  color: "#FF8616",
+                                  fontSize: 13,
+                                  marginTop: 20,
+                                }}
+                              >
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  onClick={generateQuote}
+                                >
+                                  Export Quote
+                                </span>
+                                &nbsp;&nbsp;&nbsp;
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  onClick={generateInvoice}
+                                >
+                                  Export Invoice
+                                </span>
                               </div>
                             </div>
-                          </div> */}
-                          <Typography>
-                            <a href="#" onClick={generateQuote}>
-                              Générer un devis
-                            </a>
-                          </Typography>
+                          ) : (
+                            <div>
+                              {/* Review */}
+                              <strong>Review</strong>
+                              <div className="subscription-box">
+                                <div className="subscription-box-intial-2">
+                                  <div className="common-text">
+                                    <span>Alertes abonnement</span>
+                                    <br />
+                                  </div>
+                                  <div className="amount-container-2">
+                                    <div>5000 €</div>
+                                    <div>
+                                      {fabricantSub === "Alertes" ? (
+                                        <>1</>
+                                      ) : (
+                                        <>0</>
+                                      )}
+                                    </div>
+                                    <div>
+                                      {fabricantSub === "Alertes" ? (
+                                        <>5000</>
+                                      ) : (
+                                        <>0</>
+                                      )}
+                                      €
+                                    </div>
+                                  </div>
+                                </div>
 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "row",
-                              pt: 2,
-                              justifyContent: "center",
+                                <div className="subscription-box-intial-2">
+                                  <div className="common-text">
+                                    <span>Référencement abonnement</span>
+                                    <br />
+                                  </div>
+                                  <div className="amount-container-2">
+                                    <div>2000 €</div>
+                                    <div>
+                                      {fabricantSub === "Référencement" ? (
+                                        <>1</>
+                                      ) : (
+                                        <>0</>
+                                      )}
+                                    </div>
+                                    <div>
+                                      {fabricantSub === "Référencement" ? (
+                                        <>2000</>
+                                      ) : (
+                                        <>0</>
+                                      )}
+                                      €
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* divider */}
+                              <div className="register-divider"></div>
+                              {/* Total */}
+                              <div
+                                style={{
+                                  width: "110%",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-end",
+                                }}
+                              >
+                                <div className="amount-container-3">
+                                  <div>Total HT</div>
+                                  <div>
+                                    {" "}
+                                    {fabricantSub === "Référencement" ? (
+                                      <>2000</>
+                                    ) : (
+                                      <>5000</>
+                                    )}{" "}
+                                    €
+                                  </div>
+                                </div>
+                                <div className="amount-container-3">
+                                  <div>VAT 20%</div>
+                                  <div>
+                                    {" "}
+                                    {(fabricantSub === "Alertes"
+                                      ? (5000 * 20) / 100
+                                      : (2000 * 20) / 100
+                                    ).toFixed(2)}{" "}
+                                    €
+                                  </div>
+                                </div>
+                                <div className="amount-container-3">
+                                  <div>Total Cost</div>
+                                  <div>
+                                    {(fabricantSub === "Alertes"
+                                      ? (5000 * 20) / 100 + 5000
+                                      : (2000 * 20) / 100 + 2000
+                                    ).toFixed(2)}{" "}
+                                    €
+                                  </div>
+                                </div>
+                              </div>
+                              {/* payment method */}
+                              <strong>Payment Method</strong>
+                              <div className="subscription-box">
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>Card</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="card"
+                                    className="radio-button"
+                                    checked
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>SEPA</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="sepa"
+                                    className="radio-button"
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="payment-flex-contaner">
+                                  <div className="common-text">
+                                    <span>Mandat administratif</span>
+                                    <br />
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="payment"
+                                    value="admin"
+                                    className="radio-button"
+                                    onChange={(e) =>
+                                      console.log("e", e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              {/* exports */}
+                              <div
+                                style={{
+                                  color: "#FF8616",
+                                  fontSize: 13,
+                                  marginTop: 20,
+                                }}
+                              >
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  onClick={generateQuote}
+                                >
+                                  Export Quote
+                                </span>
+                                &nbsp;&nbsp;&nbsp;
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  onClick={generateInvoice}
+                                >
+                                  Export Invoice
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Buttons */}
+                          <div
+                            style={{
+                              width: "100%",
+                              textAlign: "center",
+                              marginTop: 20,
                             }}
                           >
-                            <button
-                              type="submit"
-                              disabled={
-                                !completed[0] || !completed[1] || !completed[2]
-                              }
-                              className={classes.btn}
+                            <Button
+                              variant="contained"
                               style={{
-                                pointerEvents:
-                                  (!completed[0] ||
-                                    !completed[1] ||
-                                    !completed[2]) &&
-                                  "none",
+                                textTransform: "none",
+                                backgroundColor: "#8C1244",
+                                borderRadius: 8,
                               }}
+                              onClick={() => handleBack()}
                             >
-                              Valider
-                            </button>
-                          </Box>
-                        </form>
-                      </>
-                    )}
-                  </Typography>
-                </React.Fragment>
-              )}
-            </div>
-          </Box>
-        )}
+                              Back
+                            </Button>
+                            &nbsp;
+                            <Button
+                              variant="contained"
+                              style={{
+                                textTransform: "none",
+                                backgroundColor: "#8C1244",
+                                borderRadius: 8,
+                              }}
+                              onClick={() => handleFinish()}
+                            >
+                              Register
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </Typography>
+                  </React.Fragment>
+                )}
+              </Box>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -50,9 +50,15 @@ const BuySubscription = ({ assignSub, handleAssignSubModal }) => {
           <Button
             variant="contained"
             color="primary"
-            style={{
-              marginRight: 20,
-              backgroundColor: "#3b373c",
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#8C1244",
+              borderRadius: 2,
+              whiteSpace: "nowrap",
+              mr: 2,
+              ":hover": {
+                backgroundColor: "#8C1244",
+              },
             }}
             type="submit"
           >

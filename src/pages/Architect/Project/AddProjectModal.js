@@ -127,7 +127,6 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
         />
         <br />
-        <br />
         <InputDropdown
           label={t("Architect Stakeholders")}
           name="stakeholder"
@@ -146,7 +145,6 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           type="text"
         />
-        <br />
         <br />
 
         <Grid container spacing={2}>
@@ -195,13 +193,33 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         <div style={{ width: "100%", textAlign: "right" }}>
           <Button
             variant="contained"
-            className={classes.btn}
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#8C1244",
+              borderRadius: 2,
+              whiteSpace: "nowrap",
+              ":hover": {
+                backgroundColor: "#8C1244",
+              },
+            }}
             onClick={handleAddProjectModal}
           >
             {t("Close")}
           </Button>
           &nbsp;&nbsp;
-          <Button variant="contained" className={classes.btn} type="submit">
+          <Button
+            variant="contained"
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#8C1244",
+              borderRadius: 2,
+              whiteSpace: "nowrap",
+              ":hover": {
+                backgroundColor: "#8C1244",
+              },
+            }}
+            type="submit"
+          >
             {t("Create")}
           </Button>
         </div>

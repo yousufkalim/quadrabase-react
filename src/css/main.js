@@ -24,7 +24,7 @@ export const UseStyles = makeStyles({
     width: "200px",
     color: "white",
     cursor: "pointer",
-    backgroundColor: "#3b373c",
+    backgroundColor: "#8C1244",
     border: "2px solid #d10248",
     padding: "15px",
     borderRadius: "30px",
@@ -32,6 +32,7 @@ export const UseStyles = makeStyles({
     transitionDuration: "0.5s",
     marginTop: "10px",
     border: "2px solid white",
+    borderRadius: 10,
     "&:hover": {
       backgroundColor: "white",
       color: "#878289",

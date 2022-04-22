@@ -9,7 +9,6 @@ import profileSettings from "./pages/admin/profileSettings";
 
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import AuthSuccess from "./pages/auth/success";
 import Presentation from "./pages/auth/presentation";
 import EducationalMaterial from "./pages/auth/educationalMaterial";
 import Home from "./pages/auth/home";
@@ -17,6 +16,8 @@ import StudyMaterial from "./pages/auth/studyMaterial";
 import Documentation from "./pages/auth/documentation";
 import Manufacturer from "./pages/auth/manufacturers";
 import Fabricant from "./pages/auth/fabricants";
+import Libraries from "./pages/auth/libraries";
+import Services from "./pages/auth/services";
 import Contact from "./pages/auth/contactUs";
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
@@ -31,20 +32,39 @@ import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
 import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
 import MyProfile from "./pages/Architect/MyProfile/Index";
 import ProjectView from "./pages/Architect/Project/ProjectView";
+import Projects from "./pages/Architect/Project/Index";
 import SubscriptionSuccess from "./pages/Architect/Subscription/Success";
+
+// Architect drawer Icons
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 
 var routes = [
   // architect side routes
   {
     path: "/index", //Architect
     name: "Architect",
+    text: "Home",
+    icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
     layout: "/architect",
   },
-
+  {
+    path: "/projects", //Architect
+    name: "Architect",
+    text: "My Projects",
+    icon: <WorkOutlineIcon />,
+    component: Projects,
+    layout: "/architect",
+  },
   {
     path: "/management", //Architect
     name: "Architect",
+    text: "Management",
+    icon: <SettingsApplicationsOutlinedIcon />,
     component: Management,
     layout: "/architect",
   },
@@ -52,6 +72,8 @@ var routes = [
   {
     path: "/libraries", //Architect
     name: "Architect",
+    text: "Libraries",
+    icon: <LibraryBooksOutlinedIcon />,
     component: ProjectLibraries,
     layout: "/architect",
   },
@@ -59,6 +81,8 @@ var routes = [
   {
     path: "/profile", //Architect
     name: "Architect",
+    text: "Profile",
+    icon: <ManageAccountsOutlinedIcon />,
     component: MyProfile,
     layout: "/architect",
   },
@@ -66,6 +90,7 @@ var routes = [
   {
     path: "/projectview/:id", //Architect
     name: "Architect",
+    text: "ProjectView",
     component: ProjectView,
     layout: "/architect",
   },
@@ -73,6 +98,7 @@ var routes = [
   {
     path: "/success", //Architect
     name: "Architect",
+    text: "Success",
     component: SubscriptionSuccess,
     layout: "/architect",
   },
@@ -187,13 +213,6 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/success/:id",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
-    component: AuthSuccess,
-    layout: "/auth",
-  },
-  {
     path: "/presentation",
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
@@ -233,6 +252,21 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Fabricant,
+    layout: "/auth",
+  },
+
+  {
+    path: "/libraries",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Libraries,
+    layout: "/auth",
+  },
+  {
+    path: "/services",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Services,
     layout: "/auth",
   },
   {

@@ -4,8 +4,18 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 // component
-import InputWithLabel from "../../../components/Architect/InputWithLabel";
+import TextInput from "../../../components/TextInput";
 import { Button } from "@mui/material";
+
+// input styling
+const InputStyle = {
+  borderColor: "#8C1244",
+  marginTop: 5,
+  marginBottom: 15,
+  backgroundColor: "transparent",
+  height: 50,
+  borderRadius: 10,
+};
 
 // Forget Password Modal
 const ForgetPasswordModal = ({ handleOpenModal }) => {
@@ -31,36 +41,35 @@ const ForgetPasswordModal = ({ handleOpenModal }) => {
 
   // jsx
   return (
-    <div>
-      {/* Login form */}
-      <form onSubmit={onSubmit}>
-        <br />
-        <InputWithLabel
-          value={email}
-          label="Email"
-          name="email"
-          type="email"
-          handleChange={(e) => setEmail(e.target.value)}
-          style={{ width: 450 }}
-        />
-        <br />
-        <br />
-        <div style={{ width: "104.5%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              marginRight: 20,
-              backgroundColor: !loading ? "#3b373c" : "lightgray",
-            }}
-            type="submit"
-            disabled={loading}
-          >
-            Nous faire parvenir
-          </Button>
-        </div>
-      </form>
-    </div>
+    <form onSubmit={onSubmit} style={{ width: 350, marginTop: -10 }}>
+      <br />
+      <TextInput
+        name="email"
+        label="Email"
+        type="email"
+        required={true}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        labelColor="#8C1244"
+        placeholder="abc@xyz.com"
+        labelFont={18}
+        style={InputStyle}
+      />
+      <div style={{ width: "104.5%", textAlign: "right" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{
+            marginRight: 20,
+            backgroundColor: !loading ? "#8C1244" : "lightgray",
+          }}
+          type="submit"
+          disabled={loading}
+        >
+          Nous faire parvenir
+        </Button>
+      </div>
+    </form>
   );
 };
 

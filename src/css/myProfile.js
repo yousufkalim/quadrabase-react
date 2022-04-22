@@ -22,6 +22,7 @@ export const useStyles = makeStyles({
     backgroundColor: "white",
   },
   btn: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: "#8C1244 !important",
+    borderRadius: 10,
   },
 });

@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 // Importing Components
-import Header from "../../../components/Architect/Header";
 import { Grid, Button, Avatar, Typography } from "@mui/material";
 import InputWithLabel from "../../../components/Architect/InputWithLabel";
 
@@ -65,7 +64,6 @@ const Index = () => {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Header />
       <div
         style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}
       >
@@ -172,7 +170,19 @@ const Index = () => {
 
             {/* register button */}
             <div style={{ width: "100%", textAlign: "right" }}>
-              <Button variant="contained" className={classes.btn} type="submit">
+              <Button
+                variant="contained"
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: "#8C1244",
+                  borderRadius: 2,
+                  whiteSpace: "nowrap",
+                  ":hover": {
+                    backgroundColor: "#8C1244",
+                  },
+                }}
+                type="submit"
+              >
                 {t("Update")}
               </Button>
             </div>

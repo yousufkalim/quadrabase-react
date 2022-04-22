@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import routes from "../../routes.js";
 import { Switch, Redirect, Route } from "react-router-dom";
 import axios from "axios";
-import { UpdateStore } from "../../StoreContext";
+import { UpdateStore, Store } from "../../StoreContext";
+import Drawer from "../../components/ArchitectDrawer";
 
 function Dashboard(props) {
   const { translate, i18n } = props;
   const updateStore = UpdateStore();
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(true);
 
   useEffect(() => {
     fetch();
@@ -28,6 +30,7 @@ function Dashboard(props) {
         // settin user value in store if logged in
         if (result.data.user) {
           updateStore({ loggedIn: true, user: result.data.user });
+          setUser(result.data.user);
         }
       }
       setLoading(false);
@@ -57,19 +60,24 @@ function Dashboard(props) {
 
   return (
     !loading && (
-      <div
-        className="flex h-screen overflow-hidden"
-        style={{ backgroundColor: "#eeeeee" }}
-      >
-        {/* Content area */}
-        <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-          {/*  Site header */}
-          <Switch>
-            {getRoutes(routes)}
-            <Redirect from="*" to="/architect/index" />
-          </Switch>
+      <Drawer routes={routes} user={user}>
+        <div
+          className="flex overflow-hidden"
+          style={{
+            backgroundColor: "#eeeeee",
+            minHeight: `calc(100vh - 64px)`,
+          }}
+        >
+          {/* Content area */}
+          <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            {/*  Site header */}
+            <Switch>
+              {getRoutes(routes)}
+              <Redirect from="*" to="/architect/index" />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Drawer>
     )
   );
 }

@@ -136,7 +136,6 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
           </Grid>
           <br />
-          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -207,7 +206,35 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button variant="contained" className={classes.btn} type="submit">
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              onClick={handleEditStakeholderModal}
+            >
+              {t("Close")}
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              type="submit"
+            >
               {t("Update")}
             </Button>
           </div>

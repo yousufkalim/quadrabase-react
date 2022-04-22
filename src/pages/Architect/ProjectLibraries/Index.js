@@ -6,7 +6,6 @@ import api from "../../../api";
 import { useTranslation } from "react-i18next";
 
 // Importing Components
-import Header from "../../../components/Architect/Header";
 import NestedList from "./component/NestedList";
 import Modal from "../../../components/Architect/Modal";
 import AddLibraryModal from "./Libraries/AddLibraryModal";
@@ -430,7 +429,6 @@ const Index = () => {
   // jsx
   return (
     <div>
-      <Header />
       {/* families modal */}
       {/* <Modal
         title={t("Manage Families")}
