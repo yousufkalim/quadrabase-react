@@ -323,24 +323,26 @@ function NestedList(props) {
                                                                           }
                                                                         />
                                                                         {type !==
-                                                                          "private" && (
-                                                                          <FontAwesomeIcon
-                                                                            icon={
-                                                                              faEllipsisV
-                                                                            }
-                                                                            onClick={(
-                                                                              e
-                                                                            ) =>
-                                                                              handleanchorEl(
-                                                                                e,
-                                                                                key4,
-                                                                                "level4",
-                                                                                index
-                                                                              )
-                                                                            }
-                                                                            id="demo-customized-button"
-                                                                          />
-                                                                        )}
+                                                                          "private" &&
+                                                                          type !=
+                                                                            "static" && (
+                                                                            <FontAwesomeIcon
+                                                                              icon={
+                                                                                faEllipsisV
+                                                                              }
+                                                                              onClick={(
+                                                                                e
+                                                                              ) =>
+                                                                                handleanchorEl(
+                                                                                  e,
+                                                                                  key4,
+                                                                                  "level4",
+                                                                                  index
+                                                                                )
+                                                                              }
+                                                                              id="demo-customized-button"
+                                                                            />
+                                                                          )}
                                                                       </ListItem>
                                                                     );
                                                                   }

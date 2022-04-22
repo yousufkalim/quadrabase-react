@@ -32,6 +32,10 @@ const pages = [
     title: "Fabricants",
     path: "/auth/fabricant",
   },
+  {
+    title: "Bibliothèques",
+    path: "/auth/libraries",
+  },
   // {
   //   title: "Commande",
   //   path: null
