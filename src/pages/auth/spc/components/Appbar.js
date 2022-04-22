@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Quadralogo from "../assets/images/Quadralogo.svg";
+import Quadralogo2 from "../assets/images/Quadralogo2.svg";
 
 import { useHistory } from "react-router-dom";
 
@@ -50,7 +51,7 @@ const ResponsiveAppBar = (props) => {
   const history = useHistory();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  let [scroll, setScroll] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -66,8 +67,30 @@ const ResponsiveAppBar = (props) => {
     }
   };
 
+  //Handle Scroll
+  const handleScroll = () => {
+    if (window.scrollY > 2) {
+      setScroll(true);
+    } else {
+      setScroll(false);
+    }
+  };
+
+  //useEffect to Event Listen
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <AppBar position="static" className="spc_appbardiv">
+    <AppBar
+      position="fixed"
+      className="spc_appbardiv"
+      sx={{ background: !scroll ? "inherit" : "#8c1244", boxShadow: "none" }}
+    >
+      {console.log("scroll", scroll)}
       <Container maxWidth="lg" className="spc_containerdiv">
         <Toolbar disableGutters>
           <Typography
@@ -76,7 +99,10 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <img src={props.logo} onClick={() => navTo("/auth/home")}></img>
+            <img
+              src={!scroll ? props.logo : Quadralogo2}
+              onClick={() => navTo("/auth/home")}
+            ></img>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
