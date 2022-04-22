@@ -16,6 +16,7 @@ import Icon6 from "./spc/assets/images/icon6.svg";
 import Arrow from "./spc/assets/images/arrow.svg";
 import Footerimg from "./spc/assets/images/footerimg.svg";
 import Quadralogo from "./spc/assets/images/Quadralogo.svg";
+import { useHistory } from "react-router-dom";
 
 // Importing Components
 import Header from "../../pages/auth/spc/components/Header";
@@ -25,13 +26,13 @@ import Appbar from "./spc/components/Appbar";
 // Home Component
 export default function Home() {
   const [index, setIndex] = React.useState(0);
+  const history = useHistory();
   const handleChange = (newValue) => {
     setIndex(newValue);
   };
 
   const navToRegister = () => {
-    // history.push("/auth/register");
-    window.open("https://quadrabase-architect.web.app/register", "_blank");
+    history.push("/auth/register");
   };
   const myRef = useRef(null);
   const executeScroll = () =>

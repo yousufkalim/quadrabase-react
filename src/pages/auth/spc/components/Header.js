@@ -11,8 +11,7 @@ export default function Header(props) {
   const history = useHistory();
 
   const navToRegister = () => {
-    // history.push("/auth/register");
-    window.open("https://quadrabase-architect.web.app/register", "_blank");
+    history.push("/auth/register");
   };
 
   return (
