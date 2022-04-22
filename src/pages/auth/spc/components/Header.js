@@ -23,9 +23,8 @@ export default function Header(props) {
 
       <div className="spc_container">
         <Typography className="spc_Heroheading">
-          Pour vos marches
-          <br />
-          de travaux
+          Prescripteurs, gagnez <br />
+          en productivité !
         </Typography>
         <Typography className="spc_Heropara">
           Maitres d’ouvrage, Maitre d'oeuvre, Architectes,

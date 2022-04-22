@@ -127,6 +127,24 @@ const Login = () => {
               fontFamily: "Poppins, sans-serif",
               fontWeight: "lighter",
               fontSize: 14,
+              marginBottom: "2rem",
+            }}
+          >
+            En vous connectant, vous acceptez nos présentes Conditions Générales
+            d'Utilisation (CGU), de recevoir des e-mails et des mises à jour de
+            QBSoft et vous reconnaissez avoir lu notre Politique de
+            confidentialité.
+            <br />
+            Vous reconnaissez également que QBSoft utilise des cookies pour vous
+            offrir une expérience utilisateur optimale.
+          </span>
+          <span
+            className={`block tracking-wide text-gray-700 text-xs font-bold mb-2`}
+            style={{
+              color: "#5E5C5F",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: "lighter",
+              fontSize: 14,
             }}
           >
             Je n'ai pas de compte ?

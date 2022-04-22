@@ -56,7 +56,7 @@ const Contact = () => {
               />
               <textarea
                 type="text"
-                placeholder="Vous voulez demander?"
+                placeholder="Votre message?"
                 name="message"
                 className="textarea"
               />
@@ -70,7 +70,7 @@ const Contact = () => {
                 variant="contained"
                 className="Contactusbutton"
               >
-                Contact us
+                Envoyer
               </Button>
             </div>
           </Grid>

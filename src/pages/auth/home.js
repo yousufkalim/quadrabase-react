@@ -73,7 +73,7 @@ export default function Home() {
       <div ref={myRef} className="scroll">
         <div className="spc_home_heading">
           <Typography className="spc_home_heading_typo">
-            Intérêt pour le prescripteur
+            Interêt pour vous
           </Typography>
         </div>
 
