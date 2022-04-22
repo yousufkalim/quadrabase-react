@@ -17,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -24,6 +26,9 @@ import { visuallyHidden } from "@mui/utils";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import { useTranslation } from "react-i18next";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -68,7 +73,13 @@ function EnhancedTableHead(props) {
   };
   return (
     <TableHead>
-      <TableRow>
+      <TableRow
+        sx={{
+          whiteSpace: "nowrap",
+          borderTop: "2px solid lightgray !important",
+          borderBottom: "2px solid lightgray !important",
+        }}
+      >
         {props.headCells &&
           props?.headCells?.map((headCell) => (
             <TableCell
@@ -81,8 +92,11 @@ function EnhancedTableHead(props) {
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
+                sx={{
+                  whiteSpace: "nowrap",
+                }}
               >
-                {t(headCell.label)}
+                <strong>{t(headCell.label)}</strong>
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === "desc"
@@ -115,48 +129,26 @@ const EnhancedTableToolbar = (props) => {
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
+        justifyContent: "space-between",
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      <strong>{props.headerText}</strong>
+      <Button
+        variant="contained"
+        onClick={props.buttonAction}
+        sx={{
+          textTransform: "none",
+          backgroundColor: "#8C1244",
+          borderRadius: 2,
+          whiteSpace: "nowrap",
+          ":hover": {
+            backgroundColor: "#8C1244",
+          },
+        }}
+        startIcon={<AddCircleOutlineIcon />}
+      >
+        {props.buttonText}
+      </Button>
     </Toolbar>
   );
 };
@@ -170,7 +162,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(4);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -224,7 +216,14 @@ export default function EnhancedTable(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+      <Paper sx={{ width: "100%", mb: 2, borderRadius: 5 }}>
+        {props.headerText && (
+          <EnhancedTableToolbar
+            headerText={props.headerText}
+            buttonAction={props.buttonAction}
+            buttonText={props.buttonText}
+          />
+        )}
         <TableContainer>
           <Table aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -244,16 +243,16 @@ export default function EnhancedTable(props) {
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 ?.map((row, index) => {
                   const isItemSelected = isSelected(row._id);
-
                   return (
                     <TableRow
-                      hover
                       onClick={(event) => handleClick(event, row._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row._id}
-                      selected={isItemSelected}
+                      sx={{
+                        backgroundColor: index % 2 !== 0 && "#F5F5F5",
+                      }}
                     >
                       {props?.rows?.map((record, index) =>
                         record == "subscriptionEndDate" ? (
@@ -347,7 +346,6 @@ export default function EnhancedTable(props) {
                       <TableCell align="left">
                         {props.handleAssign ? (
                           <IconButton
-                            color="info"
                             aria-label="edit"
                             onClick={() =>
                               props.handleAssign(
@@ -356,15 +354,14 @@ export default function EnhancedTable(props) {
                               )
                             }
                           >
-                            <AssignmentIndIcon />
+                            <DriveFileRenameOutlineRoundedIcon />
                           </IconButton>
                         ) : props.handleView ? (
                           <IconButton
-                            color="info"
                             aria-label="edit"
                             onClick={() => props.handleView(row?._id)}
                           >
-                            <PageviewIcon />
+                            <DriveFileRenameOutlineRoundedIcon />
                           </IconButton>
                         ) : (
                           <>
@@ -388,30 +385,48 @@ export default function EnhancedTable(props) {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 33 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15, 20]}
-          component="div"
-          labelRowsPerPage={
-            props.translate ? props.translate("Rows per page:") : ""
-          }
-          count={props?.data?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <div
+          style={{
+            height: 50,
+            width: "100%",
+            color: "#8C1244",
+            display: "grid",
+            placeItems: "center",
+          }}
+        >
+          <strong>
+            {" "}
+            <ArrowBackIosIcon
+              fontSize="md"
+              onClick={() => {
+                if (page !== 0) {
+                  handleChangePage("", page - 1);
+                }
+              }}
+              sx={{
+                cursor: "pointer",
+              }}
+            />
+            {page + 1}/
+            {Math.ceil(props?.data?.length / rowsPerPage) > 0
+              ? Math.ceil(props?.data?.length / rowsPerPage)
+              : 1}{" "}
+            <ArrowForwardIosIcon
+              fontSize="md"
+              onClick={() => {
+                if (page + 1 < Math.ceil(props?.data?.length / rowsPerPage)) {
+                  handleChangePage("", page + 1);
+                }
+              }}
+              sx={{
+                cursor: "pointer",
+              }}
+            />
+          </strong>
+        </div>
       </Paper>
     </Box>
   );

@@ -1,16 +1,15 @@
 // Init
 import React, { useState, useEffect } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import { useStyles } from "../../css/home";
 import { SubscriptionheadCells } from "../../utils/tableHeads";
 import { ProjectheadCells } from "../../utils/tableHeads";
 import { Store } from "../../StoreContext";
 import api from "../../api";
-import { Divider } from "@mui/material";
-import moment from "moment";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
+import "../../css/home.css";
 
 // Importing Components
 import Header from "../../components/Architect/Header";
@@ -23,13 +22,11 @@ import BuyProjects from "./Subscription/BuyProjects";
 import Renew from "./Subscription/Renew";
 import AddProjectModal from "./Project/AddProjectModal";
 
-// Home Component
-export default function Home() {
+const Home = () => {
   const { t } = useTranslation();
-  const classes = useStyles();
   const store = Store();
   const history = useHistory();
-
+  // states
   const [subscriptionsData, setSubscriptionsData] = useState([]);
   const [mySubscription, setMySubscription] = useState({});
   const [subscriptionHeadCells, setSubscriptionHeadCells] = useState("");
@@ -87,7 +84,6 @@ export default function Home() {
     setProjectData(projects);
   };
 
-  const handleBuySubModal = () => setBuySubModal(!buySubModal);
   const handleAssignSubModal = (id, email) => {
     if (id && email) {
       setAssignSub({ id, email });
@@ -96,17 +92,18 @@ export default function Home() {
     }
     setAssignSubModal(!assignSubModal);
   };
-  const handleBuyProjectsModals = () => setBuyProjectsModal(!buyProjectsModal);
-  const handleRenewModalModal = () => setRenewModal(!renewModal);
-  const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
 
   const handleView = (id) => {
     history.push(`/architect/projectview/${id}`);
   };
 
+  const handleBuySubModal = () => setBuySubModal(!buySubModal);
+  const handleBuyProjectsModals = () => setBuyProjectsModal(!buyProjectsModal);
+  const handleRenewModalModal = () => setRenewModal(!renewModal);
+  const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
+
   return (
-    <div>
-      <Header />
+    <div className="home-container">
       <Modal
         title={t("Buy Subscription")}
         open={buySubModal}
@@ -154,140 +151,105 @@ export default function Home() {
           <AddProjectModal handleAddProjectModal={handleAddProjectModal} />
         }
       />
-      <div className={classes.container}>
-        <div className={classes.left_container}>
-          <div className={classes.flex_container}>
-            <span style={{ fontSize: 24 }}>
-              <i>{t("Subscriptions")}</i>
-            </span>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              style={{ backgroundColor: "#3b373c" }}
-              onClick={handleBuySubModal}
-            >
-              {t("Buy Subscription")}
-            </Button>
-          </div>
-          <div style={{ marginTop: 10 }}>
-            <Table
-              headCells={SubscriptionheadCells}
-              data={subscriptionsData}
-              rows={subscriptionHeadCells}
-              handleAssign={handleAssignSubModal}
-            />
-          </div>
-          <span style={{ fontSize: 24 }}>
-            <i>{t("My Subscription")}</i>
-          </span>
-          <div className={classes.my_sub}>
-            {!mySubscription?.assigned_to ? (
-              <span className={classes.my_sub_info}>
-                {t("No Subscription Assigned")}
-              </span>
-            ) : (
-              <>
-                <span className={classes.my_sub_info}>
-                  <div>{t("Number of remaining projects")}:</div>{" "}
-                  <div>
-                    {mySubscription?.projects - store?.user?.projects?.length}
-                  </div>
-                </span>
-                {mySubscription.architect ? (
-                  <>
-                    {mySubscription?.architect === store?.user?._id && (
-                      <Button
-                        variant="contained"
-                        startIcon={<AddIcon />}
-                        style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
-                        onClick={handleBuyProjectsModals}
-                      >
-                        {t("Buy Projects")}
-                      </Button>
-                    )}
-                  </>
-                ) : (
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
-                    onClick={handleBuyProjectsModals}
-                  >
-                    {t("Buy Projects")}
-                  </Button>
-                )}
-
-                <Divider variant="middle" style={{ marginBottom: 10 }} />
-                <span className={classes.my_sub_info}>
-                  <div>{t("Subscription Valid until")}:</div>{" "}
-                  <div>
-                    {moment(mySubscription?.end_date).format("DD/MM/YYYY")}
-                  </div>
-                </span>
-                {mySubscription.architect ? (
-                  <>
-                    {mySubscription?.architect === store?.user?._id && (
-                      <Button
-                        variant="contained"
-                        startIcon={<RefreshIcon />}
-                        style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
-                        onClick={handleRenewModalModal}
-                      >
-                        {t("renew")}
-                      </Button>
-                    )}
-                  </>
-                ) : (
-                  <Button
-                    variant="contained"
-                    startIcon={<RefreshIcon />}
-                    style={{ backgroundColor: "#3b373c", marginBottom: 10 }}
-                    onClick={handleRenewModalModal}
-                  >
-                    {t("renew")}
-                  </Button>
-                )}
-              </>
-            )}
-          </div>
+      <div className="home-upper-container">
+        <div className="home-left-container">
+          <Table
+            headCells={SubscriptionheadCells}
+            data={subscriptionsData}
+            rows={subscriptionHeadCells}
+            handleAssign={handleAssignSubModal}
+            headerText="Subscriptions"
+            buttonText="Buy Subscriptions"
+            buttonAction={handleBuySubModal}
+          />
         </div>
-        <div className={classes.right_container}>
-          <div className={classes.flex_container}>
-            <span style={{ fontSize: 24 }}>
-              <i>
-                {t("My Projects")}({store?.user?.projects?.length}/
-                {mySubscription?.projects ? mySubscription?.projects : 0})
-              </i>
-            </span>
+        <div className="home-right-container">
+          <div style={{ fontSize: 20, padding: "9px 20px" }}>
+            My Subscription
+          </div>
+          <div
+            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
+          ></div>
+          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
+            Remaning Projects
+          </div>
+          <div style={{ fontSize: 36, padding: "10px 20px", fontWeight: 600 }}>
+            {mySubscription?.projects - store?.user?.projects?.length}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "right",
+              padding: "12px 20px",
+              marginBottom: 10,
+            }}
+          >
             <Button
               variant="contained"
-              startIcon={<AddIcon />}
-              style={{
-                backgroundColor:
-                  !mySubscription?.projects ||
-                  store?.user?.projects?.length >= mySubscription?.projects
-                    ? "lightgray"
-                    : "#3b373c",
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
               }}
-              onClick={handleAddProjectModal}
-              disabled={
-                !mySubscription?.projects ||
-                store?.user?.projects?.length >= mySubscription?.projects
-              }
+              startIcon={<AddCircleOutlineIcon />}
+              onClick={handleBuyProjectsModals}
             >
-              {t("New Project")}
+              Buy Projects
             </Button>
           </div>
-          <div style={{ marginTop: 10 }}>
-            <Table
-              headCells={ProjectheadCells}
-              data={projectData}
-              rows={projectHeadCells}
-              handleView={handleView}
-            />
+          <div
+            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
+          ></div>
+          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
+            Valid Until
+          </div>
+          <div style={{ fontSize: 30, padding: "5px 20px", fontWeight: 600 }}>
+            {moment(mySubscription?.end_date).format("DD MMMM, YYYY")}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "right",
+              padding: "15px 20px",
+              marginBottom: 10,
+            }}
+          >
+            <Button
+              variant="contained"
+              onClick={handleRenewModalModal}
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              startIcon={<AutorenewIcon />}
+            >
+              Renew
+            </Button>
           </div>
         </div>
       </div>
+      <Table
+        headCells={ProjectheadCells}
+        data={projectData}
+        rows={projectHeadCells}
+        handleView={handleView}
+        headerText={`My Projects (${store?.user?.projects?.length}/${
+          mySubscription?.projects ? mySubscription?.projects : 0
+        })`}
+        buttonText="New Projects"
+        buttonAction={handleAddProjectModal}
+      />
     </div>
   );
-}
+};
+
+export default Home;

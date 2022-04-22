@@ -62,8 +62,11 @@ function Dashboard(props) {
     !loading && (
       <Drawer routes={routes} user={user}>
         <div
-          className="flex h-screen overflow-hidden"
-          style={{ backgroundColor: "#eeeeee" }}
+          className="flex overflow-hidden"
+          style={{
+            backgroundColor: "#eeeeee",
+            minHeight: `calc(100vh - 64px)`,
+          }}
         >
           {/* Content area */}
           <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">

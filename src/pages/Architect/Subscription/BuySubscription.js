@@ -66,9 +66,14 @@ const BuySubscription = ({ handleBuySubModal }) => {
         <Button
           variant="contained"
           color="primary"
-          style={{
-            marginRight: 20,
-            backgroundColor: !selected ? "lightgray" : "#3b373c",
+          sx={{
+            textTransform: "none",
+            backgroundColor: "#8C1244",
+            borderRadius: 2,
+            whiteSpace: "nowrap",
+            ":hover": {
+              backgroundColor: "#8C1244",
+            },
           }}
           disabled={!selected}
           onClick={handleClick}

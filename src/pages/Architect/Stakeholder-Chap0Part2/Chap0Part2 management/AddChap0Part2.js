@@ -51,7 +51,6 @@ const AddChap0Part2 = ({ handleAddChap0Part2Modal }) => {
             handleChange={(e) => setTitle(e.target.value)}
           />
           <br />
-          <br />
           <label htmlFor="grid-first-name">{t("Text")}</label>
           <br />
           <br />
@@ -60,7 +59,35 @@ const AddChap0Part2 = ({ handleAddChap0Part2Modal }) => {
 
           {/* create button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button variant="contained" className={classes.btn} type="submit">
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              onClick={handleAddChap0Part2Modal}
+            >
+              {t("Close")}
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#8C1244",
+                borderRadius: 2,
+                whiteSpace: "nowrap",
+                ":hover": {
+                  backgroundColor: "#8C1244",
+                },
+              }}
+              type="submit"
+            >
               {t("Create")}
             </Button>
           </div>

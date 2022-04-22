@@ -65,12 +65,18 @@ const BuySubscription = ({ mySubscription, handleRenewModalModal }) => {
         <Button
           variant="contained"
           color="primary"
-          style={{
-            marginRight: 20,
-            backgroundColor: !selected ? "lightgray" : "#3b373c",
-          }}
           disabled={!selected}
           onClick={handleClick}
+          sx={{
+            textTransform: "none",
+            backgroundColor: "#8C1244",
+            mr: 2,
+            borderRadius: 2,
+            whiteSpace: "nowrap",
+            ":hover": {
+              backgroundColor: "#8C1244",
+            },
+          }}
         >
           {t("Buy Credits")}
         </Button>

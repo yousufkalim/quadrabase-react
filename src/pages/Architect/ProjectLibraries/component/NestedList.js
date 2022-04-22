@@ -194,10 +194,11 @@ export default function NestedList(props) {
               alignItems: "center",
             }}
           >
-            <IconButton onClick={() => history.goBack()}>
+            {/* <IconButton onClick={() => history.goBack()}>
               <ArrowBackIcon />
             </IconButton>
-            &nbsp;{props?.label}
+            &nbsp; */}
+            {props?.label}
           </ListSubheader>
           <IconButton
             id="demo-positioned-button"

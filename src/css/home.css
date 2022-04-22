@@ -1,3 +1,16 @@
 .home-container{
     padding:20px;
 }
+
+.home-upper-container{
+    display: flex;
+}
+
+.home-left-container{
+    width: 70%;
+}
+.home-right-container{
+    width: 30%;
+    padding:20px;
+}
+

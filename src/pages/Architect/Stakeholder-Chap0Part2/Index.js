@@ -143,7 +143,6 @@ const Index = () => {
   // jsx
   return (
     <div>
-      <Header />
       {/* stakholder modals */}
       <Modal
         title={t("Add Stakeholder")}
@@ -211,19 +210,6 @@ const Index = () => {
       <div className={classes.container}>
         {/* left Contaoiner */}
         <div className={classes.left_container}>
-          <div className={classes.flex_container}>
-            <span style={{ fontSize: 24 }}>
-              <i>{t("Stakeholders")}</i>
-            </span>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              style={{ backgroundColor: "#3b373c" }}
-              onClick={handleAddStakeholderModal}
-            >
-              {t("Add Stakeholder")}
-            </Button>
-          </div>
           <div>
             <Table
               headCells={StakeholderheadCells}
@@ -231,26 +217,14 @@ const Index = () => {
               rows={stakeholdersHeadCells}
               handleEdit={handleEditStakeholderModal}
               handleDelete={handleDeleteStakeholderModal}
+              headerText="Stakeholders"
+              buttonText={t("Add Stakeholder")}
+              buttonAction={handleAddStakeholderModal}
             />
           </div>
         </div>
         {/* right container */}
         <div className={classes.right_container}>
-          <div className={classes.flex_container}>
-            <span style={{ fontSize: 24 }}>
-              <i>Chap0Part2</i>
-            </span>
-            {chap0Part2Data.length === 0 && (
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                style={{ backgroundColor: "#3b373c" }}
-                onClick={handleAddChap0Part2Modal}
-              >
-                {t("Add Chap0Part2")}
-              </Button>
-            )}
-          </div>
           <div>
             <Table
               headCells={Chap0Part2headCells}
@@ -258,6 +232,9 @@ const Index = () => {
               rows={chap0part2HeadCells}
               handleEdit={handleEditChap0Part2Modal}
               handleDelete={handleDeleteChap0Part2Modal}
+              headerText="Chap0Part2"
+              buttonText={t("Add Chap0Part2")}
+              buttonAction={handleAddChap0Part2Modal}
             />
           </div>
         </div>

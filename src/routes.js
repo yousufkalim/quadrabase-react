@@ -25,8 +25,7 @@ import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
 
-// import ArchitectIndex from "./pages/Architect/Home";
-import ArchitectIndex from "./pages/Architect/Home2";
+import ArchitectIndex from "./pages/Architect/Home";
 import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
 import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
 import MyProfile from "./pages/Architect/MyProfile/Index";
