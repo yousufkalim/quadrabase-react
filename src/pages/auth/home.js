@@ -15,10 +15,13 @@ import Icon5 from "./spc/assets/images/icon5.svg";
 import Icon6 from "./spc/assets/images/icon6.svg";
 import Arrow from "./spc/assets/images/arrow.svg";
 import Footerimg from "./spc/assets/images/footerimg.svg";
+import Quadralogo from "./spc/assets/images/Quadralogo.svg";
 
 // Importing Components
 import Header from "../../pages/auth/spc/components/Header";
 import DocumentProduits from "./spc/components/DocumentProduits";
+import Appbar from "./spc/components/Appbar";
+
 // Home Component
 export default function Home() {
   const [index, setIndex] = React.useState(0);
@@ -68,8 +71,11 @@ export default function Home() {
   ];
 
   return (
-    <>
-      <Header handleScroll={executeScroll} />
+    <div>
+      <div className="spc_headerdiv">
+        <Appbar logo={Quadralogo}></Appbar>
+        <Header handleScroll={executeScroll} />
+      </div>
       <div ref={myRef} className="scroll">
         <div className="spc_home_heading">
           <Typography className="spc_home_heading_typo">
@@ -246,6 +252,6 @@ export default function Home() {
           </div>
         </Grid>
       </div>
-    </>
+    </div>
   );
 }
