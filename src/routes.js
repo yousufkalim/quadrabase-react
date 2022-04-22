@@ -30,13 +30,15 @@ import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
 import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
 import MyProfile from "./pages/Architect/MyProfile/Index";
 import ProjectView from "./pages/Architect/Project/ProjectView";
+import Projects from "./pages/Architect/Project/Index";
 import SubscriptionSuccess from "./pages/Architect/Subscription/Success";
 
 // Architect drawer Icons
-import HomeIcon from "@mui/icons-material/Home";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import WorkIcon from "@mui/icons-material/Work";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 
 var routes = [
   // architect side routes
@@ -44,16 +46,23 @@ var routes = [
     path: "/index", //Architect
     name: "Architect",
     text: "Home",
-    icon: <HomeIcon />,
+    icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
     layout: "/architect",
   },
-
+  {
+    path: "/projects", //Architect
+    name: "Architect",
+    text: "My Projects",
+    icon: <WorkOutlineIcon />,
+    component: Projects,
+    layout: "/architect",
+  },
   {
     path: "/management", //Architect
     name: "Architect",
     text: "Management",
-    icon: <WorkIcon />,
+    icon: <SettingsApplicationsOutlinedIcon />,
     component: Management,
     layout: "/architect",
   },
@@ -62,7 +71,7 @@ var routes = [
     path: "/libraries", //Architect
     name: "Architect",
     text: "Libraries",
-    icon: <LibraryBooksIcon />,
+    icon: <LibraryBooksOutlinedIcon />,
     component: ProjectLibraries,
     layout: "/architect",
   },
@@ -71,7 +80,7 @@ var routes = [
     path: "/profile", //Architect
     name: "Architect",
     text: "Profile",
-    icon: <ManageAccountsIcon />,
+    icon: <ManageAccountsOutlinedIcon />,
     component: MyProfile,
     layout: "/architect",
   },

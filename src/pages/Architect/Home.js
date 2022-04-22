@@ -12,7 +12,6 @@ import moment from "moment";
 import "../../css/home.css";
 
 // Importing Components
-import Header from "../../components/Architect/Header";
 import { Button } from "@mui/material";
 import Table from "../../components/Architect/Tabel";
 import Modal from "../../components/Architect/Modal";
@@ -72,7 +71,6 @@ const Home = () => {
   const getSubscriptions = async () => {
     const result = await api("get", `/licenses/${store.user._id}`);
     setSubscriptionsData(result.data.license);
-    console.log("result", result);
     setMySubscription(store?.user?.subscriptions);
   };
 
@@ -94,7 +92,7 @@ const Home = () => {
   };
 
   const handleView = (id) => {
-    history.push(`/architect/projectview/${id}`);
+    history.push(`/projectview/${id}`);
   };
 
   const handleBuySubModal = () => setBuySubModal(!buySubModal);

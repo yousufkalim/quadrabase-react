@@ -7,6 +7,7 @@ export const useStyles = makeStyles({
     position: "relative",
     overflowX: "hidden",
     height: "100vh",
+    backgroundColor: "#eeeeee",
   },
   container: {
     padding: "10px 20px",
@@ -17,9 +18,10 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
   },
   btn: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: "#8C1244 !important",
     marginRight: "10px !important",
     height: "35px !important",
+    borderRadius: 10,
   },
   left_container: {
     width: "25%",

@@ -14,6 +14,7 @@ export const useStyles = makeStyles({
     width: "100%",
   },
   btn: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: "#8C1244 !important",
+    borderRadius: 10,
   },
 });

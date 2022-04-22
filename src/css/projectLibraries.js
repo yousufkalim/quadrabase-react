@@ -9,12 +9,14 @@ export const useStyles = makeStyles({
     paddingTop: 20,
   },
   btn: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: "#8C1244 !important",
+    borderRadius: 10,
   },
   btn2: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: "#8C1244 !important",
     marginRight: "10px important",
     height: 35,
+    borderRadius: 10,
   },
   form: {
     marginTop: "auto",
