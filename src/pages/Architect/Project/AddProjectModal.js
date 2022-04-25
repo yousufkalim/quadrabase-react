@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InputWithLabel from "../../../components/Architect/InputWithLabel";
 import { useStyles } from "../../../css/home";
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, Typography } from "@mui/material";
 import api from "../../../api";
 import RowRadioButtonsGroup from "./component/RadioGroup";
 import InputDropdown from "../../../components/Architect/InputDropdown";
@@ -33,7 +33,7 @@ const TOC = [
 const TOP = [
   {
     value: "DQEAndBPU",
-    label: "DQE And BPU",
+    label: "DQE & BPU",
   },
   {
     value: "DPGF",
@@ -146,7 +146,6 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           type="text"
         />
         <br />
-
         <Grid container spacing={2}>
           <Grid item zeroMinWidth xs>
             <DatePicker
@@ -189,6 +188,10 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           name="structure"
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
         />
+        <div>
+          <Typography>* Mentions obligatoires</Typography>
+        </div>
+
         {/* register button */}
         <div style={{ width: "100%", textAlign: "right" }}>
           <Button

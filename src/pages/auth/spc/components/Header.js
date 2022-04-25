@@ -21,11 +21,11 @@ export default function Header(props) {
         en productivité !
       </Typography>
       <Typography className="spc_Heropara">
-        Maitres d’ouvrage, Maitre d'oeuvre, Architectes,
+        Maîtres d'ouvrage, Maîtres d'Oeuvre, Architectes,
         <br />
-        Bureaux d'études,Paysagistes-concepteurs,
+        Bureaux d'études, Paysagistes-concepteurs,
         <br />
-        Géomètres Experts
+        Géomètres-Experts.
       </Typography>
       <div className="spc_btndiv">
         <Button

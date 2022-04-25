@@ -541,6 +541,7 @@ i18n
           "The last remaining Slice cannot be deleted.":
             "The last remaining Slice cannot be deleted",
           "Delete tranches first": "Delete tranches first",
+          "Private Libraries": "Private Libraries",
         },
       },
       fr: {
@@ -846,7 +847,7 @@ i18n
           "Add Chap0 Level2": "Ajouter Chap0 Level2",
           "Edit Chap0 Level2": "Modifier Chap0 Level2",
           "Add Chap0 Level3": "Ajouter Chap0 Level3",
-          "Edit Chap0 Level3": "Modifier Chap0 Level3",
+          "Edit Chap0 Level3": "Modifier le Chapitre 0",
           "Add Chap0Level1": "Ajouter Chap0Level1",
           AddChap0Level2: "Ajouter Chap0Level2",
           AddChap0Level3: "Ajouter Chap0Level3",
@@ -889,7 +890,7 @@ i18n
           Title: "Titre",
           Prescriber: "Prescripteur",
           VAT: "T.V.A",
-          "Type Of Contract": "Type de contrat",
+          "Type Of Contract": "Type de marché",
           "Type Of Project": "Type de projet",
           Date: "Date",
           "Assign Subscription": "Attribuer un abonnement",
@@ -1072,6 +1073,7 @@ i18n
           "The last remaining Slice cannot be deleted.":
             "La dernière tranche restante ne peut pas être supprimée.",
           "Delete tranches first": "Supprimer les tranches en premier",
+          "Private Libraries": "Bibliothèques Prescripteurs",
         },
       },
     },

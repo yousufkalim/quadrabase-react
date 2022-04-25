@@ -13,7 +13,7 @@ import Icon3 from "./spc/assets/images/icon3.svg";
 import Icon4 from "./spc/assets/images/icon4.svg";
 import Icon5 from "./spc/assets/images/icon5.svg";
 import Icon6 from "./spc/assets/images/icon6.svg";
-import Arrow from "./spc/assets/images/arrow.svg";
+import CircleIcon from "@mui/icons-material/Circle";
 import Footerimg from "./spc/assets/images/footerimg.svg";
 import Quadralogo from "./spc/assets/images/Quadralogo.svg";
 import { useHistory } from "react-router-dom";
@@ -172,6 +172,11 @@ export default function Home() {
         <Services />
       </div>
       <div>
+        <div>
+          <Typography className="spc_carouselheading">
+            Création et gestion des projets
+          </Typography>
+        </div>
         <div
           className="spc_"
           index={index}
@@ -194,7 +199,7 @@ export default function Home() {
             onClick={() => handleChange(1)}
             sx={{ marginLeft: "1%" }}
           >
-            Les fonctionnalités
+            Les sources documentaires
           </Button>
           <div className="spc_divider"></div>
           <Button
@@ -202,7 +207,7 @@ export default function Home() {
             onClick={() => handleChange(2)}
             sx={{ marginLeft: "1%" }}
           >
-            Les fonctionnalités
+            La base de données
           </Button>
         </div>
         <div style={{ paddingLeft: "6%" }}>
@@ -226,26 +231,114 @@ export default function Home() {
               className="spc_footer_img"
             ></img>
           </Grid>
-          <Grid xs={12} sm={12} md={5} className="spc_fottergrid">
-            <Typography
-              className="spc_footertypo"
-              style={{ paddingBottom: "5%" }}
-            >
-              Création et gestion
-              <br /> des projets
-            </Typography>
-            <Typography className="spc_footerpara">
-              Lorem ipsum dolor sit amet, <br /> consectetur adipiscing elit
-              fusce varius <br /> justo et scelerisque varius nullam mollis
-            </Typography>
-            <div className="spc_readmorediv" style={{ paddingTop: "5%" }}>
-              <Typography className="spc_readmore" sx={{ paddingRight: "2%" }}>
-                Read more
-              </Typography>
-              <div style={{ paddingLeft: "3% !important" }}>
-                <img src={Arrow}></img>
-              </div>
-            </div>
+
+          <Grid xs={12} sm={12} md={6} className="spc_fottergrid">
+            {index === 0 ? (
+              <ul>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Création et gestion des projets
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Saisie des données générales du projet,
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Choix du type de marché (lots, tranches,
+                  subséquent)
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Construction du projet à partir des ouvrages des
+                  bibliothèques
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Création d’ouvrages spécifiques au projet
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Calcul automatique des totaux
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Réorganisation de la structure du projet
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Gestion du Chapitre 0 du CCTP (Clauses communes)
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Adaptation des descriptifs d’ouvrages et des
+                  textes du CCTP
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Génération et visualisation des documents au
+                  format Xml
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Transfert des documents vers Word, Excel ou PDF
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Création de Bibliothèques d’ouvrages spécifiques à
+                  chaque Prescripteur
+                </li>
+              </ul>
+            ) : index === 1 ? (
+              <ul>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Cahier des Clauses Techniques Générales (CCTG)
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Documents Techniques Unifiés (DTU)
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Normes NF et EN
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Guides Techniques
+                </li>
+                <li>
+                  <CircleIcon style={{ fontSize: 8 }} />
+                  &nbsp;&nbsp;Documentations des Fabricants
+                </li>
+              </ul>
+            ) : (
+              <>
+                <strong>Quadrabase</strong> s'appuie sur un ensemble de
+                bibliothèques comprenant plus de 42'000 ouvrages, prestations et
+                produits dont les mises à jour sont faites régulièrement.
+                <br />
+                <br />
+                Les Bibliothèques d’ouvrages proposées sont les suivantes :
+                <br />
+                <br />
+                Travaux préparatoires / Terrassements généraux - Fouilles pour
+                ouvrages / Géosynthétiques - Géomembranes / Chaussées / Voiries
+                - Espaces publics / Travaux de maçonneries / Construction de
+                Réseaux divers / Assainissements EU/EP / Alimentation Electrique
+                – Eclairage Public / Télécom - Vidéo surveillance / Réseau AEP /
+                Arrosage / Aménagements Paysagers - Plantations / Clôtures -
+                Portails / Signalisation de Police / Signalisation
+                Directionnelle / Signalisation Touristique et Commerciale /
+                Signalisation Horizontale / Dispositifs de sécurité / Mobilier
+                urbain métal / Mobilier urbain Pierre-Béton-Matériaux recyclés /
+                Mobilier extérieur bois / Entretien Forestier - Elagage /
+                Environnement - Collecte des Déchets / Equipements Sportifs de
+                proximité / Espaces de Loisirs - Aires de jeux / Signalisation
+                lumineuse Tricolore / Ouvrages de Génie Civil / Génie végétal /
+                Contrôle d’accès / Bâtiments
+              </>
+            )}
           </Grid>
           <div className="spc_bottomborder">
             <div className="spc_border"></div>

@@ -188,13 +188,13 @@ const ResponsiveAppBar = (props) => {
               className="spc_Appbar_contct_btn"
               onClick={() => navTo("/auth/contact")}
             >
-              Contact us
+              Nous contacter
             </Button>
             <Button
               className="spc_Appbar_connect_btn"
               onClick={() => navTo("/auth/login")}
             >
-              Login
+              Se connecter
             </Button>
           </Box>
         </Toolbar>

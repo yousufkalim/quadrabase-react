@@ -13,7 +13,6 @@ export default function RowRadioButtonsGroup(props) {
       <Typography>{props.label}</Typography>
       <RadioGroup
         row={props.row}
-        name="row-radio-buttons-group"
         value={props.value}
         style={{ fontSize: 10 }}
         name={props.name}
