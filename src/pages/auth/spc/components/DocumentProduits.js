@@ -29,7 +29,7 @@ const DocumentProduits = () => {
     {
       icon: Icon10,
       heading: "CCTP",
-      text: "Le Cahier des Clauses Techniques Particulières (CCTP) est le document contractuel qui rassemble les prescriptions techniques et réglementaires qui devront être prises en compte pour la réalisation des ouvrages ou prestations.Il complète le BPU.",
+      text: "Le Cahier des Clauses Techniques Particulières (CCTP) est le document contractuel qui rassemble les prescriptions techniques et réglementaires qui devront être prises en compte pour la réalisation des ouvrages ou prestations. Il complète le BPU.",
     },
   ];
 
@@ -49,20 +49,11 @@ const DocumentProduits = () => {
   );
 };
 
-function Single(props){
-
-  const [isReadMore, setIsReadMore] = useState(true);
-  const toggleReadMore = () => {
-    setIsReadMore(!isReadMore);
-  };
-
+function Single(props) {
   return (
     <Grid xs={12} sm={12} md={2.5} className="spc_home_bottom_gird">
       <img src={props.icon} style={{ marginBottom: "10%" }}></img>
-      <Typography
-        className="spc_grid_heading"
-        sx={{ paddingBottom: "5%" }}
-      >
+      <Typography className="spc_grid_heading" sx={{ paddingBottom: "5%" }}>
         {props.heading}
       </Typography>
       <Divider
@@ -77,22 +68,10 @@ function Single(props){
       />
       <Typography
         className="spc_grid_para"
-        sx={{ paddingBottom: "5%",height:"140px",overFlow:"hidden" }}
+        sx={{ paddingBottom: "5%", height: "140px", overFlow: "hidden" }}
       >
-        {isReadMore ? props.text.slice(0, 150) : props.text}
+        {props.text}
       </Typography>
-      <div className="spc_readmorediv">
-        <Typography
-          className="spc_readmore"
-          sx={{ paddingBottom: "5%", cursor: "pointer" }}
-          onClick={toggleReadMore}
-        >
-          {isReadMore ? "Read more" : " Read less"}
-        </Typography>
-        <div>
-          <img src={Arrow} className="spc_arrow_"></img>
-        </div>
-      </div>
     </Grid>
   );
 }

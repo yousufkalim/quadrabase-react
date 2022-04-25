@@ -82,15 +82,15 @@ const CustomerReviews = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 3,
+      items: 4,
     },
     desktop: {
-      breakpoint: { max: 3000, min: 1438 },
-      items: 3,
+      breakpoint: { max: 3000, min: 1000 },
+      items: 4,
       //   slidesToSlide: 5,
     },
     tablet: {
-      breakpoint: { max: 1438, min: 641 },
+      breakpoint: { max: 1000, min: 641 },
       items: 2,
     },
     mobile: {
@@ -108,6 +108,7 @@ const CustomerReviews = () => {
           autoPlay={false}
           className="spc_CustomerreviewCarousel"
         >
+          {console.log("servicess", Services)}
           {Services.map((item) => (
             <div className="spc_servicegrid">
               <img
