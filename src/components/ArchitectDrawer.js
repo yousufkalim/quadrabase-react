@@ -44,10 +44,11 @@ export default function ResponsiveDrawer(props) {
       temp[temp.length - 1].slice(1);
     if (temp === "Index") {
       setCurrentPage("Dashboard");
+    } else if (temp === "Projects") {
+      setCurrentPage("My Projects");
     } else {
       setCurrentPage(temp);
     }
-    console.log("pathname,", temp);
   }, [location.pathname]);
 
   // for language dropdown menu
@@ -85,7 +86,9 @@ export default function ResponsiveDrawer(props) {
             {props.user.first_name} {props.user.last_name}
           </span>
           <br />
-          <span style={{ fontSize: 12, color: "#8C1244" }}>Architect</span>
+          <span style={{ fontSize: 12, color: "#8C1244" }}>
+            {t("Architect")}
+          </span>
         </div>
         <LogoutIcon style={{ cursor: "pointer" }} onClick={() => onLogout()} />
       </div>
@@ -102,7 +105,7 @@ export default function ResponsiveDrawer(props) {
                 onClick={() => history.push(item.layout + item.path)}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item?.text} />
+                <ListItemText primary={t(item?.text)} />
               </ListItem>
             )
         )}
@@ -155,7 +158,7 @@ export default function ResponsiveDrawer(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h5" noWrap component="div">
-              {currentPage}
+              {t(currentPage)}
             </Typography>
           </div>
           <IconButton

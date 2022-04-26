@@ -647,7 +647,7 @@ const Register = () => {
                               <>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Name of Establishment *"
+                                    label="Nom Etablissement *"
                                     placeholder="xyz"
                                     type="text"
                                     name="establishment"
@@ -701,7 +701,7 @@ const Register = () => {
                             ) : (
                               <Grid item xs={12} sx={{ marginBottom: 2 }}>
                                 <TextInput
-                                  label="Name of Establishment *"
+                                  label="Nom Etablissement *"
                                   placeholder="xyz"
                                   type="text"
                                   name="establishment"
@@ -765,7 +765,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="PO Box *"
+                                label="Boite Postale *"
                                 placeholder="xyz, Paris"
                                 type="text"
                                 name="po_box"
@@ -788,7 +788,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="Postal Code *"
+                                label="Code Postal *"
                                 placeholder="54500"
                                 type="text"
                                 name="postal_code"
@@ -811,7 +811,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="City *"
+                                label="Ville *"
                                 placeholder="xyz, Paris"
                                 type="text"
                                 name="city"
@@ -834,7 +834,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="Phone Number *"
+                                label="Téléphone *"
                                 placeholder="0900929008"
                                 type="number"
                                 name="phone"
@@ -872,7 +872,7 @@ const Register = () => {
                               }}
                               onClick={() => setStartStepper()}
                             >
-                              Back
+                              Arrière
                             </Button>
                             &nbsp;
                             <Button
@@ -896,7 +896,7 @@ const Register = () => {
                                 form1?.errors?.phone
                               }
                             >
-                              Next
+                              Suivant
                             </Button>
                           </div>
                         </form>
@@ -911,7 +911,7 @@ const Register = () => {
                               >
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="First Name *"
+                                    label="Prénom *"
                                     placeholder="Claude"
                                     type="text"
                                     name="first_name"
@@ -937,7 +937,7 @@ const Register = () => {
                                 </Grid>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Last Name *"
+                                    label="Nom *"
                                     placeholder="Dubois"
                                     type="text"
                                     name="last_name"
@@ -989,7 +989,7 @@ const Register = () => {
                                 </Grid>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Password"
+                                    label="Mot de passe"
                                     type={showPassword ? "text" : "password"}
                                     name="password"
                                     value={form2.values.password}
@@ -1031,7 +1031,7 @@ const Register = () => {
                                 </Grid>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Confirm Password"
+                                    label="Confirmer le mot de passe"
                                     type={
                                       showConfirmPassword ? "text" : "password"
                                     }
@@ -1094,7 +1094,7 @@ const Register = () => {
                                   }}
                                   onClick={() => handleBack()}
                                 >
-                                  Back
+                                  Arrière
                                 </Button>
                                 &nbsp;
                                 <Button
@@ -1120,7 +1120,7 @@ const Register = () => {
                                     form2?.errors?.confirm_password
                                   }
                                 >
-                                  Next
+                                  Suivant
                                 </Button>
                               </div>
                             </>
@@ -1133,7 +1133,7 @@ const Register = () => {
                               >
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Name *"
+                                    label="Nom *"
                                     placeholder="Claude"
                                     type="text"
                                     name="first_name"
@@ -1200,7 +1200,7 @@ const Register = () => {
                                   }}
                                   onClick={() => handleBack()}
                                 >
-                                  Back
+                                  Arrière
                                 </Button>
                                 &nbsp;
                                 <Button
@@ -1220,7 +1220,7 @@ const Register = () => {
                                     form2?.errors?.email
                                   }
                                 >
-                                  Next
+                                  Suivant
                                 </Button>
                               </div>
                             </>
@@ -1233,15 +1233,13 @@ const Register = () => {
                               {" "}
                               {/* Subscription */}
                               <div>
-                                <strong>Subscription</strong>
+                                <strong>Abonnement</strong>
                                 <div className="subscription-box">
                                   <div className="subscription-box-intial">
                                     <div className="common-text">
-                                      <span>
-                                        Initial subscription for 1 year
-                                      </span>
+                                      <span>Abonnement Initial 1 an</span>
                                       <br />
-                                      <small>(1 year, 5 Projects)</small>
+                                      <small>(avec 1 pack 5 Projets) </small>
                                     </div>
                                     <BasicDropdown
                                       options={options}
@@ -1267,13 +1265,9 @@ const Register = () => {
                                   </div>
                                   <div className="subscription-box-extend">
                                     <div className="common-text">
-                                      <span>
-                                        One-year subscription extension
-                                      </span>
+                                      <span>ReAbonnement 1 an</span>
                                       <br />
-                                      <small>
-                                        (extend you subscription for one year)
-                                      </small>
+                                      <small>(uniquement si déjà abonné)</small>
                                     </div>
                                     <BasicDropdown
                                       options={options}
@@ -1312,11 +1306,11 @@ const Register = () => {
                               </div>
                               {/* Projects */}
                               <div style={{ padding: "20px 0" }}>
-                                <strong>Projects Pack</strong>
+                                <strong>Pack Projets</strong>
                                 <div className="subscription-box">
                                   <div className="subscription-box-intial">
                                     <div className="common-text">
-                                      <span>Pack of 5 Projects</span>
+                                      <span>Pack de 5 Projets</span>
                                       <br />
                                       <small>(500.00 € HT)</small>
                                     </div>
@@ -1356,7 +1350,7 @@ const Register = () => {
                               </div>
                               {/* Total */}
                               <div style={{ padding: "20px 0" }}>
-                                <strong>Total</strong>
+                                <strong>Montant à régler</strong>
                                 <div className="subscription-box">
                                   <div className="subscription-box-intial">
                                     <div
@@ -1369,12 +1363,12 @@ const Register = () => {
                                     >
                                       <div>
                                         <span>
-                                          Total Duration:{" "}
+                                          Durée total:{" "}
                                           {parseInt(subAmounts.initial.count) +
                                             parseInt(
                                               subAmounts.extended.count
                                             )}{" "}
-                                          Year
+                                          an
                                         </span>
                                         <br />
                                         <span>
@@ -1406,7 +1400,7 @@ const Register = () => {
                                         className="amount-container"
                                         style={{ marginBottom: 10 }}
                                       >
-                                        <div>VAT 20%</div>
+                                        <div>T.V.A 20%</div>
                                         <div>
                                           {" "}
                                           {(
@@ -1423,7 +1417,7 @@ const Register = () => {
                                         </div>
                                       </div>
                                       <div className="amount-container">
-                                        <div>Total Cost</div>
+                                        <div>Total T.T.C</div>
                                         <div>
                                           {" "}
                                           {(
@@ -1454,7 +1448,7 @@ const Register = () => {
                             <>
                               {/* Subscription */}
                               <div>
-                                <strong>Subscription</strong>
+                                <strong>Abonnement</strong>
                                 <div className="subscription-box">
                                   <div className="subscription-box-intial">
                                     <div className="common-text">
@@ -1498,7 +1492,7 @@ const Register = () => {
                                   </div>
                                 </div>
                                 <div style={{ padding: "20px 0" }}>
-                                  <strong>Total</strong>
+                                  <strong>Montant à régler</strong>
                                   <div className="subscription-box">
                                     <div className="subscription-box-intial">
                                       <div
@@ -1535,7 +1529,7 @@ const Register = () => {
                                           className="amount-container"
                                           style={{ marginBottom: 10 }}
                                         >
-                                          <div>VAT 20%</div>
+                                          <div>T.V.A 20%</div>
                                           <div>
                                             {(fabricantSub === "Alertes"
                                               ? (5000 * 20) / 100
@@ -1545,7 +1539,7 @@ const Register = () => {
                                           </div>
                                         </div>
                                         <div className="amount-container">
-                                          <div>Total Cost</div>
+                                          <div>Total T.T.C</div>{" "}
                                           <div>
                                             {(fabricantSub === "Alertes"
                                               ? (5000 * 20) / 100 + 5000
@@ -1578,7 +1572,7 @@ const Register = () => {
                               }}
                               onClick={() => handleBack()}
                             >
-                              Back
+                              Arrière
                             </Button>
                             &nbsp;
                             <Button
@@ -1590,7 +1584,7 @@ const Register = () => {
                               }}
                               onClick={() => handleComplete()}
                             >
-                              Next
+                              Suivant
                             </Button>
                           </div>
                         </>
@@ -1599,11 +1593,11 @@ const Register = () => {
                           {type === "Prescripteur" ? (
                             <div>
                               {/* Review */}
-                              <strong>Review</strong>
+                              <strong>Récapitulatif</strong>
                               <div className="subscription-box">
                                 <div className="subscription-box-intial-2">
                                   <div className="common-text">
-                                    <span>Initial subscription for 1 year</span>
+                                    <span>Abonnement Initial 1 an</span>
                                     <br />
                                   </div>
                                   <div className="amount-container-2">
@@ -1618,7 +1612,7 @@ const Register = () => {
                                 </div>
                                 <div className="subscription-box-intial-2">
                                   <div className="common-text">
-                                    <span>One-year subscription extension</span>
+                                    <span>ReAbonnement 1 an</span>
                                     <br />
                                   </div>
                                   <div className="amount-container-2">
@@ -1634,7 +1628,7 @@ const Register = () => {
 
                                 <div className="subscription-box-intial-2">
                                   <div className="common-text">
-                                    <span>Pack of 5 Projects</span>
+                                    <span>Pack de 5 Projets</span>
                                     <br />
                                   </div>
                                   <div className="amount-container-2">
@@ -1675,7 +1669,7 @@ const Register = () => {
                                   </div>
                                 </div>
                                 <div className="amount-container-3">
-                                  <div>VAT 20%</div>
+                                  <div>T.V.A 20%</div>
                                   <div>
                                     {" "}
                                     {(
@@ -1715,7 +1709,7 @@ const Register = () => {
                                 </div>
                               </div>
                               {/* payment method */}
-                              <strong>Payment Method</strong>
+                              <strong>Mode de paiement</strong>
                               <div className="subscription-box">
                                 <div className="payment-flex-contaner">
                                   <div className="common-text">
@@ -1776,21 +1770,21 @@ const Register = () => {
                                   style={{ cursor: "pointer" }}
                                   onClick={generateQuote}
                                 >
-                                  Export Quote
+                                  Générer un devis
                                 </span>
                                 &nbsp;&nbsp;&nbsp;
                                 <span
                                   style={{ cursor: "pointer" }}
                                   onClick={generateInvoice}
                                 >
-                                  Export Invoice
+                                  Voir la facture
                                 </span>
                               </div>
                             </div>
                           ) : (
                             <div>
                               {/* Review */}
-                              <strong>Review</strong>
+                              <strong>Récapitulatif</strong>
                               <div className="subscription-box">
                                 <div className="subscription-box-intial-2">
                                   <div className="common-text">
@@ -1866,7 +1860,7 @@ const Register = () => {
                                   </div>
                                 </div>
                                 <div className="amount-container-3">
-                                  <div>VAT 20%</div>
+                                  <div>T.V.A 20%</div>
                                   <div>
                                     {" "}
                                     {(fabricantSub === "Alertes"
@@ -1888,7 +1882,7 @@ const Register = () => {
                                 </div>
                               </div>
                               {/* payment method */}
-                              <strong>Payment Method</strong>
+                              <strong>Mode de paiement</strong>
                               <div className="subscription-box">
                                 <div className="payment-flex-contaner">
                                   <div className="common-text">
@@ -1949,14 +1943,14 @@ const Register = () => {
                                   style={{ cursor: "pointer" }}
                                   onClick={generateQuote}
                                 >
-                                  Export Quote
+                                  Générer un devis
                                 </span>
                                 &nbsp;&nbsp;&nbsp;
                                 <span
                                   style={{ cursor: "pointer" }}
                                   onClick={generateInvoice}
                                 >
-                                  Export Invoice
+                                  Voir la facture
                                 </span>
                               </div>
                             </div>
@@ -1979,7 +1973,7 @@ const Register = () => {
                               }}
                               onClick={() => handleBack()}
                             >
-                              Back
+                              Arrière
                             </Button>
                             &nbsp;
                             <Button
@@ -1991,7 +1985,7 @@ const Register = () => {
                               }}
                               onClick={() => handleFinish()}
                             >
-                              Register
+                              S'inscrire
                             </Button>
                           </div>
                         </>

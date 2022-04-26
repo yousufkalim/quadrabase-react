@@ -156,20 +156,20 @@ const Home = () => {
             data={subscriptionsData}
             rows={subscriptionHeadCells}
             handleAssign={handleAssignSubModal}
-            headerText="Subscriptions"
-            buttonText="Buy Subscriptions"
+            headerText={t("Subscriptions")}
+            buttonText={t("Buy Subscriptions")}
             buttonAction={handleBuySubModal}
           />
         </div>
         <div className="home-right-container">
           <div style={{ fontSize: 20, padding: "9px 20px" }}>
-            My Subscription
+            {t("My Subscription")}
           </div>
           <div
             style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
           ></div>
           <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            Remaning Projects
+            {t("Remaning Projects")}
           </div>
           <div style={{ fontSize: 36, padding: "10px 20px", fontWeight: 600 }}>
             {mySubscription?.projects - store?.user?.projects?.length}
@@ -196,14 +196,14 @@ const Home = () => {
               startIcon={<AddCircleOutlineIcon />}
               onClick={handleBuyProjectsModals}
             >
-              Buy Projects
+              {t("Buy Projects")}
             </Button>
           </div>
           <div
             style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
           ></div>
           <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            Valid Until
+            {t("Valid Until")}
           </div>
           <div style={{ fontSize: 30, padding: "5px 20px", fontWeight: 600 }}>
             {moment(mySubscription?.end_date).format("DD MMMM, YYYY")}
@@ -230,7 +230,7 @@ const Home = () => {
               }}
               startIcon={<AutorenewIcon />}
             >
-              Renew
+              {t("Renew")}
             </Button>
           </div>
         </div>
@@ -240,10 +240,10 @@ const Home = () => {
         data={projectData}
         rows={projectHeadCells}
         handleView={handleView}
-        headerText={`My Projects (${store?.user?.projects?.length}/${
+        headerText={`${t("My Projects")} (${store?.user?.projects?.length}/${
           mySubscription?.projects ? mySubscription?.projects : 0
         })`}
-        buttonText="New Projects"
+        buttonText={t("New Projects")}
         buttonAction={handleAddProjectModal}
       />
     </div>
