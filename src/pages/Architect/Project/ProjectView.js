@@ -195,7 +195,11 @@ const ProjectView = () => {
 
   const getFamilies = async () => {
     const result = await api("get", `/Families/architect/getAll`);
-    setSelectedFamily(result.data.families[0]._id);
+    let temp = result.data.families.find((item) => {
+      let name = item.name.toUpperCase();
+      return name === "TRAVAUX PUBLICS";
+    });
+    setSelectedFamily(temp._id);
     setOptions(result.data.families);
   };
 
