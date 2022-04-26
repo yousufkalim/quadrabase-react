@@ -5,6 +5,7 @@ import { Grid, Button, Typography } from "@mui/material";
 import api from "../../../api";
 import RowRadioButtonsGroup from "./component/RadioGroup";
 import InputDropdown from "../../../components/Architect/InputDropdown";
+import Autocomplete from "../../../components/Architect/Autocomplete";
 import DatePicker from "../../../components/Architect/DatePicker";
 import { Store, UpdateStore } from "../../../StoreContext";
 import { toast } from "react-toastify";
@@ -57,8 +58,14 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
     date: moment().format("YYYY-MM-DD"),
   });
   const [options, setOptions] = useState([]);
+
+  const [stakeholderText, setStakeholderText] = useState("");
+  const [stakeholderByType1, setStakeholderByType1] = useState([]);
   const [selectedStakeholder, setSelectedStakeholder] = useState("");
-  const [stakeholderOptions, setStakeholderOptions] = useState([]);
+
+  const [stakeholderText2, setStakeholderText2] = useState("");
+  const [stakeholderByType2, setStakeholderByType2] = useState([]);
+  const [selectedStakeholder2, setSelectedStakeholder2] = useState("");
 
   //   useEffect to get vat
   useEffect(() => {
@@ -73,7 +80,7 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
   //   func to get vat
   const getVat = async () => {
     const result = await api("get", `/VAT/getAll`);
-    setOptions(result?.data?.vat?.sort((a, b) => a.value - b.value));
+    setOptions(result?.data?.vat?.sort((a, b) => a.ranking - b.ranking));
     result &&
       setValues((prev) => {
         prev.vat = result?.data?.vat[0]?._id;
@@ -85,9 +92,14 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
   const getStakeholders = async () => {
     const result = await api(
       "get",
-      `/Stakeholders/getByArchitect/${store.user._id}`
+      `/Stakeholders/getByTypeName/Maitre d'Ouvrage`
     );
-    setStakeholderOptions(result.data.stakeholders);
+    setStakeholderByType1(result.data.stakeholders);
+    const result2 = await api(
+      "get",
+      `/Stakeholders/getByTypeName/Maitre d'Oeuvre`
+    );
+    setStakeholderByType2(result2.data.stakeholders);
   };
 
   // handle change function
@@ -103,7 +115,52 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
     e.preventDefault();
     let data = values;
     data.architect = store.user._id;
-    data.client = selectedStakeholder && selectedStakeholder;
+    if (selectedStakeholder) {
+      data.client = selectedStakeholder;
+    } else {
+      const result = await api(
+        "post",
+        `/stakeholders/byproject/create/Maitre d'Ouvrage`,
+        {
+          name: stakeholderText,
+          email: "",
+          contact_no: "",
+          entity: "",
+          service: "",
+          city: "",
+          address1: "",
+          address2: "",
+          zipcode: "",
+          type: "",
+          ranking: 0,
+        },
+        t
+      );
+      data.client = result.data.stakeholder._id;
+    }
+    if (selectedStakeholder2) {
+      data.prescriber = selectedStakeholder2;
+    } else {
+      const result = await api(
+        "post",
+        `/stakeholders/byproject/create/Maitre d'Oeuvre`,
+        {
+          name: stakeholderText2,
+          email: "",
+          contact_no: "",
+          entity: "",
+          service: "",
+          city: "",
+          address1: "",
+          address2: "",
+          zipcode: "",
+          type: "",
+          ranking: 0,
+        },
+        t
+      );
+      data.prescriber = result.data.stakeholder._id;
+    }
     const result = await api("post", `/project/create`, data, t);
     toast.success(t(result.data.message));
     handleAddProjectModal();
@@ -127,23 +184,23 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
         />
         <br />
-        <InputDropdown
-          label={t("Architect Stakeholders")}
-          name="stakeholder"
-          value={selectedStakeholder}
-          options={stakeholderOptions}
-          type="text"
-          onChange={(e) => setSelectedStakeholder(e.target.value)}
-          required
+        <Autocomplete
+          label="Maitre d'Ouvrage"
+          options={stakeholderByType1}
+          setValue={setSelectedStakeholder}
+          textValue={stakeholderText}
+          setTextValue={setStakeholderText}
+          required={true}
         />
         <br />
-        <InputWithLabel
-          label={t("Prescriber")}
+
+        <Autocomplete
+          label="Maitre d'Oeuvre"
+          options={stakeholderByType2}
+          setValue={setSelectedStakeholder2}
+          textValue={stakeholderText2}
+          setTextValue={setStakeholderText2}
           required={true}
-          name="prescriber"
-          value={values.prescriber}
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          type="text"
         />
         <br />
         <Grid container spacing={2}>

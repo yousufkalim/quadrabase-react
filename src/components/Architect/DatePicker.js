@@ -28,6 +28,7 @@ export default function BasicDatePicker(props) {
           minDate={props.minDate}
           shouldDisableDate={props.shouldDisableDate}
           shouldDisableYear={props.shouldDisableYear}
+          inputFormat="DD-MM-YYYY"
           onChange={props.onChange}
           renderInput={(params) => (
             <TextField
