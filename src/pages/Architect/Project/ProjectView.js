@@ -110,7 +110,6 @@ const ProjectView = () => {
   //   states
   const [currentProject, setCurrentProject] = useState({});
   const [generalLibrariesData, setGeneralLibrariesData] = useState();
-  const [projectLibrariesData, setProjectLibrariesData] = useState();
   const [openWorkModal, setOpenWorkModal] = useState(false);
   const [openWorkDetailModal, setOpenWorkDetailModal] = useState(false);
   const [selectedWork, setSelectedWork] = useState();

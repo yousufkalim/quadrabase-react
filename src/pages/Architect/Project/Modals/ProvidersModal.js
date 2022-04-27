@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import CircleIcon from "@mui/icons-material/Circle";
+import noLogo from "../../../../assets/nologo.png";
 
 const ProviderModal = ({ handleOpenProviderModal, providers }) => {
   const { t } = useTranslation();
@@ -23,16 +23,21 @@ const ProviderModal = ({ handleOpenProviderModal, providers }) => {
           {providers.map((item) => {
             return (
               <li
-                style={{ cursor: item.url && "pointer" }}
+                style={{
+                  cursor: item.url && "pointer",
+                  display: "flex",
+                  marginBottom: 10,
+                  alignItems: "center",
+                }}
                 onClick={() => {
                   if (item.url) {
                     window.open(item.url, "_blank");
                   }
                 }}
               >
-                <CircleIcon style={{ fontSize: 8 }} />
+                <img src={item.logo ? item.logo : noLogo} width="65" />
                 &nbsp;&nbsp;
-                {item.name}
+                {item.establishment}
               </li>
             );
           })}

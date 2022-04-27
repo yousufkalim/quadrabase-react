@@ -18,7 +18,7 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
   },
   btn: {
-    backgroundColor: "#8C1244 !important",
+    backgroundColor: "#3b373c !important",
     marginRight: "10px !important",
     height: "35px !important",
     borderRadius: 10,
