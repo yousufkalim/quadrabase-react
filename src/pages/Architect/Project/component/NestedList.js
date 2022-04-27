@@ -15,6 +15,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled, alpha } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
+import { useTranslation } from "react-i18next";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -61,6 +62,7 @@ const StyledMenu = styled((props) => (
 const screenSize = window.innerWidth;
 
 const NestedList = (props) => {
+  const { t } = useTranslation();
   // for level 1
   const [openLevel1, setOpenLevel1] = React.useState("");
 
@@ -172,7 +174,7 @@ const NestedList = (props) => {
                   handleAnchorElClose();
                 }}
               >
-                Technical Doc
+                {t("Technical Doc")}
               </MenuItem>
             </>
           )}
@@ -185,7 +187,7 @@ const NestedList = (props) => {
                 handleAnchorElClose();
               }}
             >
-              Providers
+              {t("Providers")}
             </MenuItem>
           </>
         )}
