@@ -144,7 +144,7 @@ const NestedList = (props) => {
             }
           })
         ) : (
-          <MenuItem disabled>Empty</MenuItem>
+          <MenuItem disabled>No texts</MenuItem>
         )}
       </StyledMenu>
       {props.level1?.map((item) => {
