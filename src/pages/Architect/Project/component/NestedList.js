@@ -152,7 +152,7 @@ const NestedList = (props) => {
               return (
                 <MenuItem
                   onClick={() => {
-                    props.openCctpModal(cctp, "CCTP");
+                    props.openCctpModal(cctp, `CCTP ${index + 1}`);
                     handleAnchorElClose();
                   }}
                 >
