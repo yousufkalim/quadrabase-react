@@ -184,6 +184,7 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
         />
         <br />
+        <br />
         <Autocomplete
           label="Maitre d'Ouvrage"
           options={stakeholderByType1}

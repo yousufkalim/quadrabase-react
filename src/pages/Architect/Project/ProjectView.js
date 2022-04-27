@@ -203,7 +203,7 @@ const ProjectView = () => {
       return name === "TRAVAUX PUBLICS";
     });
     setSelectedFamily(temp._id);
-    setOptions(result.data.families);
+    setOptions(result.data.families.sort((a, b) => a.ranking - b.ranking));
   };
 
   // func to get current project
