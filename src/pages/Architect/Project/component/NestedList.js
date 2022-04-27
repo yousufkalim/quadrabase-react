@@ -14,6 +14,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled, alpha } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -128,13 +129,28 @@ const NestedList = (props) => {
         }}
         sx={{ mt: 1 }}
       >
-        {menuItem?.cctp_text?.length >= 1 ? (
+        {menuItem?.bpu_text?.length >= 1 &&
+          menuItem?.bpu_text?.map((bpu, index) => {
+            if (bpu) {
+              return (
+                <MenuItem
+                  onClick={() => {
+                    props.openCctpModal(bpu, "BPU");
+                    handleAnchorElClose();
+                  }}
+                >
+                  Text BPU
+                </MenuItem>
+              );
+            }
+          })}
+        {menuItem?.cctp_text?.length >= 1 &&
           menuItem?.cctp_text?.map((cctp, index) => {
             if (cctp) {
               return (
                 <MenuItem
                   onClick={() => {
-                    props.openCctpModal(cctp);
+                    props.openCctpModal(cctp, "CCTP");
                     handleAnchorElClose();
                   }}
                 >
@@ -142,10 +158,44 @@ const NestedList = (props) => {
                 </MenuItem>
               );
             }
-          })
-        ) : (
-          <MenuItem disabled>No texts</MenuItem>
+          })}
+        {menuItem?.providers?.length >= 1 &&
+          menuItem?.providers[0]?.documents?.length >= 1 && (
+            <>
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  window.open(
+                    menuItem?.providers[0].documents[0].uri,
+                    "_blank"
+                  );
+                  handleAnchorElClose();
+                }}
+              >
+                Technical Doc
+              </MenuItem>
+            </>
+          )}
+        {menuItem?.providers?.length >= 1 && (
+          <>
+            <Divider />
+            <MenuItem
+              onClick={() => {
+                props.handleOpenProvidersModal(menuItem.providersList);
+                handleAnchorElClose();
+              }}
+            >
+              Providers
+            </MenuItem>
+          </>
         )}
+        {menuItem?.cctp_text?.length === 0 &&
+          (typeof menuItem?.bpu_text === "undefined" ||
+            menuItem?.bpu_text?.length === 0) &&
+          (typeof menuItem?.providers === "undefined" ||
+            menuItem?.providers?.length === 0) && (
+            <MenuItem disabled>No texts</MenuItem>
+          )}
       </StyledMenu>
       {props.level1?.map((item) => {
         let open = openLevel1 === item._id;

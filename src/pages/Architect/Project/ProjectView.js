@@ -35,6 +35,7 @@ import TracnhesModal from "./Modals/TranchesModal";
 import TradesModal from "./Modals/TradesModal";
 import UpdateTradesModal from "./Modals/UpdateTradesModal";
 import UpdateTranchesModal from "./Modals/UpdateTranchesModal";
+import ProviderModal from "./Modals/ProvidersModal";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PropertiesModal from "./Modals/PropertiesModal";
@@ -121,6 +122,7 @@ const ProjectView = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [openPropertiesModal, setOpenPropertiesModal] = useState(false);
   const [openCctpModal, setOpenCctpModal] = useState(false);
+  const [cctpModalTitle, setCctpModalTitle] = useState("");
   const [cctp_text, setCctp_text] = useState();
   const [openDeleteWorkModal, setOpenDeleteWorkModal] = useState(false);
   const [deleteWorkId, setDeleteWorkId] = useState();
@@ -146,6 +148,8 @@ const ProjectView = () => {
   const [openTradesModal, setOpenTradesModal] = useState(false);
   const [openUpdateTradesModal, setOpenUpdateTradesModal] = useState(false);
   const [openUpdateTranchesModal, setOpenUpdateTranchesModal] = useState(false);
+  const [openProvidersModal, setOpenProvidersModal] = useState(false);
+  const [providerList, setProviderList] = useState([]);
   const [options, setOptions] = useState();
   const [selectedFamily, setSelectedFamily] = useState();
   const [categories, setCategories] = useState();
@@ -428,11 +432,19 @@ const ProjectView = () => {
   const handleOpenPropertiesModal = () =>
     setOpenPropertiesModal(!openPropertiesModal);
 
-  const handleOpenCctpModal = (cctp) => {
-    if (cctp) {
-      setCctp_text(cctp);
+  const handleOpenCctpModal = (text, title) => {
+    if (text) {
+      setCctpModalTitle(title);
+      setCctp_text(text);
     }
     setOpenCctpModal(!openCctpModal);
+  };
+
+  const handleOpenProvidersModal = (providers) => {
+    if (providers) {
+      setProviderList(providers);
+    }
+    setOpenProvidersModal(!openProvidersModal);
   };
 
   const handleOpenDeleteWorkModal = (id) => {
@@ -534,7 +546,8 @@ const ProjectView = () => {
     try {
       setLoadingLevel(id);
       const result = await api("get", `/BookLibraries/getLevel3/${id}`);
-      setworks(result.data.works);
+      const data = result.data.works.sort((a, b) => a.ranking - b.ranking);
+      setworks(data);
       setLoadingLevel("");
     } catch (err) {
       setLoadingLevel("");
@@ -733,7 +746,7 @@ const ProjectView = () => {
             }
           />
           <Modal
-            title="CCTP"
+            title={cctpModalTitle}
             open={openCctpModal}
             onClose={handleOpenCctpModal}
             component={
@@ -923,6 +936,17 @@ const ProjectView = () => {
             }
           />
           <Modal
+            title={t("Providers")}
+            open={openProvidersModal}
+            onClose={handleOpenProvidersModal}
+            component={
+              <ProviderModal
+                handleOpenProviderModal={handleOpenProvidersModal}
+                providers={providerList}
+              />
+            }
+          />
+          <Modal
             open={openDeleteTradeModal}
             onClose={handleOpenDeleteTradeModal}
             component={
@@ -1004,6 +1028,7 @@ const ProjectView = () => {
                     loading={loadingLevel}
                     openModal={openModal}
                     openCctpModal={handleOpenCctpModal}
+                    handleOpenProvidersModal={handleOpenProvidersModal}
                   />
                 </div>
               </div>
