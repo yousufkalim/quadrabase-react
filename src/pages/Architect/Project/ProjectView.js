@@ -160,6 +160,8 @@ const ProjectView = () => {
     data: {},
   });
   const [tranchesData, setTranchesData] = useState([]);
+  const [selectedTrade, setSelectedTrade] = useState("");
+  const [selectedTranche, setSelectedTranche] = useState("");
 
   // loader states
   const [loading, setLoading] = useState(true); // main loader
@@ -172,8 +174,12 @@ const ProjectView = () => {
   useEffect(() => {
     currentProject.name && getworks();
     currentProject._id && getTrades();
-    currentProject._id && getTranches();
   }, [currentProject]);
+  useEffect(() => {
+    if (selectedTrade) {
+      getTranches();
+    }
+  }, [selectedTrade]);
 
   useEffect(() => {
     getProjectLibraries();
@@ -570,12 +576,20 @@ const ProjectView = () => {
   const getTranches = async () => {
     const result = await api("get", `/Tranches/${currentProject._id}`);
     const data = result.data.tranches.sort((a, b) => a.ranking - b.ranking);
+    let temp = [];
+    data.map((item) => {
+      if (item.trade === selectedTrade) {
+        temp.push(item);
+      }
+    });
+    setSelectedTranche(temp[0]._id);
     setTranchesData(data);
   };
 
   const getTrades = async () => {
     const result = await api("get", `/Trades/${currentProject._id}`);
     const data = result.data.trades.sort((a, b) => a.ranking - b.ranking);
+    setSelectedTrade(data[0]._id);
     setTradesData(data);
   };
 
@@ -704,6 +718,9 @@ const ProjectView = () => {
     }
   };
 
+  const handleTradeSelect = (id) => setSelectedTrade(id);
+  const handleTrancheSelect = (id) => setSelectedTranche(id);
+
   return (
     <div className={classes.main_container}>
       {loading ? (
@@ -725,6 +742,8 @@ const ProjectView = () => {
                 projectWorkData={projectWorkData}
                 currentProject={currentProject}
                 getworks={getworks}
+                selectedTrade={selectedTrade}
+                selectedTranche={selectedTranche}
               />
             }
           />
@@ -743,6 +762,8 @@ const ProjectView = () => {
                 projectWorkData={projectWorkData}
                 currentProject={currentProject}
                 getworks={getworks}
+                selectedTrade={selectedTrade}
+                selectedTranche={selectedTranche}
               />
             }
           />
@@ -888,7 +909,7 @@ const ProjectView = () => {
             }
           />
           <Modal
-            title={t("Add Tranch")}
+            title={t("Add Tranche")}
             open={openTranchesModal}
             onClose={handleTranchesModal}
             component={
@@ -898,6 +919,7 @@ const ProjectView = () => {
                 tranchesData={tranchesData}
                 getTranches={getTranches}
                 tradeOption={tradesData}
+                selectedTrade={selectedTrade}
               />
             }
           />
@@ -1361,11 +1383,22 @@ const ProjectView = () => {
                                 )}
 
                                 <TableBody>
-                                  <TableRow sx={{ backgroundColor: "#f1966c" }}>
+                                  <TableRow
+                                    sx={{
+                                      backgroundColor:
+                                        selectedTrade === item2._id
+                                          ? "rgb(241, 150, 108)"
+                                          : "rgba(241, 150, 108,0.7)",
+                                      cursor: "pointer",
+                                    }}
+                                  >
                                     <TableCell
                                       component="th"
                                       scope="row"
                                       colSpan={5}
+                                      onClick={() =>
+                                        handleTradeSelect(item2._id)
+                                      }
                                     >
                                       <div
                                         style={{
@@ -1377,29 +1410,31 @@ const ProjectView = () => {
                                         }}
                                       >
                                         {item2.name}{" "}
-                                        <ArrowDropDownIcon
-                                          id="demo-positioned-button"
-                                          aria-controls={
-                                            open2
-                                              ? "demo-positioned-menu"
-                                              : undefined
-                                          }
-                                          aria-haspopup="true"
-                                          aria-expanded={
-                                            open2 ? "true" : undefined
-                                          }
-                                          onClick={(e) => {
-                                            setSelectedData({
-                                              type: "trade",
-                                              data: item2,
-                                            });
-                                            handleClick2(e);
-                                          }}
-                                          sx={{
-                                            fontSize: 18,
-                                            cursor: "pointer",
-                                          }}
-                                        />
+                                        {selectedTrade === item2._id && (
+                                          <ArrowDropDownIcon
+                                            id="demo-positioned-button"
+                                            aria-controls={
+                                              open2
+                                                ? "demo-positioned-menu"
+                                                : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={
+                                              open2 ? "true" : undefined
+                                            }
+                                            onClick={(e) => {
+                                              setSelectedData({
+                                                type: "trade",
+                                                data: item2,
+                                              });
+                                              handleClick2(e);
+                                            }}
+                                            sx={{
+                                              fontSize: 18,
+                                              cursor: "pointer",
+                                            }}
+                                          />
+                                        )}
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -1521,11 +1556,29 @@ const ProjectView = () => {
                                 )}
 
                                 <TableBody>
-                                  <TableRow sx={{ backgroundColor: "#f1966c" }}>
+                                  <TableRow
+                                    sx={{
+                                      backgroundColor:
+                                        selectedTrade === item3._id
+                                          ? "rgb(241, 150, 108)"
+                                          : "rgba(241, 150, 108,0.7)",
+                                      cursor: "pointer",
+                                    }}
+                                  >
                                     <TableCell
                                       component="th"
                                       scope="row"
                                       colSpan={5}
+                                      onClick={() => {
+                                        handleTradeSelect(item3._id);
+                                        let temp = [];
+                                        tranchesData?.map((item4, index4) => {
+                                          if (item4?.trade === item3?._id) {
+                                            temp.push(item4._id);
+                                          }
+                                        });
+                                        handleTrancheSelect(temp[0]);
+                                      }}
                                     >
                                       <div
                                         style={{
@@ -1537,29 +1590,31 @@ const ProjectView = () => {
                                         }}
                                       >
                                         {item3.name}{" "}
-                                        <ArrowDropDownIcon
-                                          id="demo-positioned-button"
-                                          aria-controls={
-                                            open2
-                                              ? "demo-positioned-menu"
-                                              : undefined
-                                          }
-                                          aria-haspopup="true"
-                                          aria-expanded={
-                                            open2 ? "true" : undefined
-                                          }
-                                          onClick={(e) => {
-                                            setSelectedData({
-                                              type: "trade",
-                                              data: item3,
-                                            });
-                                            handleClick2(e);
-                                          }}
-                                          sx={{
-                                            fontSize: 18,
-                                            cursor: "pointer",
-                                          }}
-                                        />
+                                        {selectedTrade === item3._id && (
+                                          <ArrowDropDownIcon
+                                            id="demo-positioned-button"
+                                            aria-controls={
+                                              open2
+                                                ? "demo-positioned-menu"
+                                                : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={
+                                              open2 ? "true" : undefined
+                                            }
+                                            onClick={(e) => {
+                                              setSelectedData({
+                                                type: "trade",
+                                                data: item3,
+                                              });
+                                              handleClick2(e);
+                                            }}
+                                            sx={{
+                                              fontSize: 18,
+                                              cursor: "pointer",
+                                            }}
+                                          />
+                                        )}
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -1569,8 +1624,22 @@ const ProjectView = () => {
                                       let tranchTotalAmount = 0;
                                       return (
                                         <>
-                                          <TableRow>
-                                            <TableCell colSpan={5}>
+                                          <TableRow
+                                            sx={{
+                                              backgroundColor:
+                                                selectedTranche === item4._id
+                                                  ? "rgb(227, 226, 229)"
+                                                  : "#fff",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            <TableCell
+                                              colSpan={5}
+                                              onClick={() => {
+                                                handleTrancheSelect(item4._id);
+                                                handleTradeSelect(item4.trade);
+                                              }}
+                                            >
                                               <div
                                                 style={{
                                                   width: "100%",
@@ -1581,29 +1650,32 @@ const ProjectView = () => {
                                                 }}
                                               >
                                                 {item4.name}
-                                                <ArrowDropDownIcon
-                                                  id="demo-positioned-button"
-                                                  aria-controls={
-                                                    open2
-                                                      ? "demo-positioned-menu"
-                                                      : undefined
-                                                  }
-                                                  aria-haspopup="true"
-                                                  aria-expanded={
-                                                    open2 ? "true" : undefined
-                                                  }
-                                                  onClick={(e) => {
-                                                    setSelectedData({
-                                                      type: "tranch",
-                                                      data: item4,
-                                                    });
-                                                    handleClick2(e);
-                                                  }}
-                                                  sx={{
-                                                    fontSize: 18,
-                                                    cursor: "pointer",
-                                                  }}
-                                                />
+                                                {selectedTranche ===
+                                                  item4._id && (
+                                                  <ArrowDropDownIcon
+                                                    id="demo-positioned-button"
+                                                    aria-controls={
+                                                      open2
+                                                        ? "demo-positioned-menu"
+                                                        : undefined
+                                                    }
+                                                    aria-haspopup="true"
+                                                    aria-expanded={
+                                                      open2 ? "true" : undefined
+                                                    }
+                                                    onClick={(e) => {
+                                                      setSelectedData({
+                                                        type: "tranch",
+                                                        data: item4,
+                                                      });
+                                                      handleClick2(e);
+                                                    }}
+                                                    sx={{
+                                                      fontSize: 18,
+                                                      cursor: "pointer",
+                                                    }}
+                                                  />
+                                                )}
                                               </div>
                                             </TableCell>
                                           </TableRow>

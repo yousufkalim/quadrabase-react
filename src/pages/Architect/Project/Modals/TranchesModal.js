@@ -17,6 +17,7 @@ const TranchesModal = ({
   getTranches,
   tradeOption,
   currentProject,
+  selectedTrade,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -24,6 +25,7 @@ const TranchesModal = ({
   const [trade, setTrade] = useState("");
   useEffect(() => {
     setName(`Tranche n°${tranchesData.length + 1}`);
+    setTrade(selectedTrade);
   }, []);
 
   // handle submit

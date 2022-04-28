@@ -18,6 +18,8 @@ const AddWorkModal = ({
   setSelectedWorkDetail,
   setSelectedWork,
   getworks,
+  selectedTrade,
+  selectedTranche,
 }) => {
   const { t } = useTranslation();
   const [values, setValues] = useState({
@@ -44,6 +46,10 @@ const AddWorkModal = ({
         return { ...prev };
       });
   }, [selectedWork]);
+  useEffect(() => {
+    setTrade(selectedTrade);
+    setTranch(selectedTranche);
+  }, [selectedTrade, selectedTranche]);
   // useEffect to get all units
   useEffect(() => {
     getUnits();
@@ -250,41 +256,6 @@ const AddWorkModal = ({
           }}
         />
         <br />
-        {(currentProject.market_type === "TradesAndTranches" ||
-          currentProject.market_type === "Trades") && (
-          <>
-            <br />
-            <InputDropdown
-              name="trade"
-              label="Trade"
-              value={trade}
-              onChange={(e) => {
-                setTrade(e.target.value);
-                if (currentProject.market_type === "TradesAndTranches") {
-                  let temp = tranchOptions;
-                  temp = temp.filter((item) => item.trade === e.target.value);
-                  setTranchFilteredOptions(temp);
-                }
-              }}
-              options={tradeOptions}
-            />
-            <br />
-          </>
-        )}
-        {currentProject.market_type === "TradesAndTranches" && (
-          <>
-            <br />
-            <InputDropdown
-              name="tranch"
-              label="Tranch"
-              value={tranch}
-              onChange={(e) => setTranch(e.target.value)}
-              options={tranchFilteredOptions}
-              disabled={!trade}
-            />
-            <br />
-          </>
-        )}
         <div
           style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
         >
