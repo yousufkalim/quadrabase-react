@@ -136,11 +136,11 @@ export default function DenseTable({
       let prev = tempArr[prevIndex];
       api("put", `/project/updateWorkRanking/${currentProject._id}`, {
         workId: id,
-        ranking: prevIndex,
+        ranking: tempArr[prevIndex].ranking,
       }).then(() => {
-        api("put", `/project/updateWorkRanking/${work[prevIndex]._id}`, {
+        api("put", `/project/updateWorkRanking/${currentProject._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: tempArr[filteredIndex].ranking,
         }).then(() => {
           tempArr[filteredIndex] = work[filteredIndex - 1];
           tempArr[filteredIndex - 1] = work[filteredIndex];
@@ -160,11 +160,11 @@ export default function DenseTable({
       let prev = tempArr[nextIndex];
       api("put", `/project/updateWorkRanking/${currentProject._id}`, {
         workId: id,
-        ranking: nextIndex,
+        ranking: tempArr[nextIndex].ranking,
       }).then(() => {
-        api("put", `/project/updateWorkRanking/${work[nextIndex]._id}`, {
+        api("put", `/project/updateWorkRanking/${currentProject._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: tempArr[filteredIndex].ranking,
         }).then(() => {
           tempArr[filteredIndex] = work[nextIndex];
           tempArr[nextIndex] = work[filteredIndex];
@@ -184,16 +184,12 @@ export default function DenseTable({
       let prev = tempArr[prevIndex];
       api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
         workDetailId: id,
-        ranking: prevIndex,
+        ranking: tempArr[prevIndex].ranking,
       }).then(() => {
-        api(
-          "put",
-          `/project/updateWorkDetailRanking/${workDetails[prevIndex]}`,
-          {
-            workDetailId: prev._id,
-            ranking: filteredIndex,
-          }
-        ).then(() => {
+        api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
+          workDetailId: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
+        }).then(() => {
           tempArr[filteredIndex] = workDetails[filteredIndex - 1];
           tempArr[filteredIndex - 1] = workDetails[filteredIndex];
           setWorkDetails(tempArr);
@@ -212,16 +208,12 @@ export default function DenseTable({
       let prev = tempArr[nextIndex];
       api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
         workDetailId: id,
-        ranking: nextIndex,
+        ranking: tempArr[nextIndex].ranking,
       }).then(() => {
-        api(
-          "put",
-          `/project/updateWorkDetailRanking/${workDetails[nextIndex]}`,
-          {
-            workDetailId: prev._id,
-            ranking: filteredIndex,
-          }
-        ).then(() => {
+        api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
+          workDetailId: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
+        }).then(() => {
           tempArr[filteredIndex] = workDetails[nextIndex];
           tempArr[nextIndex] = workDetails[filteredIndex];
           setWorkDetails(tempArr);

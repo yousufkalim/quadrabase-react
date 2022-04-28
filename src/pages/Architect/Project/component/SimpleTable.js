@@ -131,28 +131,6 @@ export default function DenseTable({
     setAnchorElLevel2(null);
   };
 
-  //Work Top
-  // const handleWorkTop = async (id) => {
-  //   let filteredIndex = work.findIndex((dt) => dt._id == id);
-  //   if (filteredIndex != 0) {
-  //     let minRanking = Math.min.apply(
-  //       Math,
-  //       work.map((item) => {
-  //         return item.ranking ? item.ranking : 0;
-  //       })
-  //     );
-  //     api("put", `/project/updateWorkRanking/${currentProject._id}`, {
-  //       workId: id,
-  //       ranking: minRanking - 1,
-  //     }).then(() => {
-  //       let tempArr = [...work];
-  //       tempArr[filteredIndex].ranking = minRanking - 1;
-  //       tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
-  //       setWork(tempArr);
-  //     });
-  //   }
-  // };
-
   //Work Up
   const handleWorkUp = async (id) => {
     let filteredIndex = work.findIndex((dt) => dt._id == id);
@@ -163,11 +141,11 @@ export default function DenseTable({
       let prev = tempArr[prevIndex];
       api("put", `/project/updateWorkRanking/${currentProject._id}`, {
         workId: id,
-        ranking: prevIndex,
+        ranking: tempArr[prevIndex].ranking,
       }).then(() => {
-        api("put", `/project/updateWorkRanking/${work[prevIndex]._id}`, {
+        api("put", `/project/updateWorkRanking/${currentProject._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: tempArr[filteredIndex].ranking,
         }).then(() => {
           tempArr[filteredIndex] = work[filteredIndex - 1];
           tempArr[filteredIndex - 1] = work[filteredIndex];
@@ -187,11 +165,11 @@ export default function DenseTable({
       let prev = tempArr[nextIndex];
       api("put", `/project/updateWorkRanking/${currentProject._id}`, {
         workId: id,
-        ranking: nextIndex,
+        ranking: tempArr[nextIndex].ranking,
       }).then(() => {
-        api("put", `/project/updateWorkRanking/${work[nextIndex]._id}`, {
+        api("put", `/project/updateWorkRanking/${currentProject._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: tempArr[filteredIndex].ranking,
         }).then(() => {
           tempArr[filteredIndex] = work[nextIndex];
           tempArr[nextIndex] = work[filteredIndex];
@@ -200,50 +178,6 @@ export default function DenseTable({
       });
     }
   };
-
-  //Work Bottom
-  // const handleWorkBottom = async (id) => {
-  //   let filteredIndex = work.findIndex((dt) => dt._id == id);
-  //   if (filteredIndex !== work.length - 1) {
-  //     let maxRanking = Math.max.apply(
-  //       Math,
-  //       work.map((item) => {
-  //         return item.ranking;
-  //       })
-  //     );
-  //     api("put", `/project/updateWorkRanking/${currentProject._id}`, {
-  //       workId: id,
-  //       ranking: maxRanking + 1,
-  //     }).then(() => {
-  //       let tempArr = [...work];
-  //       tempArr[filteredIndex].ranking = maxRanking + 1;
-  //       tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
-  //       setWork(tempArr);
-  //     });
-  //   }
-  // };
-
-  //WorkDetail Top
-  // const handleWorkDetailTop = async (id) => {
-  //   let filteredIndex = workDetails.findIndex((dt) => dt._id == id);
-  //   if (filteredIndex != 0) {
-  //     let minRanking = Math.min.apply(
-  //       Math,
-  //       workDetails.map((item) => {
-  //         return item.ranking ? item.ranking : 0;
-  //       })
-  //     );
-  //     api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
-  //       workDetailId: id,
-  //       ranking: minRanking - 1,
-  //     }).then(() => {
-  //       let tempArr = [...workDetails];
-  //       tempArr[filteredIndex].ranking = minRanking - 1;
-  //       tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
-  //       setWorkDetails(tempArr);
-  //     });
-  //   }
-  // };
 
   //WorkDetail Up
   const handleWorkDetailUp = async (id) => {
@@ -255,16 +189,12 @@ export default function DenseTable({
       let prev = tempArr[prevIndex];
       api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
         workDetailId: id,
-        ranking: prevIndex,
+        ranking: tempArr[prevIndex].ranking,
       }).then(() => {
-        api(
-          "put",
-          `/project/updateWorkDetailRanking/${workDetails[prevIndex]}`,
-          {
-            workDetailId: prev._id,
-            ranking: filteredIndex,
-          }
-        ).then(() => {
+        api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
+          workDetailId: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
+        }).then(() => {
           tempArr[filteredIndex] = workDetails[filteredIndex - 1];
           tempArr[filteredIndex - 1] = workDetails[filteredIndex];
           setWorkDetails(tempArr);
@@ -283,16 +213,12 @@ export default function DenseTable({
       let prev = tempArr[nextIndex];
       api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
         workDetailId: id,
-        ranking: nextIndex,
+        ranking: tempArr[nextIndex].ranking,
       }).then(() => {
-        api(
-          "put",
-          `/project/updateWorkDetailRanking/${workDetails[nextIndex]}`,
-          {
-            workDetailId: prev._id,
-            ranking: filteredIndex,
-          }
-        ).then(() => {
+        api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
+          workDetailId: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
+        }).then(() => {
           tempArr[filteredIndex] = workDetails[nextIndex];
           tempArr[nextIndex] = workDetails[filteredIndex];
           setWorkDetails(tempArr);
@@ -300,28 +226,6 @@ export default function DenseTable({
       });
     }
   };
-
-  //WorkDetail Bottom
-  // const handleWorkDetailBottom = async (id) => {
-  //   let filteredIndex = workDetails.findIndex((dt) => dt._id == id);
-  //   if (filteredIndex !== workDetails.length - 1) {
-  //     let maxRanking = Math.max.apply(
-  //       Math,
-  //       workDetails.map((item) => {
-  //         return item.ranking;
-  //       })
-  //     );
-  //     api("put", `/project/updateWorkDetailRanking/${currentProject._id}`, {
-  //       workDetailId: id,
-  //       ranking: maxRanking + 1,
-  //     }).then(() => {
-  //       let tempArr = [...workDetails];
-  //       tempArr[filteredIndex].ranking = maxRanking + 1;
-  //       tempArr = tempArr.sort((a, b) => a.ranking - b.ranking);
-  //       setWorkDetails(tempArr);
-  //     });
-  //   }
-  // };
 
   // Duplicate Work
   const handleDuplicateWork = async (id) => {
