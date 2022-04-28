@@ -1480,8 +1480,7 @@ const ProjectView = () => {
                                 fontWeight: 600,
                               }}
                             >
-                              Total {t("Trade")} n°{index2 + 1} - {item2.name}{" "}
-                              &nbsp;&nbsp;&nbsp;
+                              Total HT {item2.name} &nbsp;&nbsp;&nbsp;
                               {tradeTotalIndex !== -1
                                 ? convertor(
                                     tradeTotal[tradeTotalIndex]?.toFixed(2)
@@ -1747,7 +1746,7 @@ const ProjectView = () => {
                                                   textAlign: "right",
                                                 }}
                                               >
-                                                Total Tranche {item4.name}
+                                                Total HT {item4.name}
                                                 &nbsp;&nbsp;&nbsp;
                                                 {convertor(
                                                   tranchTotalAmount.toFixed(2)
@@ -1770,8 +1769,7 @@ const ProjectView = () => {
                                           textAlign: "right",
                                         }}
                                       >
-                                        Total {t("Trade")} n°{index3 + 1} -{" "}
-                                        {item3.name} &nbsp;&nbsp;&nbsp;
+                                        Total HT {item3.name} &nbsp;&nbsp;&nbsp;
                                         {tradeTotalIndex !== -1
                                           ? convertor(
                                               tradeTotal[
