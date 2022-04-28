@@ -740,6 +740,7 @@ const ProjectView = () => {
                 selectedWorkDetail={selectedWorkDetail}
                 setSelectedWorkDetail={setSelectedWorkDetail}
                 setOpenWorkDetailModal={setOpenWorkDetailModal}
+                projectWorkData={projectWorkData}
                 currentProject={currentProject}
                 getworks={getworks}
               />

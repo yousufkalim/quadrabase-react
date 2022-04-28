@@ -17,6 +17,7 @@ const AddWorkDetailsModal = ({
   setSelectedWork,
   currentProject,
   getworks,
+  projectWorkData,
 }) => {
   const { t } = useTranslation();
   // states
@@ -69,6 +70,15 @@ const AddWorkDetailsModal = ({
       work_details: [],
     };
     data.work_details = selectedWorkDetail;
+    let tempRankings = [];
+    projectWorkData.map((item1) => {
+      item1.data.map((item2) => {
+        tempRankings.push(item2.work.ranking);
+      });
+    });
+    let maxRanking = Math.max(...tempRankings);
+    data.ranking = maxRanking + 1;
+
     if (data.work_details.length === 0) {
       toast.error(t("Select at least 1 work detail"));
     } else {

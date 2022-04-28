@@ -41,7 +41,6 @@ const AddWorkModal = ({
         prev.name = selectedWork.name;
         prev.unit = selectedWork.unit;
         prev.unit_price = selectedWork.unit_price.toFixed(2);
-        prev.ranking = selectedWork.ranking;
         return { ...prev };
       });
   }, [selectedWork]);
@@ -87,6 +86,14 @@ const AddWorkModal = ({
     data.bpu_text = selectedWork.bpu_text;
     data.work_details = selectedWorkDetail;
     data.providers = selectedWork.providers;
+    let tempRankings = [];
+    projectWorkData.map((item1) => {
+      item1.data.map((item2) => {
+        tempRankings.push(item2.work.ranking);
+      });
+    });
+    let maxRanking = Math.max(...tempRankings);
+    data.ranking = maxRanking + 1;
     if (currentProject.market_type === "Trades") {
       if (trade) {
         data.trade = trade;
