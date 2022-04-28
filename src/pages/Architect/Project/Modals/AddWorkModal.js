@@ -86,16 +86,20 @@ const AddWorkModal = ({
     data.bpu_text = selectedWork.bpu_text;
     data.work_details = selectedWorkDetail;
     data.providers = selectedWork.providers;
-    let tempRankings = [];
-    projectWorkData.map((item1) => {
-      item1.data.map((item2) => {
-        tempRankings.push(item2.work.ranking);
-      });
-    });
-    let maxRanking = Math.max(...tempRankings);
-    data.ranking = maxRanking + 1;
     if (currentProject.market_type === "Trades") {
       if (trade) {
+        let tempRankings = [];
+        projectWorkData.map((item1) => {
+          item1.data.map((item2) => {
+            tempRankings.push(item2.work.ranking);
+          });
+        });
+        if (tempRankings.length > 0) {
+          let maxRanking = Math.max(...tempRankings);
+          data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
+        } else {
+          data.ranking = 0;
+        }
         data.trade = trade;
         const result = await api(
           "post",
@@ -115,6 +119,21 @@ const AddWorkModal = ({
       if (trade) {
         data.trade = trade;
         if (tranch) {
+          let tempRankings = [];
+          projectWorkData.map((item1) => {
+            item1.data.map((item2) => {
+              item2.tranchData.map((item3) => {
+                tempRankings.push(item3.work.ranking);
+              });
+            });
+          });
+          if (tempRankings.length > 0) {
+            let maxRanking = Math.max(...tempRankings);
+            data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
+          } else {
+            data.ranking = 0;
+          }
+
           data.tranch = tranch;
           const result = await api(
             "post",
@@ -134,6 +153,14 @@ const AddWorkModal = ({
         toast.error(t("Trade is required"));
       }
     } else {
+      let maxRanking = Math.max.apply(
+        Math,
+        projectWorkData.map((item) => {
+          return item.work.ranking;
+        })
+      );
+      data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
+
       const result = await api(
         "post",
         `/project/addWork/${currentProject._id}`,
