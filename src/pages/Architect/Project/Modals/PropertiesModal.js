@@ -173,6 +173,22 @@ const PropertiesModal = ({
 
   const [loading, setLoading] = useState(true);
 
+  const [step3Values, setStep3Values] = useState([]);
+
+  useEffect(() => {
+    if (value === 2) {
+      let temp = [];
+      allStakeholderOptions?.map((row) =>
+        values3?.stakeholders?.map((row2) => {
+          if (row2.toString() == row._id.toString()) {
+            temp.push(row);
+          }
+        })
+      );
+      setStep3Values(temp);
+    }
+  }, [value, values3, allStakeholderOptions]);
+
   //   useEffect to get vat
   useEffect(() => {
     if (currentProject) {
@@ -220,7 +236,7 @@ const PropertiesModal = ({
 
   useEffect(() => {
     getAllStakeholders();
-  }, []);
+  }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
     const result = await api(
@@ -233,14 +249,18 @@ const PropertiesModal = ({
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(result.data.stakeholderTypes);
+    setTypeOptions(
+      result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking)
+    );
   };
 
   //   func to get stakeholders
   const getStakeholders = async () => {
     if (typeValue) {
       const result = await api("get", `/Stakeholders/getByType/${typeValue}`);
-      setStakeholderOptions(result.data.stakeholder);
+      setStakeholderOptions(
+        result.data.stakeholder.sort((a, b) => a.ranking - b.ranking)
+      );
     }
   };
 
@@ -396,9 +416,9 @@ const PropertiesModal = ({
 
   //Work Up
   const handleStakeholderUp = async (id) => {
-    let filteredIndex = allStakeholderOptions.findIndex((dt) => dt._id == id);
+    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
     if (filteredIndex != 0) {
-      let tempArr = [...allStakeholderOptions];
+      let tempArr = [...step3Values];
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
@@ -406,14 +426,14 @@ const PropertiesModal = ({
         workId: id,
         ranking: prevIndex,
       }).then(() => {
-        api("put", `/stakeholders/${allStakeholderOptions[prevIndex]}`, {
+        api("put", `/stakeholders/${step3Values[prevIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
-          tempArr[filteredIndex] = allStakeholderOptions[filteredIndex - 1];
-          tempArr[filteredIndex - 1] = allStakeholderOptions[filteredIndex];
+          tempArr[filteredIndex] = step3Values[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = step3Values[filteredIndex];
           handleClose();
-          setAllStakeholderOptions(tempArr);
+          setStep3Values(tempArr);
         });
       });
     }
@@ -421,22 +441,22 @@ const PropertiesModal = ({
 
   //Work Down
   const handleStakeholderDown = async (id) => {
-    let filteredIndex = allStakeholderOptions.findIndex((dt) => dt._id == id);
+    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
 
-    if (filteredIndex !== allStakeholderOptions.length - 1) {
-      let tempArr = [...allStakeholderOptions];
+    if (filteredIndex !== step3Values.length - 1) {
+      let tempArr = [...step3Values];
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
       api("put", `/stakeholders/${id}`, {
         workId: id,
         ranking: nextIndex,
       }).then(() => {
-        api("put", `/stakeholders/${allStakeholderOptions[nextIndex]}`, {
+        api("put", `/stakeholders/${step3Values[nextIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
-          tempArr[filteredIndex] = allStakeholderOptions[nextIndex];
-          tempArr[nextIndex] = allStakeholderOptions[filteredIndex];
+          tempArr[filteredIndex] = step3Values[nextIndex];
+          tempArr[nextIndex] = step3Values[filteredIndex];
           handleClose();
           setAllStakeholderOptions(tempArr);
         });
@@ -762,54 +782,50 @@ const PropertiesModal = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allStakeholderOptions?.map((row) =>
-                  values3?.stakeholders?.map((row2) => {
-                    if (row2.toString() == row._id.toString()) {
-                      return (
-                        <TableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
+                {step3Values.map((row) => {
+                  return (
+                    <TableRow
+                      key={row.name}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="left">{row.type.text}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.address1.substring(0, 20)}
+                        {row.address1.length > 40 && "..."}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.address2 ? (
+                          <>
+                            {row.address2.substring(0, 20)}
+                            {row.address2.length > 40 && "..."}
+                          </>
+                        ) : (
+                          "N/A"
+                        )}
+                      </TableCell>
+                      <TableCell align="left">{row.zipcode}</TableCell>
+                      <TableCell align="left">{row.city}</TableCell>
+                      <TableCell align="left">
+                        <IconButton
+                          id="demo-positioned-button"
+                          aria-controls={
+                            open ? "demo-positioned-menu" : undefined
+                          }
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={(e) => handleClick(e, row, row._id)}
                         >
-                          <TableCell align="left">{row.type.text}</TableCell>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            {row.address1.substring(0, 20)}
-                            {row.address1.length > 40 && "..."}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.address2 ? (
-                              <>
-                                {row.address2.substring(0, 20)}
-                                {row.address2.length > 40 && "..."}
-                              </>
-                            ) : (
-                              "N/A"
-                            )}
-                          </TableCell>
-                          <TableCell align="left">{row.zipcode}</TableCell>
-                          <TableCell align="left">{row.city}</TableCell>
-                          <TableCell align="left">
-                            <IconButton
-                              id="demo-positioned-button"
-                              aria-controls={
-                                open ? "demo-positioned-menu" : undefined
-                              }
-                              aria-haspopup="true"
-                              aria-expanded={open ? "true" : undefined}
-                              onClick={(e) => handleClick(e, row, row2)}
-                            >
-                              <MoreVertIcon color="primary" />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    }
-                  })
-                )}
+                          <MoreVertIcon color="primary" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
