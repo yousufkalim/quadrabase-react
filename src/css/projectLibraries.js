@@ -9,11 +9,11 @@ export const useStyles = makeStyles({
     paddingTop: 20,
   },
   btn: {
-    backgroundColor: "#8C1244 !important",
+    backgroundColor: "#3b373c !important",
     borderRadius: 10,
   },
   btn2: {
-    backgroundColor: "#8C1244 !important",
+    backgroundColor: "#3b373c !important",
     marginRight: "10px important",
     height: 35,
     borderRadius: 10,

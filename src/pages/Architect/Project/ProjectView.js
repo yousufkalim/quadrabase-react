@@ -1376,7 +1376,6 @@ const ProjectView = () => {
                                           display: "flex",
                                         }}
                                       >
-                                        {t("Trade")} n°{index2 + 1} -{" "}
                                         {item2.name}{" "}
                                         <ArrowDropDownIcon
                                           id="demo-positioned-button"
@@ -1537,7 +1536,6 @@ const ProjectView = () => {
                                           display: "flex",
                                         }}
                                       >
-                                        {t("Trade")} n°{index3 + 1} -{" "}
                                         {item3.name}{" "}
                                         <ArrowDropDownIcon
                                           id="demo-positioned-button"
@@ -1582,7 +1580,7 @@ const ProjectView = () => {
                                                   display: "flex",
                                                 }}
                                               >
-                                                Tranche {item4.name}
+                                                {item4.name}
                                                 <ArrowDropDownIcon
                                                   id="demo-positioned-button"
                                                   aria-controls={

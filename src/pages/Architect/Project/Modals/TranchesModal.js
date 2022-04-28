@@ -22,7 +22,9 @@ const TranchesModal = ({
   const classes = useStyles();
   const [name, setName] = useState();
   const [trade, setTrade] = useState("");
-  const [updateTranch, setUpdateTranch] = useState();
+  useEffect(() => {
+    setName(`Tranche n°${tranchesData.length + 1}`);
+  }, []);
 
   // handle submit
   const handleSubmit = async (e) => {
