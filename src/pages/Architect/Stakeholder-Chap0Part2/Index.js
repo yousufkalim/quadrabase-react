@@ -233,8 +233,10 @@ const Index = () => {
               handleEdit={handleEditChap0Part2Modal}
               handleDelete={handleDeleteChap0Part2Modal}
               headerText="Chap0Part2"
-              buttonText={t("Add Chap0Part2")}
-              buttonAction={handleAddChap0Part2Modal}
+              buttonText={chap0Part2Data.length === 0 && t("Add Chap0Part2")}
+              buttonAction={
+                chap0Part2Data.length === 0 && handleAddChap0Part2Modal
+              }
             />
           </div>
         </div>

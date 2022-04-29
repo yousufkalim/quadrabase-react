@@ -133,22 +133,24 @@ const EnhancedTableToolbar = (props) => {
       }}
     >
       <strong>{props.headerText}</strong>
-      <Button
-        variant="contained"
-        onClick={props.buttonAction}
-        sx={{
-          textTransform: "none",
-          backgroundColor: "#8C1244",
-          borderRadius: 2,
-          whiteSpace: "nowrap",
-          ":hover": {
+      {props.buttonText && (
+        <Button
+          variant="contained"
+          onClick={props.buttonAction}
+          sx={{
+            textTransform: "none",
             backgroundColor: "#8C1244",
-          },
-        }}
-        startIcon={<AddCircleOutlineIcon />}
-      >
-        {props.buttonText}
-      </Button>
+            borderRadius: 2,
+            whiteSpace: "nowrap",
+            ":hover": {
+              backgroundColor: "#8C1244",
+            },
+          }}
+          startIcon={<AddCircleOutlineIcon />}
+        >
+          {props.buttonText}
+        </Button>
+      )}
     </Toolbar>
   );
 };
