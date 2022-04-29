@@ -896,7 +896,7 @@ i18n
           "Address 2": "Adresse 2",
           Zipcode: "Code postal",
           Title: "Titre",
-          Prescriber: "Prescripteur",
+          Prescriber: "Prescriber",
           VAT: "T.V.A",
           "Type Of Contract": "Type de marché",
           "Type Of Project": "Type de projet",

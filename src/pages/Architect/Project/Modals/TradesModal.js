@@ -20,6 +20,10 @@ const TradesModal = ({
   const classes = useStyles();
   const [name, setName] = useState();
 
+  useEffect(() => {
+    setName(`Lot n°${tradesData.length + 1}`);
+  }, []);
+
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();

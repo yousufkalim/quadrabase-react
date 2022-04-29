@@ -26,8 +26,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import Autocomplete from "../../../../components/Architect/Autocomplete";
 import EditStakholder from "./EditStakholder";
 import Modal from "../../../../components/Architect/Modal";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -159,12 +158,36 @@ const PropertiesModal = ({
   const [typeOptions, setTypeOptions] = useState([]);
   const [typeValue, setTypeValue] = useState("");
   const [stakeholderOptions, setStakeholderOptions] = useState([]);
-  const [stakeholderOptions2, setStakeholderOptions2] = useState([]);
   const [allStakeholderOptions, setAllStakeholderOptions] = useState([]);
-  const [selectedStakeholder, setSelectedStakeholder] = useState("");
   const [value, setValue] = useState(0);
   const [editStakeholderModal, setEditStakeholderModal] = useState(false);
   const [editStakeholder, setEditStakeholder] = useState({});
+
+  const [stakeholderText, setStakeholderText] = useState("");
+  const [stakeholderByType1, setStakeholderByType1] = useState([]);
+  const [selectedStakeholder, setSelectedStakeholder] = useState("");
+
+  const [stakeholderText2, setStakeholderText2] = useState("");
+  const [stakeholderByType2, setStakeholderByType2] = useState([]);
+  const [selectedStakeholder2, setSelectedStakeholder2] = useState("");
+
+  const [loading, setLoading] = useState(true);
+
+  const [step3Values, setStep3Values] = useState([]);
+
+  useEffect(() => {
+    if (value === 2) {
+      let temp = [];
+      allStakeholderOptions?.map((row) =>
+        values3?.stakeholders?.map((row2) => {
+          if (row2.toString() == row._id.toString()) {
+            temp.push(row);
+          }
+        })
+      );
+      setStep3Values(temp);
+    }
+  }, [value, values3, allStakeholderOptions]);
 
   //   useEffect to get vat
   useEffect(() => {
@@ -194,12 +217,14 @@ const PropertiesModal = ({
         return { ...prev };
       });
       setSelectedStakeholder(currentProject?.client);
+      setSelectedStakeholder2(currentProject?.prescriber);
     }
 
     getVat();
     getChap0Part2();
     getTypes();
     currentProject?.stakeholders[0] && getCurrentType();
+    setLoading(false);
   }, [currentProject]);
 
   useEffect(() => {
@@ -211,7 +236,7 @@ const PropertiesModal = ({
 
   useEffect(() => {
     getAllStakeholders();
-  }, []);
+  }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
     const result = await api(
@@ -224,14 +249,18 @@ const PropertiesModal = ({
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(result.data.stakeholderTypes);
+    setTypeOptions(
+      result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking)
+    );
   };
 
   //   func to get stakeholders
   const getStakeholders = async () => {
     if (typeValue) {
       const result = await api("get", `/Stakeholders/getByType/${typeValue}`);
-      setStakeholderOptions(result.data.stakeholder);
+      setStakeholderOptions(
+        result.data.stakeholder.sort((a, b) => a.ranking - b.ranking)
+      );
     }
   };
 
@@ -239,9 +268,14 @@ const PropertiesModal = ({
   const getStakeholders2 = async () => {
     const result = await api(
       "get",
-      `/Stakeholders/getByArchitect/${currentProject.architect}`
+      `/Stakeholders/getByTypeName/Maitre d'Ouvrage`
     );
-    setStakeholderOptions2(result.data.stakeholders);
+    setStakeholderByType1(result.data.stakeholders);
+    const result2 = await api(
+      "get",
+      `/Stakeholders/getByTypeName/Maitre d'Oeuvre`
+    );
+    setStakeholderByType2(result2.data.stakeholders);
   };
 
   //   func to get stakeholders
@@ -254,7 +288,7 @@ const PropertiesModal = ({
   //   func to get vat
   const getVat = async () => {
     const result = await api("get", `/VAT/getAll`);
-    setOptions(result?.data?.vat.sort((a, b) => a.value - b.value));
+    setOptions(result?.data?.vat.sort((a, b) => a.ranking - b.ranking));
   };
 
   //   func to get Chap0Part2Data
@@ -382,9 +416,9 @@ const PropertiesModal = ({
 
   //Work Up
   const handleStakeholderUp = async (id) => {
-    let filteredIndex = allStakeholderOptions.findIndex((dt) => dt._id == id);
+    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
     if (filteredIndex != 0) {
-      let tempArr = [...allStakeholderOptions];
+      let tempArr = [...step3Values];
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
@@ -392,14 +426,14 @@ const PropertiesModal = ({
         workId: id,
         ranking: prevIndex,
       }).then(() => {
-        api("put", `/stakeholders/${allStakeholderOptions[prevIndex]}`, {
+        api("put", `/stakeholders/${step3Values[prevIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
-          tempArr[filteredIndex] = allStakeholderOptions[filteredIndex - 1];
-          tempArr[filteredIndex - 1] = allStakeholderOptions[filteredIndex];
+          tempArr[filteredIndex] = step3Values[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = step3Values[filteredIndex];
           handleClose();
-          setAllStakeholderOptions(tempArr);
+          setStep3Values(tempArr);
         });
       });
     }
@@ -407,22 +441,22 @@ const PropertiesModal = ({
 
   //Work Down
   const handleStakeholderDown = async (id) => {
-    let filteredIndex = allStakeholderOptions.findIndex((dt) => dt._id == id);
+    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
 
-    if (filteredIndex !== allStakeholderOptions.length - 1) {
-      let tempArr = [...allStakeholderOptions];
+    if (filteredIndex !== step3Values.length - 1) {
+      let tempArr = [...step3Values];
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
       api("put", `/stakeholders/${id}`, {
         workId: id,
         ranking: nextIndex,
       }).then(() => {
-        api("put", `/stakeholders/${allStakeholderOptions[nextIndex]}`, {
+        api("put", `/stakeholders/${step3Values[nextIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
-          tempArr[filteredIndex] = allStakeholderOptions[nextIndex];
-          tempArr[nextIndex] = allStakeholderOptions[filteredIndex];
+          tempArr[filteredIndex] = step3Values[nextIndex];
+          tempArr[nextIndex] = step3Values[filteredIndex];
           handleClose();
           setAllStakeholderOptions(tempArr);
         });
@@ -431,392 +465,391 @@ const PropertiesModal = ({
   };
 
   return (
-    <Box sx={{ width: "60vw", maxHeight: "80vh", overflow: "auto" }}>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        sx={{ mt: 2.5 }}
-      >
-        <MenuItem
-          style={{ width: 150 }}
-          onClick={() => {
-            handleEditStakeholderModal();
+    !loading && (
+      <Box sx={{ width: "60vw", maxHeight: "80vh", overflow: "auto" }}>
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
           }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          sx={{ mt: 2.5 }}
         >
-          {t("Edit")}
-        </MenuItem>
-        <MenuItem onClick={() => removeStakeholder(stakeId)}>
-          {t("Delete")}
-        </MenuItem>
-        <MenuItem onClick={() => handleStakeholderUp(stakeId)}>
-          {t("Up")}
-        </MenuItem>
-        <MenuItem onClick={() => handleStakeholderDown(stakeId)}>
-          {t("Down")}
-        </MenuItem>
-      </Menu>
-      <Modal
-        title={t("Edit Stakeholder")}
-        open={editStakeholderModal}
-        onClose={handleEditStakeholderModal}
-        component={
-          <EditStakholder
-            stakeholder={editStakeholder}
-            handleEditStakeholderModal={handleEditStakeholderModal}
-            getAllStakeholders={getAllStakeholders}
-          />
-        }
-      />
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleTabChange}>
-          <Tab label={t("Project References")} {...a11yProps(0)} />
-          <Tab label={t("Market Type / Structure")} {...a11yProps(1)} />
-          <Tab label={t("Stakeholders")} {...a11yProps(2)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          {/* All fields */}
-          <InputWithLabel
-            label={t("Project Name")}
-            name="name"
-            type="text"
-            value={values.name}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
-
-          <InputDropdown
-            label={t("Architect Stakeholders")}
-            name="stakeholder"
-            value={selectedStakeholder}
-            options={stakeholderOptions2}
-            type="text"
-            onChange={(e) => setSelectedStakeholder(e.target.value)}
-          />
-          <br />
-          <Grid container spacing={2}>
-            <Grid item zeroMinWidth xs={8}>
-              <InputWithLabel
-                label={t("Prescriber")}
-                required={true}
-                name="prescriber"
-                value={values.prescriber}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
-                type="text"
-              />
-            </Grid>
-            <Grid item zeroMinWidth xs={4}>
-              <InputDropdown
-                label={t("VAT")}
-                required={true}
-                name="vat"
-                value={values.vat}
-                options={options}
-                type="text"
-                onChange={(e) => handleChange(e.target.name, e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <br />
-          <InputWithLabel
-            label={t("Reference")}
-            name="reference"
-            type="text"
-            value={values.reference}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
-          <label htmlFor="grid-first-name" style={{ color: "gray" }}>
-            {t("Description")}
-          </label>
-          <Textarea
-            name="description"
-            type="text"
-            value={values.description}
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
-          <InputDropdown
-            label={t("Chap. 0 part 2")}
-            required={true}
-            name="chap0part2"
-            value={selectedFam}
-            options={familyOptions}
-            type="text"
-            onChange={(e) => {
-              setSelectedFam(e.target.value);
-              let tempFam = familyOptions.find(
-                (item) => item._id === e.target.value
-              );
-              let famName = tempFam.name.toUpperCase();
-              if (famName === "PRESCRIPTEUR") {
-                let chap = chapOptions.architectsChap0.find((item) => {
-                  return item.type === "private";
-                });
-                if (chap) {
-                  handleChange("chap0part2", chap._id);
-                } else {
-                  toast.error("This family does not have a Chap. 0 part 2");
-                }
-              } else {
-                let chap = chapOptions.chap0.find((item) => {
-                  return item.family && item.family === e.target.value;
-                });
-                if (chap) {
-                  handleChange("chap0part2", chap._id);
-                } else {
-                  toast.error("This family does not have a Chap. 0 part 2");
-                }
-              }
+          <MenuItem
+            style={{ width: 150 }}
+            onClick={() => {
+              handleEditStakeholderModal();
             }}
-          />
-          <br />
-          <br />
-          {/* register button */}
-          <div style={{ width: "100%", textAlign: "right" }}>
-            <Button
-              variant="contained"
-              className={classes.btn}
-              onClick={handleOpenPropertiesModal}
-            >
-              {t("Close")}
-            </Button>
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#3b373c",
-                height: "35px",
-              }}
-              type="submit"
-            >
-              {t("Update")}
-            </Button>
-          </div>
-        </form>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <form className={classes.form} onSubmit={handleSubmit2}>
-          {/* All fields */}
-          <RowRadioButtonsGroup
-            row={true}
-            label={t("Type Of Contract")}
-            data={TOC}
-            value={values2.market_type}
-            name="market_type"
-            handleChange={(e) => handleChange2(e.target.name, e.target.value)}
-            disabled={true}
-          />
-          <br />
-          <RowRadioButtonsGroup
-            row={true}
-            label={t("Type Of Project")}
-            data={TOP}
-            value={values2.structure}
-            name="structure"
-            handleChange={(e) => handleChange2(e.target.name, e.target.value)}
-          />
-          {/* register button */}
-          <div style={{ width: "100%", textAlign: "right" }}>
-            <Button
-              variant="contained"
-              className={classes.btn}
-              onClick={handleOpenPropertiesModal}
-            >
-              {t("Close")}
-            </Button>
-            <Button variant="contained" className={classes.btn} type="submit">
-              {t("Update")}
-            </Button>
-          </div>
-        </form>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Grid container spacing={2}>
-          <Grid item zeroMinWidth xs>
-            <InputDropdown
-              name="type"
-              label={t("Type")}
-              value={typeValue}
-              onChange={(e) => setTypeValue(e.target.value)}
-              options={typeOptions}
-              required={true}
+          >
+            {t("Edit")}
+          </MenuItem>
+          <MenuItem onClick={() => removeStakeholder(stakeId)}>
+            {t("Delete")}
+          </MenuItem>
+          <MenuItem onClick={() => handleStakeholderUp(stakeId)}>
+            {t("Up")}
+          </MenuItem>
+          <MenuItem onClick={() => handleStakeholderDown(stakeId)}>
+            {t("Down")}
+          </MenuItem>
+        </Menu>
+        <Modal
+          title={t("Edit Stakeholder")}
+          open={editStakeholderModal}
+          onClose={handleEditStakeholderModal}
+          component={
+            <EditStakholder
+              stakeholder={editStakeholder}
+              handleEditStakeholderModal={handleEditStakeholderModal}
+              getAllStakeholders={getAllStakeholders}
             />
-          </Grid>
-          <Grid item zeroMinWidth xs>
-            <InputWithOptions
-              label={t("Select Stakeholder")}
-              required={true}
-              name="family"
-              value={values3.stakeholders}
-              handleChange={(e) => handleStakeholdersChange(e)}
-              options={stakeholderOptions}
+          }
+        />
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs value={value} onChange={handleTabChange}>
+            <Tab label={t("Project References")} {...a11yProps(0)} />
+            <Tab label={t("Market Type / Structure")} {...a11yProps(1)} />
+            <Tab label={t("Stakeholders")} {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            {/* All fields */}
+            <InputWithLabel
+              label={t("Project Name")}
+              name="name"
+              type="text"
+              value={values.name}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
-          </Grid>
-        </Grid>
-        <br />
-        <TableContainer component={Paper}>
-          <Table sx={{ width: "100%" }} aria-label="simple table">
-            <TableHead sx={{ bgcolor: "#3b373c" }}>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 140,
-                  }}
-                >
-                  {t("Type of stakeholder")}
-                </TableCell>
-                <TableCell
-                  align="left"
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 160,
-                  }}
-                >
-                  {t("Name of stakeholder")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 140,
-                  }}
-                >
-                  {t("Address 1")}
-                </TableCell>
-                <TableCell
-                  align="left"
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 140,
-                  }}
-                >
-                  {t("Address 2")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 140,
-                  }}
-                >
-                  {t("Zipcode")}
-                </TableCell>
-                <TableCell
-                  align="left"
-                  sx={{
-                    color: "white",
-                    fontWeight: 900,
-                    fontSize: 12,
-                    width: 140,
-                  }}
-                >
-                  {t("City")}
-                </TableCell>
+            <br />
+            <br />
+            <Autocomplete
+              label="Maitre d'Ouvrage"
+              options={stakeholderByType1}
+              setValue={setSelectedStakeholder}
+              textValue={stakeholderText}
+              setTextValue={setStakeholderText}
+              required={true}
+              defaultValue={selectedStakeholder}
+            />
+            <br />
 
-                <TableCell
-                  align="left"
-                  sx={{ color: "white", fontWeight: 900 }}
-                ></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allStakeholderOptions?.map((row) =>
-                values3?.stakeholders?.map((row2) => {
-                  if (row2.toString() == row._id.toString()) {
-                    return (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell align="left">{row.type.text}</TableCell>
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {row.address1.substring(0, 20)}
-                          {row.address1.length > 40 && "..."}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.address2 ? (
-                            <>
-                              {row.address2.substring(0, 20)}
-                              {row.address2.length > 40 && "..."}
-                            </>
-                          ) : (
-                            "N/A"
-                          )}
-                        </TableCell>
-                        <TableCell align="left">{row.zipcode}</TableCell>
-                        <TableCell align="left">{row.city}</TableCell>
-                        <TableCell align="left">
-                          <IconButton
-                            id="demo-positioned-button"
-                            aria-controls={
-                              open ? "demo-positioned-menu" : undefined
-                            }
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={(e) => handleClick(e, row, row2)}
-                          >
-                            <MoreVertIcon color="primary" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs={8}>
+                <Autocomplete
+                  label="Maitre d'Oeuvre"
+                  options={stakeholderByType2}
+                  setValue={setSelectedStakeholder2}
+                  textValue={stakeholderText2}
+                  setTextValue={setStakeholderText2}
+                  required={true}
+                  defaultValue={selectedStakeholder2}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs={4}>
+                <InputDropdown
+                  label={t("VAT")}
+                  required={true}
+                  name="vat"
+                  value={values.vat}
+                  options={options}
+                  type="text"
+                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <br />
+            <InputWithLabel
+              label={t("Reference")}
+              name="reference"
+              type="text"
+              value={values.reference}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+            <br />
+            <br />
+            <label htmlFor="grid-first-name" style={{ color: "gray" }}>
+              {t("Description")}
+            </label>
+            <Textarea
+              name="description"
+              type="text"
+              value={values.description}
+              onChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+            <br />
+            <br />
+            <InputDropdown
+              label={t("Chap. 0 part 2")}
+              name="chap0part2"
+              value={selectedFam}
+              options={familyOptions}
+              type="text"
+              onChange={(e) => {
+                setSelectedFam(e.target.value);
+                let tempFam = familyOptions.find(
+                  (item) => item._id === e.target.value
+                );
+                let famName = tempFam.name.toUpperCase();
+                if (famName === "PRESCRIPTEUR") {
+                  let chap = chapOptions.architectsChap0.find((item) => {
+                    return item.type === "private";
+                  });
+                  if (chap) {
+                    handleChange("chap0part2", chap._id);
+                  } else {
+                    toast.error("This family does not have a Chap. 0 part 2");
                   }
-                })
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <br />
-        {/* register button */}
-        <div style={{ width: "100%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            className={classes.btn}
-            onClick={handleOpenPropertiesModal}
-          >
-            {t("Close")}
-          </Button>
-          <Button
-            variant="contained"
-            className={classes.btn}
-            onClick={handleSubmit3}
-          >
-            {t("Update")}
-          </Button>
-        </div>
-      </TabPanel>
-    </Box>
+                } else {
+                  let chap = chapOptions.chap0.find((item) => {
+                    return item.family && item.family === e.target.value;
+                  });
+                  if (chap) {
+                    handleChange("chap0part2", chap._id);
+                  } else {
+                    toast.error("This family does not have a Chap. 0 part 2");
+                  }
+                }
+              }}
+            />
+            <br />
+            <div>
+              <Typography>* Mentions obligatoires</Typography>
+            </div>
+            {/* register button */}
+            <div style={{ width: "100%", textAlign: "right" }}>
+              <Button
+                variant="contained"
+                className={classes.btn}
+                onClick={handleOpenPropertiesModal}
+              >
+                {t("Close")}
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#3b373c",
+                  height: "35px",
+                }}
+                type="submit"
+              >
+                {t("Update")}
+              </Button>
+            </div>
+          </form>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <form className={classes.form} onSubmit={handleSubmit2}>
+            {/* All fields */}
+            <RowRadioButtonsGroup
+              row={true}
+              label={t("Type Of Contract")}
+              data={TOC}
+              value={values2.market_type}
+              name="market_type"
+              handleChange={(e) => handleChange2(e.target.name, e.target.value)}
+              disabled={true}
+            />
+            <br />
+            <RowRadioButtonsGroup
+              row={true}
+              label={t("Type Of Project")}
+              data={TOP}
+              value={values2.structure}
+              name="structure"
+              handleChange={(e) => handleChange2(e.target.name, e.target.value)}
+            />
+            {/* register button */}
+            <div style={{ width: "100%", textAlign: "right" }}>
+              <Button
+                variant="contained"
+                className={classes.btn}
+                onClick={handleOpenPropertiesModal}
+              >
+                {t("Close")}
+              </Button>
+              <Button variant="contained" className={classes.btn} type="submit">
+                {t("Update")}
+              </Button>
+            </div>
+          </form>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <Grid container spacing={2}>
+            <Grid item zeroMinWidth xs>
+              <InputDropdown
+                name="type"
+                label={t("Type")}
+                value={typeValue}
+                onChange={(e) => setTypeValue(e.target.value)}
+                options={typeOptions}
+                required={true}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs>
+              <InputWithOptions
+                label={t("Select Stakeholder")}
+                required={true}
+                name="family"
+                value={values3.stakeholders}
+                handleChange={(e) => handleStakeholdersChange(e)}
+                options={stakeholderOptions}
+              />
+            </Grid>
+          </Grid>
+          <br />
+          <TableContainer component={Paper}>
+            <Table sx={{ width: "100%" }} aria-label="simple table">
+              <TableHead sx={{ bgcolor: "#3b373c" }}>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t("Type of stakeholder")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 160,
+                    }}
+                  >
+                    {t("Name of stakeholder")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t("Address 1")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t("Address 2")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t("Zipcode")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t("City")}
+                  </TableCell>
+
+                  <TableCell
+                    align="left"
+                    sx={{ color: "white", fontWeight: 900 }}
+                  ></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {step3Values.map((row) => {
+                  return (
+                    <TableRow
+                      key={row.name}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="left">{row.type.text}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.address1.substring(0, 20)}
+                        {row.address1.length > 40 && "..."}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.address2 ? (
+                          <>
+                            {row.address2.substring(0, 20)}
+                            {row.address2.length > 40 && "..."}
+                          </>
+                        ) : (
+                          "N/A"
+                        )}
+                      </TableCell>
+                      <TableCell align="left">{row.zipcode}</TableCell>
+                      <TableCell align="left">{row.city}</TableCell>
+                      <TableCell align="left">
+                        <IconButton
+                          id="demo-positioned-button"
+                          aria-controls={
+                            open ? "demo-positioned-menu" : undefined
+                          }
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={(e) => handleClick(e, row, row._id)}
+                        >
+                          <MoreVertIcon color="primary" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <br />
+          {/* register button */}
+          <div style={{ width: "100%", textAlign: "right" }}>
+            <Button
+              variant="contained"
+              className={classes.btn}
+              onClick={handleOpenPropertiesModal}
+            >
+              {t("Close")}
+            </Button>
+            <Button
+              variant="contained"
+              className={classes.btn}
+              onClick={handleSubmit3}
+            >
+              {t("Update")}
+            </Button>
+          </div>
+        </TabPanel>
+      </Box>
+    )
   );
 };
 

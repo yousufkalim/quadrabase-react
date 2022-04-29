@@ -17,6 +17,9 @@ const AddWorkDetailsModal = ({
   setSelectedWork,
   currentProject,
   getworks,
+  projectWorkData,
+  selectedTrade,
+  selectedTranche,
 }) => {
   const { t } = useTranslation();
   // states
@@ -33,6 +36,11 @@ const AddWorkDetailsModal = ({
       currentProject.market_type === "Trades") &&
       getTrades();
   }, []);
+
+  useEffect(() => {
+    setTrade(selectedTrade);
+    setTranch(selectedTranche);
+  }, [selectedTrade, selectedTranche]);
 
   const getTranches = async () => {
     const result = await api("get", `/Tranches/${currentProject._id}`);
@@ -69,11 +77,24 @@ const AddWorkDetailsModal = ({
       work_details: [],
     };
     data.work_details = selectedWorkDetail;
+
     if (data.work_details.length === 0) {
       toast.error(t("Select at least 1 work detail"));
     } else {
       if (currentProject.market_type === "Trades") {
         if (trade) {
+          let tempRankings = [];
+          projectWorkData.map((item1) => {
+            item1.data.map((item2) => {
+              tempRankings.push(item2.work.ranking);
+            });
+          });
+          if (tempRankings.length > 0) {
+            let maxRanking = Math.max(...tempRankings);
+            data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
+          } else {
+            data.ranking = 0;
+          }
           data.trade = trade;
           const result = await api(
             "post",
@@ -93,6 +114,20 @@ const AddWorkDetailsModal = ({
         if (trade) {
           data.trade = trade;
           if (tranch) {
+            let tempRankings = [];
+            projectWorkData.map((item1) => {
+              item1.data.map((item2) => {
+                item2.tranchData.map((item3) => {
+                  tempRankings.push(item3.work.ranking);
+                });
+              });
+            });
+            if (tempRankings.length > 0) {
+              let maxRanking = Math.max(...tempRankings);
+              data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
+            } else {
+              data.ranking = 0;
+            }
             data.tranch = tranch;
             const result = await api(
               "post",
@@ -112,6 +147,13 @@ const AddWorkDetailsModal = ({
           toast.error(t("Trade is required"));
         }
       } else {
+        let maxRanking = Math.max.apply(
+          Math,
+          projectWorkData.map((item) => {
+            return item.work.ranking;
+          })
+        );
+        data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
         const result = await api(
           "post",
           `/project/addWork/${currentProject._id}`,
@@ -140,43 +182,6 @@ const AddWorkDetailsModal = ({
           />
         ))}
       </FormGroup>
-      {(currentProject.market_type === "TradesAndTranches" ||
-        currentProject.market_type === "Trades") && (
-        <>
-          <br />
-          <InputDropdown
-            name="trade"
-            label="Trade"
-            value={trade}
-            onChange={(e) => {
-              setTrade(e.target.value);
-              if (currentProject.market_type === "TradesAndTranches") {
-                let temp = tranchOptions;
-                temp = temp.filter((item) => item.trade === e.target.value);
-                setTranchFilteredOptions(temp);
-              }
-            }}
-            options={tradeOptions}
-          />
-          <br />
-        </>
-      )}
-      {currentProject.market_type === "TradesAndTranches" && (
-        <>
-          <br />
-          <h2>{t("Select Tranch")}</h2>
-          <br />
-          <InputDropdown
-            name="tranch"
-            label="Tranch"
-            value={tranch}
-            onChange={(e) => setTranch(e.target.value)}
-            options={tranchFilteredOptions}
-            disabled={!trade}
-          />
-          <br />
-        </>
-      )}
       <div
         style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
       >

@@ -328,6 +328,14 @@ export default function EnhancedTable(props) {
                               }}
                             ></div>
                           </TableCell>
+                        ) : record === "prescriber" ? (
+                          <TableCell
+                            key={index}
+                            align="left"
+                            title={row[record]}
+                          >
+                            {row.name}
+                          </TableCell>
                         ) : (
                           <TableCell
                             key={index}

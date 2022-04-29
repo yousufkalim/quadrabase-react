@@ -17,12 +17,16 @@ const TranchesModal = ({
   getTranches,
   tradeOption,
   currentProject,
+  selectedTrade,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [name, setName] = useState();
   const [trade, setTrade] = useState("");
-  const [updateTranch, setUpdateTranch] = useState();
+  useEffect(() => {
+    setName(`Tranche n°${tranchesData.length + 1}`);
+    setTrade(selectedTrade);
+  }, []);
 
   // handle submit
   const handleSubmit = async (e) => {
