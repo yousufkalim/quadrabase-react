@@ -89,8 +89,6 @@ const EditWorkModal = ({
       selectedWork.cctp_text[3] && setcctp_text4(selectedWork.cctp_text[3]);
       selectedWork.bpu_text[0] && setbpu_text1(selectedWork.bpu_text[0]);
     }
-
-    console.log(selectedWork);
   }, [selectedWork]);
   // useEffect to get all units
   useEffect(() => {

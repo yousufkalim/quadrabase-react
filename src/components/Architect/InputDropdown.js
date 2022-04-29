@@ -37,7 +37,6 @@ export default function Index(props) {
 
         {props?.options?.map((option) => (
           <option value={option._id}>
-            {console.log(option)}
             {option.symbol
               ? option.symbol
               : option.name

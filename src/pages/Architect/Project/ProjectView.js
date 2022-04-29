@@ -45,6 +45,7 @@ import EditWorkModal from "./Modals/EditWorkModal";
 import EditWWDModal from "./Modals/EditWWDModal";
 import EditWorkDetailModal from "./Modals/EditWorkDetailModal";
 import EditChap0Part2 from "./Modals/EditChap0Part2";
+import EditChapModal from "./Modals/EditChapModal";
 import Loader from "./component/Loader";
 import { styled, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
@@ -134,7 +135,9 @@ const ProjectView = () => {
   const [openEditWorkDetailModal, setOpenEditWorkDetailModal] = useState(false);
   const [editWorkDetail, seteditWorkDetail] = useState();
   const [openEditChap0Part2Modal, setOpenEditChap0Part2Modal] = useState(false);
+  const [openEditChapModal, setOpenEditChapModal] = useState(false);
   const [editChap0Part2, setEditChap0Part2] = useState();
+  const [editChapItem, setEditChapItem] = useState();
 
   const [openEstimationReportModal, setOpenEstimationReportModal] =
     useState(false);
@@ -215,6 +218,7 @@ const ProjectView = () => {
   // func to get current project
   const getProject = async () => {
     const result = await api("get", `/project/${id}`);
+    setEditChap0Part2(result?.data?.project?.chap0part2);
     setCurrentProject(result?.data?.project);
   };
 
@@ -515,6 +519,15 @@ const ProjectView = () => {
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
       alert("Please select a chap. 0 part 2 from properties");
+    }
+  };
+
+  const handleOpenEditChapModal = (item) => {
+    if (item?.item?._id) {
+      setEditChapItem(item);
+      setOpenEditChapModal(true);
+    } else {
+      setOpenEditChapModal(false);
     }
   };
 
@@ -903,6 +916,19 @@ const ProjectView = () => {
               <EditChap0Part2
                 handleOpenEditChap0Part2Modal={handleOpenEditChap0Part2Modal}
                 editChap0Part2={editChap0Part2}
+                handleOpenEditChapModal={handleOpenEditChapModal}
+              />
+            }
+          />
+
+          <Modal
+            title={t("Edit Chap")}
+            open={openEditChapModal}
+            onClose={handleOpenEditChapModal}
+            component={
+              <EditChapModal
+                handleOpenEditChapModal={handleOpenEditChapModal}
+                editChapItem={editChapItem}
                 currentProject={currentProject}
                 getProject={getProject}
               />
