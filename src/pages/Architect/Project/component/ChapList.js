@@ -59,6 +59,7 @@ const StyledMenu = styled((props) => (
 export default function NestedList({
   editChap0Part2,
   handleOpenEditChapModal,
+  handleOpenDeleteChapModal,
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(true);
@@ -113,12 +114,28 @@ export default function NestedList({
         }}
         sx={{ mt: 1 }}
       >
-        <MenuItem onClick={() => handleOpenEditChapModal(menuItem0)}>
+        <MenuItem
+          onClick={() => {
+            handleOpenEditChapModal(menuItem0);
+            handleAnchorElLevel0Close();
+          }}
+        >
           {t("To Modify")}
         </MenuItem>
-        <MenuItem>{t("To Delete")}</MenuItem>
-        <MenuItem>{t("Up")}</MenuItem>
-        <MenuItem>{t("Down")}</MenuItem>
+        {menuItem0.type !== "level0" && (
+          <>
+            <MenuItem
+              onClick={() => {
+                handleOpenDeleteChapModal(menuItem0);
+                handleAnchorElLevel0Close();
+              }}
+            >
+              {t("To Delete")}
+            </MenuItem>
+            <MenuItem>{t("Up")}</MenuItem>
+            <MenuItem>{t("Down")}</MenuItem>
+          </>
+        )}
       </StyledMenu>
 
       <ListItem>

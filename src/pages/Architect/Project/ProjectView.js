@@ -138,6 +138,8 @@ const ProjectView = () => {
   const [openEditChapModal, setOpenEditChapModal] = useState(false);
   const [editChap0Part2, setEditChap0Part2] = useState();
   const [editChapItem, setEditChapItem] = useState();
+  const [openDeleteChap, setOpenDeleteChap] = useState(false);
+  const [deleteChap, setDeleteChap] = useState({});
 
   const [openEstimationReportModal, setOpenEstimationReportModal] =
     useState(false);
@@ -481,6 +483,13 @@ const ProjectView = () => {
     setOpenDeleteTradeModal(!openDeleteTradeModal);
   };
 
+  const handleOpenDeleteChapModal = (item) => {
+    if (item?.item?._id) {
+      setDeleteChap(item);
+    }
+    setOpenDeleteChap(!openDeleteChap);
+  };
+
   const handleOpenDeleteTranchModal = () => {
     setOpenDeleteTranchModal(!openDeleteTranchModal);
   };
@@ -645,6 +654,24 @@ const ProjectView = () => {
     } else {
       toast.error(t("The last remaining Slice cannot be deleted."));
     }
+  };
+
+  // handle delete
+  const handleChapDelete = async () => {
+    const result = await api(
+      "delete",
+      `/ArchitectsChap0/deleteChapLevel/${currentProject.chap0part2.id._id}`,
+      {
+        data: {
+          type: deleteChap.type,
+          id: deleteChap.item._id,
+        },
+      },
+      t
+    );
+    toast.success(t(result.data.message));
+    handleOpenDeleteChapModal();
+    getProject();
   };
 
   //trade Up
@@ -917,6 +944,7 @@ const ProjectView = () => {
                 handleOpenEditChap0Part2Modal={handleOpenEditChap0Part2Modal}
                 editChap0Part2={editChap0Part2}
                 handleOpenEditChapModal={handleOpenEditChapModal}
+                handleOpenDeleteChapModal={handleOpenDeleteChapModal}
               />
             }
           />
@@ -934,6 +962,18 @@ const ProjectView = () => {
               />
             }
           />
+
+          <Modal
+            open={openDeleteChap}
+            onClose={handleOpenDeleteChapModal}
+            component={
+              <DeleteModal
+                handleCancel={handleOpenDeleteChapModal}
+                handleDelete={handleChapDelete}
+              />
+            }
+          />
+
           <Modal
             title={t("Add Tranche")}
             open={openTranchesModal}
