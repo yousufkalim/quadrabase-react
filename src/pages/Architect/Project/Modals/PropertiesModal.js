@@ -710,7 +710,7 @@ const PropertiesModal = ({
           <TableContainer component={Paper}>
             <Table sx={{ width: "100%" }} aria-label="simple table">
               <TableHead sx={{ bgcolor: "#3b373c" }}>
-                <TableRow>
+                <TableRow sx={{ whiteSpace: "nowrap" }}>
                   <TableCell
                     sx={{
                       color: "white",
@@ -787,7 +787,10 @@ const PropertiesModal = ({
                     <TableRow
                       key={row.name}
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                        whiteSpace: "nowrap",
                       }}
                     >
                       <TableCell align="left">{row.type.text}</TableCell>
