@@ -13,6 +13,7 @@ const EditChap0Part2 = ({
   handleOpenDeleteChapModal,
   currentProject,
   setEditChap0Part2,
+  handleOpenAddChapModal,
 }) => {
   const { t } = useTranslation();
 
@@ -24,6 +25,7 @@ const EditChap0Part2 = ({
         handleOpenDeleteChapModal={handleOpenDeleteChapModal}
         currentProject={currentProject}
         setEditChap0Part2={setEditChap0Part2}
+        handleOpenAddChapModal={handleOpenAddChapModal}
       />
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>

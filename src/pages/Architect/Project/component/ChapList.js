@@ -63,6 +63,7 @@ export default function NestedList({
   handleOpenDeleteChapModal,
   currentProject,
   setEditChap0Part2,
+  handleOpenAddChapModal,
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(true);
@@ -238,6 +239,16 @@ export default function NestedList({
         }}
         sx={{ mt: 1 }}
       >
+        {(menuItem0.type === "level0" || menuItem0.type === "level1") && (
+          <MenuItem
+            onClick={() => {
+              handleOpenAddChapModal(menuItem0);
+              handleAnchorElLevel0Close();
+            }}
+          >
+            {t("Add Level")}
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             handleOpenEditChapModal(menuItem0);

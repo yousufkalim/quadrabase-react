@@ -5,7 +5,6 @@ import api from "../../../api";
 import { useStyles } from "../../../css/projectView";
 import BuildIcon from "@mui/icons-material/Build";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SearchIcon from "@mui/icons-material/Search";
 import { Store } from "../../../StoreContext";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
@@ -46,6 +45,7 @@ import EditWWDModal from "./Modals/EditWWDModal";
 import EditWorkDetailModal from "./Modals/EditWorkDetailModal";
 import EditChap0Part2 from "./Modals/EditChap0Part2";
 import EditChapModal from "./Modals/EditChapModal";
+import AddChapLevel from "./Modals/AddChapLevel";
 import Loader from "./component/Loader";
 import { styled, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
@@ -136,6 +136,7 @@ const ProjectView = () => {
   const [editWorkDetail, seteditWorkDetail] = useState();
   const [openEditChap0Part2Modal, setOpenEditChap0Part2Modal] = useState(false);
   const [openEditChapModal, setOpenEditChapModal] = useState(false);
+  const [openAddChapModal, setOpenAddChapModal] = useState(false);
   const [editChap0Part2, setEditChap0Part2] = useState();
   const [editChapItem, setEditChapItem] = useState();
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
@@ -550,6 +551,15 @@ const ProjectView = () => {
     }
   };
 
+  const handleOpenAddChapModal = (item) => {
+    if (item?.item?._id) {
+      setEditChapItem(item);
+      setOpenAddChapModal(true);
+    } else {
+      setOpenAddChapModal(false);
+    }
+  };
+
   const handleTranchesModal = () => setOpenTranchesModal(!openTranchesModal);
   const handleTradesModal = () => setOpenTradesModal(!openTradesModal);
   const handleOpenUpdateTradesModal = () =>
@@ -957,6 +967,7 @@ const ProjectView = () => {
                 handleOpenDeleteChapModal={handleOpenDeleteChapModal}
                 currentProject={currentProject}
                 setEditChap0Part2={setEditChap0Part2}
+                handleOpenAddChapModal={handleOpenAddChapModal}
               />
             }
           />
@@ -968,6 +979,20 @@ const ProjectView = () => {
             component={
               <EditChapModal
                 handleOpenEditChapModal={handleOpenEditChapModal}
+                editChapItem={editChapItem}
+                currentProject={currentProject}
+                getProject={getProject}
+              />
+            }
+          />
+
+          <Modal
+            title={t("Add Chap")}
+            open={openAddChapModal}
+            onClose={handleOpenAddChapModal}
+            component={
+              <AddChapLevel
+                handleOpenAddChapModal={handleOpenAddChapModal}
                 editChapItem={editChapItem}
                 currentProject={currentProject}
                 getProject={getProject}
