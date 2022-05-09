@@ -27,29 +27,20 @@ const EditChapModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = {
+      id: editChapItem.item._id,
       title,
       text,
       type: editChapItem.type,
     };
-
-    currentProject.chap0part2.id.level2.map((item) => {
-      item.level3.map((item2) => {
-        console.log(item2);
-        console.log(item2._id, editChapItem.item._id);
-        if (item2._id.toString() === editChapItem.item._id.toString()) {
-          console.log("abc", item2);
-        }
-      });
-    });
-    // const result = await api(
-    //   "put",
-    //   `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-    //   data,
-    //   t
-    // );
-    // toast.success(t(result.data.message));
-    // handleOpenEditChapModal();
-    // getProject();
+    const result = await api(
+      "put",
+      `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
+      data,
+      t
+    );
+    toast.success(t(result.data.message));
+    handleOpenEditChapModal();
+    getProject();
   };
 
   return (

@@ -782,7 +782,7 @@ const PropertiesModal = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {step3Values.map((row) => {
+                {step3Values?.map((row) => {
                   return (
                     <TableRow
                       key={row.name}

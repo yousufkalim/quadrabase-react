@@ -113,9 +113,7 @@ export default function NestedList({
         }}
         sx={{ mt: 1 }}
       >
-        <MenuItem
-        // onClick={() => handleOpenEditChapModal(menuItem0)}
-        >
+        <MenuItem onClick={() => handleOpenEditChapModal(menuItem0)}>
           {t("To Modify")}
         </MenuItem>
         <MenuItem>{t("To Delete")}</MenuItem>
