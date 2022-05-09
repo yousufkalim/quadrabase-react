@@ -220,8 +220,13 @@ const ProjectView = () => {
   // func to get current project
   const getProject = async () => {
     const result = await api("get", `/project/${id}`);
-    setEditChap0Part2(result?.data?.project?.chap0part2);
     setCurrentProject(result?.data?.project);
+    let chap = result?.data?.project?.chap0part2;
+    chap?.id?.level2?.map((item) => {
+      item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+    });
+    chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
+    setEditChap0Part2(chap);
   };
 
   // func to get current project
@@ -524,7 +529,12 @@ const ProjectView = () => {
 
   const handleOpenEditChap0Part2Modal = () => {
     if (currentProject.chap0part2) {
-      setEditChap0Part2(currentProject.chap0part2);
+      let chap = currentProject.chap0part2;
+      chap?.id?.level2?.map((item) => {
+        item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+      });
+      chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
+      setEditChap0Part2(chap);
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
       alert("Please select a chap. 0 part 2 from properties");
@@ -945,6 +955,8 @@ const ProjectView = () => {
                 editChap0Part2={editChap0Part2}
                 handleOpenEditChapModal={handleOpenEditChapModal}
                 handleOpenDeleteChapModal={handleOpenDeleteChapModal}
+                currentProject={currentProject}
+                setEditChap0Part2={setEditChap0Part2}
               />
             }
           />

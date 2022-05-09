@@ -13,6 +13,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled, alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
+import api from "../../../../api";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -60,6 +61,8 @@ export default function NestedList({
   editChap0Part2,
   handleOpenEditChapModal,
   handleOpenDeleteChapModal,
+  currentProject,
+  setEditChap0Part2,
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(true);
@@ -89,6 +92,127 @@ export default function NestedList({
       setOpen2(id);
     } else {
       setOpen2("");
+    }
+  };
+
+  //Level Up
+  const handleLevelUp = async () => {
+    let chap = [];
+    if (menuItem0.type === "level1") {
+      chap = editChap0Part2.id.level2;
+    } else if (menuItem0.type === "level2") {
+      editChap0Part2.id.level2.map((item) => {
+        item.level3.map((item2) => {
+          if (item2._id.toString() === menuItem0.item._id.toString()) {
+            chap = item.level3;
+          }
+        });
+      });
+    }
+
+    let filteredIndex = chap.findIndex((dt) => dt._id == menuItem0.item._id);
+    if (filteredIndex != 0) {
+      let tempArr = [...chap];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+      api(
+        "put",
+        `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
+        {
+          id: menuItem0.item._id,
+          ranking: tempArr[prevIndex].ranking,
+          type: menuItem0.type,
+        }
+      ).then(() => {
+        api(
+          "put",
+          `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
+          {
+            id: prev._id,
+            ranking: tempArr[filteredIndex].ranking,
+            type: menuItem0.type,
+          }
+        ).then(() => {
+          tempArr[filteredIndex] = chap[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = chap[filteredIndex];
+
+          setEditChap0Part2((prev) => {
+            if (menuItem0.type === "level1") {
+              prev.id.level2 = tempArr;
+            } else if (menuItem0.type === "level2") {
+              prev.id.level2.map((item) => {
+                item.level3.map((item2) => {
+                  if (item2._id.toString() === menuItem0.item._id.toString()) {
+                    item.level3 = tempArr;
+                  }
+                });
+              });
+            }
+            return { ...prev };
+          });
+        });
+      });
+    }
+  };
+
+  //Level Down
+  const handleLevelDown = async (id) => {
+    let chap = [];
+    if (menuItem0.type === "level1") {
+      chap = editChap0Part2.id.level2;
+    } else if (menuItem0.type === "level2") {
+      editChap0Part2.id.level2.map((item) => {
+        item.level3.map((item2) => {
+          if (item2._id.toString() === menuItem0.item._id.toString()) {
+            chap = item.level3;
+          }
+        });
+      });
+    }
+
+    let filteredIndex = chap.findIndex((dt) => dt._id == menuItem0.item._id);
+
+    if (filteredIndex !== chap.length - 1) {
+      let tempArr = [...chap];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+      api(
+        "put",
+        `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
+        {
+          id: menuItem0.item._id,
+          ranking: tempArr[nextIndex].ranking,
+          type: menuItem0.type,
+        }
+      ).then(() => {
+        api(
+          "put",
+          `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
+          {
+            id: prev._id,
+            ranking: tempArr[filteredIndex].ranking,
+            type: menuItem0.type,
+          }
+        ).then(() => {
+          tempArr[filteredIndex] = chap[nextIndex];
+          tempArr[nextIndex] = chap[filteredIndex];
+          setEditChap0Part2((prev) => {
+            if (menuItem0.type === "level1") {
+              prev.id.level2 = tempArr;
+            } else if (menuItem0.type === "level2") {
+              prev.id.level2.map((item) => {
+                item.level3.map((item2) => {
+                  if (item2._id.toString() === menuItem0.item._id.toString()) {
+                    item.level3 = tempArr;
+                  }
+                });
+              });
+            }
+            return { ...prev };
+          });
+        });
+      });
     }
   };
 
@@ -132,8 +256,22 @@ export default function NestedList({
             >
               {t("To Delete")}
             </MenuItem>
-            <MenuItem>{t("Up")}</MenuItem>
-            <MenuItem>{t("Down")}</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleLevelUp(menuItem0);
+                handleAnchorElLevel0Close();
+              }}
+            >
+              {t("Up")}
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleLevelDown(menuItem0);
+                handleAnchorElLevel0Close();
+              }}
+            >
+              {t("Down")}
+            </MenuItem>
           </>
         )}
       </StyledMenu>
