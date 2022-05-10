@@ -197,6 +197,14 @@ var routes = [
     layout: "/admin",
   },
 
+  {
+    path: "/admin/libraries",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Families,
+    layout: "/admin",
+  },
+
   // ******** auth routes
   {
     path: "/login",
