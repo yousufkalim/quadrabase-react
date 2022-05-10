@@ -7,8 +7,6 @@ const ProviderModal = ({ handleOpenProviderModal, providers }) => {
   const { t } = useTranslation();
   return (
     <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
-      {console.log("providers", providers)}
-
       <div
         style={{
           fontSize: 18,

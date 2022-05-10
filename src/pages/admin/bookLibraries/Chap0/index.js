@@ -59,6 +59,8 @@ export default function Index(props) {
   const [editData, seteditData] = React.useState([]);
   const [editData2, seteditData2] = React.useState([]);
   const [editData3, seteditData3] = React.useState([]);
+  const [familyOptions, setFamilyOptions] = React.useState([]);
+  const [family, setFamily] = React.useState("");
 
   const handleModalClose = () => {
     dispatch({
@@ -212,6 +214,31 @@ export default function Index(props) {
     }
   };
 
+  const getFamilies = async () => {
+    try {
+      let response = await Axios({
+        method: "get",
+        url: `${baseUrl}/Families/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.families.filter((item) => {
+        let famName = item.name.toUpperCase();
+        return famName !== "PRESCRIPTEUR";
+      });
+
+      let newData = data.filter((dat) => dat.email !== USER.email);
+      setFamilyOptions(newData);
+    } catch (error) {
+      if (error.response) console.log(error.response.data.message, "error ");
+    }
+  };
+
+  useEffect(() => {
+    getFamilies();
+  }, []);
+
   useEffect(() => {
     getAdmins();
   }, [modal, editmodal, deletemodal]);
@@ -231,6 +258,11 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         values.text = text;
+        if (family) {
+          values.family = family;
+        } else {
+          delete values.family;
+        }
         if (adminsData.length > 0) {
           let maxRanking = Math.max.apply(
             Math,
@@ -255,6 +287,7 @@ export default function Index(props) {
         handleModalClose();
         getAdmins();
         formik.resetForm();
+        setFamily("");
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
 
@@ -270,6 +303,15 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         values.text = editText;
+        if (family) {
+          if (editData.family === family) {
+            delete values.family;
+          } else {
+            values.family = family;
+          }
+        } else {
+          values.family = null;
+        }
         let response = await Axios({
           method: "put",
           url: `${baseUrl}/Chap0/${adminId}`,
@@ -282,6 +324,8 @@ export default function Index(props) {
         Notifier(response.data.message, "success", translate);
         getAdmins();
         handleEditModal();
+        edit_formik.resetForm();
+        setFamily("");
       } catch (err) {
         Notifier(err.response.data.message, "error", translate);
 
@@ -1031,6 +1075,9 @@ export default function Index(props) {
             formik={formik}
             text={text}
             setText={setText}
+            options={familyOptions}
+            setFamily={setFamily}
+            family={family}
           />
         }
       />
@@ -1051,6 +1098,9 @@ export default function Index(props) {
             formik={edit_formik}
             editText={editText}
             setEditText={setEditText}
+            options={familyOptions}
+            setFamily={setFamily}
+            family={family}
           />
         }
       />

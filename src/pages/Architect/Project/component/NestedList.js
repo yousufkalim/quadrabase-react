@@ -4,10 +4,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import FolderIcon from "@mui/icons-material/Folder";
+import CircleIcon from "@mui/icons-material/Circle";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import LinearProgress from "@mui/material/LinearProgress";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -16,6 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { styled, alpha } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import { useTranslation } from "react-i18next";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -58,6 +59,16 @@ const StyledMenu = styled((props) => (
     },
   },
 }));
+
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: "none",
+    backgroundColor: "#fff8e3",
+    color: "gray",
+  },
+});
 
 const screenSize = window.innerWidth;
 
@@ -208,14 +219,36 @@ const NestedList = (props) => {
                 height: 28,
               }}
             >
-              <ListItemIcon>
-                <FolderIcon
-                  sx={{
-                    color: "#f1966c",
-                    fontSize: 20,
-                  }}
-                />
+              <ListItemIcon sx={{ mr: -3 }}>
+                {open ? (
+                  <ExpandLess
+                    sx={{
+                      color: "#f2966c",
+                      fontSize: 24,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      handleClick();
+                      handleClicklevel2();
+                      props.setLevel2([]);
+                      props.setLevel3([]);
+                    }}
+                  />
+                ) : (
+                  <ExpandMore
+                    sx={{
+                      color: "#f2966c",
+                      fontSize: 24,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      handleClick(item._id);
+                      props.getLevel2(item._id);
+                    }}
+                  />
+                )}
               </ListItemIcon>
+
               <ListItemText
                 primary={
                   <div
@@ -226,57 +259,63 @@ const NestedList = (props) => {
                       fontWeight: 900,
                     }}
                   >
-                    <div
-                      onClick={() => {
-                        if (!open) {
-                          handleClick(item._id);
-                          props.getLevel2(item._id);
-                        } else {
-                          handleClick();
-                          handleClicklevel2();
-                          props.setLevel2([]);
-                          props.setLevel3([]);
-                        }
-                      }}
-                      style={{ cursor: "pointer" }}
+                    <NoMaxWidthTooltip
+                      title={item?.name}
+                      placement="top"
+                      TransitionComponent={Zoom}
                     >
-                      {screenSize > 1600 ? (
-                        <>
-                          {item?.name?.substring(0, 30)}
-                          {item?.name?.length > 30 && "..."}
-                        </>
-                      ) : screenSize > 1500 ? (
-                        <>
-                          {item?.name?.substring(0, 26)}
-                          {item?.name?.length > 26 && "..."}
-                        </>
-                      ) : screenSize > 1400 ? (
-                        <>
-                          {item?.name?.substring(0, 22)}
-                          {item?.name?.length > 22 && "..."}
-                        </>
-                      ) : screenSize > 1300 ? (
-                        <>
-                          {item?.name?.substring(0, 20)}
-                          {item?.name?.length > 20 && "..."}
-                        </>
-                      ) : screenSize > 1200 ? (
-                        <>
-                          {item?.name?.substring(0, 16)}
-                          {item?.name?.length > 16 && "..."}
-                        </>
-                      ) : screenSize > 1100 ? (
-                        <>
-                          {item?.name?.substring(0, 14)}
-                          {item?.name?.length > 14 && "..."}
-                        </>
-                      ) : (
-                        <>
-                          {item?.name?.substring(0, 12)}
-                          {item?.name?.length > 12 && "..."}
-                        </>
-                      )}
-                    </div>
+                      <div
+                        onClick={() => {
+                          if (!open) {
+                            handleClick(item._id);
+                            props.getLevel2(item._id);
+                          } else {
+                            handleClick();
+                            handleClicklevel2();
+                            props.setLevel2([]);
+                            props.setLevel3([]);
+                          }
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {screenSize > 1600 ? (
+                          <>
+                            {item?.name?.substring(0, 38)}
+                            {item?.name?.length > 34 && "..."}
+                          </>
+                        ) : screenSize > 1500 ? (
+                          <>
+                            {item?.name?.substring(0, 34)}
+                            {item?.name?.length > 34 && "..."}
+                          </>
+                        ) : screenSize > 1400 ? (
+                          <>
+                            {item?.name?.substring(0, 30)}
+                            {item?.name?.length > 30 && "..."}
+                          </>
+                        ) : screenSize > 1300 ? (
+                          <>
+                            {item?.name?.substring(0, 28)}
+                            {item?.name?.length > 28 && "..."}
+                          </>
+                        ) : screenSize > 1200 ? (
+                          <>
+                            {item?.name?.substring(0, 24)}
+                            {item?.name?.length > 24 && "..."}
+                          </>
+                        ) : screenSize > 1100 ? (
+                          <>
+                            {item?.name?.substring(0, 22)}
+                            {item?.name?.length > 22 && "..."}
+                          </>
+                        ) : (
+                          <>
+                            {item?.name?.substring(0, 18)}
+                            {item?.name?.length > 18 && "..."}
+                          </>
+                        )}
+                      </div>
+                    </NoMaxWidthTooltip>
                     <ArrowDropDownIcon
                       id="demo-positioned-button"
                       aria-controls={
@@ -293,33 +332,6 @@ const NestedList = (props) => {
                   </div>
                 }
               />
-              {open ? (
-                <ExpandLess
-                  sx={{
-                    color: "#f1966c",
-                    fontSize: 20,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    handleClick();
-                    handleClicklevel2();
-                    props.setLevel2([]);
-                    props.setLevel3([]);
-                  }}
-                />
-              ) : (
-                <ExpandMore
-                  sx={{
-                    color: "#f1966c",
-                    fontSize: 20,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    handleClick(item._id);
-                    props.getLevel2(item._id);
-                  }}
-                />
-              )}
             </ListItem>
             {props.loading === item._id && <LinearProgress color="inherit" />}
             <Collapse in={open} timeout="auto" unmountOnExit>
@@ -329,12 +341,12 @@ const NestedList = (props) => {
                   return (
                     <>
                       <ListItem sx={{ pl: 4, height: 28 }}>
-                        <ListItemIcon>
+                        <ListItemIcon sx={{ mr: -3 }}>
                           {open2 ? (
                             <ExpandLess
                               sx={{
-                                color: "#f1966c",
-                                fontSize: 20,
+                                color: "#f2966c",
+                                fontSize: 24,
                                 cursor: "pointer",
                               }}
                               onClick={() => {
@@ -345,8 +357,8 @@ const NestedList = (props) => {
                           ) : (
                             <ExpandMore
                               sx={{
-                                color: "#f1966c",
-                                fontSize: 20,
+                                color: "#f2966c",
+                                fontSize: 24,
                                 cursor: "pointer",
                               }}
                               onClick={() => {
@@ -365,51 +377,56 @@ const NestedList = (props) => {
                                 alignItems: "center",
                               }}
                             >
-                              <div
-                                onClick={() => {
-                                  if (!open2) {
-                                    handleClicklevel2(item2._id);
-                                    props.getLevel3(item2._id);
-                                  } else {
-                                    props.setLevel3([]);
-                                    handleClicklevel2();
-                                  }
-                                }}
-                                style={{ cursor: "pointer" }}
+                              <NoMaxWidthTooltip
+                                title={item2?.name}
+                                placement="top"
+                                TransitionComponent={Zoom}
                               >
-                                {screenSize > 1600 ? (
-                                  <>
-                                    {item2?.name?.substring(0, 32)}
-                                    {item2?.name?.length > 32 && "..."}
-                                  </>
-                                ) : screenSize > 1500 ? (
-                                  <>
-                                    {item2?.name?.substring(0, 28)}
-                                    {item2?.name?.length > 28 && "..."}
-                                  </>
-                                ) : screenSize > 1400 ? (
-                                  <>
-                                    {item2?.name?.substring(0, 24)}
-                                    {item2?.name?.length > 24 && "..."}
-                                  </>
-                                ) : screenSize > 1300 ? (
-                                  <>
-                                    {item2?.name?.substring(0, 20)}
-                                    {item2?.name?.length > 20 && "..."}
-                                  </>
-                                ) : screenSize > 1200 ? (
-                                  <>
-                                    {item2?.name?.substring(0, 16)}
-                                    {item2?.name?.length > 16 && "..."}
-                                  </>
-                                ) : (
-                                  <>
-                                    {item2?.name?.substring(0, 12)}
-                                    {item2?.name?.length > 12 && "..."}
-                                  </>
-                                )}
-                              </div>
-
+                                <div
+                                  onClick={() => {
+                                    if (!open2) {
+                                      handleClicklevel2(item2._id);
+                                      props.getLevel3(item2._id);
+                                    } else {
+                                      props.setLevel3([]);
+                                      handleClicklevel2();
+                                    }
+                                  }}
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {screenSize > 1600 ? (
+                                    <>
+                                      {item2?.name?.substring(0, 36)}
+                                      {item2?.name?.length > 36 && "..."}
+                                    </>
+                                  ) : screenSize > 1500 ? (
+                                    <>
+                                      {item2?.name?.substring(0, 32)}
+                                      {item2?.name?.length > 32 && "..."}
+                                    </>
+                                  ) : screenSize > 1400 ? (
+                                    <>
+                                      {item2?.name?.substring(0, 28)}
+                                      {item2?.name?.length > 28 && "..."}
+                                    </>
+                                  ) : screenSize > 1300 ? (
+                                    <>
+                                      {item2?.name?.substring(0, 24)}
+                                      {item2?.name?.length > 24 && "..."}
+                                    </>
+                                  ) : screenSize > 1200 ? (
+                                    <>
+                                      {item2?.name?.substring(0, 20)}
+                                      {item2?.name?.length > 20 && "..."}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {item2?.name?.substring(0, 16)}
+                                      {item2?.name?.length > 16 && "..."}
+                                    </>
+                                  )}
+                                </div>
+                              </NoMaxWidthTooltip>
                               <ArrowDropDownIcon
                                 id="demo-positioned-button"
                                 aria-controls={
@@ -436,80 +453,93 @@ const NestedList = (props) => {
                             return (
                               <>
                                 <ListItem sx={{ pl: 8, height: 28 }}>
-                                  <ListItemIcon>
-                                    <BookmarkBorderOutlinedIcon
+                                  <ListItemIcon sx={{ mr: -3 }}>
+                                    <CircleIcon
                                       sx={{
-                                        color: "#f1966c",
-                                        fontSize: 20,
+                                        color: "#f2966c",
+                                        fontSize: 22,
                                       }}
                                     />
                                   </ListItemIcon>
                                   <ListItemText
                                     primary={
-                                      <div
-                                        style={{
-                                          fontSize: 13,
-                                          display: "flex",
-                                          alignItems: "center",
-                                        }}
+                                      <NoMaxWidthTooltip
+                                        title={item2?.name}
+                                        placement="top"
+                                        TransitionComponent={Zoom}
                                       >
-                                        {screenSize > 1600 ? (
-                                          <>
-                                            {item3?.name?.substring(0, 34)}
-                                            {item3?.name?.length > 34 && "..."}
-                                          </>
-                                        ) : screenSize > 1500 ? (
-                                          <>
-                                            {item3?.name?.substring(0, 30)}
-                                            {item3?.name?.length > 30 && "..."}
-                                          </>
-                                        ) : screenSize > 1400 ? (
-                                          <>
-                                            {item3?.name?.substring(0, 26)}
-                                            {item3?.name?.length > 26 && "..."}
-                                          </>
-                                        ) : screenSize > 1300 ? (
-                                          <>
-                                            {item3?.name?.substring(0, 22)}
-                                            {item3?.name?.length > 22 && "..."}
-                                          </>
-                                        ) : screenSize > 1200 ? (
-                                          <>
-                                            {item3?.name?.substring(0, 18)}
-                                            {item3?.name?.length > 18 && "..."}
-                                          </>
-                                        ) : (
-                                          <>
-                                            {item3?.name?.substring(0, 14)}
-                                            {item3?.name?.length > 14 && "..."}
-                                          </>
-                                        )}
-                                        <ArrowDropDownIcon
-                                          id="demo-positioned-button"
-                                          aria-controls={
-                                            openLevel
-                                              ? "demo-positioned-menu"
-                                              : undefined
-                                          }
-                                          aria-haspopup="true"
-                                          aria-expanded={
-                                            openLevel ? "true" : undefined
-                                          }
-                                          onClick={(e) =>
-                                            handleAnchorElClick(e, item3)
-                                          }
-                                          sx={{
-                                            fontSize: 18,
-                                            cursor: "pointer",
+                                        <div
+                                          style={{
+                                            fontSize: 13,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            cursor: "default",
                                           }}
-                                        />
-                                      </div>
+                                        >
+                                          {screenSize > 1600 ? (
+                                            <>
+                                              {item3?.name?.substring(0, 38)}
+                                              {item3?.name?.length > 38 &&
+                                                "..."}
+                                            </>
+                                          ) : screenSize > 1500 ? (
+                                            <>
+                                              {item3?.name?.substring(0, 34)}
+                                              {item3?.name?.length > 34 &&
+                                                "..."}
+                                            </>
+                                          ) : screenSize > 1400 ? (
+                                            <>
+                                              {item3?.name?.substring(0, 30)}
+                                              {item3?.name?.length > 30 &&
+                                                "..."}
+                                            </>
+                                          ) : screenSize > 1300 ? (
+                                            <>
+                                              {item3?.name?.substring(0, 26)}
+                                              {item3?.name?.length > 26 &&
+                                                "..."}
+                                            </>
+                                          ) : screenSize > 1200 ? (
+                                            <>
+                                              {item3?.name?.substring(0, 22)}
+                                              {item3?.name?.length > 22 &&
+                                                "..."}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {item3?.name?.substring(0, 18)}
+                                              {item3?.name?.length > 18 &&
+                                                "..."}
+                                            </>
+                                          )}
+                                          <ArrowDropDownIcon
+                                            id="demo-positioned-button"
+                                            aria-controls={
+                                              openLevel
+                                                ? "demo-positioned-menu"
+                                                : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={
+                                              openLevel ? "true" : undefined
+                                            }
+                                            onClick={(e) =>
+                                              handleAnchorElClick(e, item3)
+                                            }
+                                            sx={{
+                                              fontSize: 18,
+                                              cursor: "pointer",
+                                            }}
+                                          />
+                                        </div>
+                                      </NoMaxWidthTooltip>
                                     }
                                   />
                                   <AddCircleRoundedIcon
                                     sx={{
-                                      color: "#f1966c",
-                                      fontSize: 20,
+                                      color: "#f2966c",
+                                      fontSize: 22,
                                       cursor: "pointer",
                                     }}
                                     onClick={() => props.openModal(item3)}

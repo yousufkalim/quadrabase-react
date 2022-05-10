@@ -90,7 +90,6 @@ const ResponsiveAppBar = (props) => {
       className="spc_appbardiv"
       sx={{ background: !scroll ? "inherit" : "#8c1244", boxShadow: "none" }}
     >
-      {console.log("scroll", scroll)}
       <Container maxWidth="lg" className="spc_containerdiv">
         <Toolbar disableGutters>
           <Typography

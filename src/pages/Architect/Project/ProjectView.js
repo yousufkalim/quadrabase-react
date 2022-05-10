@@ -5,7 +5,6 @@ import api from "../../../api";
 import { useStyles } from "../../../css/projectView";
 import BuildIcon from "@mui/icons-material/Build";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SearchIcon from "@mui/icons-material/Search";
 import { Store } from "../../../StoreContext";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
@@ -45,6 +44,8 @@ import EditWorkModal from "./Modals/EditWorkModal";
 import EditWWDModal from "./Modals/EditWWDModal";
 import EditWorkDetailModal from "./Modals/EditWorkDetailModal";
 import EditChap0Part2 from "./Modals/EditChap0Part2";
+import EditChapModal from "./Modals/EditChapModal";
+import AddChapLevel from "./Modals/AddChapLevel";
 import Loader from "./component/Loader";
 import { styled, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
@@ -134,7 +135,12 @@ const ProjectView = () => {
   const [openEditWorkDetailModal, setOpenEditWorkDetailModal] = useState(false);
   const [editWorkDetail, seteditWorkDetail] = useState();
   const [openEditChap0Part2Modal, setOpenEditChap0Part2Modal] = useState(false);
+  const [openEditChapModal, setOpenEditChapModal] = useState(false);
+  const [openAddChapModal, setOpenAddChapModal] = useState(false);
   const [editChap0Part2, setEditChap0Part2] = useState();
+  const [editChapItem, setEditChapItem] = useState();
+  const [openDeleteChap, setOpenDeleteChap] = useState(false);
+  const [deleteChap, setDeleteChap] = useState({});
 
   const [openEstimationReportModal, setOpenEstimationReportModal] =
     useState(false);
@@ -216,6 +222,12 @@ const ProjectView = () => {
   const getProject = async () => {
     const result = await api("get", `/project/${id}`);
     setCurrentProject(result?.data?.project);
+    let chap = result?.data?.project?.chap0part2;
+    chap?.id?.level2?.map((item) => {
+      item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+    });
+    chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
+    setEditChap0Part2(chap);
   };
 
   // func to get current project
@@ -477,6 +489,13 @@ const ProjectView = () => {
     setOpenDeleteTradeModal(!openDeleteTradeModal);
   };
 
+  const handleOpenDeleteChapModal = (item) => {
+    if (item?.item?._id) {
+      setDeleteChap(item);
+    }
+    setOpenDeleteChap(!openDeleteChap);
+  };
+
   const handleOpenDeleteTranchModal = () => {
     setOpenDeleteTranchModal(!openDeleteTranchModal);
   };
@@ -511,10 +530,33 @@ const ProjectView = () => {
 
   const handleOpenEditChap0Part2Modal = () => {
     if (currentProject.chap0part2) {
-      setEditChap0Part2(currentProject.chap0part2);
+      let chap = currentProject.chap0part2;
+      chap?.id?.level2?.map((item) => {
+        item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+      });
+      chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
+      setEditChap0Part2(chap);
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
       alert("Please select a chap. 0 part 2 from properties");
+    }
+  };
+
+  const handleOpenEditChapModal = (item) => {
+    if (item?.item?._id) {
+      setEditChapItem(item);
+      setOpenEditChapModal(true);
+    } else {
+      setOpenEditChapModal(false);
+    }
+  };
+
+  const handleOpenAddChapModal = (item) => {
+    if (item?.item?._id) {
+      setEditChapItem(item);
+      setOpenAddChapModal(true);
+    } else {
+      setOpenAddChapModal(false);
     }
   };
 
@@ -632,6 +674,24 @@ const ProjectView = () => {
     } else {
       toast.error(t("The last remaining Slice cannot be deleted."));
     }
+  };
+
+  // handle delete
+  const handleChapDelete = async () => {
+    const result = await api(
+      "delete",
+      `/ArchitectsChap0/deleteChapLevel/${currentProject.chap0part2.id._id}`,
+      {
+        data: {
+          type: deleteChap.type,
+          id: deleteChap.item._id,
+        },
+      },
+      t
+    );
+    toast.success(t(result.data.message));
+    handleOpenDeleteChapModal();
+    getProject();
   };
 
   //trade Up
@@ -903,11 +963,54 @@ const ProjectView = () => {
               <EditChap0Part2
                 handleOpenEditChap0Part2Modal={handleOpenEditChap0Part2Modal}
                 editChap0Part2={editChap0Part2}
+                handleOpenEditChapModal={handleOpenEditChapModal}
+                handleOpenDeleteChapModal={handleOpenDeleteChapModal}
+                currentProject={currentProject}
+                setEditChap0Part2={setEditChap0Part2}
+                handleOpenAddChapModal={handleOpenAddChapModal}
+              />
+            }
+          />
+
+          <Modal
+            title={t("Edit Chap")}
+            open={openEditChapModal}
+            onClose={handleOpenEditChapModal}
+            component={
+              <EditChapModal
+                handleOpenEditChapModal={handleOpenEditChapModal}
+                editChapItem={editChapItem}
                 currentProject={currentProject}
                 getProject={getProject}
               />
             }
           />
+
+          <Modal
+            title={t("Add Chap")}
+            open={openAddChapModal}
+            onClose={handleOpenAddChapModal}
+            component={
+              <AddChapLevel
+                handleOpenAddChapModal={handleOpenAddChapModal}
+                editChapItem={editChapItem}
+                currentProject={currentProject}
+                getProject={getProject}
+              />
+            }
+          />
+
+          <Modal
+            open={openDeleteChap}
+            onClose={handleOpenDeleteChapModal}
+            component={
+              <DeleteModal
+                handleCancel={handleOpenDeleteChapModal}
+                handleDelete={handleChapDelete}
+              />
+            }
+          />
+
           <Modal
             title={t("Add Tranche")}
             open={openTranchesModal}
@@ -1254,557 +1357,492 @@ const ProjectView = () => {
                     overflow: "hidden",
                   }}
                 >
-                  <div style={{ height: "80%", overflow: "auto" }}>
-                    <StyledMenu
-                      id="demo-positioned-menu"
-                      aria-labelledby="demo-positioned-button"
-                      anchorEl={anchorEl2}
-                      open={open2}
-                      onClose={handleClose2}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
+                  <StyledMenu
+                    id="demo-positioned-menu"
+                    aria-labelledby="demo-positioned-button"
+                    anchorEl={anchorEl2}
+                    open={open2}
+                    onClose={handleClose2}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    sx={{ mt: 2.5 }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        if (selectedData.type === "trade") {
+                          handleOpenUpdateTradesModal();
+                        } else {
+                          handleOpenUpdateTranchesModal();
+                        }
+                        handleClose2();
                       }}
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                      }}
-                      sx={{ mt: 2.5 }}
                     >
-                      <MenuItem
-                        onClick={() => {
-                          if (selectedData.type === "trade") {
-                            handleOpenUpdateTradesModal();
-                          } else {
-                            handleOpenUpdateTranchesModal();
-                          }
-                          handleClose2();
-                        }}
-                      >
-                        {t("To Modify")}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          if (selectedData.type === "trade") {
-                            handleOpenDeleteTradeModal();
-                          } else {
-                            handleOpenDeleteTranchModal();
-                          }
-                          handleClose2();
-                        }}
-                      >
-                        {t("To Delete")}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          if (selectedData.type === "trade") {
-                            handleTradeUp(selectedData.data._id);
-                          } else {
-                            handleTranchUp(selectedData.data._id);
-                          }
-                          handleClose2();
-                        }}
-                      >
-                        {t("Up")}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          if (selectedData.type === "trade") {
-                            handleTradeDown(selectedData.data._id);
-                          } else {
-                            handleTranchDown(selectedData.data._id);
-                          }
-                          handleClose2();
-                        }}
-                      >
-                        {t("Down")}
-                      </MenuItem>
-                    </StyledMenu>
-                    {currentProject.market_type === "Trades" ? (
-                      tradesData?.map((item2, index2) => {
-                        let tradeTotalIndex = -1;
-                        return (
-                          <>
-                            <TableContainer component={Paper}>
-                              <Table
-                                sx={{ minWidth: 650 }}
-                                size="small"
-                                aria-label="a dense table"
-                              >
-                                {index2 === 0 && (
-                                  <TableHead>
-                                    <TableRow>
-                                      <TableCell
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Designation")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Unity")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Qty")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        PU HT
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Total HT")}
-                                      </TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                )}
-
-                                <TableBody>
-                                  <TableRow
-                                    sx={{
-                                      backgroundColor:
-                                        selectedTrade === item2._id
-                                          ? "rgb(241, 150, 108)"
-                                          : "rgba(241, 150, 108,0.7)",
-                                      cursor: "pointer",
-                                    }}
+                      {t("To Modify")}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        if (selectedData.type === "trade") {
+                          handleOpenDeleteTradeModal();
+                        } else {
+                          handleOpenDeleteTranchModal();
+                        }
+                        handleClose2();
+                      }}
+                    >
+                      {t("To Delete")}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        if (selectedData.type === "trade") {
+                          handleTradeUp(selectedData.data._id);
+                        } else {
+                          handleTranchUp(selectedData.data._id);
+                        }
+                        handleClose2();
+                      }}
+                    >
+                      {t("Up")}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        if (selectedData.type === "trade") {
+                          handleTradeDown(selectedData.data._id);
+                        } else {
+                          handleTranchDown(selectedData.data._id);
+                        }
+                        handleClose2();
+                      }}
+                    >
+                      {t("Down")}
+                    </MenuItem>
+                  </StyledMenu>
+                  <TableContainer component={Paper} sx={{ height: "80%" }}>
+                    <Table
+                      sx={{ minWidth: 650 }}
+                      size="small"
+                      stickyHeader
+                      aria-label="sticky table"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell
+                            style={{
+                              fontWeight: 900,
+                              fontSize: 16,
+                            }}
+                          >
+                            {t("Designation")}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            style={{
+                              fontWeight: 900,
+                              fontSize: 16,
+                            }}
+                          >
+                            {t("Unity")}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            style={{
+                              fontWeight: 900,
+                              fontSize: 16,
+                            }}
+                          >
+                            {t("Qty")}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            style={{
+                              fontWeight: 900,
+                              fontSize: 16,
+                            }}
+                          >
+                            PU HT
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            style={{
+                              fontWeight: 900,
+                              fontSize: 16,
+                            }}
+                          >
+                            {t("Total HT")}
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {currentProject.market_type === "Trades" ? (
+                          tradesData?.map((item2, index2) => {
+                            let tradeTotalIndex = -1;
+                            return (
+                              <>
+                                <TableRow
+                                  sx={{
+                                    backgroundColor:
+                                      selectedTrade === item2._id
+                                        ? "rgb(241, 150, 108)"
+                                        : "rgba(241, 150, 108,0.7)",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <TableCell
+                                    component="th"
+                                    scope="row"
+                                    colSpan={5}
+                                    onClick={() => handleTradeSelect(item2._id)}
                                   >
-                                    <TableCell
-                                      component="th"
-                                      scope="row"
-                                      colSpan={5}
-                                      onClick={() =>
-                                        handleTradeSelect(item2._id)
-                                      }
-                                    >
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          fontSize: 16,
-                                          padding: "4px 0px",
-                                          fontWeight: 600,
-                                          display: "flex",
-                                        }}
-                                      >
-                                        {item2.name}{" "}
-                                        {selectedTrade === item2._id && (
-                                          <ArrowDropDownIcon
-                                            id="demo-positioned-button"
-                                            aria-controls={
-                                              open2
-                                                ? "demo-positioned-menu"
-                                                : undefined
-                                            }
-                                            aria-haspopup="true"
-                                            aria-expanded={
-                                              open2 ? "true" : undefined
-                                            }
-                                            onClick={(e) => {
-                                              setSelectedData({
-                                                type: "trade",
-                                                data: item2,
-                                              });
-                                              handleClick2(e);
-                                            }}
-                                            sx={{
-                                              fontSize: 18,
-                                              cursor: "pointer",
-                                            }}
-                                          />
-                                        )}
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-
-                                  {projectWorkData.map((item, index) => {
-                                    if (
-                                      item2?._id === item?.data[0]?.trade?._id
-                                    ) {
-                                      tradeTotalIndex = index;
-                                      return (
-                                        <TradeTable
-                                          projectWorkData={item.data}
-                                          handleOpenDeleteWorkModal={
-                                            handleOpenDeleteWorkModal
-                                          }
-                                          handleOpenDeleteWorkDetailModal={
-                                            handleOpenDeleteWorkDetailModal
-                                          }
-                                          handleOpenEditWorkModal={
-                                            handleOpenEditWorkModal
-                                          }
-                                          handleOpenEditWorkDetailModal={
-                                            handleOpenEditWorkDetailModal
-                                          }
-                                          handleOpenEditWWDModal={
-                                            handleOpenEditWWDModal
-                                          }
-                                          currentProject={currentProject}
-                                          getworks={getworks}
-                                        />
-                                      );
-                                    }
-                                  })}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                            <div
-                              style={{
-                                width: "100%",
-                                padding: "10px 15px",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Total HT {item2.name} &nbsp;&nbsp;&nbsp;
-                              {tradeTotalIndex !== -1
-                                ? convertor(
-                                    tradeTotal[tradeTotalIndex]?.toFixed(2)
-                                  )
-                                : "0,00"}{" "}
-                              €
-                            </div>
-                            <br />
-                          </>
-                        );
-                      })
-                    ) : currentProject.market_type === "TradesAndTranches" ? (
-                      tradesData?.map((item3, index3) => {
-                        let tradeTotalIndex = -1;
-                        return (
-                          <>
-                            <TableContainer component={Paper}>
-                              <Table
-                                sx={{ minWidth: 650 }}
-                                size="small"
-                                aria-label="a dense table"
-                              >
-                                {index3 === 0 && (
-                                  <TableHead>
-                                    <TableRow>
-                                      <TableCell
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Designation")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Unity")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Qty")}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        PU HT
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{
-                                          fontWeight: 900,
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {t("Total HT")}
-                                      </TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                )}
-
-                                <TableBody>
-                                  <TableRow
-                                    sx={{
-                                      backgroundColor:
-                                        selectedTrade === item3._id
-                                          ? "rgb(241, 150, 108)"
-                                          : "rgba(241, 150, 108,0.7)",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <TableCell
-                                      component="th"
-                                      scope="row"
-                                      colSpan={5}
-                                      onClick={() => {
-                                        handleTradeSelect(item3._id);
-                                        let temp = [];
-                                        tranchesData?.map((item4, index4) => {
-                                          if (item4?.trade === item3?._id) {
-                                            temp.push(item4._id);
-                                          }
-                                        });
-                                        handleTrancheSelect(temp[0]);
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        fontSize: 16,
+                                        padding: "4px 0px",
+                                        fontWeight: 600,
+                                        display: "flex",
                                       }}
                                     >
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          fontSize: 16,
-                                          padding: "4px 0px",
-                                          fontWeight: 600,
-                                          display: "flex",
-                                        }}
-                                      >
-                                        {item3.name}{" "}
-                                        {selectedTrade === item3._id && (
-                                          <ArrowDropDownIcon
-                                            id="demo-positioned-button"
-                                            aria-controls={
-                                              open2
-                                                ? "demo-positioned-menu"
-                                                : undefined
-                                            }
-                                            aria-haspopup="true"
-                                            aria-expanded={
-                                              open2 ? "true" : undefined
-                                            }
-                                            onClick={(e) => {
-                                              setSelectedData({
-                                                type: "trade",
-                                                data: item3,
-                                              });
-                                              handleClick2(e);
-                                            }}
-                                            sx={{
-                                              fontSize: 18,
-                                              cursor: "pointer",
-                                            }}
-                                          />
-                                        )}
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
+                                      {item2.name}{" "}
+                                      {selectedTrade === item2._id && (
+                                        <ArrowDropDownIcon
+                                          id="demo-positioned-button"
+                                          aria-controls={
+                                            open2
+                                              ? "demo-positioned-menu"
+                                              : undefined
+                                          }
+                                          aria-haspopup="true"
+                                          aria-expanded={
+                                            open2 ? "true" : undefined
+                                          }
+                                          onClick={(e) => {
+                                            setSelectedData({
+                                              type: "trade",
+                                              data: item2,
+                                            });
+                                            handleClick2(e);
+                                          }}
+                                          sx={{
+                                            fontSize: 18,
+                                            cursor: "pointer",
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
 
-                                  {tranchesData?.map((item4, index4) => {
-                                    if (item4?.trade === item3?._id) {
-                                      let tranchTotalAmount = 0;
-                                      return (
-                                        <>
-                                          <TableRow
-                                            sx={{
-                                              backgroundColor:
-                                                selectedTranche === item4._id
-                                                  ? "rgb(227, 226, 229)"
-                                                  : "#fff",
-                                              cursor: "pointer",
+                                {projectWorkData.map((item, index) => {
+                                  if (
+                                    item2?._id === item?.data[0]?.trade?._id
+                                  ) {
+                                    tradeTotalIndex = index;
+                                    return (
+                                      <TradeTable
+                                        projectWorkData={item.data}
+                                        handleOpenDeleteWorkModal={
+                                          handleOpenDeleteWorkModal
+                                        }
+                                        handleOpenDeleteWorkDetailModal={
+                                          handleOpenDeleteWorkDetailModal
+                                        }
+                                        handleOpenEditWorkModal={
+                                          handleOpenEditWorkModal
+                                        }
+                                        handleOpenEditWorkDetailModal={
+                                          handleOpenEditWorkDetailModal
+                                        }
+                                        handleOpenEditWWDModal={
+                                          handleOpenEditWWDModal
+                                        }
+                                        currentProject={currentProject}
+                                        getworks={getworks}
+                                      />
+                                    );
+                                  }
+                                })}
+
+                                <TableCell
+                                  component="th"
+                                  scope="row"
+                                  colSpan={5}
+                                  style={{
+                                    padding: "10px 15px",
+                                    fontWeight: 600,
+                                  }}
+                                  align="right"
+                                >
+                                  Total HT {item2.name} &nbsp;&nbsp;&nbsp;
+                                  {tradeTotalIndex !== -1
+                                    ? convertor(
+                                        tradeTotal[tradeTotalIndex]?.toFixed(2)
+                                      )
+                                    : "0,00"}{" "}
+                                  €
+                                </TableCell>
+                                <br />
+                              </>
+                            );
+                          })
+                        ) : currentProject.market_type ===
+                          "TradesAndTranches" ? (
+                          tradesData?.map((item3, index3) => {
+                            let tradeTotalIndex = -1;
+                            return (
+                              <>
+                                <TableRow
+                                  sx={{
+                                    backgroundColor:
+                                      selectedTrade === item3._id
+                                        ? "rgb(241, 150, 108)"
+                                        : "rgba(241, 150, 108,0.7)",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <TableCell
+                                    component="th"
+                                    scope="row"
+                                    colSpan={5}
+                                    onClick={() => {
+                                      handleTradeSelect(item3._id);
+                                      let temp = [];
+                                      tranchesData?.map((item4, index4) => {
+                                        if (item4?.trade === item3?._id) {
+                                          temp.push(item4._id);
+                                        }
+                                      });
+                                      handleTrancheSelect(temp[0]);
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        fontSize: 16,
+                                        padding: "4px 0px",
+                                        fontWeight: 600,
+                                        display: "flex",
+                                      }}
+                                    >
+                                      {item3.name}{" "}
+                                      {selectedTrade === item3._id && (
+                                        <ArrowDropDownIcon
+                                          id="demo-positioned-button"
+                                          aria-controls={
+                                            open2
+                                              ? "demo-positioned-menu"
+                                              : undefined
+                                          }
+                                          aria-haspopup="true"
+                                          aria-expanded={
+                                            open2 ? "true" : undefined
+                                          }
+                                          onClick={(e) => {
+                                            setSelectedData({
+                                              type: "trade",
+                                              data: item3,
+                                            });
+                                            handleClick2(e);
+                                          }}
+                                          sx={{
+                                            fontSize: 18,
+                                            cursor: "pointer",
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+
+                                {tranchesData?.map((item4, index4) => {
+                                  if (item4?.trade === item3?._id) {
+                                    let tranchTotalAmount = 0;
+                                    return (
+                                      <>
+                                        <TableRow
+                                          sx={{
+                                            backgroundColor:
+                                              selectedTranche === item4._id
+                                                ? "rgb(227, 226, 229)"
+                                                : "#fff",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          <TableCell
+                                            colSpan={5}
+                                            onClick={() => {
+                                              handleTrancheSelect(item4._id);
+                                              handleTradeSelect(item4.trade);
                                             }}
                                           >
-                                            <TableCell
-                                              colSpan={5}
-                                              onClick={() => {
-                                                handleTrancheSelect(item4._id);
-                                                handleTradeSelect(item4.trade);
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                fontSize: 16,
+                                                padding: "4px 0px",
+                                                fontWeight: 600,
+                                                display: "flex",
                                               }}
                                             >
-                                              <div
-                                                style={{
-                                                  width: "100%",
-                                                  fontSize: 16,
-                                                  padding: "4px 0px",
-                                                  fontWeight: 600,
-                                                  display: "flex",
-                                                }}
-                                              >
-                                                {item4.name}
-                                                {selectedTranche ===
-                                                  item4._id && (
-                                                  <ArrowDropDownIcon
-                                                    id="demo-positioned-button"
-                                                    aria-controls={
-                                                      open2
-                                                        ? "demo-positioned-menu"
-                                                        : undefined
+                                              {item4.name}
+                                              {selectedTranche ===
+                                                item4._id && (
+                                                <ArrowDropDownIcon
+                                                  id="demo-positioned-button"
+                                                  aria-controls={
+                                                    open2
+                                                      ? "demo-positioned-menu"
+                                                      : undefined
+                                                  }
+                                                  aria-haspopup="true"
+                                                  aria-expanded={
+                                                    open2 ? "true" : undefined
+                                                  }
+                                                  onClick={(e) => {
+                                                    setSelectedData({
+                                                      type: "tranch",
+                                                      data: item4,
+                                                    });
+                                                    handleClick2(e);
+                                                  }}
+                                                  sx={{
+                                                    fontSize: 18,
+                                                    cursor: "pointer",
+                                                  }}
+                                                />
+                                              )}
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+
+                                        {projectWorkData?.map((item, index) => {
+                                          if (
+                                            item3?._id ===
+                                            item?.data[0]?.tranchData[0]?.trade
+                                              ?._id
+                                          ) {
+                                            tradeTotalIndex = index;
+                                            return (
+                                              <>
+                                                {item.data.map(
+                                                  (item2, index2) => {
+                                                    if (
+                                                      item2?.tranchData[0]
+                                                        ?.tranch?._id ===
+                                                      item4?._id
+                                                    ) {
+                                                      tranchTotalAmount =
+                                                        item2.tranchAmount;
+                                                      return (
+                                                        <>
+                                                          <TradeTable
+                                                            projectWorkData={
+                                                              item2.tranchData
+                                                            }
+                                                            handleOpenDeleteWorkModal={
+                                                              handleOpenDeleteWorkModal
+                                                            }
+                                                            handleOpenDeleteWorkDetailModal={
+                                                              handleOpenDeleteWorkDetailModal
+                                                            }
+                                                            handleOpenEditWorkModal={
+                                                              handleOpenEditWorkModal
+                                                            }
+                                                            handleOpenEditWorkDetailModal={
+                                                              handleOpenEditWorkDetailModal
+                                                            }
+                                                            currentProject={
+                                                              currentProject
+                                                            }
+                                                            getworks={getworks}
+                                                            handleOpenEditWWDModal={
+                                                              handleOpenEditWWDModal
+                                                            }
+                                                          />
+                                                        </>
+                                                      );
                                                     }
-                                                    aria-haspopup="true"
-                                                    aria-expanded={
-                                                      open2 ? "true" : undefined
-                                                    }
-                                                    onClick={(e) => {
-                                                      setSelectedData({
-                                                        type: "tranch",
-                                                        data: item4,
-                                                      });
-                                                      handleClick2(e);
-                                                    }}
-                                                    sx={{
-                                                      fontSize: 18,
-                                                      cursor: "pointer",
-                                                    }}
-                                                  />
+                                                  }
                                                 )}
-                                              </div>
-                                            </TableCell>
-                                          </TableRow>
+                                              </>
+                                            );
+                                          }
+                                        })}
 
-                                          {projectWorkData?.map(
-                                            (item, index) => {
-                                              if (
-                                                item3?._id ===
-                                                item?.data[0]?.tranchData[0]
-                                                  ?.trade?._id
-                                              ) {
-                                                tradeTotalIndex = index;
-                                                return (
-                                                  <>
-                                                    {item.data.map(
-                                                      (item2, index2) => {
-                                                        if (
-                                                          item2?.tranchData[0]
-                                                            ?.tranch?._id ===
-                                                          item4?._id
-                                                        ) {
-                                                          tranchTotalAmount =
-                                                            item2.tranchAmount;
-                                                          return (
-                                                            <>
-                                                              <TradeTable
-                                                                projectWorkData={
-                                                                  item2.tranchData
-                                                                }
-                                                                handleOpenDeleteWorkModal={
-                                                                  handleOpenDeleteWorkModal
-                                                                }
-                                                                handleOpenDeleteWorkDetailModal={
-                                                                  handleOpenDeleteWorkDetailModal
-                                                                }
-                                                                handleOpenEditWorkModal={
-                                                                  handleOpenEditWorkModal
-                                                                }
-                                                                handleOpenEditWorkDetailModal={
-                                                                  handleOpenEditWorkDetailModal
-                                                                }
-                                                                currentProject={
-                                                                  currentProject
-                                                                }
-                                                                getworks={
-                                                                  getworks
-                                                                }
-                                                                handleOpenEditWWDModal={
-                                                                  handleOpenEditWWDModal
-                                                                }
-                                                              />
-                                                            </>
-                                                          );
-                                                        }
-                                                      }
-                                                    )}
-                                                  </>
-                                                );
-                                              }
-                                            }
-                                          )}
+                                        <TableRow>
+                                          <TableCell colSpan={5}>
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                fontWeight: 600,
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              Total HT {item4.name}
+                                              &nbsp;&nbsp;&nbsp;
+                                              {convertor(
+                                                tranchTotalAmount.toFixed(2)
+                                              )}{" "}
+                                              €
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </>
+                                    );
+                                  }
+                                })}
 
-                                          <TableRow>
-                                            <TableCell colSpan={5}>
-                                              <div
-                                                style={{
-                                                  width: "100%",
-                                                  fontWeight: 600,
-                                                  textAlign: "right",
-                                                }}
-                                              >
-                                                Total HT {item4.name}
-                                                &nbsp;&nbsp;&nbsp;
-                                                {convertor(
-                                                  tranchTotalAmount.toFixed(2)
-                                                )}{" "}
-                                                €
-                                              </div>
-                                            </TableCell>
-                                          </TableRow>
-                                        </>
-                                      );
-                                    }
-                                  })}
+                                <TableRow>
+                                  <TableCell colSpan={5}>
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        fontWeight: 600,
+                                        textAlign: "right",
+                                      }}
+                                    >
+                                      Total HT {item3.name} &nbsp;&nbsp;&nbsp;
+                                      {tradeTotalIndex !== -1
+                                        ? convertor(
+                                            tradeTotal[
+                                              tradeTotalIndex
+                                            ]?.toFixed(2)
+                                          )
+                                        : "0,00"}{" "}
+                                      €
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+                                <br />
+                              </>
+                            );
+                          })
+                        ) : (
+                          <TradeTable
+                            projectWorkData={projectWorkData}
+                            handleOpenDeleteWorkModal={
+                              handleOpenDeleteWorkModal
+                            }
+                            handleOpenDeleteWorkDetailModal={
+                              handleOpenDeleteWorkDetailModal
+                            }
+                            handleOpenEditWorkModal={handleOpenEditWorkModal}
+                            handleOpenEditWorkDetailModal={
+                              handleOpenEditWorkDetailModal
+                            }
+                            currentProject={currentProject}
+                            getworks={getworks}
+                            handleOpenEditWWDModal={handleOpenEditWWDModal}
+                          />
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
 
-                                  <TableRow>
-                                    <TableCell colSpan={5}>
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          fontWeight: 600,
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        Total HT {item3.name} &nbsp;&nbsp;&nbsp;
-                                        {tradeTotalIndex !== -1
-                                          ? convertor(
-                                              tradeTotal[
-                                                tradeTotalIndex
-                                              ]?.toFixed(2)
-                                            )
-                                          : "0,00"}{" "}
-                                        €
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                            <br />
-                          </>
-                        );
-                      })
-                    ) : (
-                      <SimpleTable
-                        projectWorkData={projectWorkData}
-                        handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
-                        handleOpenDeleteWorkDetailModal={
-                          handleOpenDeleteWorkDetailModal
-                        }
-                        handleOpenEditWorkModal={handleOpenEditWorkModal}
-                        handleOpenEditWorkDetailModal={
-                          handleOpenEditWorkDetailModal
-                        }
-                        currentProject={currentProject}
-                        getworks={getworks}
-                        handleOpenEditWWDModal={handleOpenEditWWDModal}
-                      />
-                    )}
-                  </div>
                   <div
                     style={{
                       height: "20%",

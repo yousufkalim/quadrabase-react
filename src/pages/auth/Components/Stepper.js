@@ -56,7 +56,6 @@ const useColorlibStepIconStyles = makeStyles({
 function ColorlibStepIcon(props) {
   const classes = useColorlibStepIconStyles();
   const { active, completed } = props;
-  console.log("topp", completed);
   const icons = {
     1: completed ? <DoneIcon /> : <>1</>,
     2: completed ? <DoneIcon /> : <>2</>,

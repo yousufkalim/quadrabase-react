@@ -108,7 +108,6 @@ const CustomerReviews = () => {
           autoPlay={false}
           className="spc_CustomerreviewCarousel"
         >
-          {console.log("servicess", Services)}
           {Services.map((item) => (
             <div className="spc_servicegrid">
               <img
