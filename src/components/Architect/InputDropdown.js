@@ -37,14 +37,14 @@ export default function Index(props) {
 
         {props?.options?.map((option) => (
           <option value={option._id}>
-            {option.symbol
+            {option.value
+              ? option.value
+              : option.symbol
               ? option.symbol
               : option.name
               ? option.name
               : option.title
               ? option.title
-              : option.value
-              ? option.value
               : option.text}
             {option.value && "%"}
           </option>

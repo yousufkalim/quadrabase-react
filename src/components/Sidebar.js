@@ -245,6 +245,46 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
 
+              <li
+                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                  pathname === "/" && "bg-gray-900"
+                }`}
+              >
+                <NavLink
+                  exact
+                  to="/admin/libraries"
+                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                    pathname === "/" && "hover:text-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                      <path
+                        className={`fill-current text-gray-600 ${
+                          pathname.includes("tasks") && "text-indigo-500"
+                        }`}
+                        d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z"
+                      />
+                      <path
+                        className={`fill-current text-gray-600 ${
+                          pathname.includes("tasks") && "text-indigo-500"
+                        }`}
+                        d="M1 1h22v23H1z"
+                      />
+                      <path
+                        className={`fill-current text-gray-400 ${
+                          pathname.includes("tasks") && "text-indigo-300"
+                        }`}
+                        d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      {translate("General Libraries")}
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
               {/* Team */}
               <SidebarLinkGroup activecondition={pathname.includes("team")}>
                 {(handleClick, open) => {
@@ -284,17 +324,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              exact
-                              to="/admin/libraries"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                {translate("General Libraries")}
-                              </span>
-                            </NavLink>
-                          </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
