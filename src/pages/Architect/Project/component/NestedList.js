@@ -457,7 +457,7 @@ const NestedList = (props) => {
                                     <CircleIcon
                                       sx={{
                                         color: "#f2966c",
-                                        fontSize: 22,
+                                        fontSize: 18,
                                       }}
                                     />
                                   </ListItemIcon>
@@ -539,7 +539,7 @@ const NestedList = (props) => {
                                   <AddCircleRoundedIcon
                                     sx={{
                                       color: "#f2966c",
-                                      fontSize: 22,
+                                      fontSize: 18,
                                       cursor: "pointer",
                                     }}
                                     onClick={() => props.openModal(item3)}
