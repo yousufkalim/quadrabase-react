@@ -14,7 +14,7 @@ import { useHistory } from "react-router";
 import LayersIcon from "@mui/icons-material/Layers";
 import { useTranslation } from "react-i18next";
 import ListIcon from "@mui/icons-material/List";
-import { convertor } from "../../../utils/dotConvertor";
+import { formatNumber } from "../../../utils/markThousand";
 
 // components
 import Header from "../../../components/Architect/Header";
@@ -22,7 +22,6 @@ import { Button, Box, Divider } from "@mui/material";
 import InputDropdown from "../../../components/Architect/InputDropdown";
 import NestedList from "./component/NestedList";
 import TradeTable from "./component/TradeTable";
-import SimpleTable from "./component/SimpleTable";
 import Modal from "../../../components/Architect/Modal";
 import AddWorkDetailsModal from "./Modals/AddWorkDetailsModal";
 import AddWorkModal from "./Modals/AddWorkModal";
@@ -1435,6 +1434,7 @@ const ProjectView = () => {
                             style={{
                               fontWeight: 900,
                               fontSize: 16,
+                              padding: "2px 16px",
                             }}
                           >
                             {t("Designation")}
@@ -1444,6 +1444,7 @@ const ProjectView = () => {
                             style={{
                               fontWeight: 900,
                               fontSize: 16,
+                              padding: "2px 16px",
                             }}
                           >
                             {t("Unity")}
@@ -1453,6 +1454,7 @@ const ProjectView = () => {
                             style={{
                               fontWeight: 900,
                               fontSize: 16,
+                              padding: "2px 16px",
                             }}
                           >
                             {t("Qty")}
@@ -1462,6 +1464,7 @@ const ProjectView = () => {
                             style={{
                               fontWeight: 900,
                               fontSize: 16,
+                              padding: "2px 16px",
                             }}
                           >
                             PU HT
@@ -1471,6 +1474,7 @@ const ProjectView = () => {
                             style={{
                               fontWeight: 900,
                               fontSize: 16,
+                              padding: "2px 16px",
                             }}
                           >
                             {t("Total HT")}
@@ -1497,12 +1501,14 @@ const ProjectView = () => {
                                     scope="row"
                                     colSpan={5}
                                     onClick={() => handleTradeSelect(item2._id)}
+                                    style={{
+                                      padding: "2px 16px",
+                                    }}
                                   >
                                     <div
                                       style={{
                                         width: "100%",
                                         fontSize: 16,
-                                        padding: "4px 0px",
                                         fontWeight: 600,
                                         display: "flex",
                                       }}
@@ -1572,14 +1578,14 @@ const ProjectView = () => {
                                   scope="row"
                                   colSpan={5}
                                   style={{
-                                    padding: "10px 15px",
+                                    padding: "2px 16px",
                                     fontWeight: 600,
                                   }}
                                   align="right"
                                 >
                                   Total HT {item2.name} &nbsp;&nbsp;&nbsp;
                                   {tradeTotalIndex !== -1
-                                    ? convertor(
+                                    ? formatNumber(
                                         tradeTotal[tradeTotalIndex]?.toFixed(2)
                                       )
                                     : "0,00"}{" "}
@@ -1618,12 +1624,12 @@ const ProjectView = () => {
                                       });
                                       handleTrancheSelect(temp[0]);
                                     }}
+                                    style={{ padding: "2px 16px" }}
                                   >
                                     <div
                                       style={{
                                         width: "100%",
                                         fontSize: 16,
-                                        padding: "4px 0px",
                                         fontWeight: 600,
                                         display: "flex",
                                       }}
@@ -1678,12 +1684,12 @@ const ProjectView = () => {
                                               handleTrancheSelect(item4._id);
                                               handleTradeSelect(item4.trade);
                                             }}
+                                            style={{ padding: "2px 16px" }}
                                           >
                                             <div
                                               style={{
                                                 width: "100%",
                                                 fontSize: 16,
-                                                padding: "4px 0px",
                                                 fontWeight: 600,
                                                 display: "flex",
                                               }}
@@ -1774,7 +1780,10 @@ const ProjectView = () => {
                                         })}
 
                                         <TableRow>
-                                          <TableCell colSpan={5}>
+                                          <TableCell
+                                            colSpan={5}
+                                            style={{ padding: "2px 16px" }}
+                                          >
                                             <div
                                               style={{
                                                 width: "100%",
@@ -1784,7 +1793,7 @@ const ProjectView = () => {
                                             >
                                               Total HT {item4.name}
                                               &nbsp;&nbsp;&nbsp;
-                                              {convertor(
+                                              {formatNumber(
                                                 tranchTotalAmount.toFixed(2)
                                               )}{" "}
                                               €
@@ -1797,7 +1806,10 @@ const ProjectView = () => {
                                 })}
 
                                 <TableRow>
-                                  <TableCell colSpan={5}>
+                                  <TableCell
+                                    colSpan={5}
+                                    style={{ padding: "2px 16px" }}
+                                  >
                                     <div
                                       style={{
                                         width: "100%",
@@ -1807,7 +1819,7 @@ const ProjectView = () => {
                                     >
                                       Total HT {item3.name} &nbsp;&nbsp;&nbsp;
                                       {tradeTotalIndex !== -1
-                                        ? convertor(
+                                        ? formatNumber(
                                             tradeTotal[
                                               tradeTotalIndex
                                             ]?.toFixed(2)
@@ -1868,7 +1880,7 @@ const ProjectView = () => {
                             {t("Total HT")}:
                           </div>
                           <div>
-                            {convertor(parseFloat(totalHT)?.toFixed(2))} €
+                            {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
                           </div>
                         </div>
                         <div className={classes.flex_container}>
@@ -1889,7 +1901,7 @@ const ProjectView = () => {
                             {t("Total Price")}:
                           </div>
                           <div>
-                            {convertor(
+                            {formatNumber(
                               (
                                 totalHT *
                                 (1 + currentProject?.vat?.value / 100)

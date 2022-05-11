@@ -8,7 +8,7 @@ import { styled, alpha } from "@mui/material/styles";
 import api from "../../../../api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { convertor } from "../../../../utils/dotConvertor";
+import { formatNumber } from "../../../../utils/markThousand";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -265,10 +265,10 @@ export default function DenseTable({
                   width: "35vw",
                   display: "flex",
                   alignItems: "center",
+                  padding: "2px 16px",
                 }}
               >
-                {row.name.substring(0, 40)}
-                {row.name.length > 40 && "..."}
+                {row.name}
                 <ArrowDropDownIcon
                   id="demo-positioned-button"
                   aria-controls={
@@ -363,6 +363,7 @@ export default function DenseTable({
                 style={{
                   borderRight: "1px solid lightgray",
                   width: "6vw",
+                  padding: "2px 16px",
                 }}
               >
                 {row?.unit?.symbol}
@@ -372,6 +373,7 @@ export default function DenseTable({
                 style={{
                   borderRight: "1px solid lightgray",
                   width: "10vw",
+                  padding: "2px 16px",
                 }}
               >
                 {parseFloat(row.quantity).toFixed(2)}
@@ -381,18 +383,20 @@ export default function DenseTable({
                 style={{
                   borderRight: "1px solid lightgray",
                   width: "10vw",
+                  padding: "2px 16px",
                 }}
               >
-                {convertor(parseFloat(row.unit_price).toFixed(2))}
+                {formatNumber(parseFloat(row.unit_price).toFixed(2))}
               </TableCell>
               <TableCell
                 align="right"
                 style={{
                   borderRight: "1px solid lightgray",
                   width: "10vw",
+                  padding: "2px 16px",
                 }}
               >
-                {convertor(
+                {formatNumber(
                   parseFloat(row.unit_price * row.quantity).toFixed(2)
                 )}
               </TableCell>
@@ -408,10 +412,10 @@ export default function DenseTable({
                     width: "35vw",
                     display: "flex",
                     alignItems: "center",
+                    padding: "2px 16px",
                   }}
                 >
-                  {row?.name?.substring(0, 40)}
-                  {row?.name?.length > 40 && "..."}
+                  {row?.name}
                   <ArrowDropDownIcon
                     id="demo-positioned-button"
                     aria-controls={
@@ -512,6 +516,7 @@ export default function DenseTable({
                   style={{
                     borderRight: "1px solid lightgray",
                     width: "6vw",
+                    padding: "2px 16px",
                   }}
                 >
                   {row?.unit?.symbol}
@@ -521,6 +526,7 @@ export default function DenseTable({
                   style={{
                     borderRight: "1px solid lightgray",
                     width: "10vw",
+                    padding: "2px 16px",
                   }}
                 >
                   {row.quantity && parseFloat(row.quantity).toFixed(2)}
@@ -530,21 +536,23 @@ export default function DenseTable({
                   style={{
                     borderRight: "1px solid lightgray",
                     width: "10vw",
+                    padding: "2px 16px",
                   }}
                 >
                   {row.unit_price &&
-                    convertor(parseFloat(row.unit_price).toFixed(2))}
+                    formatNumber(parseFloat(row.unit_price).toFixed(2))}
                 </TableCell>
                 <TableCell
                   align="right"
                   style={{
                     borderRight: "1px solid lightgray",
                     width: "10vw",
+                    padding: "2px 16px",
                   }}
                 >
                   {row.unit_price &&
                     row.quantity &&
-                    convertor(
+                    formatNumber(
                       parseFloat(row.unit_price * row.quantity).toFixed(2)
                     )}
                 </TableCell>
@@ -561,6 +569,7 @@ export default function DenseTable({
                           width: "35vw",
                           display: "flex",
                           alignItems: "center",
+                          padding: "2px 16px",
                         }}
                       >
                         &nbsp;&nbsp;&nbsp;
@@ -666,6 +675,7 @@ export default function DenseTable({
                         style={{
                           borderRight: "1px solid lightgray",
                           width: "6vw",
+                          padding: "2px 16px",
                         }}
                       >
                         {row2?.unit?.symbol}
@@ -675,6 +685,7 @@ export default function DenseTable({
                         style={{
                           borderRight: "1px solid lightgray",
                           width: "10vw",
+                          padding: "2px 16px",
                         }}
                       >
                         {parseFloat(row2.quantity).toFixed(2)}
@@ -684,18 +695,20 @@ export default function DenseTable({
                         style={{
                           borderRight: "1px solid lightgray",
                           width: "10vw",
+                          padding: "2px 16px",
                         }}
                       >
-                        {convertor(parseFloat(row2.unit_price).toFixed(2))}
+                        {formatNumber(parseFloat(row2.unit_price).toFixed(2))}
                       </TableCell>
                       <TableCell
                         align="right"
                         style={{
                           borderRight: "1px solid lightgray",
                           width: "10vw",
+                          padding: "2px 16px",
                         }}
                       >
-                        {convertor(
+                        {formatNumber(
                           parseFloat(row2.quantity * row2.unit_price).toFixed(2)
                         )}
                       </TableCell>
