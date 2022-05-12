@@ -37,4 +37,10 @@ export const useStyles = makeStyles({
     display: "flex",
     justifyContent: "flex-end",
   },
+  fotter_amount: {
+    width: "30%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
 });

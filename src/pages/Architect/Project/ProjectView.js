@@ -1870,7 +1870,7 @@ const ProjectView = () => {
                     >
                       <div
                         style={{
-                          width: "30%",
+                          width: "50%",
                           padding: 20,
                           fontWeight: 900,
                         }}
@@ -1879,7 +1879,7 @@ const ProjectView = () => {
                           <div className={classes.fotter_text}>
                             {t("Total HT")}:
                           </div>
-                          <div>
+                          <div className={classes.fotter_amount}>
                             {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
                           </div>
                         </div>
@@ -1888,7 +1888,7 @@ const ProjectView = () => {
                             {t("Total VAT")} (
                             {currentProject?.vat?.value?.toFixed(2)}%) :
                           </div>
-                          <div>
+                          <div className={classes.fotter_amount}>
                             {(
                               (totalHT / 100) *
                               currentProject?.vat?.value
@@ -1896,11 +1896,27 @@ const ProjectView = () => {
                             €
                           </div>
                         </div>
+                        <div
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: "28%",
+                              height: 1,
+                              backgroundColor: "black",
+                            }}
+                          ></div>
+                        </div>
                         <div className={classes.flex_container}>
                           <div className={classes.fotter_text}>
                             {t("Total Price")}:
                           </div>
-                          <div>
+
+                          <div className={classes.fotter_amount}>
                             {formatNumber(
                               (
                                 totalHT *
