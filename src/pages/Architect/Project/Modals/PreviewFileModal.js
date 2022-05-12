@@ -72,12 +72,7 @@ const PreviewFileModal = (props) => {
         ) : props.filetype == "docx" ? (
           <FileViewer fileType={props.filetype} filePath={blobURL} />
         ) : props.filetype == "xlsx" ? (
-          <OutTable
-            data={rows}
-            columns={cols}
-            tableClassName="ExcelTable2007"
-            tableHeaderRowClass="heading"
-          />
+          <OutTable data={rows} columns={cols} />
         ) : (
           <></>
         )}
@@ -87,7 +82,7 @@ const PreviewFileModal = (props) => {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "#1976D2",
+            backgroundColor: "#F1966C",
             marginRight: "10px !important",
             height: "35px !important",
           }}

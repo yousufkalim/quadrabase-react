@@ -141,7 +141,7 @@ function ReportDQEModal(props) {
         </IconButton>
       </Stack>
       <Modal
-        title={"File Preview"}
+        title={filename}
         open={openFilePreviewModal}
         onClose={handleOpenFilePreviewModal}
         component={
