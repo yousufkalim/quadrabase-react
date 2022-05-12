@@ -210,7 +210,7 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "unit_price",
-                    parseInt(values.unit_price).toFixed(2)
+                    parseFloat(values.unit_price).toFixed(2)
                   );
                 }
               }}
@@ -219,7 +219,7 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "unit_price",
-                    parseInt(values.unit_price).toFixed(2)
+                    parseFloat(values.unit_price).toFixed(2)
                   );
                 }
               }}
