@@ -29,7 +29,7 @@ const EditWorkDetailModal = ({
     selectedWorkDetail &&
       setValues((prev) => {
         prev.name = selectedWorkDetail.name;
-        prev.unit = selectedWorkDetail.unit;
+        prev.unit = selectedWorkDetail.unit._id;
         prev.unit_price = selectedWorkDetail.unit_price.toFixed(2);
         prev.quantity = selectedWorkDetail.quantity.toFixed(2);
         return { ...prev };

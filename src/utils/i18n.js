@@ -1036,7 +1036,7 @@ i18n
           "Edit a Work Detail": "Modifier un détail d'Ouvrage",
           "Manage Tranches": "Gérer les tranches",
           Submit: "VALIDER",
-          "Work added to project": "Détail d'ouvrage ajouté au projet",
+          "Work added to project": "Ouvrage ajouté au Projet",
           Close: "Fermer",
           "Add Tranch": "Ajouter une tranche",
           "Tranch already exists": "La tranche existe déjà",

@@ -156,6 +156,9 @@ const EditWorkModal = ({
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
           </Grid>
+        </Grid>
+        <br />
+        <Grid container spacing={2}>
           <Grid item zeroMinWidth xs>
             <InputDropdown
               name="unit"
@@ -165,10 +168,6 @@ const EditWorkModal = ({
               options={options}
             />
           </Grid>
-        </Grid>
-        <br />
-        <br />
-        <Grid container spacing={2}>
           <Grid item zeroMinWidth xs>
             <InputWithLabel
               label={t("Qty")}
@@ -182,7 +181,7 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "quantity",
-                    parseInt(values.quantity).toFixed(2)
+                    parseFloat(values.quantity).toFixed(2)
                   );
                 }
               }}
@@ -191,10 +190,11 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "quantity",
-                    parseInt(values.quantity).toFixed(2)
+                    parseFloat(values.quantity).toFixed(2)
                   );
                 }
               }}
+              inputStyle={{ textAlign: "right" }}
             />
           </Grid>
           <Grid item zeroMinWidth xs>
@@ -210,7 +210,7 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "unit_price",
-                    parseInt(values.unit_price).toFixed(2)
+                    parseFloat(values.unit_price).toFixed(2)
                   );
                 }
               }}
@@ -219,10 +219,11 @@ const EditWorkModal = ({
                 if (existingDot === -1) {
                   handleChange(
                     "unit_price",
-                    parseInt(values.unit_price).toFixed(2)
+                    parseFloat(values.unit_price).toFixed(2)
                   );
                 }
               }}
+              inputStyle={{ textAlign: "right" }}
             />
           </Grid>
         </Grid>
@@ -234,27 +235,27 @@ const EditWorkModal = ({
               onChange={handleTabChange}
               aria-label="CCTPs"
             >
-              <Tab label="CCTP1" {...a11yProps(0)} />
-              <Tab label="CCTP2" {...a11yProps(1)} />
-              <Tab label="CCTP3" {...a11yProps(2)} />
-              <Tab label="CCTP4" {...a11yProps(2)} />
-              <Tab label="BPU" {...a11yProps(4)} />
+              <Tab label="BPU" {...a11yProps(0)} />
+              <Tab label="CCTP1" {...a11yProps(1)} />
+              <Tab label="CCTP2" {...a11yProps(2)} />
+              <Tab label="CCTP3" {...a11yProps(3)} />
+              <Tab label="CCTP4" {...a11yProps(4)} />
             </Tabs>
           </Box>
           <TabPanel value={selectedTabIndex} index={0}>
-            <TextEditor setValue={setcctp_text1} value={cctp_text1} />
+            <TextEditor setValue={setbpu_text1} value={bpu_text1} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={1}>
-            <TextEditor setValue={setcctp_text2} value={cctp_text2} />
+            <TextEditor setValue={setcctp_text1} value={cctp_text1} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={2}>
-            <TextEditor setValue={setcctp_text3} value={cctp_text3} />
+            <TextEditor setValue={setcctp_text2} value={cctp_text2} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={3}>
-            <TextEditor setValue={setcctp_text4} value={cctp_text4} />
+            <TextEditor setValue={setcctp_text3} value={cctp_text3} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={4}>
-            <TextEditor setValue={setbpu_text1} value={bpu_text1} />
+            <TextEditor setValue={setcctp_text4} value={cctp_text4} />
           </TabPanel>
         </Box>
         {/* register button */}

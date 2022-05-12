@@ -116,8 +116,10 @@ const InputWithLabel = ({
         className={classes.field}
         variant="outlined"
         InputProps={{
-          className: multiline ? classes.multilineInput : classes.input,
-          style: inputStyle,
+          inputProps: {
+            className: multiline ? classes.multilineInput : classes.input,
+            style: inputStyle,
+          },
         }}
         InputLabelProps={{
           shrink: true,

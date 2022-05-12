@@ -13,7 +13,7 @@ import { styled, alpha } from "@mui/material/styles";
 import api from "../../../../api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { convertor } from "../../../../utils/dotConvertor";
+import { formatNumber } from "../../../../utils/markThousand";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -409,7 +409,7 @@ export default function DenseTable({
                       width: "10vw",
                     }}
                   >
-                    {convertor(parseFloat(row.unit_price).toFixed(2))}
+                    {formatNumber(parseFloat(row.unit_price).toFixed(2))}
                   </TableCell>
                   <TableCell
                     align="right"
@@ -418,7 +418,7 @@ export default function DenseTable({
                       width: "10vw",
                     }}
                   >
-                    {convertor(
+                    {formatNumber(
                       parseFloat(row.unit_price * row.quantity).toFixed(2)
                     )}
                   </TableCell>
@@ -562,7 +562,7 @@ export default function DenseTable({
                       }}
                     >
                       {row.unit_price &&
-                        convertor(parseFloat(row.unit_price).toFixed(2))}
+                        formatNumber(parseFloat(row.unit_price).toFixed(2))}
                     </TableCell>
                     <TableCell
                       align="right"
@@ -573,7 +573,7 @@ export default function DenseTable({
                     >
                       {row.unit_price &&
                         row.quantity &&
-                        convertor(
+                        formatNumber(
                           parseFloat(row.unit_price * row.quantity).toFixed(2)
                         )}
                     </TableCell>
@@ -717,7 +717,9 @@ export default function DenseTable({
                               width: "10vw",
                             }}
                           >
-                            {convertor(parseFloat(row2.unit_price).toFixed(2))}
+                            {formatNumber(
+                              parseFloat(row2.unit_price).toFixed(2)
+                            )}
                           </TableCell>
                           <TableCell
                             align="right"
@@ -726,7 +728,7 @@ export default function DenseTable({
                               width: "10vw",
                             }}
                           >
-                            {convertor(
+                            {formatNumber(
                               parseFloat(
                                 row2.quantity * row2.unit_price
                               ).toFixed(2)
