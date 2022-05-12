@@ -1572,24 +1572,34 @@ const ProjectView = () => {
                                     );
                                   }
                                 })}
-
                                 <TableCell
                                   component="th"
                                   scope="row"
-                                  colSpan={5}
+                                  colSpan={4}
                                   style={{
                                     padding: "2px 16px",
                                     fontWeight: 600,
                                   }}
                                   align="right"
                                 >
-                                  Total HT {item2.name} &nbsp;&nbsp;&nbsp;
+                                  Total HT {item2.name} :
+                                </TableCell>
+
+                                <TableCell
+                                  component="th"
+                                  scope="row"
+                                  colSpan={1}
+                                  style={{
+                                    padding: "2px 16px",
+                                    fontWeight: 600,
+                                  }}
+                                  align="right"
+                                >
                                   {tradeTotalIndex !== -1
                                     ? formatNumber(
                                         tradeTotal[tradeTotalIndex]?.toFixed(2)
                                       )
-                                    : "0,00"}{" "}
-                                  €
+                                    : "0,00"}
                                 </TableCell>
                                 <br />
                               </>
@@ -1781,7 +1791,7 @@ const ProjectView = () => {
 
                                         <TableRow>
                                           <TableCell
-                                            colSpan={5}
+                                            colSpan={4}
                                             style={{ padding: "2px 16px" }}
                                           >
                                             <div
@@ -1791,12 +1801,23 @@ const ProjectView = () => {
                                                 textAlign: "right",
                                               }}
                                             >
-                                              Total HT {item4.name}
-                                              &nbsp;&nbsp;&nbsp;
+                                              Total HT {item4.name} :
+                                            </div>
+                                          </TableCell>
+                                          <TableCell
+                                            colSpan={1}
+                                            style={{ padding: "2px 16px" }}
+                                          >
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                fontWeight: 600,
+                                                textAlign: "right",
+                                              }}
+                                            >
                                               {formatNumber(
                                                 tranchTotalAmount.toFixed(2)
-                                              )}{" "}
-                                              €
+                                              )}
                                             </div>
                                           </TableCell>
                                         </TableRow>
@@ -1807,7 +1828,7 @@ const ProjectView = () => {
 
                                 <TableRow>
                                   <TableCell
-                                    colSpan={5}
+                                    colSpan={4}
                                     style={{ padding: "2px 16px" }}
                                   >
                                     <div
@@ -1817,15 +1838,27 @@ const ProjectView = () => {
                                         textAlign: "right",
                                       }}
                                     >
-                                      Total HT {item3.name} &nbsp;&nbsp;&nbsp;
+                                      Total HT {item3.name} :
+                                    </div>
+                                  </TableCell>
+                                  <TableCell
+                                    colSpan={1}
+                                    style={{ padding: "2px 16px" }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        fontWeight: 600,
+                                        textAlign: "right",
+                                      }}
+                                    >
                                       {tradeTotalIndex !== -1
                                         ? formatNumber(
                                             tradeTotal[
                                               tradeTotalIndex
                                             ]?.toFixed(2)
                                           )
-                                        : "0,00"}{" "}
-                                      €
+                                        : "0,00"}
                                     </div>
                                   </TableCell>
                                 </TableRow>
