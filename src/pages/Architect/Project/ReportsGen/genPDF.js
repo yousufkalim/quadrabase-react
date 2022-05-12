@@ -14,27 +14,30 @@ import {
   rowsGenTradesAndTranchesBPU,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
-  dataColumnsBPU
+  dataColumnsBPU,
 } from "./data.js";
 
-function applyGlobalStyling(s){
-  s.overflow = 'linebreak';
-  s.columnWidth = 'wrap';
-  s.font = 'helvetica';
+function applyGlobalStyling(s) {
+  s.overflow = "linebreak";
+  s.columnWidth = "wrap";
+  s.font = "helvetica";
   s.cellPadding = 3;
-  s.overflowColumns = 'linebreak';
+  s.overflowColumns = "linebreak";
   s.lineColor = [0, 0, 0];
   s.borders = "t";
 }
 
-function exportPDFSimpleEstimation(data, currentProject, noPrice){
-
+function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
   );
   const realDataPDF = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
-  const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice);
+  const footerData = footerDataGenSimpleEstimation(
+    data,
+    currentProject,
+    noPrice
+  );
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -48,7 +51,7 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
   // doc.lastAutoTable.settings.startY is updated and synced.
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -60,7 +63,6 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
       s.fontSize = 12;
       s.fillColor = [191, 191, 191];
       s.lineWidth = 0.1;
-
     },
   };
 
@@ -68,10 +70,10 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsEstimation], // Lib requirement is that it is [][]
     body: realDataPDF,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -81,7 +83,7 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
       s.fontSize = 10;
       s.lineWidth = 0.1;
 
-      if (data.row.section === 'head') {
+      if (data.row.section === "head") {
         s.fontSize = 12;
         s.fillColor = [191, 191, 191];
       } else if (data.row.index === 0) {
@@ -91,36 +93,23 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
         s.fontSize = 10;
         s.fillColor = [255, 255, 255];
       }
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
   const contentFootTable = {
-    startY: (doc.lastAutoTable.settings.startY + (32 * realDataPDF.length )) - (2 * realDataPDF.length),
-    theme: 'plain',
-    head: [[
-      footerColumnsSimpleEstimation[0],
-      footerData[0],
-    ]],
+    startY:
+      doc.lastAutoTable.settings.startY +
+      32 * realDataPDF.length -
+      2 * realDataPDF.length,
+    theme: "plain",
+    head: [[footerColumnsSimpleEstimation[0], footerData[0]]],
     body: [
-      [
-        "",
-        ""
-      ],
-      [
-        footerColumnsSimpleEstimation[1],
-        footerData[1],
-      ],
-      [
-        footerColumnsSimpleEstimation[2],
-        footerData[2],
-      ],
-      [
-        footerColumnsSimpleEstimation[3],
-        footerData[3],
-      ],
+      ["", ""],
+      [footerColumnsSimpleEstimation[1], footerData[1]],
+      [footerColumnsSimpleEstimation[2], footerData[2]],
+      [footerColumnsSimpleEstimation[3], footerData[3]],
     ],
     theme: "plain",
     didParseCell: (data) => {
@@ -132,18 +121,21 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice){
       s.lineWidth = 0.1;
       s.fontSize = 9;
       s.fillColor = [255, 255, 255];
-      s.halign = 'right';
-
+      s.halign = "right";
     },
   };
 
   doc.autoTable(contentFootTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
+  const blob = doc.output("blob");
+
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportPDFTradesEstimation(data, currentProject, noPrice){
-
+function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
@@ -160,7 +152,7 @@ function exportPDFTradesEstimation(data, currentProject, noPrice){
   // Draw head table
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -172,7 +164,6 @@ function exportPDFTradesEstimation(data, currentProject, noPrice){
       s.fontSize = 12;
       s.fillColor = [191, 191, 191];
       s.lineWidth = 0.1;
-
     },
   };
   doc.autoTable(contentHeadTable);
@@ -181,18 +172,21 @@ function exportPDFTradesEstimation(data, currentProject, noPrice){
 
   let pdfParsedData = [];
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = pdfParsedDataGenTradesEstimation(currentRow, (i+1));
+    const currentRowXLSXParsedData = pdfParsedDataGenTradesEstimation(
+      currentRow,
+      i + 1
+    );
     pdfParsedData = pdfParsedData.concat(currentRowXLSXParsedData);
   }
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsEstimation], // Lib requirement is that it is [][]
     body: pdfParsedData,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -202,24 +196,27 @@ function exportPDFTradesEstimation(data, currentProject, noPrice){
       s.fontSize = 10;
       s.lineWidth = 0.1;
 
-      if (data.row.section === 'head') {
+      if (data.row.section === "head") {
         s.fontSize = 12;
         s.fillColor = [191, 191, 191];
       } else {
         s.fontSize = 10;
         s.fillColor = [255, 255, 255];
       }
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
+  const blob = doc.output("blob");
+
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice){
-
+function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
@@ -236,7 +233,7 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice){
   // Draw head table
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -248,7 +245,6 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice){
       s.fontSize = 12;
       s.fillColor = [191, 191, 191];
       s.lineWidth = 0.1;
-
     },
   };
   doc.autoTable(contentHeadTable);
@@ -257,18 +253,19 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice){
 
   let pdfparsedData = [];
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, (i+1));
+    const currentRowXLSXParsedData =
+      pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
     pdfparsedData = pdfparsedData.concat(currentRowXLSXParsedData);
   }
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsEstimation], // Lib requirement is that it is [][]
     body: pdfparsedData,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -278,28 +275,28 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice){
       s.fontSize = 10;
       s.lineWidth = 0.1;
 
-      if (data.row.section === 'head') {
+      if (data.row.section === "head") {
         s.fontSize = 12;
         s.fillColor = [191, 191, 191];
       } else {
         s.fontSize = 10;
         s.fillColor = [255, 255, 255];
       }
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
+  const _blob = doc.output("blob");
+  const blob = new Blob([_blob], { type: "application/pdf" });
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportPDFSimpleBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+function exportPDFSimpleBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -313,7 +310,7 @@ function exportPDFSimpleBPU(data, currentProject){
   // doc.lastAutoTable.settings.startY is updated and synced.
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -325,7 +322,6 @@ function exportPDFSimpleBPU(data, currentProject){
       s.fontSize = 12;
       s.lineWidth = 0.1;
       s.fillColor = [191, 191, 191];
-
     },
   };
 
@@ -335,10 +331,10 @@ function exportPDFSimpleBPU(data, currentProject){
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsBPU], // Lib requirement is that it is [][]
     body: pdfParsedPDF,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -347,21 +343,19 @@ function exportPDFSimpleBPU(data, currentProject){
 
       s.fontSize = 10;
       s.lineWidth = 0.1;
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
+  const blob = doc.output("blob");
+
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
-function exportPDFTradesBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+function exportPDFTradesBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -374,7 +368,7 @@ function exportPDFTradesBPU(data, currentProject){
   // Draw head table
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -386,7 +380,6 @@ function exportPDFTradesBPU(data, currentProject){
       s.fontSize = 12;
       s.lineWidth = 0.1;
       s.fillColor = [191, 191, 191];
-
     },
   };
   doc.autoTable(contentHeadTable);
@@ -395,10 +388,10 @@ function exportPDFTradesBPU(data, currentProject){
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsBPU], // Lib requirement is that it is [][]
     body: pdfParsedData,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -407,21 +400,19 @@ function exportPDFTradesBPU(data, currentProject){
 
       s.fontSize = 10;
       s.lineWidth = 0.1;
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
+  const blob = doc.output("blob");
+
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
-function exportPDFTradesAndTranchesBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+function exportPDFTradesAndTranchesBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const pdfParsedData = rowsGenTradesAndTranchesBPU(data);
 
@@ -436,7 +427,7 @@ function exportPDFTradesAndTranchesBPU(data, currentProject){
   // Draw head table
   const contentHeadTable = {
     startY: 50,
-    theme: 'plain',
+    theme: "plain",
     head: [headArr],
     theme: "plain",
     didParseCell: (data) => {
@@ -448,17 +439,16 @@ function exportPDFTradesAndTranchesBPU(data, currentProject){
       s.fontSize = 12;
       s.lineWidth = 0.1;
       s.fillColor = [191, 191, 191];
-
     },
   };
   doc.autoTable(contentHeadTable);
 
   const contentMainTable = {
     startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: 'avoid',
+    pageBreak: "avoid",
     head: [dataColumnsBPU], // Lib requirement is that it is [][]
     body: pdfParsedData,
-    theme: 'plain',
+    theme: "plain",
     didParseCell: (data) => {
       const s = data.cell.styles;
 
@@ -467,13 +457,15 @@ function exportPDFTradesAndTranchesBPU(data, currentProject){
 
       s.fontSize = 10;
       s.lineWidth = 0.1;
-
     },
   };
 
   doc.autoTable(contentMainTable);
 
-  doc.save(`${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
+  const blob = doc.output("blob");
+
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
 export {
@@ -482,5 +474,5 @@ export {
   exportPDFTradesAndTranchesEstimation,
   exportPDFSimpleBPU,
   exportPDFTradesBPU,
-  exportPDFTradesAndTranchesBPU
-}
+  exportPDFTradesAndTranchesBPU,
+};
