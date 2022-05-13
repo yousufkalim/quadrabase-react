@@ -55,6 +55,7 @@ import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TechnicalDocModal from "./Modals/TechnicalDoc";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -167,6 +168,8 @@ const ProjectView = () => {
   const [tranchesData, setTranchesData] = useState([]);
   const [selectedTrade, setSelectedTrade] = useState("");
   const [selectedTranche, setSelectedTranche] = useState("");
+  const [technicalDoc, setTechnicalDoc] = useState([]);
+  const [openDocModal, setOpenDocModal] = useState(false);
 
   // loader states
   const [loading, setLoading] = useState(true); // main loader
@@ -780,6 +783,26 @@ const ProjectView = () => {
   const handleTradeSelect = (id) => setSelectedTrade(id);
   const handleTrancheSelect = (id) => setSelectedTranche(id);
 
+  const handleTechnicalDoc = () => {
+    let doc = [];
+    currentProject.works.map((item, index) => {
+      if (item.providers.length > 0) {
+        if (item.providers[0].documents.length > 0) {
+          doc.push(item.providers[0].documents[0].uri);
+        }
+      }
+    });
+    handleClose();
+    if (doc.length > 0) {
+      setTechnicalDoc(doc);
+      handleDocModal();
+    } else {
+      toast.error(t("No technical document in this project"));
+    }
+  };
+
+  const handleDocModal = () => setOpenDocModal(!openDocModal);
+
   return (
     <div className={classes.main_container}>
       {loading ? (
@@ -1094,6 +1117,17 @@ const ProjectView = () => {
               />
             }
           />
+          <Modal
+            title={t("Technical Doc")}
+            open={openDocModal}
+            onClose={handleDocModal}
+            component={
+              <TechnicalDocModal
+                handleDocModal={handleDocModal}
+                technicalDoc={technicalDoc}
+              />
+            }
+          />
           <div className={classes.container}>
             <div className={classes.flex_container}>
               <div>
@@ -1342,7 +1376,7 @@ const ProjectView = () => {
                     </MenuItem>
                     <Divider />
                     <MenuItem
-                      onClick={handleClose}
+                      onClick={handleTechnicalDoc}
                       style={{ height: 25, fontSize: 15 }}
                     >
                       {t("Technical Doc")}

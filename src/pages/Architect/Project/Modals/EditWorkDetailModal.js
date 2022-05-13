@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Store } from "../../../../StoreContext";
 import api from "../../../../api";
 import { useTranslation } from "react-i18next";
+import { formatNumber } from "../../../../utils/markThousand";
 
 // component
 import { Button } from "@mui/material";
@@ -30,7 +31,9 @@ const EditWorkDetailModal = ({
       setValues((prev) => {
         prev.name = selectedWorkDetail.name;
         prev.unit = selectedWorkDetail.unit._id;
-        prev.unit_price = selectedWorkDetail.unit_price.toFixed(2);
+        prev.unit_price = formatNumber(
+          parseFloat(selectedWorkDetail.unit_price).toFixed(2).toString()
+        );
         prev.quantity = selectedWorkDetail.quantity.toFixed(2);
         return { ...prev };
       });
@@ -57,11 +60,12 @@ const EditWorkDetailModal = ({
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
     let data = {
       workDetailId: selectedWorkDetail._id,
       name: values.name,
       unit: values.unit,
-      unit_price: values.unit_price,
+      unit_price: unit_price,
       quantity: values.quantity,
     };
     const result = await api(
@@ -131,22 +135,28 @@ const EditWorkDetailModal = ({
           value={values.unit_price}
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
-            let existingDot = values.unit_price.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange(
-                "unit_price",
-                parseInt(values.unit_price).toFixed(2)
+            let temp = values.unit_price
+              .replace(/\s/g, "")
+              .split(",")
+              .join(".");
+            setValues((prev) => {
+              prev["unit_price"] = formatNumber(
+                parseFloat(temp).toFixed(2).toString()
               );
-            }
+              return { ...prev };
+            });
           }}
           onFocus={() => {
-            let existingDot = values.unit_price.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange(
-                "unit_price",
-                parseInt(values.unit_price).toFixed(2)
+            let temp = values.unit_price
+              .replace(/\s/g, "")
+              .split(",")
+              .join(".");
+            setValues((prev) => {
+              prev["unit_price"] = formatNumber(
+                parseFloat(temp).toFixed(2).toString()
               );
-            }
+              return { ...prev };
+            });
           }}
         />
         <br />

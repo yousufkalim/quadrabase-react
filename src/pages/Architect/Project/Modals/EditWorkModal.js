@@ -4,6 +4,7 @@ import { Store } from "../../../../StoreContext";
 import api from "../../../../api";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { formatNumber } from "../../../../utils/markThousand";
 
 // component
 import { Button, Grid } from "@mui/material";
@@ -79,7 +80,9 @@ const EditWorkModal = ({
       setValues((prev) => {
         prev.name = selectedWork.name;
         prev.unit = selectedWork.unit;
-        prev.unit_price = selectedWork.unit_price.toFixed(2);
+        prev.unit_price = formatNumber(
+          parseFloat(selectedWork.unit_price).toFixed(2).toString()
+        );
         prev.quantity = selectedWork.quantity.toFixed(2);
         return { ...prev };
       });
@@ -112,11 +115,12 @@ const EditWorkModal = ({
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
     let data = {
       workId: selectedWork._id,
       name: values.name,
       unit: values.unit,
-      unit_price: values.unit_price,
+      unit_price: unit_price,
       quantity: values.quantity,
       cctp_text: [],
       bpu_text: [],
@@ -206,22 +210,28 @@ const EditWorkModal = ({
               value={values.unit_price}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
               onBlur={() => {
-                let existingDot = values.unit_price.toString().indexOf(".");
-                if (existingDot === -1) {
-                  handleChange(
-                    "unit_price",
-                    parseFloat(values.unit_price).toFixed(2)
+                let temp = values.unit_price
+                  .replace(/\s/g, "")
+                  .split(",")
+                  .join(".");
+                setValues((prev) => {
+                  prev["unit_price"] = formatNumber(
+                    parseFloat(temp).toFixed(2).toString()
                   );
-                }
+                  return { ...prev };
+                });
               }}
               onFocus={() => {
-                let existingDot = values.unit_price.toString().indexOf(".");
-                if (existingDot === -1) {
-                  handleChange(
-                    "unit_price",
-                    parseFloat(values.unit_price).toFixed(2)
+                let temp = values.unit_price
+                  .replace(/\s/g, "")
+                  .split(",")
+                  .join(".");
+                setValues((prev) => {
+                  prev["unit_price"] = formatNumber(
+                    parseFloat(temp).toFixed(2).toString()
                   );
-                }
+                  return { ...prev };
+                });
               }}
               inputStyle={{ textAlign: "right" }}
             />

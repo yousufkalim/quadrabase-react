@@ -6,7 +6,7 @@ export const formatNumber = (
 ) => {
   fractionSeparator = fractionSeparator || ",";
   thousandsSeparator = thousandsSeparator || " ";
-  fractionSize = fractionSize || 3;
+  fractionSize = fractionSize || 2;
   var output = "",
     parts = [];
 
