@@ -549,6 +549,8 @@ i18n
           Profile: "Profile",
           "Remaning Projects": "Remaning Projects",
           "Valid Until": "Valid Until",
+          "No technical document in this project":
+            "No technical document in this project",
         },
       },
       fr: {
@@ -1088,6 +1090,8 @@ i18n
           Profile: "Profil",
           "Remaning Projects": "Projets restants",
           "Valid Until": "Valable jusque",
+          "No technical document in this project":
+            "Pas de document technique dans ce projet",
         },
       },
     },
