@@ -5,6 +5,10 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { StoreProvider } from "./StoreContext";
 
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+console.log(pdfjs.GlobalWorkerOptions.workerSrc);
+
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
