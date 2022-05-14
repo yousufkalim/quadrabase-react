@@ -118,10 +118,9 @@ const CustomerReviews = () => {
                   borderTopLeftRadius: "20px",
                   borderTopRightRadius: "20px",
                   height: "320px",
+                  marginBottom: 10,
                 }}
               ></img>
-
-              <h5 className="spc_customername">{item.label}</h5>
               <p className="spc_customerdescription">{item.heading}</p>
             </div>
           ))}
