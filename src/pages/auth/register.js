@@ -17,6 +17,7 @@ import api from "../../api";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import BasicDropdown from "../../components/Architect/BasicDropdown";
+import Checkbox from "@mui/material/Checkbox";
 
 // input styling
 const InputStyle = {
@@ -139,6 +140,7 @@ const Register = () => {
   const [invoiceUrl, setInvoiceUrl] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [madatCheck, setMadatCheck] = useState(false);
   const [form1, setForm1] = useState({
     values: {
       establishment: "",
@@ -1747,39 +1749,43 @@ const Register = () => {
                                     <span>Mandat administratif</span>
                                     <br />
                                   </div>
-                                  <input
-                                    type="radio"
-                                    name="payment"
-                                    value="admin"
-                                    className="radio-button"
-                                    onChange={(e) =>
-                                      console.log("e", e.target.value)
-                                    }
+                                  <Checkbox
+                                    style={{
+                                      height: "16px",
+                                      width: "16px",
+                                      color: "#8C1244",
+                                    }}
+                                    checked={madatCheck}
+                                    onChange={(e) => {
+                                      setMadatCheck(e.target.checked);
+                                    }}
                                   />
                                 </div>
                               </div>
                               {/* exports */}
-                              <div
-                                style={{
-                                  color: "#FF8616",
-                                  fontSize: 13,
-                                  marginTop: 20,
-                                }}
-                              >
-                                <span
-                                  style={{ cursor: "pointer" }}
-                                  onClick={generateQuote}
+                              {madatCheck && (
+                                <div
+                                  style={{
+                                    color: "#FF8616",
+                                    fontSize: 13,
+                                    marginTop: 20,
+                                  }}
                                 >
-                                  Générer un devis
-                                </span>
-                                &nbsp;&nbsp;&nbsp;
-                                <span
-                                  style={{ cursor: "pointer" }}
-                                  onClick={generateInvoice}
-                                >
-                                  Voir la facture
-                                </span>
-                              </div>
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={generateQuote}
+                                  >
+                                    Générer un devis
+                                  </span>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={generateInvoice}
+                                  >
+                                    Voir la facture
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           ) : (
                             <div>
@@ -1920,39 +1926,43 @@ const Register = () => {
                                     <span>Mandat administratif</span>
                                     <br />
                                   </div>
-                                  <input
-                                    type="radio"
-                                    name="payment"
-                                    value="admin"
-                                    className="radio-button"
-                                    onChange={(e) =>
-                                      console.log("e", e.target.value)
-                                    }
+                                  <Checkbox
+                                    style={{
+                                      height: "16px",
+                                      width: "16px",
+                                      color: "#8C1244",
+                                    }}
+                                    checked={madatCheck}
+                                    onChange={(e) => {
+                                      setMadatCheck(e.target.checked);
+                                    }}
                                   />
                                 </div>
                               </div>
                               {/* exports */}
-                              <div
-                                style={{
-                                  color: "#FF8616",
-                                  fontSize: 13,
-                                  marginTop: 20,
-                                }}
-                              >
-                                <span
-                                  style={{ cursor: "pointer" }}
-                                  onClick={generateQuote}
+                              {madatCheck && (
+                                <div
+                                  style={{
+                                    color: "#FF8616",
+                                    fontSize: 13,
+                                    marginTop: 20,
+                                  }}
                                 >
-                                  Générer un devis
-                                </span>
-                                &nbsp;&nbsp;&nbsp;
-                                <span
-                                  style={{ cursor: "pointer" }}
-                                  onClick={generateInvoice}
-                                >
-                                  Voir la facture
-                                </span>
-                              </div>
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={generateQuote}
+                                  >
+                                    Générer un devis
+                                  </span>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={generateInvoice}
+                                  >
+                                    Voir la facture
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           )}
 
