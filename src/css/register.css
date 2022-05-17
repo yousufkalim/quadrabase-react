@@ -136,6 +136,11 @@
     height: 16px;
     width: 16px;
 }
+.check-box_1{
+    color: #8C1244;
+    height: 16px;
+    width: 16px;
+}
 
 .payment-flex-contaner{
     display: flex;

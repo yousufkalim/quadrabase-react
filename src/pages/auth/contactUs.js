@@ -30,6 +30,12 @@ const Contact = () => {
     // Using global api to post data on server and handling the response
     api("post", "/Contact", values).then((response) => {
       toast.success(t(response.data.message));
+      setValues({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
     });
   };
 
