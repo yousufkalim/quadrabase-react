@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { Document, Page } from "react-pdf";
 import FileViewer from "react-file-viewer";
 import { OutTable, ExcelRenderer } from "react-excel-renderer";
 
 import { downloadBlob } from "../ReportsGen/data";
+import DocViewer from "../../ProjectLibraries/component/DocViewer";
+import api from "../../../../api";
 
 const PreviewFileModal = (props) => {
   const { t } = useTranslation();
   const blobURL = URL.createObjectURL(props.blob);
 
-  // PDF
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
+  // pdf
+  const [pdf, setPdf] = useState([]);
+  useEffect(() => {
+    uploadFile();
+  }, []);
+
+  const uploadFile = async () => {
+    if (props.filetype === "pdf") {
+      let form_data = new FormData();
+      var file = new File([props.blob], props.filename + ".pdf");
+      form_data.append(`file`, file);
+      const response = await api("post", `/fileUploader`, form_data);
+      setPdf(response.data.files);
+    }
+  };
 
   // XLSX
   const [cols, setCols] = useState([]);
@@ -57,18 +67,11 @@ const PreviewFileModal = (props) => {
         }}
       >
         {props.filetype == "pdf" ? (
-          <>
-            <Document
-              file={{ url: blobURL }}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={(e) => console.log(e)}
-            >
-              <Page pageNumber={pageNumber} />
-            </Document>
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-          </>
+          pdf.length > 0 && (
+            <>
+              <DocViewer documents={pdf} style={{ maxHeight: "200px" }} />
+            </>
+          )
         ) : props.filetype == "docx" ? (
           <FileViewer fileType={props.filetype} filePath={blobURL} />
         ) : props.filetype == "xlsx" ? (
