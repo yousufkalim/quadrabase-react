@@ -1,8 +1,6 @@
-
 import { Packer } from "docx";
-import { saveAs } from "file-saver";
 
-import { 
+import {
   convertInchesToTwip,
   Document,
   Paragraph,
@@ -11,7 +9,7 @@ import {
   Table,
   TableCell,
   TableRow,
-  VerticalAlign
+  VerticalAlign,
 } from "docx";
 
 import {
@@ -38,15 +36,19 @@ const Spacer = new Paragraph({
   text: "",
 });
 
-function exportDOCXSimpleEstimation(data, currentProject, noPrice){
-
+async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
   );
 
   const rows = rowsGenSimpleEstimation(data, noPrice);
-  const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
+  const footerData = footerDataGenSimpleEstimation(
+    data,
+    currentProject,
+    noPrice,
+    true
+  );
 
   const tableHeader = [
     new Table({
@@ -62,15 +64,15 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -80,10 +82,10 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true
-                    })
-                  ]
-                })
+                      bold: true,
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -93,8 +95,8 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -104,15 +106,15 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -122,8 +124,7 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsEstimation.length; i++ ){
-
+  for (let i = 0; i < dataColumnsEstimation.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
@@ -132,42 +133,44 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-            })
-          ]
-        })
+            }),
+          ],
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < rows.length; i++ ){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       const tableCell = new TableCell({
         children: [
           new Paragraph({
             text: `${currentRow[j]}`,
             alignment: AlignmentType.START,
-          })
+          }),
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
-        shading: i == 0 ? firstRowShade : null
+        shading: i == 0 ? firstRowShade : null,
       });
       tableRowCells.push(tableCell);
     }
@@ -184,14 +187,14 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
   const tableFooterRows = [];
 
-  for( let i = 0; i < footerColumnsSimpleEstimation.length; i++ ){
+  for (let i = 0; i < footerColumnsSimpleEstimation.length; i++) {
     const tableRowCells = [];
     const tableCell1 = new TableCell({
       children: [
@@ -200,14 +203,14 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimation[i],
-              bold: true
-            })
-          ]
-        })
+              bold: true,
+            }),
+          ],
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null
+      shading: i == 0 ? firstRowShade : null,
     });
     const tableCell2 = new TableCell({
       children: [
@@ -216,14 +219,14 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
           children: [
             new TextRun({
               text: `${footerData[i]}`,
-              bold: true
-            })
-          ]
-        })
+              bold: true,
+            }),
+          ],
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null
+      shading: i == 0 ? firstRowShade : null,
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
@@ -236,9 +239,7 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
   const tableFooter = [
     new Table({
       alignment: AlignmentType.RIGHT,
-      rows: [
-        ...tableFooterRows
-      ],
+      rows: [...tableFooterRows],
     }),
   ];
 
@@ -247,25 +248,27 @@ function exportDOCXSimpleEstimation(data, currentProject, noPrice){
     Spacer,
     ...tableBody,
     Spacer,
-    ...tableFooter
+    ...tableFooter,
   ];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesEstimation(data, currentProject, noPrice){
-
+async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
@@ -275,9 +278,12 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
 
   let docxParsedData = [];
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesEstimation(currentRow, (i+1));
+    const currentRowDOCXParsedData = docxParsedDataGenTradesEstimation(
+      currentRow,
+      i + 1
+    );
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -295,15 +301,15 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -313,10 +319,10 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true
-                    })
-                  ]
-                })
+                      bold: true,
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -326,8 +332,8 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -337,15 +343,15 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -355,8 +361,7 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsEstimation.length; i++ ){
-
+  for (let i = 0; i < dataColumnsEstimation.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
@@ -365,38 +370,40 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-            })
-          ]
-        })
+            }),
+          ],
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < docxParsedData.length; i++ ){
+  for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       const tableCell = new TableCell({
         children: [
           new Paragraph({
             text: `${currentRow[j]}`,
             alignment: AlignmentType.START,
-          })
+          }),
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
@@ -416,33 +423,35 @@ function exportDOCXTradesEstimation(data, currentProject, noPrice){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
-  const children = [
-    ...tableHeader,
-    Spacer,
-    ...tableBody,
-  ];
+  const children = [...tableHeader, Spacer, ...tableBody];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
-
+async function exportDOCXTradesAndTranchesEstimation(
+  data,
+  currentProject,
+  noPrice
+) {
   const headArr = headGen(
     `${noPrice ? "DQE" : "Estimation"}`,
     `${currentProject?.name ?? "N/A"}`
@@ -452,9 +461,10 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
 
   let docxParsedData = [];
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(currentRow, (i+1));
+    const currentRowDOCXParsedData =
+      docxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -472,15 +482,15 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -490,10 +500,10 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true
-                    })
-                  ]
-                })
+                      bold: true,
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -503,8 +513,8 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -514,15 +524,15 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                    })
-                  ]
-                })
+                    }),
+                  ],
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -532,8 +542,7 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsEstimation.length; i++ ){
-
+  for (let i = 0; i < dataColumnsEstimation.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
@@ -542,38 +551,40 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-            })
-          ]
-        })
+            }),
+          ],
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < docxParsedData.length; i++ ){
+  for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       const tableCell = new TableCell({
         children: [
           new Paragraph({
             text: `${currentRow[j]}`,
             alignment: AlignmentType.START,
-          })
+          }),
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
@@ -593,37 +604,32 @@ function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
-  const children = [
-    ...tableHeader,
-    Spacer,
-    ...tableBody,
-  ];
+  const children = [...tableHeader, Spacer, ...tableBody];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
+    noPrice ? "DQE" : "Estimation"
+  }`;
+  return { blob, filename };
 }
 
-function exportDOCXSimpleBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXSimpleBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenSimpleBPU(data);
 
@@ -638,13 +644,13 @@ function exportDOCXSimpleBPU(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -652,7 +658,7 @@ function exportDOCXSimpleBPU(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -662,8 +668,8 @@ function exportDOCXSimpleBPU(data, currentProject){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -671,13 +677,13 @@ function exportDOCXSimpleBPU(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -687,37 +693,38 @@ function exportDOCXSimpleBPU(data, currentProject){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsBPU.length; i++ ){
-
+  for (let i = 0; i < dataColumnsBPU.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
           text: dataColumnsEstimation[i],
           alignment: AlignmentType.START,
-        })
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < rows.length; i++ ){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       let docxObjs = textRunsSplitGen(currentRow[j]);
       const tableCell = new TableCell({
         children: docxObjs,
@@ -738,36 +745,30 @@ function exportDOCXSimpleBPU(data, currentProject){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
-  const children = [
-    ...tableHeader,
-    ...tableBody,
-  ];
+  const children = [...tableHeader, ...tableBody];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXTradesBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenTradesBPU(data);
 
@@ -782,13 +783,13 @@ function exportDOCXTradesBPU(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -796,7 +797,7 @@ function exportDOCXTradesBPU(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -806,8 +807,8 @@ function exportDOCXTradesBPU(data, currentProject){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -815,13 +816,13 @@ function exportDOCXTradesBPU(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -831,37 +832,38 @@ function exportDOCXTradesBPU(data, currentProject){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsBPU.length; i++ ){
-
+  for (let i = 0; i < dataColumnsBPU.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
           text: dataColumnsEstimation[i],
           alignment: AlignmentType.START,
-        })
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < rows.length; i++ ){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       let docxObjs = textRunsSplitGen(currentRow[j]);
       const tableCell = new TableCell({
         children: docxObjs,
@@ -882,36 +884,30 @@ function exportDOCXTradesBPU(data, currentProject){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
-  const children = [
-    ...tableHeader,
-    ...tableBody,
-  ];
+  const children = [...tableHeader, ...tableBody];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesAndTranchesBPU(data, currentProject){
-
-  const headArr = headGen(
-    "BPU",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
+  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenTradesAndTranchesBPU(data);
 
@@ -926,13 +922,13 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -940,7 +936,7 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -950,8 +946,8 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -959,13 +955,13 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -975,37 +971,38 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
 
   const tableBodyColumns = [];
 
-  for( let i = 0; i < dataColumnsBPU.length; i++ ){
-
+  for (let i = 0; i < dataColumnsBPU.length; i++) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
           text: dataColumnsEstimation[i],
           alignment: AlignmentType.START,
-        })
+        }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins: i != 1 ? normalMargin : {
-        top: convertInchesToTwip(0.06),
-        bottom: convertInchesToTwip(0.06),
-        left: convertInchesToTwip(0.72),
-        right: convertInchesToTwip(0.72),
-      },
+      margins:
+        i != 1
+          ? normalMargin
+          : {
+              top: convertInchesToTwip(0.06),
+              bottom: convertInchesToTwip(0.06),
+              left: convertInchesToTwip(0.72),
+              right: convertInchesToTwip(0.72),
+            },
       shading: {
-        fill: "#DCDADA"
-      }
+        fill: "#DCDADA",
+      },
     });
 
     tableBodyColumns.push(tableCell);
-
   }
 
   const tableBodyRows = [];
 
-  for ( let i = 0; i < rows.length; i++ ){
+  for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const tableRowCells = [];
-    for( let j = 0; j < currentRow.length; j++ ){
+    for (let j = 0; j < currentRow.length; j++) {
       let docxObjs = textRunsSplitGen(currentRow[j]);
       const tableCell = new TableCell({
         children: docxObjs,
@@ -1026,36 +1023,30 @@ function exportDOCXTradesAndTranchesBPU(data, currentProject){
         new TableRow({
           children: tableBodyColumns,
         }),
-        ...tableBodyRows
+        ...tableBodyRows,
       ],
     }),
   ];
 
-  const children = [
-    ...tableHeader,
-    ...tableBody,
-  ];
+  const children = [...tableHeader, ...tableBody];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  return { blob, filename };
 }
 
-function exportDOCXSimpleCCTP(data, currentProject){
-
-  const headArr = headGen(
-    "CCTP",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXSimpleCCTP(data, currentProject) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenSimpleCCTP(data);
 
@@ -1070,13 +1061,13 @@ function exportDOCXSimpleCCTP(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1084,7 +1075,7 @@ function exportDOCXSimpleCCTP(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -1094,8 +1085,8 @@ function exportDOCXSimpleCCTP(data, currentProject){
                 right: convertInchesToTwip(0.72),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1103,13 +1094,13 @@ function exportDOCXSimpleCCTP(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -1119,19 +1110,18 @@ function exportDOCXSimpleCCTP(data, currentProject){
 
   const bodyChild = [];
 
-  for(let i = 0; i < rows.length; i++){
-
+  for (let i = 0; i < rows.length; i++) {
     bodyChild.push(
       new Paragraph({
         spacing: {
           before: i == 0 ? 120 : 80,
-          after: 60
+          after: 60,
         },
         children: [
           new TextRun({
             text: rows[i].title,
             size: 42,
-            bold: true
+            bold: true,
           }),
         ],
       })
@@ -1139,39 +1129,31 @@ function exportDOCXSimpleCCTP(data, currentProject){
 
     const CCTPArr = rows[i].cctp_arr;
 
-    for( let j = 0; j < CCTPArr.length; j++ ){
+    for (let j = 0; j < CCTPArr.length; j++) {
       let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(
-        ...docxObjs
-      );
+      bodyChild.push(...docxObjs);
     }
   }
 
-  const children = [
-    ...tableHeader,
-    ...bodyChild
-  ];
+  const children = [...tableHeader, ...bodyChild];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesCCTP(data, currentProject){
-
-  const headArr = headGen(
-    "CCTP",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXTradesCCTP(data, currentProject) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenTradesCCTP(data);
 
@@ -1186,13 +1168,13 @@ function exportDOCXTradesCCTP(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1200,7 +1182,7 @@ function exportDOCXTradesCCTP(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -1210,8 +1192,8 @@ function exportDOCXTradesCCTP(data, currentProject){
                 right: convertInchesToTwip(0.72),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1219,13 +1201,13 @@ function exportDOCXTradesCCTP(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -1235,19 +1217,18 @@ function exportDOCXTradesCCTP(data, currentProject){
 
   const bodyChild = [];
 
-  for(let i = 0; i < rows.length; i++){
-
+  for (let i = 0; i < rows.length; i++) {
     bodyChild.push(
       new Paragraph({
         spacing: {
           before: i == 0 ? 120 : 80,
-          after: 60
+          after: 60,
         },
         children: [
           new TextRun({
             text: rows[i].title,
             size: 42,
-            bold: true
+            bold: true,
           }),
         ],
       })
@@ -1255,39 +1236,31 @@ function exportDOCXTradesCCTP(data, currentProject){
 
     const CCTPArr = rows[i].cctp_arr;
 
-    for( let j = 0; j < CCTPArr.length; j++ ){
+    for (let j = 0; j < CCTPArr.length; j++) {
       let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(
-        ...docxObjs
-      );
+      bodyChild.push(...docxObjs);
     }
   }
 
-  const children = [
-    ...tableHeader,
-    ...bodyChild
-  ];
+  const children = [...tableHeader, ...bodyChild];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  return { blob, filename };
 }
 
-function exportDOCXTradesAndTranchesCCTP(data, currentProject){
-
-  const headArr = headGen(
-    "CCTP",
-    `${currentProject?.name ?? "N/A"}`
-  );
+async function exportDOCXTradesAndTranchesCCTP(data, currentProject) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenTradesAndTranchesCCTP(data);
 
@@ -1302,13 +1275,13 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
                   text: headArr[0],
                   style: "bold",
                   alignment: AlignmentType.START,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1316,7 +1289,7 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
                   text: headArr[1],
                   style: "bold",
                   alignment: AlignmentType.CENTER,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
@@ -1326,8 +1299,8 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
                 right: convertInchesToTwip(0.72),
               },
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
             new TableCell({
               children: [
@@ -1335,13 +1308,13 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
                   text: headArr[2],
                   style: "bold",
                   alignment: AlignmentType.END,
-                })
+                }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC"
-              }
+                fill: "#C4C8CC",
+              },
             }),
           ],
         }),
@@ -1351,19 +1324,18 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
 
   const bodyChild = [];
 
-  for(let i = 0; i < rows.length; i++){
-
+  for (let i = 0; i < rows.length; i++) {
     bodyChild.push(
       new Paragraph({
         spacing: {
           before: i == 0 ? 120 : 80,
-          after: 60
+          after: 60,
         },
         children: [
           new TextRun({
             text: rows[i].title,
             size: 42,
-            bold: true
+            bold: true,
           }),
         ],
       })
@@ -1371,31 +1343,27 @@ function exportDOCXTradesAndTranchesCCTP(data, currentProject){
 
     const CCTPArr = rows[i].cctp_arr;
 
-    for( let j = 0; j < CCTPArr.length; j++ ){
+    for (let j = 0; j < CCTPArr.length; j++) {
       let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(
-        ...docxObjs
-      );
+      bodyChild.push(...docxObjs);
     }
   }
 
-  const children = [
-    ...tableHeader,
-    ...bodyChild
-  ];
+  const children = [...tableHeader, ...bodyChild];
 
-  const sections = [{
-    children: children
-  }];
+  const sections = [
+    {
+      children: children,
+    },
+  ];
 
   const doc = new Document({
     sections: sections,
   });
 
-  Packer.toBlob(doc).then(blob => {
-    saveAs(blob, `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`);
-  });
-
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  return { blob, filename };
 }
 
 const normalMargin = {
@@ -1406,7 +1374,7 @@ const normalMargin = {
 };
 
 const firstRowShade = {
-  fill: "#DCDADA"
+  fill: "#DCDADA",
 };
 
 export {
@@ -1418,5 +1386,5 @@ export {
   exportDOCXTradesAndTranchesBPU,
   exportDOCXSimpleCCTP,
   exportDOCXTradesCCTP,
-  exportDOCXTradesAndTranchesCCTP
-}
+  exportDOCXTradesAndTranchesCCTP,
+};
