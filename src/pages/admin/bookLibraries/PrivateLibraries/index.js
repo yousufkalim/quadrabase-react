@@ -79,7 +79,7 @@ export default function Index(props) {
     try {
       let response = await Axios({
         method: "get",
-        url: `${baseUrl}/BookLibraries/private/getByFamily/${id}`,
+        url: `${baseUrl}/BookLibraries/private`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -162,6 +162,10 @@ export default function Index(props) {
         },
       });
       let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
+      data = data.filter((item) => {
+        let famName = item.name.toUpperCase();
+        return famName === "PRESCRIPTEUR";
+      });
       setFamiliesData(data);
       setLoading(false);
     } catch (error) {
@@ -187,7 +191,6 @@ export default function Index(props) {
       <div className="w-full  md:mx-auto py-20 ">
         <div className="container mx-auto px-6">
           <div className="w-3/4 mx-auto ">
-            {console.log(openCat)}
             <List
               translate={translate}
               state={state}
