@@ -141,6 +141,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [madatCheck, setMadatCheck] = useState(false);
+  const [archId, setArchId] = useState("");
   const [form1, setForm1] = useState({
     values: {
       establishment: "",
@@ -257,19 +258,7 @@ const Register = () => {
           },
         ],
         metaData: {
-          establishment: form1.values.establishment,
-          service: form1.values.service,
-          address_1: form1.values.address_1,
-          address_2: form1.values.address_2,
-          po_box: form1.values.po_box,
-          postal_code: form1.values.postal_code,
-          city: form1.values.city,
-          phone: form1.values.phone,
-          last_name: form2.values.last_name,
-          first_name: form2.values.first_name,
-          email: form2.values.email,
-          password: form2.values.password,
-          confirm_password: form2.values.confirm_password,
+          id: archId,
           subscriptionDuration:
             (parseInt(subAmounts.initial.count) +
               parseInt(subAmounts.extended.count)) *
@@ -367,6 +356,28 @@ const Register = () => {
 
     const res = await api("post", `/licenses/checkout`, data);
     window.location = res.data.url;
+  };
+
+  const createUser = async () => {
+    let data = {
+      establishment: form1.values.establishment,
+      service: form1.values.service,
+      address_1: form1.values.address_1,
+      address_2: form1.values.address_2,
+      po_box: form1.values.po_box,
+      postal_code: form1.values.postal_code,
+      city: form1.values.city,
+      phone: form1.values.phone,
+      last_name: form2.values.last_name,
+      first_name: form2.values.first_name,
+      email: form2.values.email,
+      password: form2.values.password,
+      confirm_password: form2.values.confirm_password,
+    };
+    const res = await api("post", `/Architects/createOnSingup`, data);
+    setArchId(res.data.architect._id);
+    toast.success(res.data.message);
+    return res.data.success;
   };
 
   const generateInvoice = async () => {
@@ -513,14 +524,27 @@ const Register = () => {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
+  const handleNext = async () => {
+    if (activeStep === 1 && type === "Prescripteur") {
+      let success = await createUser();
+      if (success) {
+        const newActiveStep =
+          isLastStep() && !allStepsCompleted()
+            ? // It's the last step, but not all steps have been completed,
+              // find the first step that has been completed
+              steps.findIndex((step, i) => !(i in completed))
+            : activeStep + 1;
+        setActiveStep(newActiveStep);
+      }
+    } else {
+      const newActiveStep =
+        isLastStep() && !allStepsCompleted()
+          ? // It's the last step, but not all steps have been completed,
+            // find the first step that has been completed
+            steps.findIndex((step, i) => !(i in completed))
+          : activeStep + 1;
+      setActiveStep(newActiveStep);
+    }
   };
 
   const handleBack = () => setActiveStep(activeStep - 1);
