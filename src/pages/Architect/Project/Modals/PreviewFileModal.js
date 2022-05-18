@@ -74,16 +74,6 @@ const PreviewFileModal = (props) => {
         if (err) {
           console.log(err);
         } else {
-          let rows = [];
-          res.rows.map((item1) => {
-            let element = [];
-            item1.map((item2, index2) => {
-              if (index2 !== 0) {
-                element.push(item2);
-              }
-            });
-            rows.push(element);
-          });
           setCols(res.cols);
           setRows(res.rows);
         }
