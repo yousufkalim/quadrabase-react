@@ -62,7 +62,7 @@ const TranchesModal = ({
         <Grid container spacing={2}>
           <Grid item zeroMinWidth xs>
             <InputWithLabel
-              label="Name"
+              label={t("Name")}
               required={true}
               name="text"
               type="text"
@@ -73,7 +73,7 @@ const TranchesModal = ({
           <Grid item zeroMinWidth xs>
             <InputDropdown
               options={tradeOption}
-              label="Trade"
+              label={t("Trade")}
               value={trade}
               onChange={(e) => setTrade(e.target.value)}
               backgroundColor="white"
