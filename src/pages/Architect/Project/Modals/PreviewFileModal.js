@@ -1,12 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import FileViewer from "react-file-viewer";
-import { OutTable, ExcelRenderer } from "react-excel-renderer";
+import { ExcelRenderer } from "react-excel-renderer";
 
 import { downloadBlob } from "../ReportsGen/data";
 import DocViewer from "../../ProjectLibraries/component/DocViewer";
 import api from "../../../../api";
+
+class OutTable extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <div className={this.props.className}>
+        <table className={this.props.tableClassName}>
+          <tbody>
+            {this.props.data.map((r, i) => (
+              <tr key={i}>
+                {this.props.columns.map((c) => (
+                  <td
+                    key={c.key}
+                    style={{
+                      padding: "0 25px",
+                      fontWeight: i === 0 && 600,
+                      whiteSpace: i === 0 && "nowrap",
+                    }}
+                  >
+                    {r[c.key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 
 const PreviewFileModal = (props) => {
   const { t } = useTranslation();
@@ -45,9 +79,6 @@ const PreviewFileModal = (props) => {
         }
       });
     }
-    console.log(props.blob);
-    console.log(props.filetype);
-    console.log(blobURL);
   }, []);
 
   const _triggerDownload = () => {
