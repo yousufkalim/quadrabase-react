@@ -903,7 +903,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{
@@ -1125,7 +1125,7 @@ const Register = () => {
                                 >
                                   Arrière
                                 </Button>
-                                &nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button
                                   variant="contained"
                                   style={{
@@ -1231,7 +1231,7 @@ const Register = () => {
                                 >
                                   Arrière
                                 </Button>
-                                &nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button
                                   variant="contained"
                                   style={{
@@ -1603,7 +1603,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{
@@ -2014,7 +2014,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{
