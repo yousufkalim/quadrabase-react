@@ -1034,7 +1034,7 @@ const ProjectView = () => {
           />
 
           <Modal
-            title={t("Add Tranche")}
+            title={t("Add Tranch")}
             open={openTranchesModal}
             onClose={handleTranchesModal}
             component={
@@ -1481,7 +1481,7 @@ const ProjectView = () => {
                               padding: "2px 16px",
                             }}
                           >
-                            {t("Unity")}
+                            {t("Unit")}
                           </TableCell>
                           <TableCell
                             align="center"

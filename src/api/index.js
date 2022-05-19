@@ -4,9 +4,11 @@ import { toast } from "react-toastify";
 
 const api = async (method = "get", uri, body, t) => {
   const token = localStorage.getItem("token");
+  const lang = localStorage.getItem("i18nextLng");
   if (token) {
     axios.defaults.headers = {
       Authorization: `Bearer ${token}`,
+      lang: lang ? lang : "fr",
     };
   }
 

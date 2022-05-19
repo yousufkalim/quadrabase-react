@@ -265,7 +265,7 @@ export default function DenseTable({
               {t("Designation")}
             </TableCell>
             <TableCell align="center" style={{ fontWeight: 900, fontSize: 16 }}>
-              {t("Unity")}
+              {t("Unit")}
             </TableCell>
             <TableCell align="center" style={{ fontWeight: 900, fontSize: 16 }}>
               {t("Qty")}

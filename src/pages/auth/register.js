@@ -142,6 +142,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [madatCheck, setMadatCheck] = useState(false);
   const [archId, setArchId] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const [form1, setForm1] = useState({
     values: {
       establishment: "",
@@ -235,6 +236,7 @@ const Register = () => {
     let data = {};
     if (type === "Prescripteur") {
       data = {
+        paymentMethod,
         line_items: [
           {
             price_data: {
@@ -299,6 +301,7 @@ const Register = () => {
       };
     } else {
       data = {
+        paymentMethod,
         line_items: [
           {
             price_data: {
@@ -900,7 +903,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{
@@ -1122,7 +1125,7 @@ const Register = () => {
                                 >
                                   Arrière
                                 </Button>
-                                &nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button
                                   variant="contained"
                                   style={{
@@ -1228,7 +1231,7 @@ const Register = () => {
                                 >
                                   Arrière
                                 </Button>
-                                &nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button
                                   variant="contained"
                                   style={{
@@ -1600,7 +1603,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{
@@ -1747,9 +1750,9 @@ const Register = () => {
                                     name="payment"
                                     value="card"
                                     className="radio-button"
-                                    checked
+                                    checked={paymentMethod === "card"}
                                     onChange={(e) =>
-                                      console.log("e", e.target.value)
+                                      setPaymentMethod(e.target.value)
                                     }
                                   />
                                 </div>
@@ -1761,10 +1764,11 @@ const Register = () => {
                                   <input
                                     type="radio"
                                     name="payment"
-                                    value="sepa"
+                                    value="sepa_debit"
                                     className="radio-button"
+                                    checked={paymentMethod === "sepa_debit"}
                                     onChange={(e) =>
-                                      console.log("e", e.target.value)
+                                      setPaymentMethod(e.target.value)
                                     }
                                   />
                                 </div>
@@ -1924,9 +1928,9 @@ const Register = () => {
                                     name="payment"
                                     value="card"
                                     className="radio-button"
-                                    checked
+                                    checked={paymentMethod === "card"}
                                     onChange={(e) =>
-                                      console.log("e", e.target.value)
+                                      setPaymentMethod(e.target.value)
                                     }
                                   />
                                 </div>
@@ -1938,10 +1942,11 @@ const Register = () => {
                                   <input
                                     type="radio"
                                     name="payment"
-                                    value="sepa"
+                                    value="sepa_debit"
                                     className="radio-button"
+                                    checked={paymentMethod === "sepa_debit"}
                                     onChange={(e) =>
-                                      console.log("e", e.target.value)
+                                      setPaymentMethod(e.target.value)
                                     }
                                   />
                                 </div>
@@ -2009,7 +2014,7 @@ const Register = () => {
                             >
                               Arrière
                             </Button>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
                               variant="contained"
                               style={{

@@ -479,7 +479,7 @@ i18n
           "Total VAT": "Total VAT",
           "Total Price": "Total Price",
           Designation: "Designation",
-          Unity: "Unity",
+          Unit: "Unit",
           Qty: "Qty",
           "Project References": "Project References",
           "Market Type / Structure": "Market Type / Structure",
@@ -1018,7 +1018,7 @@ i18n
           "Total VAT": "TVA total",
           "Total Price": "Prix ​​total",
           Designation: "Désignation",
-          Unity: "Unité",
+          Unit: "Unité",
           Qty: "Qté",
           "Project References": "Références du projet",
           "Market Type / Structure": "Type de marché / Structure",
@@ -1098,7 +1098,7 @@ i18n
 
     fallbackLng: "fr",
     debug: true,
-
+    lng: "fr",
     // have a common namespace used around the full app
     ns: ["translations"],
     defaultNS: "translations",
