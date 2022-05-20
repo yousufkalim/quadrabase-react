@@ -10,6 +10,8 @@ import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import "../../css/home.css";
+import noSubcription from "../../assets/noSubcription.png";
+import { UpdateStore } from "../../StoreContext";
 
 // Importing Components
 import { Button } from "@mui/material";
@@ -25,6 +27,7 @@ const Home = () => {
   const { t } = useTranslation();
   const store = Store();
   const history = useHistory();
+  const updateStore = UpdateStore();
   // states
   const [subscriptionsData, setSubscriptionsData] = useState([]);
   const [mySubscription, setMySubscription] = useState({});
@@ -100,7 +103,15 @@ const Home = () => {
   const handleRenewModalModal = () => setRenewModal(!renewModal);
   const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
 
-  return (
+  const handleNoSub = () => {
+    localStorage.setItem("archId", store?.user._id);
+    localStorage.setItem("step", 2);
+    localStorage.removeItem("token");
+    updateStore({ loggedIn: false, user: {} });
+    history.push("/auth/register");
+  };
+
+  return mySubscription ? (
     <div className="home-container">
       <Modal
         title={t("Buy Subscription")}
@@ -246,6 +257,35 @@ const Home = () => {
         buttonText={t("New Projects")}
         buttonAction={handleAddProjectModal}
       />
+    </div>
+  ) : (
+    <div className="no-subscription">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <img src={noSubcription} />
+        <span className="no-subscription-text">
+          {t("You have to complete your")} <br />
+          {t("Sign up process first, to use this platform")}
+        </span>
+        <Button
+          variant="contained"
+          style={{
+            textTransform: "none",
+            backgroundColor: "#8C1244",
+            borderRadius: 8,
+            marginTop: 35,
+          }}
+          onClick={handleNoSub}
+        >
+          Back to Sign up Process
+        </Button>
+      </div>
     </div>
   );
 };

@@ -186,6 +186,16 @@ const Register = () => {
   });
 
   useEffect(() => {
+    if (localStorage.getItem("step") == 2) {
+      setStartStepper(true);
+      setArchId(localStorage.getItem("archId"));
+      setActiveStep(parseInt(localStorage.getItem("step")));
+      localStorage.removeItem("archId");
+      localStorage.removeItem("step");
+    }
+  }, []);
+
+  useEffect(() => {
     const errors = validate(form1.values, schema1);
     setForm1((formState) => ({
       ...formState,

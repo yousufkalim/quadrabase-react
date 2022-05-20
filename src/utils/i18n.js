@@ -551,6 +551,9 @@ i18n
           "Valid Until": "Valid Until",
           "No technical document in this project":
             "No technical document in this project",
+          "You have to complete your": "You have to complete your",
+          "Sign up process first, to use this platform":
+            "Sign up process first, to use this platform",
         },
       },
       fr: {
@@ -1092,6 +1095,9 @@ i18n
           "Valid Until": "Valable jusque",
           "No technical document in this project":
             "Pas de document technique dans ce projet",
+          "You have to complete your": "Vous devez compléter votre",
+          "Sign up process first, to use this platform":
+            "Inscrivez-vous d'abord pour utiliser cette plateforme",
         },
       },
     },

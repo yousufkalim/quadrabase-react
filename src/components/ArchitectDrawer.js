@@ -102,7 +102,11 @@ export default function ResponsiveDrawer(props) {
               <ListItem
                 button
                 key={item?.text}
-                onClick={() => history.push(item.layout + item.path)}
+                onClick={() => {
+                  if (props.user?.subscriptions) {
+                    history.push(item.layout + item.path);
+                  }
+                }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={t(item?.text)} />
