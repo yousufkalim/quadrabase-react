@@ -14,3 +14,15 @@
     padding:20px;
 }
 
+.no-subscription{
+    display: grid;
+    place-items: center;
+    height: 100%;
+}
+
+.no-subscription-text{
+    font-size: 32px;
+    font-weight: 600;
+    color:#8C1244;
+    
+}
