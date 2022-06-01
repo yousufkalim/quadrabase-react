@@ -385,6 +385,24 @@ export const SubscriptionheadCells = [
   },
 ];
 
+export const MyProjectHeadCells = [
+  {
+    id: "totalProjects",
+
+    label: "Number of Projects",
+  },
+  {
+    id: "inProgress",
+
+    label: "Projects in progress",
+  },
+  {
+    id: "remaining",
+
+    label: "Projects remaining",
+  },
+];
+
 export const StakeholderheadCells = [
   {
     id: "name",
