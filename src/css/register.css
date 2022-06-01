@@ -47,7 +47,18 @@
 }
 
 .stepper{
-    width:420px;
+    width:220px;
+}
+
+.purchase-header{
+    width: 110%;
+    background-color: #8C1244;
+    color:white;
+    padding:10px;
+    border-radius: 10px;
+    margin-bottom: 5%;
+    font-weight: 600;
+    font-size: 20px;
 }
 
 .register-eye-icon{
@@ -63,9 +74,21 @@
     width:110%;
 }
 
+.payment-box{
+    color: #8C1244;
+    width:110%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .common-text{
     line-height: 100%;
     width:250px;
+}
+.common-text-3{
+    line-height: 100%;
+    margin-right: 20%;
 }
 
 .common-text-2{
@@ -106,7 +129,6 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-bottom: 10px;
 }
 
 .subscription-box-intial-2{
@@ -135,6 +157,7 @@
     accent-color: #8C1244;
     height: 16px;
     width: 16px;
+    margin-right: 20px;
 }
 .check-box_1{
     color: #8C1244;
@@ -145,9 +168,6 @@
 .payment-flex-contaner{
     display: flex;
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
 }
 
 @media only screen and (max-height: 750px) {

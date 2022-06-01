@@ -59,8 +59,6 @@ function ColorlibStepIcon(props) {
   const icons = {
     1: completed ? <DoneIcon /> : <>1</>,
     2: completed ? <DoneIcon /> : <>2</>,
-    3: completed ? <DoneIcon /> : <>3</>,
-    4: completed ? <DoneIcon /> : <>4</>,
   };
   return (
     <div
@@ -74,23 +72,13 @@ function ColorlibStepIcon(props) {
   );
 }
 function getSteps() {
-  return [
-    "Informations générales",
-    "Informations de connexion",
-    "Formule d'abonnement",
-    "Paiement",
-  ];
+  return ["Informations générales", "Informations de connexion"];
 }
 export default function CustomizedSteppers({ activeStep, handleStep }) {
   const steps = getSteps();
   return (
     <div className="stepperMain">
-      <Stepper
-        alternativeLabel
-        activeStep={activeStep}
-        connector={<ColorlibConnector />}
-        className="stepper"
-      >
+      <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />} className="stepper">
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>
