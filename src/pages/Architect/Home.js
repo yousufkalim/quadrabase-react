@@ -46,26 +46,16 @@ const Home = () => {
 
   useEffect(() => {
     let array = [];
-    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map(
-      (cell) => array.push(cell.id)
-    );
+    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map((cell) => array.push(cell.id));
     setSubscriptionHeadCells(array);
     let temp = [];
-    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) =>
-      temp.push(cell.id)
-    );
+    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) => temp.push(cell.id));
     setProjectHeadCells(temp);
   }, []);
 
   useEffect(() => {
     getSubscriptions();
-  }, [
-    buySubModal,
-    assignSubModal,
-    buyProjectsModal,
-    renewModal,
-    addProjectModal,
-  ]);
+  }, [buySubModal, assignSubModal, buyProjectsModal, renewModal, addProjectModal]);
 
   useEffect(() => {
     getProjects();
@@ -79,9 +69,7 @@ const Home = () => {
 
   const getProjects = async () => {
     const result = await api("get", `/project/byArchitect/${store.user._id}`);
-    const projects = result?.data?.project.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+    const projects = result?.data?.project.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setProjectData(projects);
   };
 
@@ -123,42 +111,25 @@ const Home = () => {
         title={t("Assign Subscription")}
         open={assignSubModal}
         onClose={handleAssignSubModal}
-        component={
-          <AssignSubscription
-            assignSub={assignSub}
-            handleAssignSubModal={handleAssignSubModal}
-          />
-        }
+        component={<AssignSubscription assignSub={assignSub} handleAssignSubModal={handleAssignSubModal} />}
       />
       <Modal
         title={t("Buy Projects")}
         open={buyProjectsModal}
         onClose={handleBuyProjectsModals}
-        component={
-          <BuyProjects
-            mySubscription={mySubscription}
-            handleBuyProjectsModals={handleBuyProjectsModals}
-          />
-        }
+        component={<BuyProjects mySubscription={mySubscription} handleBuyProjectsModals={handleBuyProjectsModals} />}
       />
       <Modal
         title={t("Renew Subscription")}
         open={renewModal}
         onClose={handleRenewModalModal}
-        component={
-          <Renew
-            mySubscription={mySubscription}
-            handleRenewModalModal={handleRenewModalModal}
-          />
-        }
+        component={<Renew mySubscription={mySubscription} handleRenewModalModal={handleRenewModalModal} />}
       />
       <Modal
         title={t("Add Project")}
         open={addProjectModal}
         onClose={handleAddProjectModal}
-        component={
-          <AddProjectModal handleAddProjectModal={handleAddProjectModal} />
-        }
+        component={<AddProjectModal handleAddProjectModal={handleAddProjectModal} />}
       />
       <div className="home-upper-container">
         <div className="home-left-container">
@@ -173,15 +144,9 @@ const Home = () => {
           />
         </div>
         <div className="home-right-container">
-          <div style={{ fontSize: 20, padding: "9px 20px" }}>
-            {t("My Subscription")}
-          </div>
-          <div
-            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
-          ></div>
-          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            {t("Remaning Projects")}
-          </div>
+          <div style={{ fontSize: 20, padding: "9px 20px" }}>{t("My Subscription")}</div>
+          <div style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}></div>
+          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>{t("Remaning Projects")}</div>
           <div style={{ fontSize: 36, padding: "10px 20px", fontWeight: 600 }}>
             {mySubscription?.projects - store?.user?.projects?.length}
           </div>
@@ -210,12 +175,8 @@ const Home = () => {
               {t("Buy Projects")}
             </Button>
           </div>
-          <div
-            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
-          ></div>
-          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            {t("Valid Until")}
-          </div>
+          <div style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}></div>
+          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>{t("Valid Until")}</div>
           <div style={{ fontSize: 30, padding: "5px 20px", fontWeight: 600 }}>
             {moment(mySubscription?.end_date).format("DD MMMM, YYYY")}
           </div>
@@ -246,17 +207,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Table
-        headCells={ProjectheadCells}
-        data={projectData}
-        rows={projectHeadCells}
-        handleView={handleView}
-        headerText={`${t("My Projects")} (${store?.user?.projects?.length}/${
-          mySubscription?.projects ? mySubscription?.projects : 0
-        })`}
-        buttonText={t("New Projects")}
-        buttonAction={handleAddProjectModal}
-      />
     </div>
   ) : (
     <div className="no-subscription">
