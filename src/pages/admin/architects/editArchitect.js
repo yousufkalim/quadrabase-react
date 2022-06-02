@@ -9,11 +9,7 @@ export default function AddExpense(props) {
     let initialValues = formik.initialValues;
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
-        if (
-          Object.keys(initialValues).includes(dat) &&
-          dat !== "password" &&
-          dat !== "confirm_password"
-        ) {
+        if (Object.keys(initialValues).includes(dat) && dat !== "password" && dat !== "confirm_password") {
           formik.setFieldValue(dat, editData[dat]);
         }
       });
@@ -33,9 +29,7 @@ export default function AddExpense(props) {
             value={formik.values.establishment}
           />
           <div className="text-red-600 ">
-            {formik.touched.establishment && formik.errors.establishment ? (
-              <small>{formik.errors.establishment}</small>
-            ) : null}
+            {formik.touched.establishment && formik.errors.establishment ? <small>{formik.errors.establishment}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -49,9 +43,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.service && formik.errors.service ? (
-              <small>{formik.errors.service}</small>
-            ) : null}
+            {formik.touched.service && formik.errors.service ? <small>{formik.errors.service}</small> : null}
           </div>
         </div>
       </div>
@@ -67,9 +59,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_1 && formik.errors.address_1 ? (
-              <small>{formik.errors.address_1}</small>
-            ) : null}
+            {formik.touched.address_1 && formik.errors.address_1 ? <small>{formik.errors.address_1}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -83,9 +73,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_2 && formik.errors.address_2 ? (
-              <small>{formik.errors.address_2}</small>
-            ) : null}
+            {formik.touched.address_2 && formik.errors.address_2 ? <small>{formik.errors.address_2}</small> : null}
           </div>
         </div>
       </div>
@@ -101,9 +89,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.po_box && formik.errors.po_box ? (
-              <small>{formik.errors.po_box}</small>
-            ) : null}
+            {formik.touched.po_box && formik.errors.po_box ? <small>{formik.errors.po_box}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -117,9 +103,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.postal_code && formik.errors.postal_code ? (
-              <small>{formik.errors.postal_code}</small>
-            ) : null}
+            {formik.touched.postal_code && formik.errors.postal_code ? <small>{formik.errors.postal_code}</small> : null}
           </div>
         </div>
       </div>
@@ -135,9 +119,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.city && formik.errors.city ? (
-              <small>{formik.errors.city}</small>
-            ) : null}
+            {formik.touched.city && formik.errors.city ? <small>{formik.errors.city}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -151,9 +133,7 @@ export default function AddExpense(props) {
             value={formik.values.last_name}
           />
           <div className="text-red-600 ">
-            {formik.touched.last_name && formik.errors.last_name ? (
-              <small>{formik.errors.last_name}</small>
-            ) : null}
+            {formik.touched.last_name && formik.errors.last_name ? <small>{formik.errors.last_name}</small> : null}
           </div>
         </div>
       </div>
@@ -169,9 +149,7 @@ export default function AddExpense(props) {
             value={formik.values.first_name}
           />
           <div className="text-red-600 ">
-            {formik.touched.first_name && formik.errors.first_name ? (
-              <small>{formik.errors.first_name}</small>
-            ) : null}
+            {formik.touched.first_name && formik.errors.first_name ? <small>{formik.errors.first_name}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -185,9 +163,7 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.phone && formik.errors.phone ? (
-              <small>{formik.errors.phone}</small>
-            ) : null}
+            {formik.touched.phone && formik.errors.phone ? <small>{formik.errors.phone}</small> : null}
           </div>
         </div>
       </div>
@@ -204,9 +180,7 @@ export default function AddExpense(props) {
             value={formik.values.email}
           />
           <div className="text-red-600 ">
-            {formik.touched.email && formik.errors.email ? (
-              <small>{formik.errors.email}</small>
-            ) : null}
+            {formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -220,23 +194,8 @@ export default function AddExpense(props) {
             value={formik.values.client_code}
           />
           <div className="text-red-600 ">
-            {formik.touched.client_code && formik.errors.client_code ? (
-              <small>{formik.errors.client_code}</small>
-            ) : null}
+            {formik.touched.client_code && formik.errors.client_code ? <small>{formik.errors.client_code}</small> : null}
           </div>
-        </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <RadioButton
-            label="Authorize"
-            name="authorized"
-            translate={translate}
-            onChange={formik.handleChange}
-            value={formik.values.authorized}
-            options={["Yes", "No"]}
-            lowercase={true}
-          />
         </div>
       </div>
     </form>
