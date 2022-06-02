@@ -2,25 +2,18 @@ import * as Yup from "yup";
 
 export const LOGIN_YUP = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
-  password: Yup.string()
-    .min(8, "Must be 8 characters long")
-    .required("This field is required"),
+  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
 });
 export const ARCHITECT_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
 
   email: Yup.string().email("Invalid email address").required("Required"),
-  password: Yup.string()
-    .min(8, "Must be 8 characters long")
-    .required("This field is required"),
+  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
   confirm_password: Yup.string()
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf(
-        [Yup.ref("password")],
-        "Both password need to be the same"
-      ),
+      then: Yup.string().oneOf([Yup.ref("password")], "Both password need to be the same"),
     })
     .min(8, "Must be 8 characters long")
     .required("Required"),
@@ -35,20 +28,26 @@ export const ADMIN_YUP = Yup.object({
   last_name: Yup.string().required("Required"),
 
   email: Yup.string().email("Invalid email address").required("Required"),
-  password: Yup.string()
-    .min(8, "Must be 8 characters long")
-    .required("This field is required"),
+  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
   confirm_password: Yup.string()
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf(
-        [Yup.ref("password")],
-        "Both password need to be the same"
-      ),
+      then: Yup.string().oneOf([Yup.ref("password")], "Both password need to be the same"),
     })
     .min(8, "Must be 8 characters long")
     .required("Required"),
 });
+
+export const PRODUCT_YUP = Yup.object({
+  name: Yup.string().required("Required"),
+  type: Yup.string().required("Required"),
+  durationMonths: Yup.number().required("Required"),
+  durationprice: Yup.number().required("Required"),
+  credit: Yup.string().required("Required"),
+  projectsPack: Yup.number().required("Required"),
+  projectPrice: Yup.number().required("Required"),
+});
+
 export const EDIT_ADMIN_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
@@ -68,11 +67,7 @@ export const WORK_YUP = Yup.object({
 export const PROVIDER_YUP = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
-  zipcode: Yup.number().test(
-    "len",
-    "Must be exactly 5 characters",
-    (val) => val?.toString().length === 5
-  ),
+  zipcode: Yup.number().test("len", "Must be exactly 5 characters", (val) => val?.toString().length === 5),
 });
 export const UNIT_YUP = Yup.object({
   name: Yup.string().required("Required"),

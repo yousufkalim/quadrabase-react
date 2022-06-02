@@ -35,9 +35,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -76,14 +74,10 @@ function EnhancedTableHead(props) {
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
-                {props.translate
-                  ? props.translate(`${headCell.label}`)
-                  : headCell.label}
+                {props.translate ? props.translate(`${headCell.label}`) : headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -112,30 +106,16 @@ const EnhancedTableToolbar = (props) => {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
+          bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
       }}
     >
       {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
+        <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
+        <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">
           Nutrition
         </Typography>
       )}
@@ -194,10 +174,7 @@ export default function EnhancedTable(props) {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
 
     setSelected(newSelected);
@@ -215,8 +192,7 @@ export default function EnhancedTable(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty props.data.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.data.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.data.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -258,192 +234,104 @@ export default function EnhancedTable(props) {
                             {moment(row[record]).format("DD/MM/YYYY")}
                           </TableCell>
                         ) : record == "subscriptionStartDate" ? (
-                          <TableCell
-                            align="center"
-                            title={row?.subscriptions?.start_date}
-                          >
-                            {row?.subscriptions?.start_date
-                              ? moment(row?.subscriptions?.start_date).format(
-                                  "DD/MM/YYYY"
-                                )
-                              : "N/A"}
+                          <TableCell align="center" title={row?.subscriptions?.start_date}>
+                            {row?.subscriptions?.start_date ? moment(row?.subscriptions?.start_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record == "subscriptionEndDate" ? (
-                          <TableCell
-                            align="center"
-                            title={row?.subscriptions?.end_date}
-                          >
-                            {row?.subscriptions?.end_date
-                              ? moment(row?.subscriptions?.end_date).format(
-                                  "DD/MM/YYYY"
-                                )
-                              : "N/A"}
+                          <TableCell align="center" title={row?.subscriptions?.end_date}>
+                            {row?.subscriptions?.end_date ? moment(row?.subscriptions?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "subscription" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={row?.subscriptions?.subscription?.name}
-                          >
+                          <TableCell key={index} align="center" title={row?.subscriptions?.subscription?.name}>
                             {row?.subscriptions?.subscription?.name
-                              ? row?.subscriptions?.subscription?.name.length >
-                                20
-                                ? row?.subscriptions?.subscription?.name.substring(
-                                    0,
-                                    20
-                                  ) + "..."
+                              ? row?.subscriptions?.subscription?.name.length > 20
+                                ? row?.subscriptions?.subscription?.name.substring(0, 20) + "..."
                                 : row?.subscriptions?.subscription?.name
                               : "N/A"}
                           </TableCell>
                         ) : record === "total_projects" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={"total_projects"}
-                          >
+                          <TableCell key={index} align="center" title={"total_projects"}>
                             {row?.subscriptions?.projects
                               ? row?.subscriptions?.projects.length > 20
-                                ? row?.subscriptions?.projects.substring(
-                                    0,
-                                    20
-                                  ) + "..."
+                                ? row?.subscriptions?.projects.substring(0, 20) + "..."
                                 : row?.subscriptions?.projects
                               : "0"}
                           </TableCell>
                         ) : record === "ongoing_projects" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={"ongoing_projects"}
-                          >
+                          <TableCell key={index} align="center" title={"ongoing_projects"}>
                             {`${row?.projects?.length ?? 0}`.length > 20
-                              ? `${row?.projects?.length ?? 0}`.substring(
-                                  0,
-                                  20
-                                ) + "..."
+                              ? `${row?.projects?.length ?? 0}`.substring(0, 20) + "..."
                               : `${row?.projects?.length ?? 0}`}
                           </TableCell>
                         ) : record === "remaining_projects" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={"remaining_projects"}
-                          >
-                            {`${
-                              (row?.subscriptions?.projects ?? 0) -
-                              (row?.projects?.length ?? 0)
-                            }`.length > 20
-                              ? `${
-                                  (row?.subscriptions?.projects ?? 0) -
-                                  (row?.projects?.length ?? 0)
-                                }`.substring(0, 20) + "..."
-                              : `${
-                                  (row?.subscriptions?.projects ?? 0) -
-                                  (row?.projects?.length ?? 0)
-                                }`}
+                          <TableCell key={index} align="center" title={"remaining_projects"}>
+                            {`${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 20
+                              ? `${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.substring(0, 20) + "..."
+                              : `${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`}
                           </TableCell>
                         ) : record === "authorized" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={"authroized"}
-                          >
-                            {row[record]
-                              ? row[record].length > 20
-                                ? row[record].substring(0, 20) + "..."
-                                : row[record]
-                              : "N/A"}
+                          <TableCell key={index} align="center" title={"authroized"}>
+                            {row[record] ? (row[record].length > 20 ? row[record].substring(0, 20) + "..." : row[record]) : "N/A"}
                           </TableCell>
                         ) : record === "provider_subscription" ? (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={row?.subscription?.name}
-                          >
+                          <TableCell key={index} align="center" title={row?.subscription?.name}>
                             {row?.subscription?.name
                               ? row?.subscription?.name.length > 20
-                                ? row?.subscription?.name.substring(0, 20) +
-                                  "..."
+                                ? row?.subscription?.name.substring(0, 20) + "..."
                                 : row?.subscription?.name
                               : "N/A"}
                           </TableCell>
                         ) : record == "provider_subscriptionStartDate" ? (
-                          <TableCell
-                            align="center"
-                            title={row?.subscription?.start_date}
-                          >
-                            {row?.subscription?.start_date
-                              ? moment(row?.subscription?.start_date).format(
-                                  "DD/MM/YYYY"
-                                )
-                              : "N/A"}
+                          <TableCell align="center" title={row?.subscription?.start_date}>
+                            {row?.subscription?.start_date ? moment(row?.subscription?.start_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record == "provider_subscriptionEndDate" ? (
-                          <TableCell
-                            align="center"
-                            title={row?.subscription?.end_date}
-                          >
-                            {row?.subscription?.end_date
-                              ? moment(row?.subscription?.end_date).format(
-                                  "DD/MM/YYYY"
-                                )
-                              : "N/A"}
+                          <TableCell align="center" title={row?.subscription?.end_date}>
+                            {row?.subscription?.end_date ? moment(row?.subscription?.end_date).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
+                        ) : record == "durationMonths" ? (
+                          <TableCell align="center" title={row?.duration?.months}>
+                            {row?.duration?.months}
+                          </TableCell>
+                        ) : record == "durationPrice" ? (
+                          <TableCell align="center" title={row?.duration?.price}>
+                            {row?.duration?.price}
+                          </TableCell>
+                        ) : record == "projectsPackProjects" ? (
+                          <TableCell align="center" title={row?.projectsPack?.projects}>
+                            {row?.projectsPack?.projects}
+                          </TableCell>
+                        ) : record == "projectsPackPrice" ? (
+                          <TableCell align="center" title={row?.projectsPack?.price}>
+                            {row?.projectsPack?.price}
                           </TableCell>
                         ) : (
-                          <TableCell
-                            key={index}
-                            align="center"
-                            title={row[record]}
-                          >
-                            {row[record]
-                              ? row[record].length > 20
-                                ? row[record].substring(0, 20) + "..."
-                                : row[record]
-                              : "N/A"}
+                          <TableCell key={index} align="center" title={row[record]}>
+                            {row[record] ? (row[record].length > 20 ? row[record].substring(0, 20) + "..." : row[record]) : "N/A"}
                           </TableCell>
                         );
                       })}
 
                       <TableCell align="center">
                         {props.subscription && (
-                          <IconButton
-                            color="info"
-                            aria-label="edit"
-                            onClick={() => props.handleSubscription(row._id)}
-                          >
+                          <IconButton color="info" aria-label="edit" onClick={() => props.handleSubscription(row._id)}>
                             <PostAddIcon />
                           </IconButton>
                         )}
                         {props.provider && (
-                          <IconButton
-                            color="info"
-                            aria-label="edit"
-                            onClick={() => props.handleSubscription(row)}
-                          >
+                          <IconButton color="info" aria-label="edit" onClick={() => props.handleSubscription(row)}>
                             <PostAddIcon />
                           </IconButton>
                         )}
                         {props.provider && (
-                          <IconButton
-                            color="info"
-                            aria-label="edit"
-                            onClick={() => props.handleProvider(row._id)}
-                          >
+                          <IconButton color="info" aria-label="edit" onClick={() => props.handleProvider(row._id)}>
                             <WorkIcon />
                           </IconButton>
                         )}
-                        <IconButton
-                          color="info"
-                          aria-label="edit"
-                          onClick={() => props.handleEdit(row._id)}
-                        >
+                        <IconButton color="info" aria-label="edit" onClick={() => props.handleEdit(row._id)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton
-                          color="error"
-                          aria-label="delete"
-                          onClick={() => props.handleDelete(row._id)}
-                        >
+                        <IconButton color="error" aria-label="delete" onClick={() => props.handleDelete(row._id)}>
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
@@ -465,9 +353,7 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[15, 30, 50, 100]}
           component="div"
-          labelRowsPerPage={
-            props.translate ? props.translate("Rows per page:") : ""
-          }
+          labelRowsPerPage={props.translate ? props.translate("Rows per page:") : ""}
           count={props.data.length}
           rowsPerPage={rowsPerPage}
           page={page}

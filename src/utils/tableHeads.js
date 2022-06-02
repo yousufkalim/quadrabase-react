@@ -129,6 +129,47 @@ export const AdminheadCells = [
     label: "Action",
   },
 ];
+
+export const ProductheadCells = [
+  {
+    id: "name",
+
+    label: "Name",
+  },
+  {
+    id: "type",
+
+    label: "Type",
+  },
+
+  {
+    id: "durationMonths",
+
+    label: "Duration",
+  },
+  {
+    id: "durationPrice",
+
+    label: "Duration Price",
+  },
+
+  {
+    id: "projectsPackProjects",
+
+    label: "Number of Projects in Pack",
+  },
+  {
+    id: "projectsPackPrice",
+
+    label: "Pack Price",
+  },
+  {
+    id: "action",
+
+    label: "Action",
+  },
+];
+
 export const FamiliesheadCells = [
   {
     id: "name",
