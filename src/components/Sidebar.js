@@ -5,6 +5,7 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import Logo from "../images/Logo_QBSoft_12.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
   const location = useLocation();
@@ -22,12 +23,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!sidebar.current || !trigger.current) return;
-      if (
-        !sidebarOpen ||
-        sidebar.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
+      if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
     };
     document.addEventListener("click", clickHandler);
     return () => document.removeEventListener("click", clickHandler);
@@ -81,20 +77,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
             aria-expanded={sidebarOpen}
           >
             <span className="sr-only">Close sidebar</span>
-            <svg
-              className="w-6 h-6 fill-current"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
             </svg>
           </button>
           {/* Logo */}
-          <NavLink
-            exact
-            to="/admin/index"
-            className="block w-full flex justify-center -mb-4 mt-2.5"
-          >
+          <NavLink exact to="/admin/index" className="block w-full flex justify-center -mb-4 mt-2.5">
             <img className="w-20" src={Logo} alt="Logo" />
           </NavLink>
         </div>
@@ -104,23 +92,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
           {/* Pages group */}
           <div>
             <h3 className="text-xs uppercase text-gray-500 font-semibold pl-3">
-              <span
-                className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
-                aria-hidden="true"
-              >
+              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
                 •••
               </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                {translate("Pages")}
-              </span>
+              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">{translate("Pages")}</span>
             </h3>
             <ul className="mt-3">
               {/* Dashboard */}
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === "/" && "bg-gray-900"
-                }`}
-              >
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
                   to="/admin/index"
@@ -137,11 +116,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
               {/* Admins */}
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === "/" && "bg-gray-900"
-                }`}
-              >
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
                   to="/admin/admins"
@@ -152,15 +127,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                   <div className="flex items-center">
                     <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("team") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("team") && "text-indigo-500"}`}
                         d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
                       />
                       <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes("team") && "text-indigo-300"
-                        }`}
+                        className={`fill-current text-gray-400 ${pathname.includes("team") && "text-indigo-300"}`}
                         d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
                       />
                     </svg>
@@ -171,11 +142,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
               {/* Architects */}
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === "/" && "bg-gray-900"
-                }`}
-              >
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
                   to="/admin/architects"
@@ -186,15 +153,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                   <div className="flex items-center">
                     <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("team") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("team") && "text-indigo-500"}`}
                         d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
                       />
                       <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes("team") && "text-indigo-300"
-                        }`}
+                        className={`fill-current text-gray-400 ${pathname.includes("team") && "text-indigo-300"}`}
                         d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
                       />
                     </svg>
@@ -205,11 +168,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
               {/* Providers */}
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === "/" && "bg-gray-900"
-                }`}
-              >
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
                   to="/admin/providers"
@@ -220,21 +179,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                   <div className="flex items-center">
                     <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("tasks") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("tasks") && "text-indigo-500"}`}
                         d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z"
                       />
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("tasks") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("tasks") && "text-indigo-500"}`}
                         d="M1 1h22v23H1z"
                       />
                       <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes("tasks") && "text-indigo-300"
-                        }`}
+                        className={`fill-current text-gray-400 ${pathname.includes("tasks") && "text-indigo-300"}`}
                         d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
                       />
                     </svg>
@@ -245,11 +198,25 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
 
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === "/" && "bg-gray-900"
-                }`}
-              >
+              {/* Subscriptions */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
+                <NavLink
+                  exact
+                  to="/admin/products"
+                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                    pathname === "/" && "hover:text-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <InventoryIcon className="text-gray-500" />
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      {translate("Products")}
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
                   to="/admin/libraries"
@@ -260,21 +227,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                   <div className="flex items-center">
                     <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("tasks") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("tasks") && "text-indigo-500"}`}
                         d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z"
                       />
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes("tasks") && "text-indigo-500"
-                        }`}
+                        className={`fill-current text-gray-600 ${pathname.includes("tasks") && "text-indigo-500"}`}
                         d="M1 1h22v23H1z"
                       />
                       <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes("tasks") && "text-indigo-300"
-                        }`}
+                        className={`fill-current text-gray-400 ${pathname.includes("tasks") && "text-indigo-300"}`}
                         d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
                       />
                     </svg>
@@ -297,9 +258,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
+                          sidebarExpanded ? handleClick() : setSidebarExpanded(true);
                         }}
                       >
                         <div className="flex items-center justify-between">
@@ -417,14 +376,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
           <div className="px-3 py-2">
             <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
               <span className="sr-only">Expand / collapse sidebar</span>
-              <svg
-                className="w-6 h-6 fill-current sidebar-expanded:rotate-180"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  className="text-gray-400"
-                  d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z"
-                />
+              <svg className="w-6 h-6 fill-current sidebar-expanded:rotate-180" viewBox="0 0 24 24">
+                <path className="text-gray-400" d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z" />
                 <path className="text-gray-600" d="M3 23H1V1h2z" />
               </svg>
             </button>

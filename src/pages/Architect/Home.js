@@ -1,14 +1,11 @@
 // Init
 import React, { useState, useEffect } from "react";
 import { SubscriptionheadCells } from "../../utils/tableHeads";
-import { ProjectheadCells } from "../../utils/tableHeads";
+import { MyProjectHeadCells } from "../../utils/tableHeads";
 import { Store } from "../../StoreContext";
 import api from "../../api";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
 import "../../css/home.css";
 import noSubcription from "../../assets/noSubcription.png";
 import { UpdateStore } from "../../StoreContext";
@@ -46,26 +43,16 @@ const Home = () => {
 
   useEffect(() => {
     let array = [];
-    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map(
-      (cell) => array.push(cell.id)
-    );
+    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map((cell) => array.push(cell.id));
     setSubscriptionHeadCells(array);
     let temp = [];
-    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) =>
-      temp.push(cell.id)
-    );
+    MyProjectHeadCells.slice(0, MyProjectHeadCells.length).map((cell) => temp.push(cell.id));
     setProjectHeadCells(temp);
   }, []);
 
   useEffect(() => {
     getSubscriptions();
-  }, [
-    buySubModal,
-    assignSubModal,
-    buyProjectsModal,
-    renewModal,
-    addProjectModal,
-  ]);
+  }, [buySubModal, assignSubModal, buyProjectsModal, renewModal, addProjectModal]);
 
   useEffect(() => {
     getProjects();
@@ -79,9 +66,7 @@ const Home = () => {
 
   const getProjects = async () => {
     const result = await api("get", `/project/byArchitect/${store.user._id}`);
-    const projects = result?.data?.project.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+    const projects = result?.data?.project.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setProjectData(projects);
   };
 
@@ -123,42 +108,25 @@ const Home = () => {
         title={t("Assign Subscription")}
         open={assignSubModal}
         onClose={handleAssignSubModal}
-        component={
-          <AssignSubscription
-            assignSub={assignSub}
-            handleAssignSubModal={handleAssignSubModal}
-          />
-        }
+        component={<AssignSubscription assignSub={assignSub} handleAssignSubModal={handleAssignSubModal} />}
       />
       <Modal
         title={t("Buy Projects")}
         open={buyProjectsModal}
         onClose={handleBuyProjectsModals}
-        component={
-          <BuyProjects
-            mySubscription={mySubscription}
-            handleBuyProjectsModals={handleBuyProjectsModals}
-          />
-        }
+        component={<BuyProjects mySubscription={mySubscription} handleBuyProjectsModals={handleBuyProjectsModals} />}
       />
       <Modal
         title={t("Renew Subscription")}
         open={renewModal}
         onClose={handleRenewModalModal}
-        component={
-          <Renew
-            mySubscription={mySubscription}
-            handleRenewModalModal={handleRenewModalModal}
-          />
-        }
+        component={<Renew mySubscription={mySubscription} handleRenewModalModal={handleRenewModalModal} />}
       />
       <Modal
         title={t("Add Project")}
         open={addProjectModal}
         onClose={handleAddProjectModal}
-        component={
-          <AddProjectModal handleAddProjectModal={handleAddProjectModal} />
-        }
+        component={<AddProjectModal handleAddProjectModal={handleAddProjectModal} />}
       />
       <div className="home-upper-container">
         <div className="home-left-container">
@@ -173,90 +141,31 @@ const Home = () => {
           />
         </div>
         <div className="home-right-container">
-          <div style={{ fontSize: 20, padding: "9px 20px" }}>
-            {t("My Subscription")}
-          </div>
-          <div
-            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
-          ></div>
-          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            {t("Remaning Projects")}
-          </div>
-          <div style={{ fontSize: 36, padding: "10px 20px", fontWeight: 600 }}>
-            {mySubscription?.projects - store?.user?.projects?.length}
-          </div>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "right",
-              padding: "12px 20px",
-              marginBottom: 10,
-            }}
-          >
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
-                borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
-                },
-              }}
-              startIcon={<AddCircleOutlineIcon />}
-              onClick={handleBuyProjectsModals}
-            >
-              {t("Buy Projects")}
-            </Button>
-          </div>
-          <div
-            style={{ height: 2, width: "100%", backgroundColor: "lightgray" }}
-          ></div>
-          <div style={{ fontSize: 16, padding: "16px 20px", fontWeight: 600 }}>
-            {t("Valid Until")}
-          </div>
-          <div style={{ fontSize: 30, padding: "5px 20px", fontWeight: 600 }}>
-            {moment(mySubscription?.end_date).format("DD MMMM, YYYY")}
-          </div>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "right",
-              padding: "15px 20px",
-              marginBottom: 10,
-            }}
-          >
-            <Button
-              variant="contained"
-              onClick={handleRenewModalModal}
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
-                borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
-                },
-              }}
-              startIcon={<AutorenewIcon />}
-            >
-              {t("Renew")}
-            </Button>
-          </div>
+          <Table
+            headCells={MyProjectHeadCells}
+            data={
+              projectHeadCells
+                ? [
+                    {
+                      totalProjects: mySubscription?.projects > 0 ? mySubscription?.projects : 0,
+                      inProgress: store?.user?.projects?.length > 0 ? store?.user?.projects?.length : 0,
+                      remaining:
+                        mySubscription?.projects - store?.user?.projects?.length > 0
+                          ? mySubscription?.projects - store?.user?.projects?.length
+                          : 0,
+                    },
+                  ]
+                : []
+            }
+            noActions={true}
+            noArrows={true}
+            rows={projectHeadCells}
+            headerText={t("Projects")}
+            buttonText={t("Buy a project pack")}
+            buttonAction={handleBuyProjectsModals}
+          />
         </div>
       </div>
-      <Table
-        headCells={ProjectheadCells}
-        data={projectData}
-        rows={projectHeadCells}
-        handleView={handleView}
-        headerText={`${t("My Projects")} (${store?.user?.projects?.length}/${
-          mySubscription?.projects ? mySubscription?.projects : 0
-        })`}
-        buttonText={t("New Projects")}
-        buttonAction={handleAddProjectModal}
-      />
     </div>
   ) : (
     <div className="no-subscription">

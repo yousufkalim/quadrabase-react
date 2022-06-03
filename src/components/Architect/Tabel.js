@@ -41,9 +41,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -99,9 +97,7 @@ function EnhancedTableHead(props) {
                 <strong>{t(headCell.label)}</strong>
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -192,10 +188,7 @@ export default function EnhancedTable(props) {
     } else if (selectedIndex === selected?.length - 1) {
       newSelected = newSelected.concat(selected?.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected?.slice(0, selectedIndex),
-        selected?.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selected?.slice(0, selectedIndex), selected?.slice(selectedIndex + 1));
     }
 
     setSelected(newSelected);
@@ -213,18 +206,13 @@ export default function EnhancedTable(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty props.data.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props?.data?.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props?.data?.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2, borderRadius: 5 }}>
         {props.headerText && (
-          <EnhancedTableToolbar
-            headerText={props.headerText}
-            buttonAction={props.buttonAction}
-            buttonText={props.buttonText}
-          />
+          <EnhancedTableToolbar headerText={props.headerText} buttonAction={props.buttonAction} buttonText={props.buttonText} />
         )}
         <TableContainer>
           <Table aria-labelledby="tableTitle">
@@ -258,56 +246,31 @@ export default function EnhancedTable(props) {
                     >
                       {props?.rows?.map((record, index) =>
                         record == "subscriptionEndDate" ? (
-                          <TableCell
-                            align="left"
-                            title={row?.subscription?.end_date}
-                          >
-                            {row?.end_date
-                              ? moment(row?.end_date).format("DD/MM/YYYY")
-                              : "N/A"}
+                          <TableCell align="left" title={row?.subscription?.end_date}>
+                            {row?.end_date ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "subscriptionName" ? (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row?.subscriptions?.name}
-                          >
+                          <TableCell key={index} align="left" title={row?.subscriptions?.name}>
                             {row?.subscription?.name
                               ? row?.subscription?.name?.length > 20
-                                ? row?.subscription?.name.substring(0, 20) +
-                                  "..."
+                                ? row?.subscription?.name.substring(0, 20) + "..."
                                 : row?.subscription?.name
                               : "N/A"}
                           </TableCell>
                         ) : record == "assignedToName" ? (
-                          <TableCell
-                            align="left"
-                            title={row?.assigned_to?.first_name}
-                          >
+                          <TableCell align="left" title={row?.assigned_to?.first_name}>
                             {row?.assigned_to?.first_name
                               ? row?.assigned_to?.first_name?.length > 20
-                                ? row?.assigned_to?.first_name.substring(
-                                    0,
-                                    20
-                                  ) + "..."
+                                ? row?.assigned_to?.first_name.substring(0, 20) + "..."
                                 : row?.assigned_to?.first_name
                               : "N/A"}
                           </TableCell>
                         ) : record === "createdAt" ? (
-                          <TableCell
-                            align="left"
-                            title={row?.subscription?.end_date}
-                          >
-                            {row?.createdAt
-                              ? moment(row?.end_date).format("DD/MM/YYYY")
-                              : "N/A"}
+                          <TableCell align="left" title={row?.subscription?.end_date}>
+                            {row?.createdAt ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "vat" ? (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row?.vat?.value}
-                          >
+                          <TableCell key={index} align="left" title={row?.vat?.value}>
                             {row?.vat?.value
                               ? row?.vat?.value?.length > 20
                                 ? row?.vat?.value.substring(0, 20) + "..."
@@ -316,127 +279,96 @@ export default function EnhancedTable(props) {
                             %
                           </TableCell>
                         ) : record === "text" ? (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row?.vat?.value}
-                          >
+                          <TableCell key={index} align="left" title={row?.vat?.value}>
                             <div
                               dangerouslySetInnerHTML={{
-                                __html:
-                                  row?.text.length > 20
-                                    ? row?.text.substring(0, 20) + "..."
-                                    : row?.text,
+                                __html: row?.text.length > 20 ? row?.text.substring(0, 20) + "..." : row?.text,
                               }}
                             ></div>
                           </TableCell>
                         ) : record === "prescriber" ? (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row[record]}
-                          >
+                          <TableCell key={index} align="left" title={row[record]}>
                             {row.name}
                           </TableCell>
                         ) : (
-                          <TableCell
-                            key={index}
-                            align="left"
-                            title={row[record]}
-                          >
+                          <TableCell key={index} align="left" title={row[record]}>
                             {row[record]
                               ? row[record]?.length > 20
                                 ? row[record].substring(0, 20) + "..."
                                 : row[record]
+                              : row[record] == 0
+                              ? 0
                               : "N/A"}
                           </TableCell>
                         )
                       )}
 
-                      <TableCell align="left">
-                        {props.handleAssign ? (
-                          <IconButton
-                            aria-label="edit"
-                            onClick={() =>
-                              props.handleAssign(
-                                row?._id,
-                                row?.assigned_to?.email
-                              )
-                            }
-                          >
-                            <DriveFileRenameOutlineRoundedIcon />
-                          </IconButton>
-                        ) : props.handleView ? (
-                          <IconButton
-                            aria-label="edit"
-                            onClick={() => props.handleView(row?._id)}
-                          >
-                            <DriveFileRenameOutlineRoundedIcon />
-                          </IconButton>
-                        ) : (
-                          <>
-                            <IconButton
-                              color="info"
-                              aria-label="edit"
-                              onClick={() => props.handleEdit(row)}
-                            >
-                              <EditIcon />
+                      {props.noActions !== true && (
+                        <TableCell align="left">
+                          {props.handleAssign ? (
+                            <IconButton aria-label="edit" onClick={() => props.handleAssign(row?._id, row?.assigned_to?.email)}>
+                              <DriveFileRenameOutlineRoundedIcon />
                             </IconButton>
-                            <IconButton
-                              color="error"
-                              aria-label="delete"
-                              onClick={() => props.handleDelete(row._id)}
-                            >
-                              <DeleteIcon />
+                          ) : props.handleView ? (
+                            <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
+                              <DriveFileRenameOutlineRoundedIcon />
                             </IconButton>
-                          </>
-                        )}
-                      </TableCell>
+                          ) : (
+                            <>
+                              <IconButton color="info" aria-label="edit" onClick={() => props.handleEdit(row)}>
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton color="error" aria-label="delete" onClick={() => props.handleDelete(row._id)}>
+                                <DeleteIcon />
+                              </IconButton>
+                            </>
+                          )}
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}
             </TableBody>
           </Table>
         </TableContainer>
-        <div
-          style={{
-            height: 50,
-            width: "100%",
-            color: "#8C1244",
-            display: "grid",
-            placeItems: "center",
-          }}
-        >
-          <strong>
-            {" "}
-            <ArrowBackIosIcon
-              fontSize="md"
-              onClick={() => {
-                if (page !== 0) {
-                  handleChangePage("", page - 1);
-                }
-              }}
-              sx={{
-                cursor: "pointer",
-              }}
-            />
-            {page + 1}/
-            {Math.ceil(props?.data?.length / rowsPerPage) > 0
-              ? Math.ceil(props?.data?.length / rowsPerPage)
-              : 1}{" "}
-            <ArrowForwardIosIcon
-              fontSize="md"
-              onClick={() => {
-                if (page + 1 < Math.ceil(props?.data?.length / rowsPerPage)) {
-                  handleChangePage("", page + 1);
-                }
-              }}
-              sx={{
-                cursor: "pointer",
-              }}
-            />
-          </strong>
-        </div>
+        {props.noArrows !== true && (
+          <div
+            style={{
+              height: 50,
+              width: "100%",
+              color: "#8C1244",
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            <strong>
+              {" "}
+              <ArrowBackIosIcon
+                fontSize="md"
+                onClick={() => {
+                  if (page !== 0) {
+                    handleChangePage("", page - 1);
+                  }
+                }}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+              {page + 1}/{Math.ceil(props?.data?.length / rowsPerPage) > 0 ? Math.ceil(props?.data?.length / rowsPerPage) : 1}{" "}
+              <ArrowForwardIosIcon
+                fontSize="md"
+                onClick={() => {
+                  if (page + 1 < Math.ceil(props?.data?.length / rowsPerPage)) {
+                    handleChangePage("", page + 1);
+                  }
+                }}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+            </strong>
+          </div>
+        )}
       </Paper>
     </Box>
   );

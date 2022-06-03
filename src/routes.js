@@ -3,6 +3,7 @@ import Architects from "./pages/admin/architects";
 import BookLibraries from "./pages/admin/bookLibraries";
 import PrivateLibraries from "./pages/admin/bookLibraries/PrivateLibraries";
 import Providers from "./pages/admin/providers";
+import Subscriptions from "./pages/admin/subscritions";
 
 import AdminsList from "./pages/admin/admins";
 import profileSettings from "./pages/admin/profileSettings";
@@ -151,6 +152,13 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Providers,
+    layout: "/admin",
+  },
+  {
+    path: "/products",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: Subscriptions,
     layout: "/admin",
   },
   {
