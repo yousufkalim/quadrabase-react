@@ -75,10 +75,7 @@ const StyledMenu = styled((props) => (
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 150,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
+    color: theme.palette.mode === "light" ? "rgb(55, 65, 81)" : theme.palette.grey[300],
     boxShadow:
       "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
     "& .MuiMenu-list": {
@@ -91,10 +88,7 @@ const StyledMenu = styled((props) => (
         marginRight: theme.spacing(1.5),
       },
       "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
   },
@@ -126,8 +120,7 @@ const ProjectView = () => {
   const [cctp_text, setCctp_text] = useState();
   const [openDeleteWorkModal, setOpenDeleteWorkModal] = useState(false);
   const [deleteWorkId, setDeleteWorkId] = useState();
-  const [openDeleteWorkDetailModal, setOpenDeleteWorkDetailModal] =
-    useState(false);
+  const [openDeleteWorkDetailModal, setOpenDeleteWorkDetailModal] = useState(false);
   const [deleteWorkDetailId, setDeleteWorkDetailId] = useState();
   const [openEditWorkModal, setOpenEditWorkModal] = useState(false);
   const [openEditWWDModal, setOpenEditWWDModal] = useState(false);
@@ -142,8 +135,7 @@ const ProjectView = () => {
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
   const [deleteChap, setDeleteChap] = useState({});
 
-  const [openEstimationReportModal, setOpenEstimationReportModal] =
-    useState(false);
+  const [openEstimationReportModal, setOpenEstimationReportModal] = useState(false);
   const [openDQEReportModal, setOpenDQEReportModal] = useState(false);
   const [openBPUReportModal, setOpenBPUReportModal] = useState(false);
   const [openCCTPReportModal, setOpenCCTPReportModal] = useState(false);
@@ -270,9 +262,7 @@ const ProjectView = () => {
             tempObject.tranchData = [];
             let existingTranch = "";
             if (tempArray2.length > 0) {
-              existingTranch = tempArray2.find(
-                ({ tranch }) => tranch === tempObject.tranch
-              );
+              existingTranch = tempArray2.find(({ tranch }) => tranch === tempObject.tranch);
             }
             if (!existingTranch) {
               let amountTranch = 0;
@@ -283,13 +273,9 @@ const ProjectView = () => {
                     temp += item3.work.unit_price * item3.work.quantity;
                   } else {
                     if (item3?.work?._id !== data[index - 1]?.work?._id) {
-                      temp +=
-                        item3.workDetails.quantity *
-                        item3.workDetails.unit_price;
+                      temp += item3.workDetails.quantity * item3.workDetails.unit_price;
                     } else {
-                      temp +=
-                        item3.workDetails.quantity *
-                        item3.workDetails.unit_price;
+                      temp += item3.workDetails.quantity * item3.workDetails.unit_price;
                     }
                   }
                   amountTranch += temp;
@@ -355,12 +341,8 @@ const ProjectView = () => {
   // func to get all general libraries
   const getProjectLibraries = async () => {
     try {
-      const response =
-        store?.user?._id &&
-        (await api("get", `/BookLibraries/getByArchitect/${store.user._id}`));
-      let temp = response?.data?.bookLibrary.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      const response = store?.user?._id && (await api("get", `/BookLibraries/getByArchitect/${store.user._id}`));
+      let temp = response?.data?.bookLibrary.sort((a, b) => a.ranking - b.ranking);
 
       setGeneralLibrariesData(temp);
       setLoading(false);
@@ -375,14 +357,9 @@ const ProjectView = () => {
       setGeneralLibrariesData([]);
       setCategories([]);
       setworks([]);
-      const result = await api(
-        "get",
-        `/BookLibraries/getByFamily/${selectedFamily}`
-      );
+      const result = await api("get", `/BookLibraries/getByFamily/${selectedFamily}`);
 
-      let data = result?.data?.bookLibraries.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      let data = result?.data?.bookLibraries.sort((a, b) => a.ranking - b.ranking);
       setGeneralLibrariesData(data);
       setLoading(false);
     } catch (err) {
@@ -448,21 +425,16 @@ const ProjectView = () => {
     }
   };
 
-  const handleOpenPropertiesModal = () =>
-    setOpenPropertiesModal(!openPropertiesModal);
+  const handleOpenPropertiesModal = () => setOpenPropertiesModal(!openPropertiesModal);
 
   const handleOpenCctpModal = (text, title) => {
     if (text) {
       if (title === "CCTP 1") {
         setCctpModalTitle("Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS");
       } else if (title === "CCTP 2") {
-        setCctpModalTitle(
-          "Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS"
-        );
+        setCctpModalTitle("Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS");
       } else if (title === "CCTP 3") {
-        setCctpModalTitle(
-          "Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS"
-        );
+        setCctpModalTitle("Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS");
       } else if (title === "CCTP 4") {
         setCctpModalTitle("Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION");
       } else {
@@ -540,7 +512,7 @@ const ProjectView = () => {
       setEditChap0Part2(chap);
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
-      alert("Please select a chap. 0 part 2 from properties");
+      alert(t("Please select a chap. 0 part 2 from properties"));
     }
   };
 
@@ -564,10 +536,8 @@ const ProjectView = () => {
 
   const handleTranchesModal = () => setOpenTranchesModal(!openTranchesModal);
   const handleTradesModal = () => setOpenTradesModal(!openTradesModal);
-  const handleOpenUpdateTradesModal = () =>
-    setOpenUpdateTradesModal(!openUpdateTradesModal);
-  const handleOpenUpdateTranchesModal = () =>
-    setOpenUpdateTranchesModal(!openUpdateTranchesModal);
+  const handleOpenUpdateTradesModal = () => setOpenUpdateTradesModal(!openUpdateTradesModal);
+  const handleOpenUpdateTranchesModal = () => setOpenUpdateTranchesModal(!openUpdateTranchesModal);
 
   // for dropdown menu
 
@@ -639,17 +609,10 @@ const ProjectView = () => {
 
   // handle delete
   const handleTradeDelete = async () => {
-    const inUse = tranchesData.find(
-      (item) => item.trade === selectedData.data._id
-    );
+    const inUse = tranchesData.find((item) => item.trade === selectedData.data._id);
     if (!inUse) {
       if (tradesData.length > 1) {
-        const result = await api(
-          "delete",
-          `/Trades/${selectedData.data._id}`,
-          {},
-          t
-        );
+        const result = await api("delete", `/Trades/${selectedData.data._id}`, {}, t);
         toast.success(t(result.data.message));
         handleOpenDeleteTradeModal();
         getTrades();
@@ -664,12 +627,7 @@ const ProjectView = () => {
   // handle delete
   const handleTranchDelete = async () => {
     if (tranchesData.length > 1) {
-      const result = await api(
-        "delete",
-        `/Tranches/${selectedData.data._id}`,
-        {},
-        t
-      );
+      const result = await api("delete", `/Tranches/${selectedData.data._id}`, {}, t);
       toast.success(t(result.data.message));
       handleOpenDeleteTranchModal();
       getTranches();
@@ -866,33 +824,18 @@ const ProjectView = () => {
             title={cctpModalTitle}
             open={openCctpModal}
             onClose={handleOpenCctpModal}
-            component={
-              <CctpModal
-                handleOpenCctpModal={handleOpenCctpModal}
-                cctp_text={cctp_text}
-              />
-            }
+            component={<CctpModal handleOpenCctpModal={handleOpenCctpModal} cctp_text={cctp_text} />}
           />
           <Modal
             open={openDeleteWorkModal}
             onClose={handleOpenDeleteWorkModal}
-            component={
-              <DeleteModal
-                handleCancel={handleOpenDeleteWorkModal}
-                handleDelete={handleDeleteWork}
-              />
-            }
+            component={<DeleteModal handleCancel={handleOpenDeleteWorkModal} handleDelete={handleDeleteWork} />}
           />
 
           <Modal
             open={openDeleteWorkDetailModal}
             onClose={handleOpenDeleteWorkDetailModal}
-            component={
-              <DeleteModal
-                handleCancel={handleOpenDeleteWorkDetailModal}
-                handleDelete={handleDeleteWorkDetail}
-              />
-            }
+            component={<DeleteModal handleCancel={handleOpenDeleteWorkDetailModal} handleDelete={handleDeleteWorkDetail} />}
           />
           <Modal
             title={t("Edit a Work")}
@@ -937,45 +880,25 @@ const ProjectView = () => {
             title="Estimation"
             open={openEstimationReportModal}
             onClose={() => setOpenEstimationReportModal(false)}
-            component={
-              <ReportEstimationModal
-                currentProject={currentProject}
-                projectWorkData={projectWorkData}
-              />
-            }
+            component={<ReportEstimationModal currentProject={currentProject} projectWorkData={projectWorkData} />}
           />
           <Modal
             title="DQE"
             open={openDQEReportModal}
             onClose={() => setOpenDQEReportModal(false)}
-            component={
-              <ReportDQEModal
-                currentProject={currentProject}
-                projectWorkData={projectWorkData}
-              />
-            }
+            component={<ReportDQEModal currentProject={currentProject} projectWorkData={projectWorkData} />}
           />
           <Modal
             title="BPU"
             open={openBPUReportModal}
             onClose={() => setOpenBPUReportModal(false)}
-            component={
-              <ReportBPUModal
-                currentProject={currentProject}
-                projectWorkData={projectWorkData}
-              />
-            }
+            component={<ReportBPUModal currentProject={currentProject} projectWorkData={projectWorkData} />}
           />
           <Modal
             title="CCTP"
             open={openCCTPReportModal}
             onClose={() => setOpenCCTPReportModal(false)}
-            component={
-              <ReportCCTPModal
-                currentProject={currentProject}
-                projectWorkData={projectWorkData}
-              />
-            }
+            component={<ReportCCTPModal currentProject={currentProject} projectWorkData={projectWorkData} />}
           />
           <Modal
             title={t("Edit Chap. 0 part 2")}
@@ -1025,12 +948,7 @@ const ProjectView = () => {
           <Modal
             open={openDeleteChap}
             onClose={handleOpenDeleteChapModal}
-            component={
-              <DeleteModal
-                handleCancel={handleOpenDeleteChapModal}
-                handleDelete={handleChapDelete}
-              />
-            }
+            component={<DeleteModal handleCancel={handleOpenDeleteChapModal} handleDelete={handleChapDelete} />}
           />
 
           <Modal
@@ -1064,12 +982,7 @@ const ProjectView = () => {
           <Modal
             open={openDeleteTranchModal}
             onClose={handleOpenDeleteTranchModal}
-            component={
-              <DeleteModal
-                handleCancel={handleOpenDeleteTranchModal}
-                handleDelete={handleTranchDelete}
-              />
-            }
+            component={<DeleteModal handleCancel={handleOpenDeleteTranchModal} handleDelete={handleTranchDelete} />}
           />
           <Modal
             title={t("Add Trade")}
@@ -1100,33 +1013,18 @@ const ProjectView = () => {
             title={t("Providers")}
             open={openProvidersModal}
             onClose={handleOpenProvidersModal}
-            component={
-              <ProviderModal
-                handleOpenProviderModal={handleOpenProvidersModal}
-                providers={providerList}
-              />
-            }
+            component={<ProviderModal handleOpenProviderModal={handleOpenProvidersModal} providers={providerList} />}
           />
           <Modal
             open={openDeleteTradeModal}
             onClose={handleOpenDeleteTradeModal}
-            component={
-              <DeleteModal
-                handleCancel={handleOpenDeleteTradeModal}
-                handleDelete={handleTradeDelete}
-              />
-            }
+            component={<DeleteModal handleCancel={handleOpenDeleteTradeModal} handleDelete={handleTradeDelete} />}
           />
           <Modal
             title={t("Technical Doc")}
             open={openDocModal}
             onClose={handleDocModal}
-            component={
-              <TechnicalDocModal
-                handleDocModal={handleDocModal}
-                technicalDoc={technicalDoc}
-              />
-            }
+            component={<TechnicalDocModal handleDocModal={handleDocModal} technicalDoc={technicalDoc} />}
           />
           <div className={classes.container}>
             <div className={classes.flex_container}>
@@ -1139,9 +1037,7 @@ const ProjectView = () => {
                 <Button
                   variant="contained"
                   className={classes.btn}
-                  startIcon={
-                    <BuildIcon style={{ color: "#f1966c", fontSize: 18 }} />
-                  }
+                  startIcon={<BuildIcon style={{ color: "#f1966c", fontSize: 18 }} />}
                   onClick={handleOpenPropertiesModal}
                 >
                   {t("Properties")}
@@ -1149,9 +1045,7 @@ const ProjectView = () => {
                 <Button
                   variant="contained"
                   className={classes.btn}
-                  startIcon={
-                    <LogoutIcon style={{ color: "#f1966c", fontSize: 18 }} />
-                  }
+                  startIcon={<LogoutIcon style={{ color: "#f1966c", fontSize: 18 }} />}
                   onClick={() => history.push("/architect/index")}
                 >
                   {t("To Leave")}
@@ -1213,8 +1107,7 @@ const ProjectView = () => {
                     marginLeft: -20,
                   }}
                 >
-                  {(currentProject.market_type === "TradesAndTranches" ||
-                    currentProject.market_type === "Trades") && (
+                  {(currentProject.market_type === "TradesAndTranches" || currentProject.market_type === "Trades") && (
                     <>
                       <Tooltip title="Ajouter un Lot" placement="top">
                         <ListIcon
@@ -1342,43 +1235,25 @@ const ProjectView = () => {
                     }}
                     sx={{ mt: 2.5 }}
                   >
-                    <MenuItem
-                      onClick={openEstimationModal}
-                      style={{ width: 180, height: 28, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={openEstimationModal} style={{ width: 180, height: 28, fontSize: 15 }}>
                       {t("Generate Estimate")}
                     </MenuItem>
-                    <MenuItem
-                      onClick={openDQEModal}
-                      style={{ height: 28, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={openDQEModal} style={{ height: 28, fontSize: 15 }}>
                       {t("Generate The DQE")}
                     </MenuItem>
-                    <MenuItem
-                      onClick={openBPUModal}
-                      style={{ height: 28, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={openBPUModal} style={{ height: 28, fontSize: 15 }}>
                       {t("Generate BPU")}
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      style={{ height: 28, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={handleClose} style={{ height: 28, fontSize: 15 }}>
                       {t("Generate DPGF")}
                     </MenuItem>
 
                     <Divider />
-                    <MenuItem
-                      onClick={openCCTPModal}
-                      style={{ height: 25, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={openCCTPModal} style={{ height: 25, fontSize: 15 }}>
                       {t("Generate The CCTP")}
                     </MenuItem>
                     <Divider />
-                    <MenuItem
-                      onClick={handleTechnicalDoc}
-                      style={{ height: 25, fontSize: 15 }}
-                    >
+                    <MenuItem onClick={handleTechnicalDoc} style={{ height: 25, fontSize: 15 }}>
                       {t("Technical Doc")}
                     </MenuItem>
                   </StyledMenu>
@@ -1456,12 +1331,7 @@ const ProjectView = () => {
                     </MenuItem>
                   </StyledMenu>
                   <TableContainer component={Paper} sx={{ height: "80%" }}>
-                    <Table
-                      sx={{ minWidth: 650 }}
-                      size="small"
-                      stickyHeader
-                      aria-label="sticky table"
-                    >
+                    <Table sx={{ minWidth: 650 }} size="small" stickyHeader aria-label="sticky table">
                       <TableHead>
                         <TableRow>
                           <TableCell
@@ -1524,9 +1394,7 @@ const ProjectView = () => {
                                 <TableRow
                                   sx={{
                                     backgroundColor:
-                                      selectedTrade === item2._id
-                                        ? "rgb(241, 150, 108)"
-                                        : "rgba(241, 150, 108,0.7)",
+                                      selectedTrade === item2._id ? "rgb(241, 150, 108)" : "rgba(241, 150, 108,0.7)",
                                     cursor: "pointer",
                                   }}
                                 >
@@ -1551,15 +1419,9 @@ const ProjectView = () => {
                                       {selectedTrade === item2._id && (
                                         <ArrowDropDownIcon
                                           id="demo-positioned-button"
-                                          aria-controls={
-                                            open2
-                                              ? "demo-positioned-menu"
-                                              : undefined
-                                          }
+                                          aria-controls={open2 ? "demo-positioned-menu" : undefined}
                                           aria-haspopup="true"
-                                          aria-expanded={
-                                            open2 ? "true" : undefined
-                                          }
+                                          aria-expanded={open2 ? "true" : undefined}
                                           onClick={(e) => {
                                             setSelectedData({
                                               type: "trade",
@@ -1578,28 +1440,16 @@ const ProjectView = () => {
                                 </TableRow>
 
                                 {projectWorkData.map((item, index) => {
-                                  if (
-                                    item2?._id === item?.data[0]?.trade?._id
-                                  ) {
+                                  if (item2?._id === item?.data[0]?.trade?._id) {
                                     tradeTotalIndex = index;
                                     return (
                                       <TradeTable
                                         projectWorkData={item.data}
-                                        handleOpenDeleteWorkModal={
-                                          handleOpenDeleteWorkModal
-                                        }
-                                        handleOpenDeleteWorkDetailModal={
-                                          handleOpenDeleteWorkDetailModal
-                                        }
-                                        handleOpenEditWorkModal={
-                                          handleOpenEditWorkModal
-                                        }
-                                        handleOpenEditWorkDetailModal={
-                                          handleOpenEditWorkDetailModal
-                                        }
-                                        handleOpenEditWWDModal={
-                                          handleOpenEditWWDModal
-                                        }
+                                        handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
+                                        handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
+                                        handleOpenEditWorkModal={handleOpenEditWorkModal}
+                                        handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
+                                        handleOpenEditWWDModal={handleOpenEditWWDModal}
                                         currentProject={currentProject}
                                         getworks={getworks}
                                       />
@@ -1629,18 +1479,13 @@ const ProjectView = () => {
                                   }}
                                   align="right"
                                 >
-                                  {tradeTotalIndex !== -1
-                                    ? formatNumber(
-                                        tradeTotal[tradeTotalIndex]?.toFixed(2)
-                                      )
-                                    : "0,00"}
+                                  {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : "0,00"}
                                 </TableCell>
                                 <br />
                               </>
                             );
                           })
-                        ) : currentProject.market_type ===
-                          "TradesAndTranches" ? (
+                        ) : currentProject.market_type === "TradesAndTranches" ? (
                           tradesData?.map((item3, index3) => {
                             let tradeTotalIndex = -1;
                             return (
@@ -1648,9 +1493,7 @@ const ProjectView = () => {
                                 <TableRow
                                   sx={{
                                     backgroundColor:
-                                      selectedTrade === item3._id
-                                        ? "rgb(241, 150, 108)"
-                                        : "rgba(241, 150, 108,0.7)",
+                                      selectedTrade === item3._id ? "rgb(241, 150, 108)" : "rgba(241, 150, 108,0.7)",
                                     cursor: "pointer",
                                   }}
                                 >
@@ -1682,15 +1525,9 @@ const ProjectView = () => {
                                       {selectedTrade === item3._id && (
                                         <ArrowDropDownIcon
                                           id="demo-positioned-button"
-                                          aria-controls={
-                                            open2
-                                              ? "demo-positioned-menu"
-                                              : undefined
-                                          }
+                                          aria-controls={open2 ? "demo-positioned-menu" : undefined}
                                           aria-haspopup="true"
-                                          aria-expanded={
-                                            open2 ? "true" : undefined
-                                          }
+                                          aria-expanded={open2 ? "true" : undefined}
                                           onClick={(e) => {
                                             setSelectedData({
                                               type: "trade",
@@ -1715,10 +1552,7 @@ const ProjectView = () => {
                                       <>
                                         <TableRow
                                           sx={{
-                                            backgroundColor:
-                                              selectedTranche === item4._id
-                                                ? "rgb(227, 226, 229)"
-                                                : "#fff",
+                                            backgroundColor: selectedTranche === item4._id ? "rgb(227, 226, 229)" : "#fff",
                                             cursor: "pointer",
                                           }}
                                         >
@@ -1739,19 +1573,12 @@ const ProjectView = () => {
                                               }}
                                             >
                                               {item4.name}
-                                              {selectedTranche ===
-                                                item4._id && (
+                                              {selectedTranche === item4._id && (
                                                 <ArrowDropDownIcon
                                                   id="demo-positioned-button"
-                                                  aria-controls={
-                                                    open2
-                                                      ? "demo-positioned-menu"
-                                                      : undefined
-                                                  }
+                                                  aria-controls={open2 ? "demo-positioned-menu" : undefined}
                                                   aria-haspopup="true"
-                                                  aria-expanded={
-                                                    open2 ? "true" : undefined
-                                                  }
+                                                  aria-expanded={open2 ? "true" : undefined}
                                                   onClick={(e) => {
                                                     setSelectedData({
                                                       type: "tranch",
@@ -1770,64 +1597,36 @@ const ProjectView = () => {
                                         </TableRow>
 
                                         {projectWorkData?.map((item, index) => {
-                                          if (
-                                            item3?._id ===
-                                            item?.data[0]?.tranchData[0]?.trade
-                                              ?._id
-                                          ) {
+                                          if (item3?._id === item?.data[0]?.tranchData[0]?.trade?._id) {
                                             tradeTotalIndex = index;
                                             return (
                                               <>
-                                                {item.data.map(
-                                                  (item2, index2) => {
-                                                    if (
-                                                      item2?.tranchData[0]
-                                                        ?.tranch?._id ===
-                                                      item4?._id
-                                                    ) {
-                                                      tranchTotalAmount =
-                                                        item2.tranchAmount;
-                                                      return (
-                                                        <>
-                                                          <TradeTable
-                                                            projectWorkData={
-                                                              item2.tranchData
-                                                            }
-                                                            handleOpenDeleteWorkModal={
-                                                              handleOpenDeleteWorkModal
-                                                            }
-                                                            handleOpenDeleteWorkDetailModal={
-                                                              handleOpenDeleteWorkDetailModal
-                                                            }
-                                                            handleOpenEditWorkModal={
-                                                              handleOpenEditWorkModal
-                                                            }
-                                                            handleOpenEditWorkDetailModal={
-                                                              handleOpenEditWorkDetailModal
-                                                            }
-                                                            currentProject={
-                                                              currentProject
-                                                            }
-                                                            getworks={getworks}
-                                                            handleOpenEditWWDModal={
-                                                              handleOpenEditWWDModal
-                                                            }
-                                                          />
-                                                        </>
-                                                      );
-                                                    }
+                                                {item.data.map((item2, index2) => {
+                                                  if (item2?.tranchData[0]?.tranch?._id === item4?._id) {
+                                                    tranchTotalAmount = item2.tranchAmount;
+                                                    return (
+                                                      <>
+                                                        <TradeTable
+                                                          projectWorkData={item2.tranchData}
+                                                          handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
+                                                          handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
+                                                          handleOpenEditWorkModal={handleOpenEditWorkModal}
+                                                          handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
+                                                          currentProject={currentProject}
+                                                          getworks={getworks}
+                                                          handleOpenEditWWDModal={handleOpenEditWWDModal}
+                                                        />
+                                                      </>
+                                                    );
                                                   }
-                                                )}
+                                                })}
                                               </>
                                             );
                                           }
                                         })}
 
                                         <TableRow>
-                                          <TableCell
-                                            colSpan={4}
-                                            style={{ padding: "2px 16px" }}
-                                          >
+                                          <TableCell colSpan={4} style={{ padding: "2px 16px" }}>
                                             <div
                                               style={{
                                                 width: "100%",
@@ -1838,10 +1637,7 @@ const ProjectView = () => {
                                               Total HT {item4.name} :
                                             </div>
                                           </TableCell>
-                                          <TableCell
-                                            colSpan={1}
-                                            style={{ padding: "2px 16px" }}
-                                          >
+                                          <TableCell colSpan={1} style={{ padding: "2px 16px" }}>
                                             <div
                                               style={{
                                                 width: "100%",
@@ -1849,9 +1645,7 @@ const ProjectView = () => {
                                                 textAlign: "right",
                                               }}
                                             >
-                                              {formatNumber(
-                                                tranchTotalAmount.toFixed(2)
-                                              )}
+                                              {formatNumber(tranchTotalAmount.toFixed(2))}
                                             </div>
                                           </TableCell>
                                         </TableRow>
@@ -1861,10 +1655,7 @@ const ProjectView = () => {
                                 })}
 
                                 <TableRow>
-                                  <TableCell
-                                    colSpan={4}
-                                    style={{ padding: "2px 16px" }}
-                                  >
+                                  <TableCell colSpan={4} style={{ padding: "2px 16px" }}>
                                     <div
                                       style={{
                                         width: "100%",
@@ -1875,10 +1666,7 @@ const ProjectView = () => {
                                       Total HT {item3.name} :
                                     </div>
                                   </TableCell>
-                                  <TableCell
-                                    colSpan={1}
-                                    style={{ padding: "2px 16px" }}
-                                  >
+                                  <TableCell colSpan={1} style={{ padding: "2px 16px" }}>
                                     <div
                                       style={{
                                         width: "100%",
@@ -1886,13 +1674,7 @@ const ProjectView = () => {
                                         textAlign: "right",
                                       }}
                                     >
-                                      {tradeTotalIndex !== -1
-                                        ? formatNumber(
-                                            tradeTotal[
-                                              tradeTotalIndex
-                                            ]?.toFixed(2)
-                                          )
-                                        : "0,00"}
+                                      {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : "0,00"}
                                     </div>
                                   </TableCell>
                                 </TableRow>
@@ -1903,16 +1685,10 @@ const ProjectView = () => {
                         ) : (
                           <TradeTable
                             projectWorkData={projectWorkData}
-                            handleOpenDeleteWorkModal={
-                              handleOpenDeleteWorkModal
-                            }
-                            handleOpenDeleteWorkDetailModal={
-                              handleOpenDeleteWorkDetailModal
-                            }
+                            handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
+                            handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
                             handleOpenEditWorkModal={handleOpenEditWorkModal}
-                            handleOpenEditWorkDetailModal={
-                              handleOpenEditWorkDetailModal
-                            }
+                            handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
                             currentProject={currentProject}
                             getworks={getworks}
                             handleOpenEditWWDModal={handleOpenEditWWDModal}
@@ -1943,24 +1719,15 @@ const ProjectView = () => {
                         }}
                       >
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>
-                            {t("Total HT")}:
-                          </div>
-                          <div className={classes.fotter_amount}>
-                            {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
-                          </div>
+                          <div className={classes.fotter_text}>{t("Total HT")}:</div>
+                          <div className={classes.fotter_amount}>{formatNumber(parseFloat(totalHT)?.toFixed(2))} €</div>
                         </div>
                         <div className={classes.flex_container}>
                           <div className={classes.fotter_text}>
-                            {t("Total VAT")} (
-                            {currentProject?.vat?.value?.toFixed(2)}%) :
+                            {t("Total VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
                           </div>
                           <div className={classes.fotter_amount}>
-                            {(
-                              (totalHT / 100) *
-                              currentProject?.vat?.value
-                            ).toFixed(2)}{" "}
-                            €
+                            {((totalHT / 100) * currentProject?.vat?.value).toFixed(2)} €
                           </div>
                         </div>
                         <div
@@ -1979,18 +1746,10 @@ const ProjectView = () => {
                           ></div>
                         </div>
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>
-                            {t("Total Price")}:
-                          </div>
+                          <div className={classes.fotter_text}>{t("Total Price")}:</div>
 
                           <div className={classes.fotter_amount}>
-                            {formatNumber(
-                              (
-                                totalHT *
-                                (1 + currentProject?.vat?.value / 100)
-                              )?.toFixed(2)
-                            )}{" "}
-                            €
+                            {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €
                           </div>
                         </div>
                       </div>

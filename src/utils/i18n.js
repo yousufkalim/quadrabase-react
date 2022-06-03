@@ -525,6 +525,7 @@ i18n
           "Projets restants": "Projets restants",
           "Projects in progress": "Projects in progress",
           "Number of Projects": "Number of Projects",
+          "Please select a chap. 0 part 2 from properties": "Please select a chap. 0 part 2 from properties",
         },
       },
       fr: {
@@ -1035,6 +1036,7 @@ i18n
           "Number of Projects": "Nombre de projets",
           "Projects in progress": "Projets en cours",
           "Projects remaining": "Projets restants",
+          "Please select a chap. 0 part 2 from properties": "Veuillez sélectionner un chapitre. 0 partie 2 de propriétés",
         },
       },
     },
