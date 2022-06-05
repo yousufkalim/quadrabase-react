@@ -57,6 +57,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TechnicalDocModal from "./Modals/TechnicalDoc";
 
+// Reports
+import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from "./ReportsGen/genPDF";
+import { exportDOCXSimpleBPU, exportDOCXTradesBPU, exportDOCXTradesAndTranchesBPU } from "./ReportsGen/genDocx";
+import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from "./ReportsGen/genDocx";
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -166,6 +171,11 @@ const ProjectView = () => {
   // loader states
   const [loading, setLoading] = useState(true); // main loader
   const [loadingLevel, setLoadingLevel] = useState(""); // work level loading
+
+  // doc state
+  const [blob, setBlob] = useState(null);
+  const [filename, setFilename] = useState(null);
+  const [filetype, setFiletype] = useState(null);
 
   useEffect(() => {
     getProject();
@@ -560,19 +570,19 @@ const ProjectView = () => {
 
   const openEstimationModal = () => {
     handleClose();
-    setOpenEstimationReportModal(true);
+    generateEstimatePDF();
   };
   const openDQEModal = () => {
     handleClose();
-    setOpenDQEReportModal(true);
+    generateDQEPDF();
   };
   const openBPUModal = () => {
     handleClose();
-    setOpenBPUReportModal(true);
+    generateBPUWord();
   };
   const openCCTPModal = () => {
     handleClose();
-    setOpenCCTPReportModal(true);
+    generateCCTPWord();
   };
 
   const getLevel3 = async (id) => {
@@ -761,6 +771,97 @@ const ProjectView = () => {
 
   const handleDocModal = () => setOpenDocModal(!openDocModal);
 
+  // doc
+
+  function generateEstimatePDF() {
+    try {
+      let res;
+      if (currentProject.market_type == "Simple") {
+        res = exportPDFSimpleEstimation(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "Trades") {
+        res = exportPDFTradesEstimation(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "TradesAndTranches") {
+        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
+      } else {
+        console.trace("Show me");
+        return;
+      }
+      setBlob(res.blob);
+      setFilename(res.filename);
+      setFiletype("pdf");
+      setOpenEstimationReportModal(true);
+    } catch (e) {
+      toast.error("Could not generate report successfully.");
+      console.trace(e);
+    }
+  }
+
+  function generateDQEPDF() {
+    try {
+      let res;
+      if (currentProject.market_type == "Simple") {
+        res = exportPDFSimpleEstimation(projectWorkData, currentProject, true);
+      } else if (currentProject.market_type == "Trades") {
+        res = exportPDFTradesEstimation(projectWorkData, currentProject, true);
+      } else if (currentProject.market_type == "TradesAndTranches") {
+        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
+      } else {
+        console.trace("Show me");
+      }
+      setBlob(res.blob);
+      setFilename(res.filename);
+      setFiletype("pdf");
+      setOpenDQEReportModal(true);
+    } catch (e) {
+      toast.error("Could not generate report successfully.");
+      console.trace(e);
+    }
+  }
+
+  async function generateBPUWord() {
+    try {
+      let res;
+      if (currentProject.market_type == "Simple") {
+        res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "Trades") {
+        res = await exportDOCXTradesBPU(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "TradesAndTranches") {
+        res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
+      } else {
+        console.trace("Show me");
+      }
+      setBlob(res.blob);
+      setFilename(res.filename);
+      setFiletype("docx");
+      setOpenBPUReportModal(true);
+    } catch (e) {
+      toast.error("Could not generate report successfully.");
+      console.trace(e);
+    }
+  }
+
+  async function generateCCTPWord() {
+    try {
+      let res;
+      if (currentProject.market_type == "Simple") {
+        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "Trades") {
+        res = await exportDOCXTradesCCTP(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "TradesAndTranches") {
+        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
+      } else {
+        console.trace("Show me");
+      }
+      setBlob(res.blob);
+      setFilename(res.filename);
+      setFiletype("docx");
+      setOpenCCTPReportModal(true);
+    } catch (e) {
+      toast.error("Could not generate report successfully.");
+      console.trace(e);
+    }
+  }
+
   return (
     <div className={classes.main_container}>
       {loading ? (
@@ -880,25 +981,49 @@ const ProjectView = () => {
             title="Estimation"
             open={openEstimationReportModal}
             onClose={() => setOpenEstimationReportModal(false)}
-            component={<ReportEstimationModal currentProject={currentProject} projectWorkData={projectWorkData} />}
+            component={
+              <ReportEstimationModal
+                viewBlob={blob}
+                viewFileName={filename}
+                viewFileType={filetype}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+              />
+            }
           />
           <Modal
             title="DQE"
             open={openDQEReportModal}
             onClose={() => setOpenDQEReportModal(false)}
-            component={<ReportDQEModal currentProject={currentProject} projectWorkData={projectWorkData} />}
+            component={
+              <ReportDQEModal
+                viewBlob={blob}
+                viewFileName={filename}
+                viewFileType={filetype}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+              />
+            }
           />
           <Modal
             title="BPU"
             open={openBPUReportModal}
             onClose={() => setOpenBPUReportModal(false)}
-            component={<ReportBPUModal currentProject={currentProject} projectWorkData={projectWorkData} />}
+            component={
+              <ReportBPUModal
+                viewBlob={blob}
+                viewFileName={filename}
+                viewFileType={filetype}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+              />
+            }
           />
           <Modal
             title="CCTP"
             open={openCCTPReportModal}
             onClose={() => setOpenCCTPReportModal(false)}
-            component={<ReportCCTPModal currentProject={currentProject} projectWorkData={projectWorkData} />}
+            component={<ReportCCTPModal viewBlob={blob} viewFileName={filename} viewFileType={filetype} />}
           />
           <Modal
             title={t("Edit Chap. 0 part 2")}
