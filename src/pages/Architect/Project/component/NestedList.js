@@ -188,7 +188,7 @@ const NestedList = (props) => {
         {menuItem?.cctp_text?.length === 0 &&
           (typeof menuItem?.bpu_text === "undefined" || menuItem?.bpu_text?.length === 0) &&
           (typeof menuItem?.providers === "undefined" || menuItem?.providers?.length === 0) && (
-            <MenuItem disabled>No texts</MenuItem>
+            <MenuItem disabled>{t("No texts")}</MenuItem>
           )}
       </StyledMenu>
       {props.level1?.map((item) => {

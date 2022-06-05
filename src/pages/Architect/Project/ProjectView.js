@@ -1092,7 +1092,7 @@ const ProjectView = () => {
             }
           />
           <Modal
-            title={t("Update Trade")}
+            title={t("Update Tranch")}
             open={openUpdateTranchesModal}
             onClose={handleOpenUpdateTranchesModal}
             component={
