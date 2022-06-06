@@ -235,7 +235,9 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking));
+    const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
+    setTypeOptions(data);
+    setTypeValue(data[0]._id);
   };
 
   //   func to get stakeholders
@@ -487,7 +489,6 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <br />
-            <br />
             <Autocomplete
               label="Maitre d'Ouvrage"
               options={stakeholderByType1}
@@ -531,7 +532,6 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               value={values.reference}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
-            <br />
             <br />
             <label htmlFor="grid-first-name" style={{ color: "gray" }}>
               {t("Description")}
