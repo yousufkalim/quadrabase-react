@@ -132,16 +132,8 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
 
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
-  const footerDataFloatsArr = footerDataGenSimpleEstimation(
-    data,
-    currentProject,
-    noPrice,
-    true
-  );
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
-    footerDataFloatsArr,
-    footerColumnsSimpleEstimation
-  );
+  const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimation);
 
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedBodyData);
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
@@ -197,9 +189,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}.xlsx`;
   return { blob, filename };
 };
 
@@ -210,10 +200,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesEstimation(
-      currentRow,
-      i + 1
-    );
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesEstimation(currentRow, i + 1);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -261,25 +248,18 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}.xlsx`;
   return { blob, filename };
 };
 
-const exportXLSXTradesAndTranchesEstimation = (
-  data,
-  currentProject,
-  noPrice
-) => {
+const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) => {
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
 
   let xlsxParsedData = [];
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData =
-      xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -322,7 +302,7 @@ const exportXLSXTradesAndTranchesEstimation = (
       });
       cursor = cursor + 1;
     }
-    // Trde total row style
+    // Trade total row style
     applyRowStyle(ws, cursor, { ...Fill6, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
@@ -341,9 +321,7 @@ const exportXLSXTradesAndTranchesEstimation = (
   const blob = new Blob([wbout], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}.xlsx`;
   return { blob, filename };
 };
 
@@ -354,8 +332,4 @@ function applyRowStyle(ws, RowNum, style) {
   }
 }
 
-export {
-  exportXLSXSimpleEstimation,
-  exportXLSXTradesEstimation,
-  exportXLSXTradesAndTranchesEstimation,
-};
+export { exportXLSXSimpleEstimation, exportXLSXTradesEstimation, exportXLSXTradesAndTranchesEstimation };

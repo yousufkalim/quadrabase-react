@@ -30,6 +30,7 @@ function ReportCCTPModal(props) {
         res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
+        return;
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
@@ -41,7 +42,7 @@ function ReportCCTPModal(props) {
   return (
     <div style={{ width: "60vw", maxHeight: "85vh", overflow: "auto" }}>
       <Stack direction="row" spacing={1}>
-        <IconButton aria-label="Word" onClick={generateWord}>
+        <IconButton aria-label="DOCX" onClick={generateWord}>
           <TextSnippetIcon />
         </IconButton>
       </Stack>

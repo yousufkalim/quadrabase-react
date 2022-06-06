@@ -29,6 +29,7 @@ import ReportEstimationModal from "./Modals/ReportEstimationModal";
 import ReportDQEModal from "./Modals/ReportDQEModal";
 import ReportBPUModal from "./Modals/ReportBPUModal";
 import ReportCCTPModal from "./Modals/ReportCCTPModal";
+import ReportDPGFModal from "./Modals/ReportDPGFModal";
 import TracnhesModal from "./Modals/TranchesModal";
 import TradesModal from "./Modals/TradesModal";
 import UpdateTradesModal from "./Modals/UpdateTradesModal";
@@ -61,6 +62,7 @@ import TechnicalDocModal from "./Modals/TechnicalDoc";
 import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from "./ReportsGen/genPDF";
 import { exportDOCXSimpleBPU, exportDOCXTradesBPU, exportDOCXTradesAndTranchesBPU } from "./ReportsGen/genDocx";
 import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from "./ReportsGen/genDocx";
+import { exportDOCXSimpleDPGF, exportDOCXTradesDPGF, exportDOCXTradesAndTranchesDPGF } from "./ReportsGen/genDocx";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -144,6 +146,7 @@ const ProjectView = () => {
   const [openDQEReportModal, setOpenDQEReportModal] = useState(false);
   const [openBPUReportModal, setOpenBPUReportModal] = useState(false);
   const [openCCTPReportModal, setOpenCCTPReportModal] = useState(false);
+  const [openDPGFReportModal, setOpenDPGFReportModal] = useState(false);
   const [works, setworks] = useState([]);
   const [tradeTotal, setTradeTotal] = useState([]);
   const [openTranchesModal, setOpenTranchesModal] = useState(false);
@@ -584,6 +587,10 @@ const ProjectView = () => {
     handleClose();
     generateCCTPWord();
   };
+  const openDPGFModal = () => {
+    handleClose();
+    generateDPGFWord();
+  };
 
   const getLevel3 = async (id) => {
     try {
@@ -862,6 +869,28 @@ const ProjectView = () => {
     }
   }
 
+  async function generateDPGFWord() {
+    try {
+      let res;
+      if (currentProject.market_type == "Simple") {
+        res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "Trades") {
+        res = await exportDOCXTradesDPGF(projectWorkData, currentProject);
+      } else if (currentProject.market_type == "TradesAndTranches") {
+        res = await exportDOCXTradesAndTranchesDPGF(projectWorkData, currentProject);
+      } else {
+        console.trace("Show me");
+      }
+      setBlob(res.blob);
+      setFilename(res.filename);
+      setFiletype("docx");
+      setOpenDPGFReportModal(true);
+    } catch (e) {
+      toast.error("Could not generate report successfully.");
+      console.trace(e);
+    }
+  }
+
   return (
     <div className={classes.main_container}>
       {loading ? (
@@ -1024,6 +1053,20 @@ const ProjectView = () => {
             open={openCCTPReportModal}
             onClose={() => setOpenCCTPReportModal(false)}
             component={<ReportCCTPModal viewBlob={blob} viewFileName={filename} viewFileType={filetype} />}
+          />
+          <Modal
+            title="DPGF"
+            open={openDPGFReportModal}
+            onClose={() => setOpenDPGFReportModal(false)}
+            component={
+              <ReportDPGFModal
+                viewBlob={blob}
+                viewFileName={filename}
+                viewFileType={filetype}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+              />
+            }
           />
           <Modal
             title={t("Edit Chap. 0 part 2")}
@@ -1363,16 +1406,27 @@ const ProjectView = () => {
                     <MenuItem onClick={openEstimationModal} style={{ width: 180, height: 28, fontSize: 15 }}>
                       {t("Generate Estimate")}
                     </MenuItem>
-                    <MenuItem onClick={openDQEModal} style={{ height: 28, fontSize: 15 }}>
+                    <MenuItem
+                      onClick={openDQEModal}
+                      style={{ height: 28, fontSize: 15 }}
+                      disabled={currentProject.structure == "DPGF"}
+                    >
                       {t("Generate The DQE")}
                     </MenuItem>
-                    <MenuItem onClick={openBPUModal} style={{ height: 28, fontSize: 15 }}>
+                    <MenuItem
+                      onClick={openBPUModal}
+                      style={{ height: 28, fontSize: 15 }}
+                      disabled={currentProject.structure == "DPGF"}
+                    >
                       {t("Generate BPU")}
                     </MenuItem>
-                    <MenuItem onClick={handleClose} style={{ height: 28, fontSize: 15 }}>
+                    <MenuItem
+                      onClick={openDPGFModal}
+                      style={{ height: 28, fontSize: 15 }}
+                      disabled={currentProject.structure != "DPGF"}
+                    >
                       {t("Generate DPGF")}
                     </MenuItem>
-
                     <Divider />
                     <MenuItem onClick={openCCTPModal} style={{ height: 25, fontSize: 15 }}>
                       {t("Generate The CCTP")}
