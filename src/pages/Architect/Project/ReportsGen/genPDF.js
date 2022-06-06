@@ -28,16 +28,9 @@ function applyGlobalStyling(s) {
 }
 
 function exportPDFSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
   const realDataPDF = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
-  const footerData = footerDataGenSimpleEstimation(
-    data,
-    currentProject,
-    noPrice
-  );
+  const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice);
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -99,10 +92,7 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   doc.autoTable(contentMainTable);
 
   const contentFootTable = {
-    startY:
-      doc.lastAutoTable.settings.startY +
-      32 * realDataPDF.length -
-      2 * realDataPDF.length,
+    startY: doc.lastAutoTable.settings.startY + 32 * realDataPDF.length - 2 * realDataPDF.length,
     theme: "plain",
     head: [[footerColumnsSimpleEstimation[0], footerData[0]]],
     body: [
@@ -129,17 +119,12 @@ function exportPDFSimpleEstimation(data, currentProject, noPrice) {
 
   const blob = doc.output("blob");
 
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
   return { blob, filename };
 }
 
 function exportPDFTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -174,10 +159,7 @@ function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = pdfParsedDataGenTradesEstimation(
-      currentRow,
-      i + 1
-    );
+    const currentRowXLSXParsedData = pdfParsedDataGenTradesEstimation(currentRow, i + 1);
     pdfParsedData = pdfParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -210,17 +192,12 @@ function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
   const blob = doc.output("blob");
 
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
   return { blob, filename };
 }
 
 function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
 
   const unit = "pt";
   const size = "A4"; // Use A1, A2, A3 or A4
@@ -255,8 +232,7 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData =
-      pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    const currentRowXLSXParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
     pdfparsedData = pdfparsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -289,9 +265,7 @@ function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
 
   const _blob = doc.output("blob");
   const blob = new Blob([_blob], { type: "application/pdf" });
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
   return { blob, filename };
 }
 

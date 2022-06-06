@@ -29,6 +29,7 @@ function ReportBPUModal(props) {
         res = exportPDFTradesAndTranchesBPU(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
+        return;
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
@@ -48,6 +49,7 @@ function ReportBPUModal(props) {
         res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
+        return;
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
@@ -62,7 +64,7 @@ function ReportBPUModal(props) {
         {/* <IconButton aria-label="PDF" onClick={generatePDF}>
           <PictureAsPdfIcon />
         </IconButton> */}
-        <IconButton aria-label="PDF" onClick={generateWord}>
+        <IconButton aria-label="DOCX" onClick={generateWord}>
           <TextSnippetIcon />
         </IconButton>
       </Stack>
