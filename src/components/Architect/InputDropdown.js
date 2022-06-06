@@ -22,16 +22,13 @@ export default function Index(props) {
         }}
         InputProps={{
           style: {
-            height: props.height ? props.height : 50,
+            height: props.height ? props.height : 38,
             backgroundColor: props.backgroundColor && props.backgroundColor,
           },
         }}
         required={props.required}
       >
-        <option
-          value={props.component === "register" ? 0 : ""}
-          disabled={props.first === "notDisable" ? false : true}
-        >
+        <option value={props.component === "register" ? 0 : ""} disabled={props.first === "notDisable" ? false : true}>
           {props.component === "register" ? "0" : t("Select An Option")}
         </option>
 

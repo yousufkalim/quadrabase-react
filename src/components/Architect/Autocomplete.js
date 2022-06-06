@@ -22,6 +22,11 @@ export default function ComboBox(props) {
             shrink: true,
             style: { color: "#3b373c" },
           }}
+          InputProps={{
+            style: {
+              height: props.height ? props.height : 38,
+            },
+          }}
           required={props.required}
           value={props.textValue}
           fullWidth
