@@ -90,15 +90,9 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
 
   //   func to get stakeholders
   const getStakeholders = async () => {
-    const result = await api(
-      "get",
-      `/Stakeholders/getByTypeName/Maitre d'Ouvrage`
-    );
+    const result = await api("get", `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
     setStakeholderByType1(result.data.stakeholders);
-    const result2 = await api(
-      "get",
-      `/Stakeholders/getByTypeName/Maitre d'Oeuvre`
-    );
+    const result2 = await api("get", `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
     setStakeholderByType2(result2.data.stakeholders);
   };
 
@@ -176,7 +170,7 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         {/* All fields */}
         <br />
         <InputWithLabel
-          label={t("Name")}
+          label={t("Project Name")}
           required={true}
           name="name"
           type="text"

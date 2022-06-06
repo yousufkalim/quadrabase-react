@@ -10,11 +10,7 @@ import { useStyles } from "../../../../css/projectLibraries";
 import { Button } from "@mui/material";
 
 // component
-const TranchesModal = ({
-  handleOpenUpdateTranchesModal,
-  getTranches,
-  updateTranch,
-}) => {
+const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranch }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [name, setName] = useState();
@@ -46,7 +42,7 @@ const TranchesModal = ({
         {/* All fields */}
         <br />
         <InputWithLabel
-          label="Name"
+          label={t("Name")}
           required={true}
           name="text"
           type="text"
@@ -71,7 +67,7 @@ const TranchesModal = ({
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Add Tranch")}
+            {t("Update Tranch")}
           </Button>
         </div>
       </form>

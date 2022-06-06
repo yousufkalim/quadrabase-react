@@ -36,10 +36,7 @@ const StyledMenu = styled((props) => (
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 150,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
+    color: theme.palette.mode === "light" ? "rgb(55, 65, 81)" : theme.palette.grey[300],
     border: "1px solid lightgray",
     "& .MuiMenu-list": {
       padding: "4px 0",
@@ -51,18 +48,13 @@ const StyledMenu = styled((props) => (
         marginRight: theme.spacing(1.5),
       },
       "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
   },
 }));
 
-const NoMaxWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
+const NoMaxWidthTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: "none",
     backgroundColor: "#fff8e3",
@@ -118,8 +110,7 @@ const NestedList = (props) => {
         overflow: "scroll",
         overflowX: "hidden",
         backgroundColor: "#e3e2e5",
-        boxShadow:
-          "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+        boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
         paddingTop: 0,
         paddingBottom: 0,
       }}
@@ -144,51 +135,43 @@ const NestedList = (props) => {
       >
         {menuItem?.bpu_text?.length >= 1 &&
           menuItem?.bpu_text?.map((bpu, index) => {
-            if (bpu) {
-              return (
-                <MenuItem
-                  onClick={() => {
-                    props.openCctpModal(bpu, "BPU");
-                    handleAnchorElClose();
-                  }}
-                >
-                  Text BPU
-                </MenuItem>
-              );
-            }
-          })}
-        {menuItem?.cctp_text?.length >= 1 &&
-          menuItem?.cctp_text?.map((cctp, index) => {
-            if (cctp) {
-              return (
-                <MenuItem
-                  onClick={() => {
-                    props.openCctpModal(cctp, `CCTP ${index + 1}`);
-                    handleAnchorElClose();
-                  }}
-                >
-                  Text CCTP {index + 1}
-                </MenuItem>
-              );
-            }
-          })}
-        {menuItem?.providers?.length >= 1 &&
-          menuItem?.providers[0]?.documents?.length >= 1 && (
-            <>
-              <Divider />
+            return (
               <MenuItem
                 onClick={() => {
-                  window.open(
-                    menuItem?.providers[0].documents[0].uri,
-                    "_blank"
-                  );
+                  props.openCctpModal(bpu, "BPU");
                   handleAnchorElClose();
                 }}
               >
-                {t("Technical Doc")}
+                Text BPU
               </MenuItem>
-            </>
-          )}
+            );
+          })}
+        {menuItem?.cctp_text?.length >= 1 &&
+          menuItem?.cctp_text?.map((cctp, index) => {
+            return (
+              <MenuItem
+                onClick={() => {
+                  props.openCctpModal(cctp, `CCTP ${index + 1}`);
+                  handleAnchorElClose();
+                }}
+              >
+                Text CCTP {index + 1}
+              </MenuItem>
+            );
+          })}
+        {menuItem?.providers?.length >= 1 && menuItem?.providers[0]?.documents?.length >= 1 && (
+          <>
+            <Divider />
+            <MenuItem
+              onClick={() => {
+                window.open(menuItem?.providers[0].documents[0].uri, "_blank");
+                handleAnchorElClose();
+              }}
+            >
+              {t("Technical Doc")}
+            </MenuItem>
+          </>
+        )}
         {menuItem?.providers?.length >= 1 && (
           <>
             <Divider />
@@ -203,11 +186,9 @@ const NestedList = (props) => {
           </>
         )}
         {menuItem?.cctp_text?.length === 0 &&
-          (typeof menuItem?.bpu_text === "undefined" ||
-            menuItem?.bpu_text?.length === 0) &&
-          (typeof menuItem?.providers === "undefined" ||
-            menuItem?.providers?.length === 0) && (
-            <MenuItem disabled>No texts</MenuItem>
+          (typeof menuItem?.bpu_text === "undefined" || menuItem?.bpu_text?.length === 0) &&
+          (typeof menuItem?.providers === "undefined" || menuItem?.providers?.length === 0) && (
+            <MenuItem disabled>{t("No texts")}</MenuItem>
           )}
       </StyledMenu>
       {props.level1?.map((item) => {
@@ -259,11 +240,7 @@ const NestedList = (props) => {
                       fontWeight: 900,
                     }}
                   >
-                    <NoMaxWidthTooltip
-                      title={item?.name}
-                      placement="top"
-                      TransitionComponent={Zoom}
-                    >
+                    <NoMaxWidthTooltip title={item?.name} placement="top" TransitionComponent={Zoom}>
                       <div
                         onClick={() => {
                           if (!open) {
@@ -318,9 +295,7 @@ const NestedList = (props) => {
                     </NoMaxWidthTooltip>
                     <ArrowDropDownIcon
                       id="demo-positioned-button"
-                      aria-controls={
-                        openLevel ? "demo-positioned-menu" : undefined
-                      }
+                      aria-controls={openLevel ? "demo-positioned-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openLevel ? "true" : undefined}
                       onClick={(e) => handleAnchorElClick(e, item)}
@@ -377,11 +352,7 @@ const NestedList = (props) => {
                                 alignItems: "center",
                               }}
                             >
-                              <NoMaxWidthTooltip
-                                title={item2?.name}
-                                placement="top"
-                                TransitionComponent={Zoom}
-                              >
+                              <NoMaxWidthTooltip title={item2?.name} placement="top" TransitionComponent={Zoom}>
                                 <div
                                   onClick={() => {
                                     if (!open2) {
@@ -429,9 +400,7 @@ const NestedList = (props) => {
                               </NoMaxWidthTooltip>
                               <ArrowDropDownIcon
                                 id="demo-positioned-button"
-                                aria-controls={
-                                  openLevel ? "demo-positioned-menu" : undefined
-                                }
+                                aria-controls={openLevel ? "demo-positioned-menu" : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={openLevel ? "true" : undefined}
                                 onClick={(e) => handleAnchorElClick(e, item2)}
@@ -444,9 +413,7 @@ const NestedList = (props) => {
                           }
                         />
                       </ListItem>
-                      {props.loading === item2._id && (
-                        <LinearProgress color="inherit" />
-                      )}
+                      {props.loading === item2._id && <LinearProgress color="inherit" />}
                       <Collapse in={open2} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                           {props.level3?.map((item3) => {
@@ -463,11 +430,7 @@ const NestedList = (props) => {
                                   </ListItemIcon>
                                   <ListItemText
                                     primary={
-                                      <NoMaxWidthTooltip
-                                        title={item2?.name}
-                                        placement="top"
-                                        TransitionComponent={Zoom}
-                                      >
+                                      <NoMaxWidthTooltip title={item2?.name} placement="top" TransitionComponent={Zoom}>
                                         <div
                                           style={{
                                             fontSize: 13,
@@ -479,54 +442,40 @@ const NestedList = (props) => {
                                           {screenSize > 1600 ? (
                                             <>
                                               {item3?.name?.substring(0, 38)}
-                                              {item3?.name?.length > 38 &&
-                                                "..."}
+                                              {item3?.name?.length > 38 && "..."}
                                             </>
                                           ) : screenSize > 1500 ? (
                                             <>
                                               {item3?.name?.substring(0, 34)}
-                                              {item3?.name?.length > 34 &&
-                                                "..."}
+                                              {item3?.name?.length > 34 && "..."}
                                             </>
                                           ) : screenSize > 1400 ? (
                                             <>
                                               {item3?.name?.substring(0, 30)}
-                                              {item3?.name?.length > 30 &&
-                                                "..."}
+                                              {item3?.name?.length > 30 && "..."}
                                             </>
                                           ) : screenSize > 1300 ? (
                                             <>
                                               {item3?.name?.substring(0, 26)}
-                                              {item3?.name?.length > 26 &&
-                                                "..."}
+                                              {item3?.name?.length > 26 && "..."}
                                             </>
                                           ) : screenSize > 1200 ? (
                                             <>
                                               {item3?.name?.substring(0, 22)}
-                                              {item3?.name?.length > 22 &&
-                                                "..."}
+                                              {item3?.name?.length > 22 && "..."}
                                             </>
                                           ) : (
                                             <>
                                               {item3?.name?.substring(0, 18)}
-                                              {item3?.name?.length > 18 &&
-                                                "..."}
+                                              {item3?.name?.length > 18 && "..."}
                                             </>
                                           )}
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={
-                                              openLevel
-                                                ? "demo-positioned-menu"
-                                                : undefined
-                                            }
+                                            aria-controls={openLevel ? "demo-positioned-menu" : undefined}
                                             aria-haspopup="true"
-                                            aria-expanded={
-                                              openLevel ? "true" : undefined
-                                            }
-                                            onClick={(e) =>
-                                              handleAnchorElClick(e, item3)
-                                            }
+                                            aria-expanded={openLevel ? "true" : undefined}
+                                            onClick={(e) => handleAnchorElClick(e, item3)}
                                             sx={{
                                               fontSize: 18,
                                               cursor: "pointer",
