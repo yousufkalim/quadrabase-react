@@ -446,33 +446,19 @@ export const MyProjectHeadCells = [
 
 export const StakeholderheadCells = [
   {
-    id: "name",
+    id: "type",
 
-    label: "Name",
+    label: "Type Of Stakeholder",
   },
   {
-    id: "email",
+    id: "establishment",
 
-    label: "Email",
+    label: "Establishment",
   },
   {
-    id: "contact_no",
+    id: "Service",
 
-    label: "Contact Number",
-  },
-  {
-    id: "service",
-
-    label: "Service",
-  },
-  {
-    id: "entity",
-    label: "Entity",
-  },
-  {
-    id: "city",
-
-    label: "City",
+    label: "service",
   },
   {
     id: "address1",
@@ -480,13 +466,37 @@ export const StakeholderheadCells = [
     label: "Address 1",
   },
   {
-    id: "address2",
-
-    label: "Address 2",
+    id: "po_box",
+    label: "BP/CS",
   },
   {
     id: "zipcode",
-    label: "Zipcode",
+
+    label: "CP",
+  },
+  {
+    id: "city",
+
+    label: "City",
+  },
+  {
+    id: "lastname",
+
+    label: "Lastname",
+  },
+  {
+    id: "firstname",
+    label: "Firstname",
+  },
+
+  {
+    id: "contact_no",
+    label: "Telephone",
+  },
+
+  {
+    id: "email",
+    label: "Email Address",
   },
 
   {

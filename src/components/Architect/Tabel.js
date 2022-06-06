@@ -298,6 +298,10 @@ export default function EnhancedTable(props) {
                           <TableCell key={index} align="left" title={row[record]}>
                             {row.client.name}
                           </TableCell>
+                        ) : record === "type" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row.type.text}
+                          </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row[record]
