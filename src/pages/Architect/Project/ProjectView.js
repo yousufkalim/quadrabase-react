@@ -1421,9 +1421,17 @@ const ProjectView = () => {
                     <MenuItem
                       onClick={() => {
                         if (selectedData.type === "trade") {
-                          handleOpenDeleteTradeModal();
+                          if (tradesData.length > 1) {
+                            handleOpenDeleteTradeModal();
+                          } else {
+                            toast.error(t("The last remaining Batch cannot be deleted."));
+                          }
                         } else {
-                          handleOpenDeleteTranchModal();
+                          if (tranchesData.length > 1) {
+                            handleOpenDeleteTranchModal();
+                          } else {
+                            toast.error(t("The last remaining Slice cannot be deleted."));
+                          }
                         }
                         handleClose2();
                       }}
