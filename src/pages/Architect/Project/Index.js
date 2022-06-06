@@ -20,9 +20,7 @@ const Index = () => {
 
   useEffect(() => {
     let temp = [];
-    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) =>
-      temp.push(cell.id)
-    );
+    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) => temp.push(cell.id));
     setProjectHeadCells(temp);
   }, []);
 
@@ -41,9 +39,7 @@ const Index = () => {
 
   const getProjects = async () => {
     const result = await api("get", `/project/byArchitect/${store.user._id}`);
-    const projects = result?.data?.project.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+    const projects = result?.data?.project.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setProjectData(projects);
   };
 
@@ -59,9 +55,7 @@ const Index = () => {
         title={t("Add Project")}
         open={addProjectModal}
         onClose={handleAddProjectModal}
-        component={
-          <AddProjectModal handleAddProjectModal={handleAddProjectModal} />
-        }
+        component={<AddProjectModal handleAddProjectModal={handleAddProjectModal} />}
       />
       <Table
         headCells={ProjectheadCells}
@@ -71,7 +65,7 @@ const Index = () => {
         headerText={`${t("My Projects")} (${store?.user?.projects?.length}/${
           mySubscription?.projects ? mySubscription?.projects : 0
         })`}
-        buttonText={t("New Projects")}
+        buttonText={t("New Project")}
         buttonAction={handleAddProjectModal}
       />
     </div>

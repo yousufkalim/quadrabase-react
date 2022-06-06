@@ -124,12 +124,7 @@ function a11yProps(index) {
 }
 
 // component
-const PropertiesModal = ({
-  handleOpenPropertiesModal,
-  currentProject,
-  getProject,
-  familyOptions,
-}) => {
+const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject, familyOptions }) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -196,15 +191,9 @@ const PropertiesModal = ({
         prev.name = currentProject?.name;
         prev.prescriber = currentProject?.prescriber;
         prev.vat = currentProject?.vat?._id;
-        prev.reference = currentProject?.reference
-          ? currentProject?.reference
-          : "";
-        prev.description = currentProject?.description
-          ? currentProject?.description
-          : "";
-        prev.chap0part2 = currentProject?.chap0part2
-          ? currentProject?.chap0part2?.id?._id
-          : "";
+        prev.reference = currentProject?.reference ? currentProject?.reference : "";
+        prev.description = currentProject?.description ? currentProject?.description : "";
+        prev.chap0part2 = currentProject?.chap0part2 ? currentProject?.chap0part2?.id?._id : "";
         return { ...prev };
       });
       setValues2((prev) => {
@@ -239,42 +228,29 @@ const PropertiesModal = ({
   }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
-    const result = await api(
-      "get",
-      `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]}`
-    );
+    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]}`);
     setTypeValue(result.data.type._id);
   };
 
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(
-      result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking)
-    );
+    setTypeOptions(result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking));
   };
 
   //   func to get stakeholders
   const getStakeholders = async () => {
     if (typeValue) {
       const result = await api("get", `/Stakeholders/getByType/${typeValue}`);
-      setStakeholderOptions(
-        result.data.stakeholder.sort((a, b) => a.ranking - b.ranking)
-      );
+      setStakeholderOptions(result.data.stakeholder.sort((a, b) => a.ranking - b.ranking));
     }
   };
 
   //   func to get stakeholders
   const getStakeholders2 = async () => {
-    const result = await api(
-      "get",
-      `/Stakeholders/getByTypeName/Maitre d'Ouvrage`
-    );
+    const result = await api("get", `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
     setStakeholderByType1(result.data.stakeholders);
-    const result2 = await api(
-      "get",
-      `/Stakeholders/getByTypeName/Maitre d'Oeuvre`
-    );
+    const result2 = await api("get", `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
     setStakeholderByType2(result2.data.stakeholders);
   };
 
@@ -342,11 +318,7 @@ const PropertiesModal = ({
     !values.reference && delete data.reference;
     !values.description && delete data.description;
     values.client = selectedStakeholder && selectedStakeholder;
-    if (
-      !values.chap0part2 ||
-      (currentProject.chap0part2 &&
-        currentProject.chap0part2.id._id == data.chap0part2)
-    ) {
+    if (!values.chap0part2 || (currentProject.chap0part2 && currentProject.chap0part2.id._id == data.chap0part2)) {
       delete data.chap0part2;
     } else {
       chapOptions?.architectsChap0?.map((item) => {
@@ -367,24 +339,14 @@ const PropertiesModal = ({
   //   handle submit
   const handleSubmit2 = async (e) => {
     e.preventDefault();
-    const result = await api(
-      "put",
-      `/project/${currentProject._id}`,
-      values2,
-      t
-    );
+    const result = await api("put", `/project/${currentProject._id}`, values2, t);
     toast.success(t(result.data.message));
     handleOpenPropertiesModal();
     getProject();
   };
   //   handle submit
   const handleSubmit3 = async () => {
-    const result = await api(
-      "put",
-      `/project/${currentProject._id}`,
-      values3,
-      t
-    );
+    const result = await api("put", `/project/${currentProject._id}`, values3, t);
     toast.success(t(result.data.message));
     handleOpenPropertiesModal();
     getProject();
@@ -491,15 +453,9 @@ const PropertiesModal = ({
           >
             {t("Edit")}
           </MenuItem>
-          <MenuItem onClick={() => removeStakeholder(stakeId)}>
-            {t("Delete")}
-          </MenuItem>
-          <MenuItem onClick={() => handleStakeholderUp(stakeId)}>
-            {t("Up")}
-          </MenuItem>
-          <MenuItem onClick={() => handleStakeholderDown(stakeId)}>
-            {t("Down")}
-          </MenuItem>
+          <MenuItem onClick={() => removeStakeholder(stakeId)}>{t("Delete")}</MenuItem>
+          <MenuItem onClick={() => handleStakeholderUp(stakeId)}>{t("Up")}</MenuItem>
+          <MenuItem onClick={() => handleStakeholderDown(stakeId)}>{t("Down")}</MenuItem>
         </Menu>
         <Modal
           title={t("Edit Stakeholder")}
@@ -596,9 +552,7 @@ const PropertiesModal = ({
               type="text"
               onChange={(e) => {
                 setSelectedFam(e.target.value);
-                let tempFam = familyOptions.find(
-                  (item) => item._id === e.target.value
-                );
+                let tempFam = familyOptions.find((item) => item._id === e.target.value);
                 let famName = tempFam.name.toUpperCase();
                 if (famName === "PRESCRIPTEUR") {
                   let chap = chapOptions.architectsChap0.find((item) => {
@@ -627,11 +581,7 @@ const PropertiesModal = ({
             </div>
             {/* register button */}
             <div style={{ width: "100%", textAlign: "right" }}>
-              <Button
-                variant="contained"
-                className={classes.btn}
-                onClick={handleOpenPropertiesModal}
-              >
+              <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
                 {t("Close")}
               </Button>
               <Button
@@ -670,11 +620,7 @@ const PropertiesModal = ({
             />
             {/* register button */}
             <div style={{ width: "100%", textAlign: "right" }}>
-              <Button
-                variant="contained"
-                className={classes.btn}
-                onClick={handleOpenPropertiesModal}
-              >
+              <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
                 {t("Close")}
               </Button>
               <Button variant="contained" className={classes.btn} type="submit">
@@ -688,7 +634,7 @@ const PropertiesModal = ({
             <Grid item zeroMinWidth xs>
               <InputDropdown
                 name="type"
-                label={t("Type")}
+                label={t("Select a type of stakeholder")}
                 value={typeValue}
                 onChange={(e) => setTypeValue(e.target.value)}
                 options={typeOptions}
@@ -775,10 +721,7 @@ const PropertiesModal = ({
                     {t("City")}
                   </TableCell>
 
-                  <TableCell
-                    align="left"
-                    sx={{ color: "white", fontWeight: 900 }}
-                  ></TableCell>
+                  <TableCell align="left" sx={{ color: "white", fontWeight: 900 }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -816,9 +759,7 @@ const PropertiesModal = ({
                       <TableCell align="left">
                         <IconButton
                           id="demo-positioned-button"
-                          aria-controls={
-                            open ? "demo-positioned-menu" : undefined
-                          }
+                          aria-controls={open ? "demo-positioned-menu" : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
                           onClick={(e) => handleClick(e, row, row._id)}
@@ -835,18 +776,10 @@ const PropertiesModal = ({
           <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button
-              variant="contained"
-              className={classes.btn}
-              onClick={handleOpenPropertiesModal}
-            >
+            <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
               {t("Close")}
             </Button>
-            <Button
-              variant="contained"
-              className={classes.btn}
-              onClick={handleSubmit3}
-            >
+            <Button variant="contained" className={classes.btn} onClick={handleSubmit3}>
               {t("Update")}
             </Button>
           </div>
