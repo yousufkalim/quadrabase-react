@@ -266,8 +266,12 @@ export default function EnhancedTable(props) {
                               : "N/A"}
                           </TableCell>
                         ) : record === "createdAt" ? (
-                          <TableCell align="left" title={row?.subscription?.end_date}>
-                            {row?.createdAt ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
+                          <TableCell align="left" title={row?.subscription?.createdAt}>
+                            {row?.createdAt ? moment(row?.createdAt).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
+                        ) : record === "updatedAt" ? (
+                          <TableCell align="left" title={row?.subscription?.updatedAt}>
+                            {row?.updatedAt ? moment(row?.updatedAt).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "vat" ? (
                           <TableCell key={index} align="left" title={row?.vat?.value}>
@@ -289,6 +293,10 @@ export default function EnhancedTable(props) {
                         ) : record === "prescriber" ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row.name}
+                          </TableCell>
+                        ) : record === "client" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row.client.name}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>

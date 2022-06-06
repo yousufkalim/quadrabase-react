@@ -512,17 +512,12 @@ export const ProjectheadCells = [
   {
     id: "name",
 
-    label: "Name",
+    label: "Name of the project",
   },
   {
-    id: "prescriber",
+    id: "client",
 
-    label: "Prescriber",
-  },
-  {
-    id: "vat",
-
-    label: "VAT",
+    label: "Owner",
   },
   {
     id: "market_type",
@@ -530,14 +525,19 @@ export const ProjectheadCells = [
     label: "Type Of Contract",
   },
   {
-    id: "structure",
-
-    label: "Type Of Project",
-  },
-  {
     id: "createdAt",
 
-    label: "Date",
+    label: "Date Of Creation",
+  },
+  {
+    id: "updatedAt",
+
+    label: "Date Of Last Modification",
+  },
+  {
+    id: "status",
+
+    label: "Status",
   },
 
   {
