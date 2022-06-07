@@ -192,7 +192,7 @@ const Home = () => {
           }}
           onClick={handleNoSub}
         >
-          Back to Sign up Process
+          {t("Back to registration Process")}
         </Button>
       </div>
     </div>

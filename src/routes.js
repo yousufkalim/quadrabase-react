@@ -48,7 +48,7 @@ var routes = [
   {
     path: "/index", //Architect
     name: "Architect",
-    text: "Home",
+    text: "Dashboard",
     icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
     layout: "/architect",

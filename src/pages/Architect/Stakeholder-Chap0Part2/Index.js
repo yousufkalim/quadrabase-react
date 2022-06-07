@@ -44,15 +44,11 @@ const Index = () => {
   //   useEffect to setheadcells
   useEffect(() => {
     let array = [];
-    StakeholderheadCells.slice(0, StakeholderheadCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
+    StakeholderheadCells.slice(0, StakeholderheadCells.length - 1).map((cell) => array.push(cell.id));
     setStakeholdersHeadCells(array);
 
     let temp = [];
-    Chap0Part2headCells.slice(0, Chap0Part2headCells.length - 1).map((cell) =>
-      temp.push(cell.id)
-    );
+    Chap0Part2headCells.slice(0, Chap0Part2headCells.length - 1).map((cell) => temp.push(cell.id));
     setChap0part2HeadCells(temp);
   }, []);
 
@@ -74,40 +70,26 @@ const Index = () => {
 
   //   func to get Chap0Part2Data
   const getChap0Part2 = async () => {
-    const result = await api(
-      "get",
-      `/ArchitectsChap0/current/architectchap0part2`
-    );
+    const result = await api("get", `/ArchitectsChap0/current/architectchap0part2`);
     setChap0Part2Data(result.data.architectsChap0);
   };
 
   //   func to delete stakeholders
   const handleDeleteStakeholder = async () => {
-    const result = await api(
-      "delete",
-      `/stakeholders/${deleteStakeholder}/${store.user._id}`,
-      {},
-      t
-    );
+    const result = await api("delete", `/stakeholders/${deleteStakeholder}/${store.user._id}`, {}, t);
     toast.success(t(result.data.message));
     handleDeleteStakeholderModal();
   };
 
   //   func to delete chap0part2
   const handleDeleteChap0Part2 = async () => {
-    const result = await api(
-      "delete",
-      `/ArchitectsChap0/${deleteChap0part2}`,
-      {},
-      t
-    );
+    const result = await api("delete", `/ArchitectsChap0/${deleteChap0part2}`, {}, t);
     toast.success(t(result.data.message));
     handleDeleteChap0Part2Modal();
   };
 
   //   funct to open/close modal
-  const handleAddStakeholderModal = () =>
-    setAddStakeholderModal(!addStakeholderModal);
+  const handleAddStakeholderModal = () => setAddStakeholderModal(!addStakeholderModal);
 
   const handleEditStakeholderModal = (stakeholder) => {
     if (stakeholder) {
@@ -123,8 +105,7 @@ const Index = () => {
     setDeleteStakeholderModal(!deleteStakeholderModal);
   };
 
-  const handleAddChap0Part2Modal = () =>
-    setAddChap0Part2Modal(!addChap0Part2Modal);
+  const handleAddChap0Part2Modal = () => setAddChap0Part2Modal(!addChap0Part2Modal);
 
   const handleEditChap0Part2Modal = (chap0part2) => {
     if (chap0part2) {
@@ -148,63 +129,36 @@ const Index = () => {
         title={t("Add Stakeholder")}
         open={addStakeholderModal}
         onClose={handleAddStakeholderModal}
-        component={
-          <AddStakeholder
-            handleAddStakeholderModal={handleAddStakeholderModal}
-            stakeholdersData={stakeholdersData}
-          />
-        }
+        component={<AddStakeholder handleAddStakeholderModal={handleAddStakeholderModal} stakeholdersData={stakeholdersData} />}
       />
       <Modal
         title={t("Edit Stakeholder")}
         open={editStakeholderModal}
         onClose={handleEditStakeholderModal}
-        component={
-          <EditStakholder
-            stakeholder={editStakeholder}
-            handleEditStakeholderModal={handleEditStakeholderModal}
-          />
-        }
+        component={<EditStakholder stakeholder={editStakeholder} handleEditStakeholderModal={handleEditStakeholderModal} />}
       />
       <Modal
         open={deleteStakeholderModal}
         onClose={handleDeleteStakeholderModal}
-        component={
-          <DeleteModal
-            handleCancel={handleDeleteStakeholderModal}
-            handleDelete={handleDeleteStakeholder}
-          />
-        }
+        component={<DeleteModal handleCancel={handleDeleteStakeholderModal} handleDelete={handleDeleteStakeholder} />}
       />
       {/* Chap0part2 modals */}
       <Modal
         title={t("Add Chap0Part2")}
         open={addChap0Part2Modal}
         onClose={handleAddChap0Part2Modal}
-        component={
-          <AddChap0Part2 handleAddChap0Part2Modal={handleAddChap0Part2Modal} />
-        }
+        component={<AddChap0Part2 handleAddChap0Part2Modal={handleAddChap0Part2Modal} />}
       />
       <Modal
         title={t("Edit Chap0Part2")}
         open={editChap0Part2Modal}
         onClose={handleEditChap0Part2Modal}
-        component={
-          <EditChap0Part2
-            Chap0Part2={editChap0Part2}
-            handleEditChap0Part2Modal={handleEditChap0Part2Modal}
-          />
-        }
+        component={<EditChap0Part2 Chap0Part2={editChap0Part2} handleEditChap0Part2Modal={handleEditChap0Part2Modal} />}
       />
       <Modal
         open={deleteChap0part2Modal}
         onClose={handleDeleteChap0Part2Modal}
-        component={
-          <DeleteModal
-            handleCancel={handleDeleteChap0Part2Modal}
-            handleDelete={handleDeleteChap0Part2}
-          />
-        }
+        component={<DeleteModal handleCancel={handleDeleteChap0Part2Modal} handleDelete={handleDeleteChap0Part2} />}
       />
 
       <div className={classes.container}>
@@ -217,7 +171,7 @@ const Index = () => {
               rows={stakeholdersHeadCells}
               handleEdit={handleEditStakeholderModal}
               handleDelete={handleDeleteStakeholderModal}
-              headerText="Stakeholders"
+              headerText={t("Stakeholders")}
               buttonText={t("Add Stakeholder")}
               buttonAction={handleAddStakeholderModal}
             />
@@ -232,11 +186,9 @@ const Index = () => {
               rows={chap0part2HeadCells}
               handleEdit={handleEditChap0Part2Modal}
               handleDelete={handleDeleteChap0Part2Modal}
-              headerText="Chap0Part2"
+              headerText={t("Chap0Part2")}
               buttonText={chap0Part2Data.length === 0 && t("Add Chap0Part2")}
-              buttonAction={
-                chap0Part2Data.length === 0 && handleAddChap0Part2Modal
-              }
+              buttonAction={chap0Part2Data.length === 0 && handleAddChap0Part2Modal}
             />
           </div>
         </div>

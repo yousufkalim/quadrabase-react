@@ -156,7 +156,7 @@ export const ProductheadCells = [
   {
     id: "projectsPackProjects",
 
-    label: "Number of Projects in Pack",
+    label: "Number of Projects",
   },
   {
     id: "projectsPackPrice",
