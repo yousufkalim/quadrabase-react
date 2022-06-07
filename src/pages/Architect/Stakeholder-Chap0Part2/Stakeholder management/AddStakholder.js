@@ -16,16 +16,19 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
   const classes = useStyles();
   // states
   const [values, setValues] = useState({
-    name: "",
+    type: "",
+    establishment: "",
+    service: "",
+    address1: "",
+    address2: "",
+    po_box: "",
+    zipcode: "",
+    lastname: "",
+    firstname: "",
     email: "",
     contact_no: "",
     entity: "",
-    service: "",
     city: "",
-    address1: "",
-    address2: "",
-    zipcode: "",
-    type: "",
     ranking: 0,
   });
   const [options, setOptions] = useState([]);
@@ -39,6 +42,8 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
     setOptions(result.data.stakeholderTypes);
+    const selected = result.data.stakeholderTypes.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
+    setValues({ ...values, type: selected._id });
   };
 
   // handle change function
@@ -59,12 +64,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
       })
     );
     values.ranking = maxRanking > 0 ? maxRanking + 1 : 0;
-    const result = await api(
-      "post",
-      `/stakeholders/create/${store.user._id}`,
-      values,
-      t
-    );
+    const result = await api("post", `/stakeholders/create/${store.user._id}`, values, t);
     handleAddStakeholderModal();
     toast.success(t(result.data.message));
   };
@@ -78,25 +78,13 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
           <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
-              <InputWithLabel
-                label={t("Name")}
-                required={true}
-                name="name"
-                type="text"
-                value={values.name}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
-              />
-            </Grid>
-            <Grid item zeroMinWidth xs>
               <InputDropdown
                 name="type"
                 label={t("Type")}
                 value={values.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
                 options={options}
-                required={true}
+                disabled
               />
             </Grid>
           </Grid>
@@ -104,41 +92,12 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Email")}
+                label={t("Establishment")}
                 required={true}
-                name="email"
-                type="email"
-                value={values.email}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
-              />
-            </Grid>
-            <Grid item zeroMinWidth xs>
-              <InputWithLabel
-                label={t("Contact Number")}
-                required={true}
-                name="contact_no"
-                type="number"
-                value={values.contact_no}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
-              />
-            </Grid>
-          </Grid>
-          <br />
-          <Grid container spacing={2}>
-            <Grid item zeroMinWidth xs>
-              <InputWithLabel
-                label={t("Entity")}
-                required={true}
-                name="entity"
+                name="establishment"
                 type="text"
-                value={values.entity}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
+                value={values.establishment}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -148,54 +107,108 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="service"
                 type="text"
                 value={values.service}
-                handleChange={(e) =>
-                  handleChange(e.target.name, e.target.value)
-                }
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
               />
             </Grid>
           </Grid>
-          <br />
-          <InputWithLabel
-            label={t("City")}
-            required={true}
-            name="city"
-            type="text"
-            value={values.city}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
+          <Grid container spacing={2}>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Address 1")}
+                required={true}
+                name="address1"
+                type="text"
+                value={values.address1}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Address 2")}
+                name="address2"
+                type="text"
+                value={values.address2}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item zeroMinWidth xs={3}>
+              <InputWithLabel
+                label={t("BP/CS")}
+                required={true}
+                name="po_box"
+                type="text"
+                value={values.po_box}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs={3}>
+              <InputWithLabel
+                label={t("CP")}
+                required={true}
+                name="zipcode"
+                type="number"
+                value={values.zipcode}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs={6}>
+              <InputWithLabel
+                label={t("City")}
+                required={true}
+                name="city"
+                type="text"
+                value={values.city}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Lastname")}
+                required={true}
+                name="lastname"
+                type="text"
+                value={values.lastname}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Firstname")}
+                required={true}
+                name="firstname"
+                type="text"
+                value={values.firstname}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+          </Grid>
 
-          <InputWithLabel
-            label={t("Address 1")}
-            required={true}
-            name="address1"
-            type="text"
-            value={values.address1}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
-
-          <InputWithLabel
-            label={t("Address 2")}
-            name="address2"
-            type="text"
-            value={values.address2}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
-          <InputWithLabel
-            label={t("Zipcode")}
-            required={true}
-            name="zipcode"
-            type="number"
-            value={values.zipcode}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-          <br />
-          <br />
+          <Grid container spacing={2}>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Email")}
+                required={true}
+                name="email"
+                type="email"
+                value={values.email}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+            <Grid item zeroMinWidth xs>
+              <InputWithLabel
+                label={t("Telephone No")}
+                required={true}
+                name="contact_no"
+                type="number"
+                value={values.contact_no}
+                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </Grid>
+          </Grid>
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
             <Button

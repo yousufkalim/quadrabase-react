@@ -456,9 +456,9 @@ export const StakeholderheadCells = [
     label: "Establishment",
   },
   {
-    id: "Service",
+    id: "service",
 
-    label: "service",
+    label: "Service",
   },
   {
     id: "address1",
