@@ -8,7 +8,7 @@ export default function ComboBox(props) {
       disablePortal
       id="combo-box-demo"
       options={props.options}
-      getOptionLabel={(option) => option?.name}
+      getOptionLabel={(option) => option?.establishment}
       defaultValue={props.defaultValue}
       onChange={(event, value) => props.setValue(value._id)}
       fullWidth

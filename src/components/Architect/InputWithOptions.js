@@ -39,7 +39,7 @@ export default function MultipleSelect(props) {
           {props.options &&
             props.options.map((option) => (
               <MenuItem key={option._id} value={option._id}>
-                {option.name}
+                {option.name ? option.name : option.establishment}
               </MenuItem>
             ))}
         </Select>

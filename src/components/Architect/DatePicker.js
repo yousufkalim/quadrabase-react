@@ -29,6 +29,12 @@ export default function BasicDatePicker(props) {
           shouldDisableDate={props.shouldDisableDate}
           shouldDisableYear={props.shouldDisableYear}
           inputFormat="DD-MM-YYYY"
+          InputProps={{
+            style: {
+              height: props.height ? props.height : 38,
+            },
+          }}
+          sx={{ height: 38 }}
           onChange={props.onChange}
           renderInput={(params) => (
             <TextField
@@ -39,13 +45,14 @@ export default function BasicDatePicker(props) {
                 fontStyle: "initial",
                 boxShadow: "",
               }}
+              InputLabelProps={{
+                shrink: true,
+                style: { color: "#3b373c" },
+              }}
               error={props.error ? true : false}
             >
               {props.error && (
-                <FormHelperText
-                  className={classes.helper}
-                  {...props.helperProps}
-                >
+                <FormHelperText className={classes.helper} {...props.helperProps}>
                   {props.ErrorMsg}
                 </FormHelperText>
               )}

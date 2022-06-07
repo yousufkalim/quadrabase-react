@@ -292,15 +292,15 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "prescriber" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row.name}
+                            {row?.name}
                           </TableCell>
                         ) : record === "client" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row.client.name}
+                            {row?.client?.establishment}
                           </TableCell>
                         ) : record === "type" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row.type.text}
+                            {row?.type?.text}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>

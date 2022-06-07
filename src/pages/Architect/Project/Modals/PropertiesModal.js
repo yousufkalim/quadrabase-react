@@ -237,7 +237,8 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     const result = await api("get", `/StakeholderTypes/`);
     const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
     setTypeOptions(data);
-    setTypeValue(data[0]._id);
+    const selected = data.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
+    setTypeValue(selected._id);
   };
 
   //   func to get stakeholders
@@ -297,6 +298,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       target: { value },
     } = event;
     let temp = typeof value === "string" ? value.split(",") : value;
+    if (values3.stakeholders.length < value.length) {
+      let newVal = temp[temp.length - 1];
+      let compArr = stakeholderOptions.map((item) => item._id);
+      temp = temp.filter((val) => !compArr.includes(val));
+      temp.push(newVal);
+    }
     setValues3((prev) => {
       prev.stakeholders = temp;
       return { ...prev };
@@ -738,7 +745,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                     >
                       <TableCell align="left">{row.type.text}</TableCell>
                       <TableCell component="th" scope="row">
-                        {row.name}
+                        {row.establishment}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.address1.substring(0, 20)}
