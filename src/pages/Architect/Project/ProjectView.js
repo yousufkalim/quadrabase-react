@@ -28,6 +28,7 @@ import AddWorkModal from "./Modals/AddWorkModal";
 import ReportEstimationModal from "./Modals/ReportEstimationModal";
 import ReportDQEModal from "./Modals/ReportDQEModal";
 import ReportBPUModal from "./Modals/ReportBPUModal";
+import ReportSelectCCTPModal from "./Modals/ReportSelectCCTPModal";
 import ReportCCTPModal from "./Modals/ReportCCTPModal";
 import ReportDPGFModal from "./Modals/ReportDPGFModal";
 import TracnhesModal from "./Modals/TranchesModal";
@@ -118,6 +119,7 @@ const ProjectView = () => {
   const [workDetails, setWorkDetails] = useState();
   const [selectedWorkDetail, setSelectedWorkDetail] = useState([]);
   const [projectWorkData, setProjectWorkData] = useState([]);
+  const [cctpProjectWorkData, setcctpProjectWorkData] = useState([]);
   const [totalHT, setTotalHT] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -142,11 +144,19 @@ const ProjectView = () => {
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
   const [deleteChap, setDeleteChap] = useState({});
 
+  // Estim, DQE, BPU Reports
   const [openEstimationReportModal, setOpenEstimationReportModal] = useState(false);
   const [openDQEReportModal, setOpenDQEReportModal] = useState(false);
   const [openBPUReportModal, setOpenBPUReportModal] = useState(false);
+
+  // CCTP Report
+  const [openSelectCCTPReportModal, setOpenSelectCCTPReportModal] = useState(false);
   const [openCCTPReportModal, setOpenCCTPReportModal] = useState(false);
+  const [selectedCCTPIndexes, setSelectedCCTPIndexes] = useState([]);
+
+  // DPGF Report
   const [openDPGFReportModal, setOpenDPGFReportModal] = useState(false);
+
   const [works, setworks] = useState([]);
   const [tradeTotal, setTradeTotal] = useState([]);
   const [openTranchesModal, setOpenTranchesModal] = useState(false);
@@ -582,6 +592,10 @@ const ProjectView = () => {
   const openBPUModal = () => {
     handleClose();
     generateBPUWord();
+  };
+  const openSelectCCTPModal = () => {
+    handleClose();
+    setOpenSelectCCTPReportModal(true);
   };
   const openCCTPModal = () => {
     handleClose();
@@ -1049,10 +1063,26 @@ const ProjectView = () => {
             }
           />
           <Modal
+            title="Select CCTP"
+            open={openSelectCCTPReportModal}
+            onClose={() => setOpenSelectCCTPReportModal(false)}
+            component={
+              <ReportSelectCCTPModal selectedCCTPIndexes={selectedCCTPIndexes} setSelectedCCTPIndexes={setSelectedCCTPIndexes} />
+            }
+          />
+          <Modal
             title="CCTP"
             open={openCCTPReportModal}
             onClose={() => setOpenCCTPReportModal(false)}
-            component={<ReportCCTPModal viewBlob={blob} viewFileName={filename} viewFileType={filetype} />}
+            component={
+              <ReportCCTPModal
+                viewBlob={blob}
+                viewFileName={filename}
+                viewFileType={filetype}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+              />
+            }
           />
           <Modal
             title="DPGF"
