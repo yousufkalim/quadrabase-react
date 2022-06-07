@@ -140,13 +140,13 @@ var routes = [
     component: BookLibraries,
     layout: "/admin",
   },
-  {
-    path: "/privateLibraries",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: PrivateLibraries,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/privateLibraries",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: PrivateLibraries,
+  //   layout: "/admin",
+  // },
   {
     path: "/providers",
     name: "Dashboard",

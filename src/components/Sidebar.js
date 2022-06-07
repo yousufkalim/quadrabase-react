@@ -283,7 +283,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
+                          {/* <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
                               to="/admin/privateLibraries"
@@ -293,7 +293,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                                 {translate("Private Libraries")}
                               </span>
                             </NavLink>
-                          </li>
+                          </li> */}
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               exact
