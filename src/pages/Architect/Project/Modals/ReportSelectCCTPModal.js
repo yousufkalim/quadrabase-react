@@ -1,9 +1,18 @@
 // init
 import React from "react";
 
+import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 
-function ReportSelectCCTPModal({ selectedCCTPIndexes, setSelectedCCTPIndexes }) {
+import { useTranslation } from "react-i18next";
+
+import { cctpArr } from "../../../../utils/Constants";
+
+function ReportSelectCCTPModal(props) {
+  const { selectedCCTPIndexes, setSelectedCCTPIndexes, handleClose, handleSubmit } = props;
+
+  const { t } = useTranslation();
+
   const handleIndex = (_) => {
     const contains = selectedCCTPIndexes.includes(_);
     const cp = [...selectedCCTPIndexes];
@@ -30,12 +39,7 @@ function ReportSelectCCTPModal({ selectedCCTPIndexes, setSelectedCCTPIndexes }) 
           width: "100%",
         }}
       >
-        {[
-          "Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS",
-          "Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS",
-          "Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS",
-          "Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION",
-        ].map((_, __) => (
+        {cctpArr.map((_, __) => (
           <div
             style={{
               display: "flex",
@@ -50,6 +54,29 @@ function ReportSelectCCTPModal({ selectedCCTPIndexes, setSelectedCCTPIndexes }) 
             <p style={{ fontSize: "14px" }}>{_}</p>
           </div>
         ))}
+        <div style={{ width: "100%", textAlign: "right" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#3B373C",
+              height: "35px !important",
+            }}
+            onClick={handleClose}
+          >
+            {t("Close")}
+          </Button>
+          &nbsp;&nbsp;
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#8C1244",
+              height: "35px !important",
+            }}
+            onClick={handleSubmit}
+          >
+            {t("Create")}
+          </Button>
+        </div>
       </div>
     </div>
   );

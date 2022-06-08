@@ -1035,10 +1035,10 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXSimpleCCTP(data, currentProject) {
+async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenSimpleCCTP(data);
+  const rows = rowsGenSimpleCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({
@@ -1145,10 +1145,10 @@ async function exportDOCXSimpleCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesCCTP(data, currentProject) {
+async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesCCTP(data);
+  const rows = rowsGenTradesCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({
@@ -1255,10 +1255,10 @@ async function exportDOCXTradesCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesAndTranchesCCTP(data, currentProject) {
+async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesAndTranchesCCTP(data);
+  const rows = rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({

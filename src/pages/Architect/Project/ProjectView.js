@@ -865,11 +865,11 @@ const ProjectView = () => {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject);
+        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace("Show me");
       }
@@ -903,6 +903,11 @@ const ProjectView = () => {
       toast.error("Could not generate report successfully.");
       console.trace(e);
     }
+  }
+
+  function handleSubmitSelectCCTP() {
+    setOpenSelectCCTPReportModal(false);
+    openCCTPModal();
   }
 
   return (
@@ -1067,7 +1072,14 @@ const ProjectView = () => {
             open={openSelectCCTPReportModal}
             onClose={() => setOpenSelectCCTPReportModal(false)}
             component={
-              <ReportSelectCCTPModal selectedCCTPIndexes={selectedCCTPIndexes} setSelectedCCTPIndexes={setSelectedCCTPIndexes} />
+              <ReportSelectCCTPModal
+                selectedCCTPIndexes={selectedCCTPIndexes}
+                setSelectedCCTPIndexes={setSelectedCCTPIndexes}
+                handleClose={() => {
+                  setOpenSelectCCTPReportModal(false);
+                }}
+                handleSubmit={handleSubmitSelectCCTP}
+              />
             }
           />
           <Modal
@@ -1081,6 +1093,7 @@ const ProjectView = () => {
                 viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+                selectedCCTPIndexes={selectedCCTPIndexes}
               />
             }
           />
@@ -1458,7 +1471,7 @@ const ProjectView = () => {
                       {t("Generate DPGF")}
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={openCCTPModal} style={{ height: 25, fontSize: 15 }}>
+                    <MenuItem onClick={openSelectCCTPModal} style={{ height: 25, fontSize: 15 }}>
                       {t("Generate The CCTP")}
                     </MenuItem>
                     <Divider />

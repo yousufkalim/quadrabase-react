@@ -1,5 +1,5 @@
 import { Paragraph, TextRun, UnderlineType } from "docx";
-import { htmlTagRegex } from "../../../../utils/Constants";
+import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString("en-gb")}`;
@@ -913,17 +913,23 @@ function rowsGenTradesAndTranchesBPU(data) {
   return rows;
 }
 
-function rowsGenSimpleCCTP(data) {
+function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
-    const cctpArr = data[i].work.cctp_text;
-    if (cctpArr.length == 0) {
+    const _cctpArr = data[i].work.cctp_text;
+    if (_cctpArr.length == 0) {
       continue;
+    }
+    const cp = [];
+    for (let j = 0; j < cctpArr.length; j++) {
+      if (selectedCCTPIndexes.includes(j) && cctpArr[j]) {
+        cp.push(cctpArr[j]);
+      }
     }
     const obj = {
       title: `${i + 1}. ${data[i].work.name}`,
-      cctp_arr: cctpArr,
+      cctp_arr: cp,
     };
     rows.push(obj);
   }
@@ -931,7 +937,7 @@ function rowsGenSimpleCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesCCTP(data) {
+function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -939,13 +945,19 @@ function rowsGenTradesCCTP(data) {
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
-      const cctpArr = currentObjWork.work.cctp_text;
-      if (cctpArr.length == 0) {
+      const _cctpArr = currentObjWork.work.cctp_text;
+      if (_cctpArr.length == 0) {
         continue;
+      }
+      const cp = [];
+      for (let k = 0; k < cctpArr.length; k++) {
+        if (selectedCCTPIndexes.includes(k) && cctpArr[k]) {
+          cp.push(cctpArr[k]);
+        }
       }
       const obj = {
         title: `${i + 1}.${j + 1}. ${currentObjWork.work.name}`,
-        cctp_arr: cctpArr,
+        cctp_arr: cp,
       };
       rows.push(obj);
     }
@@ -954,7 +966,7 @@ function rowsGenTradesCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesAndTranchesCCTP(data) {
+function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -969,9 +981,15 @@ function rowsGenTradesAndTranchesCCTP(data) {
         if (cctpArr.length == 0) {
           continue;
         }
+        const cp = [];
+        for (let l = 0; l < cctpArr.length; l++) {
+          if (selectedCCTPIndexes.includes(l) && cctpArr[l]) {
+            cp.push(cctpArr[l]);
+          }
+        }
         const obj = {
           title: `${i + 1}.${j + 1}.${k + 1}. ${currentObjWork.work.name}`,
-          cctp_arr: cctpArr,
+          cctp_arr: cp,
         };
         rows.push(obj);
       }
