@@ -88,7 +88,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // func to getAll Providers
@@ -115,9 +115,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   };
 
   const handleUpdate = (obj) => {
-    let filteredIndex = ProviderDataArr.findIndex(
-      (dt) => dt.provider == obj.currentProvider
-    );
+    let filteredIndex = ProviderDataArr.findIndex((dt) => dt.provider == obj.currentProvider);
     setProviderDataArr((prev) => {
       prev[filteredIndex] = obj.data;
       return [...prev];
@@ -184,11 +182,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -216,10 +210,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       <br />
 
       <div>
-        <AddMemoizedProvider
-          ProviderOptions={ProviderOptions}
-          onAdd={handleAdd}
-        />
+        <AddMemoizedProvider ProviderOptions={ProviderOptions} onAdd={handleAdd} />
       </div>
       <br />
       <div>
@@ -246,10 +237,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
                     />
                     {documents && (
                       <div>
-                        <DocViewer
-                          documents={documents}
-                          style={{ maxHeight: "200px" }}
-                        />
+                        <DocViewer documents={documents} style={{ maxHeight: "200px" }} />
                       </div>
                     )}
                   </div>

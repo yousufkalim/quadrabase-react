@@ -13,11 +13,7 @@ import TextEditor from "../../../../components/Architect/TextEditor";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
 
 // component
-const AddWorkDetailsModal = ({
-  handleOpenAddWorkDetailModal,
-  workDetailData,
-  work,
-}) => {
+const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, work }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   // states
@@ -36,7 +32,7 @@ const AddWorkDetailsModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function

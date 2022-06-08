@@ -65,6 +65,7 @@ export const WORK_YUP = Yup.object({
   unit: Yup.string().required("Required"),
 });
 export const PROVIDER_YUP = Yup.object({
+  firstname: Yup.string().required("Required"),
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
   zipcode: Yup.number().test("len", "Must be exactly 5 characters", (val) => val?.toString().length === 5),

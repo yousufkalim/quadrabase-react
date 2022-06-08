@@ -38,6 +38,7 @@ export const PRODUCT_STATE = {
 };
 
 export const PROVIDER_STATE = {
+  firstname: "",
   name: "",
   email: "",
   telephone_no: "",

@@ -48,7 +48,7 @@ var routes = [
   {
     path: "/index", //Architect
     name: "Architect",
-    text: "Home",
+    text: "Dashboard",
     icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
     layout: "/architect",
@@ -140,13 +140,13 @@ var routes = [
     component: BookLibraries,
     layout: "/admin",
   },
-  {
-    path: "/privateLibraries",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: PrivateLibraries,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/privateLibraries",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: PrivateLibraries,
+  //   layout: "/admin",
+  // },
   {
     path: "/providers",
     name: "Dashboard",
