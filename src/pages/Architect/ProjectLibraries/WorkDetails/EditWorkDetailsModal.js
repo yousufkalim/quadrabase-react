@@ -11,10 +11,7 @@ import { Button } from "@mui/material";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
 
 // component
-const EditWorkDetailsModal = ({
-  handleOpenEditWorkDetailModal,
-  workDetail,
-}) => {
+const EditWorkDetailsModal = ({ handleOpenEditWorkDetailModal, workDetail }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   // states
@@ -44,7 +41,7 @@ const EditWorkDetailsModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -59,12 +56,7 @@ const EditWorkDetailsModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = values;
-    const result = await api(
-      "put",
-      `/BookLibraries/edit/WorkDetail/${workDetail._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/BookLibraries/edit/WorkDetail/${workDetail._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditWorkDetailModal();
   };

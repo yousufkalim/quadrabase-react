@@ -39,7 +39,7 @@ const EditWorkDetailModal = ({ selectedWorkDetail, currentProject, handleOpenEdi
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
