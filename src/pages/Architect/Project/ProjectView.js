@@ -1879,7 +1879,7 @@ const ProjectView = () => {
                           ></div>
                         </div>
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>{t("Total Price")}:</div>
+                          <div className={classes.fotter_text}>{t("Total  Amount  including  VAT")}:</div>
 
                           <div className={classes.fotter_amount}>
                             {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €

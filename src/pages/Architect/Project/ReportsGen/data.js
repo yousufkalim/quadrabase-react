@@ -33,12 +33,7 @@ function rowsGenTradesEstimation(data, noPrice) {
     const tradeData = data[i].data;
     const workAndDetailsRows = [];
     const tradeObj = {};
-    rowsGenEstimationHandleWorksAndWorkDetails(
-      workAndDetailsRows,
-      tradeData,
-      `${i + 1}`,
-      noPrice
-    );
+    rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`, noPrice);
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
     rows.push(tradeObj);
@@ -62,12 +57,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       const tranchDataArr = tradeData[j].tranchData;
       const workAndDetailsRows = [];
       const tranchObj = {};
-      rowsGenEstimationHandleWorksAndWorkDetails(
-        workAndDetailsRows,
-        tranchDataArr,
-        `${i + 1}.${j + 1}`,
-        noPrice
-      );
+      rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`, noPrice);
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
       tranchesRows.push(tranchObj);
@@ -80,12 +70,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
   return rows;
 }
 
-function rowsGenEstimationHandleWorksAndWorkDetails(
-  toBeModifiedArr,
-  data,
-  prefix,
-  noPrice
-) {
+function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix, noPrice) {
   let _id;
 
   for (let i = 0; i < data.length; i++) {
@@ -102,9 +87,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails(
         arr.push("");
       } else {
         arr.push(data[i].work?.unit_price ?? "0");
-        arr.push(
-          (data[i].work?.unit_price ?? "0") * (data[i].work.quantity ?? "0")
-        );
+        arr.push((data[i].work?.unit_price ?? "0") * (data[i].work.quantity ?? "0"));
       }
 
       toBeModifiedArr.push(arr);
@@ -122,9 +105,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails(
           arrD.push("");
         } else {
           arrD.push(data[i].workDetails.unit_price);
-          arrD.push(
-            data[i].workDetails.unit_price * data[i].workDetails.quantity
-          );
+          arrD.push(data[i].workDetails.unit_price * data[i].workDetails.quantity);
         }
 
         toBeModifiedArr.push(arrD);
@@ -142,9 +123,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails(
         arrD.push("");
       } else {
         arrD.push(data[i].workDetails.unit_price);
-        arrD.push(
-          data[i].workDetails.unit_price * data[i].workDetails.quantity
-        );
+        arrD.push(data[i].workDetails.unit_price * data[i].workDetails.quantity);
       }
 
       toBeModifiedArr.push(arrD);
@@ -568,12 +547,7 @@ function calculateTotalHT(data, noPrice) {
   return totalHT;
 }
 
-function footerDataGenSimpleEstimation(
-  data,
-  currentProject,
-  noPrice,
-  addSpace
-) {
+function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) {
   let footerData = [];
 
   let totalHT = 0;
@@ -591,12 +565,7 @@ function footerDataGenSimpleEstimation(
   });
 
   if (!noPrice) {
-    footerData = [
-      totalHT,
-      totalHT,
-      currentProject?.vat?.value,
-      Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)),
-    ];
+    footerData = [totalHT, totalHT, currentProject?.vat?.value, Math.floor(totalHT * (1 + currentProject?.vat?.value / 100))];
   } else {
     footerData = ["", "", "", ""];
   }
@@ -642,14 +611,7 @@ const calculateWSCols = (arr) => {
     }
   }
 
-  const wscols = [
-    { wch: 10 },
-    { wch: nameL },
-    { wch: unitL },
-    { wch: 10 },
-    { wch: 10 },
-    { wch: 10 },
-  ];
+  const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
 
   return wscols;
 };
@@ -844,9 +806,7 @@ function handleBuiltInCCTPs(str) {
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj =
-      tagsToDocxMap[currentObj.tagName] &&
-      tagsToDocxMap[currentObj.tagName](currentObj);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -977,8 +937,7 @@ const tagsToDocxMap = {
     const listItemsArr = [];
     for (let i = 0; i < embeddedArr.length; i++) {
       const obj = embeddedArr[i];
-      const objElm =
-        tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
       if (objElm) {
         listItemsArr.push(objElm);
       }
@@ -992,8 +951,7 @@ const tagsToDocxMap = {
     const listItemsArr = [];
     for (let i = 0; i < embeddedArr.length; i++) {
       const obj = embeddedArr[i];
-      const objElm =
-        tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
       if (objElm) {
         listItemsArr.push(objElm);
       }
@@ -1035,22 +993,9 @@ const tagsToDocxMap = {
   },
 };
 
-const dataColumnsEstimation = [
-  "No #",
-  "Name",
-  "Unit",
-  "Qty",
-  "PU HT",
-  "Total HT",
-];
+const dataColumnsEstimation = ["No #", "Name", "Unit", "Qty", "PU HT", "Total HT"];
 
-const footerColumnsSimpleEstimation = [
-  "Total Lot n°1 :",
-  "",
-  "Total HT :",
-  "Total VAT (%) :",
-  "Total Price :",
-];
+const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total  Amount  including  VAT :"];
 
 const dataColumnsBPU = ["'1", "Lot n°1", ""];
 
