@@ -16,18 +16,18 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, viewBlob, viewFileName, viewFileType } = props;
+  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, viewFileType } = props;
   const blobURL = URL.createObjectURL(props.viewBlob);
 
   async function generateWord() {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject);
+        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace("Show me");
         return;

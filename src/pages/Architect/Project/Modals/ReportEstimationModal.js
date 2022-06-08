@@ -111,9 +111,9 @@ function ReportEstimationModal(props) {
           <IconButton aria-label="XLSX" onClick={generateExcel}>
             <SummarizeIcon />
           </IconButton>
-          <IconButton aria-label="PDF" onClick={generatePDF}>
+          {/* <IconButton aria-label="PDF" onClick={generatePDF}>
             <PictureAsPdfIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton aria-label="DOCX" onClick={generateWord}>
             <TextSnippetIcon />
           </IconButton>

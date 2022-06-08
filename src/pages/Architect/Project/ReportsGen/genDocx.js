@@ -1,6 +1,6 @@
-import { Packer } from "docx";
-
 import {
+  Packer,
+  WidthType,
   convertInchesToTwip,
   Document,
   Paragraph,
@@ -95,6 +95,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -169,6 +170,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
         shading: i == 0 ? firstRowShade : null,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -209,6 +211,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
       children: [
@@ -225,6 +228,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
@@ -321,6 +325,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -394,6 +399,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -495,6 +501,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -568,6 +575,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -1035,10 +1043,10 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXSimpleCCTP(data, currentProject) {
+async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenSimpleCCTP(data);
+  const rows = rowsGenSimpleCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({
@@ -1145,10 +1153,10 @@ async function exportDOCXSimpleCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesCCTP(data, currentProject) {
+async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesCCTP(data);
+  const rows = rowsGenTradesCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({
@@ -1255,10 +1263,10 @@ async function exportDOCXTradesCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesAndTranchesCCTP(data, currentProject) {
+async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesAndTranchesCCTP(data);
+  const rows = rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes);
 
   const tableHeader = [
     new Table({
@@ -1418,6 +1426,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -1557,6 +1566,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
       children: [
@@ -1573,6 +1583,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
@@ -1669,6 +1680,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -1869,6 +1881,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [

@@ -1,7 +1,8 @@
 import { Paragraph, TextRun, UnderlineType } from "docx";
+import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
 
 function dateNowFormatted() {
-  return "01/1/2022";
+  return `${new Date(Date.now()).toLocaleDateString("en-gb")}`;
 }
 
 function headGen(headingName, projectName) {
@@ -912,17 +913,23 @@ function rowsGenTradesAndTranchesBPU(data) {
   return rows;
 }
 
-function rowsGenSimpleCCTP(data) {
+function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
-    const cctpArr = data[i].work.cctp_text;
-    if (cctpArr.length == 0) {
+    const _cctpArr = data[i].work.cctp_text;
+    if (_cctpArr.length == 0) {
       continue;
+    }
+    const cp = [];
+    for (let j = 0; j < cctpArr.length; j++) {
+      if (selectedCCTPIndexes.includes(j) && cctpArr[j]) {
+        cp.push(cctpArr[j]);
+      }
     }
     const obj = {
       title: `${i + 1}. ${data[i].work.name}`,
-      cctp_arr: cctpArr,
+      cctp_arr: cp,
     };
     rows.push(obj);
   }
@@ -930,7 +937,7 @@ function rowsGenSimpleCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesCCTP(data) {
+function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -938,13 +945,19 @@ function rowsGenTradesCCTP(data) {
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
-      const cctpArr = currentObjWork.work.cctp_text;
-      if (cctpArr.length == 0) {
+      const _cctpArr = currentObjWork.work.cctp_text;
+      if (_cctpArr.length == 0) {
         continue;
+      }
+      const cp = [];
+      for (let k = 0; k < cctpArr.length; k++) {
+        if (selectedCCTPIndexes.includes(k) && cctpArr[k]) {
+          cp.push(cctpArr[k]);
+        }
       }
       const obj = {
         title: `${i + 1}.${j + 1}. ${currentObjWork.work.name}`,
-        cctp_arr: cctpArr,
+        cctp_arr: cp,
       };
       rows.push(obj);
     }
@@ -953,7 +966,7 @@ function rowsGenTradesCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesAndTranchesCCTP(data) {
+function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -968,9 +981,15 @@ function rowsGenTradesAndTranchesCCTP(data) {
         if (cctpArr.length == 0) {
           continue;
         }
+        const cp = [];
+        for (let l = 0; l < cctpArr.length; l++) {
+          if (selectedCCTPIndexes.includes(l) && cctpArr[l]) {
+            cp.push(cctpArr[l]);
+          }
+        }
         const obj = {
           title: `${i + 1}.${j + 1}.${k + 1}. ${currentObjWork.work.name}`,
-          cctp_arr: cctpArr,
+          cctp_arr: cp,
         };
         rows.push(obj);
       }
@@ -984,8 +1003,7 @@ function textRunsSplitGen(str) {
   let strSingle = String(str);
 
   let textRunArr = [];
-  if (strSingle.includes("<p>")) {
-    // .includes("</") is a better check than [0]="<"
+  if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
     str = str.replace(/\&nbsp;/g, " ");
     textRunArr = handleBuiltInCCTPs(str);
@@ -1022,16 +1040,7 @@ function handleImportedCCTPs(str) {
 
 function handleBuiltInCCTPs(str) {
   let strSingle = String(str);
-
-  const elMain = document.createElement("div");
-  elMain.innerHTML = strSingle;
-  let htmlCollectionMain = elMain.children;
-
-  const parsedObjsArr = [];
-  for (let i = 0; i < htmlCollectionMain.length; i++) {
-    const obj = parseHTMLTag(htmlCollectionMain[i]);
-    parsedObjsArr.push(obj);
-  }
+  const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
@@ -1049,41 +1058,43 @@ function handleBuiltInCCTPs(str) {
   return docxObjsArr;
 }
 
-function parseHTMLTag(tag) {
-  const tagName = tag.tagName;
-  const innerHTML = tag.innerHTML;
-  const classList = tag.classList;
+function parseHTMLTag(str) {
+  const elMain = document.createElement("div");
+  elMain.innerHTML = str;
+  let htmlCollectionMain = elMain.children;
 
-  const embedded = [];
-
-  if (innerHTML[0] == "<") {
-    const elMain = document.createElement("div");
-    elMain.innerHTML = innerHTML;
-    let htmlCollection = elMain.children;
-
-    for (let i = 0; i < htmlCollection.length; i++) {
-      const obj = parseHTMLTag(htmlCollection[i]);
-      embedded.push(obj);
-    }
+  const parsedObjsArr = [];
+  for (let i = 0; i < htmlCollectionMain.length; i++) {
+    const _ = htmlCollectionMain[i];
+    const obj = {
+      tagName: _.tagName,
+      innerHTML: _.innerHTML,
+      classList: _.classList,
+    };
+    parsedObjsArr.push(obj);
   }
 
-  return {
-    tagName: tagName,
-    innerHTML: innerHTML,
-    classList: classList,
-    embedded: embedded,
-  };
+  return parsedObjsArr;
 }
 
 const tagsToDocxMap = {
   P: function (_) {
     const text = _.innerHTML;
 
-    if (_.embedded.length == 0) {
-      const textArr = text.split("<br>");
-      const objsArr = [];
-      for (let i = 0; i < textArr.length; i++) {
-        const currentText = textArr[i];
+    const textArr = text.split("<br>");
+    const objsArr = [];
+    for (let i = 0; i < textArr.length; i++) {
+      const currentText = textArr[i];
+      if (htmlTagRegex.test(currentText)) {
+        const parsedObjsArr = parseHTMLTag(currentText); // Handled for first level only.
+        for (let j = 0; j < parsedObjsArr.length; j++) {
+          const obj = parsedObjsArr[j];
+          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+          if (objElm) {
+            objsArr.push(objElm);
+          }
+        }
+      } else {
         objsArr.push(
           new Paragraph({
             children: [
@@ -1095,11 +1106,9 @@ const tagsToDocxMap = {
           })
         );
       }
-      return objsArr;
-    } else {
-      const obj = _.embedded[0]; // Well incase of "P". We will be dealing with first embedded entry only.
-      return tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
     }
+
+    return objsArr;
   },
   BR: function (_) {
     return new Paragraph({
@@ -1162,31 +1171,11 @@ const tagsToDocxMap = {
     });
   },
   OL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   UL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   LI: function (_) {
