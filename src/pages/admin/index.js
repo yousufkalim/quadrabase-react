@@ -1,86 +1,125 @@
 import React, { useState, useEffect } from "react";
 import WelcomeBanner from "../../components/dashboard/WelcomeBanner";
-import DashboardAvatars from "../../components/dashboard/DashboardAvatars";
-import FilterButton from "../../components/actions/FilterButton";
-import Datepicker from "../../components/actions/Datepicker";
-import DashboardCard01 from "../../components/dashboard/DashboardCard01";
-import DashboardCard02 from "../../components/dashboard/DashboardCard02";
-import DashboardCard03 from "../../components/dashboard/DashboardCard03";
-import DashboardCard04 from "../../components/dashboard/DashboardCard04";
-import DashboardCard05 from "../../components/dashboard/DashboardCard05";
-import DashboardCard06 from "../../components/dashboard/DashboardCard06";
-import DashboardCard07 from "../../components/dashboard/DashboardCard07";
-import DashboardCard08 from "../../components/dashboard/DashboardCard08";
-import DashboardCard09 from "../../components/dashboard/DashboardCard09";
-import DashboardCard10 from "../../components/dashboard/DashboardCard10";
-import DashboardCard11 from "../../components/dashboard/DashboardCard11";
-import DashboardCard12 from "../../components/dashboard/DashboardCard12";
-import DashboardCard13 from "../../components/dashboard/DashboardCard13";
+import Grid from "@mui/material/Grid";
+import axios from "axios";
+
 import Banner from "../../components/Banner";
+import "../../css/dashboard.css";
+import Joshua from "../../containers/Joshua";
 
 function Dashboard(props) {
+  const [quadrabaseUsers, setQuadrabaseUsers] = useState(0);
+  const [numberofRegistered, setNumberofRegistered] = useState(0);
+  const [numberofsubscriber, setNumberofsubscriber] = useState(0);
+  const [projectInProgress, setProjectInProgress] = useState();
+
+  const [count, setCount] = useState(0);
+  var visitCount = localStorage.getItem("page_view");
+  useEffect(() => {
+    QuadrabaseUser();
+    NumberofRegistered();
+    Numberofsubscriber();
+    ProjectInProgress();
+  }, []);
+
+  const QuadrabaseUser = () => {
+    axios
+      .get(`http://localhost:5000/api/v1/Dashboard/QuadrabaseUsers`)
+      .then(function (response) {
+        setQuadrabaseUsers(response.data.numberofusers);
+        console.log(response, "--get");
+      });
+  };
+
+  const NumberofRegistered = () => {
+    axios
+      .get(`http://localhost:5000/api/v1/Dashboard/NumberofRegistered`)
+      .then(function (response) {
+        setNumberofRegistered(response.data.NumberofRegistered);
+      });
+  };
+
+  const Numberofsubscriber = () => {
+    axios
+      .get(`http://localhost:5000/api/v1/Dashboard/numberofsubscriber`)
+      .then(function (response) {
+        setNumberofsubscriber(response.data.numberofsubscriber);
+      });
+  };
+
+  const ProjectInProgress = () => {
+    axios
+      .get(`http://localhost:5000/api/v1/Dashboard/ProjectsinProgress`)
+      .then(function (response) {
+        setProjectInProgress(response.data.ProjectsTop);
+      });
+  };
+
+  console.log(projectInProgress, "-projectInProgress");
   return (
     <div>
       {/* Content area */}
-      <main>
+      <main className="dashboard-main">
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
           {/* Welcome banner */}
           <WelcomeBanner {...props} />
 
           {/* Dashboard actions */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-8">
-            {/* Left: Avatars */}
-            <DashboardAvatars />
-
-            {/* Right: Actions */}
-            <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-              {/* Filter button */}
-              <FilterButton />
-              {/* Datepicker built with flatpickr */}
-              <Datepicker />
-              {/* Add view button */}
-              <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
-                <svg
-                  className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                </svg>
-                <span className="hidden xs:block ml-2">Add view</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Cards */}
-          <div className="grid grid-cols-12 gap-6">
-            {/* Line chart (Acme Plus) */}
-            <DashboardCard01 />
-            {/* Line chart (Acme Advanced) */}
-            <DashboardCard02 />
-            {/* Line chart (Acme Professional) */}
-            <DashboardCard03 />
-            {/* Bar chart (Direct vs Indirect) */}
-            <DashboardCard04 />
-            {/* Line chart (Real Time Value) */}
-            <DashboardCard05 />
-            {/* Doughnut chart (Top Countries) */}
-            <DashboardCard06 />
-            {/* Table (Top Channels) */}
-            <DashboardCard07 />
-            {/* Line chart (Sales Over Time) */}
-            <DashboardCard08 />
-            {/* Stacked bar chart (Sales VS Refunds) */}
-            <DashboardCard09 />
-            {/* Card (Customers) */}
-            <DashboardCard10 />
-            {/* Card (Reasons for Refunds) */}
-            <DashboardCard11 />
-            {/* Card (Recent Activity) */}
-            <DashboardCard12 />
-            {/* Card (Income/Expenses) */}
-            <DashboardCard13 />
-          </div>
         </div>
+        <main className="dashboard_second">
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} md={4}>
+              <div className="cardDiv">
+                <h3 className="cardh3">Quadrabase User</h3>
+                <hr className="linhr" />
+                <h1 className="cardh1">{quadrabaseUsers}</h1>
+                <p className="cardP">New Customers</p>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={4}>
+              <div className="cardDiv">
+                <h3 className="cardh3">Number of Registered</h3>
+                <hr className="linhr" />
+                <h1 className="cardh1">{numberofRegistered}</h1>
+                <p className="cardP">New Registrations</p>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={4}>
+              <div className="cardDiv">
+                <h3 className="cardh3">Number of Subscribers</h3>
+
+                <hr className="linhr" />
+                <h1 className="cardh1">{numberofsubscriber}</h1>
+                <p className="cardP"> New Subscribers</p>
+              </div>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} md={8}>
+              <div className="cardDiv">
+                <h3 className="cardh3">Number of Vists </h3>
+                <Joshua />
+              </div>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={4}>
+              <div className="cardDiv">
+                <h3 className="cardh3">Project inProgress</h3>
+
+                <hr className="linhr" />
+
+                <div className="progress_div-main">
+                  {projectInProgress?.map((obj, index) => {
+                    return <div className="progress_div">{obj.name}</div>;
+                  })}
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+        </main>
       </main>
       <Banner />
     </div>
