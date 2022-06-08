@@ -17,9 +17,9 @@ const SubscriptionCard = ({ selected, setSelected, subscription, component }) =>
           <i>{subscription?.name}</i>
         </Typography>
         {component !== "buy Credits" ? (
-          <Typography variant="h6">Price: €{subscription?.duration?.price + subscription?.projectsPack?.price}</Typography>
+          <Typography variant="h6">Price: {subscription?.duration?.price + subscription?.projectsPack?.price}€</Typography>
         ) : (
-          <Typography variant="h6">Price: €{subscription?.projectsPack?.price}</Typography>
+          <Typography variant="h6">Price: {subscription?.projectsPack?.price}€</Typography>
         )}
 
         {component !== "buy Credits" && <Typography variant="h6">Number of Month: {subscription?.duration.months}</Typography>}
