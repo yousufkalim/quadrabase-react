@@ -29,6 +29,8 @@ import { useTranslation } from "react-i18next";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -249,6 +251,10 @@ export default function EnhancedTable(props) {
                           <TableCell align="left" title={row?.subscription?.end_date}>
                             {row?.end_date ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
+                        ) : record == "subscriptionStartDate" ? (
+                          <TableCell align="left" title={row?.subscription?.start_date}>
+                            {row?.start_date ? moment(row?.start_date).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
                         ) : record === "subscriptionName" ? (
                           <TableCell key={index} align="left" title={row?.subscriptions?.name}>
                             {row?.subscription?.name
@@ -301,6 +307,14 @@ export default function EnhancedTable(props) {
                         ) : record === "type" ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.type?.text}
+                          </TableCell>
+                        ) : record === "subStatus" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.assigned_to?._id ? (
+                              <CheckBoxOutlinedIcon color="success" />
+                            ) : (
+                              <CancelOutlinedIcon color="error" />
+                            )}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>

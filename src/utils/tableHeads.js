@@ -400,9 +400,19 @@ export const ProviderheadCells = [
 
 export const SubscriptionheadCells = [
   {
+    id: "subType",
+
+    label: "Type",
+  },
+  {
     id: "subscriptionName",
 
-    label: "Name",
+    label: "Désignation",
+  },
+  {
+    id: "subscriptionStartDate",
+
+    label: "Sub Start Date",
   },
   {
     id: "subscriptionEndDate",
@@ -410,19 +420,9 @@ export const SubscriptionheadCells = [
     label: "End Date",
   },
   {
-    id: "credit",
+    id: "subStatus",
 
-    label: "Credits",
-  },
-  {
-    id: "projects",
-
-    label: "Projects",
-  },
-  {
-    id: "assignedToName",
-
-    label: "Assigned To",
+    label: "Status",
   },
   {
     id: "actions",
