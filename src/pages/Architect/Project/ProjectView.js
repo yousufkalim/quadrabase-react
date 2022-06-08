@@ -1481,6 +1481,7 @@ const ProjectView = () => {
                   </StyledMenu>
                 </div>
                 <div
+                  id="div-to-print"
                   style={{
                     backgroundColor: "white",
                     height: "80vh",
