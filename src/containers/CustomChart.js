@@ -27,7 +27,7 @@ ChartJS.register(
   Filler
 );
 
-function Joshua() {
+function CustomChart() {
   const [quadrabaseUserVists, setQuadrabaseUserVists] = useState([]);
 
   console.log(quadrabaseUserVists, "-quadrabaseUserVists");
@@ -160,4 +160,4 @@ function Joshua() {
   );
 }
 
-export default Joshua;
+export default CustomChart;

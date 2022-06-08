@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Banner from "../../components/Banner";
 import "../../css/dashboard.css";
-import Joshua from "../../containers/Joshua";
+import CustomChart from "../../containers/CustomChart";
 
 function Dashboard(props) {
   const [quadrabaseUsers, setQuadrabaseUsers] = useState(0);
@@ -101,7 +101,7 @@ function Dashboard(props) {
             <Grid item xs={12} sm={12} md={8}>
               <div className="cardDiv">
                 <h3 className="cardh3">Number of Vists </h3>
-                <Joshua />
+                <CustomChart />
               </div>
             </Grid>
 
