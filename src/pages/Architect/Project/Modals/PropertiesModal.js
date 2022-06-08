@@ -274,6 +274,16 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   const getChap0Part2 = async () => {
     const result = await api("get", `/ArchitectsChap0/current/getByProject`);
     setChapOptions(result.data.data);
+
+    if (currentProject?.chap0part2?.id) {
+      let tempChap = result.data.data.chap0.find((item) => item.title === currentProject.chap0part2.id.title);
+      if (tempChap?.family) {
+        setSelectedFam(tempChap.family);
+      } else {
+        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === "PRESCRIPTEUR");
+        setSelectedFam(privateFam._id);
+      }
+    }
   };
 
   // handle change function
@@ -568,7 +578,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 } else {
                   let chap = chapOptions.chap0.find((item) => {
@@ -577,7 +587,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 }
               }}

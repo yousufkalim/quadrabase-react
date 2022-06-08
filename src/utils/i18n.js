@@ -545,6 +545,7 @@ i18n
           "Number of Projects": "Number of Projects",
           "Pack Price": "Pack Price",
           "Family already in use": "Family already in use",
+          "This family does not have a Chap. 0 part 2": "This family does not have a Chap. 0 part 2",
         },
       },
       fr: {
@@ -1075,6 +1076,7 @@ i18n
           "Number of Projects": "Nombre de projets",
           "Pack Price": "Prix projets supplémentaires",
           "Family already in use": "Un Chap0 est déjà assigné à cette famille",
+          "This family does not have a Chap. 0 part 2": "Cette famille n'a pas de Chap. 0 partie 2",
         },
       },
     },
