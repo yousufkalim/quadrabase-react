@@ -1100,10 +1100,9 @@ const Register = () => {
                                 return { ...prev };
                               });
                             }}
-                            first="notDisable"
                             component="register"
                             style={{
-                              backgroundColor: "lightgray",
+                              backgroundColor: "#f5f5f5",
                               borderRadius: 10,
                               height: 40,
                               width: 60,
