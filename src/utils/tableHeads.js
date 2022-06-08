@@ -337,6 +337,11 @@ export const ProviderheadCells = [
 
     label: "Name",
   },
+  {
+    id: "firstname",
+
+    label: "Firstname",
+  },
 
   {
     id: "telephone_no",
