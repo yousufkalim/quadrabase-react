@@ -10,11 +10,11 @@ import { useTranslation } from "react-i18next";
 import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import { useStyles } from "../../../../css/projectLibraries";
 import { Button, Grid } from "@mui/material";
+import CustomButton from "../../../../components/Button";
 import TextEditor from "../../../../components/Architect/TextEditor";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
-import AddMemoizedProvider from "../component/MemorizedProvider";
-import AddMemoizedProviders from "../component/MemoizedProviders";
-import DocViewer from "../component/DocViewer";
+import TextInput from "../../../../components/TextInput";
+import { red, green } from "@mui/material/colors";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
@@ -74,6 +74,11 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   const [bpu_text1, setbpu_text1] = useState("");
   const [ProviderDataArr, setProviderDataArr] = React.useState([]);
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+  const [associatedProviders, setAssociatedProviders] = React.useState([]);
+  const [selectedProvider, setSelectedProvider] = React.useState("");
+  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState("");
+  const [fileName, setFileName] = React.useState("");
+  const [documents, setDocuments] = React.useState([]);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTabIndex(newValue);
@@ -134,11 +139,61 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
     cctp_text4 && data.cctp_text.push(cctp_text4);
     bpu_text1 && data.bpu_text.push(bpu_text1);
     data.categoryId = category;
-    data.providers = ProviderDataArr;
     data.ranking = workData ? workData.length : 0;
+    if (documents.length !== 0) {
+      let tempProvider = [];
+      ProviderDataArr.map((item) => {
+        let obj = {
+          provider: item.provider,
+          documents: documents,
+        };
+        tempProvider.push(obj);
+      });
+      data.providers = tempProvider;
+    } else {
+      data.providers = ProviderDataArr;
+    }
     const result = await api("post", `/BookLibraries/add/Work`, data, t);
     toast.success(t(result.data.message));
     handleOpenAddWorkModal();
+  };
+
+  // functions for provider list
+  const handleAddPriovider = () => {
+    let flag = associatedProviders.some((item) => item._id === selectedProvider._id);
+    if (!flag) {
+      let obj = {
+        provider: selectedProvider._id,
+        document: [],
+      };
+      setProviderDataArr([...ProviderDataArr, obj]);
+      setAssociatedProviders([...associatedProviders, selectedProvider]);
+      let temp = [];
+      temp = ProviderOptions.filter((item) => item._id !== selectedProvider._id);
+      setProviderOptions(temp);
+    }
+  };
+
+  const handleRemoveProvider = () => {
+    let filteredData = associatedProviders.filter((item) => item._id !== selectedAssociatedProvider._id);
+    setAssociatedProviders(filteredData);
+    let filteredProviderData = ProviderDataArr.filter((item) => item.provider !== selectedAssociatedProvider._id);
+    setProviderDataArr(filteredProviderData);
+    setProviderOptions([...ProviderOptions, selectedAssociatedProvider]);
+  };
+
+  const handleFileChange = async (e) => {
+    const files = e.target.files;
+    let form_data = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      form_data.append(`file`, files[i]);
+    }
+
+    const response = await api("post", `/fileUploader/`, form_data, t);
+    let documents = response.data.files;
+    setFileName(files[0].name);
+    setDocuments(documents);
   };
 
   // jsx
@@ -177,7 +232,6 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
           />
         </Grid>
       </Grid>
-      <br />
 
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
@@ -206,50 +260,118 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
           <TextEditor setValue={setbpu_text1} value={bpu_text1} />
         </TabPanel>
       </Box>
-      <br />
-      <br />
 
-      <div>
-        <AddMemoizedProvider ProviderOptions={ProviderOptions} onAdd={handleAdd} />
+      <div className="flex justify-between w-full">
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            {t("Provider List")}
+            <CustomButton
+              onClick={handleAddPriovider}
+              disabled={!selectedProvider}
+              label={t("Add")}
+              backgroundColor={green}
+              default={false}
+            />
+          </div>
+          <div
+            style={{
+              height: 180,
+              border: "1px solid black",
+              overflow: "auto",
+            }}
+          >
+            {ProviderOptions?.map((item) => (
+              <h3
+                onClick={() => setSelectedProvider(item)}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: selectedProvider._id == item._id && "lightgray",
+                }}
+              >
+                {item.name}
+              </h3>
+            ))}
+          </div>
+        </div>
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            {t("Associated Provider")}
+            <CustomButton
+              onClick={handleRemoveProvider}
+              label={t("Remove")}
+              disabled={!selectedAssociatedProvider}
+              backgroundColor={red}
+              default={false}
+            />
+          </div>
+          <div
+            style={{
+              height: 180,
+              border: "1px solid black",
+              overflow: "auto",
+            }}
+          >
+            {associatedProviders?.map((item) => (
+              <h3
+                onClick={() => setSelectedAssociatedProvider(item)}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: selectedAssociatedProvider._id == item._id && "lightgray",
+                }}
+              >
+                {item.name}
+              </h3>
+            ))}
+          </div>
+        </div>
       </div>
-      <br />
-      <div>
-        {ProviderDataArr && ProviderDataArr.length > 0 ? (
-          <>
-            <div
-              style={{
-                width: "100%",
-                border: "1px solid lightgray",
-                padding: 20,
-                marginBottom: 20,
-              }}
-            >
-              {ProviderDataArr &&
-                ProviderDataArr.map(({ documents, provider }, index) => (
-                  <div key={index} className="mt-2">
-                    <AddMemoizedProviders
-                      _id={index}
-                      name={provider}
-                      documents={documents}
-                      ProviderOptions={ProviderOptions}
-                      onDelete={() => handleDelete(provider)}
-                      handleUpdate={handleUpdate}
-                    />
-                    {documents && (
-                      <div>
-                        <DocViewer documents={documents} style={{ maxHeight: "200px" }} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-            </div>
-          </>
-        ) : (
-          ""
-        )}
-      </div>
+
       {/* create button */}
-      <div style={{ width: "100%", textAlign: "right" }}>
+      <div
+        style={{
+          marginTop: 10,
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ width: "49%" }}>
+          <div
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
+            htmlFor="grid-first-name"
+          >
+            Document
+          </div>
+          <div
+            style={{
+              border: "1px solid gray",
+              height: 35,
+              padding: 4,
+              borderRadius: 4,
+              backgroundColor: associatedProviders.length === 0 && "lightgray",
+            }}
+          >
+            <label style={{ cursor: "pointer" }}>
+              {t("Choose file")} - {fileName ? fileName : t("no file chosen")}
+              <TextInput
+                type="file"
+                placeholder="Document"
+                name="document"
+                onChange={handleFileChange}
+                multiple={true}
+                style={{ display: "none" }}
+                disabled={associatedProviders.length === 0}
+              />
+            </label>
+          </div>
+        </div>
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Create")}
         </Button>

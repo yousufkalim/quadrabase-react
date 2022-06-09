@@ -37,20 +37,10 @@ const schema1 = {
       maximum: 32,
     },
   },
-  service: {
-    presence: { allowEmpty: false, message: "is required" },
-    length: {
-      maximum: 32,
-    },
-  },
   address_1: {
     presence: { allowEmpty: false, message: "is required" },
   },
-  po_box: {
-    presence: { allowEmpty: false, message: "is required" },
-  },
   postal_code: {
-    presence: { allowEmpty: false, message: "is required" },
     length: {
       minimum: 5,
       maximum: 5,
@@ -535,7 +525,7 @@ const Register = () => {
     e?.preventDefault();
     if (activeStep === 1) {
       if (form2.values.password !== form2.values.confirm_password) {
-        toast.error("Password and confirm password does not match!");
+        toast.error("Le mot de passe et le mot de passe de confirmation ne correspondent pas!");
       } else {
         const newCompleted = completed;
         newCompleted[activeStep] = true;
@@ -636,13 +626,15 @@ const Register = () => {
                                   />
                                   <div className="text-red-600 ">
                                     {form1.touched.establishment ? (
-                                      <div style={{ fontSize: 12 }}>{form1.errors.establishment}</div>
+                                      <div style={{ fontSize: 12 }}>
+                                        {form1.errors.establishment && <>L'établissement est requis</>}
+                                      </div>
                                     ) : null}
                                   </div>
                                 </Grid>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
-                                    label="Service *"
+                                    label="Service"
                                     placeholder="xyz"
                                     type="text"
                                     name="service"
@@ -653,9 +645,6 @@ const Register = () => {
                                     labelFont={18}
                                     style={InputStyle}
                                   />
-                                  <div className="text-red-600 ">
-                                    {form1.touched.service ? <div style={{ fontSize: 12 }}>{form1.errors.service}</div> : null}
-                                  </div>
                                 </Grid>
                               </>
                             ) : (
@@ -674,7 +663,9 @@ const Register = () => {
                                 />
                                 <div className="text-red-600 ">
                                   {form1.touched.establishment ? (
-                                    <div style={{ fontSize: 12 }}>{form1.errors.establishment}</div>
+                                    <div style={{ fontSize: 12 }}>
+                                      {form1.errors.establishment && <>L'établissement est requis</>}
+                                    </div>
                                   ) : null}
                                 </div>
                               </Grid>
@@ -694,7 +685,9 @@ const Register = () => {
                                 style={InputStyle}
                               />
                               <div className="text-red-600 ">
-                                {form1.touched.address_1 ? <div style={{ fontSize: 12 }}>{form1.errors.address_1}</div> : null}
+                                {form1.touched.address_1 ? (
+                                  <div style={{ fontSize: 12 }}>{form1.errors.address_1 && <>L'adresse 1 est obligatoire</>}</div>
+                                ) : null}
                               </div>
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
@@ -713,7 +706,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="Boite Postale *"
+                                label="Boite Postale"
                                 placeholder="xyz, Paris"
                                 type="text"
                                 name="po_box"
@@ -724,9 +717,6 @@ const Register = () => {
                                 labelFont={18}
                                 style={InputStyle}
                               />
-                              <div className="text-red-600 ">
-                                {form1.touched.po_box ? <div style={{ fontSize: 12 }}>{form1.errors.po_box}</div> : null}
-                              </div>
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
@@ -741,9 +731,12 @@ const Register = () => {
                                 labelFont={18}
                                 style={InputStyle}
                               />
+
                               <div className="text-red-600 ">
                                 {form1.touched.postal_code ? (
-                                  <div style={{ fontSize: 12 }}>{form1.errors.postal_code}</div>
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.postal_code && <>Le code postal doit comporter exactement 5 caractères</>}
+                                  </div>
                                 ) : null}
                               </div>
                             </Grid>
@@ -761,7 +754,9 @@ const Register = () => {
                                 style={InputStyle}
                               />
                               <div className="text-red-600 ">
-                                {form1.touched.city ? <div style={{ fontSize: 12 }}>{form1.errors.city}</div> : null}
+                                {form1.touched.city ? (
+                                  <div style={{ fontSize: 12 }}>{form1.errors.city && <>La ville est obligatoire</>}</div>
+                                ) : null}
                               </div>
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
@@ -778,7 +773,11 @@ const Register = () => {
                                 style={InputStyle}
                               />
                               <div className="text-red-600 ">
-                                {form1.touched.phone ? <div style={{ fontSize: 12 }}>{form1.errors.phone}</div> : null}
+                                {form1.touched.phone ? (
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.phone && <>Le numéro de téléphone doit comporter exactement 10 caractères</>}
+                                  </div>
+                                ) : null}
                               </div>
                             </Grid>
                           </Grid>
@@ -798,7 +797,7 @@ const Register = () => {
                               }}
                               onClick={() => setStartStepper()}
                             >
-                              Arrière
+                              Précédent
                             </Button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
@@ -834,25 +833,6 @@ const Register = () => {
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
-                                      label="Prénom *"
-                                      placeholder="Claude"
-                                      type="text"
-                                      name="first_name"
-                                      value={form2.values.first_name}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
-                                      required={true}
-                                      labelColor="#8C1244"
-                                      labelFont={18}
-                                      style={InputStyle}
-                                    />
-                                    <div className="text-red-600 ">
-                                      {form2.touched.first_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name}</div>
-                                      ) : null}
-                                    </div>
-                                  </Grid>
-                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
-                                    <TextInput
                                       label="Nom *"
                                       placeholder="Dubois"
                                       type="text"
@@ -866,7 +846,28 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.last_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.last_name}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.last_name && <>Le nom de famille est requis</>}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Prénom *"
+                                      placeholder="Claude"
+                                      type="text"
+                                      name="first_name"
+                                      value={form2.values.first_name}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="text-red-600 ">
+                                      {form2.touched.first_name ? (
+                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le prénom est requis</>}</div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -884,7 +885,9 @@ const Register = () => {
                                       style={InputStyle}
                                     />
                                     <div className="text-red-600 ">
-                                      {form2.touched.email ? <div style={{ fontSize: 12 }}>{form2.errors.email}</div> : null}
+                                      {form2.touched.email ? (
+                                        <div style={{ fontSize: 12 }}>{form2.errors.email && <>L'e-mail n'est pas valide</>}</div>
+                                      ) : null}
                                     </div>
                                   </Grid>
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
@@ -909,7 +912,9 @@ const Register = () => {
                                     </div>
                                     <div className="text-red-600 " style={{ marginTop: -22 }}>
                                       {form2.touched.password ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.password}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.password && <>Le mot de passe doit comporter au moins 6 caractères</>}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -941,7 +946,11 @@ const Register = () => {
                                     </div>
                                     <div className="text-red-600 " style={{ marginTop: -22 }}>
                                       {form2.touched.confirm_password ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.confirm_password}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.confirm_password && (
+                                            <>Le mot de passe de confirmation doit contenir au moins 6 caractères</>
+                                          )}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -962,7 +971,7 @@ const Register = () => {
                                     }}
                                     onClick={() => handleBack()}
                                   >
-                                    Arrière
+                                    Précédent
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                   <Button
@@ -1010,7 +1019,7 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.first_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name}</div>
+                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le nom est requis</>}</div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -1027,8 +1036,8 @@ const Register = () => {
                                       labelFont={18}
                                       style={InputStyle}
                                     />
-                                    <div className="text-red-600 ">
-                                      {form2.touched.email ? <div style={{ fontSize: 12 }}>{form2.errors.email}</div> : null}
+                                    <div className="text-red-600 " style={{ fontSize: 12 }}>
+                                      {form2.errors.email && <>L'e-mail n'est pas valide</>}
                                     </div>
                                   </Grid>
                                 </Grid>
@@ -1048,7 +1057,7 @@ const Register = () => {
                                     }}
                                     onClick={() => handleBack()}
                                   >
-                                    Arrière
+                                    Précédent
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                   <Button
@@ -1474,7 +1483,7 @@ const Register = () => {
                     }}
                     onClick={() => handleFinish()}
                   >
-                    Suivant
+                    Valider
                   </Button>
                 </div>
               </div>
