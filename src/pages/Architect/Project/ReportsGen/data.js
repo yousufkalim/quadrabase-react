@@ -1234,6 +1234,12 @@ function downloadBlob(blob, filename) {
   document.body.removeChild(link);
 }
 
+async function blobFromURL(url) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return blob;
+}
+
 export {
   headGen,
   rowsGenSimpleEstimation,
@@ -1266,4 +1272,5 @@ export {
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
   downloadBlob,
+  blobFromURL,
 };

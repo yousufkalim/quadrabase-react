@@ -794,15 +794,15 @@ const ProjectView = () => {
 
   // doc
 
-  function generateEstimatePDF() {
+  async function generateEstimatePDF() {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = exportPDFSimpleEstimation(projectWorkData, currentProject);
+        res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = exportPDFTradesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
         return;
@@ -817,15 +817,15 @@ const ProjectView = () => {
     }
   }
 
-  function generateDQEPDF() {
+  async function generateDQEPDF() {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = exportPDFSimpleEstimation(projectWorkData, currentProject, true);
+        res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
-        res = exportPDFTradesEstimation(projectWorkData, currentProject, true);
+        res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
+        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
       } else {
         console.trace("Show me");
       }

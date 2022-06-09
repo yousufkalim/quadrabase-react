@@ -4,9 +4,7 @@ import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import Modal from "../../../../components/Architect/Modal";
-
-import PreviewFileModal from "./PreviewFileModal";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FileViewer from "react-file-viewer";
 
 // Reports
@@ -16,7 +14,7 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, viewFileType } = props;
+  const { projectWorkData, currentProject, selectedCCTPIndexes } = props;
   const blobURL = URL.createObjectURL(props.viewBlob);
 
   async function generateWord() {
