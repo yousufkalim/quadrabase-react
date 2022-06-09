@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import WelcomeBanner from "../../components/dashboard/WelcomeBanner";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-
+import api from "../../api";
 import Banner from "../../components/Banner";
 import "../../css/dashboard.css";
 import CustomChart from "../../containers/CustomChart";
@@ -22,40 +22,26 @@ function Dashboard(props) {
     ProjectInProgress();
   }, []);
 
-  const QuadrabaseUser = () => {
-    axios
-      .get(`http://localhost:5000/api/v1/Dashboard/QuadrabaseUsers`)
-      .then(function (response) {
-        setQuadrabaseUsers(response.data.numberofusers);
-        console.log(response, "--get");
-      });
+  const QuadrabaseUser = async () => {
+    const result = await api("get", `/Dashboard/QuadrabaseUsers`);
+    setQuadrabaseUsers(result.data.numberofusers);
   };
 
-  const NumberofRegistered = () => {
-    axios
-      .get(`http://localhost:5000/api/v1/Dashboard/NumberofRegistered`)
-      .then(function (response) {
-        setNumberofRegistered(response.data.NumberofRegistered);
-      });
+  const NumberofRegistered = async () => {
+    const result = await api("get", `/Dashboard/NumberofRegistered`);
+    setNumberofRegistered(result.data.NumberofRegistered);
   };
 
-  const Numberofsubscriber = () => {
-    axios
-      .get(`http://localhost:5000/api/v1/Dashboard/numberofsubscriber`)
-      .then(function (response) {
-        setNumberofsubscriber(response.data.numberofsubscriber);
-      });
+  const Numberofsubscriber = async () => {
+    const result = await api("get", `/Dashboard/numberofsubscriber`);
+    setNumberofsubscriber(result.data.numberofsubscriber);
   };
 
-  const ProjectInProgress = () => {
-    axios
-      .get(`http://localhost:5000/api/v1/Dashboard/ProjectsinProgress`)
-      .then(function (response) {
-        setProjectInProgress(response.data.ProjectsTop);
-      });
+  const ProjectInProgress = async () => {
+    const result = await api("get", `/Dashboard/ProjectsinProgress`);
+    setProjectInProgress(result.data.ProjectsTop);
   };
 
-  console.log(projectInProgress, "-projectInProgress");
   return (
     <div>
       {/* Content area */}

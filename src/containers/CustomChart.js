@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Line } from "react-chartjs-2";
+import api from "../api";
 import {
   Chart as ChartJS,
   Title,
@@ -30,7 +31,6 @@ ChartJS.register(
 function CustomChart() {
   const [quadrabaseUserVists, setQuadrabaseUserVists] = useState([]);
 
-  console.log(quadrabaseUserVists, "-quadrabaseUserVists");
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -53,7 +53,7 @@ function CustomChart() {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  console.log(age, "-ages");
+
   useEffect(() => {
     setAge(10);
   }, []);
@@ -62,75 +62,63 @@ function CustomChart() {
     QuadrabaseUserVists();
   }, [age]);
 
-  const QuadrabaseUserVists = () => {
+  const QuadrabaseUserVists = async () => {
     if (age === 10) {
       const date = [];
       const visiting = [];
 
-      axios
-        .get(`http://localhost:5000/api/v1/Vists/days`)
-        .then(function (response) {
-          // setQuadrabaseUserVists(response.data.visits);
-          response.data.visits.map((item) => {
-            console.log(item, "--get");
-            date.push(item._id);
-            visiting.push(item.data);
-          });
-          console.log(date.sort());
-          setData({
-            labels: date.sort(),
-            datasets: [
-              {
-                label: "",
-                data: visiting,
-                backgroundColor: "#c7d2fe",
-                borderColor: "#037BCB",
-                tension: 0.4,
-                fill: true,
-                pointStyle: "rect",
-                pointBorderColor: "blue",
-                pointBackgroundColor: "#fff",
-                showLine: true,
-              },
-            ],
-          });
-        });
+      const result = await api("get", `/Vists/days`);
+      result.data.visits.map((item) => {
+        date.push(item._id);
+        visiting.push(item.data);
+      });
+      setData({
+        labels: date.sort(),
+        datasets: [
+          {
+            label: "",
+            data: visiting,
+            backgroundColor: "#c7d2fe",
+            borderColor: "#037BCB",
+            tension: 0.4,
+            fill: true,
+            pointStyle: "rect",
+            pointBorderColor: "blue",
+            pointBackgroundColor: "#fff",
+            showLine: true,
+          },
+        ],
+      });
     }
   };
-  // QuadrabaseUserVists();
 
-  const QuadrabaseUserVistsMonth = () => {
+  const QuadrabaseUserVistsMonth = async () => {
     if (age === 21) {
       const date = [];
       const visiting = [];
-      axios
-        .get(`http://localhost:5000/api/v1/Vists/months`)
-        .then(function (response) {
-          // setQuadrabaseUserVists(response.data.visits);
-          response.data.visits.map((item) => {
-            console.log(item, "--get");
-            date.push(item._id);
-            visiting.push(item.data);
-          });
+      const result = await api("get", `/Vists/months`);
+      result.data.visits.map((item) => {
+        date.push(item._id);
+        visiting.push(item.data);
+      });
 
-          setData({
-            labels: date.sort(),
-            datasets: [
-              {
-                label: "",
-                data: visiting,
-                backgroundColor: "#c7d2fe",
-                borderColor: "#037BCB",
-                tension: 0.4,
-                fill: true,
-                pointStyle: "rect",
-                pointBorderColor: "blue",
-                pointBackgroundColor: "#fff",
-                showLine: true,
-              },
-            ],
-          });
-        });
+      setData({
+        labels: date.sort(),
+        datasets: [
+          {
+            label: "",
+            data: visiting,
+            backgroundColor: "#c7d2fe",
+            borderColor: "#037BCB",
+            tension: 0.4,
+            fill: true,
+            pointStyle: "rect",
+            pointBorderColor: "blue",
+            pointBackgroundColor: "#fff",
+            showLine: true,
+          },
+        ],
+      });
     }
   };
 
@@ -140,11 +128,8 @@ function CustomChart() {
         sx={{ m: 1, minWidth: 80 }}
         style={{ marginTop: "-40px", marginLeft: "80%" }}
       >
-        {/* <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel> */}
         <Select
-          // labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"
-          // defaultValue={10}
           value={age}
           onChange={handleChange}
           autoWidth
