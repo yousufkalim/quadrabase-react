@@ -1374,7 +1374,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
 }
 
 async function exportDOCXSimpleDPGF(data, currentProject) {
-  const headArr = headGen(`${"DPGF"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenSimpleDPGF(data);
   const footerData = footerDataGenSimpleDPGF(true);
@@ -1616,7 +1616,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
@@ -1817,7 +1817,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
@@ -2018,7 +2018,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
