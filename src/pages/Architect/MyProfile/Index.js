@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 // Importing Components
 import { Grid, Button, Avatar, Typography } from "@mui/material";
 import InputWithLabel from "../../../components/Architect/InputWithLabel";
+import TextInput from "../../../components/TextInput";
 
 // component
 const Index = () => {
@@ -22,10 +23,17 @@ const Index = () => {
     first_name: "",
     last_name: "",
     email: "",
+    phone: "",
     oldPassword: "old",
     newPassword: "new",
     establishment: "",
     service: "",
+    address_1: "",
+    address_2: "",
+    po_box: "",
+    postal_code: "",
+    city: "",
+    profile_pic: "",
   });
 
   // useEffect to set values
@@ -34,10 +42,17 @@ const Index = () => {
       first_name: store.user.first_name,
       last_name: store.user.last_name,
       email: store.user.email,
+      phone: store.user.phone,
       oldPassword: "",
       newPassword: "",
       establishment: store.user.establishment,
       service: store.user.service,
+      address_1: store.user.address_1,
+      address_2: store.user.address_2,
+      po_box: store.user.po_box,
+      postal_code: store.user.postal_code,
+      city: store.user.city,
+      profile_pic: store.user.profile_pic,
     });
   }, [store.user]);
 
@@ -52,30 +67,47 @@ const Index = () => {
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await api(
-      "put",
-      `/Architects/update/${store.user._id}`,
-      values,
-      t
-    );
+    const result = await api("put", `/Architects/update/${store.user._id}`, values, t);
     updateStore({ loggedIn: true, user: result.data.architect });
     toast.success(t(result.data.message));
   };
 
+  const handleFileChange = async (e) => {
+    const files = e.target.files;
+    let form_data = new FormData();
+    form_data.append(`file`, files[0]);
+    const response = await api("post", `/fileUploader/`, form_data, t);
+    console.log("repsonse", response.data.files[0].uri);
+    setValues({
+      ...values,
+      profile_pic: response.data.files[0].uri,
+    });
+  };
+
   return (
     <div style={{ overflow: "hidden" }}>
-      <div
-        style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}
-      >
+      <div style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}>
         <div className={classes.left_container}>
-          <Avatar style={{ height: 100, width: 100 }} />
-          <Typography className={classes.name} gutterBottom variant="h3">
-            {store.user.first_name} {store.user.last_name}
-          </Typography>
-          <Typography color="textSecondary" variant="body1">
-            {t("Member Since")}:{" "}
-            {moment(store.user.createdAt).format("MMMM Do YYYY")}
-          </Typography>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <label style={{ cursor: "pointer" }}>
+              <Avatar style={{ height: 100, width: 100 }} src={values.profile_pic && values.profile_pic} />
+              <TextInput
+                type="file"
+                placeholder="Document"
+                name="document"
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
+            </label>
+
+            <br />
+            <Typography className={classes.name} variant="h4">
+              {store.user.first_name} {store.user.last_name}
+            </Typography>
+            <Typography color="textSecondary" variant="body1">
+              {t("Member Since")}: {moment(store.user.createdAt).format("MMMM DD, YYYY")}
+            </Typography>
+          </div>
         </div>
         <div className={classes.right_container} onSubmit={handleSubmit}>
           <h1 style={{ width: "100vw", color: "black" }}>{t("My Profile")}</h1>
@@ -86,41 +118,49 @@ const Index = () => {
             <Grid container spacing={2}>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("Firstname")}
-                  required={true}
-                  name="first_name"
-                  type="text"
-                  value={values.first_name}
-                  handleChange={(e) =>
-                    handleChange(e.target.name, e.target.value)
-                  }
-                />
-              </Grid>
-              <Grid item zeroMinWidth xs>
-                <InputWithLabel
                   label={t("Lastname")}
                   required={true}
                   name="last_name"
                   type="text"
                   value={values.last_name}
-                  handleChange={(e) =>
-                    handleChange(e.target.name, e.target.value)
-                  }
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Firstname")}
+                  required={true}
+                  name="first_name"
+                  type="text"
+                  value={values.first_name}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
                 />
               </Grid>
             </Grid>
-            <br />
-            <InputWithLabel
-              label="Email"
-              required={true}
-              disabled={true}
-              name="email"
-              type="email"
-              value={values.email}
-              handleChange={(e) => handleChange(e.target.name, e.target.value)}
-            />
-            <br />
-            <br />
+
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label="Email"
+                  required={true}
+                  disabled={true}
+                  name="email"
+                  type="email"
+                  value={values.email}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Phone")}
+                  required={true}
+                  name="phone"
+                  type="text"
+                  value={values.phone}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
             <Grid container spacing={2}>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
@@ -128,9 +168,7 @@ const Index = () => {
                   name="oldPassword"
                   type="password"
                   value={values.oldPassword}
-                  handleChange={(e) =>
-                    handleChange(e.target.name, e.target.value)
-                  }
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
                 />
               </Grid>
               <Grid item zeroMinWidth xs>
@@ -139,34 +177,75 @@ const Index = () => {
                   name="newPassword"
                   type="password"
                   value={values.newPassword}
-                  handleChange={(e) =>
-                    handleChange(e.target.name, e.target.value)
-                  }
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
                 />
               </Grid>
             </Grid>
-            <br />
             <InputWithLabel
               label={t("Establishment")}
               required={true}
+              disabled={true}
               name="establishment"
               type="text"
               value={values.establishment}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
-            <br />
-            <br />
 
             <InputWithLabel
-              label="Service"
+              label={t("Service")}
               required={true}
+              disabled={true}
               name="service"
               type="text"
               value={values.service}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
-            <br />
-            <br />
+            <InputWithLabel
+              label={t("Address 1")}
+              required={true}
+              name="address_1"
+              type="text"
+              value={values.address_1}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+            <InputWithLabel
+              label={t("Address 2")}
+              name="address_2"
+              type="text"
+              value={values.address_2}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("CS/BP")}
+                  name="po_box"
+                  type="text"
+                  value={values.po_box}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("CP")}
+                  required={true}
+                  name="postal_code"
+                  type="text"
+                  value={values.postal_code}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <InputWithLabel
+              label={t("City")}
+              required={true}
+              name="city"
+              type="text"
+              value={values.city}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
 
             {/* register button */}
             <div style={{ width: "100%", textAlign: "right" }}>
