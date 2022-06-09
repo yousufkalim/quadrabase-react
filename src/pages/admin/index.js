@@ -5,7 +5,7 @@ import axios from "axios";
 import api from "../../api";
 import Banner from "../../components/Banner";
 import "../../css/dashboard.css";
-import CustomChart from "../../containers/CustomChart";
+import CustomChart from "../../components/CustomChart";
 
 function Dashboard(props) {
   const [quadrabaseUsers, setQuadrabaseUsers] = useState(0);
