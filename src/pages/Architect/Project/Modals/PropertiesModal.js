@@ -762,13 +762,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                         {row.address1.length > 40 && "..."}
                       </TableCell>
                       <TableCell align="left">
-                        {row.address2 ? (
+                        {row.address2 && (
                           <>
                             {row.address2.substring(0, 20)}
                             {row.address2.length > 40 && "..."}
                           </>
-                        ) : (
-                          "N/A"
                         )}
                       </TableCell>
                       <TableCell align="left">{row.zipcode}</TableCell>
