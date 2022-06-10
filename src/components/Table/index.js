@@ -243,10 +243,12 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "subscription" ? (
                           <TableCell key={index} align="center" title={row?.subscriptions?.subscription?.name}>
-                            {row?.subscriptions?.subscription?.name
-                              ? row?.subscriptions?.subscription?.name.length > 20
-                                ? row?.subscriptions?.subscription?.name.substring(0, 20) + "..."
-                                : row?.subscriptions?.subscription?.name
+                            {row.subscriptions
+                              ? row?.subscriptions?.subscription?.name
+                                ? row?.subscriptions?.subscription?.name.length > 20
+                                  ? row?.subscriptions?.subscription?.name.substring(0, 20) + "..."
+                                  : row?.subscriptions?.subscription?.name
+                                : "Abonnement initiale"
                               : "N/A"}
                           </TableCell>
                         ) : record === "total_projects" ? (

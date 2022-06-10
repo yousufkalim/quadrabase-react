@@ -261,7 +261,7 @@ export default function EnhancedTable(props) {
                               ? row?.subscription?.name?.length > 20
                                 ? row?.subscription?.name.substring(0, 20) + "..."
                                 : row?.subscription?.name
-                              : "N/A"}
+                              : "Abonnement initiale"}
                           </TableCell>
                         ) : record == "assignedToName" ? (
                           <TableCell align="left" title={row?.assigned_to?.first_name}>
