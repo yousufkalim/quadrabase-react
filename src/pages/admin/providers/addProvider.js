@@ -40,30 +40,28 @@ export default function AddExpense(props) {
       </div>
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextArea
+          <TextInput
             type="text"
             placeholder="Address 1"
             label="Address 1"
             name="address1"
-            translate={translate}
-            rows={6}
             onChange={formik.handleChange}
             value={formik.values.address1}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.address1 && formik.errors.address1 ? <small>{formik.errors.address1}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <TextArea
+          <TextInput
             type="text"
             placeholder="Address 2"
             label="Address 2"
             name="address2"
-            translate={translate}
-            rows={6}
             onChange={formik.handleChange}
             value={formik.values.address2}
+            translate={translate}
           />
           <div className="text-red-600 ">
             {formik.touched.address2 && formik.errors.address2 ? <small>{formik.errors.address2}</small> : null}
