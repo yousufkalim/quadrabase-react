@@ -375,7 +375,7 @@ const NestedList = (props) => {
                                   </ListItemIcon>
                                   <ListItemText
                                     primary={
-                                      <NoMaxWidthTooltip title={item2?.name} placement="top" TransitionComponent={Zoom}>
+                                      <NoMaxWidthTooltip title={item3?.name} placement="top" TransitionComponent={Zoom}>
                                         <div
                                           style={{
                                             fontSize: 13,

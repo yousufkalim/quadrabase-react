@@ -1294,7 +1294,7 @@ const ProjectView = () => {
                   <br />
                   <NestedList
                     width="100%"
-                    maxHeight="50vh"
+                    maxHeight="74vh"
                     level1={generalLibrariesData}
                     getLevel2={getLevel2}
                     setLevel2={setCategories}
