@@ -253,44 +253,14 @@ const NestedList = (props) => {
                             props.setLevel3([]);
                           }
                         }}
-                        style={{ cursor: "pointer" }}
+                        style={{
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
                       >
-                        {screenSize > 1600 ? (
-                          <>
-                            {item?.name?.substring(0, 38)}
-                            {item?.name?.length > 34 && "..."}
-                          </>
-                        ) : screenSize > 1500 ? (
-                          <>
-                            {item?.name?.substring(0, 34)}
-                            {item?.name?.length > 34 && "..."}
-                          </>
-                        ) : screenSize > 1400 ? (
-                          <>
-                            {item?.name?.substring(0, 30)}
-                            {item?.name?.length > 30 && "..."}
-                          </>
-                        ) : screenSize > 1300 ? (
-                          <>
-                            {item?.name?.substring(0, 28)}
-                            {item?.name?.length > 28 && "..."}
-                          </>
-                        ) : screenSize > 1200 ? (
-                          <>
-                            {item?.name?.substring(0, 24)}
-                            {item?.name?.length > 24 && "..."}
-                          </>
-                        ) : screenSize > 1100 ? (
-                          <>
-                            {item?.name?.substring(0, 22)}
-                            {item?.name?.length > 22 && "..."}
-                          </>
-                        ) : (
-                          <>
-                            {item?.name?.substring(0, 18)}
-                            {item?.name?.length > 18 && "..."}
-                          </>
-                        )}
+                        {item?.name}
                       </div>
                     </NoMaxWidthTooltip>
                     <ArrowDropDownIcon
@@ -363,39 +333,14 @@ const NestedList = (props) => {
                                       handleClicklevel2();
                                     }
                                   }}
-                                  style={{ cursor: "pointer" }}
+                                  style={{
+                                    cursor: "pointer",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                  }}
                                 >
-                                  {screenSize > 1600 ? (
-                                    <>
-                                      {item2?.name?.substring(0, 36)}
-                                      {item2?.name?.length > 36 && "..."}
-                                    </>
-                                  ) : screenSize > 1500 ? (
-                                    <>
-                                      {item2?.name?.substring(0, 32)}
-                                      {item2?.name?.length > 32 && "..."}
-                                    </>
-                                  ) : screenSize > 1400 ? (
-                                    <>
-                                      {item2?.name?.substring(0, 28)}
-                                      {item2?.name?.length > 28 && "..."}
-                                    </>
-                                  ) : screenSize > 1300 ? (
-                                    <>
-                                      {item2?.name?.substring(0, 24)}
-                                      {item2?.name?.length > 24 && "..."}
-                                    </>
-                                  ) : screenSize > 1200 ? (
-                                    <>
-                                      {item2?.name?.substring(0, 20)}
-                                      {item2?.name?.length > 20 && "..."}
-                                    </>
-                                  ) : (
-                                    <>
-                                      {item2?.name?.substring(0, 16)}
-                                      {item2?.name?.length > 16 && "..."}
-                                    </>
-                                  )}
+                                  {item2?.name}
                                 </div>
                               </NoMaxWidthTooltip>
                               <ArrowDropDownIcon
@@ -439,37 +384,15 @@ const NestedList = (props) => {
                                             cursor: "default",
                                           }}
                                         >
-                                          {screenSize > 1600 ? (
-                                            <>
-                                              {item3?.name?.substring(0, 38)}
-                                              {item3?.name?.length > 38 && "..."}
-                                            </>
-                                          ) : screenSize > 1500 ? (
-                                            <>
-                                              {item3?.name?.substring(0, 34)}
-                                              {item3?.name?.length > 34 && "..."}
-                                            </>
-                                          ) : screenSize > 1400 ? (
-                                            <>
-                                              {item3?.name?.substring(0, 30)}
-                                              {item3?.name?.length > 30 && "..."}
-                                            </>
-                                          ) : screenSize > 1300 ? (
-                                            <>
-                                              {item3?.name?.substring(0, 26)}
-                                              {item3?.name?.length > 26 && "..."}
-                                            </>
-                                          ) : screenSize > 1200 ? (
-                                            <>
-                                              {item3?.name?.substring(0, 22)}
-                                              {item3?.name?.length > 22 && "..."}
-                                            </>
-                                          ) : (
-                                            <>
-                                              {item3?.name?.substring(0, 18)}
-                                              {item3?.name?.length > 18 && "..."}
-                                            </>
-                                          )}
+                                          <div
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                            }}
+                                          >
+                                            {item3?.name}
+                                          </div>
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
                                             aria-controls={openLevel ? "demo-positioned-menu" : undefined}
