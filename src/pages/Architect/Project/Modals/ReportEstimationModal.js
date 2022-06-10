@@ -43,6 +43,7 @@ function ReportEstimationModal(props) {
       setPdf(response.data.files);
     }
   };
+
   function generateExcel() {
     try {
       let res;
@@ -63,15 +64,15 @@ function ReportEstimationModal(props) {
     }
   }
 
-  function generatePDF() {
+  async function generatePDF() {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = exportPDFSimpleEstimation(projectWorkData, currentProject);
+        res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = exportPDFTradesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
         return;
@@ -107,13 +108,13 @@ function ReportEstimationModal(props) {
     <>
       <div style={{ width: "60vw", maxHeight: "85vh", overflow: "auto" }}>
         <Stack direction="row" spacing={1}>
-          <IconButton aria-label="Excel" onClick={generateExcel}>
+          <IconButton aria-label="XLSX" onClick={generateExcel}>
             <SummarizeIcon />
           </IconButton>
           <IconButton aria-label="PDF" onClick={generatePDF}>
             <PictureAsPdfIcon />
           </IconButton>
-          <IconButton aria-label="Word" onClick={generateWord}>
+          <IconButton aria-label="DOCX" onClick={generateWord}>
             <TextSnippetIcon />
           </IconButton>
         </Stack>

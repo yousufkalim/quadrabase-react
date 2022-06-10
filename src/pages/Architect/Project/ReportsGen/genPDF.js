@@ -1,13 +1,17 @@
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import api from "../../../../api";
 
 import {
   headGen,
   rowsGenSimpleEstimation,
   rowsGenTradesEstimation,
   rowsGenTradesAndTranchesEstimation,
+  rowsGenSimpleDPGF,
+  rowsGenTradesDPGF,
+  rowsGenTradesAndTranchesDPGF,
   pdfParsedDataGenTradesEstimation,
   pdfParsedDataGenTradesAndTranchesEstimation,
+  docxParsedDataGenTradesDPGF,
+  docxParsedDataGenTradesAndTranchesDPGF,
   footerDataGenSimpleEstimation,
   rowsGenSimpleBPU,
   rowsGenTradesBPU,
@@ -15,457 +19,313 @@ import {
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
+  blobFromURL,
 } from "./data.js";
 
-function applyGlobalStyling(s) {
-  s.overflow = "linebreak";
-  s.columnWidth = "wrap";
-  s.font = "helvetica";
-  s.cellPadding = 3;
-  s.overflowColumns = "linebreak";
-  s.lineColor = [0, 0, 0];
-  s.borders = "t";
+async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
+  const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
+  const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
+
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: bodyArr,
+    footerKeysArr: footerColumnsSimpleEstimation,
+    footerValuesArr: footerArr,
+  };
+
+  const response = await api("post", `/Reports/simple_estimation`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
-function exportPDFSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
-  const realDataPDF = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
-  const footerData = footerDataGenSimpleEstimation(
-    data,
-    currentProject,
-    noPrice
-  );
-
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // It is important to draw tables one by one so that value of
-  // doc.lastAutoTable.settings.startY is updated and synced.
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.fillColor = [191, 191, 191];
-      s.lineWidth = 0.1;
-    },
-  };
-
-  doc.autoTable(contentHeadTable);
-
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsEstimation], // Lib requirement is that it is [][]
-    body: realDataPDF,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-
-      if (data.row.section === "head") {
-        s.fontSize = 12;
-        s.fillColor = [191, 191, 191];
-      } else if (data.row.index === 0) {
-        s.fontSize = 11;
-        s.fillColor = [211, 211, 211];
-      } else {
-        s.fontSize = 10;
-        s.fillColor = [255, 255, 255];
-      }
-    },
-  };
-
-  doc.autoTable(contentMainTable);
-
-  const contentFootTable = {
-    startY:
-      doc.lastAutoTable.settings.startY +
-      32 * realDataPDF.length -
-      2 * realDataPDF.length,
-    theme: "plain",
-    head: [[footerColumnsSimpleEstimation[0], footerData[0]]],
-    body: [
-      ["", ""],
-      [footerColumnsSimpleEstimation[1], footerData[1]],
-      [footerColumnsSimpleEstimation[2], footerData[2]],
-      [footerColumnsSimpleEstimation[3], footerData[3]],
-    ],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.lineWidth = 0.1;
-      s.fontSize = 9;
-      s.fillColor = [255, 255, 255];
-      s.halign = "right";
-    },
-  };
-
-  doc.autoTable(contentFootTable);
-
-  const blob = doc.output("blob");
-
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
-  return { blob, filename };
-}
-
-function exportPDFTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
-
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // Draw head table
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.fillColor = [191, 191, 191];
-      s.lineWidth = 0.1;
-    },
-  };
-  doc.autoTable(contentHeadTable);
-
+async function exportPDFTradesEstimation(data, currentProject, noPrice) {
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
-
   let pdfParsedData = [];
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = pdfParsedDataGenTradesEstimation(
-      currentRow,
-      i + 1
-    );
-    pdfParsedData = pdfParsedData.concat(currentRowXLSXParsedData);
+    const currentRowPDFParsedData = pdfParsedDataGenTradesEstimation(currentRow, i + 1);
+    pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsEstimation], // Lib requirement is that it is [][]
-    body: pdfParsedData,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-
-      if (data.row.section === "head") {
-        s.fontSize = 12;
-        s.fillColor = [191, 191, 191];
-      } else {
-        s.fontSize = 10;
-        s.fillColor = [255, 255, 255];
-      }
-    },
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: pdfParsedData,
   };
 
-  doc.autoTable(contentMainTable);
+  const response = await api("post", `/Reports/tt_estimation`, body);
+  const url = response.data.path;
 
-  const blob = doc.output("blob");
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
 
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
-  return { blob, filename };
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
-function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(
-    `${noPrice ? "DQE" : "Estimation"}`,
-    `${currentProject?.name ?? "N/A"}`
-  );
-
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // Draw head table
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.fillColor = [191, 191, 191];
-      s.lineWidth = 0.1;
-    },
-  };
-  doc.autoTable(contentHeadTable);
-
+async function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
+  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
-
-  let pdfparsedData = [];
+  let pdfParsedData = [];
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData =
-      pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
-    pdfparsedData = pdfparsedData.concat(currentRowXLSXParsedData);
+    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsEstimation], // Lib requirement is that it is [][]
-    body: pdfparsedData,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-
-      if (data.row.section === "head") {
-        s.fontSize = 12;
-        s.fillColor = [191, 191, 191];
-      } else {
-        s.fontSize = 10;
-        s.fillColor = [255, 255, 255];
-      }
-    },
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: pdfParsedData,
   };
 
-  doc.autoTable(contentMainTable);
+  const response = await api("post", `/Reports/tt_estimation`, body);
+  const url = response.data.path;
 
-  const _blob = doc.output("blob");
-  const blob = new Blob([_blob], { type: "application/pdf" });
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${
-    noPrice ? "DQE" : "Estimation"
-  }`;
-  return { blob, filename };
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
-function exportPDFSimpleBPU(data, currentProject) {
+async function exportPDFSimpleBPU(data, currentProject) {
   const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
+  const pdfParsedData = rowsGenSimpleBPU(data);
 
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // It is important to draw tables one by one so that value of
-  // doc.lastAutoTable.settings.startY is updated and synced.
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.lineWidth = 0.1;
-      s.fillColor = [191, 191, 191];
-    },
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsBPU,
+    bodyValuesArr: pdfParsedData,
   };
 
-  doc.autoTable(contentHeadTable);
+  const response = await api("post", `/Reports/bpu`, body);
+  const url = response.data.path;
 
-  const pdfParsedPDF = rowsGenSimpleBPU(data);
-
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsBPU], // Lib requirement is that it is [][]
-    body: pdfParsedPDF,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-    },
-  };
-
-  doc.autoTable(contentMainTable);
-
-  const blob = doc.output("blob");
-
+  const blob = await blobFromURL(url);
   const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
-  return { blob, filename };
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
-function exportPDFTradesBPU(data, currentProject) {
+async function exportPDFTradesBPU(data, currentProject) {
   const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
-
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // Draw head table
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.lineWidth = 0.1;
-      s.fillColor = [191, 191, 191];
-    },
-  };
-  doc.autoTable(contentHeadTable);
-
   const pdfParsedData = rowsGenTradesBPU(data);
 
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsBPU], // Lib requirement is that it is [][]
-    body: pdfParsedData,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-    },
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsBPU,
+    bodyValuesArr: pdfParsedData,
   };
 
-  doc.autoTable(contentMainTable);
+  const response = await api("post", `/Reports/bpu`, body);
+  const url = response.data.path;
 
-  const blob = doc.output("blob");
-
+  const blob = await blobFromURL(url);
   const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
-  return { blob, filename };
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
-function exportPDFTradesAndTranchesBPU(data, currentProject) {
+async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
-
   const pdfParsedData = rowsGenTradesAndTranchesBPU(data);
 
-  const unit = "pt";
-  const size = "A4"; // Use A1, A2, A3 or A4
-  const orientation = "portrait"; // portrait or landscape
-
-  const doc = new jsPDF(orientation, unit, size);
-
-  doc.setFontSize(12);
-
-  // Draw head table
-  const contentHeadTable = {
-    startY: 50,
-    theme: "plain",
-    head: [headArr],
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 12;
-      s.lineWidth = 0.1;
-      s.fillColor = [191, 191, 191];
-    },
-  };
-  doc.autoTable(contentHeadTable);
-
-  const contentMainTable = {
-    startY: doc.lastAutoTable.settings.startY + 32,
-    pageBreak: "avoid",
-    head: [dataColumnsBPU], // Lib requirement is that it is [][]
-    body: pdfParsedData,
-    theme: "plain",
-    didParseCell: (data) => {
-      const s = data.cell.styles;
-
-      // global styling
-      applyGlobalStyling(s);
-
-      s.fontSize = 10;
-      s.lineWidth = 0.1;
-    },
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsBPU,
+    bodyValuesArr: pdfParsedData,
   };
 
-  doc.autoTable(contentMainTable);
+  const response = await api("post", `/Reports/bpu`, body);
+  const url = response.data.path;
 
-  const blob = doc.output("blob");
-
+  const blob = await blobFromURL(url);
   const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
-  return { blob, filename };
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFSimpleDPGF(data, currentProject) {
+  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenSimpleDPGF(data);
+  let pdfParsedData = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const arr = [];
+    const row = rows[i];
+    for (let j = 0; j < row.length; j++) {
+      const _ = row[j];
+      if (j == 1) {
+        if (typeof _ == "object") {
+          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+        } else {
+          arr.push(`<p>${_}</p>`);
+        }
+      } else {
+        arr.push(_);
+      }
+    }
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/dpgf`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesDPGF(data, currentProject) {
+  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesDPGF(data);
+  let interArr = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const currentRow = rows[i];
+    const currentRowPDFParsedData = docxParsedDataGenTradesDPGF(currentRow, i + 1);
+    interArr = interArr.concat(currentRowPDFParsedData);
+  }
+
+  let pdfParsedData = [];
+
+  for (let i = 0; i < interArr.length; i++) {
+    const arr = [];
+    const row = interArr[i];
+    for (let j = 0; j < row.length; j++) {
+      const _ = row[j];
+      if (j == 1) {
+        if (typeof _ == "object") {
+          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+        } else {
+          arr.push(`<p>${_}</p>`);
+        }
+      } else {
+        arr.push(_);
+      }
+    }
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/dpgf`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
+  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesAndTranchesDPGF(data);
+  let interArr = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const currentRow = rows[i];
+    const currentRowPDFParsedData = docxParsedDataGenTradesAndTranchesDPGF(currentRow, i + 1);
+    interArr = interArr.concat(currentRowPDFParsedData);
+  }
+
+  let pdfParsedData = [];
+
+  for (let i = 0; i < interArr.length; i++) {
+    const arr = [];
+    const row = interArr[i];
+    for (let j = 0; j < row.length; j++) {
+      const _ = row[j];
+      if (j == 1) {
+        if (typeof _ == "object") {
+          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+        } else {
+          arr.push(`<p>${_}</p>`);
+        }
+      } else {
+        arr.push(_);
+      }
+    }
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyKeysArr: dataColumnsEstimation,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/dpgf`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
 }
 
 export {
@@ -475,4 +335,7 @@ export {
   exportPDFSimpleBPU,
   exportPDFTradesBPU,
   exportPDFTradesAndTranchesBPU,
+  exportPDFSimpleDPGF,
+  exportPDFTradesDPGF,
+  exportPDFTradesAndTrancesDPGF,
 };

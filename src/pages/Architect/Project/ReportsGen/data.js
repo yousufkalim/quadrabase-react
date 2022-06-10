@@ -1,7 +1,8 @@
 import { Paragraph, TextRun, UnderlineType } from "docx";
+import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
 
 function dateNowFormatted() {
-  return "01/1/2022";
+  return `${new Date(Date.now()).toLocaleDateString("en-gb")}`;
 }
 
 function headGen(headingName, projectName) {
@@ -70,6 +71,62 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
   return rows;
 }
 
+function rowsGenSimpleDPGF(data) {
+  const rows = [];
+
+  rows.push(["'1", "Lot n°1", "", "", "", ""]);
+
+  rowsGenDPGFHandleWorksAndWorkDetails(rows, data, `${1}`);
+
+  return rows;
+}
+
+function rowsGenTradesDPGF(data) {
+  const rows = [];
+
+  for (let i = 0; i < data.length; i++) {
+    // Trade for loop
+    const tradeTitle = data[i]._id;
+    const tradeData = data[i].data;
+    const workAndDetailsRows = [];
+    const tradeObj = {};
+    rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`);
+    tradeObj.trade = tradeTitle;
+    tradeObj.rows = workAndDetailsRows;
+    rows.push(tradeObj);
+  }
+
+  return rows;
+}
+
+function rowsGenTradesAndTranchesDPGF(data) {
+  const rows = [];
+
+  for (let i = 0; i < data.length; i++) {
+    // Trade for loop
+    const tradeTitle = data[i]._id;
+    const tradeData = data[i].data;
+    const tranchesRows = [];
+    const tradeObj = {};
+    for (let j = 0; j < tradeData.length; j++) {
+      // Tranch for loop
+      const tranchTitle = tradeData[j].tranch;
+      const tranchDataArr = tradeData[j].tranchData;
+      const workAndDetailsRows = [];
+      const tranchObj = {};
+      rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`);
+      tranchObj.tranch = tranchTitle;
+      tranchObj.rows = workAndDetailsRows;
+      tranchesRows.push(tranchObj);
+    }
+    tradeObj.trade = tradeTitle;
+    tradeObj.rows = tranchesRows;
+    rows.push(tradeObj);
+  }
+
+  return rows;
+}
+
 function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix, noPrice) {
   let _id;
 
@@ -125,6 +182,55 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
         arrD.push(data[i].workDetails.unit_price);
         arrD.push(data[i].workDetails.unit_price * data[i].workDetails.quantity);
       }
+
+      toBeModifiedArr.push(arrD);
+    }
+
+    _id = data[i].work._id;
+  }
+}
+
+function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
+  let _id;
+
+  for (let i = 0; i < data.length; i++) {
+    if (_id != data[i].work._id) {
+      const arr = [];
+
+      arr.push(`${prefix}.${i + 1}`);
+      const obj = {
+        title: data[i].work.name,
+        bpu: data[i].work.bpu_text[0],
+      };
+      arr.push(obj);
+      arr.push(data[i].workUnit?.name ?? "");
+      arr.push(data[i].work?.quantity ?? "");
+      arr.push("");
+      arr.push("");
+
+      toBeModifiedArr.push(arr);
+
+      if (data[i].workDetails) {
+        const arrD = [];
+
+        arrD.push(`${prefix}.${i + 1}`);
+        arrD.push(data[i].workDetails.name);
+        arrD.push(data[i].workDetailsUnit.name);
+        arrD.push(data[i].workDetails.quantity);
+        arrD.push("");
+        arrD.push("");
+
+        toBeModifiedArr.push(arrD);
+      }
+    } else {
+      const arrD = [];
+
+      arrD.push(`${prefix}.${i + 1}`);
+      arrD.push(data[i].workDetails.name);
+      arrD.push(data[i].workDetailsUnit.name);
+      arrD.push(data[i].workDetails.quantity);
+      arrD.push("");
+      arrD.push("");
 
       toBeModifiedArr.push(arrD);
     }
@@ -448,7 +554,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
 function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const docxParsedData = [];
 
-  // Populate trade title in pdfParsedData
+  // Populate trade title in docxParsedData
   const tradeArr = [];
   for (let i = 0; i < dataColumnsEstimation.length; i++) {
     if (i == 0) {
@@ -466,7 +572,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   for (let i = 0; i < trachesRows.length; i++) {
     const currentObj = trachesRows[i];
 
-    // Populate tranch title in pdfParsedData
+    // Populate tranch title in docxParsedData
     const tranchArr = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 0) {
@@ -481,7 +587,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
 
     const workAndWorkDetailsRows = currentObj.rows;
 
-    // Populate body data in pdfParsedData
+    // Populate body data in docxParsedData
     for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
       let arr = [];
       for (let k = 0; k < dataColumnsEstimation.length; k++) {
@@ -492,7 +598,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
 
     const trancheTotalHT = calculateTotalHT(workAndWorkDetailsRows);
 
-    // Populate tranch total in pdfParsedData
+    // Populate tranch total in docxParsedData
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
@@ -510,7 +616,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     }
   }
 
-  // Populate trade total in pdfParsedData
+  // Populate trade total in docxParsedData
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
@@ -547,6 +653,117 @@ function calculateTotalHT(data, noPrice) {
   return totalHT;
 }
 
+function docxParsedDataGenTradesDPGF(trade, index) {
+  const docxParsedData = [];
+
+  // Populate trade title in docxParsedData
+  const tradeArr = [];
+  for (let i = 0; i < dataColumnsEstimation.length; i++) {
+    if (i == 0) {
+      tradeArr[i] = `${index}`;
+    } else if (i == 1) {
+      tradeArr[i] = trade.trade;
+    } else {
+      tradeArr[i] = "";
+    }
+  }
+  docxParsedData.push(tradeArr);
+
+  const workAndWorkDetailsRows = trade.rows;
+
+  // Populate body data in docxParsedData
+  for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
+    let arr = [];
+    for (let k = 0; k < dataColumnsEstimation.length; k++) {
+      arr[k] = workAndWorkDetailsRows[j][k];
+    }
+    docxParsedData.push(arr);
+  }
+
+  // Populate trade total in docxParsedData
+  const tradeTotalHTArr = [];
+  for (let j = 0; j < dataColumnsEstimation.length; j++) {
+    if (j == 1) {
+      tradeTotalHTArr[j] = `Trade Total:`;
+    } else {
+      tradeTotalHTArr[j] = "";
+    }
+  }
+  docxParsedData.push(tradeTotalHTArr);
+
+  return docxParsedData;
+}
+
+function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
+  const docxParsedData = [];
+
+  // Populate trade title in docxParsedData
+  const tradeArr = [];
+  for (let i = 0; i < dataColumnsEstimation.length; i++) {
+    if (i == 0) {
+      tradeArr[i] = `${index}`;
+    } else if (i == 1) {
+      tradeArr[i] = trade.trade;
+    } else {
+      tradeArr[i] = "";
+    }
+  }
+  docxParsedData.push(tradeArr);
+
+  const trachesRows = trade.rows;
+  for (let i = 0; i < trachesRows.length; i++) {
+    const currentObj = trachesRows[i];
+
+    // Populate tranch title in docxParsedData
+    const tranchArr = [];
+    for (let j = 0; j < dataColumnsEstimation.length; j++) {
+      if (j == 0) {
+        tranchArr[j] = `${index}.${i + 1}`;
+      } else if (j == 1) {
+        tranchArr[j] = currentObj.tranch;
+      } else {
+        tranchArr[j] = "";
+      }
+    }
+    docxParsedData.push(tranchArr);
+
+    const workAndWorkDetailsRows = currentObj.rows;
+
+    // Populate body data in docxParsedData
+    for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
+      let arr = [];
+      for (let k = 0; k < dataColumnsEstimation.length; k++) {
+        arr[k] = workAndWorkDetailsRows[j][k];
+      }
+      docxParsedData.push(arr);
+    }
+
+    // Populate tranch total in docxParsedData
+    const trancheTotalHTObj = [];
+    for (let j = 0; j < dataColumnsEstimation.length; j++) {
+      if (j == 1) {
+        trancheTotalHTObj[j] = `Tranche Total:`;
+      } else {
+        trancheTotalHTObj[j] = "";
+      }
+    }
+    docxParsedData.push(trancheTotalHTObj);
+  }
+
+  // Populate trade total in docxParsedData
+  const tradeTotalHTObj = [];
+  for (let j = 0; j < dataColumnsEstimation.length; j++) {
+    if (j == 1) {
+      tradeTotalHTObj[j] = `Trade Total:`;
+    } else {
+      tradeTotalHTObj[j] = "";
+    }
+  }
+  docxParsedData.push(tradeTotalHTObj);
+
+  return docxParsedData;
+}
+
 function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) {
   let footerData = [];
 
@@ -569,6 +786,18 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
   } else {
     footerData = ["", "", "", ""];
   }
+
+  if (addSpace) {
+    footerData.splice(1, 0, "");
+  }
+
+  return footerData;
+}
+
+function footerDataGenSimpleDPGF(addSpace) {
+  let footerData = [];
+
+  footerData = ["", "", "", ""];
 
   if (addSpace) {
     footerData.splice(1, 0, "");
@@ -684,17 +913,23 @@ function rowsGenTradesAndTranchesBPU(data) {
   return rows;
 }
 
-function rowsGenSimpleCCTP(data) {
+function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
-    const cctpArr = data[i].work.cctp_text;
-    if (cctpArr.length == 0) {
+    const _cctpArr = data[i].work.cctp_text;
+    if (_cctpArr.length == 0) {
       continue;
+    }
+    const cp = [];
+    for (let j = 0; j < cctpArr.length; j++) {
+      if (selectedCCTPIndexes.includes(j) && cctpArr[j]) {
+        cp.push(cctpArr[j]);
+      }
     }
     const obj = {
       title: `${i + 1}. ${data[i].work.name}`,
-      cctp_arr: cctpArr,
+      cctp_arr: cp,
     };
     rows.push(obj);
   }
@@ -702,7 +937,7 @@ function rowsGenSimpleCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesCCTP(data) {
+function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -710,13 +945,19 @@ function rowsGenTradesCCTP(data) {
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
-      const cctpArr = currentObjWork.work.cctp_text;
-      if (cctpArr.length == 0) {
+      const _cctpArr = currentObjWork.work.cctp_text;
+      if (_cctpArr.length == 0) {
         continue;
+      }
+      const cp = [];
+      for (let k = 0; k < cctpArr.length; k++) {
+        if (selectedCCTPIndexes.includes(k) && cctpArr[k]) {
+          cp.push(cctpArr[k]);
+        }
       }
       const obj = {
         title: `${i + 1}.${j + 1}. ${currentObjWork.work.name}`,
-        cctp_arr: cctpArr,
+        cctp_arr: cp,
       };
       rows.push(obj);
     }
@@ -725,7 +966,7 @@ function rowsGenTradesCCTP(data) {
   return rows;
 }
 
-function rowsGenTradesAndTranchesCCTP(data) {
+function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -740,9 +981,15 @@ function rowsGenTradesAndTranchesCCTP(data) {
         if (cctpArr.length == 0) {
           continue;
         }
+        const cp = [];
+        for (let l = 0; l < cctpArr.length; l++) {
+          if (selectedCCTPIndexes.includes(l) && cctpArr[l]) {
+            cp.push(cctpArr[l]);
+          }
+        }
         const obj = {
           title: `${i + 1}.${j + 1}.${k + 1}. ${currentObjWork.work.name}`,
-          cctp_arr: cctpArr,
+          cctp_arr: cp,
         };
         rows.push(obj);
       }
@@ -756,8 +1003,9 @@ function textRunsSplitGen(str) {
   let strSingle = String(str);
 
   let textRunArr = [];
-  if (strSingle.includes("</")) {
-    // .includes("</") is a better check than [0]="<"
+  if (htmlTagRegex.test(strSingle)) {
+    // replace "&nbsp;"
+    str = str.replace(/\&nbsp;/g, " ");
     textRunArr = handleBuiltInCCTPs(str);
   } else {
     textRunArr = handleImportedCCTPs(str);
@@ -775,7 +1023,7 @@ function handleImportedCCTPs(str) {
     textRunArr.push(
       new TextRun({
         text: strArr[i],
-        size: 24,
+        size: 20,
         break: i == 0 ? 0 : 1, // If first string then no line breaks
       })
     );
@@ -792,16 +1040,7 @@ function handleImportedCCTPs(str) {
 
 function handleBuiltInCCTPs(str) {
   let strSingle = String(str);
-
-  const elMain = document.createElement("div");
-  elMain.innerHTML = strSingle;
-  let htmlCollectionMain = elMain.children;
-
-  const parsedObjsArr = [];
-  for (let i = 0; i < htmlCollectionMain.length; i++) {
-    const obj = parseHTMLTag(htmlCollectionMain[i]);
-    parsedObjsArr.push(obj);
-  }
+  const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
@@ -819,57 +1058,57 @@ function handleBuiltInCCTPs(str) {
   return docxObjsArr;
 }
 
-function parseHTMLTag(tag) {
-  const tagName = tag.tagName;
-  const innerHTML = tag.innerHTML;
-  const classList = tag.classList;
+function parseHTMLTag(str) {
+  const elMain = document.createElement("div");
+  elMain.innerHTML = str;
+  let htmlCollectionMain = elMain.children;
 
-  const embedded = [];
-
-  if (innerHTML[0] == "<") {
-    const elMain = document.createElement("div");
-    elMain.innerHTML = innerHTML;
-    let htmlCollection = elMain.children;
-
-    for (let i = 0; i < htmlCollection.length; i++) {
-      const obj = parseHTMLTag(htmlCollection[i]);
-      embedded.push(obj);
-    }
+  const parsedObjsArr = [];
+  for (let i = 0; i < htmlCollectionMain.length; i++) {
+    const _ = htmlCollectionMain[i];
+    const obj = {
+      tagName: _.tagName,
+      innerHTML: _.innerHTML,
+      classList: _.classList,
+    };
+    parsedObjsArr.push(obj);
   }
 
-  return {
-    tagName: tagName,
-    innerHTML: innerHTML,
-    classList: classList,
-    embedded: embedded,
-  };
+  return parsedObjsArr;
 }
 
 const tagsToDocxMap = {
   P: function (_) {
     const text = _.innerHTML;
 
-    if (_.embedded.length == 0) {
-      const textArr = text.split("<br>");
-      const objsArr = [];
-      for (let i = 0; i < textArr.length; i++) {
-        const currentText = textArr[i];
+    const textArr = text.split("<br>");
+    const objsArr = [];
+    for (let i = 0; i < textArr.length; i++) {
+      const currentText = textArr[i];
+      if (htmlTagRegex.test(currentText)) {
+        const parsedObjsArr = parseHTMLTag(currentText); // Handled for first level only.
+        for (let j = 0; j < parsedObjsArr.length; j++) {
+          const obj = parsedObjsArr[j];
+          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+          if (objElm) {
+            objsArr.push(objElm);
+          }
+        }
+      } else {
         objsArr.push(
           new Paragraph({
             children: [
               new TextRun({
                 text: currentText,
-                size: 24,
+                size: 20,
               }),
             ],
           })
         );
       }
-      return objsArr;
-    } else {
-      const obj = _.embedded[0]; // Well incase of "P". We will be dealing with first embedded entry only.
-      return tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
     }
+
+    return objsArr;
   },
   BR: function (_) {
     return new Paragraph({
@@ -932,31 +1171,11 @@ const tagsToDocxMap = {
     });
   },
   OL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   UL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   LI: function (_) {
@@ -1015,11 +1234,20 @@ function downloadBlob(blob, filename) {
   document.body.removeChild(link);
 }
 
+async function blobFromURL(url) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return blob;
+}
+
 export {
   headGen,
   rowsGenSimpleEstimation,
   rowsGenTradesEstimation,
   rowsGenTradesAndTranchesEstimation,
+  rowsGenSimpleDPGF,
+  rowsGenTradesDPGF,
+  rowsGenTradesAndTranchesDPGF,
   xlsxParsedDataGenSimpleEstimation,
   xlsxParsedDataGenTradesEstimation,
   xlsxParsedDataGenTradesAndTranchesEstimation,
@@ -1028,6 +1256,8 @@ export {
   pdfParsedDataGenTradesAndTranchesEstimation,
   docxParsedDataGenTradesEstimation,
   docxParsedDataGenTradesAndTranchesEstimation,
+  docxParsedDataGenTradesDPGF,
+  docxParsedDataGenTradesAndTranchesDPGF,
   calculateWSCols,
   rowsGenSimpleBPU,
   rowsGenTradesBPU,
@@ -1036,9 +1266,11 @@ export {
   rowsGenTradesCCTP,
   rowsGenTradesAndTranchesCCTP,
   footerDataGenSimpleEstimation,
+  footerDataGenSimpleDPGF,
   textRunsSplitGen,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
   downloadBlob,
+  blobFromURL,
 };

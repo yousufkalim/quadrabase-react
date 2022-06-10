@@ -8,8 +8,16 @@ import { Toaster } from "react-hot-toast";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Main from "./containers";
-
+import api from "./api";
 function App() {
+  useEffect(() => {
+    CheckVist();
+  }, []);
+
+  const CheckVist = async () => {
+    const result = await api("post", `/Vists/`, { visit_date: "" });
+  };
+
   return (
     <>
       <ToastContainer

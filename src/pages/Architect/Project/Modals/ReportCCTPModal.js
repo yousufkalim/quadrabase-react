@@ -4,9 +4,7 @@ import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import Modal from "../../../../components/Architect/Modal";
-
-import PreviewFileModal from "./PreviewFileModal";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FileViewer from "react-file-viewer";
 
 // Reports
@@ -16,20 +14,21 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, viewBlob, viewFileName, viewFileType } = props;
+  const { projectWorkData, currentProject, selectedCCTPIndexes } = props;
   const blobURL = URL.createObjectURL(props.viewBlob);
 
   async function generateWord() {
     try {
       let res;
       if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject);
+        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace("Show me");
+        return;
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
@@ -41,7 +40,7 @@ function ReportCCTPModal(props) {
   return (
     <div style={{ width: "60vw", maxHeight: "85vh", overflow: "auto" }}>
       <Stack direction="row" spacing={1}>
-        <IconButton aria-label="Word" onClick={generateWord}>
+        <IconButton aria-label="DOCX" onClick={generateWord}>
           <TextSnippetIcon />
         </IconButton>
       </Stack>
