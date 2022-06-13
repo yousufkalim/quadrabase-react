@@ -1,6 +1,7 @@
 const htmlTagRegex = /<\/?[^>]+>/gi;
 
 const cctpArr = [
+  "CHAP0",
   "Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS",
   "Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS",
   "Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS",

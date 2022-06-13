@@ -914,6 +914,7 @@ function rowsGenTradesAndTranchesBPU(data) {
 }
 
 function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -922,8 +923,12 @@ function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
       continue;
     }
     const cp = [];
+    if (_selectedCCTPIndexes.includes(0)) {
+      cp.push("CHAP0");
+      _selectedCCTPIndexes.shift();
+    }
     for (let j = 0; j < cctpArr.length; j++) {
-      if (selectedCCTPIndexes.includes(j) && _cctpArr[j]) {
+      if (_selectedCCTPIndexes.includes(j) && _cctpArr[j]) {
         cp.push(_cctpArr[j]);
       }
     }
@@ -938,6 +943,7 @@ function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
 }
 
 function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -950,8 +956,12 @@ function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
         continue;
       }
       const cp = [];
+      if (_selectedCCTPIndexes.includes(0)) {
+        cp.push("CHAP0");
+        _selectedCCTPIndexes.shift();
+      }
       for (let k = 0; k < cctpArr.length; k++) {
-        if (selectedCCTPIndexes.includes(k) && _cctpArr[k]) {
+        if (_selectedCCTPIndexes.includes(k) && _cctpArr[k]) {
           cp.push(_cctpArr[k]);
         }
       }
@@ -967,6 +977,7 @@ function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
 }
 
 function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -982,8 +993,12 @@ function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
           continue;
         }
         const cp = [];
+        if (_selectedCCTPIndexes.includes(0)) {
+          cp.push("CHAP0");
+          _selectedCCTPIndexes.shift();
+        }
         for (let l = 0; l < cctpArr.length; l++) {
-          if (selectedCCTPIndexes.includes(l) && _cctpArr[l]) {
+          if (_selectedCCTPIndexes.includes(l) && _cctpArr[l]) {
             cp.push(_cctpArr[l]);
           }
         }
