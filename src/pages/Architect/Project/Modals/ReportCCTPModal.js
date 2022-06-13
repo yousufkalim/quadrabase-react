@@ -33,7 +33,7 @@ function ReportCCTPModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
@@ -53,7 +53,7 @@ function ReportCCTPModal(props) {
   async function generateWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
         res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);

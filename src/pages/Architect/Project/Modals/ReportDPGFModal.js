@@ -33,7 +33,7 @@ function ReportDPGFModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesDPGF(projectWorkData, currentProject);
@@ -53,7 +53,7 @@ function ReportDPGFModal(props) {
   async function generateWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportDOCXTradesDPGF(projectWorkData, currentProject);

@@ -806,7 +806,7 @@ const ProjectView = () => {
   async function generateEstimate() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject);
@@ -828,7 +828,7 @@ const ProjectView = () => {
   async function generateDQE() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
@@ -849,7 +849,7 @@ const ProjectView = () => {
   async function generateBPU() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesBPU(projectWorkData, currentProject);
@@ -870,7 +870,7 @@ const ProjectView = () => {
   async function generateCCTPWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
@@ -891,7 +891,7 @@ const ProjectView = () => {
   async function generateDPGFWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesDPGF(projectWorkData, currentProject);
