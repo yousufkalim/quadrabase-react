@@ -11,6 +11,7 @@ import { useStyles } from "../../../../css/projectLibraries";
 import { Button, Grid } from "@mui/material";
 import TextEditor from "../../../../components/Architect/TextEditor";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
+import { formatNumber } from "../../../../utils/markThousand";
 
 // component
 const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, work }) => {
@@ -20,7 +21,7 @@ const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, wor
   const [values, setValues] = useState({
     name: "",
     unit: "",
-    unit_price: "",
+    unit_price: "0.00",
   });
   const [options, setOptions] = useState([]);
 
@@ -49,6 +50,7 @@ const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, wor
     let data = values;
     data.workId = work;
     data.ranking = workDetailData ? workDetailData.length : 0;
+    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
     const result = await api("post", `/BookLibraries/add/WorkDetail`, data, t);
     toast.success(t(result.data.message));
     handleOpenAddWorkDetailModal();
@@ -75,6 +77,20 @@ const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, wor
         value={values.unit_price}
         handleChange={(e) => handleChange(e.target.name, e.target.value)}
         required={true}
+        onBlur={() => {
+          let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+          setValues((prev) => {
+            prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+            return { ...prev };
+          });
+        }}
+        onFocus={() => {
+          let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+          setValues((prev) => {
+            prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+            return { ...prev };
+          });
+        }}
       />
       <br />
       <br />
@@ -89,6 +105,10 @@ const AddWorkDetailsModal = ({ handleOpenAddWorkDetailModal, workDetailData, wor
       <br />
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenAddWorkDetailModal}>
+          {t("Close")}
+        </Button>
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Create")}
         </Button>
