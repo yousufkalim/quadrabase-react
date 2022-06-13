@@ -26,22 +26,18 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportEstimationModal(props) {
-  const { projectWorkData, currentProject, viewBlob, viewFileName, viewFileType } = props;
+  const { projectWorkData, currentProject, viewBlob, viewFileName } = props;
 
-  const [pdf, setPdf] = useState([]);
-
+  const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
     uploadFile();
   }, []);
-
   const uploadFile = async () => {
-    if (viewFileType === "pdf") {
-      let form_data = new FormData();
-      var file = new File([viewBlob], viewFileName + ".pdf");
-      form_data.append(`file`, file);
-      const response = await api("post", `/fileUploader`, form_data);
-      setPdf(response.data.files);
-    }
+    const formData = new FormData();
+    const file = new File([viewBlob], viewFileName + ".pdf");
+    formData.append(`file`, file);
+    const response = await api("post", `/fileUploader`, formData);
+    setPdfs(response.data.files);
   };
 
   function generateExcel() {
@@ -118,9 +114,9 @@ function ReportEstimationModal(props) {
             <TextSnippetIcon />
           </IconButton>
         </Stack>
-        {pdf.length > 0 && (
+        {pdfs.length > 0 && (
           <>
-            <DocViewer documents={pdf} style={{ maxHeight: "200px" }} />
+            <DocViewer documents={pdfs} style={{ maxHeight: "200px" }} />
           </>
         )}
       </div>

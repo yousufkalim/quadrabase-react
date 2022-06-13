@@ -5,17 +5,20 @@ import {
   rowsGenSimpleEstimation,
   rowsGenTradesEstimation,
   rowsGenTradesAndTranchesEstimation,
+  rowsGenSimpleBPU,
+  rowsGenTradesBPU,
+  rowsGenTradesAndTranchesBPU,
   rowsGenSimpleDPGF,
   rowsGenTradesDPGF,
   rowsGenTradesAndTranchesDPGF,
+  rowsGenSimpleCCTP,
+  rowsGenTradesCCTP,
+  rowsGenTradesAndTranchesCCTP,
   pdfParsedDataGenTradesEstimation,
   pdfParsedDataGenTradesAndTranchesEstimation,
   docxParsedDataGenTradesDPGF,
   docxParsedDataGenTradesAndTranchesDPGF,
   footerDataGenSimpleEstimation,
-  rowsGenSimpleBPU,
-  rowsGenTradesBPU,
-  rowsGenTradesAndTranchesBPU,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
@@ -328,6 +331,126 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
   return obj;
 }
 
+async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenSimpleCCTP(data, selectedCCTPIndexes);
+
+  let pdfParsedData = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const arr = [];
+    const _ = rows[i];
+
+    let str = "";
+    str = str.concat(`<p><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.cctp_arr.length; j++) {
+      str = str.concat(`${_.cctp_arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    console.log(str);
+    arr.push(str);
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesCCTP(data, selectedCCTPIndexes);
+
+  let pdfParsedData = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const arr = [];
+    const _ = rows[i];
+
+    let str = "";
+    str = str.concat(`<p><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.cctp_arr.length; j++) {
+      str = str.concat(`${_.cctp_arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    console.log(str);
+    arr.push(str);
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes);
+
+  let pdfParsedData = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const arr = [];
+    const _ = rows[i];
+
+    let str = "";
+    str = str.concat(`<p><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.cctp_arr.length; j++) {
+      str = str.concat(`${_.cctp_arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    console.log(str);
+    arr.push(str);
+    pdfParsedData.push(arr);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
 export {
   exportPDFSimpleEstimation,
   exportPDFTradesEstimation,
@@ -338,4 +461,7 @@ export {
   exportPDFSimpleDPGF,
   exportPDFTradesDPGF,
   exportPDFTradesAndTrancesDPGF,
+  exportPDFSimpleCCTP,
+  exportPDFTradesCCTP,
+  exportPDFTradesAndTranchesCCTP,
 };
