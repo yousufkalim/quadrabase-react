@@ -174,7 +174,7 @@ export default function Index(props) {
   return (
     <>
       <Modal
-        title="Add Product"
+        title="Add a product"
         open={modal}
         translate={translate}
         onClose={handleModal}
@@ -202,10 +202,10 @@ export default function Index(props) {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("Subscriptions")}</h1>
+            <h1 className="text-2xl font-bold">{translate("Products")}</h1>
             <Button
               variant="outlined"
-              label="Add Subscriptions"
+              label="Add a product"
               onClick={handleModal}
               translate={translate}
               startIcon={<AddIcon />}
