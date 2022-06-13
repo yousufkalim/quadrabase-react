@@ -16,7 +16,7 @@ const CctpModal = ({ handleOpenCctpModal, cctp_text }) => {
           overflowY: "scroll",
         }}
         dangerouslySetInnerHTML={{
-          __html: cctp_text.length > 5 ? cctp_text : t("No text"),
+          __html: cctp_text?.length > 5 ? cctp_text : t("No text"),
         }}
       ></div>
       <br />

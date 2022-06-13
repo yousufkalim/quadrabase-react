@@ -551,6 +551,7 @@ i18n
           Products: "Products",
           "Add a product": "Add a Product",
           "Edit Product": "Edit Product",
+          "Add Level": "Add Level",
         },
       },
       fr: {
@@ -1087,6 +1088,7 @@ i18n
           Products: "Produits",
           "Add a product": "Ajouter un produit",
           "Edit Product": "Modifier le produit",
+          "Add Level": "Ajouter un niveau",
         },
       },
     },
