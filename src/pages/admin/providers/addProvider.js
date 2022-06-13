@@ -115,6 +115,25 @@ export default function AddExpense(props) {
             {formik.touched.city && formik.errors.city ? <small>{formik.errors.city}</small> : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="Email Address (Client)"
+            label="Email Address (Client)"
+            name="email_address_client"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.email_address_client}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.email_address_client && formik.errors.email_address_client ? (
+              <small>{formik.errors.email_address_client}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
