@@ -1294,7 +1294,7 @@ const ProjectView = () => {
                   <br />
                   <NestedList
                     width="100%"
-                    maxHeight="50vh"
+                    maxHeight="74vh"
                     level1={generalLibrariesData}
                     getLevel2={getLevel2}
                     setLevel2={setCategories}
@@ -1564,7 +1564,7 @@ const ProjectView = () => {
                   <TableContainer component={Paper} sx={{ height: "80%" }}>
                     <Table sx={{ minWidth: 650 }} size="small" stickyHeader aria-label="sticky table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow style={{ whiteSpace: "nowrap" }}>
                           <TableCell
                             style={{
                               fontWeight: 900,
@@ -1958,7 +1958,7 @@ const ProjectView = () => {
                             {t("Total VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
                           </div>
                           <div className={classes.fotter_amount}>
-                            {((totalHT / 100) * currentProject?.vat?.value).toFixed(2)} €
+                            {formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2))} €
                           </div>
                         </div>
                         <div

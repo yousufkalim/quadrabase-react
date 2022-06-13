@@ -1,14 +1,14 @@
 import * as Yup from "yup";
 
 export const LOGIN_YUP = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required"),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
   password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
 });
 export const ARCHITECT_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
 
-  email: Yup.string().email("Invalid email address").required("Required"),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
   password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
   confirm_password: Yup.string()
     .when("password", {
@@ -21,13 +21,13 @@ export const ARCHITECT_YUP = Yup.object({
 export const EDIT_ARCHITECT_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email address").required("Required"),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
 });
 export const ADMIN_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
 
-  email: Yup.string().email("Invalid email address").required("Required"),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
   password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
   confirm_password: Yup.string()
     .when("password", {
@@ -51,7 +51,7 @@ export const PRODUCT_YUP = Yup.object({
 export const EDIT_ADMIN_YUP = Yup.object({
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email address").required("Required"),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
 });
 export const LIBRARY_YUP = Yup.object({
   name: Yup.string().required("Required"),
@@ -67,8 +67,13 @@ export const WORK_YUP = Yup.object({
 export const PROVIDER_YUP = Yup.object({
   firstname: Yup.string().required("Required"),
   name: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email address").required("Required"),
-  zipcode: Yup.number().test("len", "Must be exactly 5 characters", (val) => val?.toString().length === 5),
+  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
+  zipcode: Yup.number().test(
+    "len",
+    "Doit contenir exactement 5 caractères",
+    (val) => val?.toString().length >= 4 && val?.toString().length <= 5
+  ),
+  telephone_no: Yup.number().test("len", "Doit contenir exactement 10 caractères", (val) => val?.toString().length == 10),
 });
 export const UNIT_YUP = Yup.object({
   name: Yup.string().required("Required"),
