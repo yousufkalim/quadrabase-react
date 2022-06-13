@@ -33,7 +33,7 @@ function ReportBPUModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesBPU(projectWorkData, currentProject);
@@ -53,7 +53,7 @@ function ReportBPUModal(props) {
   async function generateWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportDOCXTradesBPU(projectWorkData, currentProject);

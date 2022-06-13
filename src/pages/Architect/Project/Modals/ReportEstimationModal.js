@@ -43,7 +43,7 @@ function ReportEstimationModal(props) {
   function generateExcel() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = exportXLSXSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = exportXLSXTradesEstimation(projectWorkData, currentProject);
@@ -63,7 +63,7 @@ function ReportEstimationModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject);
@@ -83,7 +83,7 @@ function ReportEstimationModal(props) {
   async function generateWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportDOCXSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportDOCXTradesEstimation(projectWorkData, currentProject);
