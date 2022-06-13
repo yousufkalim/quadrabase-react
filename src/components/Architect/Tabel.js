@@ -316,6 +316,10 @@ export default function EnhancedTable(props) {
                               <CancelOutlinedIcon color="error" />
                             )}
                           </TableCell>
+                        ) : record === "code" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.subscription?.code ? row?.subscription?.code : <>N/A</>}
+                          </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row[record]
