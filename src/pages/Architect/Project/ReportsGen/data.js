@@ -923,8 +923,8 @@ function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
     }
     const cp = [];
     for (let j = 0; j < cctpArr.length; j++) {
-      if (selectedCCTPIndexes.includes(j) && cctpArr[j]) {
-        cp.push(cctpArr[j]);
+      if (selectedCCTPIndexes.includes(j) && _cctpArr[j]) {
+        cp.push(_cctpArr[j]);
       }
     }
     const obj = {
@@ -951,8 +951,8 @@ function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
       }
       const cp = [];
       for (let k = 0; k < cctpArr.length; k++) {
-        if (selectedCCTPIndexes.includes(k) && cctpArr[k]) {
-          cp.push(cctpArr[k]);
+        if (selectedCCTPIndexes.includes(k) && _cctpArr[k]) {
+          cp.push(_cctpArr[k]);
         }
       }
       const obj = {
@@ -977,14 +977,14 @@ function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
       const workAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
-        const cctpArr = currentObjWork.work.cctp_text;
-        if (cctpArr.length == 0) {
+        const _cctpArr = currentObjWork.work.cctp_text;
+        if (_cctpArr.length == 0) {
           continue;
         }
         const cp = [];
         for (let l = 0; l < cctpArr.length; l++) {
-          if (selectedCCTPIndexes.includes(l) && cctpArr[l]) {
-            cp.push(cctpArr[l]);
+          if (selectedCCTPIndexes.includes(l) && _cctpArr[l]) {
+            cp.push(_cctpArr[l]);
           }
         }
         const obj = {

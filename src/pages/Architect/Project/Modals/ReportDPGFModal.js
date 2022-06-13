@@ -1,11 +1,12 @@
 // init
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import FileViewer from "react-file-viewer";
+import DocViewer from "../../ProjectLibraries/component/DocViewer";
+import api from "../../../../api";
 
 // Reports
 import { exportPDFSimpleDPGF, exportPDFTradesDPGF, exportPDFTradesAndTrancesDPGF } from "../ReportsGen/genPDF";
@@ -15,8 +16,19 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportDPGFModal(props) {
-  const { projectWorkData, currentProject } = props;
-  const blobURL = URL.createObjectURL(props.viewBlob);
+  const { projectWorkData, currentProject, viewBlob, viewFileName } = props;
+
+  const [pdfs, setPdfs] = useState([]);
+  useEffect(() => {
+    uploadFile();
+  }, []);
+  const uploadFile = async () => {
+    const formData = new FormData();
+    const file = new File([viewBlob], viewFileName + ".pdf");
+    formData.append(`file`, file);
+    const response = await api("post", `/fileUploader`, formData);
+    setPdfs(response.data.files);
+  };
 
   async function generatePDF() {
     try {
@@ -59,17 +71,24 @@ function ReportDPGFModal(props) {
   }
 
   return (
-    <div style={{ width: "60vw", maxHeight: "85vh", overflow: "auto" }}>
-      <Stack direction="row" spacing={1}>
-        <IconButton aria-label="PDF" onClick={generatePDF}>
-          <PictureAsPdfIcon />
-        </IconButton>
-        <IconButton aria-label="PDF" onClick={generateWord}>
-          <TextSnippetIcon />
-        </IconButton>
-      </Stack>
-      {props.viewFileType == "docx" && <FileViewer fileType={props.viewFileType} filePath={blobURL} />}
-    </div>
+    <>
+      {console.log(pdfs)}
+      <div style={{ width: "60vw", maxHeight: "85vh", overflow: "auto" }}>
+        <Stack direction="row" spacing={1}>
+          <IconButton aria-label="PDF" onClick={generatePDF}>
+            <PictureAsPdfIcon />
+          </IconButton>
+          <IconButton aria-label="PDF" onClick={generateWord}>
+            <TextSnippetIcon />
+          </IconButton>
+        </Stack>
+        {pdfs.length > 0 && (
+          <>
+            <DocViewer documents={pdfs} style={{ maxHeight: "200px" }} />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
