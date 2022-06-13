@@ -608,11 +608,11 @@ const ProjectView = () => {
   };
   const openCCTPModal = () => {
     handleClose();
-    generateCCTPWord();
+    generateCCTP();
   };
   const openDPGFModal = () => {
     handleClose();
-    generateDPGFWord();
+    generateDPGF();
   };
 
   const getLevel3 = async (id) => {
@@ -801,8 +801,6 @@ const ProjectView = () => {
 
   const handleDocModal = () => setOpenDocModal(!openDocModal);
 
-  // doc
-
   async function generateEstimate() {
     try {
       let res;
@@ -867,7 +865,7 @@ const ProjectView = () => {
     }
   }
 
-  async function generateCCTPWord() {
+  async function generateCCTP() {
     try {
       let res;
       if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
@@ -888,7 +886,7 @@ const ProjectView = () => {
     }
   }
 
-  async function generateDPGFWord() {
+  async function generateDPGF() {
     try {
       let res;
       if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
