@@ -55,6 +55,7 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
     vat: "",
     market_type: "Simple",
     structure: "DQEAndBPU",
+    stakeholders: [],
     date: moment().format("YYYY-MM-DD"),
   });
   const [options, setOptions] = useState([]);
@@ -116,16 +117,19 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         "post",
         `/stakeholders/byproject/create/Maitre d'Ouvrage`,
         {
-          name: stakeholderText,
+          type: "",
+          establishment: stakeholderText,
+          service: "",
+          address1: "",
+          address2: "",
+          po_box: "",
+          zipcode: "",
+          lastname: "",
+          firstname: "",
           email: "",
           contact_no: "",
           entity: "",
-          service: "",
           city: "",
-          address1: "",
-          address2: "",
-          zipcode: "",
-          type: "",
           ranking: 0,
         },
         t
@@ -139,22 +143,27 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         "post",
         `/stakeholders/byproject/create/Maitre d'Oeuvre`,
         {
-          name: stakeholderText2,
+          type: "",
+          establishment: stakeholderText2,
+          service: "",
+          address1: "",
+          address2: "",
+          po_box: "",
+          zipcode: "",
+          lastname: "",
+          firstname: "",
           email: "",
           contact_no: "",
           entity: "",
-          service: "",
           city: "",
-          address1: "",
-          address2: "",
-          zipcode: "",
-          type: "",
           ranking: 0,
         },
         t
       );
       data.prescriber = result.data.stakeholder._id;
     }
+    data.stakeholders.push(data.client);
+    data.stakeholders.push(data.prescriber);
     const result = await api("post", `/project/create`, data, t);
     toast.success(t(result.data.message));
     handleAddProjectModal();
@@ -222,7 +231,6 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
             />
           </Grid>
         </Grid>
-        <br />
         <RowRadioButtonsGroup
           row={true}
           label={t("Type Of Contract")}

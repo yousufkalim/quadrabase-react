@@ -235,7 +235,10 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking));
+    const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
+    setTypeOptions(data);
+    const selected = data.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
+    setTypeValue(selected._id);
   };
 
   //   func to get stakeholders
@@ -271,6 +274,16 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   const getChap0Part2 = async () => {
     const result = await api("get", `/ArchitectsChap0/current/getByProject`);
     setChapOptions(result.data.data);
+
+    if (currentProject?.chap0part2?.id) {
+      let tempChap = result.data.data.chap0.find((item) => item.title === currentProject.chap0part2.id.title);
+      if (tempChap?.family) {
+        setSelectedFam(tempChap.family);
+      } else {
+        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === "PRESCRIPTEUR");
+        setSelectedFam(privateFam._id);
+      }
+    }
   };
 
   // handle change function
@@ -295,6 +308,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       target: { value },
     } = event;
     let temp = typeof value === "string" ? value.split(",") : value;
+    if (values3.stakeholders.length < value.length) {
+      let newVal = temp[temp.length - 1];
+      let compArr = stakeholderOptions.map((item) => item._id);
+      temp = temp.filter((val) => !compArr.includes(val));
+      temp.push(newVal);
+    }
     setValues3((prev) => {
       prev.stakeholders = temp;
       return { ...prev };
@@ -487,7 +506,6 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <br />
-            <br />
             <Autocomplete
               label="Maitre d'Ouvrage"
               options={stakeholderByType1}
@@ -532,7 +550,6 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <br />
-            <br />
             <label htmlFor="grid-first-name" style={{ color: "gray" }}>
               {t("Description")}
             </label>
@@ -561,7 +578,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 } else {
                   let chap = chapOptions.chap0.find((item) => {
@@ -570,7 +587,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 }
               }}
@@ -738,20 +755,18 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                     >
                       <TableCell align="left">{row.type.text}</TableCell>
                       <TableCell component="th" scope="row">
-                        {row.name}
+                        {row.establishment}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.address1.substring(0, 20)}
                         {row.address1.length > 40 && "..."}
                       </TableCell>
                       <TableCell align="left">
-                        {row.address2 ? (
+                        {row.address2 && (
                           <>
                             {row.address2.substring(0, 20)}
                             {row.address2.length > 40 && "..."}
                           </>
-                        ) : (
-                          "N/A"
                         )}
                       </TableCell>
                       <TableCell align="left">{row.zipcode}</TableCell>

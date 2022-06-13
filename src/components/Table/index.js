@@ -59,7 +59,11 @@ function EnhancedTableHead(props) {
   };
   return (
     <TableHead>
-      <TableRow>
+      <TableRow
+        sx={{
+          whiteSpace: "nowrap",
+        }}
+      >
         {props.headCells &&
           props.headCells.map((headCell) => (
             <TableCell
@@ -243,41 +247,43 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "subscription" ? (
                           <TableCell key={index} align="center" title={row?.subscriptions?.subscription?.name}>
-                            {row?.subscriptions?.subscription?.name
-                              ? row?.subscriptions?.subscription?.name.length > 20
-                                ? row?.subscriptions?.subscription?.name.substring(0, 20) + "..."
-                                : row?.subscriptions?.subscription?.name
+                            {row.subscriptions
+                              ? row?.subscriptions?.subscription?.name
+                                ? row?.subscriptions?.subscription?.name.length > 14
+                                  ? row?.subscriptions?.subscription?.name.substring(0, 14) + "..."
+                                  : row?.subscriptions?.subscription?.name
+                                : "Abonnement initiale"
                               : "N/A"}
                           </TableCell>
                         ) : record === "total_projects" ? (
                           <TableCell key={index} align="center" title={"total_projects"}>
                             {row?.subscriptions?.projects
-                              ? row?.subscriptions?.projects.length > 20
-                                ? row?.subscriptions?.projects.substring(0, 20) + "..."
+                              ? row?.subscriptions?.projects.length > 14
+                                ? row?.subscriptions?.projects.substring(0, 14) + "..."
                                 : row?.subscriptions?.projects
                               : "0"}
                           </TableCell>
                         ) : record === "ongoing_projects" ? (
                           <TableCell key={index} align="center" title={"ongoing_projects"}>
-                            {`${row?.projects?.length ?? 0}`.length > 20
-                              ? `${row?.projects?.length ?? 0}`.substring(0, 20) + "..."
+                            {`${row?.projects?.length ?? 0}`.length > 14
+                              ? `${row?.projects?.length ?? 0}`.substring(0, 14) + "..."
                               : `${row?.projects?.length ?? 0}`}
                           </TableCell>
                         ) : record === "remaining_projects" ? (
                           <TableCell key={index} align="center" title={"remaining_projects"}>
-                            {`${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 20
-                              ? `${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.substring(0, 20) + "..."
+                            {`${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.length > 14
+                              ? `${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`.substring(0, 14) + "..."
                               : `${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`}
                           </TableCell>
                         ) : record === "authorized" ? (
                           <TableCell key={index} align="center" title={"authroized"}>
-                            {row[record] ? (row[record].length > 20 ? row[record].substring(0, 20) + "..." : row[record]) : "N/A"}
+                            {row[record] ? (row[record].length > 14 ? row[record].substring(0, 14) + "..." : row[record]) : "N/A"}
                           </TableCell>
                         ) : record === "provider_subscription" ? (
                           <TableCell key={index} align="center" title={row?.subscription?.name}>
                             {row?.subscription?.name
-                              ? row?.subscription?.name.length > 20
-                                ? row?.subscription?.name.substring(0, 20) + "..."
+                              ? row?.subscription?.name.length > 14
+                                ? row?.subscription?.name.substring(0, 14) + "..."
                                 : row?.subscription?.name
                               : "N/A"}
                           </TableCell>
@@ -307,7 +313,7 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="center" title={row[record]}>
-                            {row[record] ? (row[record].length > 20 ? row[record].substring(0, 20) + "..." : row[record]) : "N/A"}
+                            {row[record] ? (row[record].length > 14 ? row[record].substring(0, 14) + "..." : row[record]) : "N/A"}
                           </TableCell>
                         );
                       })}

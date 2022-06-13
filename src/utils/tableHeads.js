@@ -156,7 +156,7 @@ export const ProductheadCells = [
   {
     id: "projectsPackProjects",
 
-    label: "Number of Projects in Pack",
+    label: "Number of Projects",
   },
   {
     id: "projectsPackPrice",
@@ -337,6 +337,11 @@ export const ProviderheadCells = [
 
     label: "Name",
   },
+  {
+    id: "firstname",
+
+    label: "Firstname",
+  },
 
   {
     id: "telephone_no",
@@ -395,9 +400,19 @@ export const ProviderheadCells = [
 
 export const SubscriptionheadCells = [
   {
+    id: "subType",
+
+    label: "Type",
+  },
+  {
     id: "subscriptionName",
 
-    label: "Name",
+    label: "Désignation",
+  },
+  {
+    id: "subscriptionStartDate",
+
+    label: "Sub Start Date",
   },
   {
     id: "subscriptionEndDate",
@@ -405,19 +420,9 @@ export const SubscriptionheadCells = [
     label: "End Date",
   },
   {
-    id: "credit",
+    id: "subStatus",
 
-    label: "Credits",
-  },
-  {
-    id: "projects",
-
-    label: "Projects",
-  },
-  {
-    id: "assignedToName",
-
-    label: "Assigned To",
+    label: "Status",
   },
   {
     id: "actions",
@@ -446,19 +451,14 @@ export const MyProjectHeadCells = [
 
 export const StakeholderheadCells = [
   {
-    id: "name",
+    id: "type",
 
-    label: "Name",
+    label: "Type Of Stakeholder",
   },
   {
-    id: "email",
+    id: "establishment",
 
-    label: "Email",
-  },
-  {
-    id: "contact_no",
-
-    label: "Contact Number",
+    label: "Establishment",
   },
   {
     id: "service",
@@ -466,8 +466,18 @@ export const StakeholderheadCells = [
     label: "Service",
   },
   {
-    id: "entity",
-    label: "Entity",
+    id: "address1",
+
+    label: "Address 1",
+  },
+  {
+    id: "po_box",
+    label: "BP/CS",
+  },
+  {
+    id: "zipcode",
+
+    label: "CP",
   },
   {
     id: "city",
@@ -475,18 +485,23 @@ export const StakeholderheadCells = [
     label: "City",
   },
   {
-    id: "address1",
+    id: "lastname",
 
-    label: "Address 1",
+    label: "Lastname",
   },
   {
-    id: "address2",
-
-    label: "Address 2",
+    id: "firstname",
+    label: "Firstname",
   },
+
   {
-    id: "zipcode",
-    label: "Zipcode",
+    id: "contact_no",
+    label: "Telephone",
+  },
+
+  {
+    id: "email",
+    label: "Email Address",
   },
 
   {
@@ -512,17 +527,12 @@ export const ProjectheadCells = [
   {
     id: "name",
 
-    label: "Name",
+    label: "Name of the project",
   },
   {
-    id: "prescriber",
+    id: "client",
 
-    label: "Prescriber",
-  },
-  {
-    id: "vat",
-
-    label: "VAT",
+    label: "Owner",
   },
   {
     id: "market_type",
@@ -530,14 +540,19 @@ export const ProjectheadCells = [
     label: "Type Of Contract",
   },
   {
-    id: "structure",
-
-    label: "Type Of Project",
-  },
-  {
     id: "createdAt",
 
-    label: "Date",
+    label: "Date Of Creation",
+  },
+  {
+    id: "updatedAt",
+
+    label: "Date Of Last Modification",
+  },
+  {
+    id: "status",
+
+    label: "Status",
   },
 
   {

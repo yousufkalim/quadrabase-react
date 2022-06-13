@@ -20,11 +20,7 @@ export default function MultipleSelect(props) {
   return (
     <div>
       <FormControl sx={{ width: "100%" }}>
-        <InputLabel
-          id="demo-multiple-name-label"
-          shrink={true}
-          style={{ color: "#3b373c", backgroundColor: "white" }}
-        >
+        <InputLabel id="demo-multiple-name-label" shrink={true} style={{ color: "#3b373c", backgroundColor: "white" }}>
           {props.label}
         </InputLabel>
         <Select
@@ -37,13 +33,13 @@ export default function MultipleSelect(props) {
           input={<OutlinedInput label={props.label} />}
           MenuProps={MenuProps}
           sx={{
-            height: 50,
+            height: 38,
           }}
         >
           {props.options &&
             props.options.map((option) => (
               <MenuItem key={option._id} value={option._id}>
-                {option.name}
+                {option.name ? option.name : option.establishment}
               </MenuItem>
             ))}
         </Select>

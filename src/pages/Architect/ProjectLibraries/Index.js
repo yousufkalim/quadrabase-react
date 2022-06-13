@@ -59,8 +59,7 @@ const Index = () => {
   const [workAddWorkDetail, setWorkAddWorkDetail] = useState();
   const [openEditWorkDetailModal, setOpenEditWorkDetailModal] = useState(false);
   const [editWorkDetailData, setEditWorkDetailData] = useState();
-  const [openDeleteWorkDetailModal, setOpenDeleteWorkDetailModal] =
-    useState(false);
+  const [openDeleteWorkDetailModal, setOpenDeleteWorkDetailModal] = useState(false);
   const [deleteWorkDetail, setDeleteWorkDetail] = useState();
 
   //   useEffect to get all libraries of current user
@@ -84,9 +83,7 @@ const Index = () => {
 
   //   func to get all libraries
   const getLibraries = async () => {
-    const result =
-      store?.user?._id &&
-      (await api("get", `/BookLibraries/getByArchitectId/${store.user._id}`));
+    const result = store?.user?._id && (await api("get", `/BookLibraries/getByArchitectId/${store.user._id}`));
     let data = result?.data?.bookLibrary;
     data?.map((dt) => {
       dt.categories = dt.categories.sort((a, b) => a.ranking - b.ranking);
@@ -98,57 +95,37 @@ const Index = () => {
 
   //   func to delete libraries
   const handleDeleteLibrary = async () => {
-    const result = await api(
-      "delete",
-      `/BookLibraries/delete/${deleteLibrary}`,
-      {},
-      t
-    );
+    const result = await api("delete", `/BookLibraries/delete/${deleteLibrary}`, {}, t);
     toast.success(t(result.data.message));
     handleDeleteLibraryModal();
   };
 
   //   func to delete Category
   const handleDeleteCategory = async () => {
-    const result = await api(
-      "delete",
-      `/BookLibraries/delete/Category/${deleteCategory}`
-    );
+    const result = await api("delete", `/BookLibraries/delete/Category/${deleteCategory}`);
     toast.success(t(result.data.message));
     handleDeleteCategoryModal();
   };
 
   //   func to delete Work
   const handleDeleteWork = async () => {
-    const result = await api(
-      "delete",
-      `/BookLibraries/delete/Work/${deleteWork}`,
-      {},
-      t
-    );
+    const result = await api("delete", `/BookLibraries/delete/Work/${deleteWork}`, {}, t);
     toast.success(t(result.data.message));
     handleOpenDeleteWorkModal();
   };
 
   //   func to delete Work Details
   const handleDeleteWorkDetail = async () => {
-    const result = await api(
-      "delete",
-      `/BookLibraries/delete/WorkDetail/${deleteWorkDetail}`,
-      {},
-      t
-    );
+    const result = await api("delete", `/BookLibraries/delete/WorkDetail/${deleteWorkDetail}`, {}, t);
     toast.success(t(result.data.message));
     handleOpenDeleteWorkDetailModal();
   };
 
   //   handle families open/close modal
-  const handleOpenFamiliesModal = () =>
-    setOpenFamiliesModal(!openFamiliesModal);
+  const handleOpenFamiliesModal = () => setOpenFamiliesModal(!openFamiliesModal);
 
   //   handle Libraries open/close modal
-  const handleOpenLibrariesModal = () =>
-    setOpenLibrariesModal(!openLibrariesModal);
+  const handleOpenLibrariesModal = () => setOpenLibrariesModal(!openLibrariesModal);
 
   const handleOpenEditLibrariesModal = (library) => {
     if (library) {
@@ -262,13 +239,11 @@ const Index = () => {
 
       let prev = tempArr[prevIndex];
 
-      api("put", `/BookLibraries/update/${id}`, { ranking: prevIndex }).then(
-        () => {
-          api("put", `/BookLibraries/update/${prev._id}`, {
-            ranking: filteredIndex,
-          });
-        }
-      );
+      api("put", `/BookLibraries/update/${id}`, { ranking: prevIndex }).then(() => {
+        api("put", `/BookLibraries/update/${prev._id}`, {
+          ranking: filteredIndex,
+        });
+      });
       tempArr[filteredIndex] = librariesData[filteredIndex - 1];
       tempArr[filteredIndex - 1] = librariesData[filteredIndex];
       setLibrariesData(tempArr);
@@ -284,13 +259,11 @@ const Index = () => {
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
 
-      api("put", `/BookLibraries/update/${id}`, { ranking: nextIndex }).then(
-        () => {
-          api("put", `/BookLibraries/update/${prev._id}`, {
-            ranking: filteredIndex,
-          });
-        }
-      );
+      api("put", `/BookLibraries/update/${id}`, { ranking: nextIndex }).then(() => {
+        api("put", `/BookLibraries/update/${prev._id}`, {
+          ranking: filteredIndex,
+        });
+      });
       tempArr[filteredIndex] = librariesData[nextIndex];
       tempArr[nextIndex] = librariesData[filteredIndex];
       setLibrariesData(tempArr);
@@ -441,33 +414,18 @@ const Index = () => {
         title={t("Add Library")}
         open={openLibrariesModal}
         onClose={handleOpenLibrariesModal}
-        component={
-          <AddLibraryModal
-            handleOpenLibrariesModal={handleOpenLibrariesModal}
-            librariesData={librariesData}
-          />
-        }
+        component={<AddLibraryModal handleOpenLibrariesModal={handleOpenLibrariesModal} librariesData={librariesData} />}
       />
       <Modal
         title={t("Edit Library")}
         open={openEditLibrariesModal}
         onClose={handleOpenEditLibrariesModal}
-        component={
-          <EditLibraryModal
-            library={editLibrariesData}
-            handleOpenEditLibrariesModal={handleOpenEditLibrariesModal}
-          />
-        }
+        component={<EditLibraryModal library={editLibrariesData} handleOpenEditLibrariesModal={handleOpenEditLibrariesModal} />}
       />
       <Modal
         open={deleteLibraryModal}
         onClose={handleDeleteLibraryModal}
-        component={
-          <DeleteModal
-            handleCancel={handleDeleteLibraryModal}
-            handleDelete={handleDeleteLibrary}
-          />
-        }
+        component={<DeleteModal handleCancel={handleDeleteLibraryModal} handleDelete={handleDeleteLibrary} />}
       />
       {/* Category modals */}
       <Modal
@@ -486,56 +444,30 @@ const Index = () => {
         title={t("Edit Category")}
         open={openEditCatgeoryModal}
         onClose={handleOpenEditCatgeoryModal}
-        component={
-          <EditCategoryModal
-            handleOpenEditCatgeoryModal={handleOpenEditCatgeoryModal}
-            category={editCategoryData}
-          />
-        }
+        component={<EditCategoryModal handleOpenEditCatgeoryModal={handleOpenEditCatgeoryModal} category={editCategoryData} />}
       />
       <Modal
         open={deleteCategoryModal}
         onClose={handleDeleteCategoryModal}
-        component={
-          <DeleteModal
-            handleCancel={handleDeleteCategoryModal}
-            handleDelete={handleDeleteCategory}
-          />
-        }
+        component={<DeleteModal handleCancel={handleDeleteCategoryModal} handleDelete={handleDeleteCategory} />}
       />
       {/* Work modals */}
       <Modal
         title={t("Add Work")}
         open={openAddWorkModal}
         onClose={handleOpenAddWorkModal}
-        component={
-          <AddWorkModal
-            category={catAddWork}
-            workData={workData}
-            handleOpenAddWorkModal={handleOpenAddWorkModal}
-          />
-        }
+        component={<AddWorkModal category={catAddWork} workData={workData} handleOpenAddWorkModal={handleOpenAddWorkModal} />}
       />
       <Modal
         title={t("Edit Work")}
         open={openEditWorkModal}
         onClose={handleOpenEditWorkModal}
-        component={
-          <EditWorkModal
-            handleOpenEditWorkModal={handleOpenEditWorkModal}
-            work={editWorkData}
-          />
-        }
+        component={<EditWorkModal handleOpenEditWorkModal={handleOpenEditWorkModal} work={editWorkData} />}
       />
       <Modal
         open={openDeleteWorkModal}
         onClose={handleOpenDeleteWorkModal}
-        component={
-          <DeleteModal
-            handleCancel={handleOpenDeleteWorkModal}
-            handleDelete={handleDeleteWork}
-          />
-        }
+        component={<DeleteModal handleCancel={handleOpenDeleteWorkModal} handleDelete={handleDeleteWork} />}
       />
       {/* Work Detail modals */}
       <Modal
@@ -555,25 +487,17 @@ const Index = () => {
         open={openEditWorkDetailModal}
         onClose={handleOpenEditWorkDetailModal}
         component={
-          <EditWorkDetailsModal
-            handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
-            workDetail={editWorkDetailData}
-          />
+          <EditWorkDetailsModal handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal} workDetail={editWorkDetailData} />
         }
       />
       <Modal
         open={openDeleteWorkDetailModal}
         onClose={handleOpenDeleteWorkDetailModal}
-        component={
-          <DeleteModal
-            handleCancel={handleOpenDeleteWorkDetailModal}
-            handleDelete={handleDeleteWorkDetail}
-          />
-        }
+        component={<DeleteModal handleCancel={handleOpenDeleteWorkDetailModal} handleDelete={handleDeleteWorkDetail} />}
       />
       <div className={classes.container}>
         <NestedList
-          label={t("Project Libraries")}
+          label={t("Prescriber Libraries")}
           handleOpenFamiliesModal={handleOpenFamiliesModal}
           handleOpenLibrariesModal={handleOpenLibrariesModal}
           handleOpenEditLibrariesModal={handleOpenEditLibrariesModal}

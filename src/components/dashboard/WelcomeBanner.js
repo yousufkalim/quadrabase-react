@@ -1,17 +1,19 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 function WelcomeBanner(props) {
-
-  const {translate}  = props;
+  const { translate } = props;
 
   return (
-    <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
+    <div
+      className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8"
+      style={{ borderRadius: "10px" }}
+    >
       {/* Background illustration */}
       <div
         className="absolute right-0 top-0 -mt-4 mr-16 pointer-events-none hidden xl:block"
         aria-hidden="true"
       >
-        <svg width="319" height="198" xmlnsXlink="http://www.w3.org/1999/xlink">
+        {/* <svg width="319" height="198" xmlnsXlink="http://www.w3.org/1999/xlink">
           <defs>
             <path id="welcome-a" d="M64 0l64 128-64-20-64 20z" />
             <path id="welcome-e" d="M40 0l40 80-40-12.5L0 80z" />
@@ -66,7 +68,7 @@ function WelcomeBanner(props) {
               />
             </g>
           </g>
-        </svg>
+        </svg> */}
       </div>
 
       {/* Content */}
@@ -75,7 +77,9 @@ function WelcomeBanner(props) {
           {translate("Welcome to Quadrabase")} 👋
         </h1>
         <p>
-          {translate("Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)")}
+          {translate(
+            "Quadrabase is a business application aimed at automatically producing technical written documents for business consultation files (DCE)"
+          )}
         </p>
       </div>
     </div>

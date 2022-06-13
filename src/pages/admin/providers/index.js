@@ -63,8 +63,7 @@ export default function Index(props) {
       });
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -162,9 +161,7 @@ export default function Index(props) {
   }, [modal, editmodal, deletemodal]);
   useEffect(() => {
     let array = [];
-    ProviderheadCells.slice(0, ProviderheadCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
+    ProviderheadCells.slice(0, ProviderheadCells.length - 1).map((cell) => array.push(cell.id));
     setheadCells(array);
   }, []);
   //create provider
@@ -242,14 +239,7 @@ export default function Index(props) {
         onSubmit={edit_formik.handleSubmit}
         onClose={handleEditModal}
         translate={translate}
-        component={
-          <EditProvider
-            translate={translate}
-            editData={editData}
-            formik={edit_formik}
-            editmodal={editmodal}
-          />
-        }
+        component={<EditProvider translate={translate} editData={editData} formik={edit_formik} editmodal={editmodal} />}
       />
       <Modal
         // title="Add Architect"
@@ -258,13 +248,7 @@ export default function Index(props) {
         width="35%"
         height="40%"
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleDeleteModal}
-            handleDelete={handleDelete}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleDeleteModal} handleDelete={handleDelete} />}
       />
       <Modal
         title={translate("Provider Subscription")}
@@ -290,14 +274,9 @@ export default function Index(props) {
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
             <h1 className="text-2xl font-bold">{translate("Providers")}</h1>
-            <Button
-              variant="outlined"
-              label="Add Provider"
-              onClick={handleModal}
-              translate={translate}
-              startIcon={<AddIcon />}
-            />
+            <Button variant="outlined" label="Add Provider" onClick={handleModal} translate={translate} startIcon={<AddIcon />} />
           </div>
+          {console.log(providersData, "providersData")}
           <ArchitectsTable
             headCells={ProviderheadCells}
             data={providersData}

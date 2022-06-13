@@ -11,18 +11,13 @@ import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
 import { toast } from "react-toastify";
 
-const EditWorkDetailModal = ({
-  selectedWorkDetail,
-  currentProject,
-  handleOpenEditWorkDetailModal,
-  getworks,
-}) => {
+const EditWorkDetailModal = ({ selectedWorkDetail, currentProject, handleOpenEditWorkDetailModal, getworks }) => {
   const { t } = useTranslation();
   const [values, setValues] = useState({
     name: "",
     unit: "",
     unit_price: "",
-    quantity: 1,
+    quantity: "",
   });
   const [options, setOptions] = useState([]);
 
@@ -31,10 +26,8 @@ const EditWorkDetailModal = ({
       setValues((prev) => {
         prev.name = selectedWorkDetail.name;
         prev.unit = selectedWorkDetail.unit._id;
-        prev.unit_price = formatNumber(
-          parseFloat(selectedWorkDetail.unit_price).toFixed(2).toString()
-        );
-        prev.quantity = selectedWorkDetail.quantity.toFixed(2);
+        prev.unit_price = formatNumber(parseFloat(selectedWorkDetail.unit_price).toFixed(2).toString());
+        prev.quantity = formatNumber(parseFloat(selectedWorkDetail.quantity).toFixed(2).toString(), ".");
         return { ...prev };
       });
   }, [selectedWorkDetail]);
@@ -46,7 +39,7 @@ const EditWorkDetailModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -61,19 +54,15 @@ const EditWorkDetailModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+    let quantity = values.quantity.replace(/\s/g, "").split(",").join(".");
     let data = {
       workDetailId: selectedWorkDetail._id,
       name: values.name,
       unit: values.unit,
       unit_price: unit_price,
-      quantity: values.quantity,
+      quantity: quantity,
     };
-    const result = await api(
-      "put",
-      `/project/updateWorkDetail/${currentProject._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/project/updateWorkDetail/${currentProject._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditWorkDetailModal();
     getworks();
@@ -81,10 +70,7 @@ const EditWorkDetailModal = ({
 
   return (
     <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
-      <form
-        style={{ marginTop: "auto", marginBottom: "auto" }}
-        onSubmit={handleSubmit}
-      >
+      <form style={{ marginTop: "auto", marginBottom: "auto" }} onSubmit={handleSubmit}>
         {/* All fields */}
         <br />
         <InputWithLabel
@@ -113,16 +99,18 @@ const EditWorkDetailModal = ({
           value={values.quantity}
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
-            let existingDot = values.quantity.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange("quantity", parseInt(values.quantity).toFixed(2));
-            }
+            let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+              return { ...prev };
+            });
           }}
           onFocus={() => {
-            let existingDot = values.quantity.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange("quantity", parseInt(values.quantity).toFixed(2));
-            }
+            let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+              return { ...prev };
+            });
           }}
         />
         <br />
@@ -135,35 +123,23 @@ const EditWorkDetailModal = ({
           value={values.unit_price}
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
-            let temp = values.unit_price
-              .replace(/\s/g, "")
-              .split(",")
-              .join(".");
+            let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
             setValues((prev) => {
-              prev["unit_price"] = formatNumber(
-                parseFloat(temp).toFixed(2).toString()
-              );
+              prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
               return { ...prev };
             });
           }}
           onFocus={() => {
-            let temp = values.unit_price
-              .replace(/\s/g, "")
-              .split(",")
-              .join(".");
+            let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
             setValues((prev) => {
-              prev["unit_price"] = formatNumber(
-                parseFloat(temp).toFixed(2).toString()
-              );
+              prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
               return { ...prev };
             });
           }}
         />
         <br />
         {/* register button */}
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
-        >
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
           <Button
             variant="contained"
             style={{

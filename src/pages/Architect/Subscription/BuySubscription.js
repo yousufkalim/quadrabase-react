@@ -35,7 +35,7 @@ const BuySubscription = ({ handleBuySubModal }) => {
             product_data: {
               name: selected.name,
             },
-            unit_amount: parseInt(selected.price) * 100,
+            unit_amount: parseInt(selected?.duration?.price + selected?.projectsPack?.price) * 100,
           },
           quantity: 1,
         },
@@ -55,11 +55,7 @@ const BuySubscription = ({ handleBuySubModal }) => {
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         {subscriptions?.map((item) => (
-          <SubscriptionCard
-            subscription={item}
-            selected={selected}
-            setSelected={setSelected}
-          />
+          <SubscriptionCard subscription={item} selected={selected} setSelected={setSelected} />
         ))}
       </div>
       <div style={{ width: "100%", textAlign: "right" }}>

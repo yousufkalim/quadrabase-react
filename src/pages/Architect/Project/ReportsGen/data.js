@@ -1229,7 +1229,7 @@ const tagsToDocxMap = {
 
 const dataColumnsEstimation = ["No #", "Name", "Unit", "Qty", "PU HT", "Total HT"];
 
-const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total Price :"];
+const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total  Amount  including  VAT :"];
 
 const dataColumnsBPU = ["'1", "Lot n°1", ""];
 

@@ -50,18 +50,13 @@ function a11yProps(index) {
   };
 }
 
-const EditWorkModal = ({
-  selectedWork,
-  currentProject,
-  handleOpenEditWorkModal,
-  getworks,
-}) => {
+const EditWorkModal = ({ selectedWork, currentProject, handleOpenEditWorkModal, getworks }) => {
   const { t } = useTranslation();
   const [values, setValues] = useState({
     name: "",
     unit: "",
     unit_price: "",
-    quantity: 1,
+    quantity: "",
   });
   const [options, setOptions] = useState([]);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -80,10 +75,8 @@ const EditWorkModal = ({
       setValues((prev) => {
         prev.name = selectedWork.name;
         prev.unit = selectedWork.unit;
-        prev.unit_price = formatNumber(
-          parseFloat(selectedWork.unit_price).toFixed(2).toString()
-        );
-        prev.quantity = selectedWork.quantity.toFixed(2);
+        prev.unit_price = formatNumber(parseFloat(selectedWork.unit_price).toFixed(2).toString());
+        prev.quantity = formatNumber(parseFloat(selectedWork.quantity).toFixed(2).toString(), ".");
         return { ...prev };
       });
       selectedWork.cctp_text[0] && setcctp_text1(selectedWork.cctp_text[0]);
@@ -101,7 +94,7 @@ const EditWorkModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -116,12 +109,13 @@ const EditWorkModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+    let quantity = values.quantity.replace(/\s/g, "").split(",").join(".");
     let data = {
       workId: selectedWork._id,
       name: values.name,
       unit: values.unit,
       unit_price: unit_price,
-      quantity: values.quantity,
+      quantity: quantity,
       cctp_text: [],
       bpu_text: [],
     };
@@ -130,12 +124,7 @@ const EditWorkModal = ({
     data.cctp_text.push(cctp_text3);
     data.cctp_text.push(cctp_text4);
     data.bpu_text.push(bpu_text1);
-    const result = await api(
-      "put",
-      `/project/updateWork/${currentProject._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/project/updateWork/${currentProject._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditWorkModal();
     getworks();
@@ -143,10 +132,7 @@ const EditWorkModal = ({
 
   return (
     <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
-      <form
-        style={{ marginTop: "auto", marginBottom: "auto" }}
-        onSubmit={handleSubmit}
-      >
+      <form style={{ marginTop: "auto", marginBottom: "auto" }} onSubmit={handleSubmit}>
         {/* All fields */}
         <br />
         <Grid container spacing={2}>
@@ -181,22 +167,18 @@ const EditWorkModal = ({
               value={values.quantity}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
               onBlur={() => {
-                let existingDot = values.quantity.toString().indexOf(".");
-                if (existingDot === -1) {
-                  handleChange(
-                    "quantity",
-                    parseFloat(values.quantity).toFixed(2)
-                  );
-                }
+                let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+                setValues((prev) => {
+                  prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                  return { ...prev };
+                });
               }}
               onFocus={() => {
-                let existingDot = values.quantity.toString().indexOf(".");
-                if (existingDot === -1) {
-                  handleChange(
-                    "quantity",
-                    parseFloat(values.quantity).toFixed(2)
-                  );
-                }
+                let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+                setValues((prev) => {
+                  prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                  return { ...prev };
+                });
               }}
               inputStyle={{ textAlign: "right" }}
             />
@@ -210,26 +192,16 @@ const EditWorkModal = ({
               value={values.unit_price}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
               onBlur={() => {
-                let temp = values.unit_price
-                  .replace(/\s/g, "")
-                  .split(",")
-                  .join(".");
+                let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
                 setValues((prev) => {
-                  prev["unit_price"] = formatNumber(
-                    parseFloat(temp).toFixed(2).toString()
-                  );
+                  prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
                   return { ...prev };
                 });
               }}
               onFocus={() => {
-                let temp = values.unit_price
-                  .replace(/\s/g, "")
-                  .split(",")
-                  .join(".");
+                let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
                 setValues((prev) => {
-                  prev["unit_price"] = formatNumber(
-                    parseFloat(temp).toFixed(2).toString()
-                  );
+                  prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
                   return { ...prev };
                 });
               }}
@@ -240,11 +212,7 @@ const EditWorkModal = ({
         {/* CCTP Tab View */}
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-            <Tabs
-              value={selectedTabIndex}
-              onChange={handleTabChange}
-              aria-label="CCTPs"
-            >
+            <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
               <Tab label="BPU" {...a11yProps(0)} />
               <Tab label="CCTP1" {...a11yProps(1)} />
               <Tab label="CCTP2" {...a11yProps(2)} />
@@ -269,9 +237,7 @@ const EditWorkModal = ({
           </TabPanel>
         </Box>
         {/* register button */}
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
-        >
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
           <Button
             variant="contained"
             style={{

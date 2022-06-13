@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
 import { toast } from "react-toastify";
+import { formatNumber } from "../../../../utils/markThousand";
 
 const AddWorkModal = ({
   selectedWork,
@@ -54,9 +55,7 @@ const AddWorkModal = ({
   useEffect(() => {
     getUnits();
     currentProject.market_type === "TradesAndTranches" && getTranches();
-    (currentProject.market_type === "TradesAndTranches" ||
-      currentProject.market_type === "Trades") &&
-      getTrades();
+    (currentProject.market_type === "TradesAndTranches" || currentProject.market_type === "Trades") && getTrades();
   }, []);
 
   const getTranches = async () => {
@@ -73,7 +72,7 @@ const AddWorkModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -88,6 +87,8 @@ const AddWorkModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = values;
+    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+    data.quantity = values.quantity.replace(/\s/g, "").split(",").join(".");
     data.cctp_text = selectedWork.cctp_text;
     data.bpu_text = selectedWork.bpu_text;
     data.work_details = selectedWorkDetail;
@@ -107,12 +108,7 @@ const AddWorkModal = ({
           data.ranking = 0;
         }
         data.trade = trade;
-        const result = await api(
-          "post",
-          `/project/addWork/${currentProject._id}`,
-          data,
-          t
-        );
+        const result = await api("post", `/project/addWork/${currentProject._id}`, data, t);
         toast.success(t(result.data.message));
         setSelectedWorkDetail([]);
         setSelectedWork();
@@ -141,12 +137,7 @@ const AddWorkModal = ({
           }
 
           data.tranch = tranch;
-          const result = await api(
-            "post",
-            `/project/addWork/${currentProject._id}`,
-            data,
-            t
-          );
+          const result = await api("post", `/project/addWork/${currentProject._id}`, data, t);
           toast.success(t(result.data.message));
           setSelectedWorkDetail([]);
           setSelectedWork();
@@ -167,12 +158,7 @@ const AddWorkModal = ({
       );
       data.ranking = maxRanking >= 0 ? maxRanking + 1 : 0;
 
-      const result = await api(
-        "post",
-        `/project/addWork/${currentProject._id}`,
-        data,
-        t
-      );
+      const result = await api("post", `/project/addWork/${currentProject._id}`, data, t);
       toast.success(t(result.data.message));
       setSelectedWorkDetail([]);
       setSelectedWork();
@@ -183,10 +169,7 @@ const AddWorkModal = ({
 
   return (
     <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
-      <form
-        style={{ marginTop: "auto", marginBottom: "auto" }}
-        onSubmit={handleSubmit}
-      >
+      <form style={{ marginTop: "auto", marginBottom: "auto" }} onSubmit={handleSubmit}>
         {/* All fields */}
         <br />
         <InputWithLabel
@@ -215,16 +198,18 @@ const AddWorkModal = ({
           value={values.quantity}
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
-            let existingDot = values.quantity.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange("quantity", parseInt(values.quantity).toFixed(2));
-            }
+            let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+              return { ...prev };
+            });
           }}
           onFocus={() => {
-            let existingDot = values.quantity.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange("quantity", parseInt(values.quantity).toFixed(2));
-            }
+            let temp = values.quantity.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["quantity"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+              return { ...prev };
+            });
           }}
         />
         <br />
@@ -237,28 +222,22 @@ const AddWorkModal = ({
           value={values.unit_price}
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
-            let existingDot = values.unit_price.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange(
-                "unit_price",
-                parseInt(values.unit_price).toFixed(2)
-              );
-            }
+            let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
+              return { ...prev };
+            });
           }}
           onFocus={() => {
-            let existingDot = values.unit_price.toString().indexOf(".");
-            if (existingDot === -1) {
-              handleChange(
-                "unit_price",
-                parseInt(values.unit_price).toFixed(2)
-              );
-            }
+            let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+            setValues((prev) => {
+              prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString());
+              return { ...prev };
+            });
           }}
         />
         <br />
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
-        >
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
           <Button
             variant="contained"
             style={{

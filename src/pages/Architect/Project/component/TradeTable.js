@@ -28,10 +28,7 @@ const StyledMenu = styled((props) => (
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 150,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
+    color: theme.palette.mode === "light" ? "rgb(55, 65, 81)" : theme.palette.grey[300],
     boxShadow:
       "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
     "& .MuiMenu-list": {
@@ -44,10 +41,7 @@ const StyledMenu = styled((props) => (
         marginRight: theme.spacing(1.5),
       },
       "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
   },
@@ -256,24 +250,30 @@ export default function DenseTable({
       {work.map((row, index) => {
         if (workDetails.length === 0) {
           return (
-            <TableRow>
+            <TableRow style={{ whiteSpace: "nowrap" }}>
               <TableCell
                 component="th"
                 scope="row"
                 style={{
                   borderRight: "1px solid lightgray",
-                  width: "35vw",
+                  width: "50vw",
                   display: "flex",
                   alignItems: "center",
                   padding: "2px 16px",
                 }}
               >
-                {row.name}
+                <div
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {row.name}
+                </div>
                 <ArrowDropDownIcon
                   id="demo-positioned-button"
-                  aria-controls={
-                    openLevel0 ? "demo-positioned-menu" : undefined
-                  }
+                  aria-controls={openLevel0 ? "demo-positioned-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={openLevel0 ? "true" : undefined}
                   onClick={(e) => handleAnchorElLevel0Click(e, row)}
@@ -362,7 +362,7 @@ export default function DenseTable({
                 align="center"
                 style={{
                   borderRight: "1px solid lightgray",
-                  width: "6vw",
+                  width: "4vw",
                   padding: "2px 16px",
                 }}
               >
@@ -372,17 +372,17 @@ export default function DenseTable({
                 align="right"
                 style={{
                   borderRight: "1px solid lightgray",
-                  width: "10vw",
+                  width: "6vw",
                   padding: "2px 16px",
                 }}
               >
-                {parseFloat(row.quantity).toFixed(2)}
+                {formatNumber(parseFloat(row.quantity).toFixed(2), ".")}
               </TableCell>
               <TableCell
                 align="right"
                 style={{
                   borderRight: "1px solid lightgray",
-                  width: "10vw",
+                  width: "6vw",
                   padding: "2px 16px",
                 }}
               >
@@ -392,35 +392,40 @@ export default function DenseTable({
                 align="right"
                 style={{
                   borderRight: "1px solid lightgray",
-                  width: "10vw",
+                  width: "6vw",
                   padding: "2px 16px",
                 }}
               >
-                {formatNumber(
-                  parseFloat(row.unit_price * row.quantity).toFixed(2)
-                )}
+                {formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
               </TableCell>
             </TableRow>
           );
         } else if (workDetails.length > 0 && row._id !== work[index - 1]?._id) {
           return (
             <>
-              <TableRow>
+              <TableRow style={{ whiteSpace: "nowrap" }}>
                 <TableCell
                   style={{
                     borderRight: "1px solid lightgray",
-                    width: "35vw",
+                    width: "50vw",
                     display: "flex",
                     alignItems: "center",
                     padding: "2px 16px",
                   }}
                 >
-                  {row?.name}
+                  <div
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {row?.name}
+                  </div>
+
                   <ArrowDropDownIcon
                     id="demo-positioned-button"
-                    aria-controls={
-                      openLevel1 ? "demo-positioned-menu" : undefined
-                    }
+                    aria-controls={openLevel1 ? "demo-positioned-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={openLevel1 ? "true" : undefined}
                     onClick={(e) => handleAnchorElLevel1Click(e, row)}
@@ -515,7 +520,7 @@ export default function DenseTable({
                   align="center"
                   style={{
                     borderRight: "1px solid lightgray",
-                    width: "6vw",
+                    width: "4vw",
                     padding: "2px 16px",
                   }}
                 >
@@ -525,69 +530,64 @@ export default function DenseTable({
                   align="right"
                   style={{
                     borderRight: "1px solid lightgray",
-                    width: "10vw",
+                    width: "6vw",
                     padding: "2px 16px",
                   }}
                 >
-                  {row.quantity && parseFloat(row.quantity).toFixed(2)}
+                  {row.quantity && formatNumber(parseFloat(row.quantity).toFixed(2), ".")}
                 </TableCell>
                 <TableCell
                   align="right"
                   style={{
                     borderRight: "1px solid lightgray",
-                    width: "10vw",
+                    width: "6vw",
                     padding: "2px 16px",
                   }}
                 >
-                  {row.unit_price &&
-                    formatNumber(parseFloat(row.unit_price).toFixed(2))}
+                  {row.unit_price && formatNumber(parseFloat(row.unit_price).toFixed(2))}
                 </TableCell>
                 <TableCell
                   align="right"
                   style={{
                     borderRight: "1px solid lightgray",
-                    width: "10vw",
+                    width: "6vw",
                     padding: "2px 16px",
                   }}
                 >
-                  {row.unit_price &&
-                    row.quantity &&
-                    formatNumber(
-                      parseFloat(row.unit_price * row.quantity).toFixed(2)
-                    )}
+                  {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
                 </TableCell>
               </TableRow>
               {workDetails.map((row2, index) => {
                 return (
                   row2.parentId === row._id && (
-                    <TableRow>
+                    <TableRow style={{ whiteSpace: "nowrap" }}>
                       <TableCell
                         component="th"
                         scope="row"
                         style={{
                           borderRight: "1px solid lightgray",
-                          width: "35vw",
+                          width: "50vw",
                           display: "flex",
                           alignItems: "center",
                           padding: "2px 16px",
                         }}
                       >
                         &nbsp;&nbsp;&nbsp;
-                        <i>
-                          {" "}
-                          {row2.name?.substring(0, 40)}
-                          {row2.name?.length > 40 && "..."}
+                        <i
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {row2.name}
                         </i>
                         <ArrowDropDownIcon
                           id="demo-positioned-button"
-                          aria-controls={
-                            openLevel2 ? "demo-positioned-menu" : undefined
-                          }
+                          aria-controls={openLevel2 ? "demo-positioned-menu" : undefined}
                           aria-haspopup="true"
                           aria-expanded={openLevel2 ? "true" : undefined}
-                          onClick={(e) =>
-                            handleAnchorElLevel2Click(e, row2, row)
-                          }
+                          onClick={(e) => handleAnchorElLevel2Click(e, row2, row)}
                           sx={{
                             fontSize: 18,
                             cursor: "pointer",
@@ -627,10 +627,7 @@ export default function DenseTable({
                           </MenuItem>
                           <MenuItem
                             onClick={() => {
-                              handleDuplicateWorkDetail(
-                                parentItem._id,
-                                menuItem2._id
-                              );
+                              handleDuplicateWorkDetail(parentItem._id, menuItem2._id);
                               handleAnchorElLevel2Close();
                             }}
                           >
@@ -674,7 +671,7 @@ export default function DenseTable({
                         align="center"
                         style={{
                           borderRight: "1px solid lightgray",
-                          width: "6vw",
+                          width: "4vw",
                           padding: "2px 16px",
                         }}
                       >
@@ -684,18 +681,19 @@ export default function DenseTable({
                         align="right"
                         style={{
                           borderRight: "1px solid lightgray",
-                          width: "10vw",
+                          width: "6vw",
                           padding: "2px 16px",
                         }}
                       >
-                        {parseFloat(row2.quantity).toFixed(2)}
+                        {formatNumber(parseFloat(row2.quantity).toFixed(2), ".")}
                       </TableCell>
                       <TableCell
                         align="right"
                         style={{
                           borderRight: "1px solid lightgray",
-                          width: "10vw",
+                          width: "6vw",
                           padding: "2px 16px",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {formatNumber(parseFloat(row2.unit_price).toFixed(2))}
@@ -704,13 +702,11 @@ export default function DenseTable({
                         align="right"
                         style={{
                           borderRight: "1px solid lightgray",
-                          width: "10vw",
+                          width: "6vw",
                           padding: "2px 16px",
                         }}
                       >
-                        {formatNumber(
-                          parseFloat(row2.quantity * row2.unit_price).toFixed(2)
-                        )}
+                        {formatNumber(parseFloat(row2.quantity * row2.unit_price).toFixed(2))}
                       </TableCell>
                     </TableRow>
                   )

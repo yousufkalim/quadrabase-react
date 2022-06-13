@@ -60,7 +60,11 @@ const Home = () => {
 
   const getSubscriptions = async () => {
     const result = await api("get", `/licenses/${store.user._id}`);
-    setSubscriptionsData(result.data.license);
+    let data = result.data.license.map((item) => {
+      item.subType = "Prescripteur";
+      return item;
+    });
+    setSubscriptionsData(data);
     setMySubscription(store?.user?.subscriptions);
   };
 
@@ -192,7 +196,7 @@ const Home = () => {
           }}
           onClick={handleNoSub}
         >
-          Back to Sign up Process
+          {t("Back to registration Process")}
         </Button>
       </div>
     </div>

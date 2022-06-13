@@ -9,6 +9,7 @@ export default function Index(props) {
   const config = {
     readonly: false,
     enableDragAndDropFileToEditor: true,
+    language: "fr",
     uploader: {
       url: `${process.env.REACT_APP_API_URL}/fileUploader`,
       format: "json",
