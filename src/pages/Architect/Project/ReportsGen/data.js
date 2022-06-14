@@ -913,39 +913,148 @@ function rowsGenTradesAndTranchesBPU(data) {
   return rows;
 }
 
-function rowsGenSimpleCCTP(data, selectedCCTPIndexes) {
+function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const _selectedCCTPIndexes = [...selectedCCTPIndexes];
-  const rows = [];
 
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
+    }
+    chap0 = parseChap0(currentProject);
+  }
+
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsSimple(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
+}
+
+function rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
+
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
+    }
+    chap0 = parseChap0(currentProject);
+  }
+
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsTrades(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
+}
+
+function rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
+
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
+    }
+    chap0 = parseChap0(currentProject);
+  }
+
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsTradesAndTranches(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
+}
+
+function parseChap0(currentProject) {
+  if (!currentProject.chap0part2) {
+    return null;
+  }
+  const lvl1 = currentProject.chap0part2.id;
+  const _ = {
+    title: `0.1 ${lvl1.title}`,
+    text: lvl1.text,
+    lvl2: [],
+  };
+  for (let i = 0; i < lvl1.level2.length; i++) {
+    const lvl2 = lvl1.level2[i];
+    const __ = {
+      title: `0.1.${i + 1} ${lvl2.title}`,
+      text: lvl2.text,
+      lvl3: [],
+    };
+    for (let j = 0; j < lvl2.level3.length; j++) {
+      const lvl3 = lvl2.level3[j];
+      const ___ = {
+        title: `0.1.${i + 1}.${j + 1} ${lvl3.title}`,
+        text: lvl3.text,
+      };
+      __.lvl3.push(___);
+    }
+    _.lvl2.push(__);
+  }
+  return _;
+}
+
+function findCCTPsSimple(data, index) {
+  const cp = [];
   for (let i = 0; i < data.length; i++) {
     const _cctpArr = data[i].work.cctp_text;
     if (_cctpArr.length == 0) {
       continue;
     }
-    const cp = [];
-    if (_selectedCCTPIndexes.includes(0)) {
-      cp.push("CHAP0");
-      _selectedCCTPIndexes.shift();
+    if (_cctpArr[index]) {
+      cp.push(_cctpArr[index]);
     }
-    for (let j = 0; j < cctpArr.length; j++) {
-      if (_selectedCCTPIndexes.includes(j) && _cctpArr[j]) {
-        cp.push(_cctpArr[j]);
-      }
-    }
-    const obj = {
-      title: `${i + 1}. ${data[i].work.name}`,
-      cctp_arr: cp,
-    };
-    rows.push(obj);
   }
-
-  return rows;
+  return cp;
 }
 
-function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
-  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
-  const rows = [];
-
+function findCCTPsTrades(data, index) {
+  const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
     const workAndWorkDetailsArr = currentObjTrade.data;
@@ -955,31 +1064,16 @@ function rowsGenTradesCCTP(data, selectedCCTPIndexes) {
       if (_cctpArr.length == 0) {
         continue;
       }
-      const cp = [];
-      if (_selectedCCTPIndexes.includes(0)) {
-        cp.push("CHAP0");
-        _selectedCCTPIndexes.shift();
+      if (_cctpArr[index]) {
+        cp.push(_cctpArr[index]);
       }
-      for (let k = 0; k < cctpArr.length; k++) {
-        if (_selectedCCTPIndexes.includes(k) && _cctpArr[k]) {
-          cp.push(_cctpArr[k]);
-        }
-      }
-      const obj = {
-        title: `${i + 1}.${j + 1}. ${currentObjWork.work.name}`,
-        cctp_arr: cp,
-      };
-      rows.push(obj);
     }
   }
-
-  return rows;
+  return cp;
 }
 
-function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
-  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
-  const rows = [];
-
+function findCCTPsTradesAndTranches(data, index) {
+  const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
     const tranchesArr = currentObjTrade.data;
@@ -992,26 +1086,13 @@ function rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes) {
         if (_cctpArr.length == 0) {
           continue;
         }
-        const cp = [];
-        if (_selectedCCTPIndexes.includes(0)) {
-          cp.push("CHAP0");
-          _selectedCCTPIndexes.shift();
+        if (_cctpArr[index]) {
+          cp.push(_cctpArr[index]);
         }
-        for (let l = 0; l < cctpArr.length; l++) {
-          if (_selectedCCTPIndexes.includes(l) && _cctpArr[l]) {
-            cp.push(_cctpArr[l]);
-          }
-        }
-        const obj = {
-          title: `${i + 1}.${j + 1}.${k + 1}. ${currentObjWork.work.name}`,
-          cctp_arr: cp,
-        };
-        rows.push(obj);
       }
     }
   }
-
-  return rows;
+  return cp;
 }
 
 function textRunsSplitGen(str) {
