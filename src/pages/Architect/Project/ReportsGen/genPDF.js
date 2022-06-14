@@ -333,23 +333,27 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
 
 async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
-  const rows = rowsGenSimpleCCTP(data, selectedCCTPIndexes);
+  const rows = rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
 
   let pdfParsedData = [];
 
-  for (let i = 0; i < rows.length; i++) {
-    const arr = [];
-    const _ = rows[i];
+  if (chap0) {
+    let str = parseChap0(chap0);
+    pdfParsedData.push(str);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
 
     let str = "";
-    str = str.concat(`<p><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.cctp_arr.length; j++) {
-      str = str.concat(`${_.cctp_arr[j]}`);
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
     }
     str = str.concat(`</p>`);
-    console.log(str);
-    arr.push(str);
-    pdfParsedData.push(arr);
+    pdfParsedData.push(str);
   }
 
   const body = {
@@ -373,23 +377,27 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
 async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
-  const rows = rowsGenTradesCCTP(data, selectedCCTPIndexes);
+  const rows = rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
 
   let pdfParsedData = [];
 
-  for (let i = 0; i < rows.length; i++) {
-    const arr = [];
-    const _ = rows[i];
+  if (chap0) {
+    let str = parseChap0(chap0);
+    pdfParsedData.push(str);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
 
     let str = "";
-    str = str.concat(`<p><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.cctp_arr.length; j++) {
-      str = str.concat(`${_.cctp_arr[j]}`);
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
     }
     str = str.concat(`</p>`);
-    console.log(str);
-    arr.push(str);
-    pdfParsedData.push(arr);
+    pdfParsedData.push(str);
   }
 
   const body = {
@@ -413,23 +421,27 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 
 async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
-  const rows = rowsGenTradesAndTranchesCCTP(data, selectedCCTPIndexes);
+  const rows = rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
 
   let pdfParsedData = [];
 
-  for (let i = 0; i < rows.length; i++) {
-    const arr = [];
-    const _ = rows[i];
+  if (chap0) {
+    let str = parseChap0(chap0);
+    pdfParsedData.push(str);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
 
     let str = "";
-    str = str.concat(`<p><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.cctp_arr.length; j++) {
-      str = str.concat(`${_.cctp_arr[j]}`);
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
     }
     str = str.concat(`</p>`);
-    console.log(str);
-    arr.push(str);
-    pdfParsedData.push(arr);
+    pdfParsedData.push(str);
   }
 
   const body = {
@@ -449,6 +461,31 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
   };
 
   return obj;
+}
+
+function parseChap0(chap0) {
+  let str = "";
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
+  str = str.concat(`<p><strong>${chap0.title}</strong><br>`);
+  if (chap0.text) {
+    str = str.concat(`<p>${chap0.text}</p><br>`);
+  }
+  for (let i = 0; i < chap0.lvl2.length; i++) {
+    const _ = chap0.lvl2[i];
+    str = str.concat(`<p><strong>${_.title}</strong><br>`);
+    if (_.text) {
+      str = str.concat(`<p>${_.text}</p><br>`);
+    }
+    for (let j = 0; j < _.lvl3.length; j++) {
+      const __ = _.lvl3[j];
+      str = str.concat(`<p><strong>${__.title}</strong><br>`);
+      if (__.text) {
+        str = str.concat(`<p>${__.text}</p><br>`);
+      }
+    }
+  }
+  str = str.concat(`</p>`);
+  return str;
 }
 
 export {
