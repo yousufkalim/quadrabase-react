@@ -142,7 +142,7 @@ const NestedList = (props) => {
                   handleAnchorElClose();
                 }}
               >
-                Text BPU
+                Texte BPU
               </MenuItem>
             );
           })}
@@ -155,7 +155,7 @@ const NestedList = (props) => {
                   handleAnchorElClose();
                 }}
               >
-                Text CCTP {index + 1}
+                Texte CCTP {index + 1}
               </MenuItem>
             );
           })}
