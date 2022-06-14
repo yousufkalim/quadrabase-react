@@ -18,6 +18,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { red, green } from "@mui/material/colors";
+import { formatNumber } from "../../../../utils/markThousand";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -90,7 +91,7 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
       setValues((prev) => {
         prev.name = work.name;
         prev.unit = work.unit;
-        prev.unit_price = work.unit_price;
+        prev.unit_price = formatNumber(parseFloat(work.unit_price).toFixed(2).toString(), ".");
         prev.cctp_text = [];
         prev.bpu_text = [];
         return { ...prev };
@@ -163,6 +164,7 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
     cctp_text3 && data.cctp_text.push(cctp_text3);
     cctp_text4 && data.cctp_text.push(cctp_text4);
     bpu_text1 && data.bpu_text.push(bpu_text1);
+    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
     if (documents.length !== 0) {
       let tempProvider = [];
       ProviderDataArr.map((item) => {
@@ -241,6 +243,20 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
             value={values.unit_price}
             handleChange={(e) => handleChange(e.target.name, e.target.value)}
             required={true}
+            onBlur={() => {
+              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              setValues((prev) => {
+                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                return { ...prev };
+              });
+            }}
+            onFocus={() => {
+              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              setValues((prev) => {
+                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                return { ...prev };
+              });
+            }}
           />
         </Grid>
         <Grid item zeroMinWidth xs>
@@ -392,9 +408,15 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
             </label>
           </div>
         </div>
-        <Button variant="contained" className={classes.btn} type="submit">
-          {t("Update")}
-        </Button>
+        <div>
+          <Button variant="contained" className={classes.btn} onClick={() => handleOpenEditWorkModal()}>
+            {t("Close")}
+          </Button>
+          &nbsp;&nbsp;
+          <Button variant="contained" className={classes.btn} type="submit">
+            {t("Update")}
+          </Button>
+        </div>
       </div>
     </form>
   );

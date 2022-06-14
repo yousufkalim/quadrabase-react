@@ -673,7 +673,7 @@ const Register = () => {
 
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="Address 1 *"
+                                label="Adresse 1 *"
                                 placeholder="xyz, Paris"
                                 type="text"
                                 name="address_1"
@@ -692,7 +692,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={6} sx={{ marginBottom: 2 }}>
                               <TextInput
-                                label="Address 2"
+                                label="Adresse 2"
                                 placeholder="xyz, Paris"
                                 type="text"
                                 name="address_2"
@@ -797,7 +797,7 @@ const Register = () => {
                               }}
                               onClick={() => setStartStepper()}
                             >
-                              Précédent
+                              Retour
                             </Button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Button
@@ -971,7 +971,7 @@ const Register = () => {
                                     }}
                                     onClick={() => handleBack()}
                                   >
-                                    Précédent
+                                    Retour
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                   <Button
@@ -1057,7 +1057,7 @@ const Register = () => {
                                     }}
                                     onClick={() => handleBack()}
                                   >
-                                    Précédent
+                                    Retour
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                   <Button
@@ -1239,7 +1239,7 @@ const Register = () => {
                       <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
                         <div className="payment-flex-contaner">
                           <div className="common-text-3">
-                            <span>Card</span>
+                            <span>CB</span>
                             <br />
                           </div>
                           <input
@@ -1387,7 +1387,7 @@ const Register = () => {
                       <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
                         <div className="payment-flex-contaner">
                           <div className="common-text-3">
-                            <span>Card</span>
+                            <span>CB</span>
                             <br />
                           </div>
                           <input
@@ -1471,7 +1471,7 @@ const Register = () => {
                       history.push("/auth/login");
                     }}
                   >
-                    proche
+                    Retour
                   </Button>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <Button

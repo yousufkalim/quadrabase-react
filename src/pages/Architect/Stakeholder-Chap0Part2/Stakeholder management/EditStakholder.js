@@ -89,7 +89,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             <Grid item zeroMinWidth xs>
               <InputDropdown
                 name="type"
-                label={t("Type")}
+                label={t("Type Of Stakeholder")}
                 value={values.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
                 options={options}
@@ -112,7 +112,6 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             <Grid item zeroMinWidth xs>
               <InputWithLabel
                 label={t("Service")}
-                required={true}
                 name="service"
                 type="text"
                 value={values.service}
@@ -145,7 +144,6 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
                 label={t("BP/CS")}
-                required={true}
                 name="po_box"
                 type="text"
                 value={values.po_box}
@@ -187,7 +185,6 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             <Grid item zeroMinWidth xs>
               <InputWithLabel
                 label={t("Firstname")}
-                required={true}
                 name="firstname"
                 type="text"
                 value={values.firstname}

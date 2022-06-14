@@ -140,7 +140,7 @@ const Home = () => {
             rows={subscriptionHeadCells}
             handleAssign={handleAssignSubModal}
             headerText={t("Subscriptions")}
-            buttonText={t("Buy Subscriptions")}
+            buttonText={t("Buy Subscription")}
             buttonAction={handleBuySubModal}
           />
         </div>

@@ -400,9 +400,9 @@ export const ProviderheadCells = [
 
 export const SubscriptionheadCells = [
   {
-    id: "subType",
+    id: "code",
 
-    label: "Type",
+    label: "Code",
   },
   {
     id: "subscriptionName",

@@ -6,6 +6,7 @@ import Axios from "axios";
 import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken } from "../../../utils/Auth";
 import Notifier from "../../../utils/Notifier";
+import { formatNumber } from "../../../utils/markThousand";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import SelectField from "../../../components/SelectField";
@@ -38,8 +39,7 @@ export default function AddExpense(props) {
   const [ProviderOptions, setProviderOptions] = React.useState([]);
   const [associatedProviders, setAssociatedProviders] = React.useState([]);
   const [selectedProvider, setSelectedProvider] = React.useState("");
-  const [selectedAssociatedProvider, setSelectedAssociatedProvider] =
-    React.useState("");
+  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState("");
   const [fileName, setFileName] = React.useState("");
   const [documents, setDocuments] = React.useState([]);
 
@@ -61,6 +61,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text4);
       values.bpu_text = [bpu_text];
       values.cctp_text = cctp_text;
+      values.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
       if (documents.length !== 0) {
         let tempProvider = [];
         ProviderDataArr.map((item) => {
@@ -134,9 +135,7 @@ export default function AddExpense(props) {
 
   // functions for provider list
   const handleAddPriovider = () => {
-    let flag = associatedProviders.some(
-      (item) => item._id === selectedProvider._id
-    );
+    let flag = associatedProviders.some((item) => item._id === selectedProvider._id);
     if (!flag) {
       let obj = {
         provider: selectedProvider._id,
@@ -145,21 +144,15 @@ export default function AddExpense(props) {
       setProviderDataArr([...ProviderDataArr, obj]);
       setAssociatedProviders([...associatedProviders, selectedProvider]);
       let temp = [];
-      temp = ProviderOptions.filter(
-        (item) => item._id !== selectedProvider._id
-      );
+      temp = ProviderOptions.filter((item) => item._id !== selectedProvider._id);
       setProviderOptions(temp);
     }
   };
 
   const handleRemoveProvider = () => {
-    let filteredData = associatedProviders.filter(
-      (item) => item._id !== selectedAssociatedProvider._id
-    );
+    let filteredData = associatedProviders.filter((item) => item._id !== selectedAssociatedProvider._id);
     setAssociatedProviders(filteredData);
-    let filteredProviderData = ProviderDataArr.filter(
-      (item) => item.provider !== selectedAssociatedProvider._id
-    );
+    let filteredProviderData = ProviderDataArr.filter((item) => item.provider !== selectedAssociatedProvider._id);
     setProviderDataArr(filteredProviderData);
     setProviderOptions([...ProviderOptions, selectedAssociatedProvider]);
   };
@@ -200,46 +193,28 @@ export default function AddExpense(props) {
             value={formik.values.name}
           />
           <small className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
-            ) : null}
+            {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
           </small>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
-            type="number"
+            type="text"
             label={translate("PU HT")}
             placeholder="0.00"
             name="unit_price"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
             onBlur={() => {
-              let existingDot = formik.values.unit_price
-                .toString()
-                .indexOf(".");
-              if (existingDot === -1) {
-                formik.setFieldValue(
-                  "unit_price",
-                  parseInt(formik.values.unit_price).toFixed(2)
-                );
-              }
+              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
             }}
             onFocus={() => {
-              let existingDot = formik.values.unit_price
-                .toString()
-                .indexOf(".");
-              if (existingDot === -1) {
-                formik.setFieldValue(
-                  "unit_price",
-                  parseInt(formik.values.unit_price).toFixed(2)
-                );
-              }
+              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
             }}
           />
           <small className="text-red-600 ">
-            {formik.touched.unit_price && formik.errors.unit_price ? (
-              <small>{formik.errors.unit_price}</small>
-            ) : null}
+            {formik.touched.unit_price && formik.errors.unit_price ? <small>{formik.errors.unit_price}</small> : null}
           </small>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -251,9 +226,7 @@ export default function AddExpense(props) {
             options={UnitOptions}
           />
           <small className="text-red-600 ">
-            {formik.touched.unit && formik.errors.unit ? (
-              <small>{formik.errors.unit}</small>
-            ) : null}
+            {formik.touched.unit && formik.errors.unit ? <small>{formik.errors.unit}</small> : null}
           </small>
         </div>
       </div>
@@ -261,11 +234,7 @@ export default function AddExpense(props) {
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -317,8 +286,7 @@ export default function AddExpense(props) {
                 onClick={() => setSelectedProvider(item)}
                 style={{
                   cursor: "pointer",
-                  backgroundColor:
-                    selectedProvider._id == item._id && "lightgray",
+                  backgroundColor: selectedProvider._id == item._id && "lightgray",
                 }}
               >
                 {item.name}
@@ -352,8 +320,7 @@ export default function AddExpense(props) {
                 onClick={() => setSelectedAssociatedProvider(item)}
                 style={{
                   cursor: "pointer",
-                  backgroundColor:
-                    selectedAssociatedProvider._id == item._id && "lightgray",
+                  backgroundColor: selectedAssociatedProvider._id == item._id && "lightgray",
                 }}
               >
                 {item.name}
@@ -389,8 +356,7 @@ export default function AddExpense(props) {
             }}
           >
             <label style={{ cursor: "pointer" }}>
-              {translate("Choose file")} -{" "}
-              {fileName ? fileName : translate("no file chosen")}
+              {translate("Choose file")} - {fileName ? fileName : translate("no file chosen")}
               <TextInput
                 type="file"
                 placeholder="Document"
@@ -405,20 +371,10 @@ export default function AddExpense(props) {
         </div>
         <div className="flex">
           <div className="">
-            <Button
-              onClick={() => props.handleClose()}
-              label={translate("Close")}
-              backgroundColor={red}
-              default={false}
-            />
+            <Button onClick={() => props.handleClose()} label={translate("Close")} backgroundColor={red} default={false} />
           </div>
           <div className=" ml-3">
-            <Button
-              onClick={formik.handleSubmit}
-              disabled={isLoading}
-              label={translate("Create")}
-              default={true}
-            />
+            <Button onClick={formik.handleSubmit} disabled={isLoading} label={translate("Create")} default={true} />
           </div>
         </div>
       </div>

@@ -1,73 +1,73 @@
 import * as Yup from "yup";
 
 export const LOGIN_YUP = Yup.object({
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
-  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
+  password: Yup.string().min(8, "Doit contenir 8 caractères").Obligatoire("Ce champ est requis"),
 });
 export const ARCHITECT_YUP = Yup.object({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
+  first_name: Yup.string().Obligatoire("Obligatoire"),
+  last_name: Yup.string().Obligatoire("Obligatoire"),
 
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
-  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
+  password: Yup.string().min(8, "Doit contenir 8 caractères").Obligatoire("Ce champ est requis"),
   confirm_password: Yup.string()
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf([Yup.ref("password")], "Both password need to be the same"),
+      then: Yup.string().oneOf([Yup.ref("password")], "Les deux mots de passe doivent être identiques"),
     })
-    .min(8, "Must be 8 characters long")
-    .required("Required"),
+    .min(8, "Doit contenir 8 caractères")
+    .Obligatoire("Obligatoire"),
 });
 export const EDIT_ARCHITECT_YUP = Yup.object({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
+  first_name: Yup.string().Obligatoire("Obligatoire"),
+  last_name: Yup.string().Obligatoire("Obligatoire"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
 });
 export const ADMIN_YUP = Yup.object({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
+  first_name: Yup.string().Obligatoire("Obligatoire"),
+  last_name: Yup.string().Obligatoire("Obligatoire"),
 
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
-  password: Yup.string().min(8, "Must be 8 characters long").required("This field is required"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
+  password: Yup.string().min(8, "Doit contenir 8 caractères").Obligatoire("Ce champ est requis"),
   confirm_password: Yup.string()
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf([Yup.ref("password")], "Both password need to be the same"),
+      then: Yup.string().oneOf([Yup.ref("password")], "Les deux mots de passe doivent être identiques"),
     })
-    .min(8, "Must be 8 characters long")
-    .required("Required"),
+    .min(8, "Doit contenir 8 caractères")
+    .Obligatoire("Obligatoire"),
 });
 
 export const PRODUCT_YUP = Yup.object({
-  name: Yup.string().required("Required"),
-  type: Yup.string().required("Required"),
-  durationMonths: Yup.number().required("Required"),
-  durationprice: Yup.number().required("Required"),
-  credit: Yup.string().required("Required"),
-  projectsPack: Yup.number().required("Required"),
-  projectPrice: Yup.number().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
+  type: Yup.string().Obligatoire("Obligatoire"),
+  durationMonths: Yup.number().Obligatoire("Obligatoire"),
+  durationprice: Yup.number().Obligatoire("Obligatoire"),
+  credit: Yup.string().Obligatoire("Obligatoire"),
+  projectsPack: Yup.number().Obligatoire("Obligatoire"),
+  projectPrice: Yup.number().Obligatoire("Obligatoire"),
 });
 
 export const EDIT_ADMIN_YUP = Yup.object({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
+  first_name: Yup.string().Obligatoire("Obligatoire"),
+  last_name: Yup.string().Obligatoire("Obligatoire"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
 });
 export const LIBRARY_YUP = Yup.object({
-  name: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
 });
 export const CATEGORY_YUP = Yup.object({
-  name: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
 });
 export const WORK_YUP = Yup.object({
-  name: Yup.string().required("Required"),
-  unit_price: Yup.number().required("Required"),
-  unit: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
+  unit_price: Yup.number().Obligatoire("Obligatoire"),
+  unit: Yup.string().Obligatoire("Obligatoire"),
 });
 export const PROVIDER_YUP = Yup.object({
-  firstname: Yup.string().required("Required"),
-  name: Yup.string().required("Required"),
-  email: Yup.string().email("Adresse e-mail invalide").required("Required"),
+  firstname: Yup.string().Obligatoire("Obligatoire"),
+  name: Yup.string().Obligatoire("Obligatoire"),
+  email: Yup.string().email("Adresse e-mail invalide").Obligatoire("Obligatoire"),
   zipcode: Yup.number().test(
     "len",
     "Doit contenir exactement 5 caractères",
@@ -76,25 +76,25 @@ export const PROVIDER_YUP = Yup.object({
   telephone_no: Yup.number().test("len", "Doit contenir exactement 10 caractères", (val) => val?.toString().length == 10),
 });
 export const UNIT_YUP = Yup.object({
-  name: Yup.string().required("Required"),
-  symbol: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
+  symbol: Yup.string().Obligatoire("Obligatoire"),
 });
 export const STAKEHOLDER_YUP = Yup.object({
-  text: Yup.string().required("Required"),
+  text: Yup.string().Obligatoire("Obligatoire"),
 });
 export const VAT_YUP = Yup.object({
-  value: Yup.string().required("Required"),
+  value: Yup.string().Obligatoire("Obligatoire"),
 });
 
 export const CCTP_YUP = Yup.object({
-  name: Yup.string().required("Required"),
-  type: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
+  type: Yup.string().Obligatoire("Obligatoire"),
 });
 
 export const FAMILIES_YUP = Yup.object({
-  name: Yup.string().required("Required"),
+  name: Yup.string().Obligatoire("Obligatoire"),
 });
 
 export const CHAP0_YUP = Yup.object({
-  title: Yup.string().required("Required"),
+  title: Yup.string().Obligatoire("Obligatoire"),
 });

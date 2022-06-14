@@ -276,7 +276,6 @@ export default function Index(props) {
             <h1 className="text-2xl font-bold">{translate("Providers")}</h1>
             <Button variant="outlined" label="Add Provider" onClick={handleModal} translate={translate} startIcon={<AddIcon />} />
           </div>
-          {console.log(providersData, "providersData")}
           <ArchitectsTable
             headCells={ProviderheadCells}
             data={providersData}

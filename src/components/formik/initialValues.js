@@ -54,6 +54,7 @@ export const PROVIDER_STATE = {
   email_address_client: "",
   client_code: "",
   establishment: "",
+  authorized: "No",
 };
 export const LIBRARY_STATE = {
   name: "",

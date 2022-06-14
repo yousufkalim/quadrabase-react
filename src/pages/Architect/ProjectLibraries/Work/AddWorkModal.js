@@ -19,6 +19,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { formatNumber } from "../../../../utils/markThousand";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -140,6 +141,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
     bpu_text1 && data.bpu_text.push(bpu_text1);
     data.categoryId = category;
     data.ranking = workData ? workData.length : 0;
+    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
     if (documents.length !== 0) {
       let tempProvider = [];
       ProviderDataArr.map((item) => {
@@ -219,6 +221,20 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
             value={values.unit_price}
             handleChange={(e) => handleChange(e.target.name, e.target.value)}
             required={true}
+            onBlur={() => {
+              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              setValues((prev) => {
+                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                return { ...prev };
+              });
+            }}
+            onFocus={() => {
+              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              setValues((prev) => {
+                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                return { ...prev };
+              });
+            }}
           />
         </Grid>
         <Grid item zeroMinWidth xs>
@@ -372,9 +388,15 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
             </label>
           </div>
         </div>
-        <Button variant="contained" className={classes.btn} type="submit">
-          {t("Create")}
-        </Button>
+        <div>
+          <Button variant="contained" className={classes.btn} onClick={() => handleOpenAddWorkModal()}>
+            {t("Close")}
+          </Button>
+          &nbsp;&nbsp;
+          <Button variant="contained" className={classes.btn} type="submit">
+            {t("Create")}
+          </Button>
+        </div>
       </div>
     </form>
   );

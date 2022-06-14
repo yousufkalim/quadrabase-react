@@ -1952,7 +1952,7 @@ const ProjectView = () => {
                         </div>
                         <div className={classes.flex_container}>
                           <div className={classes.fotter_text}>
-                            {t("Total VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
+                            {t("VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
                           </div>
                           <div className={classes.fotter_amount}>
                             {formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2))} €

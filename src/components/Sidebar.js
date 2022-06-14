@@ -198,7 +198,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 </NavLink>
               </li>
 
-              {/* Subscriptions */}
+              {/* Products */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
                 <NavLink
                   exact
@@ -210,7 +210,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                   <div className="flex items-center">
                     <InventoryIcon className="text-gray-500" />
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      {translate("Subscriptions")}
+                      {translate("Products")}
                     </span>
                   </div>
                 </NavLink>

@@ -10,6 +10,7 @@ import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { red } from "@mui/material/colors";
 import SelectField from "../../../components/SelectField";
+import { formatNumber } from "../../../utils/markThousand";
 
 export default function AddExpense(props) {
   const token = getToken();
@@ -22,7 +23,7 @@ export default function AddExpense(props) {
     validationSchema: WORK_YUP,
     onSubmit: async (values) => {
       setisLoading(true);
-
+      values.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
       try {
         let response = await Axios({
           method: "put",
@@ -53,10 +54,7 @@ export default function AddExpense(props) {
       Object.keys(editData).map((dat, i) => {
         if (Object.keys(initialValues).includes(dat)) {
           if (dat == "unit_price") {
-            formik.setFieldValue(
-              "unit_price",
-              parseInt(editData[dat]).toFixed(2)
-            );
+            formik.setFieldValue("unit_price", formatNumber(parseFloat(editData[dat]).toFixed(2).toString(), "."));
           } else {
             formik.setFieldValue(dat, editData[dat]);
           }
@@ -93,45 +91,27 @@ export default function AddExpense(props) {
             value={formik.values.name}
           />
           <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? (
-              <small>{formik.errors.name}</small>
-            ) : null}
+            {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
           </div>
         </div>
         <div className="w-full  px-3 mb-3">
           <TextInput
-            type="number"
+            type="text"
             label={translate("PU HT")}
             name="unit_price"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
             onBlur={() => {
-              let existingDot = formik.values.unit_price
-                .toString()
-                .indexOf(".");
-              if (existingDot === -1) {
-                formik.setFieldValue(
-                  "unit_price",
-                  parseInt(formik.values.unit_price).toFixed(2)
-                );
-              }
+              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
             }}
             onFocus={() => {
-              let existingDot = formik.values.unit_price
-                .toString()
-                .indexOf(".");
-              if (existingDot === -1) {
-                formik.setFieldValue(
-                  "unit_price",
-                  parseInt(formik.values.unit_price).toFixed(2)
-                );
-              }
+              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
             }}
           />
           <div className="text-red-600 ">
-            {formik.touched.unit_price && formik.errors.unit_price ? (
-              <small>{formik.errors.unit_price}</small>
-            ) : null}
+            {formik.touched.unit_price && formik.errors.unit_price ? <small>{formik.errors.unit_price}</small> : null}
           </div>
         </div>
         <div className="w-full  px-3 mb-3">
@@ -146,20 +126,10 @@ export default function AddExpense(props) {
       </div>
       <div className="flex pb-2 justify-end ">
         <div className="">
-          <Button
-            onClick={() => props.handleClose()}
-            label={translate("Close")}
-            backgroundColor={red}
-            default={false}
-          />
+          <Button onClick={() => props.handleClose()} label={translate("Close")} backgroundColor={red} default={false} />
         </div>
         <div className=" ml-3">
-          <Button
-            onClick={formik.handleSubmit}
-            disabled={isLoading}
-            label={translate("Update")}
-            default={true}
-          />
+          <Button onClick={formik.handleSubmit} disabled={isLoading} label={translate("Update")} default={true} />
         </div>
       </div>
     </form>

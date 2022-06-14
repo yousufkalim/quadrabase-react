@@ -143,7 +143,7 @@ export default function AddExpense(props) {
             value={formik.values.name}
           />
           <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
+            {formik.touched.name && formik.errors.name ? <small>{t(formik.errors.name)}</small> : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -188,7 +188,7 @@ export default function AddExpense(props) {
             value={formik.values.email}
           />
           <div className="text-red-600 ">
-            {formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : null}
+            {formik.touched.email && formik.errors.email ? <small>{t(formik.errors.email)}</small> : null}
           </div>
         </div>
       </div>
