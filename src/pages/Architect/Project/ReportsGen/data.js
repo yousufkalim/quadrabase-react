@@ -1019,7 +1019,7 @@ function parseChap0(currentProject) {
   for (let i = 0; i < stakeholders.length; i++) {
     const _ = stakeholders[i];
     if (_.name) {
-      _stakeholders.push(_.name);
+      _stakeholders.push(_.name ?? _.establishment);
     }
   }
 
