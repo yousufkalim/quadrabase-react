@@ -52,12 +52,6 @@ const schema1 = {
       maximum: 32,
     },
   },
-  phone: {
-    length: {
-      minimum: 10,
-      maximum: 10,
-    },
-  },
 };
 
 const schema2 = {
@@ -89,6 +83,12 @@ const schema2 = {
     length: {
       maximum: 128,
       minimum: 6, //// minimum requirement 6 characters
+    },
+  },
+  phone: {
+    length: {
+      minimum: 10,
+      maximum: 10,
     },
   },
 };
@@ -138,7 +138,6 @@ const Register = () => {
       po_box: "",
       postal_code: "",
       city: "",
-      phone: "",
     },
     error: {},
     touched: {},
@@ -151,6 +150,7 @@ const Register = () => {
       email: "",
       password: "",
       confirm_password: "",
+      phone: "",
     },
     error: {},
     touched: {},
@@ -310,7 +310,7 @@ const Register = () => {
         metaData: {
           name: form2.values.first_name,
           email: form2.values.email,
-          contact_no: form1.values.phone,
+          contact_no: form2.values.phone,
           address1: form1.values.address_1,
           address2: form1.values.address_2,
           city: form1.values.city,
@@ -352,7 +352,7 @@ const Register = () => {
       po_box: form1.values.po_box,
       postal_code: form1.values.postal_code,
       city: form1.values.city,
-      phone: form1.values.phone,
+      phone: form2.values.phone,
       last_name: form2.values.last_name,
       first_name: form2.values.first_name,
       email: form2.values.email,
@@ -765,27 +765,6 @@ const Register = () => {
                                 ) : null}
                               </div>
                             </Grid>
-                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
-                              <TextInput
-                                label="Téléphone *"
-                                placeholder="0900929008"
-                                type="number"
-                                name="phone"
-                                value={form1.values.phone}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
-                                required={true}
-                                labelColor="#8C1244"
-                                labelFont={18}
-                                style={InputStyle}
-                              />
-                              <div className="text-red-600 ">
-                                {form1.touched.phone ? (
-                                  <div style={{ fontSize: 12 }}>
-                                    {form1.errors.phone && <>Le numéro de téléphone doit comporter exactement 10 caractères</>}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </Grid>
                           </Grid>
                           <div
                             style={{
@@ -811,21 +790,13 @@ const Register = () => {
                               style={{
                                 textTransform: "none",
                                 backgroundColor:
-                                  form1?.errors?.establishment ||
-                                  form1?.errors?.address_1 ||
-                                  form1?.errors?.postal_code ||
-                                  form1?.errors?.phone
+                                  form1?.errors?.establishment || form1?.errors?.address_1 || form1?.errors?.postal_code
                                     ? "#d9adad"
                                     : "#8C1244",
                                 borderRadius: 8,
                               }}
                               onClick={() => handleComplete()}
-                              disabled={
-                                form1?.errors?.establishment ||
-                                form1?.errors?.address_1 ||
-                                form1?.errors?.postal_code ||
-                                form1?.errors?.phone
-                              }
+                              disabled={form1?.errors?.establishment || form1?.errors?.address_1 || form1?.errors?.postal_code}
                             >
                               Suivant
                             </Button>
@@ -877,7 +848,7 @@ const Register = () => {
                                       ) : null}
                                     </div>
                                   </Grid>
-                                  <Grid item xs={12} sx={{ marginBottom: 2 }}>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Email *"
                                       placeholder="abc@xyz.com"
@@ -893,6 +864,29 @@ const Register = () => {
                                     <div className="text-red-600 ">
                                       {form2.touched.email ? (
                                         <div style={{ fontSize: 12 }}>{form2.errors.email && <>L'e-mail n'est pas valide</>}</div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Téléphone *"
+                                      placeholder="0900929008"
+                                      type="number"
+                                      name="phone"
+                                      value={form2.values.phone}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="text-red-600 ">
+                                      {form2.touched.phone ? (
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.phone && (
+                                            <>Le numéro de téléphone doit comporter exactement 10 caractères</>
+                                          )}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -989,7 +983,8 @@ const Register = () => {
                                         form2?.errors?.last_name ||
                                         form2?.errors?.email ||
                                         form2?.errors?.password ||
-                                        form2?.errors?.confirm_password
+                                        form2?.errors?.confirm_password ||
+                                        form2?.errors?.phone
                                           ? "#d9adad"
                                           : "#8C1244",
                                       borderRadius: 8,
@@ -1000,7 +995,8 @@ const Register = () => {
                                       form2?.errors?.last_name ||
                                       form2?.errors?.email ||
                                       form2?.errors?.password ||
-                                      form2?.errors?.confirm_password
+                                      form2?.errors?.confirm_password ||
+                                      form2?.errors?.phone
                                     }
                                   >
                                     Valider
