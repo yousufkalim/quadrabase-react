@@ -552,6 +552,7 @@ i18n
           "Add a product": "Add a Product",
           "Edit Product": "Edit Product",
           "Add Level": "Add Level",
+          Family: "Family",
         },
       },
       fr: {
@@ -1089,6 +1090,7 @@ i18n
           "Add a product": "Ajouter un produit",
           "Edit Product": "Modifier le produit",
           "Add Level": "Ajouter un niveau",
+          Family: "Famille",
         },
       },
     },

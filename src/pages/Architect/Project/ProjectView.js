@@ -460,18 +460,18 @@ const ProjectView = () => {
   const handleOpenPropertiesModal = () => setOpenPropertiesModal(!openPropertiesModal);
 
   const handleOpenCctpModal = (text, title) => {
+    if (title === "CCTP 1") {
+      setCctpModalTitle("Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS");
+    } else if (title === "CCTP 2") {
+      setCctpModalTitle("Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS");
+    } else if (title === "CCTP 3") {
+      setCctpModalTitle("Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS");
+    } else if (title === "CCTP 4") {
+      setCctpModalTitle("Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION");
+    } else {
+      setCctpModalTitle("Bordereau des Prix Unitaires");
+    }
     if (text) {
-      if (title === "CCTP 1") {
-        setCctpModalTitle("Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS");
-      } else if (title === "CCTP 2") {
-        setCctpModalTitle("Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS");
-      } else if (title === "CCTP 3") {
-        setCctpModalTitle("Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS");
-      } else if (title === "CCTP 4") {
-        setCctpModalTitle("Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION");
-      } else {
-        setCctpModalTitle("Bordereau des Prix Unitaires");
-      }
       setCctp_text(text);
     }
     setOpenCctpModal(!openCctpModal);

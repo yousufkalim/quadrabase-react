@@ -336,7 +336,35 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     let data = values;
     !values.reference && delete data.reference;
     !values.description && delete data.description;
-    values.client = selectedStakeholder && selectedStakeholder;
+    console.log("selectedStakeholder", selectedStakeholder);
+    if (selectedStakeholder) {
+      data.client = selectedStakeholder;
+    } else {
+      const result = await api(
+        "put",
+        `/stakeholders/${currentProject?.client._id}`,
+        {
+          establishment: stakeholderText,
+        },
+        t
+      );
+      data.client = result.data.stakeholder._id;
+    }
+
+    if (selectedStakeholder2) {
+      data.prescriber = selectedStakeholder2;
+    } else {
+      const result = await api(
+        "put",
+        `/stakeholders/${currentProject?.prescriber._id}`,
+        {
+          establishment: stakeholderText2,
+        },
+        t
+      );
+      data.prescriber = result.data.stakeholder._id;
+    }
+
     if (!values.chap0part2 || (currentProject.chap0part2 && currentProject.chap0part2.id._id == data.chap0part2)) {
       delete data.chap0part2;
     } else {

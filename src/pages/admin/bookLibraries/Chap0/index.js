@@ -6,11 +6,7 @@ import Modal from "../../../../components/Modal";
 import DeleteModal from "../../../../components/DeleteModal";
 import Notifier from "../../../../utils/Notifier";
 import { useFormik } from "formik";
-import {
-  CHAP0_STATE,
-  CHAP0_Level2_STATE,
-  CHAP0_Level3_STATE,
-} from "../../../../components/formik/initialValues";
+import { CHAP0_STATE, CHAP0_Level2_STATE, CHAP0_Level3_STATE } from "../../../../components/formik/initialValues";
 import { CHAP0_YUP } from "../../../../components/formik/validations";
 import AddChap0 from "./AddChap0";
 import EditChap0 from "./EditChap0";
@@ -114,8 +110,7 @@ export default function Index(props) {
       setadminsData(temp);
       Notifier("Chap0 Deleted!", "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
     handleanchorElClose();
 
@@ -140,8 +135,7 @@ export default function Index(props) {
       setChap0Level2Data(temp);
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
     handleanchorElClose();
 
@@ -166,8 +160,7 @@ export default function Index(props) {
       setChap0Level3Data(temp);
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
     handleanchorElClose();
 
@@ -229,7 +222,7 @@ export default function Index(props) {
       });
 
       let newData = data.filter((dat) => dat.email !== USER.email);
-      setFamilyOptions(newData);
+      setFamilyOptions(newData.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -245,9 +238,7 @@ export default function Index(props) {
 
   useEffect(() => {
     let array = [];
-    Chap0headCells.slice(0, Chap0headCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
+    Chap0headCells.slice(0, Chap0headCells.length - 1).map((cell) => array.push(cell.id));
     setheadCells(array);
   }, []);
 
@@ -392,9 +383,7 @@ export default function Index(props) {
           },
         });
         Notifier(response.data.message, "success", translate);
-        getChap0Level2(
-          adminsData.find((dat) => dat._id === editData2.parentLevel)._id
-        );
+        getChap0Level2(adminsData.find((dat) => dat._id === editData2.parentLevel)._id);
         handleEdit2Modal();
         level2_edit_formik.resetForm();
       } catch (err) {
@@ -463,9 +452,7 @@ export default function Index(props) {
           },
         });
         Notifier(response.data.message, "success", translate);
-        getChap0Level3(
-          chap0Level2Data.find((dat) => dat._id === editData3.parentLevel)._id
-        );
+        getChap0Level3(chap0Level2Data.find((dat) => dat._id === editData3.parentLevel)._id);
         handleEdit3Modal();
         level3_edit_formik.resetForm();
       } catch (err) {
@@ -480,7 +467,7 @@ export default function Index(props) {
   const openanchorEl = Boolean(state.Chap0AnchorEl);
   const [Level, setLevel] = React.useState("");
   const [LevelID, setLevelID] = React.useState("");
-  const handleanchorEl = (event, id, level) => {
+  const handleanchorEl = (event, id, level, family) => {
     dispatch({
       type: actionTypes.Chap0AnchorEl,
       Chap0AnchorEl: event.currentTarget,
@@ -492,6 +479,7 @@ export default function Index(props) {
       case "Chap0Level1":
         setTextAction("AddChap0Level1");
         setParentLevel(true);
+        setFamily(family);
         break;
       case "Chap0Level2":
         setTextAction("AddChap0Level2");
@@ -566,8 +554,6 @@ export default function Index(props) {
           break;
       }
     } else if (Level == actionTypes.Chap0Level3) {
-      console.log(value);
-
       switch (value) {
         case `AddChap0Level3_Chap0Level3`:
           getChap0Level3(LevelID);
@@ -577,9 +563,7 @@ export default function Index(props) {
           });
           break;
         case `Edit_Chap0Level3`:
-          let filteredData = chap0Level2Data.find(
-            (data) => data._id == LevelID
-          );
+          let filteredData = chap0Level2Data.find((data) => data._id == LevelID);
           seteditData2(filteredData);
           dispatch({
             type: actionTypes.EditChap0Level2,
@@ -611,9 +595,7 @@ export default function Index(props) {
     } else if (Level == "lastLevel") {
       switch (value) {
         case `Edit_lastLevel`:
-          let filteredData = chap0Level3Data.find(
-            (data) => data._id == LevelID
-          );
+          let filteredData = chap0Level3Data.find((data) => data._id == LevelID);
           seteditData3(filteredData);
           dispatch({
             type: actionTypes.EditChap0Level3,
@@ -660,9 +642,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      setChap0Level2Data(
-        response.data.chap0Level2.sort((a, b) => a.ranking - b.ranking)
-      );
+      setChap0Level2Data(response.data.chap0Level2.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -677,9 +657,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      setChap0Level3Data(
-        response.data.chap0Level3.sort((a, b) => a.ranking - b.ranking)
-      );
+      setChap0Level3Data(response.data.chap0Level3.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
       if (error.response) console.log(error.response.data.message, "error ");
     }
@@ -1111,13 +1089,7 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleDeleteModal}
-            handleDelete={handleDelete}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleDeleteModal} handleDelete={handleDelete} />}
       />
       {/* Level 2 Modals */}
       <Modal
@@ -1128,14 +1100,7 @@ export default function Index(props) {
         buttonLabel="Create"
         onSubmit={level2_formik.handleSubmit}
         translate={translate}
-        component={
-          <AddChap0Level2
-            translate={translate}
-            formik={level2_formik}
-            text={text2}
-            setText={setText2}
-          />
-        }
+        component={<AddChap0Level2 translate={translate} formik={level2_formik} text={text2} setText={setText2} />}
       />
       <Modal
         title={translate("Edit Chap0 Level2")}
@@ -1162,13 +1127,7 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleDelete2Modal}
-            handleDelete={handleDelete2}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleDelete2Modal} handleDelete={handleDelete2} />}
       />
       {/* Level 3 Modals */}
       <Modal
@@ -1179,14 +1138,7 @@ export default function Index(props) {
         buttonLabel="Create"
         onSubmit={level3_formik.handleSubmit}
         translate={translate}
-        component={
-          <AddChap0Level3
-            translate={translate}
-            formik={level3_formik}
-            text={text3}
-            setText={setText3}
-          />
-        }
+        component={<AddChap0Level3 translate={translate} formik={level3_formik} text={text3} setText={setText3} />}
       />
       <Modal
         title={translate("Edit Chap0 Level3")}
@@ -1213,13 +1165,7 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleDelete3Modal}
-            handleDelete={handleDelete3}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleDelete3Modal} handleDelete={handleDelete3} />}
       />
       <ListMenu
         onClick={handleanchorEl}
@@ -1250,6 +1196,7 @@ export default function Index(props) {
             getChap0Level3={getChap0Level3}
             items2={chap0Level3Data}
             setItems2={setChap0Level3Data}
+            familiesData={familyOptions}
           />
         </div>
       </div>
