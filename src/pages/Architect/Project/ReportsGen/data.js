@@ -1018,7 +1018,7 @@ function parseChap0(currentProject) {
   const _stakeholders = [];
   for (let i = 0; i < stakeholders.length; i++) {
     const _ = stakeholders[i];
-    if (_.name) {
+    if (_.name || _.establishment) {
       _stakeholders.push(_.name ?? _.establishment);
     }
   }
