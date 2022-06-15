@@ -340,8 +340,10 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   let pdfParsedData = [];
 
   if (chap0) {
-    let str = parseChap0(chap0);
-    pdfParsedData.push(str);
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
   }
 
   for (let i = 0; i < cctps.length; i++) {
@@ -384,8 +386,10 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   let pdfParsedData = [];
 
   if (chap0) {
-    let str = parseChap0(chap0);
-    pdfParsedData.push(str);
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
   }
 
   for (let i = 0; i < cctps.length; i++) {
@@ -428,8 +432,10 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
   let pdfParsedData = [];
 
   if (chap0) {
-    let str = parseChap0(chap0);
-    pdfParsedData.push(str);
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
   }
 
   for (let i = 0; i < cctps.length; i++) {
@@ -463,15 +469,38 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
   return obj;
 }
 
-function parseChap0(chap0) {
+function _parseChap0part1(part1) {
   let str = "";
   str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
-  str = str.concat(`<p><strong>${chap0.title}</strong><br>`);
-  if (chap0.text) {
-    str = str.concat(`<p>${chap0.text}</p><br>`);
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 1</strong><br></p>`);
+  str = str.concat(`<p><strong>Nom du Projet:</strong> ${part1.name}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong> ${part1.client}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong> ${part1.prescriber}</p>`);
+  str = str.concat(`<p><strong>T.V.A:</strong> ${part1.vat}</p>`);
+  str = str.concat(`<p><strong>Reference:</strong> ${part1.reference}</p>`);
+  str = str.concat(`<p><strong>Description:</strong> ${part1.description}</p>`);
+  str = str.concat(`<p><strong>Type de marché:</strong> ${part1.market_type}</p>`);
+  str = str.concat(`<p><strong>Structure du projet:</strong> ${part1.structure}</p>`);
+  str = str.concat(`<p><strong>Intervenants</strong></p>`);
+  str = str.concat(`<ul>`);
+  for (let i = 0; i < part1.stakeholders.length; i++) {
+    const _ = part1.stakeholders[i];
+    str = str.concat(`<li>${_}</li>`);
   }
-  for (let i = 0; i < chap0.lvl2.length; i++) {
-    const _ = chap0.lvl2[i];
+  str = str.concat(`</ul>`);
+  str = str.concat(`</p>`);
+  return str;
+}
+
+function _parseChap0part2(part2) {
+  let str = "";
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 2</strong><br>`);
+  str = str.concat(`<p><strong>${part2.title}</strong><br>`);
+  if (part2.text) {
+    str = str.concat(`<p>${part2.text}</p><br>`);
+  }
+  for (let i = 0; i < part2.lvl2.length; i++) {
+    const _ = part2.lvl2[i];
     str = str.concat(`<p><strong>${_.title}</strong><br>`);
     if (_.text) {
       str = str.concat(`<p>${_.text}</p><br>`);
