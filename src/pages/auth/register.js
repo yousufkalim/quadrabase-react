@@ -552,6 +552,12 @@ const Register = () => {
           <div className="register-form-container">
             {!startStepper && !payment ? (
               <Box sx={{ width: "70%" }}>
+                <div style={{ width: "100%", textAlign: "center", marginBottom: 40, color: "#8c1244" }}>
+                  <Typography variant="h4" gutterBottom>
+                    S’INSCRIRE
+                  </Typography>
+                </div>
+
                 <Box
                   sx={{
                     display: "flex",
