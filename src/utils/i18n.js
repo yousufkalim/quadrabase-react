@@ -553,6 +553,7 @@ i18n
           "Edit Product": "Edit Product",
           "Add Level": "Add Level",
           Family: "Family",
+          "Modify the text of Chap0 Part2": "Modify the text of Chap0 Part2",
         },
       },
       fr: {
@@ -1091,6 +1092,7 @@ i18n
           "Edit Product": "Modifier le produit",
           "Add Level": "Ajouter un niveau",
           Family: "Famille",
+          "Modify the text of Chap0 Part2": "Modifier le texte du Chap0 Part2",
         },
       },
     },

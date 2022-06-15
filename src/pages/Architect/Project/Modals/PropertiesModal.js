@@ -201,8 +201,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
         prev.structure = currentProject?.structure;
         return { ...prev };
       });
+
+      let temp = currentProject?.stakeholders.map((item) => item._id);
+
       setValues3((prev) => {
-        prev.stakeholders = currentProject?.stakeholders;
+        prev.stakeholders = temp;
         return { ...prev };
       });
       setSelectedStakeholder(currentProject?.client);
@@ -212,7 +215,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     getVat();
     getChap0Part2();
     getTypes();
-    currentProject?.stakeholders[0] && getCurrentType();
+    currentProject?.stakeholders[0]?._id && getCurrentType();
     setLoading(false);
   }, [currentProject]);
 
@@ -228,7 +231,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
-    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]}`);
+    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]._id}`);
     setTypeValue(result.data.type._id);
   };
 
@@ -534,6 +537,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <br />
+            <br />
             <Autocomplete
               label="Maitre d'Ouvrage"
               options={stakeholderByType1}
@@ -577,6 +581,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               value={values.reference}
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
+            <br />
             <br />
             <label htmlFor="grid-first-name" style={{ color: "gray" }}>
               {t("Description")}

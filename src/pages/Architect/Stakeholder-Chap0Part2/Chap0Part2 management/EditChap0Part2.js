@@ -1,108 +1,46 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { Button, Grid } from "@mui/material";
-import { Store } from "../../../../StoreContext";
-import { toast } from "react-toastify";
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/addStakeholder";
-import RichTextEditor from "../../../../components/Architect/RichTextEditor";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 // component
-const EditChap0Part2 = ({ handleEditChap0Part2Modal, Chap0Part2 }) => {
+import { Button } from "@mui/material";
+import ChapList from "./ChapList";
+
+const EditChap0Part2 = ({
+  handleOpenEditChap0Part2Modal,
+  editChap0Part2,
+  handleOpenEditChapModal,
+  handleOpenDeleteChapModal,
+  currentProject,
+  setEditChap0Part2,
+  handleOpenAddChapModal,
+}) => {
   const { t } = useTranslation();
-  const store = Store();
-  const classes = useStyles();
-  // states
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
 
-  // useEffect to set values
-  useEffect(() => {
-    setTitle(Chap0Part2.title);
-    setText(Chap0Part2.text);
-  }, [Chap0Part2]);
-
-  // handle Submit function
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = {
-      title,
-      text,
-    };
-    const result = await api(
-      "put",
-      `/ArchitectsChap0/${Chap0Part2._id}`,
-      data,
-      t
-    );
-    toast.success(t(result.data.message));
-    handleEditChap0Part2Modal();
-  };
-
-  // jsx
   return (
-    <>
-      <div
-        className={classes.container}
-        style={{ maxHeight: 600, overflow: "auto" }}
-      >
-        <form className={classes.form} onSubmit={handleSubmit}>
-          {/* All fields */}
-          <br />
-          <InputWithLabel
-            label="Title"
-            required={true}
-            name="title"
-            type="text"
-            value={title}
-            handleChange={(e) => setTitle(e.target.value)}
-          />
-          <br />
-          <label htmlFor="grid-first-name">{t("Text")}</label>
-          <br />
-          <br />
-          <RichTextEditor value={Chap0Part2.text} setValue={setText} />
-          <br />
-
-          {/* create button */}
-          <div style={{ width: "100%", textAlign: "right" }}>
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
-                borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
-                },
-              }}
-              onClick={handleEditChap0Part2Modal}
-            >
-              {t("Close")}
-            </Button>
-            &nbsp;
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
-                borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
-                },
-              }}
-              type="submit"
-            >
-              {t("Update")}
-            </Button>
-          </div>
-        </form>
+    <div style={{ width: "45vw", maxHeight: 600, overflow: "auto" }}>
+      <ChapList
+        editChap0Part2={editChap0Part2}
+        handleOpenEditChapModal={handleOpenEditChapModal}
+        handleOpenDeleteChapModal={handleOpenDeleteChapModal}
+        currentProject={currentProject}
+        setEditChap0Part2={setEditChap0Part2}
+        handleOpenAddChapModal={handleOpenAddChapModal}
+      />
+      {/* create button */}
+      <div style={{ width: "100%", textAlign: "right" }}>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#3b373c",
+            height: "35px",
+          }}
+          onClick={handleOpenEditChap0Part2Modal}
+        >
+          {t("Close")}
+        </Button>
       </div>
-    </>
+    </div>
   );
 };
 
