@@ -7,9 +7,6 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     marginBottom: "20px",
   },
-  input: {
-    height: "38px",
-  },
   multilineInput: {
     height: "auto",
   },

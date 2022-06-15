@@ -249,7 +249,7 @@ const Index = () => {
       />
 
       <Modal
-        title={t("Edit Chap")}
+        title={t("Modify the text of Chap0 Part2")}
         open={openEditChapModal}
         onClose={handleOpenEditChapModal}
         component={
