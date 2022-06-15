@@ -12,6 +12,7 @@ import Modal from "../../components/Architect/Modal";
 import ForgetPasswordModal from "./Components/ForgetPasswordModal";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 
 // input styling
 const InputStyle = {
@@ -49,20 +50,12 @@ const Login = () => {
         component={<ForgetPasswordModal handleOpenModal={handleOpenModal} />}
       />
       <div className="left-container">
-        <img
-          src={logo}
-          alt="QBSoft"
-          className="logo-qb"
-          onClick={() => history.push("/auth/home")}
-        />
+        <img src={logo} alt="QBSoft" className="logo-qb" onClick={() => history.push("/auth/home")} />
         <img src={Vector} alt="QBSoft" className="vector" />
       </div>
       <div className="right-container">
         <div className="form-container">
-          <form
-            className="login-form"
-            onSubmit={(e) => onSubmit(e, email, password, updateStore, history)}
-          >
+          <form className="login-form" onSubmit={(e) => onSubmit(e, email, password, updateStore, history)}>
             <TextInput
               label="Email"
               name="email"
@@ -89,15 +82,9 @@ const Login = () => {
             />
             <div className="forget-pass">
               {!showPassword ? (
-                <VisibilityIcon
-                  className="eye-icon"
-                  onClick={() => setShowPassword(true)}
-                />
+                <VisibilityIcon className="eye-icon" onClick={() => setShowPassword(true)} />
               ) : (
-                <VisibilityOffIcon
-                  className="eye-icon"
-                  onClick={() => setShowPassword(false)}
-                />
+                <VisibilityOffIcon className="eye-icon" onClick={() => setShowPassword(false)} />
               )}
 
               <label
@@ -130,13 +117,17 @@ const Login = () => {
               marginBottom: "2rem",
             }}
           >
-            En vous connectant, vous acceptez nos présentes Conditions Générales
-            d'Utilisation (CGU), de recevoir des e-mails et des mises à jour de
-            QBSoft et vous reconnaissez avoir lu notre Politique de
-            confidentialité.
+            En vous connectant, vous acceptez nos présentes{" "}
+            <Link to="/auth/terms" style={{ color: "red" }}>
+              <u>Conditions Générales d'Utilisation</u>
+            </Link>
+            (CGU), de recevoir des e-mails et des mises à jour de QBSoft et vous reconnaissez avoir lu notre{" "}
+            <Link to="/auth/privacy" style={{ color: "red" }}>
+              <u> Politique de confidentialité</u>
+            </Link>
+            .
             <br />
-            Vous reconnaissez également que QBSoft utilise des cookies pour vous
-            offrir une expérience utilisateur optimale.
+            Vous reconnaissez également que QBSoft utilise des cookies pour vous offrir une expérience utilisateur optimale.
           </span>
           <span
             className={`block tracking-wide text-gray-700 text-xs font-bold mb-2`}
