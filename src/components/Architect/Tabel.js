@@ -31,6 +31,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
+import WrapTextIcon from "@mui/icons-material/WrapText";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -340,9 +341,14 @@ export default function EnhancedTable(props) {
                               <DriveFileRenameOutlineRoundedIcon />
                             </IconButton>
                           ) : props.handleView ? (
-                            <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
-                              <DriveFileRenameOutlineRoundedIcon />
-                            </IconButton>
+                            <>
+                              <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
+                                <DriveFileRenameOutlineRoundedIcon />
+                              </IconButton>
+                              <IconButton aria-label="edit" onClick={() => props.handleOpenStatusModal(row)}>
+                                <WrapTextIcon />
+                              </IconButton>
+                            </>
                           ) : (
                             <>
                               <IconButton color="info" aria-label="edit" onClick={() => props.handleEdit(row)}>
