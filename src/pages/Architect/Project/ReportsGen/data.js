@@ -1014,6 +1014,15 @@ function parseChap0(currentProject) {
     return null;
   }
 
+  const stakeholders = currentProject?.stakeholders ?? [];
+  const _stakeholders = [];
+  for (let i = 0; i < stakeholders.length; i++) {
+    const _ = stakeholders[i];
+    if (_.name) {
+      _stakeholders.push(_.name);
+    }
+  }
+
   // Parse chap0part1
   const part1 = {
     name: currentProject?.name ?? "",
@@ -1024,7 +1033,7 @@ function parseChap0(currentProject) {
     description: currentProject?.description ?? "",
     market_type: currentProject?.market_type ?? "",
     structure: currentProject?.structure ?? "",
-    stakeholders: (currentProject?.stakeholders ?? []).map((_) => _.name),
+    stakeholders: _stakeholders,
   };
 
   // Parse chap0part2
