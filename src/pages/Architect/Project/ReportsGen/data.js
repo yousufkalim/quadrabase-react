@@ -1013,6 +1013,21 @@ function parseChap0(currentProject) {
   if (!currentProject.chap0part2) {
     return null;
   }
+
+  // Parse chap0part1
+  const part1 = {
+    name: currentProject?.name ?? "",
+    client: currentProject?.client?.establishment ?? "",
+    prescriber: currentProject?.prescriber?.establishment ?? "",
+    vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
+    reference: currentProject?.reference ?? "",
+    description: currentProject?.description ?? "",
+    market_type: currentProject?.market_type ?? "",
+    structure: currentProject?.structure ?? "",
+    stakeholders: (currentProject?.stakeholders ?? []).map((_) => _.name),
+  };
+
+  // Parse chap0part2
   const lvl1 = currentProject.chap0part2.id;
   const _ = {
     title: `0.1 ${lvl1.title}`,
@@ -1036,7 +1051,13 @@ function parseChap0(currentProject) {
     }
     _.lvl2.push(__);
   }
-  return _;
+
+  const obj = {
+    part1: part1,
+    part2: _,
+  };
+
+  return obj;
 }
 
 function findCCTPsSimple(data, index) {
@@ -1101,10 +1122,10 @@ function textRunsSplitGen(str) {
   let textRunArr = [];
   if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
-    str = str.replace(/\&nbsp;/g, " ");
-    textRunArr = handleBuiltInCCTPs(str);
+    strSingle = strSingle.replace(/\&nbsp;/g, " ");
+    textRunArr = handleBuiltInCCTPs(strSingle);
   } else {
-    textRunArr = handleImportedCCTPs(str);
+    textRunArr = handleImportedCCTPs(strSingle);
   }
 
   return textRunArr;
