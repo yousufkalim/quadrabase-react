@@ -126,7 +126,6 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [payment, setPayment] = useState(false);
-  const [madatCheck, setMadatCheck] = useState(false);
   const [archId, setArchId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [form1, setForm1] = useState({
@@ -228,119 +227,123 @@ const Register = () => {
 
   // handle Finish function
   const handleFinish = async () => {
-    // to creating account
-    let data = {};
-    if (type === "Prescripteur") {
-      data = {
-        paymentMethod,
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: {
-                name: "Subscription",
-              },
-              unit_amount:
-                parseInt(
-                  ((subAmounts.initial.price * subAmounts.initial.count +
-                    subAmounts.extended.price * subAmounts.extended.count +
-                    subAmounts.pack.price * subAmounts.pack.count) *
-                    20) /
-                    100 +
-                    subAmounts.initial.price * subAmounts.initial.count +
-                    subAmounts.extended.price * subAmounts.extended.count +
-                    subAmounts.pack.price * subAmounts.pack.count
-                ) * 100,
-            },
-            quantity: 1,
-          },
-        ],
-        metaData: {
-          id: archId,
-          subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * 12,
-          subscriptionProjects: parseInt(subAmounts.pack.count) * 5,
-          type: "architectSignup",
-        },
-        invoiceData: {
-          address1: form1.values.address_1,
-          initialPrice: subAmounts.initial.price,
-          initialCount: subAmounts.initial.count,
-          extendedPrice: subAmounts.extended.price,
-          extendedCount: subAmounts.extended.count,
-          packPrice: subAmounts.pack.price,
-          packCount: subAmounts.pack.count,
-          totalHT:
-            subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count,
-          tvaPercentage: 20,
-          tvaAmount:
-            ((subAmounts.initial.price * subAmounts.initial.count +
-              subAmounts.extended.price * subAmounts.extended.count +
-              subAmounts.pack.price * subAmounts.pack.count) *
-              20) /
-            100,
-          TotalCost:
-            ((subAmounts.initial.price * subAmounts.initial.count +
-              subAmounts.extended.price * subAmounts.extended.count +
-              subAmounts.pack.price * subAmounts.pack.count) *
-              20) /
-              100 +
-            subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count,
-          paymentMode: "Card",
-        },
-      };
+    if (paymentMethod === "mandat") {
+      history.push("/auth/login");
     } else {
-      data = {
-        paymentMethod,
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: {
-                name: "Subscription",
+      // to creating account
+      let data = {};
+      if (type === "Prescripteur") {
+        data = {
+          paymentMethod,
+          line_items: [
+            {
+              price_data: {
+                currency: "eur",
+                product_data: {
+                  name: "Subscription",
+                },
+                unit_amount:
+                  parseInt(
+                    ((subAmounts.initial.price * subAmounts.initial.count +
+                      subAmounts.extended.price * subAmounts.extended.count +
+                      subAmounts.pack.price * subAmounts.pack.count) *
+                      20) /
+                      100 +
+                      subAmounts.initial.price * subAmounts.initial.count +
+                      subAmounts.extended.price * subAmounts.extended.count +
+                      subAmounts.pack.price * subAmounts.pack.count
+                  ) * 100,
               },
-              unit_amount: parseInt(fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000) * 100,
+              quantity: 1,
             },
-            quantity: 1,
+          ],
+          metaData: {
+            id: archId,
+            subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * 12,
+            subscriptionProjects: parseInt(subAmounts.pack.count) * 5,
+            type: "architectSignup",
           },
-        ],
-        metaData: {
-          name: form2.values.first_name,
-          email: form2.values.email,
-          contact_no: form2.values.phone,
-          address1: form1.values.address_1,
-          address2: form1.values.address_2,
-          city: form1.values.city,
-          zipcode: form1.values.postal_code,
-          po_box: form1.values.po_box,
-          establishment: form1.values.establishment,
-          subscriptionName: fabricantSub,
-          subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
-          subscriptionEndDate: moment(new Date()).add(1, "years").format("YYYY/MM/DD"),
-          type: "providerSignup",
-        },
-        invoiceData: {
-          address1: form1.values.address_1,
-          alertPrice: 5000,
-          alertCount: fabricantSub === "Alertes" ? 1 : 0,
-          alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
-          referenPrice: 2000,
-          referenCount: fabricantSub === "Référencement" ? 1 : 0,
-          referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
-          totalHT: fabricantSub === "Référencement" ? 2000 : 0,
-          tvaPercentage: 20,
-          tvaAmount: fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
-          TotalCost: fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000,
-          paymentMode: "Card",
-        },
-      };
-    }
+          invoiceData: {
+            address1: form1.values.address_1,
+            initialPrice: subAmounts.initial.price,
+            initialCount: subAmounts.initial.count,
+            extendedPrice: subAmounts.extended.price,
+            extendedCount: subAmounts.extended.count,
+            packPrice: subAmounts.pack.price,
+            packCount: subAmounts.pack.count,
+            totalHT:
+              subAmounts.initial.price * subAmounts.initial.count +
+              subAmounts.extended.price * subAmounts.extended.count +
+              subAmounts.pack.price * subAmounts.pack.count,
+            tvaPercentage: 20,
+            tvaAmount:
+              ((subAmounts.initial.price * subAmounts.initial.count +
+                subAmounts.extended.price * subAmounts.extended.count +
+                subAmounts.pack.price * subAmounts.pack.count) *
+                20) /
+              100,
+            TotalCost:
+              ((subAmounts.initial.price * subAmounts.initial.count +
+                subAmounts.extended.price * subAmounts.extended.count +
+                subAmounts.pack.price * subAmounts.pack.count) *
+                20) /
+                100 +
+              subAmounts.initial.price * subAmounts.initial.count +
+              subAmounts.extended.price * subAmounts.extended.count +
+              subAmounts.pack.price * subAmounts.pack.count,
+            paymentMode: "Card",
+          },
+        };
+      } else {
+        data = {
+          paymentMethod,
+          line_items: [
+            {
+              price_data: {
+                currency: "eur",
+                product_data: {
+                  name: "Subscription",
+                },
+                unit_amount: parseInt(fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000) * 100,
+              },
+              quantity: 1,
+            },
+          ],
+          metaData: {
+            name: form2.values.first_name,
+            email: form2.values.email,
+            contact_no: form2.values.phone,
+            address1: form1.values.address_1,
+            address2: form1.values.address_2,
+            city: form1.values.city,
+            zipcode: form1.values.postal_code,
+            po_box: form1.values.po_box,
+            establishment: form1.values.establishment,
+            subscriptionName: fabricantSub,
+            subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
+            subscriptionEndDate: moment(new Date()).add(1, "years").format("YYYY/MM/DD"),
+            type: "providerSignup",
+          },
+          invoiceData: {
+            address1: form1.values.address_1,
+            alertPrice: 5000,
+            alertCount: fabricantSub === "Alertes" ? 1 : 0,
+            alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
+            referenPrice: 2000,
+            referenCount: fabricantSub === "Référencement" ? 1 : 0,
+            referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
+            totalHT: fabricantSub === "Référencement" ? 2000 : 0,
+            tvaPercentage: 20,
+            tvaAmount: fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
+            TotalCost: fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000,
+            paymentMode: "Card",
+          },
+        };
+      }
 
-    const res = await api("post", `/licenses/checkout`, data);
-    window.location = res.data.url;
+      const res = await api("post", `/licenses/checkout`, data);
+      window.location = res.data.url;
+    }
   };
 
   const createUser = async () => {
@@ -1272,35 +1275,78 @@ const Register = () => {
                             <span>Mandat administratif</span>
                             <br />
                           </div>
-                          <Checkbox
-                            style={{
-                              height: "16px",
-                              width: "16px",
-                              color: "#8C1244",
-                            }}
-                            checked={madatCheck}
-                            onChange={(e) => {
-                              setMadatCheck(e.target.checked);
-                            }}
+                          <input
+                            type="radio"
+                            name="payment"
+                            value="mandat"
+                            className="radio-button"
+                            checked={paymentMethod === "mandat"}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
                       {/* exports */}
-                      {madatCheck && (
+                      {paymentMethod === "mandat" && (
                         <div
                           style={{
-                            color: "#FF8616",
-                            fontSize: 13,
                             marginTop: 20,
                           }}
                         >
-                          <span style={{ cursor: "pointer" }} onClick={generateQuote}>
-                            Générer un devis
-                          </span>
-                          &nbsp;&nbsp;&nbsp;
-                          <span style={{ cursor: "pointer" }} onClick={generateInvoice}>
-                            Voir la facture
-                          </span>
+                          <div style={{ fontSize: 15 }}>
+                            <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre
+                            bon d’achat vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation
+                            de l’application Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute
+                            de règlement de votre part, les droits accordéd seront suspendus automatiquement.
+                          </div>
+                          <div style={{ padding: "20px 0" }}>
+                            <div>
+                              <div style={{ display: "flex" }}>
+                                <div
+                                  className="common-text"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    color: "black",
+                                    fontWeight: 600,
+                                    fontSize: 20,
+                                    width: "auto",
+                                  }}
+                                >
+                                  <div style={{ border: 0, padding: 0, fontSize: 15, marginRight: 20, whiteSpace: "nowrap" }}>
+                                    Coordonées :{" "}
+                                  </div>
+                                </div>
+                                <div style={{ fontSize: 15 }}>
+                                  <div style={{ marginBottom: 10 }}>Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE</div>
+                                  <div style={{ marginBottom: 10 }}>IBAN : FR76 1695 8000 0115 4724 0729 575</div>
+                                  <div>BIC/SWIFT : QNTOFRP1XXX / BNPAFRPP</div>
+                                </div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    marginLeft: 30,
+                                    fontSize: 15,
+                                  }}
+                                >
+                                  <div
+                                    style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
+                                    onClick={generateQuote}
+                                  >
+                                    Générer un devis
+                                  </div>
+                                  <div
+                                    style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
+                                    onClick={generateInvoice}
+                                  >
+                                    Voir la facture
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -1420,35 +1466,78 @@ const Register = () => {
                             <span>Mandat administratif</span>
                             <br />
                           </div>
-                          <Checkbox
-                            style={{
-                              height: "16px",
-                              width: "16px",
-                              color: "#8C1244",
-                            }}
-                            checked={madatCheck}
-                            onChange={(e) => {
-                              setMadatCheck(e.target.checked);
-                            }}
+                          <input
+                            type="radio"
+                            name="payment"
+                            value="mandat"
+                            className="radio-button"
+                            checked={paymentMethod === "mandat"}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
                       {/* exports */}
-                      {madatCheck && (
+                      {paymentMethod === "mandat" && (
                         <div
                           style={{
-                            color: "#FF8616",
-                            fontSize: 13,
                             marginTop: 20,
                           }}
                         >
-                          <span style={{ cursor: "pointer" }} onClick={generateQuote}>
-                            Générer un devis
-                          </span>
-                          &nbsp;&nbsp;&nbsp;
-                          <span style={{ cursor: "pointer" }} onClick={generateInvoice}>
-                            Voir la facture
-                          </span>
+                          <div style={{ fontSize: 15 }}>
+                            <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre
+                            bon d’achat vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation
+                            de l’application Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute
+                            de règlement de votre part, les droits accordéd seront suspendus automatiquement.
+                          </div>
+                          <div style={{ padding: "20px 0" }}>
+                            <div>
+                              <div style={{ display: "flex" }}>
+                                <div
+                                  className="common-text"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    color: "black",
+                                    fontWeight: 600,
+                                    fontSize: 20,
+                                    width: "auto",
+                                  }}
+                                >
+                                  <div style={{ border: 0, padding: 0, fontSize: 15, marginRight: 20, whiteSpace: "nowrap" }}>
+                                    Coordonées :{" "}
+                                  </div>
+                                </div>
+                                <div style={{ fontSize: 15 }}>
+                                  <div style={{ marginBottom: 10 }}>Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE</div>
+                                  <div style={{ marginBottom: 10 }}>IBAN : FR76 1695 8000 0115 4724 0729 575</div>
+                                  <div>BIC/SWIFT : QNTOFRP1XXX / BNPAFRPP</div>
+                                </div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    marginLeft: 30,
+                                    fontSize: 15,
+                                  }}
+                                >
+                                  <div
+                                    style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
+                                    onClick={generateQuote}
+                                  >
+                                    Générer un devis
+                                  </div>
+                                  <div
+                                    style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
+                                    onClick={generateInvoice}
+                                  >
+                                    Voir la facture
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>

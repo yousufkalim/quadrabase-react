@@ -100,7 +100,7 @@ const Home = () => {
     history.push("/auth/register");
   };
 
-  return mySubscription ? (
+  return store?.user?.authorized.toUpperCase() === "YES" ? (
     <div className="home-container">
       <Modal
         title={t("Buy Subscription")}
