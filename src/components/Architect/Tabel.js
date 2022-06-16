@@ -164,7 +164,7 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(4);
-
+  const { t } = useTranslation();
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -321,13 +321,17 @@ export default function EnhancedTable(props) {
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.subscription?.code ? row?.subscription?.code : <>N/A</>}
                           </TableCell>
+                        ) : record === "market_type" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {t(row?.market_type)}
+                          </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row[record]
                               ? row[record]?.length > 20
                                 ? row[record].substring(0, 20) + "..."
                                 : row[record]
-                              : row[record] == 0
+                              : row[record] === 0
                               ? 0
                               : "N/A"}
                           </TableCell>

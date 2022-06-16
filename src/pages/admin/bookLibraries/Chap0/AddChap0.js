@@ -29,7 +29,7 @@ export default function AddExpense(props) {
           <div className="w-full  px-6 mb-3">
             <SelectField
               name="subscription"
-              label={translate("Family")}
+              label={translate("Domain")}
               value={family}
               onChange={(e) => setFamily(e.target.value)}
               translate={translate}

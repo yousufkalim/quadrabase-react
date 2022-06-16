@@ -49,11 +49,7 @@ function a11yProps(index) {
 }
 
 // component
-const AddCategoryModal = ({
-  handleOpenAddCatgeoryModal,
-  categoryData,
-  library,
-}) => {
+const AddCategoryModal = ({ handleOpenAddCatgeoryModal, categoryData, library }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   // states
@@ -114,11 +110,7 @@ const AddCategoryModal = ({
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -143,6 +135,10 @@ const AddCategoryModal = ({
 
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenAddCatgeoryModal}>
+          {t("Close")}
+        </Button>{" "}
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Create")}
         </Button>

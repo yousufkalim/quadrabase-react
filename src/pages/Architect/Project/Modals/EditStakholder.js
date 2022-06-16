@@ -154,7 +154,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 label={t("CP")}
                 required={true}
                 name="zipcode"
-                type="number"
+                type="text"
                 value={values.zipcode}
                 handleChange={(e) => handleChange(e.target.name, e.target.value)}
               />
