@@ -62,7 +62,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   const [values, setValues] = useState({
     name: "",
     unit: "",
-    unit_price: "",
+    unit_price: 0,
     cctp_text: [],
     bpu_text: [],
   });

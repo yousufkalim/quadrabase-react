@@ -18,6 +18,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import BasicDropdown from "../../components/Architect/BasicDropdown";
 import Checkbox from "@mui/material/Checkbox";
+import { formatNumber } from "../../utils/markThousand";
 
 // input styling
 const InputStyle = {
@@ -1127,7 +1128,7 @@ const Register = () => {
                           />
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>{subAmounts.initial.price.toFixed(2) * subAmounts.initial.count} €</div>
+                            <div>{formatNumber(subAmounts.initial.price.toFixed(2) * subAmounts.initial.count)} €</div>
                           </div>
                         </div>
                       </div>
@@ -1165,7 +1166,7 @@ const Register = () => {
                           />
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div> {(subAmounts.pack.count * subAmounts.pack.price).toFixed(2)} €</div>
+                            <div> {formatNumber((subAmounts.pack.count * subAmounts.pack.price).toFixed(2))} €</div>
                           </div>
                         </div>
                       </div>
@@ -1195,11 +1196,13 @@ const Register = () => {
                               <div>Total HT</div>
                               <div>
                                 {" "}
-                                {(
-                                  subAmounts.initial.price * subAmounts.initial.count +
-                                  subAmounts.extended.price * subAmounts.extended.count +
-                                  subAmounts.pack.price * subAmounts.pack.count
-                                ).toFixed(2)}{" "}
+                                {formatNumber(
+                                  (
+                                    subAmounts.initial.price * subAmounts.initial.count +
+                                    subAmounts.extended.price * subAmounts.extended.count +
+                                    subAmounts.pack.price * subAmounts.pack.count
+                                  ).toFixed(2)
+                                )}{" "}
                                 €
                               </div>
                             </div>
@@ -1207,13 +1210,15 @@ const Register = () => {
                               <div>T.V.A 20%</div>
                               <div>
                                 {" "}
-                                {(
-                                  ((subAmounts.initial.price * subAmounts.initial.count +
-                                    subAmounts.extended.price * subAmounts.extended.count +
-                                    subAmounts.pack.price * subAmounts.pack.count) *
-                                    20) /
-                                  100
-                                ).toFixed(2)}{" "}
+                                {formatNumber(
+                                  (
+                                    ((subAmounts.initial.price * subAmounts.initial.count +
+                                      subAmounts.extended.price * subAmounts.extended.count +
+                                      subAmounts.pack.price * subAmounts.pack.count) *
+                                      20) /
+                                    100
+                                  ).toFixed(2)
+                                )}{" "}
                                 €
                               </div>
                             </div>
@@ -1221,16 +1226,18 @@ const Register = () => {
                               <div>Total T.T.C</div>
                               <div>
                                 {" "}
-                                {(
-                                  ((subAmounts.initial.price * subAmounts.initial.count +
+                                {formatNumber(
+                                  (
+                                    ((subAmounts.initial.price * subAmounts.initial.count +
+                                      subAmounts.extended.price * subAmounts.extended.count +
+                                      subAmounts.pack.price * subAmounts.pack.count) *
+                                      20) /
+                                      100 +
+                                    subAmounts.initial.price * subAmounts.initial.count +
                                     subAmounts.extended.price * subAmounts.extended.count +
-                                    subAmounts.pack.price * subAmounts.pack.count) *
-                                    20) /
-                                    100 +
-                                  subAmounts.initial.price * subAmounts.initial.count +
-                                  subAmounts.extended.price * subAmounts.extended.count +
-                                  subAmounts.pack.price * subAmounts.pack.count
-                                ).toFixed(2)}{" "}
+                                    subAmounts.pack.price * subAmounts.pack.count
+                                  ).toFixed(2)
+                                )}{" "}
                                 €
                               </div>
                             </div>
@@ -1385,7 +1392,7 @@ const Register = () => {
                           />
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>{fabricantSub === "Alertes" ? <>5000.00</> : <>2000.00</>} €</div>
+                            <div>{fabricantSub === "Alertes" ? <>5 000,00</> : <>2 000,00</>} €</div>
                           </div>
                         </div>
                       </div>
@@ -1411,16 +1418,21 @@ const Register = () => {
                             <div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>Total HT</div>
-                                <div>{fabricantSub === "Alertes" ? <>5000.00</> : <>2000.00</>} €</div>
+                                <div>{fabricantSub === "Alertes" ? <>5 000,00</> : <>2 000,00</>} €</div>
                               </div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>T.V.A 20%</div>
-                                <div>{(fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100).toFixed(2)} €</div>
+                                <div>
+                                  {formatNumber((fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100).toFixed(2))}{" "}
+                                  €
+                                </div>
                               </div>
                               <div className="amount-container">
                                 <div>Total T.T.C</div>{" "}
                                 <div>
-                                  {(fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000).toFixed(2)}{" "}
+                                  {formatNumber(
+                                    (fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000).toFixed(2)
+                                  )}{" "}
                                   €
                                 </div>
                               </div>

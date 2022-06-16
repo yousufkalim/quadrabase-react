@@ -89,12 +89,7 @@ const AddLibraryModal = ({ handleOpenLibrariesModal, librariesData }) => {
     cctp_text4 && data.cctp_text.push(cctp_text4);
     data.architect = store.user._id;
     data.ranking = librariesData ? librariesData.length : 0;
-    const result = await api(
-      "post",
-      `/BookLibraries/architect/create`,
-      data,
-      t
-    );
+    const result = await api("post", `/BookLibraries/architect/create`, data, t);
     toast.success(t(result.data.message));
     handleOpenLibrariesModal();
   };
@@ -121,11 +116,7 @@ const AddLibraryModal = ({ handleOpenLibrariesModal, librariesData }) => {
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -150,6 +141,10 @@ const AddLibraryModal = ({ handleOpenLibrariesModal, librariesData }) => {
 
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenLibrariesModal}>
+          {t("Close")}
+        </Button>{" "}
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Create")}
         </Button>

@@ -183,8 +183,8 @@ const Home = () => {
       >
         <img src={noSubcription} />
         <span className="no-subscription-text">
-          {t("You have to complete your")} <br />
-          {t("Sign up process first, to use this platform")}
+          {t("To use the Quadrabase application")}, <br />
+          {t("you must subscribe")}
         </span>
         <Button
           variant="contained"
@@ -196,7 +196,7 @@ const Home = () => {
           }}
           onClick={handleNoSub}
         >
-          {t("Back to registration Process")}
+          {t("Subscribe to Quadrabase")}
         </Button>
       </div>
     </div>
