@@ -331,7 +331,7 @@ export default function EnhancedTable(props) {
                               ? row[record]?.length > 20
                                 ? row[record].substring(0, 20) + "..."
                                 : row[record]
-                              : row[record] == 0
+                              : row[record] === 0
                               ? 0
                               : "N/A"}
                           </TableCell>

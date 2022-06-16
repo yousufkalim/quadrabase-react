@@ -471,6 +471,11 @@ export const StakeholderheadCells = [
     label: "Address 1",
   },
   {
+    id: "address2",
+
+    label: "Address 2",
+  },
+  {
     id: "po_box",
     label: "BP/CS",
   },
