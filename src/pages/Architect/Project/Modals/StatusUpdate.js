@@ -7,12 +7,12 @@ import api from "../../../../api";
 
 const SOP = [
   {
-    value: "en cours",
-    label: "en cours",
+    value: "En cours",
+    label: "En cours",
   },
   {
-    value: "complété",
-    label: "complété",
+    value: "Complété",
+    label: "Complété",
   },
 ];
 

@@ -1092,7 +1092,7 @@ const Register = () => {
 
             {!startStepper && payment && (
               <div style={{ width: "80%" }}>
-                <div className="purchase-header">Purchase {type}</div>
+                <div className="purchase-header">Achat {type}</div>
                 {type === "Prescripteur" ? (
                   <>
                     {" "}
@@ -1300,6 +1300,8 @@ const Register = () => {
                           }}
                         >
                           <div style={{ fontSize: 15 }}>
+                            Merci de bien vouloir nous retourner votre bon de commande
+                            <br />
                             <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre
                             bon d’achat vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation
                             de l’application Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute
@@ -1344,12 +1346,12 @@ const Register = () => {
                                   >
                                     Générer un devis
                                   </div>
-                                  <div
+                                  {/* <div
                                     style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
                                     onClick={generateInvoice}
                                   >
                                     Voir la facture
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -1496,6 +1498,8 @@ const Register = () => {
                           }}
                         >
                           <div style={{ fontSize: 15 }}>
+                            Merci de bien vouloir nous retourner votre bon de commande
+                            <br />
                             <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre
                             bon d’achat vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation
                             de l’application Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute
@@ -1540,12 +1544,12 @@ const Register = () => {
                                   >
                                     Générer un devis
                                   </div>
-                                  <div
+                                  {/* <div
                                     style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
                                     onClick={generateInvoice}
                                   >
                                     Voir la facture
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>

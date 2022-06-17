@@ -933,7 +933,7 @@ i18n
           "Edit Work": "Modifier l'ouvrage",
           "Edit Work Detail": "Modifier le détail d’ouvrage",
           "Add Family": "Ajouter une famille",
-          "Select Family": "Sélectionnez la famille",
+          "Select Family": "Sélectionnez le domaine",
           Unit: "Unité",
           "Select Provider": "Sélectionnez le fabricant",
           "Add Provider": "Ajouter un fabricant",
