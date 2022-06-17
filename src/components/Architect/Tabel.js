@@ -135,7 +135,15 @@ const EnhancedTableToolbar = (props) => {
       {props.buttonText && (
         <Button
           variant="contained"
-          onClick={props.buttonAction}
+          onClick={() => {
+            if (props.buttonText === "Buy a project pack" || props.buttonText === "Acheter un pack projet") {
+              props.buttonAction("project");
+            } else if (props.buttonText === "Buy Subscription" || props.buttonText === "Acheter un abonnement") {
+              props.buttonAction("subscription");
+            } else {
+              props.buttonAction();
+            }
+          }}
           sx={{
             textTransform: "none",
             backgroundColor: "#8C1244",

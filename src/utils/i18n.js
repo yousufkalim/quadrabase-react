@@ -39,6 +39,7 @@ i18n
           //  ArchitectheadCells
           Authorize: "Authorize",
           Subscription: "Subscription",
+          subscription: "subscription",
           "Subscription End Date": "Subscription End Date",
           Service: "Service",
           "Date/Time": "Date/Time",
@@ -561,6 +562,7 @@ i18n
           TradesAndTranches: "TradesAndTranches",
           Simple: "Simple",
           Rate: "Rate",
+          project: "project",
         },
       },
       fr: {
@@ -1107,6 +1109,8 @@ i18n
           TradesAndTranches: "Lots et Tranches",
           Simple: "Lot Simple",
           Rate: "Tarif",
+          subscription: "abonnement",
+          project: "projet",
         },
       },
     },
