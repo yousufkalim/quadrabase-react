@@ -136,8 +136,8 @@ function CustomChart() {
           onChange={handleChange}
           autoWidth
         >
-          <MenuItem value={10}>{t("Weekly")} </MenuItem>
-          <MenuItem value={21}>Monthly</MenuItem>
+          <MenuItem value={10}>{t("Week")} </MenuItem>
+          <MenuItem value={21}>{t("Month")}</MenuItem>
         </Select>
       </FormControl>
       <div className="App" style={{ width: "100%", padding: "14px" }}>

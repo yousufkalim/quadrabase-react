@@ -576,8 +576,8 @@ i18n
           "Number of Vists": "Number of Vists",
 
           "Project in Progress": "Project in Progress",
-          Weekly: "Weekly",
-          Monthly: "Monthly",
+          Week: "Week",
+          Month: "Month",
           providers: "Providers",
         },
       },
@@ -593,8 +593,8 @@ i18n
           "Number of Vists": "Nombre de visites",
           "Project in Progress": "Projets en cours",
           providers: "Fabricants",
-          Weekly: "hebdomadaire",
-          Monthly: "Mensuelle",
+          Week: "semaine",
+          Month: "Mois",
           // header
           Dashboard: "Tableau de bord",
           Presentation: "Présentation",
