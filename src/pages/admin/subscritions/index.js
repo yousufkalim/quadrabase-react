@@ -17,6 +17,29 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../utils/Auth";
 import { useTranslation } from "react-i18next";
 
+const referenceTypes = [
+  {
+    title: "Quadrabase initial",
+    code: "70600000",
+  },
+  {
+    title: "Quadrabase subscription",
+    code: "70600100",
+  },
+  {
+    title: "Pack 5 Projects",
+    code: "70600200",
+  },
+  {
+    title: "Referencing subscription",
+    code: "70600300",
+  },
+  {
+    title: "Alert Subscription",
+    code: "70600400",
+  },
+];
+
 export default function Index(props) {
   const { translate } = props;
   const token = getToken();
@@ -107,15 +130,9 @@ export default function Index(props) {
         const data = {
           name: values.name,
           type: values.type,
-          duration: {
-            months: values.durationMonths, ////Number of months
-            price: values.durationprice,
-          },
-          credit: values.credit,
-          projectsPack: {
-            projects: values.projectsPack, ////Number of projects with this subscription
-            price: values.projectPrice,
-          },
+          duration: values.duration,
+          price: values.price,
+          reference: referenceTypes.find((item) => item.title === values.reference),
         };
         let response = await Axios({
           method: "post",
@@ -143,15 +160,9 @@ export default function Index(props) {
         const data = {
           name: values.name,
           type: values.type,
-          duration: {
-            months: values.durationMonths, ////Number of months
-            price: values.durationprice,
-          },
-          credit: values.credit,
-          projectsPack: {
-            projects: values.projectsPack, ////Number of projects with this subscription
-            price: values.projectPrice,
-          },
+          duration: values.duration,
+          price: values.price,
+          reference: referenceTypes.find((item) => item.title === values.reference),
         };
         let response = await Axios({
           method: "put",

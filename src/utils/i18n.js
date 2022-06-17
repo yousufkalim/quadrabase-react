@@ -560,6 +560,7 @@ i18n
           "Deleted successfully": "Deleted successfully",
           TradesAndTranches: "TradesAndTranches",
           Simple: "Simple",
+          Rate: "Rate",
         },
       },
       fr: {
@@ -1105,6 +1106,7 @@ i18n
           "Deleted successfully": "Supprimé avec succès",
           TradesAndTranches: "Lots et Tranches",
           Simple: "Lot Simple",
+          Rate: "Tarif",
         },
       },
     },

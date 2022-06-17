@@ -295,21 +295,9 @@ export default function EnhancedTable(props) {
                           <TableCell align="center" title={row?.subscription?.end_date}>
                             {row?.subscription?.end_date ? moment(row?.subscription?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
-                        ) : record == "durationMonths" ? (
-                          <TableCell align="center" title={row?.duration?.months}>
-                            {row?.duration?.months}
-                          </TableCell>
-                        ) : record == "durationPrice" ? (
-                          <TableCell align="center" title={row?.duration?.price}>
-                            {row?.duration?.price}
-                          </TableCell>
-                        ) : record == "projectsPackProjects" ? (
-                          <TableCell align="center" title={row?.projectsPack?.projects}>
-                            {row?.projectsPack?.projects}
-                          </TableCell>
-                        ) : record == "projectsPackPrice" ? (
-                          <TableCell align="center" title={row?.projectsPack?.price}>
-                            {row?.projectsPack?.price}
+                        ) : record == "reference" ? (
+                          <TableCell align="center" title={row?.reference?.title}>
+                            {row?.reference?.code}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="center" title={row[record]}>

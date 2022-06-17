@@ -29,12 +29,10 @@ export const ADMIN_STATE = {
 
 export const PRODUCT_STATE = {
   name: "",
-  type: "",
-  durationMonths: 0,
-  durationprice: 0,
-  credit: "",
-  projectsPack: 0,
-  projectPrice: 0,
+  type: "Prescribers",
+  duration: 0,
+  price: 0,
+  reference: "Quadrabase initial",
 };
 
 export const PROVIDER_STATE = {

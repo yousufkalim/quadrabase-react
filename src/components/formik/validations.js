@@ -41,11 +41,9 @@ export const ADMIN_YUP = Yup.object({
 export const PRODUCT_YUP = Yup.object({
   name: Yup.string().required("Obligatoire"),
   type: Yup.string().required("Obligatoire"),
-  durationMonths: Yup.number().required("Obligatoire"),
-  durationprice: Yup.number().required("Obligatoire"),
-  credit: Yup.string().required("Obligatoire"),
-  projectsPack: Yup.number().required("Obligatoire"),
-  projectPrice: Yup.number().required("Obligatoire"),
+  duration: Yup.number().required("Obligatoire"),
+  price: Yup.number().required("Obligatoire"),
+  reference: Yup.string().required("Obligatoire"),
 });
 
 export const EDIT_ADMIN_YUP = Yup.object({
