@@ -13,10 +13,6 @@ const typeOptions = [
 
 const referenceOptions1 = [
   {
-    _id: "Quadrabase initial",
-    name: "Quadrabase initial",
-  },
-  {
     _id: "Quadrabase subscription",
     name: "Quadrabase subscription",
   },
@@ -50,7 +46,7 @@ export default function AddExpense(props) {
             value={formik.values.type}
             onChange={(e) => {
               if (e.target.value === "Prescribers") {
-                formik.setFieldValue("reference", "Quadrabase initial");
+                formik.setFieldValue("reference", "Quadrabase subscription");
               } else if (e.target.value === "Manufacturers") {
                 formik.setFieldValue("reference", "Referencing subscription");
               }

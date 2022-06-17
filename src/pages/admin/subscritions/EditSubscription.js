@@ -14,10 +14,6 @@ const typeOptions = [
 
 const referenceOptions1 = [
   {
-    _id: "Quadrabase initial",
-    name: "Quadrabase initial",
-  },
-  {
     _id: "Quadrabase subscription",
     name: "Quadrabase subscription",
   },
@@ -67,6 +63,7 @@ export default function AddExpense(props) {
             translate={translate}
             options={typeOptions}
             type="provider"
+            disabled={true}
           />
           <div className="text-red-600 ">
             {formik.touched.type && formik.errors.type ? <small>{formik.errors.type}</small> : null}

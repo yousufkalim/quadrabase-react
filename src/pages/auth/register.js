@@ -156,6 +156,7 @@ const Register = () => {
     touched: {},
   });
 
+  const [duration, setDuration] = useState(0);
   const [subAmounts, setSubAmount] = useState({
     initial: {
       count: 1,
@@ -169,6 +170,13 @@ const Register = () => {
       count: 0,
       price: 500,
     },
+  });
+
+  const [fabricantSubAmounts, setFabricantSubAmount] = useState({
+    alert: 0,
+    refer: 0,
+    alertDuration: 0,
+    referDuration: 0,
   });
 
   useEffect(() => {
@@ -196,6 +204,56 @@ const Register = () => {
       errors: errors || {},
     }));
   }, [form2.values]);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = async () => {
+    const response = await api("get", `/Subscriptions/`);
+    let data = response.data.subscription;
+
+    if (type === "Prescripteur") {
+      let temp = {
+        initial: {
+          count: 1,
+          price: 1190,
+        },
+        extended: {
+          count: 0,
+          price: 1190,
+        },
+        pack: {
+          count: 0,
+          price: 500,
+        },
+      };
+      data.map((item) => {
+        if (item.reference.title === "Quadrabase subscription") {
+          temp = { ...temp, initial: { count: 1, price: item.price } };
+          setDuration(item.duration);
+        } else if (item.reference.title === "Pack 5 Projects") {
+          temp = { ...temp, pack: { count: 0, price: item.price } };
+        }
+      });
+      setSubAmount(temp);
+    } else {
+      let temp = {
+        alert: 0,
+        refer: 0,
+        alertDuration: 0,
+        referDuration: 0,
+      };
+      data.map((item) => {
+        if (item.reference.title === "Referencing subscription") {
+          temp = { ...temp, refer: item.price, referDuration: item.duration };
+        } else if (item.reference.title === "Alert Subscription") {
+          temp = { ...temp, alert: item.price, alertDuration: item.duration };
+        }
+      });
+      setFabricantSubAmount(temp);
+    }
+  };
 
   // handle change function
   const handleChange = (name, value) => {
@@ -260,7 +318,7 @@ const Register = () => {
           ],
           metaData: {
             id: archId,
-            subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * 12,
+            subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * duration,
             subscriptionProjects: parseInt(subAmounts.pack.count) * 5,
             type: "architectSignup",
           },
@@ -305,7 +363,12 @@ const Register = () => {
                 product_data: {
                   name: "Subscription",
                 },
-                unit_amount: parseInt(fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000) * 100,
+                unit_amount:
+                  parseInt(
+                    fabricantSub === "Alertes"
+                      ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
+                      : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer
+                  ) * 100,
               },
               quantity: 1,
             },
@@ -322,21 +385,29 @@ const Register = () => {
             establishment: form1.values.establishment,
             subscriptionName: fabricantSub,
             subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
-            subscriptionEndDate: moment(new Date()).add(1, "years").format("YYYY/MM/DD"),
+            subscriptionEndDate: moment(
+              moment(new Date())
+                .add(fabricantSub === "Alertes" ? fabricantSubAmounts.alertDuration : fabricantSubAmounts.referDuration, "months")
+                .calendar()
+            ).format("YYYY/MM/DD"),
             type: "providerSignup",
           },
           invoiceData: {
             address1: form1.values.address_1,
-            alertPrice: 5000,
+            alertPrice: fabricantSubAmounts.alert,
             alertCount: fabricantSub === "Alertes" ? 1 : 0,
-            alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
-            referenPrice: 2000,
+            alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
+            referenPrice: fabricantSubAmounts.refer,
             referenCount: fabricantSub === "Référencement" ? 1 : 0,
-            referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
-            totalHT: fabricantSub === "Référencement" ? 2000 : 0,
+            referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
+            totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
             tvaPercentage: 20,
-            tvaAmount: fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
-            TotalCost: fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000,
+            tvaAmount:
+              fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
+            TotalCost:
+              fabricantSub === "Alertes"
+                ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
+                : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
             paymentMode: "Card",
           },
         };
@@ -408,16 +479,19 @@ const Register = () => {
       // to generate invoice
       let invoiceData = {
         address1: form1.values.address_1,
-        alertPrice: 5000,
+        alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
-        alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
-        referenPrice: 2000,
+        alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
+        referenPrice: fabricantSubAmounts.refer,
         referenCount: fabricantSub === "Référencement" ? 1 : 0,
-        referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
-        totalHT: fabricantSub === "Référencement" ? 2000 : 0,
+        referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
+        totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
         tvaPercentage: 20,
-        tvaAmount: fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
-        TotalCost: fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000,
+        tvaAmount: fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
+        TotalCost:
+          fabricantSub === "Alertes"
+            ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
+            : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
         paymentMode: "Card",
       };
       const result = await api("post", `/Providers/download`, invoiceData);
@@ -463,16 +537,19 @@ const Register = () => {
       // to generate invoice
       let invoiceData = {
         address1: form1.values.address_1,
-        alertPrice: 5000,
+        alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
-        alertTotal: fabricantSub === "Alertes" ? 5000 : 0,
-        referenPrice: 2000,
+        alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
+        referenPrice: fabricantSubAmounts.refer,
         referenCount: fabricantSub === "Référencement" ? 1 : 0,
-        referenTotal: fabricantSub === "Référencement" ? 2000 : 0,
-        totalHT: fabricantSub === "Référencement" ? 2000 : 0,
+        referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
+        totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
         tvaPercentage: 20,
-        tvaAmount: fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100,
-        TotalCost: fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000,
+        tvaAmount: fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
+        TotalCost:
+          fabricantSub === "Alertes"
+            ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
+            : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
         paymentMode: "Card",
       };
       const result = await api("post", `/Providers/quote/download`, invoiceData);
@@ -1102,9 +1179,9 @@ const Register = () => {
                       <div className="subscription-box">
                         <div className="subscription-box-intial">
                           <div className="common-text">
-                            <span>Abonnement Initial 1 an</span>
+                            <span>Abonnement Initial {duration} mois</span>
                             <br />
-                            <small>(avec 1 pack 5 Projets) </small>
+                            <small>({formatNumber(subAmounts.initial.price.toFixed(2))} € HT)</small>
                           </div>
                           <BasicDropdown
                             options={options}
@@ -1128,7 +1205,7 @@ const Register = () => {
                           />
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>{formatNumber(subAmounts.initial.price.toFixed(2) * subAmounts.initial.count)} €</div>
+                            <div>{formatNumber((subAmounts.initial.price * subAmounts.initial.count).toFixed(2))} €</div>
                           </div>
                         </div>
                       </div>
@@ -1141,7 +1218,7 @@ const Register = () => {
                           <div className="common-text">
                             <span>Pack de 5 Projets</span>
                             <br />
-                            <small>(500.00 € HT)</small>
+                            <small>({formatNumber(subAmounts.pack.price.toFixed(2))} € HT)</small>
                           </div>
                           <BasicDropdown
                             options={options}
@@ -1368,10 +1445,10 @@ const Register = () => {
                       <div className="subscription-box">
                         <div className="subscription-box-intial">
                           <div className="common-text">
-                            <span>Référencement: 2,000.00 €</span>
+                            <span>Référencement: {formatNumber(fabricantSubAmounts.refer.toFixed(2))} €</span>
                             <br />
                             <br />
-                            <span>Alertes: 5,000.00 €</span>
+                            <span>Alertes: {formatNumber(fabricantSubAmounts.alert.toFixed(2))} €</span>
                             <br />
                             <small>(comprenant le référencement)</small>
                           </div>
@@ -1381,7 +1458,6 @@ const Register = () => {
                             onChange={(e) => {
                               setFabricantSub(e.target.value);
                             }}
-                            first="notDisable"
                             style={{
                               backgroundColor: "#f5f5f5",
                               borderRadius: 10,
@@ -1394,7 +1470,14 @@ const Register = () => {
                           />
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>{fabricantSub === "Alertes" ? <>5 000,00</> : <>2 000,00</>} €</div>
+                            <div>
+                              {fabricantSub === "Alertes" ? (
+                                <>{formatNumber(fabricantSubAmounts.alert.toFixed(2))}</>
+                              ) : (
+                                <>{formatNumber(fabricantSubAmounts.refer.toFixed(2))}</>
+                              )}{" "}
+                              €
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1420,12 +1503,24 @@ const Register = () => {
                             <div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>Total HT</div>
-                                <div>{fabricantSub === "Alertes" ? <>5 000,00</> : <>2 000,00</>} €</div>
+                                <div>
+                                  {fabricantSub === "Alertes" ? (
+                                    <>{formatNumber(fabricantSubAmounts.alert.toFixed(2))}</>
+                                  ) : (
+                                    <>{formatNumber(fabricantSubAmounts.refer.toFixed(2))}</>
+                                  )}{" "}
+                                  €
+                                </div>
                               </div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>T.V.A 20%</div>
                                 <div>
-                                  {formatNumber((fabricantSub === "Alertes" ? (5000 * 20) / 100 : (2000 * 20) / 100).toFixed(2))}{" "}
+                                  {formatNumber(
+                                    (fabricantSub === "Alertes"
+                                      ? (fabricantSubAmounts.alert * 20) / 100
+                                      : (fabricantSubAmounts.refer * 20) / 100
+                                    ).toFixed(2)
+                                  )}{" "}
                                   €
                                 </div>
                               </div>
@@ -1433,7 +1528,10 @@ const Register = () => {
                                 <div>Total T.T.C</div>{" "}
                                 <div>
                                   {formatNumber(
-                                    (fabricantSub === "Alertes" ? (5000 * 20) / 100 + 5000 : (2000 * 20) / 100 + 2000).toFixed(2)
+                                    (fabricantSub === "Alertes"
+                                      ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
+                                      : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer
+                                    ).toFixed(2)
                                   )}{" "}
                                   €
                                 </div>

@@ -19,10 +19,6 @@ import { useTranslation } from "react-i18next";
 
 const referenceTypes = [
   {
-    title: "Quadrabase initial",
-    code: "70600000",
-  },
-  {
     title: "Quadrabase subscription",
     code: "70600100",
   },
