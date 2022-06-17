@@ -63,7 +63,7 @@ function Dashboard(props) {
                 <h3 className="cardh3">{t("Number of Administrators")}</h3>
                 <hr className="linhr" />
                 <h1 className="cardh1">{quadrabaseUsers}</h1>
-                <p className="cardP">{t("administrators ")}</p>
+                <p className="cardP">{t("Administrators ")}</p>
               </div>
             </Grid>
 
@@ -72,7 +72,7 @@ function Dashboard(props) {
                 <h3 className="cardh3"> {t("Number of Architects")}</h3>
                 <hr className="linhr" />
                 <h1 className="cardh1">{numberofRegistered}</h1>
-                <p className="cardP"> {t("architects")}</p>
+                <p className="cardP"> {t("Architects")}</p>
               </div>
             </Grid>
 
@@ -82,7 +82,7 @@ function Dashboard(props) {
 
                 <hr className="linhr" />
                 <h1 className="cardh1">{numberofsubscriber}</h1>
-                <p className="cardP"> {t("providers")}</p>
+                <p className="cardP"> {t("Providers")}</p>
               </div>
             </Grid>
           </Grid>

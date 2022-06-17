@@ -568,9 +568,9 @@ i18n
           "Select a type of stakeholder": "Select a type of stakeholder",
 
           "Number of Administrators": "Number of Administrators",
-          "administrators ": "administrators",
+          "Administrators ": "Administrators",
           "Number of Architects": "Number of Architects",
-          architects: "architects",
+          architects: "Architects",
           "Number of Providers": "Number of Providers",
 
           "Number of Vists": "Number of Vists",
@@ -584,16 +584,16 @@ i18n
       fr: {
         translations: {
           "Number of Administrators": "Nombre de Administrateurs ",
-          "administrators ": "Administrateurs",
+          "Administrators ": "Administrateurs",
           "Number of Architects": " Nombre de Prescripteurs ",
-          architects: " Prescripteurs ",
+          Architects: " Prescripteurs ",
 
           "Number of Providers": "Nombre de Fabricants",
 
           "Number of Vists": "Nombre de visites",
           "Project in Progress": "Projets en cours",
           providers: "Fabricants",
-          Week: "semaine",
+          Week: "Semaine",
           Month: "Mois",
           // header
           Dashboard: "Tableau de bord",
