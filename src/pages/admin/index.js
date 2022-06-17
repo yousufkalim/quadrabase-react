@@ -6,8 +6,10 @@ import api from "../../api";
 import Banner from "../../components/Banner";
 import "../../css/dashboard.css";
 import CustomChart from "../../components/CustomChart";
+import { useTranslation } from "react-i18next";
 
 function Dashboard(props) {
+  const { t } = useTranslation();
   const [quadrabaseUsers, setQuadrabaseUsers] = useState(0);
   const [numberofRegistered, setNumberofRegistered] = useState(0);
   const [numberofsubscriber, setNumberofsubscriber] = useState(0);
@@ -42,6 +44,8 @@ function Dashboard(props) {
     setProjectInProgress(result.data.ProjectsTop);
   };
 
+  console.log(quadrabaseUsers, "-quadrabaseUsers");
+
   return (
     <div>
       {/* Content area */}
@@ -56,29 +60,29 @@ function Dashboard(props) {
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={4}>
               <div className="cardDiv">
-                <h3 className="cardh3">Quadrabase User</h3>
+                <h3 className="cardh3">{t("Number of Administrators")}</h3>
                 <hr className="linhr" />
                 <h1 className="cardh1">{quadrabaseUsers}</h1>
-                <p className="cardP">New Customers</p>
+                <p className="cardP">{t("administrators ")}</p>
               </div>
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
               <div className="cardDiv">
-                <h3 className="cardh3">Number of Registered</h3>
+                <h3 className="cardh3"> {t("Number of Architects")}</h3>
                 <hr className="linhr" />
                 <h1 className="cardh1">{numberofRegistered}</h1>
-                <p className="cardP">New Registrations</p>
+                <p className="cardP"> {t("architects")}</p>
               </div>
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
               <div className="cardDiv">
-                <h3 className="cardh3">Number of Subscribers</h3>
+                <h3 className="cardh3">{t("Number of Providers")}</h3>
 
                 <hr className="linhr" />
                 <h1 className="cardh1">{numberofsubscriber}</h1>
-                <p className="cardP"> New Subscribers</p>
+                <p className="cardP"> {t("providers")}</p>
               </div>
             </Grid>
           </Grid>
@@ -86,14 +90,14 @@ function Dashboard(props) {
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={8}>
               <div className="cardDiv">
-                <h3 className="cardh3">Number of Vists </h3>
+                <h3 className="cardh3">{t("Number of Vists")} </h3>
                 <CustomChart />
               </div>
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
               <div className="cardDiv">
-                <h3 className="cardh3">Project inProgress</h3>
+                <h3 className="cardh3">{t("Project in Progress")}</h3>
 
                 <hr className="linhr" />
 

@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Line } from "react-chartjs-2";
 import api from "../api";
+import { useTranslation } from "react-i18next";
 import {
   Chart as ChartJS,
   Title,
@@ -29,6 +30,7 @@ ChartJS.register(
 );
 
 function CustomChart() {
+  const { t } = useTranslation();
   const [quadrabaseUserVists, setQuadrabaseUserVists] = useState([]);
 
   const [data, setData] = useState({
@@ -134,7 +136,7 @@ function CustomChart() {
           onChange={handleChange}
           autoWidth
         >
-          <MenuItem value={10}>Daily </MenuItem>
+          <MenuItem value={10}>{t("Weekly")} </MenuItem>
           <MenuItem value={21}>Monthly</MenuItem>
         </Select>
       </FormControl>
