@@ -23,6 +23,7 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import WorkIcon from "@mui/icons-material/Work";
+import { useTranslation } from "react-i18next";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -146,6 +147,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
+  const { t } = useTranslation();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -298,6 +300,10 @@ export default function EnhancedTable(props) {
                         ) : record == "reference" ? (
                           <TableCell align="center" title={row?.reference?.title}>
                             {row?.reference?.code}
+                          </TableCell>
+                        ) : record == "product_type" ? (
+                          <TableCell align="center" title={row?.reference?.title}>
+                            {t(row?.type)}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="center" title={row[record]}>

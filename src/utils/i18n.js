@@ -563,6 +563,7 @@ i18n
           Simple: "Simple",
           Rate: "Rate",
           project: "project",
+          Prescribers: "Prescribers",
         },
       },
       fr: {
@@ -1111,6 +1112,7 @@ i18n
           Rate: "Tarif",
           subscription: "abonnement",
           project: "projet",
+          Prescribers: "Prescripteurs",
         },
       },
     },

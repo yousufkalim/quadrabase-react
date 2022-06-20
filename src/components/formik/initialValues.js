@@ -31,7 +31,7 @@ export const PRODUCT_STATE = {
   name: "",
   type: "Prescribers",
   duration: 0,
-  price: 0,
+  price: "0.00",
   reference: "Quadrabase initial",
 };
 

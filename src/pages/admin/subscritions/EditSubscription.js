@@ -3,34 +3,35 @@ import React from "react";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import SelectField from "../../../components/SelectField";
+import { formatNumber } from "../../../utils/markThousand";
 
 const typeOptions = [
   {
     _id: "Prescribers",
-    name: "Prescribers",
+    name: "Prescripteurs",
   },
-  { _id: "Manufacturers", name: "Manufacturers" },
+  { _id: "Manufacturers", name: "Fabricants" },
 ];
 
 const referenceOptions1 = [
   {
     _id: "Quadrabase subscription",
-    name: "Quadrabase subscription",
+    name: "70600100 - Abonnement Quadrabase",
   },
   {
     _id: "Pack 5 Projects",
-    name: "Pack 5 Projects",
+    name: "70600200 - Pack 5 Projets",
   },
 ];
 
 const referenceOptions2 = [
   {
     _id: "Referencing subscription",
-    name: "Referencing subscription",
+    name: "70600300 - Abonnement Référencement",
   },
   {
     _id: "Alert Subscription",
-    name: "Alert Subscription",
+    name: "70600400 - Abonnement Alerte",
   },
 ];
 
@@ -47,6 +48,8 @@ export default function AddExpense(props) {
           formik.setFieldValue("reference", editData[dat].title);
         } else if (Object.keys(initialValues).includes(dat)) {
           formik.setFieldValue(dat, editData[dat]);
+        } else if (dat == "price") {
+          formik.setFieldValue("price", formatNumber(parseFloat(editData[dat]).toFixed(2).toString(), "."));
         }
       });
     }
@@ -129,6 +132,14 @@ export default function AddExpense(props) {
             translate={translate}
             onChange={formik.handleChange}
             value={formik.values.price}
+            onBlur={() => {
+              let temp = formik.values.price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+            }}
+            onFocus={() => {
+              let temp = formik.values.price.toString().replace(/\s/g, "").split(",").join(".");
+              formik.setFieldValue("price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+            }}
           />
           <div className="text-red-600 ">
             {formik.touched.price && formik.errors.price ? <small>{formik.errors.price}</small> : null}

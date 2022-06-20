@@ -127,7 +127,7 @@ export default function Index(props) {
           name: values.name,
           type: values.type,
           duration: values.duration,
-          price: values.price,
+          price: values.price.replace(/\s/g, "").split(",").join("."),
           reference: referenceTypes.find((item) => item.title === values.reference),
         };
         let response = await Axios({
@@ -157,7 +157,7 @@ export default function Index(props) {
           name: values.name,
           type: values.type,
           duration: values.duration,
-          price: values.price,
+          price: values.price.replace(/\s/g, "").split(",").join("."),
           reference: referenceTypes.find((item) => item.title === values.reference),
         };
         let response = await Axios({

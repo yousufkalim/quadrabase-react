@@ -3,7 +3,6 @@ import api from "../../../api";
 import { formatNumber } from "../../../utils/markThousand";
 import BasicDropdown from "../../../components/Architect/BasicDropdown";
 import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
 
 const options = [
   { _id: 1, title: 1 },
@@ -14,10 +13,9 @@ const options = [
 ];
 
 const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
-  const history = useHistory();
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [product, setProduct] = useState({});
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getProducts();
@@ -82,10 +80,11 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           },
         ],
         metaData: {
-          id: user._id,
-          subscriptionDuration: type === "subscription" ? parseInt(count) * product.duration : 0,
-          subscriptionProjects: type === "project" ? parseInt(count) * 5 : 0,
-          type: "architectSignup",
+          type: product.reference.code,
+          subscription: product._id,
+          architectId: user._id,
+          licenseId: user?.subscriptions._id,
+          count,
         },
         invoiceData: {
           address1: user.address_1,
@@ -362,6 +361,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                 borderRadius: 8,
               }}
               onClick={() => handleFinish()}
+              disabled={count < 1}
             >
               Valider
             </Button>

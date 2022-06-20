@@ -132,7 +132,7 @@ export const AdminheadCells = [
 
 export const ProductheadCells = [
   {
-    id: "type",
+    id: "product_type",
 
     label: "Type",
   },
