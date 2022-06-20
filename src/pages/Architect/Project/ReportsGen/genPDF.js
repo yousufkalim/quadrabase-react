@@ -5,17 +5,20 @@ import {
   rowsGenSimpleEstimation,
   rowsGenTradesEstimation,
   rowsGenTradesAndTranchesEstimation,
+  rowsGenSimpleBPU,
+  rowsGenTradesBPU,
+  rowsGenTradesAndTranchesBPU,
   rowsGenSimpleDPGF,
   rowsGenTradesDPGF,
   rowsGenTradesAndTranchesDPGF,
+  rowsGenSimpleCCTP,
+  rowsGenTradesCCTP,
+  rowsGenTradesAndTranchesCCTP,
   pdfParsedDataGenTradesEstimation,
   pdfParsedDataGenTradesAndTranchesEstimation,
   docxParsedDataGenTradesDPGF,
   docxParsedDataGenTradesAndTranchesDPGF,
   footerDataGenSimpleEstimation,
-  rowsGenSimpleBPU,
-  rowsGenTradesBPU,
-  rowsGenTradesAndTranchesBPU,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
@@ -328,6 +331,192 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
   return obj;
 }
 
+async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
+
+  let pdfParsedData = [];
+
+  if (chap0) {
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
+
+    let str = "";
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    pdfParsedData.push(str);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
+
+  let pdfParsedData = [];
+
+  if (chap0) {
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
+
+    let str = "";
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    pdfParsedData.push(str);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const rows = rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
+
+  const { chap0, cctps } = rows;
+
+  let pdfParsedData = [];
+
+  if (chap0) {
+    let strChap0part1 = _parseChap0part1(chap0.part1);
+    let strChap0part2 = _parseChap0part2(chap0.part2);
+    pdfParsedData.push(strChap0part1);
+    pdfParsedData.push(strChap0part2);
+  }
+
+  for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
+
+    let str = "";
+    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
+    for (let j = 0; j < _.arr.length; j++) {
+      str = str.concat(`${_.arr[j]}`);
+    }
+    str = str.concat(`</p>`);
+    pdfParsedData.push(str);
+  }
+
+  const body = {
+    headerArr: headArr,
+    bodyValuesArr: pdfParsedData,
+  };
+
+  const response = await api("post", `/Reports/cctp`, body);
+  const url = response.data.path;
+
+  const blob = await blobFromURL(url);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+
+  const obj = {
+    blob,
+    filename,
+  };
+
+  return obj;
+}
+
+function _parseChap0part1(part1) {
+  let str = "";
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 1</strong><br></p>`);
+  str = str.concat(`<p><strong>Nom du Projet:</strong> ${part1.name}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong> ${part1.client}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong> ${part1.prescriber}</p>`);
+  str = str.concat(`<p><strong>T.V.A:</strong> ${part1.vat}</p>`);
+  str = str.concat(`<p><strong>Reference:</strong> ${part1.reference}</p>`);
+  str = str.concat(`<p><strong>Description:</strong> ${part1.description}</p>`);
+  str = str.concat(`<p><strong>Type de marché:</strong> ${part1.market_type}</p>`);
+  str = str.concat(`<p><strong>Structure du projet:</strong> ${part1.structure}</p>`);
+  str = str.concat(`<p><strong>Intervenants</strong></p>`);
+  str = str.concat(`<ul>`);
+  for (let i = 0; i < part1.stakeholders.length; i++) {
+    const _ = part1.stakeholders[i];
+    str = str.concat(`<li>${_}</li>`);
+  }
+  str = str.concat(`</ul>`);
+  str = str.concat(`</p>`);
+  return str;
+}
+
+function _parseChap0part2(part2) {
+  let str = "";
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 2</strong><br>`);
+  str = str.concat(`<p><strong>${part2.title}</strong><br>`);
+  if (part2.text) {
+    str = str.concat(`<p>${part2.text}</p><br>`);
+  }
+  for (let i = 0; i < part2.lvl2.length; i++) {
+    const _ = part2.lvl2[i];
+    str = str.concat(`<p><strong>${_.title}</strong><br>`);
+    if (_.text) {
+      str = str.concat(`<p>${_.text}</p><br>`);
+    }
+    for (let j = 0; j < _.lvl3.length; j++) {
+      const __ = _.lvl3[j];
+      str = str.concat(`<p><strong>${__.title}</strong><br>`);
+      if (__.text) {
+        str = str.concat(`<p>${__.text}</p><br>`);
+      }
+    }
+  }
+  str = str.concat(`</p>`);
+  return str;
+}
+
 export {
   exportPDFSimpleEstimation,
   exportPDFTradesEstimation,
@@ -338,4 +527,7 @@ export {
   exportPDFSimpleDPGF,
   exportPDFTradesDPGF,
   exportPDFTradesAndTrancesDPGF,
+  exportPDFSimpleCCTP,
+  exportPDFTradesCCTP,
+  exportPDFTradesAndTranchesCCTP,
 };

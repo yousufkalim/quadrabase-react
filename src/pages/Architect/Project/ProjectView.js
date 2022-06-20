@@ -60,10 +60,20 @@ import Paper from "@mui/material/Paper";
 import TechnicalDocModal from "./Modals/TechnicalDoc";
 
 // Reports
-import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from "./ReportsGen/genPDF";
-import { exportDOCXSimpleBPU, exportDOCXTradesBPU, exportDOCXTradesAndTranchesBPU } from "./ReportsGen/genDocx";
-import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from "./ReportsGen/genDocx";
-import { exportDOCXSimpleDPGF, exportDOCXTradesDPGF, exportDOCXTradesAndTranchesDPGF } from "./ReportsGen/genDocx";
+import {
+  exportPDFSimpleEstimation,
+  exportPDFTradesEstimation,
+  exportPDFTradesAndTranchesEstimation,
+  exportPDFSimpleBPU,
+  exportPDFTradesBPU,
+  exportPDFTradesAndTranchesBPU,
+  exportPDFSimpleDPGF,
+  exportPDFTradesDPGF,
+  exportPDFTradesAndTrancesDPGF,
+  exportPDFSimpleCCTP,
+  exportPDFTradesCCTP,
+  exportPDFTradesAndTranchesCCTP,
+} from "./ReportsGen/genPDF";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -188,7 +198,6 @@ const ProjectView = () => {
   // doc state
   const [blob, setBlob] = useState(null);
   const [filename, setFilename] = useState(null);
-  const [filetype, setFiletype] = useState(null);
 
   useEffect(() => {
     getProject();
@@ -583,15 +592,15 @@ const ProjectView = () => {
 
   const openEstimationModal = () => {
     handleClose();
-    generateEstimatePDF();
+    generateEstimate();
   };
   const openDQEModal = () => {
     handleClose();
-    generateDQEPDF();
+    generateDQE();
   };
   const openBPUModal = () => {
     handleClose();
-    generateBPUWord();
+    generateBPU();
   };
   const openSelectCCTPModal = () => {
     handleClose();
@@ -599,11 +608,11 @@ const ProjectView = () => {
   };
   const openCCTPModal = () => {
     handleClose();
-    generateCCTPWord();
+    generateCCTP();
   };
   const openDPGFModal = () => {
     handleClose();
-    generateDPGFWord();
+    generateDPGF();
   };
 
   const getLevel3 = async (id) => {
@@ -792,12 +801,10 @@ const ProjectView = () => {
 
   const handleDocModal = () => setOpenDocModal(!openDocModal);
 
-  // doc
-
-  async function generateEstimatePDF() {
+  async function generateEstimate() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject);
@@ -809,7 +816,6 @@ const ProjectView = () => {
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("pdf");
       setOpenEstimationReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -817,10 +823,10 @@ const ProjectView = () => {
     }
   }
 
-  async function generateDQEPDF() {
+  async function generateDQE() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
@@ -831,7 +837,6 @@ const ProjectView = () => {
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("pdf");
       setOpenDQEReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -839,21 +844,20 @@ const ProjectView = () => {
     }
   }
 
-  async function generateBPUWord() {
+  async function generateBPU() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesBPU(projectWorkData, currentProject);
+        res = await exportPDFTradesBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesBPU(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenBPUReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -861,21 +865,20 @@ const ProjectView = () => {
     }
   }
 
-  async function generateCCTPWord() {
+  async function generateCCTP() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenCCTPReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -883,21 +886,20 @@ const ProjectView = () => {
     }
   }
 
-  async function generateDPGFWord() {
+  async function generateDPGF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesDPGF(projectWorkData, currentProject);
+        res = await exportPDFTradesDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesDPGF(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTrancesDPGF(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenDPGFReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -1033,7 +1035,6 @@ const ProjectView = () => {
               <ReportEstimationModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1047,7 +1048,6 @@ const ProjectView = () => {
               <ReportDQEModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1061,7 +1061,6 @@ const ProjectView = () => {
               <ReportBPUModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1090,7 +1089,6 @@ const ProjectView = () => {
               <ReportCCTPModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
                 selectedCCTPIndexes={selectedCCTPIndexes}
@@ -1105,7 +1103,6 @@ const ProjectView = () => {
               <ReportDPGFModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />

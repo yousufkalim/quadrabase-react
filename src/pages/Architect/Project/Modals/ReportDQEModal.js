@@ -26,28 +26,24 @@ import { downloadBlob } from "../ReportsGen/data";
 import { toast } from "react-toastify";
 
 function ReportDQEModal(props) {
-  const { projectWorkData, currentProject, viewBlob, viewFileName, viewFileType } = props;
+  const { projectWorkData, currentProject, viewBlob, viewFileName } = props;
 
-  const [pdf, setPdf] = useState([]);
-
+  const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
     uploadFile();
   }, []);
-
   const uploadFile = async () => {
-    if (viewFileType === "pdf") {
-      let form_data = new FormData();
-      var file = new File([viewBlob], viewFileName + ".pdf");
-      form_data.append(`file`, file);
-      const response = await api("post", `/fileUploader`, form_data);
-      setPdf(response.data.files);
-    }
+    const formData = new FormData();
+    const file = new File([viewBlob], viewFileName + ".pdf");
+    formData.append(`file`, file);
+    const response = await api("post", `/fileUploader`, formData);
+    setPdfs(response.data.files);
   };
 
   function generateExcel() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = exportXLSXSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
         res = exportXLSXTradesEstimation(projectWorkData, currentProject, true);
@@ -67,7 +63,7 @@ function ReportDQEModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
         res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
@@ -87,7 +83,7 @@ function ReportDQEModal(props) {
   async function generateWord() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
         res = await exportDOCXSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
         res = await exportDOCXTradesEstimation(projectWorkData, currentProject, true);
@@ -117,9 +113,9 @@ function ReportDQEModal(props) {
           <TextSnippetIcon />
         </IconButton>
       </Stack>
-      {pdf.length > 0 && (
+      {pdfs.length > 0 && (
         <>
-          <DocViewer documents={pdf} style={{ maxHeight: "200px" }} />
+          <DocViewer documents={pdfs} style={{ maxHeight: "200px" }} />
         </>
       )}
     </div>
