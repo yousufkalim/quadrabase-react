@@ -14,7 +14,7 @@ import { UpdateStore } from "../../StoreContext";
 import { Button } from "@mui/material";
 import Table from "../../components/Architect/Tabel";
 import Modal from "../../components/Architect/Modal";
-import BuySubscription from "./Subscription/BuySubscription";
+import BuyProductModal from "./Subscription/BuyProductModal";
 import AssignSubscription from "./Subscription/AssignSubscription";
 import BuyProjects from "./Subscription/BuyProjects";
 import Renew from "./Subscription/Renew";
@@ -39,7 +39,7 @@ const Home = () => {
     email: "",
   });
   const [addProjectModal, setAddProjectModal] = useState(false);
-  const [projectData, setProjectData] = useState([]);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     let array = [];
@@ -54,10 +54,6 @@ const Home = () => {
     getSubscriptions();
   }, [buySubModal, assignSubModal, buyProjectsModal, renewModal, addProjectModal]);
 
-  useEffect(() => {
-    getProjects();
-  }, [addProjectModal]);
-
   const getSubscriptions = async () => {
     const result = await api("get", `/licenses/${store.user._id}`);
     let data = result.data.license.map((item) => {
@@ -66,12 +62,6 @@ const Home = () => {
     });
     setSubscriptionsData(data);
     setMySubscription(store?.user?.subscriptions);
-  };
-
-  const getProjects = async () => {
-    const result = await api("get", `/project/byArchitect/${store.user._id}`);
-    const projects = result?.data?.project.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    setProjectData(projects);
   };
 
   const handleAssignSubModal = (id, email) => {
@@ -87,7 +77,12 @@ const Home = () => {
     history.push(`/projectview/${id}`);
   };
 
-  const handleBuySubModal = () => setBuySubModal(!buySubModal);
+  const handleBuySubModal = (type) => {
+    if (type) {
+      setType(type);
+    }
+    setBuySubModal(!buySubModal);
+  };
   const handleBuyProjectsModals = () => setBuyProjectsModal(!buyProjectsModal);
   const handleRenewModalModal = () => setRenewModal(!renewModal);
   const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
@@ -103,10 +98,9 @@ const Home = () => {
   return store?.user?.authorized.toUpperCase() === "YES" ? (
     <div className="home-container">
       <Modal
-        title={t("Buy Subscription")}
         open={buySubModal}
         onClose={handleBuySubModal}
-        component={<BuySubscription handleBuySubModal={handleBuySubModal} />}
+        component={<BuyProductModal handleBuySubModal={handleBuySubModal} type={type} user={store?.user} t={t} />}
       />
       <Modal
         title={t("Assign Subscription")}
@@ -166,7 +160,7 @@ const Home = () => {
             rows={projectHeadCells}
             headerText={t("Projects")}
             buttonText={t("Buy a project pack")}
-            buttonAction={handleBuyProjectsModals}
+            buttonAction={handleBuySubModal}
           />
         </div>
       </div>

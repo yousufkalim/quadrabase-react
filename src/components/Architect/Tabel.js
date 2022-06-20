@@ -135,7 +135,15 @@ const EnhancedTableToolbar = (props) => {
       {props.buttonText && (
         <Button
           variant="contained"
-          onClick={props.buttonAction}
+          onClick={() => {
+            if (props.buttonText === "Buy a project pack" || props.buttonText === "Acheter un pack projet") {
+              props.buttonAction("project");
+            } else if (props.buttonText === "Buy Subscription" || props.buttonText === "Acheter un abonnement") {
+              props.buttonAction("subscription");
+            } else {
+              props.buttonAction();
+            }
+          }}
           sx={{
             textTransform: "none",
             backgroundColor: "#8C1244",
@@ -319,7 +327,7 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "code" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row?.subscription?.code ? row?.subscription?.code : <>N/A</>}
+                            {row?.subscription?.reference?.code ? row?.subscription?.reference?.code : <>N/A</>}
                           </TableCell>
                         ) : record === "market_type" ? (
                           <TableCell key={index} align="left" title={row[record]}>

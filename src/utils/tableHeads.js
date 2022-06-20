@@ -132,37 +132,32 @@ export const AdminheadCells = [
 
 export const ProductheadCells = [
   {
+    id: "product_type",
+
+    label: "Type",
+  },
+  {
+    id: "reference",
+
+    label: "Reference",
+  },
+  {
     id: "name",
 
     label: "Name",
   },
-  {
-    id: "type",
-
-    label: "Type",
-  },
 
   {
-    id: "durationMonths",
+    id: "duration",
 
     label: "Duration",
   },
   {
-    id: "durationPrice",
+    id: "price",
 
-    label: "Duration Price",
+    label: "Rate",
   },
 
-  {
-    id: "projectsPackProjects",
-
-    label: "Number of Projects",
-  },
-  {
-    id: "projectsPackPrice",
-
-    label: "Pack Price",
-  },
   {
     id: "action",
 
