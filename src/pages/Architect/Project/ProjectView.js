@@ -28,6 +28,7 @@ import AddWorkModal from "./Modals/AddWorkModal";
 import ReportEstimationModal from "./Modals/ReportEstimationModal";
 import ReportDQEModal from "./Modals/ReportDQEModal";
 import ReportBPUModal from "./Modals/ReportBPUModal";
+import ReportSelectCCTPModal from "./Modals/ReportSelectCCTPModal";
 import ReportCCTPModal from "./Modals/ReportCCTPModal";
 import ReportDPGFModal from "./Modals/ReportDPGFModal";
 import TracnhesModal from "./Modals/TranchesModal";
@@ -59,10 +60,20 @@ import Paper from "@mui/material/Paper";
 import TechnicalDocModal from "./Modals/TechnicalDoc";
 
 // Reports
-import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from "./ReportsGen/genPDF";
-import { exportDOCXSimpleBPU, exportDOCXTradesBPU, exportDOCXTradesAndTranchesBPU } from "./ReportsGen/genDocx";
-import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from "./ReportsGen/genDocx";
-import { exportDOCXSimpleDPGF, exportDOCXTradesDPGF, exportDOCXTradesAndTranchesDPGF } from "./ReportsGen/genDocx";
+import {
+  exportPDFSimpleEstimation,
+  exportPDFTradesEstimation,
+  exportPDFTradesAndTranchesEstimation,
+  exportPDFSimpleBPU,
+  exportPDFTradesBPU,
+  exportPDFTradesAndTranchesBPU,
+  exportPDFSimpleDPGF,
+  exportPDFTradesDPGF,
+  exportPDFTradesAndTrancesDPGF,
+  exportPDFSimpleCCTP,
+  exportPDFTradesCCTP,
+  exportPDFTradesAndTranchesCCTP,
+} from "./ReportsGen/genPDF";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -118,6 +129,7 @@ const ProjectView = () => {
   const [workDetails, setWorkDetails] = useState();
   const [selectedWorkDetail, setSelectedWorkDetail] = useState([]);
   const [projectWorkData, setProjectWorkData] = useState([]);
+  const [cctpProjectWorkData, setcctpProjectWorkData] = useState([]);
   const [totalHT, setTotalHT] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -142,11 +154,19 @@ const ProjectView = () => {
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
   const [deleteChap, setDeleteChap] = useState({});
 
+  // Estim, DQE, BPU Reports
   const [openEstimationReportModal, setOpenEstimationReportModal] = useState(false);
   const [openDQEReportModal, setOpenDQEReportModal] = useState(false);
   const [openBPUReportModal, setOpenBPUReportModal] = useState(false);
+
+  // CCTP Report
+  const [openSelectCCTPReportModal, setOpenSelectCCTPReportModal] = useState(false);
   const [openCCTPReportModal, setOpenCCTPReportModal] = useState(false);
+  const [selectedCCTPIndexes, setSelectedCCTPIndexes] = useState([]);
+
+  // DPGF Report
   const [openDPGFReportModal, setOpenDPGFReportModal] = useState(false);
+
   const [works, setworks] = useState([]);
   const [tradeTotal, setTradeTotal] = useState([]);
   const [openTranchesModal, setOpenTranchesModal] = useState(false);
@@ -178,7 +198,6 @@ const ProjectView = () => {
   // doc state
   const [blob, setBlob] = useState(null);
   const [filename, setFilename] = useState(null);
-  const [filetype, setFiletype] = useState(null);
 
   useEffect(() => {
     getProject();
@@ -441,18 +460,18 @@ const ProjectView = () => {
   const handleOpenPropertiesModal = () => setOpenPropertiesModal(!openPropertiesModal);
 
   const handleOpenCctpModal = (text, title) => {
+    if (title === "CCTP 1") {
+      setCctpModalTitle("Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS");
+    } else if (title === "CCTP 2") {
+      setCctpModalTitle("Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS");
+    } else if (title === "CCTP 3") {
+      setCctpModalTitle("Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS");
+    } else if (title === "CCTP 4") {
+      setCctpModalTitle("Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION");
+    } else {
+      setCctpModalTitle("Bordereau des Prix Unitaires");
+    }
     if (text) {
-      if (title === "CCTP 1") {
-        setCctpModalTitle("Chapitre 1 – DOCUMENTS DE REFERENCE CONTRACTUELS");
-      } else if (title === "CCTP 2") {
-        setCctpModalTitle("Chapitre 2 – PROVENANCES ET SPECIFICATIONS DES MATERIAUX ET PRODUITS");
-      } else if (title === "CCTP 3") {
-        setCctpModalTitle("Chapitre 3 – MODE D’EXECUTION DES TRAVAUX ET PRESTATIONS");
-      } else if (title === "CCTP 4") {
-        setCctpModalTitle("Chapitre 4 – ESSAIS – CONTRÔLES – RECEPTION");
-      } else {
-        setCctpModalTitle("Bordereau des Prix Unitaires");
-      }
       setCctp_text(text);
     }
     setOpenCctpModal(!openCctpModal);
@@ -573,23 +592,27 @@ const ProjectView = () => {
 
   const openEstimationModal = () => {
     handleClose();
-    generateEstimatePDF();
+    generateEstimate();
   };
   const openDQEModal = () => {
     handleClose();
-    generateDQEPDF();
+    generateDQE();
   };
   const openBPUModal = () => {
     handleClose();
-    generateBPUWord();
+    generateBPU();
+  };
+  const openSelectCCTPModal = () => {
+    handleClose();
+    setOpenSelectCCTPReportModal(true);
   };
   const openCCTPModal = () => {
     handleClose();
-    generateCCTPWord();
+    generateCCTP();
   };
   const openDPGFModal = () => {
     handleClose();
-    generateDPGFWord();
+    generateDPGF();
   };
 
   const getLevel3 = async (id) => {
@@ -778,24 +801,21 @@ const ProjectView = () => {
 
   const handleDocModal = () => setOpenDocModal(!openDocModal);
 
-  // doc
-
-  function generateEstimatePDF() {
+  async function generateEstimate() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = exportPDFSimpleEstimation(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = exportPDFTradesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
         return;
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("pdf");
       setOpenEstimationReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -803,21 +823,20 @@ const ProjectView = () => {
     }
   }
 
-  function generateDQEPDF() {
+  async function generateDQE() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = exportPDFSimpleEstimation(projectWorkData, currentProject, true);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "Trades") {
-        res = exportPDFTradesEstimation(projectWorkData, currentProject, true);
+        res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
+        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("pdf");
       setOpenDQEReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -825,21 +844,20 @@ const ProjectView = () => {
     }
   }
 
-  async function generateBPUWord() {
+  async function generateBPU() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesBPU(projectWorkData, currentProject);
+        res = await exportPDFTradesBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesBPU(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenBPUReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -847,21 +865,20 @@ const ProjectView = () => {
     }
   }
 
-  async function generateCCTPWord() {
+  async function generateCCTP() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject);
+        res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenCCTPReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
@@ -869,26 +886,30 @@ const ProjectView = () => {
     }
   }
 
-  async function generateDPGFWord() {
+  async function generateDPGF() {
     try {
       let res;
-      if (currentProject.market_type == "Simple") {
-        res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
+      if (currentProject.market_type == "Simple" || currentProject.market_type == "PurchaseOrder") {
+        res = await exportPDFSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "Trades") {
-        res = await exportDOCXTradesDPGF(projectWorkData, currentProject);
+        res = await exportPDFTradesDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == "TradesAndTranches") {
-        res = await exportDOCXTradesAndTranchesDPGF(projectWorkData, currentProject);
+        res = await exportPDFTradesAndTrancesDPGF(projectWorkData, currentProject);
       } else {
         console.trace("Show me");
       }
       setBlob(res.blob);
       setFilename(res.filename);
-      setFiletype("docx");
       setOpenDPGFReportModal(true);
     } catch (e) {
       toast.error("Could not generate report successfully.");
       console.trace(e);
     }
+  }
+
+  function handleSubmitSelectCCTP() {
+    setOpenSelectCCTPReportModal(false);
+    openCCTPModal();
   }
 
   return (
@@ -1014,7 +1035,6 @@ const ProjectView = () => {
               <ReportEstimationModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1028,7 +1048,6 @@ const ProjectView = () => {
               <ReportDQEModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1042,9 +1061,23 @@ const ProjectView = () => {
               <ReportBPUModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+              />
+            }
+          />
+          <Modal
+            title="Select CCTP"
+            open={openSelectCCTPReportModal}
+            onClose={() => setOpenSelectCCTPReportModal(false)}
+            component={
+              <ReportSelectCCTPModal
+                selectedCCTPIndexes={selectedCCTPIndexes}
+                setSelectedCCTPIndexes={setSelectedCCTPIndexes}
+                handleClose={() => {
+                  setOpenSelectCCTPReportModal(false);
+                }}
+                handleSubmit={handleSubmitSelectCCTP}
               />
             }
           />
@@ -1052,7 +1085,15 @@ const ProjectView = () => {
             title="CCTP"
             open={openCCTPReportModal}
             onClose={() => setOpenCCTPReportModal(false)}
-            component={<ReportCCTPModal viewBlob={blob} viewFileName={filename} viewFileType={filetype} />}
+            component={
+              <ReportCCTPModal
+                viewBlob={blob}
+                viewFileName={filename}
+                currentProject={currentProject}
+                projectWorkData={projectWorkData}
+                selectedCCTPIndexes={selectedCCTPIndexes}
+              />
+            }
           />
           <Modal
             title="DPGF"
@@ -1062,7 +1103,6 @@ const ProjectView = () => {
               <ReportDPGFModal
                 viewBlob={blob}
                 viewFileName={filename}
-                viewFileType={filetype}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
               />
@@ -1251,7 +1291,7 @@ const ProjectView = () => {
                   <br />
                   <NestedList
                     width="100%"
-                    maxHeight="50vh"
+                    maxHeight="74vh"
                     level1={generalLibrariesData}
                     getLevel2={getLevel2}
                     setLevel2={setCategories}
@@ -1428,7 +1468,7 @@ const ProjectView = () => {
                       {t("Generate DPGF")}
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={openCCTPModal} style={{ height: 25, fontSize: 15 }}>
+                    <MenuItem onClick={openSelectCCTPModal} style={{ height: 25, fontSize: 15 }}>
                       {t("Generate The CCTP")}
                     </MenuItem>
                     <Divider />
@@ -1438,6 +1478,7 @@ const ProjectView = () => {
                   </StyledMenu>
                 </div>
                 <div
+                  id="div-to-print"
                   style={{
                     backgroundColor: "white",
                     height: "80vh",
@@ -1475,9 +1516,17 @@ const ProjectView = () => {
                     <MenuItem
                       onClick={() => {
                         if (selectedData.type === "trade") {
-                          handleOpenDeleteTradeModal();
+                          if (tradesData.length > 1) {
+                            handleOpenDeleteTradeModal();
+                          } else {
+                            toast.error(t("The last remaining Batch cannot be deleted."));
+                          }
                         } else {
-                          handleOpenDeleteTranchModal();
+                          if (tranchesData.length > 1) {
+                            handleOpenDeleteTranchModal();
+                          } else {
+                            toast.error(t("The last remaining Slice cannot be deleted."));
+                          }
                         }
                         handleClose2();
                       }}
@@ -1512,7 +1561,7 @@ const ProjectView = () => {
                   <TableContainer component={Paper} sx={{ height: "80%" }}>
                     <Table sx={{ minWidth: 650 }} size="small" stickyHeader aria-label="sticky table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow style={{ whiteSpace: "nowrap" }}>
                           <TableCell
                             style={{
                               fontWeight: 900,
@@ -1903,10 +1952,10 @@ const ProjectView = () => {
                         </div>
                         <div className={classes.flex_container}>
                           <div className={classes.fotter_text}>
-                            {t("Total VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
+                            {t("VAT")} ({currentProject?.vat?.value?.toFixed(2)}%) :
                           </div>
                           <div className={classes.fotter_amount}>
-                            {((totalHT / 100) * currentProject?.vat?.value).toFixed(2)} €
+                            {formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2))} €
                           </div>
                         </div>
                         <div
@@ -1925,7 +1974,7 @@ const ProjectView = () => {
                           ></div>
                         </div>
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>{t("Total Price")}:</div>
+                          <div className={classes.fotter_text}>{t("Total  Amount  including  VAT")}:</div>
 
                           <div className={classes.fotter_amount}>
                             {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €

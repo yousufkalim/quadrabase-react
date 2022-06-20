@@ -201,8 +201,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
         prev.structure = currentProject?.structure;
         return { ...prev };
       });
+
+      let temp = currentProject?.stakeholders.map((item) => item._id);
+
       setValues3((prev) => {
-        prev.stakeholders = currentProject?.stakeholders;
+        prev.stakeholders = temp;
         return { ...prev };
       });
       setSelectedStakeholder(currentProject?.client);
@@ -212,7 +215,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     getVat();
     getChap0Part2();
     getTypes();
-    currentProject?.stakeholders[0] && getCurrentType();
+    currentProject?.stakeholders[0]?._id && getCurrentType();
     setLoading(false);
   }, [currentProject]);
 
@@ -228,14 +231,17 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
-    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]}`);
+    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]._id}`);
     setTypeValue(result.data.type._id);
   };
 
   // func to getAll Units
   const getTypes = async () => {
     const result = await api("get", `/StakeholderTypes/`);
-    setTypeOptions(result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking));
+    const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
+    setTypeOptions(data);
+    const selected = data.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
+    setTypeValue(selected._id);
   };
 
   //   func to get stakeholders
@@ -271,6 +277,16 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   const getChap0Part2 = async () => {
     const result = await api("get", `/ArchitectsChap0/current/getByProject`);
     setChapOptions(result.data.data);
+
+    if (currentProject?.chap0part2?.id) {
+      let tempChap = result.data.data.chap0.find((item) => item.title === currentProject.chap0part2.id.title);
+      if (tempChap?.family) {
+        setSelectedFam(tempChap.family);
+      } else {
+        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === "PRESCRIPTEUR");
+        setSelectedFam(privateFam._id);
+      }
+    }
   };
 
   // handle change function
@@ -295,6 +311,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       target: { value },
     } = event;
     let temp = typeof value === "string" ? value.split(",") : value;
+    if (values3.stakeholders.length < value.length) {
+      let newVal = temp[temp.length - 1];
+      let compArr = stakeholderOptions.map((item) => item._id);
+      temp = temp.filter((val) => !compArr.includes(val));
+      temp.push(newVal);
+    }
     setValues3((prev) => {
       prev.stakeholders = temp;
       return { ...prev };
@@ -317,7 +339,35 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     let data = values;
     !values.reference && delete data.reference;
     !values.description && delete data.description;
-    values.client = selectedStakeholder && selectedStakeholder;
+    console.log("selectedStakeholder", selectedStakeholder);
+    if (selectedStakeholder) {
+      data.client = selectedStakeholder;
+    } else {
+      const result = await api(
+        "put",
+        `/stakeholders/${currentProject?.client._id}`,
+        {
+          establishment: stakeholderText,
+        },
+        t
+      );
+      data.client = result.data.stakeholder._id;
+    }
+
+    if (selectedStakeholder2) {
+      data.prescriber = selectedStakeholder2;
+    } else {
+      const result = await api(
+        "put",
+        `/stakeholders/${currentProject?.prescriber._id}`,
+        {
+          establishment: stakeholderText2,
+        },
+        t
+      );
+      data.prescriber = result.data.stakeholder._id;
+    }
+
     if (!values.chap0part2 || (currentProject.chap0part2 && currentProject.chap0part2.id._id == data.chap0part2)) {
       delete data.chap0part2;
     } else {
@@ -561,7 +611,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 } else {
                   let chap = chapOptions.chap0.find((item) => {
@@ -570,7 +620,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   if (chap) {
                     handleChange("chap0part2", chap._id);
                   } else {
-                    toast.error("This family does not have a Chap. 0 part 2");
+                    toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 }
               }}
@@ -738,20 +788,18 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                     >
                       <TableCell align="left">{row.type.text}</TableCell>
                       <TableCell component="th" scope="row">
-                        {row.name}
+                        {row.establishment}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.address1.substring(0, 20)}
                         {row.address1.length > 40 && "..."}
                       </TableCell>
                       <TableCell align="left">
-                        {row.address2 ? (
+                        {row.address2 && (
                           <>
                             {row.address2.substring(0, 20)}
                             {row.address2.length > 40 && "..."}
                           </>
-                        ) : (
-                          "N/A"
                         )}
                       </TableCell>
                       <TableCell align="left">{row.zipcode}</TableCell>

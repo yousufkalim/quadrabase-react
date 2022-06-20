@@ -49,12 +49,7 @@ function a11yProps(index) {
   };
 }
 
-const EditWorkModal = ({
-  selectedWork,
-  currentProject,
-  handleOpenEditWorkModal,
-  getworks,
-}) => {
+const EditWorkModal = ({ selectedWork, currentProject, handleOpenEditWorkModal, getworks }) => {
   const { t } = useTranslation();
   const [values, setValues] = useState({
     name: "",
@@ -98,7 +93,7 @@ const EditWorkModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -126,12 +121,7 @@ const EditWorkModal = ({
     data.cctp_text.push(cctp_text3);
     data.cctp_text.push(cctp_text4);
     data.bpu_text.push(bpu_text1);
-    const result = await api(
-      "put",
-      `/project/updateWork/${currentProject._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/project/updateWork/${currentProject._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditWorkModal();
     getworks();
@@ -139,10 +129,7 @@ const EditWorkModal = ({
 
   return (
     <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
-      <form
-        style={{ marginTop: "auto", marginBottom: "auto" }}
-        onSubmit={handleSubmit}
-      >
+      <form style={{ marginTop: "auto", marginBottom: "auto" }} onSubmit={handleSubmit}>
         {/* All fields */}
         <br />
         <Grid container spacing={2}>
@@ -160,38 +147,32 @@ const EditWorkModal = ({
         {/* CCTP Tab View */}
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-            <Tabs
-              value={selectedTabIndex}
-              onChange={handleTabChange}
-              aria-label="CCTPs"
-            >
-              <Tab label="CCTP1" {...a11yProps(0)} />
-              <Tab label="CCTP2" {...a11yProps(1)} />
-              <Tab label="CCTP3" {...a11yProps(2)} />
-              <Tab label="CCTP4" {...a11yProps(2)} />
-              <Tab label="BPU" {...a11yProps(4)} />
+            <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
+              <Tab label="BPU" {...a11yProps(0)} />
+              <Tab label="CCTP1" {...a11yProps(1)} />
+              <Tab label="CCTP2" {...a11yProps(2)} />
+              <Tab label="CCTP3" {...a11yProps(3)} />
+              <Tab label="CCTP4" {...a11yProps(4)} />
             </Tabs>
           </Box>
           <TabPanel value={selectedTabIndex} index={0}>
-            <TextEditor setValue={setcctp_text1} value={cctp_text1} />
+            <TextEditor setValue={setbpu_text1} value={bpu_text1} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={1}>
-            <TextEditor setValue={setcctp_text2} value={cctp_text2} />
+            <TextEditor setValue={setcctp_text1} value={cctp_text1} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={2}>
-            <TextEditor setValue={setcctp_text3} value={cctp_text3} />
+            <TextEditor setValue={setcctp_text2} value={cctp_text2} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={3}>
-            <TextEditor setValue={setcctp_text4} value={cctp_text4} />
+            <TextEditor setValue={setcctp_text3} value={cctp_text3} />
           </TabPanel>
           <TabPanel value={selectedTabIndex} index={4}>
-            <TextEditor setValue={setbpu_text1} value={bpu_text1} />
+            <TextEditor setValue={setcctp_text4} value={cctp_text4} />
           </TabPanel>
         </Box>
         {/* register button */}
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}
-        >
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
           <Button
             variant="contained"
             style={{

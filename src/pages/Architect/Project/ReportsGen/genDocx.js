@@ -1,6 +1,6 @@
-import { Packer } from "docx";
-
 import {
+  Packer,
+  WidthType,
   convertInchesToTwip,
   Document,
   Paragraph,
@@ -95,6 +95,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -169,6 +170,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
         shading: i == 0 ? firstRowShade : null,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -209,6 +211,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
       children: [
@@ -225,6 +228,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
@@ -321,6 +325,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -394,6 +399,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -495,6 +501,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -568,6 +575,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
+        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
       });
       tableRowCells.push(tableCell);
     }
@@ -1035,73 +1043,27 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXSimpleCCTP(data, currentProject) {
+async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenSimpleCCTP(data);
+  const rows = rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes);
+  const { chap0, cctps } = rows;
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: "bold",
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: "bold",
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.72),
-                right: convertInchesToTwip(0.72),
-              },
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: "bold",
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
+  // Parse head
+  const parsedHead = _parseHead(headArr);
 
-  const bodyChild = [];
+  // Parse Chap0
+  let parsedChap0part1 = [];
+  let parsedChap0part2 = [];
+  if (chap0) {
+    parsedChap0part1 = _parseChap0part1(chap0.part1);
+    parsedChap0part2 = _parseChap0part2(chap0.part2);
+  }
 
-  for (let i = 0; i < rows.length; i++) {
-    bodyChild.push(
+  // Parse CCTPs
+  const parsedCCTPs = [];
+  for (let i = 0; i < cctps.length; i++) {
+    parsedCCTPs.push(
       new Paragraph({
         spacing: {
           before: i == 0 ? 120 : 80,
@@ -1109,23 +1071,21 @@ async function exportDOCXSimpleCCTP(data, currentProject) {
         },
         children: [
           new TextRun({
-            text: rows[i].title,
-            size: 42,
+            text: cctps[i].title,
+            size: 28,
             bold: true,
           }),
         ],
       })
     );
-
-    const CCTPArr = rows[i].cctp_arr;
-
-    for (let j = 0; j < CCTPArr.length; j++) {
-      let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(...docxObjs);
+    const cctpArr = cctps[i].arr;
+    for (let j = 0; j < cctpArr.length; j++) {
+      let docxObjs = textRunsSplitGen(cctpArr[j]);
+      parsedCCTPs.push(...docxObjs);
     }
   }
 
-  const children = [...tableHeader, ...bodyChild];
+  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1145,73 +1105,27 @@ async function exportDOCXSimpleCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesCCTP(data, currentProject) {
+async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesCCTP(data);
+  const rows = rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes);
+  const { chap0, cctps } = rows;
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: "bold",
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: "bold",
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.72),
-                right: convertInchesToTwip(0.72),
-              },
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: "bold",
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
+  // Parse head
+  const parsedHead = _parseHead(headArr);
 
-  const bodyChild = [];
+  // Parse Chap0
+  let parsedChap0part1 = [];
+  let parsedChap0part2 = [];
+  if (chap0) {
+    parsedChap0part1 = _parseChap0part1(chap0.part1);
+    parsedChap0part2 = _parseChap0part2(chap0.part2);
+  }
 
-  for (let i = 0; i < rows.length; i++) {
-    bodyChild.push(
+  // Parse CCTPs
+  const parsedCCTPs = [];
+  for (let i = 0; i < cctps.length; i++) {
+    parsedCCTPs.push(
       new Paragraph({
         spacing: {
           before: i == 0 ? 120 : 80,
@@ -1219,23 +1133,21 @@ async function exportDOCXTradesCCTP(data, currentProject) {
         },
         children: [
           new TextRun({
-            text: rows[i].title,
-            size: 42,
+            text: cctps[i].title,
+            size: 28,
             bold: true,
           }),
         ],
       })
     );
-
-    const CCTPArr = rows[i].cctp_arr;
-
-    for (let j = 0; j < CCTPArr.length; j++) {
-      let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(...docxObjs);
+    const cctpArr = cctps[i].arr;
+    for (let j = 0; j < cctpArr.length; j++) {
+      let docxObjs = textRunsSplitGen(cctpArr[j]);
+      parsedCCTPs.push(...docxObjs);
     }
   }
 
-  const children = [...tableHeader, ...bodyChild];
+  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1255,11 +1167,69 @@ async function exportDOCXTradesCCTP(data, currentProject) {
   return { blob, filename };
 }
 
-async function exportDOCXTradesAndTranchesCCTP(data, currentProject) {
+async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
 
-  const rows = rowsGenTradesAndTranchesCCTP(data);
+  const rows = rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
+  const { chap0, cctps } = rows;
 
+  // Parse head
+  const parsedHead = _parseHead(headArr);
+
+  // Parse Chap0
+  let parsedChap0part1 = [];
+  let parsedChap0part2 = [];
+  if (chap0) {
+    parsedChap0part1 = _parseChap0part1(chap0.part1);
+    parsedChap0part2 = _parseChap0part2(chap0.part2);
+  }
+
+  // Parse CCTPs
+  const parsedCCTPs = [];
+  for (let i = 0; i < cctps.length; i++) {
+    parsedCCTPs.push(
+      new Paragraph({
+        spacing: {
+          before: i == 0 ? 120 : 80,
+          after: 60,
+        },
+        children: [
+          new TextRun({
+            text: cctps[i].title,
+            size: 28,
+            bold: true,
+          }),
+        ],
+      })
+    );
+    const cctpArr = cctps[i].arr;
+    for (let j = 0; j < cctpArr.length; j++) {
+      let docxObjs = textRunsSplitGen(cctpArr[j]);
+      parsedCCTPs.push(...docxObjs);
+    }
+  }
+
+  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+
+  const sections = [
+    {
+      properties: {
+        ...pageMargin,
+      },
+      children: children,
+    },
+  ];
+
+  const doc = new Document({
+    sections: sections,
+  });
+
+  const blob = await Packer.toBlob(doc);
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  return { blob, filename };
+}
+
+function _parseHead(headArr) {
   const tableHeader = [
     new Table({
       rows: [
@@ -1317,56 +1287,255 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject) {
       ],
     }),
   ];
+  return tableHeader;
+}
 
-  const bodyChild = [];
-
-  for (let i = 0; i < rows.length; i++) {
-    bodyChild.push(
+function _parseChap0part1(part1) {
+  const arr = [];
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "CHAP 0 - CLAUSES GENERALES",
+          size: 28,
+          bold: true,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "CHAP 0 - PART 1",
+          size: 28,
+          bold: true,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Nom du Projet: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.name,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Maitre d'Ouvrage: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.client,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Maitre d'Oeuvre: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.prescriber,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "T.V.A: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.vat,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Reference: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.reference,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Description: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.description,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Type de marché: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.market_type,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Structure du projet: ",
+          size: 20,
+          bold: true,
+        }),
+        new TextRun({
+          text: part1.structure,
+          size: 20,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Intervenants: ",
+          size: 20,
+          bold: true,
+        }),
+      ],
+    })
+  );
+  for (let i = 0; i < part1.stakeholders.length; i++) {
+    const _ = part1.stakeholders[i];
+    arr.push(
       new Paragraph({
-        spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+        text: _,
+        bullet: {
+          level: 0,
         },
+      })
+    );
+  }
+  return arr;
+}
+
+function _parseChap0part2(part2) {
+  const arr = [];
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "CHAP 0 - PART 2",
+          size: 28,
+          bold: true,
+        }),
+      ],
+    })
+  );
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: part2.title,
+          size: 24,
+          bold: true,
+        }),
+      ],
+    })
+  );
+  if (part2.text) {
+    arr.push(
+      new Paragraph({
         children: [
           new TextRun({
-            text: rows[i].title,
-            size: 42,
+            text: part2.text,
+            size: 20,
+          }),
+        ],
+      })
+    );
+  }
+  for (let i = 0; i < part2.lvl2.length; i++) {
+    const _ = part2.lvl2[i];
+    arr.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: _.title,
+            size: 20,
             bold: true,
           }),
         ],
       })
     );
-
-    const CCTPArr = rows[i].cctp_arr;
-
-    for (let j = 0; j < CCTPArr.length; j++) {
-      let docxObjs = textRunsSplitGen(CCTPArr[j]);
-      bodyChild.push(...docxObjs);
+    if (_.text) {
+      let docxObjs = textRunsSplitGen(_.text);
+      arr.push(...docxObjs);
+    }
+    for (let j = 0; j < _.lvl3.length; j++) {
+      const __ = _.lvl3[j];
+      arr.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: __.title,
+              size: 20,
+              bold: true,
+            }),
+          ],
+        })
+      );
+      if (__.text) {
+        let docxObjs = textRunsSplitGen(__.text);
+        arr.push(...docxObjs);
+      }
     }
   }
-
-  const children = [...tableHeader, ...bodyChild];
-
-  const sections = [
-    {
-      properties: {
-        ...pageMargin,
-      },
-      children: children,
-    },
-  ];
-
-  const doc = new Document({
-    sections: sections,
-  });
-
-  const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
-  return { blob, filename };
+  return arr;
 }
 
 async function exportDOCXSimpleDPGF(data, currentProject) {
-  const headArr = headGen(`${"DPGF"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
 
   const rows = rowsGenSimpleDPGF(data);
   const footerData = footerDataGenSimpleDPGF(true);
@@ -1418,6 +1587,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -1557,6 +1727,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
       children: [
@@ -1573,6 +1744,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
@@ -1605,7 +1777,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
@@ -1669,6 +1841,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -1805,7 +1978,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
@@ -1869,6 +2042,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               shading: {
                 fill: "#C4C8CC",
               },
+              width: { size: 100, type: WidthType.PERCENTAGE },
             }),
             new TableCell({
               children: [
@@ -2005,7 +2179,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${"DPGF"}`;
+  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 

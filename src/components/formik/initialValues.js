@@ -38,6 +38,7 @@ export const PRODUCT_STATE = {
 };
 
 export const PROVIDER_STATE = {
+  firstname: "",
   name: "",
   email: "",
   telephone_no: "",
@@ -53,6 +54,7 @@ export const PROVIDER_STATE = {
   email_address_client: "",
   client_code: "",
   establishment: "",
+  authorized: "No",
 };
 export const LIBRARY_STATE = {
   name: "",

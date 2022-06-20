@@ -1,7 +1,8 @@
 import { Paragraph, TextRun, UnderlineType } from "docx";
+import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
 
 function dateNowFormatted() {
-  return "01/1/2022";
+  return `${new Date(Date.now()).toLocaleDateString("en-gb")}`;
 }
 
 function headGen(headingName, projectName) {
@@ -912,50 +913,197 @@ function rowsGenTradesAndTranchesBPU(data) {
   return rows;
 }
 
-function rowsGenSimpleCCTP(data) {
-  const rows = [];
+function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
 
-  for (let i = 0; i < data.length; i++) {
-    const cctpArr = data[i].work.cctp_text;
-    if (cctpArr.length == 0) {
-      continue;
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
     }
-    const obj = {
-      title: `${i + 1}. ${data[i].work.name}`,
-      cctp_arr: cctpArr,
-    };
-    rows.push(obj);
+    chap0 = parseChap0(currentProject);
   }
 
-  return rows;
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsSimple(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
 }
 
-function rowsGenTradesCCTP(data) {
-  const rows = [];
+function rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
 
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
+    }
+    chap0 = parseChap0(currentProject);
+  }
+
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsTrades(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
+}
+
+function rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
+  const _selectedCCTPIndexes = [...selectedCCTPIndexes];
+
+  let chap0;
+  if (_selectedCCTPIndexes.includes(0)) {
+    const index = _selectedCCTPIndexes.indexOf(0);
+    if (index > -1) {
+      _selectedCCTPIndexes.splice(index, 1);
+    }
+    chap0 = parseChap0(currentProject);
+  }
+
+  const cctps = [];
+
+  for (let i = 0; i < cctpArr.length; i++) {
+    if (selectedCCTPIndexes.includes(i + 1)) {
+      const obj = {
+        title: `${cctpArr[i + 1]}`,
+        arr: findCCTPsTradesAndTranches(data, i),
+      };
+      cctps.push(obj);
+    }
+  }
+
+  const obj = {
+    chap0,
+    cctps,
+  };
+
+  return obj;
+}
+
+function parseChap0(currentProject) {
+  if (!currentProject.chap0part2) {
+    return null;
+  }
+
+  const stakeholders = currentProject?.stakeholders ?? [];
+  const _stakeholders = [];
+  for (let i = 0; i < stakeholders.length; i++) {
+    const _ = stakeholders[i];
+    if (_.name || _.establishment) {
+      _stakeholders.push(_.name ?? _.establishment);
+    }
+  }
+
+  // Parse chap0part1
+  const part1 = {
+    name: currentProject?.name ?? "",
+    client: currentProject?.client?.establishment ?? "",
+    prescriber: currentProject?.prescriber?.establishment ?? "",
+    vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
+    reference: currentProject?.reference ?? "",
+    description: currentProject?.description ?? "",
+    market_type: currentProject?.market_type ?? "",
+    structure: currentProject?.structure ?? "",
+    stakeholders: _stakeholders,
+  };
+
+  // Parse chap0part2
+  const lvl1 = currentProject.chap0part2.id;
+  const _ = {
+    title: `0.1 ${lvl1.title}`,
+    text: lvl1.text,
+    lvl2: [],
+  };
+  for (let i = 0; i < lvl1.level2.length; i++) {
+    const lvl2 = lvl1.level2[i];
+    const __ = {
+      title: `0.1.${i + 1} ${lvl2.title}`,
+      text: lvl2.text,
+      lvl3: [],
+    };
+    for (let j = 0; j < lvl2.level3.length; j++) {
+      const lvl3 = lvl2.level3[j];
+      const ___ = {
+        title: `0.1.${i + 1}.${j + 1} ${lvl3.title}`,
+        text: lvl3.text,
+      };
+      __.lvl3.push(___);
+    }
+    _.lvl2.push(__);
+  }
+
+  const obj = {
+    part1: part1,
+    part2: _,
+  };
+
+  return obj;
+}
+
+function findCCTPsSimple(data, index) {
+  const cp = [];
+  for (let i = 0; i < data.length; i++) {
+    const _cctpArr = data[i].work.cctp_text;
+    if (_cctpArr.length == 0) {
+      continue;
+    }
+    if (_cctpArr[index]) {
+      cp.push(_cctpArr[index]);
+    }
+  }
+  return cp;
+}
+
+function findCCTPsTrades(data, index) {
+  const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
-      const cctpArr = currentObjWork.work.cctp_text;
-      if (cctpArr.length == 0) {
+      const _cctpArr = currentObjWork.work.cctp_text;
+      if (_cctpArr.length == 0) {
         continue;
       }
-      const obj = {
-        title: `${i + 1}.${j + 1}. ${currentObjWork.work.name}`,
-        cctp_arr: cctpArr,
-      };
-      rows.push(obj);
+      if (_cctpArr[index]) {
+        cp.push(_cctpArr[index]);
+      }
     }
   }
-
-  return rows;
+  return cp;
 }
 
-function rowsGenTradesAndTranchesCCTP(data) {
-  const rows = [];
-
+function findCCTPsTradesAndTranches(data, index) {
+  const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
     const tranchesArr = currentObjTrade.data;
@@ -964,33 +1112,29 @@ function rowsGenTradesAndTranchesCCTP(data) {
       const workAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
-        const cctpArr = currentObjWork.work.cctp_text;
-        if (cctpArr.length == 0) {
+        const _cctpArr = currentObjWork.work.cctp_text;
+        if (_cctpArr.length == 0) {
           continue;
         }
-        const obj = {
-          title: `${i + 1}.${j + 1}.${k + 1}. ${currentObjWork.work.name}`,
-          cctp_arr: cctpArr,
-        };
-        rows.push(obj);
+        if (_cctpArr[index]) {
+          cp.push(_cctpArr[index]);
+        }
       }
     }
   }
-
-  return rows;
+  return cp;
 }
 
 function textRunsSplitGen(str) {
   let strSingle = String(str);
 
   let textRunArr = [];
-  if (strSingle.includes("<p>")) {
-    // .includes("</") is a better check than [0]="<"
+  if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
-    str = str.replace(/\&nbsp;/g, " ");
-    textRunArr = handleBuiltInCCTPs(str);
+    strSingle = strSingle.replace(/\&nbsp;/g, " ");
+    textRunArr = handleBuiltInCCTPs(strSingle);
   } else {
-    textRunArr = handleImportedCCTPs(str);
+    textRunArr = handleImportedCCTPs(strSingle);
   }
 
   return textRunArr;
@@ -1022,16 +1166,7 @@ function handleImportedCCTPs(str) {
 
 function handleBuiltInCCTPs(str) {
   let strSingle = String(str);
-
-  const elMain = document.createElement("div");
-  elMain.innerHTML = strSingle;
-  let htmlCollectionMain = elMain.children;
-
-  const parsedObjsArr = [];
-  for (let i = 0; i < htmlCollectionMain.length; i++) {
-    const obj = parseHTMLTag(htmlCollectionMain[i]);
-    parsedObjsArr.push(obj);
-  }
+  const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
@@ -1049,41 +1184,43 @@ function handleBuiltInCCTPs(str) {
   return docxObjsArr;
 }
 
-function parseHTMLTag(tag) {
-  const tagName = tag.tagName;
-  const innerHTML = tag.innerHTML;
-  const classList = tag.classList;
+function parseHTMLTag(str) {
+  const elMain = document.createElement("div");
+  elMain.innerHTML = str;
+  let htmlCollectionMain = elMain.children;
 
-  const embedded = [];
-
-  if (innerHTML[0] == "<") {
-    const elMain = document.createElement("div");
-    elMain.innerHTML = innerHTML;
-    let htmlCollection = elMain.children;
-
-    for (let i = 0; i < htmlCollection.length; i++) {
-      const obj = parseHTMLTag(htmlCollection[i]);
-      embedded.push(obj);
-    }
+  const parsedObjsArr = [];
+  for (let i = 0; i < htmlCollectionMain.length; i++) {
+    const _ = htmlCollectionMain[i];
+    const obj = {
+      tagName: _.tagName,
+      innerHTML: _.innerHTML,
+      classList: _.classList,
+    };
+    parsedObjsArr.push(obj);
   }
 
-  return {
-    tagName: tagName,
-    innerHTML: innerHTML,
-    classList: classList,
-    embedded: embedded,
-  };
+  return parsedObjsArr;
 }
 
 const tagsToDocxMap = {
   P: function (_) {
     const text = _.innerHTML;
 
-    if (_.embedded.length == 0) {
-      const textArr = text.split("<br>");
-      const objsArr = [];
-      for (let i = 0; i < textArr.length; i++) {
-        const currentText = textArr[i];
+    const textArr = text.split("<br>");
+    const objsArr = [];
+    for (let i = 0; i < textArr.length; i++) {
+      const currentText = textArr[i];
+      if (htmlTagRegex.test(currentText)) {
+        const parsedObjsArr = parseHTMLTag(currentText); // Handled for first level only.
+        for (let j = 0; j < parsedObjsArr.length; j++) {
+          const obj = parsedObjsArr[j];
+          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+          if (objElm) {
+            objsArr.push(objElm);
+          }
+        }
+      } else {
         objsArr.push(
           new Paragraph({
             children: [
@@ -1095,11 +1232,9 @@ const tagsToDocxMap = {
           })
         );
       }
-      return objsArr;
-    } else {
-      const obj = _.embedded[0]; // Well incase of "P". We will be dealing with first embedded entry only.
-      return tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
     }
+
+    return objsArr;
   },
   BR: function (_) {
     return new Paragraph({
@@ -1162,31 +1297,11 @@ const tagsToDocxMap = {
     });
   },
   OL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   UL: function (_) {
-    const embeddedArr = _.embedded;
-
     const listItemsArr = [];
-    for (let i = 0; i < embeddedArr.length; i++) {
-      const obj = embeddedArr[i];
-      const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
-      if (objElm) {
-        listItemsArr.push(objElm);
-      }
-    }
-
     return listItemsArr;
   },
   LI: function (_) {
@@ -1225,7 +1340,7 @@ const tagsToDocxMap = {
 
 const dataColumnsEstimation = ["No #", "Name", "Unit", "Qty", "PU HT", "Total HT"];
 
-const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total Price :"];
+const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total  Amount  including  VAT :"];
 
 const dataColumnsBPU = ["'1", "Lot n°1", ""];
 
@@ -1243,6 +1358,12 @@ function downloadBlob(blob, filename) {
     })
   );
   document.body.removeChild(link);
+}
+
+async function blobFromURL(url) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return blob;
 }
 
 export {
@@ -1277,4 +1398,5 @@ export {
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
   downloadBlob,
+  blobFromURL,
 };

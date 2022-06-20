@@ -9,12 +9,10 @@ import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import { useStyles } from "../../../../css/projectLibraries";
 import { Button } from "@mui/material";
 import InputDropdown from "../../../../components/Architect/InputDropdown";
+import { formatNumber } from "../../../../utils/markThousand";
 
 // component
-const EditWorkDetailsModal = ({
-  handleOpenEditWorkDetailModal,
-  workDetail,
-}) => {
+const EditWorkDetailsModal = ({ handleOpenEditWorkDetailModal, workDetail }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   // states
@@ -31,7 +29,7 @@ const EditWorkDetailsModal = ({
       setValues((prev) => {
         prev.name = workDetail.name;
         prev.unit = workDetail.unit;
-        prev.unit_price = workDetail.unit_price;
+        prev.unit_price = formatNumber(parseFloat(workDetail.unit_price).toFixed(2).toString(), ".");
         return { ...prev };
       });
   }, []);
@@ -44,7 +42,7 @@ const EditWorkDetailsModal = ({
   // func to getAll Units
   const getUnits = async () => {
     const result = await api("get", `/Units/get`);
-    setOptions(result.data.units);
+    setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // handle change function
@@ -59,12 +57,8 @@ const EditWorkDetailsModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = values;
-    const result = await api(
-      "put",
-      `/BookLibraries/edit/WorkDetail/${workDetail._id}`,
-      data,
-      t
-    );
+    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+    const result = await api("put", `/BookLibraries/edit/WorkDetail/${workDetail._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditWorkDetailModal();
   };
@@ -90,6 +84,20 @@ const EditWorkDetailsModal = ({
         value={values.unit_price}
         handleChange={(e) => handleChange(e.target.name, e.target.value)}
         required={true}
+        onBlur={() => {
+          let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+          setValues((prev) => {
+            prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+            return { ...prev };
+          });
+        }}
+        onFocus={() => {
+          let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+          setValues((prev) => {
+            prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+            return { ...prev };
+          });
+        }}
       />
       <br />
       <br />
@@ -104,6 +112,10 @@ const EditWorkDetailsModal = ({
       <br />
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenEditWorkDetailModal}>
+          {t("Close")}
+        </Button>
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Update")}
         </Button>

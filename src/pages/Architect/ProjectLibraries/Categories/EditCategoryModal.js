@@ -97,12 +97,7 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
     cctp_text2 && data.cctp_text.push(cctp_text2);
     cctp_text3 && data.cctp_text.push(cctp_text3);
     cctp_text4 && data.cctp_text.push(cctp_text4);
-    const result = await api(
-      "put",
-      `/BookLibraries/update/editCategory/${category._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/BookLibraries/update/editCategory/${category._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditCatgeoryModal();
   };
@@ -126,11 +121,7 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -155,6 +146,10 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
 
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenEditCatgeoryModal}>
+          {t("Close")}
+        </Button>{" "}
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Update")}
         </Button>

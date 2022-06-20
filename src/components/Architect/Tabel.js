@@ -29,6 +29,9 @@ import { useTranslation } from "react-i18next";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
+import WrapTextIcon from "@mui/icons-material/WrapText";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -161,7 +164,7 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(4);
-
+  const { t } = useTranslation();
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -249,13 +252,17 @@ export default function EnhancedTable(props) {
                           <TableCell align="left" title={row?.subscription?.end_date}>
                             {row?.end_date ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
+                        ) : record == "subscriptionStartDate" ? (
+                          <TableCell align="left" title={row?.subscription?.start_date}>
+                            {row?.start_date ? moment(row?.start_date).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
                         ) : record === "subscriptionName" ? (
                           <TableCell key={index} align="left" title={row?.subscriptions?.name}>
                             {row?.subscription?.name
                               ? row?.subscription?.name?.length > 20
                                 ? row?.subscription?.name.substring(0, 20) + "..."
                                 : row?.subscription?.name
-                              : "N/A"}
+                              : "Abonnement initiale"}
                           </TableCell>
                         ) : record == "assignedToName" ? (
                           <TableCell align="left" title={row?.assigned_to?.first_name}>
@@ -266,8 +273,12 @@ export default function EnhancedTable(props) {
                               : "N/A"}
                           </TableCell>
                         ) : record === "createdAt" ? (
-                          <TableCell align="left" title={row?.subscription?.end_date}>
-                            {row?.createdAt ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
+                          <TableCell align="left" title={row?.subscription?.createdAt}>
+                            {row?.createdAt ? moment(row?.createdAt).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
+                        ) : record === "updatedAt" ? (
+                          <TableCell align="left" title={row?.subscription?.updatedAt}>
+                            {row?.updatedAt ? moment(row?.updatedAt).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "vat" ? (
                           <TableCell key={index} align="left" title={row?.vat?.value}>
@@ -288,7 +299,31 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "prescriber" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row.name}
+                            {row?.name}
+                          </TableCell>
+                        ) : record === "client" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.client?.establishment}
+                          </TableCell>
+                        ) : record === "type" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.type?.text}
+                          </TableCell>
+                        ) : record === "subStatus" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.assigned_to?._id ? (
+                              <CheckBoxOutlinedIcon color="success" />
+                            ) : (
+                              <CancelOutlinedIcon color="error" />
+                            )}
+                          </TableCell>
+                        ) : record === "code" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row?.subscription?.code ? row?.subscription?.code : <>N/A</>}
+                          </TableCell>
+                        ) : record === "market_type" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {t(row?.market_type)}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="left" title={row[record]}>
@@ -296,7 +331,7 @@ export default function EnhancedTable(props) {
                               ? row[record]?.length > 20
                                 ? row[record].substring(0, 20) + "..."
                                 : row[record]
-                              : row[record] == 0
+                              : row[record] === 0
                               ? 0
                               : "N/A"}
                           </TableCell>
@@ -310,9 +345,14 @@ export default function EnhancedTable(props) {
                               <DriveFileRenameOutlineRoundedIcon />
                             </IconButton>
                           ) : props.handleView ? (
-                            <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
-                              <DriveFileRenameOutlineRoundedIcon />
-                            </IconButton>
+                            <>
+                              <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
+                                <DriveFileRenameOutlineRoundedIcon />
+                              </IconButton>
+                              <IconButton aria-label="edit" onClick={() => props.handleOpenStatusModal(row)}>
+                                <WrapTextIcon />
+                              </IconButton>
+                            </>
                           ) : (
                             <>
                               <IconButton color="info" aria-label="edit" onClick={() => props.handleEdit(row)}>

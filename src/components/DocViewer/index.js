@@ -1,10 +1,6 @@
 import React from "react";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import {
-  faForward,
-  faBackward,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faForward, faBackward, faTrash } from "@fortawesome/free-solid-svg-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
 export default function index(props) {
   const { documents } = props;
@@ -15,9 +11,9 @@ export default function index(props) {
         documents={documents}
         config={{
           header: {
-            //   disableHeader: false,
-            //   disableFileName: true,
-            //   retainURLParams: false,
+            // disableHeader: false,
+            // disableFileName: true,
+            // retainURLParams: false,
             overrideComponent: myHeader,
           },
         }}
@@ -38,14 +34,10 @@ const myHeader = (state, previousDocument, nextDocument) => {
 
   return (
     <>
-      <div className="flex pb-2   px-3 py-2	items-end justify-end  ">
-        <div className="flex flex-nowrap justify-end  w-full md:w-3/12">
+      <div className="flex pb-2 px-3 py-2 items-end justify-end">
+        <div className="flex flex-nowrap justify-end w-full md:w-3/12">
           <div className="  ">
-            <FontAwesomeIcon
-              icon={faBackward}
-              onClick={previousDocument}
-              disabled={state.currentFileNo === 0}
-            />
+            <FontAwesomeIcon icon={faBackward} onClick={previousDocument} disabled={state.currentFileNo === 0} />
           </div>
           <div className="   ">
             <FontAwesomeIcon
@@ -56,7 +48,6 @@ const myHeader = (state, previousDocument, nextDocument) => {
           </div>
         </div>
       </div>
-      {/* <div>{state.currentDocument.uri || ""}</div> */}
     </>
   );
 };

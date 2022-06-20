@@ -60,7 +60,11 @@ const Home = () => {
 
   const getSubscriptions = async () => {
     const result = await api("get", `/licenses/${store.user._id}`);
-    setSubscriptionsData(result.data.license);
+    let data = result.data.license.map((item) => {
+      item.subType = "Prescripteur";
+      return item;
+    });
+    setSubscriptionsData(data);
     setMySubscription(store?.user?.subscriptions);
   };
 
@@ -96,7 +100,7 @@ const Home = () => {
     history.push("/auth/register");
   };
 
-  return mySubscription ? (
+  return store?.user?.authorized.toUpperCase() === "YES" ? (
     <div className="home-container">
       <Modal
         title={t("Buy Subscription")}
@@ -136,7 +140,7 @@ const Home = () => {
             rows={subscriptionHeadCells}
             handleAssign={handleAssignSubModal}
             headerText={t("Subscriptions")}
-            buttonText={t("Buy Subscriptions")}
+            buttonText={t("Buy Subscription")}
             buttonAction={handleBuySubModal}
           />
         </div>
@@ -179,8 +183,8 @@ const Home = () => {
       >
         <img src={noSubcription} />
         <span className="no-subscription-text">
-          {t("You have to complete your")} <br />
-          {t("Sign up process first, to use this platform")}
+          {t("To use the Quadrabase application")}, <br />
+          {t("you must subscribe")}
         </span>
         <Button
           variant="contained"
@@ -192,7 +196,7 @@ const Home = () => {
           }}
           onClick={handleNoSub}
         >
-          Back to Sign up Process
+          {t("Subscribe to Quadrabase")}
         </Button>
       </div>
     </div>

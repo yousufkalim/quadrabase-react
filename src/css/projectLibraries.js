@@ -23,7 +23,7 @@ export const useStyles = makeStyles({
     marginBottom: "auto",
     textAlign: "left",
     width: "60vw",
-    maxHeight: 660,
+    maxHeight: "80vh",
     overflow: "auto",
   },
   smform: {

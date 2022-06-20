@@ -106,12 +106,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
     cctp_text3 && data.cctp_text.push(cctp_text3);
     cctp_text4 && data.cctp_text.push(cctp_text4);
     data.architect = store.user._id;
-    const result = await api(
-      "put",
-      `/BookLibraries/update/${library._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/BookLibraries/update/${library._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditLibrariesModal();
   };
@@ -138,11 +133,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
       {/* CCTP Tab View */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
-          <Tabs
-            value={selectedTabIndex}
-            onChange={handleTabChange}
-            aria-label="CCTPs"
-          >
+          <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
             <Tab label="CCTP3" {...a11yProps(2)} />
@@ -167,6 +158,10 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
 
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
+        <Button variant="contained" className={classes.btn} onClick={handleOpenEditLibrariesModal}>
+          {t("Close")}
+        </Button>{" "}
+        &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
           {t("Update")}
         </Button>

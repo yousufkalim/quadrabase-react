@@ -92,7 +92,7 @@ export default function AddExpense(props) {
           <TextInput
             type="number"
             placeholder="Projects"
-            label="Number of Projects in Pack"
+            label="Number of Projects"
             name="projectsPack"
             translate={translate}
             onChange={formik.handleChange}

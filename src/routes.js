@@ -20,6 +20,8 @@ import Fabricant from "./pages/auth/fabricants";
 import Libraries from "./pages/auth/libraries";
 import Services from "./pages/auth/services";
 import Contact from "./pages/auth/contactUs";
+import Privacy from "./pages/auth/privacy";
+import Terms from "./pages/auth/terms";
 import Units from "./pages/admin/bookLibraries/Units";
 import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
 
@@ -48,7 +50,7 @@ var routes = [
   {
     path: "/index", //Architect
     name: "Architect",
-    text: "Home",
+    text: "Dashboard",
     icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
     layout: "/architect",
@@ -140,13 +142,13 @@ var routes = [
     component: BookLibraries,
     layout: "/admin",
   },
-  {
-    path: "/privateLibraries",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: PrivateLibraries,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/privateLibraries",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: PrivateLibraries,
+  //   layout: "/admin",
+  // },
   {
     path: "/providers",
     name: "Dashboard",
@@ -297,6 +299,20 @@ var routes = [
     name: "Auth",
     icon: "ni ni-tv-2 text-primary",
     component: Manufacturer,
+    layout: "/auth",
+  },
+  {
+    path: "/privacy",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Privacy,
+    layout: "/auth",
+  },
+  {
+    path: "/terms",
+    name: "Auth",
+    icon: "ni ni-tv-2 text-primary",
+    component: Terms,
     layout: "/auth",
   },
 ];

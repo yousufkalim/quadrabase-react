@@ -5,8 +5,7 @@ import RichTextEditor from "../../../..//components/RichTextEditor";
 import SelectField from "../../../../components/SelectField";
 
 export default function AddExpense(props) {
-  const { translate, formik, text, setText, options, setFamily, family } =
-    props;
+  const { translate, formik, text, setText, options, setFamily, family } = props;
 
   return (
     <form className="w-full  pt-9">
@@ -22,9 +21,7 @@ export default function AddExpense(props) {
             value={formik.values.title}
           />
           <div className="text-red-600 ">
-            {formik.touched.title && formik.errors.title ? (
-              <small>{formik.errors.title}</small>
-            ) : null}
+            {formik.touched.title && formik.errors.title ? <small>{formik.errors.title}</small> : null}
           </div>
         </div>
 
@@ -32,11 +29,12 @@ export default function AddExpense(props) {
           <div className="w-full  px-6 mb-3">
             <SelectField
               name="subscription"
-              label={translate("Select Family")}
+              label={translate("Domain")}
               value={family}
               onChange={(e) => setFamily(e.target.value)}
               translate={translate}
               options={options}
+              disabled
             />
           </div>
         </div>
@@ -44,9 +42,7 @@ export default function AddExpense(props) {
         <div className="w-full  px-3">
           <RichTextEditor value={text} setValue={setText} />
           <div className="text-red-600 ">
-            {formik.touched.text && formik.errors.text ? (
-              <small>{formik.errors.text}</small>
-            ) : null}
+            {formik.touched.text && formik.errors.text ? <small>{formik.errors.text}</small> : null}
           </div>
         </div>
       </div>

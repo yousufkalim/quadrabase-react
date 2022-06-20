@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Table from "../../../components/Architect/Tabel";
 import Modal from "../../../components/Architect/Modal";
 import AddProjectModal from "./AddProjectModal";
+import StatusUpdate from "./Modals/StatusUpdate";
 import { ProjectheadCells } from "../../../utils/tableHeads";
 import api from "../../../api";
 import { Store } from "../../../StoreContext";
@@ -14,6 +15,8 @@ const Index = () => {
   const store = Store();
   const history = useHistory();
   const [addProjectModal, setAddProjectModal] = useState(false);
+  const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState({});
   const [projectData, setProjectData] = useState([]);
   const [projectHeadCells, setProjectHeadCells] = useState("");
   const [mySubscription, setMySubscription] = useState({});
@@ -26,7 +29,7 @@ const Index = () => {
 
   useEffect(() => {
     getProjects();
-  }, [addProjectModal]);
+  }, [addProjectModal, openStatusModal]);
 
   useEffect(() => {
     getSubscriptions();
@@ -48,6 +51,10 @@ const Index = () => {
   };
 
   const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
+  const handleOpenStatusModal = (item) => {
+    if (item) setSelectedProject(item);
+    setOpenStatusModal(!openStatusModal);
+  };
 
   return (
     <div className="projects-container">
@@ -57,6 +64,12 @@ const Index = () => {
         onClose={handleAddProjectModal}
         component={<AddProjectModal handleAddProjectModal={handleAddProjectModal} />}
       />
+      <Modal
+        title={t("Update Status")}
+        open={openStatusModal}
+        onClose={handleOpenStatusModal}
+        component={<StatusUpdate selectedProject={selectedProject} handleOpenStatusModal={handleOpenStatusModal} />}
+      />
       <Table
         headCells={ProjectheadCells}
         data={projectData}
@@ -65,8 +78,10 @@ const Index = () => {
         headerText={`${t("My Projects")} (${store?.user?.projects?.length}/${
           mySubscription?.projects ? mySubscription?.projects : 0
         })`}
+        type="project"
         buttonText={t("New Project")}
         buttonAction={handleAddProjectModal}
+        handleOpenStatusModal={handleOpenStatusModal}
       />
     </div>
   );

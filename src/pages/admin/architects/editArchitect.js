@@ -197,6 +197,16 @@ export default function AddExpense(props) {
             {formik.touched.client_code && formik.errors.client_code ? <small>{formik.errors.client_code}</small> : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <RadioButton
+            label="Authorize"
+            name="authorized"
+            onChange={formik.handleChange}
+            value={formik.values.authorized}
+            options={["Yes", "No"]}
+            translate={translate}
+          />
+        </div>
       </div>
     </form>
   );

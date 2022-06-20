@@ -8,7 +8,7 @@ export default function ComboBox(props) {
       disablePortal
       id="combo-box-demo"
       options={props.options}
-      getOptionLabel={(option) => option?.name}
+      getOptionLabel={(option) => option?.establishment}
       defaultValue={props.defaultValue}
       onChange={(event, value) => props.setValue(value._id)}
       fullWidth
@@ -21,6 +21,11 @@ export default function ComboBox(props) {
           InputLabelProps={{
             shrink: true,
             style: { color: "#3b373c" },
+          }}
+          InputProps={{
+            style: {
+              height: props.height ? props.height : 38,
+            },
           }}
           required={props.required}
           value={props.textValue}
