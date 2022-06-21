@@ -46,6 +46,10 @@ export const PRODUCT_YUP = Yup.object({
   reference: Yup.string().required("Obligatoire"),
 });
 
+export const FOLDER_YUP = Yup.object({
+  name: Yup.string().required("Obligatoire"),
+});
+
 export const EDIT_ADMIN_YUP = Yup.object({
   first_name: Yup.string().required("Obligatoire"),
   last_name: Yup.string().required("Obligatoire"),
@@ -74,7 +78,9 @@ export const PROVIDER_YUP = Yup.object({
     "Doit contenir exactement 5 caractères",
     (val) => val?.toString().length >= 4 && val?.toString().length <= 5
   ),
-  telephone_no: Yup.number().test("len", "Doit contenir exactement 10 caractères", (val) => val?.toString().length == 10),
+  telephone_no: Yup.string().test("len", "Doit contenir exactement 10 caractères", (val) => {
+    return val?.toString().length == 10;
+  }),
 });
 export const UNIT_YUP = Yup.object({
   name: Yup.string().required("Obligatoire"),
