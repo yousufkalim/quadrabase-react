@@ -157,8 +157,7 @@ i18n
           "Architect already exists": "Architect already exists",
           "Architect created successfully": "Architect created successfully",
           "BookLibrary already exists": "BookLibrary already exists",
-          "BookLibrary created successfully":
-            "BookLibrary created successfully",
+          "BookLibrary created successfully": "BookLibrary created successfully",
           "Architect does not exist": "Architect does not exist",
           "Architect updated successfully": "Architect updated successfully",
           "Architect not found": "Architect not found",
@@ -167,10 +166,8 @@ i18n
           "Subscription Removed!": "Subscription Removed!",
           "Subscription Updated!": "Subscription Updated!",
           //  BookLibraries
-          "BookLibrary updated successfully":
-            "BookLibrary updated successfully",
-          "BookLibrary deleted successfully":
-            "BookLibrary deleted successfully",
+          "BookLibrary updated successfully": "BookLibrary updated successfully",
+          "BookLibrary deleted successfully": "BookLibrary deleted successfully",
           "BookLibray id not found": "BookLibray id not found",
           "Family id not found": "Family id not found",
           "Family added Successfully": "Family added Successfully",
@@ -189,8 +186,7 @@ i18n
           "Work Detail  exists": "Work Detail  exists",
           "Work Detail added Successfully": "Work Detail added Successfully",
           "Work id not found": "Work id not found",
-          "Work Detail updated Successfully":
-            "Work Detail updated Successfully",
+          "Work Detail updated Successfully": "Work Detail updated Successfully",
           "Work Detail  not found": "Work Detail  not found",
           "WorkDetail deleted successfully": "WorkDetail deleted successfully",
           //    CCTP
@@ -231,12 +227,9 @@ i18n
           "Provider  not found": "Provider  not found",
           //// Subscription
           "Subscription already exists": "Subscription already exists",
-          "Subscription created successfully":
-            "Subscription created successfully",
-          "Subscription updated successfully":
-            "Subscription updated successfully",
-          "Subscription deleted successfully":
-            "Subscription deleted successfully",
+          "Subscription created successfully": "Subscription created successfully",
+          "Subscription updated successfully": "Subscription updated successfully",
+          "Subscription deleted successfully": "Subscription deleted successfully",
           "Subscription  not found": "Subscription  not found",
 
           // New
@@ -294,12 +287,9 @@ i18n
           Bottom: "Bottom",
           "Choose file": "Choose file",
           "no file chosen": "no file chosen",
-          "Stakeholder Type created successfully":
-            "Stakeholder Type created successfully",
-          "Stakeholder type deleted successfully":
-            "Stakeholder type deleted successfully",
-          "Stakeholder type updated successfully":
-            "Stakeholder type updated successfully",
+          "Stakeholder Type created successfully": "Stakeholder Type created successfully",
+          "Stakeholder type deleted successfully": "Stakeholder type deleted successfully",
+          "Stakeholder type updated successfully": "Stakeholder type updated successfully",
           "Provider List": "Provider List",
           Add: "Add",
           "Associated Provider": "Associated Provider",
@@ -316,20 +306,13 @@ i18n
           "Add Chap0Level1": "Add Chap0Level1",
           AddChap0Level2: "Add Chap0Level2",
           AddChap0Level3: "Add Chap0Level3",
-          "Chap0Level2 created successfully":
-            "Chap0Level2 created successfully",
-          "Chap0Level2 updated successfully":
-            "Chap0Level2 updated successfully",
-          "Chap0Level2 deleted successfully":
-            "Chap0Level2 deleted successfully",
-          "Chap0Level3 created successfully":
-            "Chap0Level3 created successfully",
-          "Chap0Level3 updated successfully":
-            "Chap0Level3 updated successfully",
-          "Chap0Level3 deleted successfully":
-            "Chap0Level3 deleted successfully",
-          "Chap0Level3 deleted successfully":
-            "Chap0Level3 deleted successfully",
+          "Chap0Level2 created successfully": "Chap0Level2 created successfully",
+          "Chap0Level2 updated successfully": "Chap0Level2 updated successfully",
+          "Chap0Level2 deleted successfully": "Chap0Level2 deleted successfully",
+          "Chap0Level3 created successfully": "Chap0Level3 created successfully",
+          "Chap0Level3 updated successfully": "Chap0Level3 updated successfully",
+          "Chap0Level3 deleted successfully": "Chap0Level3 deleted successfully",
+          "Chap0Level3 deleted successfully": "Chap0Level3 deleted successfully",
           "Subscription is required": "Subscription is required",
           "Text is required.": "Text is required.",
           Subscriptions: "Subscriptions",
@@ -417,8 +400,7 @@ i18n
           "Old Password": "Old Password",
           "New Password": "New Password",
           Establishment: "Establishment",
-          "Please Wait, Loading Project Data!":
-            "Please Wait, Loading Project Data!",
+          "Please Wait, Loading Project Data!": "Please Wait, Loading Project Data!",
           "Success!": "Success!",
           "Architect Not Found!": "Architect Not Found!",
           "Subscription Unassigned!": "Subscription Unassigned!",
@@ -426,35 +408,25 @@ i18n
           "Project already exists": "Project already exists",
           "Project created successfully": "Project created successfully",
           "stakeholder already exists": "stakeholder already exists",
-          "Stakeholder created successfully":
-            "Stakeholder created successfully",
-          "Stakeholder updated successfully":
-            "Stakeholder updated successfully",
+          "Stakeholder created successfully": "Stakeholder created successfully",
+          "Stakeholder updated successfully": "Stakeholder updated successfully",
           "Stakeholder in use of a project": "Stakeholder in use of a project",
-          "Stakeholder deleted successfully":
-            "Stakeholder deleted successfully",
+          "Stakeholder deleted successfully": "Stakeholder deleted successfully",
           "ArchitectsChap0 already exists": "ArchitectsChap0 already exists",
-          "ArchitectsChap0 created successfully":
-            "ArchitectsChap0 created successfully",
+          "ArchitectsChap0 created successfully": "ArchitectsChap0 created successfully",
           "ArchitectsChap0 already exists": "ArchitectsChap0 already exists",
-          "ArchitectsChap0 updated successfully":
-            "ArchitectsChap0 updated successfully",
-          "ArchitectsChap0 in use of a project":
-            "ArchitectsChap0 in use of a project",
-          "ArchitectsChap0 deleted successfully":
-            "ArchitectsChap0 deleted successfully",
+          "ArchitectsChap0 updated successfully": "ArchitectsChap0 updated successfully",
+          "ArchitectsChap0 in use of a project": "ArchitectsChap0 in use of a project",
+          "ArchitectsChap0 deleted successfully": "ArchitectsChap0 deleted successfully",
           "Family updated successfully": "Family updated successfully",
           "Family deleted successfully": "Family deleted successfully",
           "Family created successfully": "Family created successfully",
           "Family already exists": "Family already exists",
           "BookLibrary already exists": "BookLibrary already exists",
-          "BookLibrary created successfully":
-            "BookLibrary created successfully",
+          "BookLibrary created successfully": "BookLibrary created successfully",
           "BookLibraries  not found": "BookLibraries  not found",
-          "BookLibrary deleted successfully":
-            "BookLibrary deleted successfully",
-          "BookLibrary updated successfully":
-            "BookLibrary updated successfully",
+          "BookLibrary deleted successfully": "BookLibrary deleted successfully",
+          "BookLibrary updated successfully": "BookLibrary updated successfully",
           "Category  not found": "Category  not found",
           "Category name exists": "Category name exists",
           "Category added Successfully": "Category added Successfully",
@@ -466,8 +438,7 @@ i18n
           "Work deleted successfully": "Work deleted successfully",
           "Work Detail  exists": "Work Detail  exists",
           "Work Detail added Successfully": "Work Detail added Successfully",
-          "Work Detail updated Successfully":
-            "Work Detail updated Successfully",
+          "Work Detail updated Successfully": "Work Detail updated Successfully",
           "Work Detail  not found": "Work Detail  not found",
           "WorkDetail deleted successfully": "WorkDetail deleted successfully",
           "New Password Can't be Empty!": "New Password Can't be Empty!",
@@ -539,10 +510,8 @@ i18n
           "Trade deleted successfully": "Trade deleted successfully",
           "Project Name": "Project Name",
           "Chapter selection": "Chapter selection",
-          "The last remaining Batch cannot be deleted.":
-            "The last remaining Batch cannot be deleted",
-          "The last remaining Slice cannot be deleted.":
-            "The last remaining Slice cannot be deleted",
+          "The last remaining Batch cannot be deleted.": "The last remaining Batch cannot be deleted",
+          "The last remaining Slice cannot be deleted.": "The last remaining Slice cannot be deleted",
           "Delete tranches first": "Delete tranches first",
           "Private Libraries": "Private Libraries",
           Architect: "Architect",
@@ -558,8 +527,7 @@ i18n
           "Projets restants": "Projets restants",
           "Projects in progress": "Projects in progress",
           "Number of Projects": "Number of Projects",
-          "Please select a chap. 0 part 2 from properties":
-            "Please select a chap. 0 part 2 from properties",
+          "Please select a chap. 0 part 2 from properties": "Please select a chap. 0 part 2 from properties",
           "Project Date": "Project Date",
           "No text": "No text",
           "Update Trade": "Update Trade",
@@ -755,10 +723,8 @@ i18n
           "Email Sent successfully": "E-mail envoyé avec succès",
           "Invalid Token!": "Jeton invalide!",
           "Token Expired!": "Jeton expiré !",
-          "Password Updated successfully":
-            "Mot de passe mis à jour avec succès",
-          "Admin updated successfully":
-            "L'administrateur a été mis à jour avec succès",
+          "Password Updated successfully": "Mot de passe mis à jour avec succès",
+          "Admin updated successfully": "L'administrateur a été mis à jour avec succès",
           "Internal server error": "Erreur interne du serveur",
           "Admin deleted successfully": "Administrateur supprimé avec succès",
           //// Architects
@@ -767,19 +733,15 @@ i18n
           "BookLibrary already exists": "Bibliothèque existe déjà",
           "BookLibrary created successfully": "Bibliothèque créé avec succès",
           "Architect does not exist": "Le Prescripteur n'existe pas",
-          "Architect updated successfully":
-            "Le Prescripteur mis à jour avec succès",
+          "Architect updated successfully": "Le Prescripteur mis à jour avec succès",
           "Architect not found": "Le Prescripteur introuvable",
-          "Architect Deleted Successfully":
-            "Le prescripteur a été supprimé avec succès.",
+          "Architect Deleted Successfully": "Le prescripteur a été supprimé avec succès.",
           "BookLibraries  not found": "Bibliothèques non trouvées",
           "Subscription Removed!": "Abonnement supprimé !",
           "Subscription Updated!": "Abonnement mis à jour !",
           //  BookLibraries
-          "BookLibrary updated successfully":
-            "Bibliothèque mis à jour avec succès",
-          "BookLibrary deleted successfully":
-            "Bibliothèque supprimé avec succès",
+          "BookLibrary updated successfully": "Bibliothèque mis à jour avec succès",
+          "BookLibrary deleted successfully": "Bibliothèque supprimé avec succès",
           "BookLibray id not found": "Identifiant BookLibray introuvable",
           "Family id not found": "Identifiant de famille introuvable",
           "Family added Successfully": "Famille ajoutée avec succès",
@@ -796,14 +758,11 @@ i18n
           "Work deleted successfully": "Ouvrage supprimé avec succès",
           "workId id not found": "workId id introuvable",
           "Work Detail  exists": "Le détail du travail existe",
-          "Work Detail added Successfully":
-            "Détail du travail ajouté avec succès",
+          "Work Detail added Successfully": "Détail du travail ajouté avec succès",
           "Work id not found": "Identifiant de travail introuvable",
-          "Work Detail updated Successfully":
-            "Détail d'ouvrage mis à jour avec succès",
+          "Work Detail updated Successfully": "Détail d'ouvrage mis à jour avec succès",
           "Work Detail  not found": "Détail du travail introuvable",
-          "WorkDetail deleted successfully":
-            "Détail d'ouvrage supprimé avec succès",
+          "WorkDetail deleted successfully": "Détail d'ouvrage supprimé avec succès",
           //    CCTP
           "CCTP already exists": "Le CCTP existe déjà",
           "CCTP created successfully": "CCTP créé avec succès",
@@ -837,18 +796,14 @@ i18n
           //// Provider
           "Provider already exists": "Le Fabricant existe déjà",
           "Provider created successfully": "Le Fabricant créé avec succès",
-          "Provider updated successfully":
-            "Le Fabricant mis à jour avec succès",
+          "Provider updated successfully": "Le Fabricant mis à jour avec succès",
           "Provider deleted successfully": "Le Fabricant Supprimé avec succès",
           "Provider  not found": "Le Fabricant introuvable",
           //// Subscription
           "Subscription already exists": "Abonnement existe déjà",
-          "Subscription created successfully":
-            "SubscrAbonnementiption créé avec succès",
-          "Subscription updated successfully":
-            "Abonnement mis à jour avec succès",
-          "Subscription deleted successfully":
-            "Abonnement Supprimé avec succès",
+          "Subscription created successfully": "SubscrAbonnementiption créé avec succès",
+          "Subscription updated successfully": "Abonnement mis à jour avec succès",
+          "Subscription deleted successfully": "Abonnement Supprimé avec succès",
           "Subscription  not found": "Abonnement introuvable",
 
           // New
@@ -907,12 +862,9 @@ i18n
           Bottom: "En bas",
           "Choose file": "Choisir le fichier",
           "no file chosen": "aucun fichier choisi",
-          "Stakeholder Type created successfully":
-            "Intervenant ajouté avec succès",
-          "Stakeholder type deleted successfully":
-            "Type de partie prenante supprimé avec succès",
-          "Stakeholder type updated successfully":
-            "Type de partie prenante mis à jour avec succès",
+          "Stakeholder Type created successfully": "Intervenant ajouté avec succès",
+          "Stakeholder type deleted successfully": "Type de partie prenante supprimé avec succès",
+          "Stakeholder type updated successfully": "Type de partie prenante mis à jour avec succès",
           "Provider List": "Liste des fabricant",
           Add: "Ajouter",
           "Associated Provider": "Fabricant associé",
@@ -930,15 +882,11 @@ i18n
           AddChap0Level2: "Ajouter Chap0Niv2",
           AddChap0Level3: "Ajouter Chap0Niv3",
           "Chap0Level2 created successfully": "Chap0Level2 créé avec succès",
-          "Chap0Level2 updated successfully":
-            "Chap0Level2 mis à jour avec succès",
-          "Chap0Level2 deleted successfully":
-            "Chap0Level2 supprimé avec succès",
+          "Chap0Level2 updated successfully": "Chap0Level2 mis à jour avec succès",
+          "Chap0Level2 deleted successfully": "Chap0Level2 supprimé avec succès",
           "Chap0Level3 created successfully": "Chap0Level3 créé avec succès",
-          "Chap0Level3 updated successfully":
-            "Chap0Level3 mis à jour avec succès",
-          "Chap0Level3 deleted successfully":
-            "Chap0Level3 supprimé avec succès",
+          "Chap0Level3 updated successfully": "Chap0Level3 mis à jour avec succès",
+          "Chap0Level3 deleted successfully": "Chap0Level3 supprimé avec succès",
           "Subscription is required": "L'abonnement est requis",
           "Text is required.": "Le texte est requis.",
           Subscriptions: "Abonnements",
@@ -1024,8 +972,7 @@ i18n
           "Old Password": "Ancien mot de passe",
           "New Password": "Nouveau mot de passe",
           Establishment: "Établissement",
-          "Please Wait, Loading Project Data!":
-            "Veuillez patienter, chargement des données du projet !",
+          "Please Wait, Loading Project Data!": "Veuillez patienter, chargement des données du projet !",
           "Success!": "Succès!",
           "Architect Not Found!": "Architecte introuvable !",
           "Subscription Unassigned!": "Abonnement non attribué !",
@@ -1034,19 +981,14 @@ i18n
           "Project created successfully": "Projet créé avec succès",
           "stakeholder already exists": "L'intervenant'existe déjà",
           "Stakeholder created successfully": "Intervenant créé avec succès",
-          "Stakeholder updated successfully":
-            "Intervenant mis à jour avec succès",
-          "Stakeholder in use of a project":
-            "Intervenant faisant partie d'un projet",
-          "Stakeholder deleted successfully":
-            "Intervenant supprimé avec succès",
+          "Stakeholder updated successfully": "Intervenant mis à jour avec succès",
+          "Stakeholder in use of a project": "Intervenant faisant partie d'un projet",
+          "Stakeholder deleted successfully": "Intervenant supprimé avec succès",
           "ArchitectsChap0 already exists": "Le Chap0 existe déjà",
           "ArchitectsChap0 created successfully": "Chap0 créé avec succès",
           "ArchitectsChap0 already exists": "Chap0 existe déjà",
-          "ArchitectsChap0 updated successfully":
-            "Chap0 mis à jour avec succès",
-          "ArchitectsChap0 in use of a project":
-            "Chap0 en cours d'utilisation d'un projet",
+          "ArchitectsChap0 updated successfully": "Chap0 mis à jour avec succès",
+          "ArchitectsChap0 in use of a project": "Chap0 en cours d'utilisation d'un projet",
           "ArchitectsChap0 deleted successfully": "Chap0 supprimé avec succès",
           "Family updated successfully": "Famille mise à jour avec succès",
           "Family deleted successfully": "Famille supprimée avec succès",
@@ -1055,10 +997,8 @@ i18n
           "BookLibrary already exists": "La bibliothèque existe déjà",
           "BookLibrary created successfully": "Bibliothèque créée avec succès",
           "BookLibraries  not found": "Bibliothèque introuvable",
-          "BookLibrary deleted successfully":
-            "Bibliothèque supprimée avec succès",
-          "BookLibrary updated successfully":
-            "Bibliothèque mise à jour avec succès",
+          "BookLibrary deleted successfully": "Bibliothèque supprimée avec succès",
+          "BookLibrary updated successfully": "Bibliothèque mise à jour avec succès",
           "Category  not found": "Catégorie introuvable",
           "Category name exists": "Le nom de la catégorie existe",
           "Category added Successfully": "Catégorie ajoutée avec succès",
@@ -1069,15 +1009,11 @@ i18n
           "Work updated Successfully": "Ouvrage mis à jour avec succès",
           "Work deleted successfully": "Ouvrage supprimé avec succès",
           "Work Detail  exists": "Le détail d'Ouvrage existe",
-          "Work Detail added Successfully":
-            "Détail d'Ouvrage ajouté avec succès",
-          "Work Detail updated Successfully":
-            "Détail d'Ouvrage mis à jour avec succès",
+          "Work Detail added Successfully": "Détail d'Ouvrage ajouté avec succès",
+          "Work Detail updated Successfully": "Détail d'Ouvrage mis à jour avec succès",
           "Work Detail  not found": "Détail d'Ouvrage introuvable",
-          "WorkDetail deleted successfully":
-            "Détail d'Ouvrage supprimé avec succès",
-          "New Password Can't be Empty!":
-            "Le nouveau mot de passe ne peut pas être vide !",
+          "WorkDetail deleted successfully": "Détail d'Ouvrage supprimé avec succès",
+          "New Password Can't be Empty!": "Le nouveau mot de passe ne peut pas être vide !",
           "Invalid Old Password": "Ancien mot de passe invalide",
           "Updated successfully": "Mis à jour avec succés",
           Properties: "Propriétés",
@@ -1097,8 +1033,7 @@ i18n
           "General Chap. 0 part 2": "Général Chap. 0 partie 2",
           "Architect Chap. 0 part 2": "Architecte Chap. 0 partie 2",
           "Select Stakeholder": "Sélectionnez un Intervenant",
-          "Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2":
-            "Le Chap0Part2 existe déjà.",
+          "Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2": "Le Chap0Part2 existe déjà.",
           "Project updated successfully": "Projet mis à jour avec succès",
           "Edit Chap. 0 part 2": "Modifier Chap. 0 partie 2",
           "Add a Work": "Ajouter un Ouvrage",
@@ -1137,8 +1072,7 @@ i18n
           "Type of stakeholder": "Type d'intervenant",
           "Name of stakeholder": "Nom de l'intervenant",
           "Tranch is required": "La tranche est requise",
-          "Select at least 1 work detail":
-            "Sélectionnez au moins 1 détail de travail",
+          "Select at least 1 work detail": "Sélectionnez au moins 1 détail de travail",
           "Architect Stakeholders": "Maitre d'Ouvrage",
           "Buy Credits": "Acheter des crédits",
           "Manage Trades": "Gérer les lots",
@@ -1148,10 +1082,8 @@ i18n
           "Trade deleted successfully": "Lot supprimé avec succès",
           "Project Name": "Nom du projet",
           "Chapter selection": "Sélection du Chapitre",
-          "The last remaining Batch cannot be deleted.":
-            "on ne peut supprimer le dernier Lot restant",
-          "The last remaining Slice cannot be deleted.":
-            "La dernière tranche restante ne peut pas être supprimée.",
+          "The last remaining Batch cannot be deleted.": "on ne peut supprimer le dernier Lot restant",
+          "The last remaining Slice cannot be deleted.": "La dernière tranche restante ne peut pas être supprimée.",
           "Delete tranches first": "Supprimer les tranches en premier",
           "Private Libraries": "Bibliothèques Prescripteurs",
           Architect: "Prescripteur",
@@ -1167,8 +1099,7 @@ i18n
           "Number of Projects": "Nombre de projets",
           "Projects in progress": "Projets en cours",
           "Projects remaining": "Projets restants",
-          "Please select a chap. 0 part 2 from properties":
-            "Veuillez sélectionner un chapitre. 0 partie 2 de propriétés",
+          "Please select a chap. 0 part 2 from properties": "Veuillez sélectionner un chapitre. 0 partie 2 de propriétés",
           "Project Date": "Date du projet",
           "No text": "Pas de texte",
           "Update Trade": "Mise à jour lot",
@@ -1179,7 +1110,7 @@ i18n
           "Date Of Creation": "Date création",
           "Date Of Last Modification": "Date modification",
           Status: "Statut",
-          "Type Of Stakeholder": "Type d’Intervenents",
+          "Type Of Stakeholder": "Type d’Intervenant",
           "Subscribe to Quadrabase": "S’abonner à Quadrabase",
           "Add Subscriptions": "Ajouter des abonnements",
           Duration: "Durée (mois)",

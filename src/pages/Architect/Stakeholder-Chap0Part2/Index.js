@@ -207,7 +207,7 @@ const Index = () => {
       />
       {/* Chap0part2 modals */}
       <Modal
-        title={t("Add Chap0Part2")}
+        title={t("Add Chap0")}
         open={addChap0Part2Modal}
         onClose={handleAddChap0Part2Modal}
         component={<AddChap0Part2 handleAddChap0Part2Modal={handleAddChap0Part2Modal} />}
@@ -233,9 +233,8 @@ const Index = () => {
           />
         }
       />
-
       <Modal
-        title={t("Add Chap")}
+        title={editChapItem?.type === "level0" ? t("Add Chap0 Level2") : t("Add Chap0 Level3")}
         open={openAddChapModal}
         onClose={handleOpenAddChapModal}
         component={
@@ -249,7 +248,13 @@ const Index = () => {
       />
 
       <Modal
-        title={t("Modify the text of Chap0 Part2")}
+        title={
+          editChapItem?.type === "level0"
+            ? t("Edit Chap0")
+            : editChapItem?.type === "level1"
+            ? t("Edit Chap0 Level2")
+            : t("Edit Chap0 Level3")
+        }
         open={openEditChapModal}
         onClose={handleOpenEditChapModal}
         component={
