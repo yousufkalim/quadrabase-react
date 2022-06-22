@@ -70,8 +70,7 @@ export default function Index(props) {
       setanchorEl(null);
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -81,6 +80,24 @@ export default function Index(props) {
     seteditData(filteredData);
 
     seteditModal(!editmodal);
+  };
+
+  const handleStatus = async () => {
+    let filteredData = familiesData.find((data) => data._id == familyId);
+    await Axios({
+      method: "put",
+      url: `${baseUrl}/Families/${familyId}`,
+      data: { status: filteredData.status === "En construction" ? "En ligne" : "En construction" },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    getFamilies();
+    Notifier(
+      `Status updated to ${filteredData.status === "En construction" ? "En ligne" : "En construction"}`,
+      "success",
+      translate
+    );
   };
 
   const getFamilies = async () => {
@@ -106,9 +123,7 @@ export default function Index(props) {
   }, [modal, editmodal, deletemodal]);
   useEffect(() => {
     let array = [];
-    FamiliesheadCells.slice(0, FamiliesheadCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
+    FamiliesheadCells.slice(0, FamiliesheadCells.length - 1).map((cell) => array.push(cell.id));
     setheadCells(array);
   }, []);
 
@@ -300,6 +315,7 @@ export default function Index(props) {
   // ********
   return (
     <>
+      {console.log(familiesData)}
       <ListMenu
         onClick={handleanchorEl}
         onClose={handleanchorElClose}
@@ -313,6 +329,7 @@ export default function Index(props) {
         handleBottom={handleFamiliesBottom}
         handleUp={handleFamilyUp}
         handleDown={handleFamilyDown}
+        handleStatus={handleStatus}
         id={"unit-customized-button"}
         title={translate("Add Family")}
         translate={translate}
@@ -346,14 +363,7 @@ export default function Index(props) {
         onClose={handleEditModal}
         buttonLabel="Update"
         onSubmit={edit_formik.handleSubmit}
-        component={
-          <EditFamily
-            translate={translate}
-            editData={editData}
-            editmodal={editmodal}
-            formik={edit_formik}
-          />
-        }
+        component={<EditFamily translate={translate} editData={editData} editmodal={editmodal} formik={edit_formik} />}
       />
       <Modal
         // title="Add Architect"
@@ -361,13 +371,7 @@ export default function Index(props) {
         onClose={handleDeleteModal}
         width="35%"
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleDeleteModal}
-            handleDelete={handleDelete}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleDeleteModal} handleDelete={handleDelete} />}
       />
     </>
   );
