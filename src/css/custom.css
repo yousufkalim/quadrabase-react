@@ -27,3 +27,19 @@
 .ck-editor .ck-content {
   min-height: 200px;
 }
+
+.file-button{
+  height: 40px;
+  background-color: #4caf50;
+  border-radius: 20px;
+  width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-button:hover{
+  background-color: rgba(77, 140, 79, 0.8);
+  height: 38px;
+  width: 163px;
+}
