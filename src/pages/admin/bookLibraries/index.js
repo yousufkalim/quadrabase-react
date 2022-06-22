@@ -820,8 +820,7 @@ export default function Index(props) {
       handleClose();
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Category
@@ -838,8 +837,7 @@ export default function Index(props) {
       handleClose();
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work
@@ -856,8 +854,7 @@ export default function Index(props) {
       handleClose();
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
   };
   //delete Work Detail
@@ -874,8 +871,7 @@ export default function Index(props) {
       handleClose();
       Notifier(response.data.message, "success", translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, "error ", translate);
     }
   };
   const handleEditLibrary = (id) => {
@@ -919,9 +915,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.bookLibraries.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      let data = response.data.bookLibraries.sort((a, b) => a.ranking - b.ranking);
       setlibrariesData(data);
       setLoadingData("");
     } catch (error) {
@@ -976,9 +970,7 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      let data = response.data.workDetails.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      let data = response.data.workDetails.sort((a, b) => a.ranking - b.ranking);
       setLevel4(data);
       setLoadingData("");
     } catch (error) {
@@ -1089,14 +1081,7 @@ export default function Index(props) {
         library={true}
         open={state.addcategory}
         translate={translate}
-        component={
-          <AddCategory
-            translate={translate}
-            handleClose={handleClose}
-            BookLibraryId={LevelID}
-            getLevel2={getLevel2}
-          />
-        }
+        component={<AddCategory translate={translate} handleClose={handleClose} BookLibraryId={LevelID} getLevel2={getLevel2} />}
       />
       <Modal
         title="Add Work"
@@ -1106,12 +1091,7 @@ export default function Index(props) {
         open={state.addwork}
         translate={translate}
         component={
-          <AddWork
-            translate={translate}
-            handleClose={handleClose}
-            categoryId={LevelID}
-            getLevel3={getLevel3}
-          />
+          <AddWork translate={translate} handleClose={handleClose} categoryId={LevelID} getLevel3={getLevel3} works={Level3} />
         }
       />
       <Modal
@@ -1120,14 +1100,7 @@ export default function Index(props) {
         translate={translate}
         width="30%"
         library={true}
-        component={
-          <AddWorkDetail
-            translate={translate}
-            handleClose={handleClose}
-            workId={LevelID}
-            getLevel4={getLevel4}
-          />
-        }
+        component={<AddWorkDetail translate={translate} handleClose={handleClose} workId={LevelID} getLevel4={getLevel4} />}
       />
       <Modal
         title={translate("Edit Library")}
@@ -1202,46 +1175,22 @@ export default function Index(props) {
       <Modal
         open={state.deletelibrary}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleClose}
-            handleDelete={handleDeleteLibrary}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteLibrary} />}
       />
       <Modal
         open={state.deletecategory}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleClose}
-            handleDelete={handleDeleteCategory}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteCategory} />}
       />
       <Modal
         open={state.deletework}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleClose}
-            handleDelete={handleDeleteWork}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteWork} />}
       />
       <Modal
         open={state.deleteworkdetail}
         delete={true}
-        component={
-          <DeleteModal
-            translate={translate}
-            handleClose={handleClose}
-            handleDelete={handleDeleteWorkDetail}
-          />
-        }
+        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteWorkDetail} />}
       />
     </>
   );

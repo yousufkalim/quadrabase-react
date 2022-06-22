@@ -76,6 +76,14 @@ export default function AddExpense(props) {
         values.providers = ProviderDataArr;
       }
 
+      let maxRanking = Math.max.apply(
+        Math,
+        props.works.map((item) => {
+          return item.ranking;
+        })
+      );
+      values.ranking = maxRanking ? maxRanking + 1 : 0;
+
       try {
         let response = await Axios({
           method: "post",
@@ -183,19 +191,13 @@ export default function AddExpense(props) {
 
   return (
     <form className="w-full  pt-1 pb-5">
+      <div className="w-full md:mb-0 mb-2">
+        <TextInput type="text" label={translate("Name")} name="name" onChange={formik.handleChange} value={formik.values.name} />
+        <small className="text-red-600 ">
+          {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
+        </small>
+      </div>
       <div className="flex no-wrap  -mx-3 mb-2">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
-          <TextInput
-            type="text"
-            label={translate("Name")}
-            name="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
-          <small className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
-          </small>
-        </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
@@ -235,27 +237,27 @@ export default function AddExpense(props) {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
-            <Tab label="CCTP1" {...a11yProps(0)} />
-            <Tab label="CCTP2" {...a11yProps(1)} />
-            <Tab label="CCTP3" {...a11yProps(2)} />
-            <Tab label="CCTP4" {...a11yProps(3)} />
-            <Tab label="BPU" {...a11yProps(4)} />
+            <Tab label="BPU" {...a11yProps(0)} />
+            <Tab label="CCTP1" {...a11yProps(1)} />
+            <Tab label="CCTP2" {...a11yProps(2)} />
+            <Tab label="CCTP3" {...a11yProps(3)} />
+            <Tab label="CCTP4" {...a11yProps(4)} />
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <RichTextEditor setValue={setcctp_text1} value={cctp_text1} />
+          <RichTextEditor setValue={setbpu_text} value={bpu_text} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={1}>
-          <RichTextEditor setValue={setcctp_text2} value={cctp_text2} />
+          <RichTextEditor setValue={setcctp_text1} value={cctp_text1} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={2}>
-          <RichTextEditor setValue={setcctp_text3} value={cctp_text3} />
+          <RichTextEditor setValue={setcctp_text2} value={cctp_text2} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={3}>
-          <RichTextEditor setValue={setcctp_text4} value={cctp_text4} />
+          <RichTextEditor setValue={setcctp_text3} value={cctp_text3} />
         </TabPanel>
         <TabPanel value={selectedTabIndex} index={4}>
-          <RichTextEditor setValue={setbpu_text} value={bpu_text} />
+          <RichTextEditor setValue={setcctp_text4} value={cctp_text4} />
         </TabPanel>
       </Box>
 
