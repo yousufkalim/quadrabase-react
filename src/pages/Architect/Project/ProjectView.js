@@ -1134,7 +1134,13 @@ const ProjectView = () => {
           />
 
           <Modal
-            title={t("Edit Chap")}
+            title={
+              editChapItem?.type === "level0"
+                ? t("Edit Chap0")
+                : editChapItem?.type === "level1"
+                ? t("Edit Chap0 Level2")
+                : t("Edit Chap0 Level3")
+            }
             open={openEditChapModal}
             onClose={handleOpenEditChapModal}
             component={
@@ -1148,7 +1154,7 @@ const ProjectView = () => {
           />
 
           <Modal
-            title={t("Add Chap")}
+            title={editChapItem?.type === "level0" ? t("Add Chap0 Level2") : t("Add Chap0 Level3")}
             open={openAddChapModal}
             onClose={handleOpenAddChapModal}
             component={
