@@ -118,6 +118,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -139,6 +140,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
@@ -170,6 +172,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -191,7 +194,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
               />
             </Grid>
           </Grid>
-
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -214,13 +217,26 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
               />
             </Grid>
           </Grid>
+          <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
-            <Button variant="contained" className={classes.btn} onClick={handleEditStakeholderModal}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#3b373c",
+              }}
+              onClick={handleEditStakeholderModal}
+            >
               {t("Close")}
             </Button>
             &nbsp;&nbsp;
-            <Button variant="contained" className={classes.btn} type="submit">
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#3b373c",
+              }}
+              type="submit"
+            >
               {t("Update")}
             </Button>
           </div>

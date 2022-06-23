@@ -281,12 +281,37 @@ export default function EnhancedTable(props) {
                               : "N/A"}
                           </TableCell>
                         ) : record === "createdAt" ? (
-                          <TableCell align="left" title={row?.subscription?.createdAt}>
+                          <TableCell
+                            align="left"
+                            title={row?.subscription?.createdAt}
+                            style={{ width: props.type === "project" && 170 }}
+                          >
                             {row?.createdAt ? moment(row?.createdAt).format("DD/MM/YYYY") : "N/A"}
                           </TableCell>
                         ) : record === "updatedAt" ? (
-                          <TableCell align="left" title={row?.subscription?.updatedAt}>
+                          <TableCell
+                            align="left"
+                            title={row?.subscription?.updatedAt}
+                            style={{ width: props.type === "project" && 170 }}
+                          >
                             {row?.updatedAt ? moment(row?.updatedAt).format("DD/MM/YYYY") : "N/A"}
+                          </TableCell>
+                        ) : record === "projectName" ? (
+                          <TableCell
+                            key={index}
+                            align="left"
+                            title={row[record]}
+                            style={{ width: props.type === "project" && 450 }}
+                          >
+                            {row.name ? row.name : "N/A"}
+                          </TableCell>
+                        ) : record === "projectStatus" ? (
+                          <TableCell key={index} align="left" title={row[record]}>
+                            {row.status ? (row.status === "Complété" ? "Terminé" : row.status) : "N/A"}
+                          </TableCell>
+                        ) : record === "chapTitle" ? (
+                          <TableCell key={index} align="left" title={row[record]} style={{ width: "90%" }}>
+                            {row.title ? row.title : "N/A"}
                           </TableCell>
                         ) : record === "vat" ? (
                           <TableCell key={index} align="left" title={row?.vat?.value}>

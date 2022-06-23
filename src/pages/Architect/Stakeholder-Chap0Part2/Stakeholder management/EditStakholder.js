@@ -119,6 +119,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -140,6 +141,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
@@ -171,6 +173,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -192,7 +195,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
               />
             </Grid>
           </Grid>
-
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -215,6 +218,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
               />
             </Grid>
           </Grid>
+          <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
             <Button

@@ -513,7 +513,7 @@ export const StakeholderheadCells = [
 
 export const Chap0Part2headCells = [
   {
-    id: "title",
+    id: "chapTitle",
 
     label: "Title",
   },
@@ -525,7 +525,7 @@ export const Chap0Part2headCells = [
 ];
 export const ProjectheadCells = [
   {
-    id: "name",
+    id: "projectName",
 
     label: "Name of the project",
   },
@@ -550,7 +550,7 @@ export const ProjectheadCells = [
     label: "Date Of Last Modification",
   },
   {
-    id: "status",
+    id: "projectStatus",
 
     label: "Status",
   },

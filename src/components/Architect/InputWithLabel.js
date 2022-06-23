@@ -117,6 +117,7 @@ const InputWithLabel = ({
             className: multiline ? classes.multilineInput : classes.input,
             style: inputStyle,
           },
+          sx: { height: 38 },
         }}
         InputLabelProps={{
           shrink: true,
