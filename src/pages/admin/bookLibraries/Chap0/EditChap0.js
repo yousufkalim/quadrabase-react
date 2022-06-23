@@ -12,7 +12,7 @@ export default function AddExpense(props) {
     let initialValues = formik.initialValues;
     setEditText(editData.text);
     if (editData.family) {
-      setFamily(editData.family);
+      setFamily(editData.family._id);
     }
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
@@ -25,6 +25,19 @@ export default function AddExpense(props) {
   return (
     <form className="w-full  pt-9">
       <div className=" -mx-3 mb-2">
+        <div className="  -mx-3 mb-2">
+          <div className="w-full  px-6 mb-3">
+            <SelectField
+              name="subscription"
+              label={translate("Select Family")}
+              value={family}
+              onChange={(e) => setFamily(e.target.value)}
+              translate={translate}
+              options={options}
+              disabled
+            />
+          </div>
+        </div>
         <div className="w-full  px-3 mb-3 ">
           <TextInput
             type="text"
@@ -36,31 +49,14 @@ export default function AddExpense(props) {
             value={formik.values.title}
           />
           <div className="text-red-600 ">
-            {formik.touched.title && formik.errors.title ? (
-              <small>{formik.errors.title}</small>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="  -mx-3 mb-2">
-          <div className="w-full  px-6 mb-3">
-            <SelectField
-              name="subscription"
-              label={translate("Select Family")}
-              value={family}
-              onChange={(e) => setFamily(e.target.value)}
-              translate={translate}
-              options={options}
-            />
+            {formik.touched.title && formik.errors.title ? <small>{formik.errors.title}</small> : null}
           </div>
         </div>
 
         <div className="w-full   px-3">
           <RichTextEditor value={props.editData.text} setValue={setEditText} />
           <div className="text-red-600 ">
-            {formik.touched.text && formik.errors.text ? (
-              <small>{formik.errors.text}</small>
-            ) : null}
+            {formik.touched.text && formik.errors.text ? <small>{formik.errors.text}</small> : null}
           </div>
         </div>
       </div>

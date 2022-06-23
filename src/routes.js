@@ -29,6 +29,7 @@ import Families from "./pages/admin/bookLibraries/Families";
 import VAT from "./pages/admin/bookLibraries/VAT";
 import CCTP from "./pages/admin/bookLibraries/CCTP";
 import Chap0 from "./pages/admin/bookLibraries/Chap0";
+import FileManager from "./pages/admin/fileManager";
 
 import ArchitectIndex from "./pages/Architect/Home";
 import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
@@ -161,6 +162,13 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Subscriptions,
+    layout: "/admin",
+  },
+  {
+    path: "/folders",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: FileManager,
     layout: "/admin",
   },
   {

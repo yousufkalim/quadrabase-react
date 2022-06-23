@@ -34,6 +34,9 @@ export const PRODUCT_STATE = {
   price: "0.00",
   reference: "Quadrabase initial",
 };
+export const FOLDER_STATE = {
+  name: "",
+};
 
 export const PROVIDER_STATE = {
   firstname: "",

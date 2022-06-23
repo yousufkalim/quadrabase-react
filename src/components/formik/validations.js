@@ -7,6 +7,16 @@ export const LOGIN_YUP = Yup.object({
 export const ARCHITECT_YUP = Yup.object({
   first_name: Yup.string().required("Obligatoire"),
   last_name: Yup.string().required("Obligatoire"),
+  postal_code: Yup.number().test(
+    "len",
+    "Doit contenir exactement 5 caractères",
+    (val) => val?.toString().length >= 4 && val?.toString().length <= 5
+  ),
+  phone: Yup.number().test(
+    "len",
+    "Doit contenir exactement 10 caractères",
+    (val) => val?.toString().length >= 9 && val?.toString().length <= 10
+  ),
 
   email: Yup.string().email("Adresse e-mail invalide").required("Obligatoire"),
   password: Yup.string().min(8, "Doit contenir 8 caractères").required("Ce champ est requis"),

@@ -6,6 +6,7 @@ import Logo from "../images/Logo_QBSoft_12.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import CloudIcon from "@mui/icons-material/Cloud";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
   const location = useLocation();
@@ -211,6 +212,24 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                     <InventoryIcon className="text-gray-500" />
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       {translate("Products")}
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
+              {/* File Manager */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/" && "bg-gray-900"}`}>
+                <NavLink
+                  exact
+                  to="/admin/folders"
+                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                    pathname === "/" && "hover:text-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <CloudIcon className="text-gray-500" />
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      {translate("File Manager")}
                     </span>
                   </div>
                 </NavLink>

@@ -47,7 +47,7 @@ function NestedList(props) {
                 <ListItemButton>
                   <ListItemText
                     inset
-                    primary={<div style={{ fontWeight: 600, fontSize: 14 }}>{family.name}</div>}
+                    primary={<div style={{ fontWeight: 600, fontSize: 16 }}>{family.name}</div>}
                     primaryTypographyProps={{
                       style: { fontWeight: "normal" },
                     }}
