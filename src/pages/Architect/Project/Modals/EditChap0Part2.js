@@ -1,6 +1,7 @@
 // init
 import React from "react";
 import { useTranslation } from "react-i18next";
+import List from "@mui/material/List";
 
 // component
 import { Button } from "@mui/material";
@@ -14,19 +15,27 @@ const EditChap0Part2 = ({
   currentProject,
   setEditChap0Part2,
   handleOpenAddChapModal,
+  setParentChap,
 }) => {
   const { t } = useTranslation();
 
   return (
     <div style={{ width: "45vw", maxHeight: 600, overflow: "auto" }}>
-      <ChapList
-        editChap0Part2={editChap0Part2}
-        handleOpenEditChapModal={handleOpenEditChapModal}
-        handleOpenDeleteChapModal={handleOpenDeleteChapModal}
-        currentProject={currentProject}
-        setEditChap0Part2={setEditChap0Part2}
-        handleOpenAddChapModal={handleOpenAddChapModal}
-      />
+      <List sx={{ width: "100%", bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
+        {editChap0Part2.map((item) => {
+          return (
+            <ChapList
+              editChap0Part2={item}
+              handleOpenEditChapModal={handleOpenEditChapModal}
+              handleOpenDeleteChapModal={handleOpenDeleteChapModal}
+              currentProject={currentProject}
+              setEditChap0Part2={setEditChap0Part2}
+              handleOpenAddChapModal={handleOpenAddChapModal}
+              setParentChap={setParentChap}
+            />
+          );
+        })}
+      </List>
       {/* create button */}
       <div style={{ width: "100%", textAlign: "right" }}>
         <Button

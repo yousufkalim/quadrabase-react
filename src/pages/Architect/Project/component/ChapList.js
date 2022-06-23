@@ -33,10 +33,7 @@ const StyledMenu = styled((props) => (
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 150,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
+    color: theme.palette.mode === "light" ? "rgb(55, 65, 81)" : theme.palette.grey[300],
     border: "1px solid lightgray",
     "& .MuiMenu-list": {
       padding: "4px 0",
@@ -48,10 +45,7 @@ const StyledMenu = styled((props) => (
         marginRight: theme.spacing(1.5),
       },
       "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
   },
@@ -64,6 +58,7 @@ export default function NestedList({
   currentProject,
   setEditChap0Part2,
   handleOpenAddChapModal,
+  setParentChap,
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(true);
@@ -117,24 +112,16 @@ export default function NestedList({
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
-      api(
-        "put",
-        `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-        {
-          id: menuItem0.item._id,
-          ranking: tempArr[prevIndex].ranking,
+      api("put", `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+        id: menuItem0.item._id,
+        ranking: tempArr[prevIndex].ranking,
+        type: menuItem0.type,
+      }).then(() => {
+        api("put", `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+          id: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
           type: menuItem0.type,
-        }
-      ).then(() => {
-        api(
-          "put",
-          `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-          {
-            id: prev._id,
-            ranking: tempArr[filteredIndex].ranking,
-            type: menuItem0.type,
-          }
-        ).then(() => {
+        }).then(() => {
           tempArr[filteredIndex] = chap[filteredIndex - 1];
           tempArr[filteredIndex - 1] = chap[filteredIndex];
 
@@ -178,24 +165,16 @@ export default function NestedList({
       let tempArr = [...chap];
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
-      api(
-        "put",
-        `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-        {
-          id: menuItem0.item._id,
-          ranking: tempArr[nextIndex].ranking,
+      api("put", `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+        id: menuItem0.item._id,
+        ranking: tempArr[nextIndex].ranking,
+        type: menuItem0.type,
+      }).then(() => {
+        api("put", `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+          id: prev._id,
+          ranking: tempArr[filteredIndex].ranking,
           type: menuItem0.type,
-        }
-      ).then(() => {
-        api(
-          "put",
-          `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-          {
-            id: prev._id,
-            ranking: tempArr[filteredIndex].ranking,
-            type: menuItem0.type,
-          }
-        ).then(() => {
+        }).then(() => {
           tempArr[filteredIndex] = chap[nextIndex];
           tempArr[nextIndex] = chap[filteredIndex];
           setEditChap0Part2((prev) => {
@@ -218,11 +197,7 @@ export default function NestedList({
   };
 
   return (
-    <List
-      sx={{ width: "100%", bgcolor: "background.paper" }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-    >
+    <>
       <StyledMenu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
@@ -242,6 +217,7 @@ export default function NestedList({
         {(menuItem0.type === "level0" || menuItem0.type === "level1") && (
           <MenuItem
             onClick={() => {
+              setParentChap(editChap0Part2);
               handleOpenAddChapModal(menuItem0);
               handleAnchorElLevel0Close();
             }}
@@ -251,6 +227,7 @@ export default function NestedList({
         )}
         <MenuItem
           onClick={() => {
+            setParentChap(editChap0Part2);
             handleOpenEditChapModal(menuItem0);
             handleAnchorElLevel0Close();
           }}
@@ -261,6 +238,7 @@ export default function NestedList({
           <>
             <MenuItem
               onClick={() => {
+                setParentChap(editChap0Part2);
                 handleOpenDeleteChapModal(menuItem0);
                 handleAnchorElLevel0Close();
               }}
@@ -298,11 +276,7 @@ export default function NestedList({
             </div>
           }
         />
-        <IconButton
-          onClick={(e) =>
-            handleAnchorElLevel0Click(e, editChap0Part2.id, "level0")
-          }
-        >
+        <IconButton onClick={(e) => handleAnchorElLevel0Click(e, editChap0Part2.id, "level0")}>
           <MoreVertIcon />
         </IconButton>
       </ListItem>
@@ -340,11 +314,7 @@ export default function NestedList({
                       </div>
                     }
                   />
-                  <IconButton
-                    onClick={(e) =>
-                      handleAnchorElLevel0Click(e, item, "level1")
-                    }
-                  >
+                  <IconButton onClick={(e) => handleAnchorElLevel0Click(e, item, "level1")}>
                     <MoreVertIcon />
                   </IconButton>
                 </ListItem>
@@ -357,11 +327,7 @@ export default function NestedList({
                             <FiberManualRecordIcon />
                           </ListItemIcon>
                           <ListItemText primary={item2.title} />
-                          <IconButton
-                            onClick={(e) =>
-                              handleAnchorElLevel0Click(e, item2, "level2")
-                            }
-                          >
+                          <IconButton onClick={(e) => handleAnchorElLevel0Click(e, item2, "level2")}>
                             <MoreVertIcon />
                           </IconButton>
                         </ListItem>
@@ -374,6 +340,6 @@ export default function NestedList({
           })}
         </List>
       </Collapse>
-    </List>
+    </>
   );
 }

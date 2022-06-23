@@ -153,6 +153,7 @@ const ProjectView = () => {
   const [editChapItem, setEditChapItem] = useState();
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
   const [deleteChap, setDeleteChap] = useState({});
+  const [parentChap, setParentChap] = useState({});
 
   // Estim, DQE, BPU Reports
   const [openEstimationReportModal, setOpenEstimationReportModal] = useState(false);
@@ -249,10 +250,12 @@ const ProjectView = () => {
     const result = await api("get", `/project/${id}`);
     setCurrentProject(result?.data?.project);
     let chap = result?.data?.project?.chap0part2;
-    chap?.id?.level2?.map((item) => {
-      item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+    chap.map((parentItem) => {
+      parentItem?.id?.level2?.map((item) => {
+        item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+      });
+      parentItem.id.level2 = parentItem?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
     });
-    chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
     setEditChap0Part2(chap);
   };
 
@@ -535,12 +538,16 @@ const ProjectView = () => {
   };
 
   const handleOpenEditChap0Part2Modal = () => {
-    if (currentProject.chap0part2) {
+    if (currentProject.chap0part2.length > 0) {
       let chap = currentProject.chap0part2;
-      chap?.id?.level2?.map((item) => {
-        item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+
+      chap.map((parentItem) => {
+        parentItem?.id?.level2?.map((item) => {
+          item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
+        });
+        parentItem.id.level2 = parentItem?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
       });
-      chap.id.level2 = chap?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
+
       setEditChap0Part2(chap);
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
@@ -680,7 +687,7 @@ const ProjectView = () => {
   const handleChapDelete = async () => {
     const result = await api(
       "delete",
-      `/ArchitectsChap0/deleteChapLevel/${currentProject.chap0part2.id._id}`,
+      `/ArchitectsChap0/deleteChapLevel/${parentChap.id._id}`,
       {
         data: {
           type: deleteChap.type,
@@ -1121,6 +1128,7 @@ const ProjectView = () => {
                 currentProject={currentProject}
                 setEditChap0Part2={setEditChap0Part2}
                 handleOpenAddChapModal={handleOpenAddChapModal}
+                setParentChap={setParentChap}
               />
             }
           />
@@ -1133,7 +1141,7 @@ const ProjectView = () => {
               <EditChapModal
                 handleOpenEditChapModal={handleOpenEditChapModal}
                 editChapItem={editChapItem}
-                currentProject={currentProject}
+                parentChap={parentChap}
                 getProject={getProject}
               />
             }
@@ -1147,8 +1155,8 @@ const ProjectView = () => {
               <AddChapLevel
                 handleOpenAddChapModal={handleOpenAddChapModal}
                 editChapItem={editChapItem}
-                currentProject={currentProject}
                 getProject={getProject}
+                parentChap={parentChap}
               />
             }
           />

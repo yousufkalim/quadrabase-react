@@ -9,12 +9,7 @@ import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import RichTextEditor from "../../../../components/Architect/RichTextEditor";
 import { Button } from "@mui/material";
 
-const EditChapModal = ({
-  handleOpenEditChapModal,
-  editChapItem,
-  currentProject,
-  getProject,
-}) => {
+const EditChapModal = ({ handleOpenEditChapModal, editChapItem, parentChap, getProject }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -32,12 +27,7 @@ const EditChapModal = ({
       text,
       type: editChapItem.type,
     };
-    const result = await api(
-      "put",
-      `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`,
-      data,
-      t
-    );
+    const result = await api("put", `/ArchitectsChap0/editChapLevel/${parentChap.id._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditChapModal();
     getProject();
