@@ -352,7 +352,7 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === "code" ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row?.subscription?.reference?.code ? row?.subscription?.reference?.code : <>N/A</>}
+                            {row?.subscription?.reference ? row?.subscription?.reference : <>N/A</>}
                           </TableCell>
                         ) : record === "market_type" ? (
                           <TableCell key={index} align="left" title={row[record]}>

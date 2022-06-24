@@ -14,6 +14,8 @@ const options = [
 
 const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [productList, setProductList] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -21,32 +23,32 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     getProducts();
   }, []);
 
+  useEffect(() => {
+    if (selectedProduct) {
+      let temp = productList.find((item) => item._id === selectedProduct);
+      setProduct(temp);
+      setLoading(false);
+    }
+  }, [selectedProduct]);
+
   const getProducts = async () => {
     const response = await api("get", `/Subscriptions/`);
     let data = response.data.subscription;
-    data.map((item) => {
-      if (type === "subscription") {
-        if (item.reference.title === "Quadrabase subscription") {
-          setProduct(item);
-        }
-      } else if (type === "project") {
-        if (item.reference.title === "Pack 5 Projects") {
-          setProduct(item);
-        }
-      }
-    });
-    setLoading(false);
+    data = data.filter((item) => item.type === "Prescribers");
+
+    setProductList(data);
+    setSelectedProduct(data[0]._id);
   };
 
   const generateQuote = async () => {
     let invoiceData = {
       address1: user.address_1,
-      initialPrice: type === "subscription" ? product.price : 0,
-      initialCount: type === "subscription" ? count : 0,
+      initialPrice: product.price,
+      initialCount: count,
       extendedPrice: 0,
       extendedCount: 0,
-      packPrice: type === "project" ? product.price : 0,
-      packCount: type === "project" ? count : 0,
+      packPrice: 0,
+      packCount: 0,
       totalHT: product.price * count,
       tvaPercentage: 20,
       tvaAmount: (product.price * count * 20) / 100,
@@ -80,7 +82,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           },
         ],
         metaData: {
-          type: product.reference.code,
+          type: product.reference,
           subscription: product._id,
           architectId: user._id,
           licenseId: user?.subscriptions._id,
@@ -88,12 +90,12 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         },
         invoiceData: {
           address1: user.address_1,
-          initialPrice: type === "subscription" ? product.price : 0,
-          initialCount: type === "subscription" ? count : 0,
+          initialPrice: product.price,
+          initialCount: count,
           extendedPrice: 0,
           extendedCount: 0,
-          packPrice: type === "project" ? product.price : 0,
-          packCount: type === "project" ? count : 0,
+          packPrice: 0,
+          packCount: 0,
           totalHT: product.price * count,
           tvaPercentage: 20,
           tvaAmount: (product.price * count * 20) / 100,
@@ -113,13 +115,33 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         <div style={{ width: "90%" }}>
           <div className="purchase-header">Achat {t(type)}</div> {/* Subscription */}
           <div>
+            <BasicDropdown
+              options={productList}
+              value={selectedProduct}
+              onChange={(e) => {
+                setSelectedProduct(e.target.value);
+              }}
+              component="register"
+              style={{
+                backgroundColor: "#f5f5f5",
+                borderRadius: 10,
+                height: 40,
+                width: "110%",
+                fontSize: 20,
+                fontWeight: 700,
+                padding: 5,
+              }}
+            />
+            <br />
             <strong>Abonnement</strong>
             <div className="subscription-box">
               <div className="subscription-box-intial">
                 <div className="common-text">
-                  <span>{product.name}</span>
+                  <span>{product.duration} mois</span>
                   <br />
-                  <small>({formatNumber(product.price?.toFixed(2))} € HT)</small>
+                  <br />
+                  <span> {product.projects} projets</span>
+                  <br />
                 </div>
                 <BasicDropdown
                   options={options}
@@ -204,10 +226,6 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                   </div>
                 </div>
                 <div>
-                  <div className="amount-container" style={{ marginBottom: 10 }}>
-                    <div>Total HT</div>
-                    <div> {formatNumber((product.price * count)?.toFixed(2))} €</div>
-                  </div>
                   <div className="amount-container" style={{ marginBottom: 10 }}>
                     <div>T.V.A 20%</div>
                     <div> {formatNumber(((product.price * count * 20) / 100)?.toFixed(2))} €</div>

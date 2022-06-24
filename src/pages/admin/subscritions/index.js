@@ -17,25 +17,6 @@ import { baseUrl } from "../../../utils/BaseUrl";
 import { getToken, getUser } from "../../../utils/Auth";
 import { useTranslation } from "react-i18next";
 
-const referenceTypes = [
-  {
-    title: "Quadrabase subscription",
-    code: "70600100",
-  },
-  {
-    title: "Pack 5 Projects",
-    code: "70600200",
-  },
-  {
-    title: "Referencing subscription",
-    code: "70600300",
-  },
-  {
-    title: "Alert Subscription",
-    code: "70600400",
-  },
-];
-
 export default function Index(props) {
   const { translate } = props;
   const token = getToken();
@@ -127,8 +108,9 @@ export default function Index(props) {
           name: values.name,
           type: values.type,
           duration: values.duration,
-          price: values.price.replace(/\s/g, "").split(",").join("."),
-          reference: referenceTypes.find((item) => item.title === values.reference),
+          projects: values.projects,
+          price: values.price.toString().replace(/\s/g, "").split(",").join("."),
+          reference: values.reference,
         };
         let response = await Axios({
           method: "post",
@@ -157,8 +139,9 @@ export default function Index(props) {
           name: values.name,
           type: values.type,
           duration: values.duration,
-          price: values.price.replace(/\s/g, "").split(",").join("."),
-          reference: referenceTypes.find((item) => item.title === values.reference),
+          projects: values.projects,
+          price: values.price.toString().replace(/\s/g, "").split(",").join("."),
+          reference: values.reference,
         };
         let response = await Axios({
           method: "put",

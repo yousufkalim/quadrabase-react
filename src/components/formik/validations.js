@@ -52,6 +52,7 @@ export const PRODUCT_YUP = Yup.object({
   name: Yup.string().required("Obligatoire"),
   type: Yup.string().required("Obligatoire"),
   duration: Yup.number().required("Obligatoire"),
+  projects: Yup.number().required("Obligatoire"),
   price: Yup.number().required("Obligatoire"),
   reference: Yup.string().required("Obligatoire"),
 });

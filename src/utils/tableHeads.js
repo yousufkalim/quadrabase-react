@@ -153,6 +153,11 @@ export const ProductheadCells = [
     label: "Duration",
   },
   {
+    id: "projects",
+
+    label: "Projects",
+  },
+  {
     id: "price",
 
     label: "Rate",

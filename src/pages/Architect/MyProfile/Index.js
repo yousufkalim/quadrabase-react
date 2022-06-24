@@ -6,12 +6,14 @@ import moment from "moment";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import "moment/locale/fr"; // without this line it didn't work
 
 // Importing Components
 import { Grid, Button, Avatar, Typography } from "@mui/material";
 import InputWithLabel from "../../../components/Architect/InputWithLabel";
 import TextInput from "../../../components/TextInput";
 
+moment.locale("fr");
 // component
 const Index = () => {
   const { t } = useTranslation();

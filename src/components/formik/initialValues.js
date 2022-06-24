@@ -31,8 +31,9 @@ export const PRODUCT_STATE = {
   name: "",
   type: "Prescribers",
   duration: 0,
+  projects: 0,
   price: "0.00",
-  reference: "Quadrabase initial",
+  reference: "",
 };
 export const FOLDER_STATE = {
   name: "",

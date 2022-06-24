@@ -124,6 +124,8 @@ const Register = () => {
   const [payment, setPayment] = useState(false);
   const [archId, setArchId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [subscriptionOptions, setSubscriptionOptions] = useState([]);
+  const [selectedSubscription, setSelectedSubscription] = useState("");
   const [form1, setForm1] = useState({
     values: {
       establishment: "",
@@ -160,12 +162,13 @@ const Register = () => {
     },
     extended: {
       count: 0,
-      price: 1190,
+      price: 0,
     },
     pack: {
       count: 0,
-      price: 500,
+      price: 0,
       name: "",
+      number: 0,
     },
   });
 
@@ -180,6 +183,7 @@ const Register = () => {
     referDuration: 0,
     alertName: "",
     referName: "",
+    count: 1,
   });
 
   useEffect(() => {
@@ -212,60 +216,61 @@ const Register = () => {
     getProducts();
   }, [type]);
 
+  useEffect(() => {
+    if (selectedSubscription) {
+      if (type === "Prescripteur") {
+        let temp = {
+          initial: {
+            count: 1,
+            price: 1190,
+            name: "",
+          },
+          extended: {
+            count: 0,
+            price: 0,
+          },
+          pack: {
+            count: 0,
+            price: 500,
+            name: "",
+            number: 0,
+          },
+        };
+        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+        temp = { ...temp, initial: { count: 1, price: temp2.price, name: temp2.name } };
+        temp = { ...temp, pack: { count: 0, price: 0, name: "", number: temp2.projects } };
+        setDuration(temp2.duration);
+        setSubAmount(temp);
+      } else {
+        let temp = {
+          alert: 0,
+          refer: 0,
+          alertDuration: 0,
+          referDuration: 0,
+          alertName: "",
+          referName: "",
+          count: 1,
+        };
+        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+        temp = { ...temp, refer: temp2.price, referDuration: temp2.duration, referName: temp2.name };
+        setDuration(temp2.duration);
+        setFabricantSubAmount(temp);
+      }
+    }
+  }, [selectedSubscription]);
+
   const getProducts = async () => {
     const response = await api("get", `/Subscriptions/`);
     let data = response.data.subscription;
 
     if (type === "Prescripteur") {
-      let temp = {
-        initial: {
-          count: 1,
-          price: 1190,
-          name: "",
-        },
-        extended: {
-          count: 0,
-          price: 1190,
-        },
-        pack: {
-          count: 0,
-          price: 500,
-          name: "",
-        },
-      };
-      data.map((item) => {
-        if (item.reference.title === "Quadrabase subscription") {
-          temp = { ...temp, initial: { count: 1, price: item.price, name: item.name } };
-          setDuration(item.duration);
-        } else if (item.reference.title === "Pack 5 Projects") {
-          temp = { ...temp, pack: { count: 0, price: item.price, name: item.name } };
-        }
-      });
-      setSubAmount(temp);
+      let filteredData = data.filter((item) => item.type === "Prescribers");
+      setSubscriptionOptions(filteredData);
+      setSelectedSubscription(filteredData[0]._id);
     } else {
-      let temp = {
-        alert: 0,
-        refer: 0,
-        alertDuration: 0,
-        referDuration: 0,
-        alertName: "",
-        referName: "",
-      };
-      let temp2 = [
-        { _id: "Référencement", title: "Référencement" },
-        { _id: "Alertes", title: "Alertes" },
-      ];
-      data.map((item) => {
-        if (item.reference.title === "Referencing subscription") {
-          temp = { ...temp, refer: item.price, referDuration: item.duration, referName: item.name };
-          temp2[0].title = item.name;
-        } else if (item.reference.title === "Alert Subscription") {
-          temp = { ...temp, alert: item.price, alertDuration: item.duration, alertName: item.name };
-          temp2[1].title = item.name;
-        }
-      });
-      setFabricantSubOptions(temp2);
-      setFabricantSubAmount(temp);
+      let filteredData = data.filter((item) => item.type === "Manufacturers");
+      setSubscriptionOptions(filteredData);
+      setSelectedSubscription(filteredData[0]._id);
     }
   };
 
@@ -333,7 +338,7 @@ const Register = () => {
           metaData: {
             id: archId,
             subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * duration,
-            subscriptionProjects: parseInt(subAmounts.pack.count) * 5,
+            subscriptionProjects: parseInt(subAmounts.pack.number),
             type: "architectSignup",
           },
           invoiceData: {
@@ -379,9 +384,8 @@ const Register = () => {
                 },
                 unit_amount:
                   parseInt(
-                    fabricantSub === "Alertes"
-                      ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
-                      : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer
+                    (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100 +
+                      fabricantSubAmounts.count * fabricantSubAmounts.refer
                   ) * 100,
               },
               quantity: 1,
@@ -397,13 +401,9 @@ const Register = () => {
             zipcode: form1.values.postal_code,
             po_box: form1.values.po_box,
             establishment: form1.values.establishment,
-            subscriptionName: fabricantSub,
+            subscriptionName: fabricantSubAmounts.referName,
             subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
-            subscriptionEndDate: moment(
-              moment(new Date())
-                .add(fabricantSub === "Alertes" ? fabricantSubAmounts.alertDuration : fabricantSubAmounts.referDuration, "months")
-                .calendar()
-            ).format("YYYY/MM/DD"),
+            subscriptionEndDate: moment(moment(new Date()).add(fabricantSubAmounts.referDuration, "months")).format("YYYY/MM/DD"),
             type: "providerSignup",
           },
           invoiceData: {
@@ -1186,18 +1186,34 @@ const Register = () => {
                 <div className="purchase-header">Achat {type}</div>
                 {type === "Prescripteur" ? (
                   <>
-                    {" "}
                     {/* Subscription */}
                     <div>
+                      <BasicDropdown
+                        options={subscriptionOptions}
+                        value={selectedSubscription}
+                        onChange={(e) => {
+                          setSelectedSubscription(e.target.value);
+                        }}
+                        style={{
+                          backgroundColor: "#f5f5f5",
+                          borderRadius: 10,
+                          height: 40,
+                          width: "110%",
+                          fontSize: 20,
+                          fontWeight: 700,
+                          padding: 5,
+                        }}
+                      />
+                      <br />
                       <strong>Abonnement</strong>
                       <div className="subscription-box">
                         <div className="subscription-box-intial">
                           <div className="common-text">
-                            <span>
-                              {subAmounts.initial.name} {duration} mois
-                            </span>
+                            <span>{duration} mois</span>
                             <br />
-                            <small>({formatNumber(subAmounts.initial.price.toFixed(2))} € HT)</small>
+                            <br />
+                            <span> {subAmounts.pack.number} projets</span>
+                            <br />
                           </div>
                           <BasicDropdown
                             options={options}
@@ -1226,44 +1242,6 @@ const Register = () => {
                         </div>
                       </div>
                     </div>
-                    {/* Projects */}
-                    <div style={{ padding: "20px 0" }}>
-                      <strong>Pack Projets</strong>
-                      <div className="subscription-box">
-                        <div className="subscription-box-intial">
-                          <div className="common-text">
-                            <span>{subAmounts.pack.name}</span>
-                            <br />
-                            <small>({formatNumber(subAmounts.pack.price.toFixed(2))} € HT)</small>
-                          </div>
-                          <BasicDropdown
-                            options={options}
-                            component="register"
-                            first="notDisable"
-                            value={subAmounts.pack.count}
-                            onChange={(e) => {
-                              setSubAmount((prev) => {
-                                prev.pack.count = e.target.value;
-                                return { ...prev };
-                              });
-                            }}
-                            style={{
-                              backgroundColor: "#f5f5f5",
-                              borderRadius: 10,
-                              height: 40,
-                              width: 60,
-                              fontSize: 20,
-                              fontWeight: 700,
-                              padding: 5,
-                            }}
-                          />
-                          <div className="amount-container">
-                            <div>Total HT</div>
-                            <div> {formatNumber((subAmounts.pack.count * subAmounts.pack.price).toFixed(2))} €</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     {/* Total */}
                     <div style={{ padding: "20px 0" }}>
                       <div className="payment-box">
@@ -1285,20 +1263,6 @@ const Register = () => {
                             </div>
                           </div>
                           <div>
-                            <div className="amount-container" style={{ marginBottom: 10 }}>
-                              <div>Total HT</div>
-                              <div>
-                                {" "}
-                                {formatNumber(
-                                  (
-                                    subAmounts.initial.price * subAmounts.initial.count +
-                                    subAmounts.extended.price * subAmounts.extended.count +
-                                    subAmounts.pack.price * subAmounts.pack.count
-                                  ).toFixed(2)
-                                )}{" "}
-                                €
-                              </div>
-                            </div>
                             <div className="amount-container" style={{ marginBottom: 10 }}>
                               <div>T.V.A 20%</div>
                               <div>
@@ -1457,46 +1421,57 @@ const Register = () => {
                   <>
                     {/* Subscription */}
                     <div>
+                      <BasicDropdown
+                        options={subscriptionOptions}
+                        value={selectedSubscription}
+                        onChange={(e) => {
+                          setSelectedSubscription(e.target.value);
+                        }}
+                        style={{
+                          backgroundColor: "#f5f5f5",
+                          borderRadius: 10,
+                          height: 40,
+                          width: "110%",
+                          fontSize: 20,
+                          fontWeight: 700,
+                          padding: 5,
+                        }}
+                      />
+                      <br />
                       <strong>Abonnement</strong>
                       <div className="subscription-box">
                         <div className="subscription-box-intial">
                           <div className="common-text">
                             <span>
-                              {fabricantSubAmounts.referName}: {formatNumber(fabricantSubAmounts.refer.toFixed(2))} €
-                            </span>
-                            <br />
-                            <br />
-                            <span>
-                              {fabricantSubAmounts.alertName}: {formatNumber(fabricantSubAmounts.alert.toFixed(2))} €
+                              <span>{duration} mois</span>
                             </span>
                             <br />
                           </div>
+
                           <BasicDropdown
-                            options={fabricantSubOptions}
-                            value={fabricantSub}
+                            options={options}
+                            value={fabricantSubAmounts.count}
                             onChange={(e) => {
-                              setFabricantSub(e.target.value);
+                              setFabricantSubAmount((prev) => {
+                                prev.count = e.target.value;
+                                return { ...prev };
+                              });
                             }}
+                            component="register"
                             style={{
                               backgroundColor: "#f5f5f5",
                               borderRadius: 10,
                               height: 40,
-                              fontSize: 16,
+                              width: 60,
+                              fontSize: 20,
                               fontWeight: 700,
                               padding: 5,
-                              marginRight: 5,
                             }}
                           />
+
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>
-                              {fabricantSub === "Alertes" ? (
-                                <>{formatNumber(fabricantSubAmounts.alert.toFixed(2))}</>
-                              ) : (
-                                <>{formatNumber(fabricantSubAmounts.refer.toFixed(2))}</>
-                              )}{" "}
-                              €
-                            </div>
+                            <div>{formatNumber((fabricantSubAmounts.count * fabricantSubAmounts.refer).toFixed(2))}€</div>
                           </div>
                         </div>
                       </div>
@@ -1521,25 +1496,9 @@ const Register = () => {
                             </div>
                             <div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
-                                <div>Total HT</div>
-                                <div>
-                                  {fabricantSub === "Alertes" ? (
-                                    <>{formatNumber(fabricantSubAmounts.alert.toFixed(2))}</>
-                                  ) : (
-                                    <>{formatNumber(fabricantSubAmounts.refer.toFixed(2))}</>
-                                  )}{" "}
-                                  €
-                                </div>
-                              </div>
-                              <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>T.V.A 20%</div>
                                 <div>
-                                  {formatNumber(
-                                    (fabricantSub === "Alertes"
-                                      ? (fabricantSubAmounts.alert * 20) / 100
-                                      : (fabricantSubAmounts.refer * 20) / 100
-                                    ).toFixed(2)
-                                  )}{" "}
+                                  {formatNumber(((fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100).toFixed(2))}{" "}
                                   €
                                 </div>
                               </div>
@@ -1547,9 +1506,9 @@ const Register = () => {
                                 <div>Total T.T.C</div>{" "}
                                 <div>
                                   {formatNumber(
-                                    (fabricantSub === "Alertes"
-                                      ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
-                                      : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer
+                                    (
+                                      (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100 +
+                                      fabricantSubAmounts.count * fabricantSubAmounts.refer
                                     ).toFixed(2)
                                   )}{" "}
                                   €
