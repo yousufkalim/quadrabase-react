@@ -94,7 +94,7 @@ export default function AddExpense(props) {
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
-            type="number"
+            type="text"
             placeholder="123456"
             label="Postal Code"
             name="postal_code"
@@ -154,7 +154,7 @@ export default function AddExpense(props) {
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
-            type="number"
+            type="text"
             placeholder="Phone"
             label="Phone"
             name="phone"
