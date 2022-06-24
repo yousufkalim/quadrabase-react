@@ -109,6 +109,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -130,6 +131,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
@@ -161,6 +163,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -182,7 +185,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
-
+          <br />
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
@@ -205,6 +208,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
               />
             </Grid>
           </Grid>
+          <br />
           {/* register button */}
           <div style={{ width: "100%", textAlign: "right" }}>
             <Button

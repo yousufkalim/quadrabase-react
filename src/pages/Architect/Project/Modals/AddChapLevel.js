@@ -9,12 +9,7 @@ import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import RichTextEditor from "../../../../components/Architect/RichTextEditor";
 import { Button } from "@mui/material";
 
-const AddChapLevel = ({
-  handleOpenAddChapModal,
-  editChapItem,
-  currentProject,
-  getProject,
-}) => {
+const AddChapLevel = ({ handleOpenAddChapModal, editChapItem, getProject, parentChap }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -45,12 +40,7 @@ const AddChapLevel = ({
       data.ranking = maxRanking > -1 ? maxRanking + 1 : 0;
     }
 
-    const result = await api(
-      "post",
-      `/ArchitectsChap0/createChapLevel/${currentProject.chap0part2.id._id}`,
-      data,
-      t
-    );
+    const result = await api("post", `/ArchitectsChap0/createChapLevel/${parentChap.id._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenAddChapModal();
     getProject();

@@ -225,17 +225,17 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
     <form className={classes.form} onSubmit={handleSubmit}>
       {/* All fields */}
       <br />
+      <Grid item zeroMinWidth xs>
+        <InputWithLabel
+          label={t("Name")}
+          required={true}
+          name="name"
+          type="text"
+          value={values.name}
+          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+        />
+      </Grid>
       <Grid container spacing={2}>
-        <Grid item zeroMinWidth xs>
-          <InputWithLabel
-            label={t("Name")}
-            required={true}
-            name="name"
-            type="text"
-            value={values.name}
-            handleChange={(e) => handleChange(e.target.name, e.target.value)}
-          />
-        </Grid>
         <Grid item zeroMinWidth xs>
           <InputWithLabel
             name="unit_price"
@@ -274,147 +274,44 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
-            <Tab label="CCTP1" {...a11yProps(0)} />
-            <Tab label="CCTP2" {...a11yProps(1)} />
-            <Tab label="CCTP3" {...a11yProps(2)} />
-            <Tab label="CCTP4" {...a11yProps(2)} />
-            <Tab label="BPU" {...a11yProps(4)} />
+            <Tab label="BPU" {...a11yProps(0)} />
+            <Tab label="CCTP1" {...a11yProps(1)} />
+            <Tab label="CCTP2" {...a11yProps(2)} />
+            <Tab label="CCTP3" {...a11yProps(3)} />
+            <Tab label="CCTP4" {...a11yProps(4)} />
           </Tabs>
         </Box>
         <TabPanel value={selectedTabIndex} index={0}>
-          <TextEditor setValue={setcctp_text1} value={cctp_text1} />
-        </TabPanel>
-        <TabPanel value={selectedTabIndex} index={1}>
-          <TextEditor setValue={setcctp_text2} value={cctp_text2} />
-        </TabPanel>
-        <TabPanel value={selectedTabIndex} index={2}>
-          <TextEditor setValue={setcctp_text3} value={cctp_text3} />
-        </TabPanel>
-        <TabPanel value={selectedTabIndex} index={3}>
-          <TextEditor setValue={setcctp_text4} value={cctp_text4} />
-        </TabPanel>
-        <TabPanel value={selectedTabIndex} index={4}>
           <TextEditor setValue={setbpu_text1} value={bpu_text1} />
         </TabPanel>
+        <TabPanel value={selectedTabIndex} index={1}>
+          <TextEditor setValue={setcctp_text1} value={cctp_text1} />
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={2}>
+          <TextEditor setValue={setcctp_text2} value={cctp_text2} />
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={3}>
+          <TextEditor setValue={setcctp_text3} value={cctp_text3} />
+        </TabPanel>
+        <TabPanel value={selectedTabIndex} index={4}>
+          <TextEditor setValue={setcctp_text4} value={cctp_text4} />
+        </TabPanel>
       </Box>
-      <div className="flex justify-between w-full">
-        <div style={{ width: "49%" }}>
-          <div
-            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
-            htmlFor="grid-first-name"
-          >
-            {t("Provider List")}
-            <CustomButton
-              onClick={handleAddPriovider}
-              disabled={!selectedProvider}
-              label={t("Add")}
-              backgroundColor={green}
-              default={false}
-            />
-          </div>
-          <div
-            style={{
-              height: 180,
-              border: "1px solid black",
-              overflow: "auto",
-            }}
-          >
-            {filteredOptions?.map((item) => (
-              <h3
-                onClick={() => setSelectedProvider(item)}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: selectedProvider._id == item._id && "lightgray",
-                }}
-              >
-                {item.name}
-              </h3>
-            ))}
-          </div>
-        </div>
-        <div style={{ width: "49%" }}>
-          <div
-            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
-            htmlFor="grid-first-name"
-          >
-            {t("Associated Provider")}
-            <CustomButton
-              onClick={handleRemoveProvider}
-              label={t("Remove")}
-              disabled={!selectedAssociatedProvider}
-              backgroundColor={red}
-              default={false}
-            />
-          </div>
-          <div
-            style={{
-              height: 180,
-              border: "1px solid black",
-              overflow: "auto",
-            }}
-          >
-            {associatedProviders?.map((item) => (
-              <h3
-                onClick={() => setSelectedAssociatedProvider(item)}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: selectedAssociatedProvider._id == item._id && "lightgray",
-                }}
-              >
-                {item.name}
-              </h3>
-            ))}
-          </div>
-        </div>
-      </div>
-      <br />
       {/* create button */}
       <div
         style={{
           marginTop: 10,
           width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          textAlign: "right",
         }}
       >
-        <div style={{ width: "49%" }}>
-          <div
-            className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
-            htmlFor="grid-first-name"
-          >
-            Document
-          </div>
-          <div
-            style={{
-              border: "1px solid gray",
-              height: 35,
-              padding: 4,
-              borderRadius: 4,
-              backgroundColor: associatedProviders.length === 0 && "lightgray",
-            }}
-          >
-            <label style={{ cursor: "pointer" }}>
-              {t("Choose file")} - {fileName ? fileName : t("no file chosen")}
-              <TextInput
-                type="file"
-                placeholder="Document"
-                name="document"
-                onChange={handleFileChange}
-                multiple={true}
-                style={{ display: "none" }}
-                disabled={associatedProviders.length === 0}
-              />
-            </label>
-          </div>
-        </div>
         <div>
           <Button variant="contained" className={classes.btn} onClick={() => handleOpenEditWorkModal()}>
             {t("Close")}
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Update")}
+            {t("Create")}
           </Button>
         </div>
       </div>

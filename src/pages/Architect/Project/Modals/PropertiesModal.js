@@ -135,7 +135,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     vat: "",
     reference: "",
     description: "",
-    chap0part2: "",
+    chap0part2: [],
     architectStakeholder: [],
   });
 
@@ -193,7 +193,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
         prev.vat = currentProject?.vat?._id;
         prev.reference = currentProject?.reference ? currentProject?.reference : "";
         prev.description = currentProject?.description ? currentProject?.description : "";
-        prev.chap0part2 = currentProject?.chap0part2 ? currentProject?.chap0part2?.id?._id : "";
+        let temp = [];
+        currentProject?.chap0part2?.map((item) => {
+          temp.push(item.id._id);
+        });
+        prev.chap0part2 = temp;
         return { ...prev };
       });
       setValues2((prev) => {
@@ -278,8 +282,8 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     const result = await api("get", `/ArchitectsChap0/current/getByProject`);
     setChapOptions(result.data.data);
 
-    if (currentProject?.chap0part2?.id) {
-      let tempChap = result.data.data.chap0.find((item) => item.title === currentProject.chap0part2.id.title);
+    if (currentProject?.chap0part2?.length > 0) {
+      let tempChap = result.data.data.chap0.find((item) => item._id === currentProject.chap0part2[0].id.chap0);
       if (tempChap?.family) {
         setSelectedFam(tempChap.family);
       } else {
@@ -339,7 +343,6 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     let data = values;
     !values.reference && delete data.reference;
     !values.description && delete data.description;
-    console.log("selectedStakeholder", selectedStakeholder);
     if (selectedStakeholder) {
       data.client = selectedStakeholder;
     } else {
@@ -368,17 +371,22 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       data.prescriber = result.data.stakeholder._id;
     }
 
-    if (!values.chap0part2 || (currentProject.chap0part2 && currentProject.chap0part2.id._id == data.chap0part2)) {
+    if (values?.chap0part2?.length < 1) {
       delete data.chap0part2;
     } else {
-      chapOptions?.architectsChap0?.map((item) => {
-        if (item._id == data.chap0part2) {
-          data.chap0part2 = { id: values.chap0part2, status: "selected" };
+      let temp = [];
+      data?.chap0part2?.map((item2) => {
+        chapOptions?.architectsChap0?.map((item) => {
+          if (item._id == item2) {
+            item2 = { id: item2, status: "selected" };
+          }
+        });
+        if (!item2.status) {
+          item2 = { id: item2, status: "modified" };
         }
+        temp.push(item2);
       });
-      if (!data.chap0part2.status) {
-        data.chap0part2 = { id: values.chap0part2, status: "modified" };
-      }
+      data.chap0part2 = temp;
     }
     const result = await api("put", `/project/${currentProject._id}`, data, t);
     toast.success(t(result.data.message));
@@ -605,20 +613,26 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                 let tempFam = familyOptions.find((item) => item._id === e.target.value);
                 let famName = tempFam.name.toUpperCase();
                 if (famName === "PRESCRIPTEUR") {
-                  let chap = chapOptions.architectsChap0.find((item) => {
-                    return item.type === "private";
+                  let chap = [];
+                  chapOptions.architectsChap0.forEach((item) => {
+                    if (item.type === "private") {
+                      chap.push(item._id);
+                    }
                   });
                   if (chap) {
-                    handleChange("chap0part2", chap._id);
+                    handleChange("chap0part2", chap);
                   } else {
                     toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
                 } else {
-                  let chap = chapOptions.chap0.find((item) => {
-                    return item.family && item.family === e.target.value;
+                  let chap = [];
+                  chapOptions.chap0.forEach((item) => {
+                    if (item.family && item.family === e.target.value) {
+                      chap.push(item._id);
+                    }
                   });
                   if (chap) {
-                    handleChange("chap0part2", chap._id);
+                    handleChange("chap0part2", chap);
                   } else {
                     toast.error(t("This family does not have a Chap. 0 part 2"));
                   }

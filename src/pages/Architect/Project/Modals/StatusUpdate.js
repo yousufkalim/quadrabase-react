@@ -12,7 +12,7 @@ const SOP = [
   },
   {
     value: "Complété",
-    label: "Complété",
+    label: "Terminé",
   },
 ];
 

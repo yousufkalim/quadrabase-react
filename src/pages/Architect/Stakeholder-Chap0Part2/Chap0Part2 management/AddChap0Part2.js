@@ -35,10 +35,7 @@ const AddChap0Part2 = ({ handleAddChap0Part2Modal }) => {
   // jsx
   return (
     <>
-      <div
-        className={classes.container}
-        style={{ maxHeight: 600, overflow: "auto" }}
-      >
+      <div className={classes.container} style={{ maxHeight: 600, overflow: "auto" }}>
         <form className={classes.form} onSubmit={handleSubmit}>
           {/* All fields */}
           <br />
@@ -50,6 +47,7 @@ const AddChap0Part2 = ({ handleAddChap0Part2Modal }) => {
             value={title}
             handleChange={(e) => setTitle(e.target.value)}
           />
+          <br />
           <br />
           <label htmlFor="grid-first-name">{t("Text")}</label>
           <br />
