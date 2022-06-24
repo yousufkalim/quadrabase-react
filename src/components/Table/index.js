@@ -299,7 +299,7 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record == "reference" ? (
                           <TableCell align="center" title={row?.reference?.title}>
-                            {row?.reference?.code}
+                            {row?.reference}
                           </TableCell>
                         ) : record == "product_type" ? (
                           <TableCell align="center" title={row?.reference?.title}>

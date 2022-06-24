@@ -12,28 +12,6 @@ const typeOptions = [
   { _id: "Manufacturers", name: "Fabricants" },
 ];
 
-const referenceOptions1 = [
-  {
-    _id: "Quadrabase subscription",
-    name: "70600100 - Abonnement Quadrabase",
-  },
-  {
-    _id: "Pack 5 Projects",
-    name: "70600200 - Pack 5 Projets",
-  },
-];
-
-const referenceOptions2 = [
-  {
-    _id: "Referencing subscription",
-    name: "70600300 - Abonnement Référencement",
-  },
-  {
-    _id: "Alert Subscription",
-    name: "70600400 - Abonnement Alerte",
-  },
-];
-
 export default function AddExpense(props) {
   const { translate, formik } = props;
 
@@ -46,11 +24,7 @@ export default function AddExpense(props) {
             label={translate("Type")}
             value={formik.values.type}
             onChange={(e) => {
-              if (e.target.value === "Prescribers") {
-                formik.setFieldValue("reference", "Quadrabase subscription");
-              } else if (e.target.value === "Manufacturers") {
-                formik.setFieldValue("reference", "Referencing subscription");
-              }
+              if (e.target.value === "Manufacturers") formik.setFieldValue("projects", 0);
               formik.setFieldValue("type", e.target.value);
             }}
             translate={translate}
@@ -62,17 +36,14 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <SelectField
+          <TextInput
+            type="text"
+            placeholder="Reference"
+            label="Reference"
             name="reference"
-            label={translate("Reference")}
-            value={formik.values.reference}
-            onChange={(e) => {
-              if (e.target.value === "Pack 5 Projects") formik.setFieldValue("duration", 0);
-              formik.setFieldValue("reference", e.target.value);
-            }}
             translate={translate}
-            options={formik.values.type === "Prescribers" ? referenceOptions1 : referenceOptions2}
-            type="provider"
+            onChange={formik.handleChange}
+            value={formik.values.reference}
           />
           <div className="text-red-600 ">
             {formik.touched.reference && formik.errors.reference ? <small>{formik.errors.reference}</small> : null}
@@ -103,7 +74,6 @@ export default function AddExpense(props) {
             translate={translate}
             onChange={formik.handleChange}
             value={formik.values.duration}
-            disabled={formik.values.reference === "Pack 5 Projects"}
           />
           <div className="text-red-600 ">
             {formik.touched.duration && formik.errors.duration ? <small>{formik.errors.duration}</small> : null}
@@ -111,6 +81,21 @@ export default function AddExpense(props) {
         </div>
       </div>
       <div className="flex no-wrap -mx-3 mb-2">
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="number"
+            placeholder="Projects"
+            label="Projects"
+            name="projects"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.projects}
+            disabled={formik.values.type === "Manufacturers"}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.projects && formik.errors.projects ? <small>{formik.errors.projects}</small> : null}
+          </div>
+        </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"

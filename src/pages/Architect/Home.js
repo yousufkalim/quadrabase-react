@@ -159,8 +159,6 @@ const Home = () => {
             noArrows={true}
             rows={projectHeadCells}
             headerText={t("Projects")}
-            buttonText={t("Buy a project pack")}
-            buttonAction={handleBuySubModal}
           />
         </div>
       </div>
