@@ -41,7 +41,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
   };
 
   const generateQuote = async () => {
+    let temp2 = productList.find((item) => item._id === selectedProduct);
     let invoiceData = {
+      subscriptionCode: temp2.reference,
+      subscriptionName: temp2.name,
       address1: user.address_1,
       initialPrice: product.price,
       initialCount: count,
@@ -64,9 +67,8 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     if (paymentMethod === "mandat") {
       handleBuySubModal();
     } else {
-      // to creating account
+      let temp2 = productList.find((item) => item._id === selectedProduct);
       let data = {};
-
       data = {
         paymentMethod,
         line_items: [
@@ -89,6 +91,8 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           count,
         },
         invoiceData: {
+          subscriptionCode: temp2.reference,
+          subscriptionName: temp2.name,
           address1: user.address_1,
           initialPrice: product.price,
           initialCount: count,
