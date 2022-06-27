@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import Quadralogo from "./spc/assets/images/Quadralogo2.svg";
 import CollapseStudyMaterial from "./spc/components/CollapseStudyMaterial";
 import Grid from "@mui/material/Grid";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const Privacy = () => {
   return (
@@ -51,8 +53,11 @@ const Privacy = () => {
                       <ul>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EKAA">
+                              <a href="#">
                                 <font size="2">Collecte de vos informations personnelles</font>
                               </a>
                             </span>
@@ -60,8 +65,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EJAA">
+                              <a href="#">
                                 <font size="2">Utilisation de vos données personnelles</font>
                               </a>
                             </span>
@@ -69,8 +77,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EIAA">
+                              <a href="#">
                                 <font size="2">Contrôle de vos informations personnelles</font>
                               </a>
                             </span>
@@ -78,8 +89,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EHAA">
+                              <a href="#">
                                 <font size="2">Accès à vos données personnelles</font>
                               </a>
                             </span>
@@ -87,8 +101,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EGAA">
+                              <a href="#">
                                 <font size="2">Sécurité de vos informations personnelles</font>
                               </a>
                             </span>
@@ -96,8 +113,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EFAA">
+                              <a href="#">
                                 <font size="2">Protection des informations personnelles des enfants</font>
                               </a>
                             </span>
@@ -105,8 +125,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EEAA">
+                              <a href="#">
                                 <font size="2">Cookies</font>
                               </a>
                             </span>
@@ -114,8 +137,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EEAA">
+                              <a href="#">
                                 <font size="2">Application de cette déclaration de confidentialité</font>
                               </a>
                             </span>
@@ -123,8 +149,11 @@ const Privacy = () => {
                         </li>
                         <li>
                           <p align="left">
+                            <ListItemIcon sx={{ minWidth: "16px" }}>
+                              <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                            </ListItemIcon>
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EBAA">
+                              <a href="#">
                                 <font size="2">Modifications de cette déclaration de confidentialité</font>
                               </a>
                             </span>
@@ -133,7 +162,10 @@ const Privacy = () => {
                         <li>
                           <p align="left">
                             <span id="dnn_ctr_Privacy_lblPrivacy">
-                              <a href="/Privacy#EAAA">
+                              <ListItemIcon sx={{ minWidth: "16px" }}>
+                                <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                              </ListItemIcon>
+                              <a href="#">
                                 <font size="2">Contacts</font>
                               </a>
                             </span>
@@ -150,7 +182,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Collecte de vos informations personnelles</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Collecte de vos informations personnelles</strong>
             </h2>
 
             <p align="justify">
@@ -188,8 +220,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -200,7 +232,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Utilisation de vos données personnelles</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Utilisation de vos données personnelles</strong>
             </h2>
 
             <p align="justify">
@@ -301,8 +333,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -313,7 +345,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Contrôle de vos informations personnelles</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Contrôle de vos informations personnelles</strong>
             </h2>
 
             <p align="justify">
@@ -344,8 +376,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -356,7 +388,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Accès à vos données personnelles</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Accès à vos données personnelles</strong>
             </h2>
             <span id="dnn_ctr_Privacy_lblPrivacy"> </span>
 
@@ -377,8 +409,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -389,7 +421,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Sécurité de vos informations personnelles</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Sécurité de vos informations personnelles</strong>
             </h2>
 
             <p align="justify">
@@ -406,8 +438,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -418,7 +450,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Protection des informations personnelles des enfants</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Protection des informations personnelles des enfants</strong>
             </h2>
 
             <p align="left">
@@ -429,8 +461,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -441,7 +473,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Cookies </span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Cookies </strong>
             </h2>
             <span id="dnn_ctr_Privacy_lblPrivacy"> </span>
 
@@ -490,8 +522,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -503,7 +535,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Application de cette déclaration de confidentialité</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Application de cette déclaration de confidentialité</strong>
             </h2>
 
             <p align="left">
@@ -515,8 +547,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -527,7 +559,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Modifications de cette déclaration de confidentialité</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Modifications de cette déclaration de confidentialité</strong>
             </h2>
 
             <p align="justify">
@@ -548,8 +580,8 @@ const Privacy = () => {
 
             <div style={{ marginTop: "3px", marginBottom: "10px" }}>
               <p align="left">
-                <span id="dnn_ctr_Privacy_lblPrivacy">
-                  <a className="topOfPage" href="/Privacy#top">
+                <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                  <a className="topOfPage" href="#">
                     Haut de page
                   </a>
                 </span>
@@ -560,7 +592,7 @@ const Privacy = () => {
             </span>
 
             <h2 align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">Contacts</span>
+              <strong id="dnn_ctr_Privacy_lblPrivacy">Contacts</strong>
             </h2>
             <span id="dnn_ctr_Privacy_lblPrivacy"> </span>
 
@@ -578,8 +610,8 @@ const Privacy = () => {
             <span id="dnn_ctr_Privacy_lblPrivacy"> </span>
 
             <p align="left">
-              <span id="dnn_ctr_Privacy_lblPrivacy">
-                <a className="topOfPage" href="/Privacy#top">
+              <span id="dnn_ctr_Privacy_lblPrivacy" style={{ color: "blue" }}>
+                <a className="topOfPage" href="#">
                   Haut de page
                 </a>
               </span>

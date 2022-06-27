@@ -135,29 +135,31 @@ const NestedList = (props) => {
       >
         {menuItem?.bpu_text?.length >= 1 &&
           menuItem?.bpu_text?.map((bpu, index) => {
-            return (
-              <MenuItem
-                onClick={() => {
-                  props.openCctpModal(bpu, "BPU");
-                  handleAnchorElClose();
-                }}
-              >
-                Texte BPU
-              </MenuItem>
-            );
+            if (bpu.length > 5)
+              return (
+                <MenuItem
+                  onClick={() => {
+                    props.openCctpModal(bpu, "BPU");
+                    handleAnchorElClose();
+                  }}
+                >
+                  Texte BPU
+                </MenuItem>
+              );
           })}
         {menuItem?.cctp_text?.length >= 1 &&
           menuItem?.cctp_text?.map((cctp, index) => {
-            return (
-              <MenuItem
-                onClick={() => {
-                  props.openCctpModal(cctp, `CCTP ${index + 1}`);
-                  handleAnchorElClose();
-                }}
-              >
-                Texte CCTP {index + 1}
-              </MenuItem>
-            );
+            if (cctp.length > 5)
+              return (
+                <MenuItem
+                  onClick={() => {
+                    props.openCctpModal(cctp, `CCTP ${index + 1}`);
+                    handleAnchorElClose();
+                  }}
+                >
+                  Texte CCTP {index + 1}
+                </MenuItem>
+              );
           })}
         {menuItem?.providers?.length >= 1 && menuItem?.providers[0]?.documents?.length >= 1 && (
           <>

@@ -308,6 +308,7 @@ const Register = () => {
     if (paymentMethod === "mandat") {
       history.push("/auth/login");
     } else {
+      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
       // to creating account
       let data = {};
       if (type === "Prescripteur") {
@@ -342,6 +343,8 @@ const Register = () => {
             type: "architectSignup",
           },
           invoiceData: {
+            subscriptionCode: temp2.reference,
+            subscriptionName: temp2.name,
             address1: form1.values.address_1,
             initialPrice: subAmounts.initial.price,
             initialCount: subAmounts.initial.count,
@@ -407,6 +410,8 @@ const Register = () => {
             type: "providerSignup",
           },
           invoiceData: {
+            subscriptionCode: temp2.reference,
+            subscriptionName: temp2.name,
             address1: form1.values.address_1,
             alertPrice: fabricantSubAmounts.alert,
             alertCount: fabricantSub === "Alertes" ? 1 : 0,
@@ -455,9 +460,12 @@ const Register = () => {
   };
 
   const generateInvoice = async () => {
+    let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
     if (type === "Prescripteur") {
       // to generate invoice
       let invoiceData = {
+        subscriptionCode: temp2.reference,
+        subscriptionName: temp2.name,
         address1: form1.values.address_1,
         initialPrice: subAmounts.initial.price,
         initialCount: subAmounts.initial.count,
@@ -492,6 +500,8 @@ const Register = () => {
     } else {
       // to generate invoice
       let invoiceData = {
+        subscriptionCode: temp2.reference,
+        subscriptionName: temp2.name,
         address1: form1.values.address_1,
         alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
@@ -514,8 +524,11 @@ const Register = () => {
   };
 
   const generateQuote = async () => {
+    let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
     if (type === "Prescripteur") {
       let invoiceData = {
+        subscriptionCode: temp2.reference,
+        subscriptionName: temp2.name,
         address1: form1.values.address_1,
         initialPrice: subAmounts.initial.price,
         initialCount: subAmounts.initial.count,
@@ -550,6 +563,8 @@ const Register = () => {
     } else {
       // to generate invoice
       let invoiceData = {
+        subscriptionCode: temp2.reference,
+        subscriptionName: temp2.name,
         address1: form1.values.address_1,
         alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
@@ -1350,7 +1365,7 @@ const Register = () => {
                         </div>
                       </div>
                       {/* exports */}
-                      {paymentMethod === "mandat" && (
+                      {paymentMethod === "mandat" ? (
                         <div
                           style={{
                             marginTop: 20,
@@ -1413,6 +1428,13 @@ const Register = () => {
                               </div>
                             </div>
                           </div>
+                        </div>
+                      ) : (
+                        <div
+                          style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap", marginTop: 10 }}
+                          onClick={generateQuote}
+                        >
+                          Générer un devis
                         </div>
                       )}
                     </div>
@@ -1567,7 +1589,7 @@ const Register = () => {
                         </div>
                       </div>
                       {/* exports */}
-                      {paymentMethod === "mandat" && (
+                      {paymentMethod === "mandat" ? (
                         <div
                           style={{
                             marginTop: 20,
@@ -1630,6 +1652,13 @@ const Register = () => {
                               </div>
                             </div>
                           </div>
+                        </div>
+                      ) : (
+                        <div
+                          style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap", marginTop: 10 }}
+                          onClick={generateQuote}
+                        >
+                          Générer un devis
                         </div>
                       )}
                     </div>

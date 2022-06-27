@@ -1961,7 +1961,7 @@ const ProjectView = () => {
                         }}
                       >
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>{t("Total HT")}:</div>
+                          <div className={classes.fotter_text}>{t("Total HT")} :</div>
                           <div className={classes.fotter_amount}>{formatNumber(parseFloat(totalHT)?.toFixed(2))} €</div>
                         </div>
                         <div className={classes.flex_container}>
@@ -1988,7 +1988,7 @@ const ProjectView = () => {
                           ></div>
                         </div>
                         <div className={classes.flex_container}>
-                          <div className={classes.fotter_text}>{t("Total  Amount  including  VAT")}:</div>
+                          <div className={classes.fotter_text}>{t("Total  Amount  including  VAT")} :</div>
 
                           <div className={classes.fotter_amount}>
                             {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €

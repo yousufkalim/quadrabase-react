@@ -113,7 +113,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     !loading && (
       <div style={{ width: "35vw" }}>
         <div style={{ width: "90%" }}>
-          <div className="purchase-header">Achat {t(type)}</div> {/* Subscription */}
+          <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
             <BasicDropdown
               options={productList}
@@ -286,7 +286,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
               </div>
             </div>
             {/* exports */}
-            {paymentMethod === "mandat" && (
+            {paymentMethod === "mandat" ? (
               <div
                 style={{
                   marginTop: 20,
@@ -346,6 +346,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                     </div>
                   </div>
                 </div>
+              </div>
+            ) : (
+              <div style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }} onClick={generateQuote}>
+                Générer un devis
               </div>
             )}
           </div>
