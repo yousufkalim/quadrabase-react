@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import Quadralogo from "./spc/assets/images/Quadralogo2.svg";
 import CollapseStudyMaterial from "./spc/components/CollapseStudyMaterial";
 import Grid from "@mui/material/Grid";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const Terms = () => {
   return (
@@ -214,6 +216,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">
                     toutes données privatives appartenant à un tiers, notamment les marques déposées et données protégées par
                     copyright (autres que celles pour lesquelles vous possédez une licence);{" "}
@@ -225,6 +230,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">
                     tout contenu erroné, diffamatoire, obscène, raciste ou incitant à la haine;{" "}
                   </span>
@@ -235,6 +243,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">
                     tout contenu visant à harceler un tiers ou à compromettre sa vie privée;{" "}
                   </span>
@@ -245,6 +256,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">
                     tout contenu incitant au crime, au suicide, à la discrimination, à la haine ou à la violence, pour des motifs
                     de différence raciale, ethnique ou de nationalité;{" "}
@@ -256,6 +270,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">
                     tout contenu susceptible de nuire à des utilisateurs mineurs ou de porter atteinte à la dignité humaine;{" "}
                   </span>
@@ -266,6 +283,9 @@ const Terms = () => {
             <ul align="left" type="disc">
               <li>
                 <p align="left">
+                  <ListItemIcon sx={{ minWidth: "16px" }}>
+                    <FiberManualRecordIcon sx={{ height: "7px", width: "7px" }} />
+                  </ListItemIcon>
                   <span id="dnn_ctr_Terms_lblTerms">tout contenu faisant l’éloge du nazisme ou niant l’holocauste. </span>
                 </p>
               </li>
@@ -401,6 +421,7 @@ const Terms = () => {
             <ol type="1">
               <li>
                 <p align="justify">
+                  1. &nbsp;
                   <span id="dnn_ctr_Terms_lblTerms">
                     sauf cas prévu par la loi, vous autorisez l’Editeur du Site, ses sociétés mères et affiliées, partenaires,
                     filiales et titulaires de licence, à utiliser, reproduire, afficher, exécuter, adapter, modifier, distribuer,
@@ -412,6 +433,7 @@ const Terms = () => {
               </li>
               <li>
                 <p align="justify">
+                  2.&nbsp;
                   <span id="dnn_ctr_Terms_lblTerms">
                     vous garantissez et déclarez que vous possédez, ou contrôlez d’une autre manière, tous les droits liés au
                     contenu et que la diffusion publique et l’utilisation de votre contenu par l’Editeur du Site n’affectera et

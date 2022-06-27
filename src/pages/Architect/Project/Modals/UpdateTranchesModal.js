@@ -67,7 +67,7 @@ const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranc
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Update Tranch")}
+            {t("Update")}
           </Button>
         </div>
       </form>
