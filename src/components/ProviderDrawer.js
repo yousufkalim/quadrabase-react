@@ -97,7 +97,7 @@ export default function ResponsiveDrawer(props) {
                 button
                 key={item?.text}
                 onClick={() => {
-                  if (props.user?.subscriptions) {
+                  if (props.user?.subscription) {
                     history.push(item.layout + item.path);
                   }
                 }}

@@ -1,0 +1,242 @@
+// init
+import React, { useState, useEffect } from "react";
+import { useStyles } from "../../../css/myProfile";
+import { Store, UpdateStore } from "../../../StoreContext";
+import moment from "moment";
+import api from "../../../api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import "moment/locale/fr"; // without this line it didn't work
+
+// Importing Components
+import { Grid, Button, Avatar, Typography } from "@mui/material";
+import InputWithLabel from "../../../components/Architect/InputWithLabel";
+import TextInput from "../../../components/TextInput";
+
+moment.locale("fr");
+// component
+const Index = () => {
+  const { t } = useTranslation();
+  const classes = useStyles();
+  const store = Store();
+  const updateStore = UpdateStore();
+  // states
+  const [values, setValues] = useState({
+    name: "",
+    firstname: "",
+    email: "",
+    telephone_no: "",
+    oldPassword: "",
+    newPassword: "",
+    establishment: "",
+    address1: "",
+    address2: "",
+    po_box: "",
+    zipcode: "",
+    city: "",
+  });
+
+  // useEffect to set values
+  useEffect(() => {
+    console.log(store.user, "store.user");
+    setValues({
+      name: store.user.name,
+      firstname: store.user.firstname,
+      email: store.user.email,
+      telephone_no: store.user.telephone_no,
+      oldPassword: "",
+      newPassword: "",
+      establishment: store.user.establishment,
+      address1: store.user.address1,
+      address2: store.user.address2,
+      po_box: store.user.po_box,
+      zipcode: store.user.zipcode,
+      city: store.user.city,
+    });
+  }, [store.user]);
+
+  // handle change function
+  const handleChange = (name, value) => {
+    setValues((prev) => {
+      prev[name] = value;
+      return { ...prev };
+    });
+  };
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await api("put", `/Providers/${store.user._id}`, values, t);
+    updateStore({ loggedIn: true, user: result.data.provider });
+    toast.success(t(result.data.message));
+  };
+
+  return (
+    <div style={{ overflow: "hidden" }}>
+      <div style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}>
+        <div className={classes.left_container}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Avatar style={{ height: 100, width: 100 }} />
+            <br />
+            <Typography className={classes.name} variant="h4">
+              {store.user.name} {store.user.firstname}
+            </Typography>
+            <Typography color="textSecondary" variant="body1">
+              {t("Member Since")}: {moment(store.user.createdAt).format("MMMM DD, YYYY")}
+            </Typography>
+          </div>
+        </div>
+        <div className={classes.right_container} onSubmit={handleSubmit}>
+          <h1 style={{ width: "100vw", color: "black" }}>{t("My Profile")}</h1>
+          <form className={classes.form} autoComplete="off">
+            {/* All fields */}
+            <br />
+
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Lastname")}
+                  required={true}
+                  name="name"
+                  type="text"
+                  value={values.name}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Firstname")}
+                  required={true}
+                  name="firstname"
+                  type="text"
+                  value={values.firstname}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label="Email"
+                  required={true}
+                  disabled={true}
+                  name="email"
+                  type="email"
+                  value={values.email}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Phone")}
+                  required={true}
+                  name="telephone_no"
+                  type="text"
+                  value={values.telephone_no}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("Old Password")}
+                  name="oldPassword"
+                  type="password"
+                  value={values.oldPassword}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("New Password")}
+                  name="newPassword"
+                  type="password"
+                  value={values.newPassword}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <InputWithLabel
+              label={t("Establishment")}
+              required={true}
+              disabled={true}
+              name="establishment"
+              type="text"
+              value={values.establishment}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+            <InputWithLabel
+              label={t("Address 1")}
+              required={true}
+              name="address1"
+              type="text"
+              value={values.address1}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+            <InputWithLabel
+              label={t("Address 2")}
+              name="address2"
+              type="text"
+              value={values.address2}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+
+            <Grid container spacing={2}>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("CS/BP")}
+                  name="po_box"
+                  type="text"
+                  value={values.po_box}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <InputWithLabel
+                  label={t("CP")}
+                  required={true}
+                  name="zipcode"
+                  type="text"
+                  value={values.zipcode}
+                  handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <InputWithLabel
+              label={t("City")}
+              required={true}
+              name="city"
+              type="text"
+              value={values.city}
+              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+
+            {/* register button */}
+            <div style={{ width: "100%", textAlign: "right" }}>
+              <Button
+                variant="contained"
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: "#8C1244",
+                  borderRadius: 2,
+                  whiteSpace: "nowrap",
+                  ":hover": {
+                    backgroundColor: "#8C1244",
+                  },
+                }}
+                type="submit"
+              >
+                {t("Update")}
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Index;
