@@ -431,6 +431,21 @@ export const SubscriptionheadCells = [
   },
 ];
 
+export const ProviderSubscriptionheadCells = [
+  {
+    id: "name",
+    label: "Name",
+  },
+  {
+    id: "start_date",
+    label: "Start date",
+  },
+  {
+    id: "end_date",
+    label: "End date",
+  },
+];
+
 export const MyProjectHeadCells = [
   {
     id: "totalProjects",

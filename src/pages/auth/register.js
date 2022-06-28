@@ -172,10 +172,6 @@ const Register = () => {
     },
   });
 
-  const [fabricantSubOptions, setFabricantSubOptions] = useState([
-    { _id: "Référencement", title: "Référencement" },
-    { _id: "Alertes", title: "Alertes" },
-  ]);
   const [fabricantSubAmounts, setFabricantSubAmount] = useState({
     alert: 0,
     refer: 0,
@@ -188,11 +184,22 @@ const Register = () => {
 
   useEffect(() => {
     if (localStorage.getItem("step") == 2) {
-      setArchId(localStorage.getItem("archId"));
-      setPayment(true);
-      setStartStepper(false);
-      localStorage.removeItem("archId");
-      localStorage.removeItem("step");
+      let tempArch = localStorage.getItem("archId");
+      if (tempArch) {
+        setArchId(tempArch);
+        setPayment(true);
+        setStartStepper(false);
+        setType("Prescripteur");
+        localStorage.removeItem("archId");
+        localStorage.removeItem("step");
+      } else {
+        setArchId(localStorage.getItem("provId"));
+        setPayment(true);
+        setStartStepper(false);
+        setType("Fabricant");
+        localStorage.removeItem("provId");
+        localStorage.removeItem("step");
+      }
     }
   }, []);
 
@@ -338,6 +345,7 @@ const Register = () => {
           ],
           metaData: {
             id: archId,
+            subscriptionid: selectedSubscription,
             subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * duration,
             subscriptionProjects: parseInt(subAmounts.pack.number),
             type: "architectSignup",
@@ -395,15 +403,8 @@ const Register = () => {
             },
           ],
           metaData: {
-            name: form2.values.first_name,
-            email: form2.values.email,
-            contact_no: form2.values.phone,
-            address1: form1.values.address_1,
-            address2: form1.values.address_2,
-            city: form1.values.city,
-            zipcode: form1.values.postal_code,
-            po_box: form1.values.po_box,
-            establishment: form1.values.establishment,
+            id: archId,
+            subscriptionid: selectedSubscription,
             subscriptionName: fabricantSubAmounts.referName,
             subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
             subscriptionEndDate: moment(moment(new Date()).add(fabricantSubAmounts.referDuration, "months")).format("YYYY/MM/DD"),
@@ -438,25 +439,45 @@ const Register = () => {
   };
 
   const createUser = async () => {
-    let data = {
-      establishment: form1.values.establishment,
-      service: form1.values.service,
-      address_1: form1.values.address_1,
-      address_2: form1.values.address_2,
-      po_box: form1.values.po_box,
-      postal_code: form1.values.postal_code,
-      city: form1.values.city,
-      phone: form2.values.phone,
-      last_name: form2.values.last_name,
-      first_name: form2.values.first_name,
-      email: form2.values.email,
-      password: form2.values.password,
-      confirm_password: form2.values.confirm_password,
-    };
-    const res = await api("post", `/Architects/createOnSingup`, data);
-    setArchId(res.data.architect._id);
-    toast.success(res.data.message);
-    return res.data.success;
+    if (type === "Prescripteur") {
+      let data = {
+        establishment: form1.values.establishment,
+        service: form1.values.service,
+        address_1: form1.values.address_1,
+        address_2: form1.values.address_2,
+        po_box: form1.values.po_box,
+        postal_code: form1.values.postal_code,
+        city: form1.values.city,
+        phone: form2.values.phone,
+        last_name: form2.values.last_name,
+        first_name: form2.values.first_name,
+        email: form2.values.email,
+        password: form2.values.password,
+        confirm_password: form2.values.confirm_password,
+      };
+      const res = await api("post", `/Architects/createOnSingup`, data);
+      setArchId(res.data.architect._id);
+      toast.success(res.data.message);
+      return res.data.success;
+    } else {
+      let data = {
+        name: form2.values.last_name,
+        firstname: form2.values.first_name,
+        email: form2.values.email,
+        telephone_no: form2.values.phone,
+        address1: form1.values.address_1,
+        address2: form1.values.address_2,
+        city: form1.values.city,
+        zipcode: form1.values.postal_code,
+        po_box: form1.values.po_box,
+        establishment: form1.values.establishment,
+        password: form2.values.password,
+      };
+      const res = await api("post", `/Providers/createOnSingup`, data);
+      setArchId(res.data.provider._id);
+      toast.success(res.data.message);
+      return res.data.success;
+    }
   };
 
   const generateInvoice = async () => {
@@ -604,7 +625,7 @@ const Register = () => {
   };
 
   const handleNext = async () => {
-    if (activeStep === 1 && type === "Prescripteur") {
+    if (activeStep === 1) {
       let success = await createUser();
       if (success) {
         history.push("/auth/login");
@@ -1119,6 +1140,27 @@ const Register = () => {
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Nom *"
+                                      placeholder="Dubois"
+                                      type="text"
+                                      name="last_name"
+                                      value={form2.values.last_name}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="text-red-600 ">
+                                      {form2.touched.last_name ? (
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.last_name && <>Le nom de famille est requis</>}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Prénom *"
                                       placeholder="Claude"
                                       type="text"
                                       name="first_name"
@@ -1131,7 +1173,7 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.first_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le nom est requis</>}</div>
+                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le prénom est requis</>}</div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -1148,8 +1190,97 @@ const Register = () => {
                                       labelFont={18}
                                       style={InputStyle}
                                     />
-                                    <div className="text-red-600 " style={{ fontSize: 12 }}>
-                                      {form2.errors.email && <>L'e-mail n'est pas valide</>}
+                                    <div className="text-red-600 ">
+                                      {form2.touched.email ? (
+                                        <div style={{ fontSize: 12 }}>{form2.errors.email && <>L'e-mail n'est pas valide</>}</div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Téléphone *"
+                                      placeholder="0900929008"
+                                      type="number"
+                                      name="phone"
+                                      value={form2.values.phone}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="text-red-600 ">
+                                      {form2.touched.phone ? (
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.phone && (
+                                            <>Le numéro de téléphone doit comporter exactement 10 caractères</>
+                                          )}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Mot de passe"
+                                      type={showPassword ? "text" : "password"}
+                                      name="password"
+                                      value={form2.values.password}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      placeholder="**********"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="forget-pass">
+                                      {!showPassword ? (
+                                        <VisibilityIcon className="register-eye-icon" onClick={() => setShowPassword(true)} />
+                                      ) : (
+                                        <VisibilityOffIcon className="register-eye-icon" onClick={() => setShowPassword(false)} />
+                                      )}
+                                    </div>
+                                    <div className="text-red-600 " style={{ marginTop: -22 }}>
+                                      {form2.touched.password ? (
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.password && <>Le mot de passe doit comporter au moins 6 caractères</>}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                                    <TextInput
+                                      label="Confirmer le mot de passe"
+                                      type={showConfirmPassword ? "text" : "password"}
+                                      name="confirm_password"
+                                      value={form2.values.confirm_password}
+                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      required={true}
+                                      labelColor="#8C1244"
+                                      placeholder="**********"
+                                      labelFont={18}
+                                      style={InputStyle}
+                                    />
+                                    <div className="forget-pass">
+                                      {!showConfirmPassword ? (
+                                        <VisibilityIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowConfirmPassword(true)}
+                                        />
+                                      ) : (
+                                        <VisibilityOffIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowConfirmPassword(false)}
+                                        />
+                                      )}
+                                    </div>
+                                    <div className="text-red-600 " style={{ marginTop: -22 }}>
+                                      {form2.touched.confirm_password ? (
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.confirm_password && (
+                                            <>Le mot de passe de confirmation doit contenir au moins 6 caractères</>
+                                          )}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </Grid>
                                 </Grid>
