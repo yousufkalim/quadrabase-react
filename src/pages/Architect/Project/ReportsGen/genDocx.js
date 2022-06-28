@@ -1472,48 +1472,33 @@ function _parseChap0part2(part2) {
       ],
     })
   );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: part2.title,
-          size: 24,
-          bold: true,
-        }),
-      ],
-    })
-  );
-  if (part2.text) {
-    arr.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: part2.text,
-            size: 20,
-          }),
-        ],
-      })
-    );
-  }
-  for (let i = 0; i < part2.lvl2.length; i++) {
-    const _ = part2.lvl2[i];
+  for (let i = 0; i < part2.length; i++) {
+    const _ = part2[i];
     arr.push(
       new Paragraph({
         children: [
           new TextRun({
             text: _.title,
-            size: 20,
+            size: 24,
             bold: true,
           }),
         ],
       })
     );
     if (_.text) {
-      let docxObjs = textRunsSplitGen(_.text);
-      arr.push(...docxObjs);
+      arr.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: _.text,
+              size: 20,
+            }),
+          ],
+        })
+      );
     }
-    for (let j = 0; j < _.lvl3.length; j++) {
-      const __ = _.lvl3[j];
+    for (let j = 0; j < _.lvl2.length; j++) {
+      const __ = _.lvl2[j];
       arr.push(
         new Paragraph({
           children: [
@@ -1528,6 +1513,24 @@ function _parseChap0part2(part2) {
       if (__.text) {
         let docxObjs = textRunsSplitGen(__.text);
         arr.push(...docxObjs);
+      }
+      for (let k = 0; k < __.lvl3.length; k++) {
+        const ___ = __.lvl3[k];
+        arr.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: ___.title,
+                size: 20,
+                bold: true,
+              }),
+            ],
+          })
+        );
+        if (___.text) {
+          let docxObjs = textRunsSplitGen(___.text);
+          arr.push(...docxObjs);
+        }
       }
     }
   }

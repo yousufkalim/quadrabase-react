@@ -1037,33 +1037,37 @@ function parseChap0(currentProject) {
   };
 
   // Parse chap0part2
-  const lvl1 = currentProject.chap0part2.id;
-  const _ = {
-    title: `0.1 ${lvl1.title}`,
-    text: lvl1.text,
-    lvl2: [],
-  };
-  for (let i = 0; i < lvl1.level2.length; i++) {
-    const lvl2 = lvl1.level2[i];
-    const __ = {
-      title: `0.1.${i + 1} ${lvl2.title}`,
-      text: lvl2.text,
-      lvl3: [],
+  const part2 = [];
+  for (let i = 0; i < currentProject.chap0part2.length; i++) {
+    const lvl1 = currentProject.chap0part2[i].id;
+    const _ = {
+      title: `0.1 ${lvl1.title}`,
+      text: lvl1.text,
+      lvl2: [],
     };
-    for (let j = 0; j < lvl2.level3.length; j++) {
-      const lvl3 = lvl2.level3[j];
-      const ___ = {
-        title: `0.1.${i + 1}.${j + 1} ${lvl3.title}`,
-        text: lvl3.text,
+    for (let j = 0; j < lvl1.level2.length; j++) {
+      const lvl2 = lvl1.level2[j];
+      const __ = {
+        title: `0.1.${j + 1} ${lvl2.title}`,
+        text: lvl2.text,
+        lvl3: [],
       };
-      __.lvl3.push(___);
+      for (let k = 0; k < lvl2.level3.length; k++) {
+        const lvl3 = lvl2.level3[k];
+        const ___ = {
+          title: `0.1.${k + 1}.${k + 1} ${lvl3.title}`,
+          text: lvl3.text,
+        };
+        __.lvl3.push(___);
+      }
+      _.lvl2.push(__);
     }
-    _.lvl2.push(__);
+    part2.push(_);
   }
 
   const obj = {
     part1: part1,
-    part2: _,
+    part2: part2,
   };
 
   return obj;
