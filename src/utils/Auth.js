@@ -1,6 +1,7 @@
-export const handleLogin = (token, user) => {
+export const handleLogin = (token, user, role) => {
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("role", role);
   return true;
 };
 
@@ -19,4 +20,8 @@ export const setUser = (user) => {
 export const getToken = () => {
   let token = localStorage.getItem("token");
   return token;
+};
+
+export const getRole = () => {
+  return localStorage.getItem("role");
 };

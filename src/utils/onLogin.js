@@ -13,7 +13,7 @@ export const onSubmit = (e, email, password, updateStore, history) => {
   // Using global api to post data on server and handling the response
   api("post", "/Auth/login", data).then((response) => {
     if (response.data.success) {
-      handleLogin(response.data.result.token, response.data.result.user);
+      handleLogin(response.data.result.token, response.data.result.user, response.data.result.role);
       updateStore({ loggedIn: true, user: response.data.result.user });
       toast.success(response.data.message);
       history.push("/");

@@ -172,10 +172,6 @@ const Register = () => {
     },
   });
 
-  const [fabricantSubOptions, setFabricantSubOptions] = useState([
-    { _id: "Référencement", title: "Référencement" },
-    { _id: "Alertes", title: "Alertes" },
-  ]);
   const [fabricantSubAmounts, setFabricantSubAmount] = useState({
     alert: 0,
     refer: 0,
@@ -188,11 +184,22 @@ const Register = () => {
 
   useEffect(() => {
     if (localStorage.getItem("step") == 2) {
-      setArchId(localStorage.getItem("archId"));
-      setPayment(true);
-      setStartStepper(false);
-      localStorage.removeItem("archId");
-      localStorage.removeItem("step");
+      let tempArch = localStorage.getItem("archId");
+      if (tempArch) {
+        setArchId(tempArch);
+        setPayment(true);
+        setStartStepper(false);
+        setType("Prescripteur");
+        localStorage.removeItem("archId");
+        localStorage.removeItem("step");
+      } else {
+        setArchId(localStorage.getItem("provId"));
+        setPayment(true);
+        setStartStepper(false);
+        setType("Fabricant");
+        localStorage.removeItem("provId");
+        localStorage.removeItem("step");
+      }
     }
   }, []);
 
@@ -338,6 +345,7 @@ const Register = () => {
           ],
           metaData: {
             id: archId,
+            subscriptionid: selectedSubscription,
             subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * duration,
             subscriptionProjects: parseInt(subAmounts.pack.number),
             type: "architectSignup",
@@ -395,6 +403,8 @@ const Register = () => {
             },
           ],
           metaData: {
+            id: archId,
+            subscriptionid: selectedSubscription,
             subscriptionName: fabricantSubAmounts.referName,
             subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
             subscriptionEndDate: moment(moment(new Date()).add(fabricantSubAmounts.referDuration, "months")).format("YYYY/MM/DD"),

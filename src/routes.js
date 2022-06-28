@@ -46,7 +46,20 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
 import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 
+// Provider
+import Provider from "./pages/provider";
+
 var routes = [
+  // architect side routes
+  {
+    path: "/index", //admin dashboard
+    name: "Dashboard",
+    text: "Dashboard",
+    icon: <HomeOutlinedIcon />,
+    component: Provider,
+    layout: "/provider",
+  },
+
   // architect side routes
   {
     path: "/index", //Architect

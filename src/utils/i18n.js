@@ -591,6 +591,7 @@ i18n
           "File uploaded successfully": "File uploaded successfully",
           "No file to upload": "No file to upload",
           "Folders deleted successfully": "Folders deleted successfully",
+          Provider: "Provider",
         },
       },
       fr: {
@@ -1168,6 +1169,7 @@ i18n
           "File uploaded successfully": "Fichier téléchargé avec succès",
           "No file to upload": "Aucun fichier à télécharger",
           "Folders deleted successfully": "Dossiers supprimés avec succès",
+          Provider: "Fabricant",
         },
       },
     },

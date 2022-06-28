@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import AdminLayout from "../containers/admin";
 import AuthLayout from "../containers/auth";
 import ArchitectLayout from "../containers/Architect";
-import { getToken, handleLogout, getUser } from "../utils/Auth";
+import ProviderLayout from "../containers/Provider";
+import { getToken, handleLogout, getRole } from "../utils/Auth";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { focusHandling } from "cruip-js-toolkit";
 import "../charts/ChartjsConfig";
@@ -15,7 +16,7 @@ function Index(props) {
   const { t, i18n } = props;
 
   const token = getToken();
-  const user = getUser();
+  const role = getRole();
   const location = useLocation();
   const isMyTokenExpired = isExpired(token);
   useEffect(() => {
@@ -28,46 +29,35 @@ function Index(props) {
     }
   }, [location.pathname]); // triggered on route change
   return token && isMyTokenExpired == false ? (
-    user?.role === "admin" ? (
+    role === "admin" ? (
       <>
         <Switch>
-          <Route
-            path="/admin"
-            render={(props) => (
-              <AdminLayout {...props} i18n={i18n} translate={t} />
-            )}
-          />
+          <Route path="/admin" render={(props) => <AdminLayout {...props} i18n={i18n} translate={t} />} />
           <Redirect from="/" to="/admin/index" />
         </Switch>
       </>
-    ) : (
+    ) : role === "architect" ? (
       <>
         <Switch>
-          <Route
-            path="/projectview/:id"
-            render={(props) => (
-              <ProjectView {...props} i18n={i18n} translate={t} />
-            )}
-          />
-          <Route
-            path="/architect"
-            render={(props) => (
-              <ArchitectLayout {...props} i18n={i18n} translate={t} />
-            )}
-          />
+          <Route path="/projectview/:id" render={(props) => <ProjectView {...props} i18n={i18n} translate={t} />} />
+          <Route path="/architect" render={(props) => <ArchitectLayout {...props} i18n={i18n} translate={t} />} />
           <Redirect from="/" to="/architect/index" />
         </Switch>
       </>
+    ) : (
+      role === "provider" && (
+        <>
+          <Switch>
+            <Route path="/provider" render={(props) => <ProviderLayout {...props} i18n={i18n} translate={t} />} />
+            <Redirect from="/" to="/provider/index" />
+          </Switch>
+        </>
+      )
     )
   ) : (
     <>
       <Switch>
-        <Route
-          path="/auth"
-          render={(props) => (
-            <AuthLayout {...props} i18n={i18n} translate={t} />
-          )}
-        />
+        <Route path="/auth" render={(props) => <AuthLayout {...props} i18n={i18n} translate={t} />} />
         <Redirect from="/" to="/auth/home" />
       </Switch>
     </>
