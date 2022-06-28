@@ -82,7 +82,7 @@ export default function AddExpense(props) {
           return item.ranking;
         })
       );
-      values.ranking = maxRanking ? maxRanking + 1 : 0;
+      values.ranking = maxRanking > 0 ? maxRanking + 1 : 0;
 
       try {
         let response = await Axios({
