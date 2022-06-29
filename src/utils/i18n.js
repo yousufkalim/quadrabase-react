@@ -592,6 +592,7 @@ i18n
           "No file to upload": "No file to upload",
           "Folders deleted successfully": "Folders deleted successfully",
           Provider: "Provider",
+          "No works found for this provider.": "No works found for this provider.",
         },
       },
       fr: {
@@ -1170,6 +1171,7 @@ i18n
           "No file to upload": "Aucun fichier à télécharger",
           "Folders deleted successfully": "Dossiers supprimés avec succès",
           Provider: "Fabricant",
+          "No works found for this provider.": "Aucune oeuvre trouvée pour ce fournisseur.",
         },
       },
     },
