@@ -495,25 +495,28 @@ function _parseChap0part1(part1) {
 function _parseChap0part2(part2) {
   let str = "";
   str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 2</strong><br>`);
-  str = str.concat(`<p><strong>${part2.title}</strong><br>`);
-  if (part2.text) {
-    str = str.concat(`<p>${part2.text}</p><br>`);
-  }
-  for (let i = 0; i < part2.lvl2.length; i++) {
-    const _ = part2.lvl2[i];
+  for (let i = 0; i < part2.length; i++) {
+    const _ = part2[i];
     str = str.concat(`<p><strong>${_.title}</strong><br>`);
     if (_.text) {
       str = str.concat(`<p>${_.text}</p><br>`);
     }
-    for (let j = 0; j < _.lvl3.length; j++) {
-      const __ = _.lvl3[j];
+    for (let j = 0; j < _.lvl2.length; j++) {
+      const __ = _.lvl2[j];
       str = str.concat(`<p><strong>${__.title}</strong><br>`);
       if (__.text) {
         str = str.concat(`<p>${__.text}</p><br>`);
       }
+      for (let k = 0; k < __.lvl3.length; k++) {
+        const ___ = __.lvl3[k];
+        str = str.concat(`<p><strong>${___.title}</strong><br>`);
+        if (___.text) {
+          str = str.concat(`<p>${___.text}</p><br>`);
+        }
+      }
     }
+    str = str.concat(`</p>`);
   }
-  str = str.concat(`</p>`);
   return str;
 }
 
