@@ -1,3 +1,4 @@
+import x from "react-i18next";
 import { Paragraph, TextRun, UnderlineType } from "docx";
 import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
 
@@ -1342,9 +1343,15 @@ const tagsToDocxMap = {
   },
 };
 
-const dataColumnsEstimation = ["No #", "Name", "Unit", "Qty", "PU HT", "Total HT"];
+const dataColumnsEstimation =
+  localStorage.getItem("i18nextLng") == "en"
+    ? ["No #", "Name", "Unit", "Qty", "PU HT", "Total HT"]
+    : ["Non #", "Nom", "Unité", "Qty", "PU HT", "HT totale"];
 
-const footerColumnsSimpleEstimation = ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total  Amount  including  VAT :"];
+const footerColumnsSimpleEstimation =
+  localStorage.getItem("i18nextLng") == "en"
+    ? ["Total Lot n°1 :", "", "Total HT :", "Total VAT (%) :", "Total Amount including VAT :"]
+    : ["Total Lot n°1 :", "", "HT totale :", "TVA totale (%) :", "Montant total TTC :"];
 
 const dataColumnsBPU = ["'1", "Lot n°1", ""];
 
