@@ -94,7 +94,7 @@ export default function Index(props) {
     });
     getFamilies();
     Notifier(
-      `Status updated to ${filteredData.status === "En construction" ? "En ligne" : "En construction"}`,
+      `Statut mis à jour à ${filteredData.status === "En construction" ? "En ligne" : "En construction"}`,
       "success",
       translate
     );
