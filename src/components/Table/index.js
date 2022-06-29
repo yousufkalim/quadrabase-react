@@ -24,6 +24,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import WorkIcon from "@mui/icons-material/Work";
 import { useTranslation } from "react-i18next";
+import noLogo from "../../assets/nologo.png";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -288,6 +289,10 @@ export default function EnhancedTable(props) {
                                 ? row?.subscription?.name.substring(0, 14) + "..."
                                 : row?.subscription?.name
                               : "N/A"}
+                          </TableCell>
+                        ) : record === "logo" ? (
+                          <TableCell key={index} align="center" title={row[record]}>
+                            <img src={row[record] ? row[record] : noLogo} width="65%" />
                           </TableCell>
                         ) : record == "provider_subscriptionStartDate" ? (
                           <TableCell align="center" title={row?.subscription?.start_date}>

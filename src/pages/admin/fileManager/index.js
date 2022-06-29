@@ -376,7 +376,7 @@ const Index = () => {
           </div>
         </div>
         <Grid container spacing={4}>
-          {folders.map((item) => {
+          {folders?.map((item) => {
             return (
               <Grid item xs={12} sm={12} md={3}>
                 <Card sx={{ display: "flex", cursor: "pointer", position: "relative" }}>
@@ -392,16 +392,18 @@ const Index = () => {
                         {item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name}
                       </Typography>
                     </CardContent>
-                    <IconButton
-                      style={{ position: "absolute", right: 5, top: 10 }}
-                      id="demo-positioned-button"
-                      aria-controls={open ? "demo-positioned-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={(e) => handleClick(e, item)}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
+                    {item.name !== "Documentation Générale" && (
+                      <IconButton
+                        style={{ position: "absolute", right: 5, top: 10 }}
+                        id="demo-positioned-button"
+                        aria-controls={open ? "demo-positioned-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={(e) => handleClick(e, item)}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    )}
                   </Box>
                 </Card>
               </Grid>

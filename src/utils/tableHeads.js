@@ -303,6 +303,11 @@ export const ProviderheadCells = [
     label: "Establishment",
   },
   {
+    id: "logo",
+
+    label: "Logo",
+  },
+  {
     id: "address1",
 
     label: "Address 1",
@@ -366,11 +371,6 @@ export const ProviderheadCells = [
     id: "url",
 
     label: "url",
-  },
-  {
-    id: "logo",
-
-    label: "Logo",
   },
   {
     id: "provider_subscription",
