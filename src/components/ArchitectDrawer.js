@@ -39,9 +39,7 @@ export default function ResponsiveDrawer(props) {
 
   React.useEffect(() => {
     let temp = location.pathname.split("/");
-    temp =
-      temp[temp.length - 1].charAt(0).toUpperCase() +
-      temp[temp.length - 1].slice(1);
+    temp = temp[temp.length - 1].charAt(0).toUpperCase() + temp[temp.length - 1].slice(1);
     if (temp === "Index") {
       setCurrentPage("Dashboard");
     } else if (temp === "Projects") {
@@ -86,9 +84,7 @@ export default function ResponsiveDrawer(props) {
             {props.user.first_name} {props.user.last_name}
           </span>
           <br />
-          <span style={{ fontSize: 12, color: "#8C1244" }}>
-            {t("Architect")}
-          </span>
+          <span style={{ fontSize: 12, color: "#8C1244" }}>{t("Architect")}</span>
         </div>
         <LogoutIcon style={{ cursor: "pointer" }} onClick={() => onLogout()} />
       </div>
@@ -114,23 +110,12 @@ export default function ResponsiveDrawer(props) {
             )
         )}
       </List>
-      <img
-        src={Quadralogo}
-        alt=""
-        width={130}
-        height={50}
-        style={{ position: "absolute", left: 20, bottom: 110 }}
-      />
-      <img
-        src={Que}
-        alt=""
-        style={{ position: "absolute", left: 0, bottom: 0 }}
-      />
+      <img src={Quadralogo} alt="" width={130} height={50} style={{ position: "absolute", left: 20, bottom: 110 }} />
+      <img src={Que} alt="" style={{ position: "absolute", left: 0, bottom: 0 }} />
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -198,6 +183,8 @@ export default function ResponsiveDrawer(props) {
               }}
               onClick={() => {
                 i18n.changeLanguage("en");
+                localStorage.setItem("i18nextLng", "en");
+                dispatchEvent(new Event("storage"));
                 handleClose2();
               }}
             >
@@ -210,6 +197,8 @@ export default function ResponsiveDrawer(props) {
               }}
               onClick={() => {
                 i18n.changeLanguage("fr");
+                localStorage.setItem("i18nextLng", "fr");
+                dispatchEvent(new Event("storage"));
                 handleClose2();
               }}
             >
@@ -219,11 +208,7 @@ export default function ResponsiveDrawer(props) {
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
@@ -250,8 +235,7 @@ export default function ResponsiveDrawer(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              background:
-                "linear-gradient(180deg, rgba(255, 255, 255, 0) 50.14%, rgba(165, 165, 165, 0.14) 60.59%), #FFFFFF",
+              background: "linear-gradient(180deg, rgba(255, 255, 255, 0) 50.14%, rgba(165, 165, 165, 0.14) 60.59%), #FFFFFF",
             },
           }}
           open
