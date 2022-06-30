@@ -115,7 +115,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
 
   return (
     !loading && (
-      <div style={{ width: "35vw" }}>
+      <div style={{ width: "35vw", maxHeight: "85vh", overflow: "auto" }}>
         <div style={{ width: "90%" }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
@@ -360,7 +360,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           {/* Buttons */}
           <div
             style={{
-              width: "100%",
+              width: "110%",
               textAlign: "center",
               marginTop: 40,
             }}
