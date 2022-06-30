@@ -217,7 +217,7 @@ export default function AddExpense(props) {
 
               setFilteredOptions(tempFilter);
               setAssociatedProviders(temp);
-              setFileName(editData?.providers[0]?.documents[0]?.uri.split("/").pop());
+              setFileName(editData?.providers[0]?.documents[0]?.uri.split("/").pop().split("-").pop());
               setDocuments(editData?.providers[0]?.documents);
             } else {
               setFilteredOptions(ProviderOptions);
@@ -402,6 +402,8 @@ export default function AddExpense(props) {
                 backgroundColor: associatedProviders.length === 0 && "lightgray",
                 width: "100%",
                 overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
               <label style={{ cursor: "pointer" }}>
