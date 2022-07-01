@@ -16,7 +16,6 @@ import Axios from "axios";
 import { baseUrl } from "../../../../utils/BaseUrl";
 
 const CollapseDocumentation = () => {
-
   const [isLoading, setIsLoading] = useState(true);
   const [downloadables, setDownloadables] = useState([]);
 
@@ -28,9 +27,9 @@ const CollapseDocumentation = () => {
     try {
       let response = await Axios({
         method: "get",
-        url: `${baseUrl}/StudyMaterials`,
+        url: `${baseUrl}/Folders/byFoldername/Documentation Générale`,
       });
-      setDownloadables(response.data.filesArr);
+      setDownloadables(response.data.folder);
     } catch (error) {
       console.log(error?.response?.data?.message, "error ");
     }
@@ -39,15 +38,13 @@ const CollapseDocumentation = () => {
 
   return (
     <>
-      {
-        isLoading ?
-        <></> :
+      {!isLoading && (
         <Grid container spacing={1}>
           {downloadables.map((v) => (
             <Single {...v} />
           ))}
         </Grid>
-      }
+      )}
     </>
   );
 };
@@ -60,12 +57,7 @@ function Single(props) {
   };
 
   return (
-    <Grid
-      xs={12}
-      sm={12}
-      md={12}
-      sx={{ marginTop: "2%", display: "flex", justifyContent: "center" }}
-    >
+    <Grid xs={12} sm={12} md={12} sx={{ marginTop: "2%", display: "flex", justifyContent: "center" }}>
       <Card
         sx={{
           width: "80%",
@@ -85,19 +77,14 @@ function Single(props) {
             />
           }
           action={
-            <IconButton
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
+            <IconButton expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
               {expanded ? <RemoveIcon /> : <AddIcon />}
             </IconButton>
           }
           title={<Typography className="spc_title">{props.name}</Typography>}
         />
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {props.files.map((v) => (
+          {props.files.docx.map((v) => (
             <SingleDownloadable {...v} />
           ))}
         </Collapse>
@@ -107,11 +94,9 @@ function Single(props) {
 }
 
 function SingleDownloadable(props) {
-
   const triggerDownload = (path) => {
-    window.open(`${process.env.REACT_APP_URI}/${path}`, "_blank")
-  }
-
+    window.open(`${process.env.REACT_APP_URI}/${path}`, "_blank");
+  };
   return (
     <CardContent sx={{ background: "#F5F6F8", padding: "" }}>
       <Card
@@ -138,23 +123,15 @@ function SingleDownloadable(props) {
               style={{
                 marginTop: "50%",
                 width: "80%",
-                cursor: "pointer"
+                cursor: "pointer",
               }}
-              onClick={() => triggerDownload(props.path)}
+              onClick={() => triggerDownload(props.uri)}
             />
           }
           title={
-            <Typography
-              style={{ fontSize: "14px", fontWeight: "600" }}
-              className="spc_doctitle"
-            >
+            <Typography style={{ fontSize: "14px", fontWeight: "600" }} className="spc_doctitle">
               {props.name}
             </Typography>
-          }
-          subheader={
-            <Typography
-              style={{ fontSize: "12px", fontWeight: "300" }}
-            >{`${props.size}`}</Typography>
           }
         />
       </Card>
