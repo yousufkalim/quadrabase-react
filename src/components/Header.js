@@ -3,21 +3,26 @@ import SearchModal from "./header/SearchModal";
 import Notifications from "./header/Notifications";
 import Help from "./header/Help";
 import UserMenu from "./header/UserMenu";
-import Button from './Button'
+import Button from "./Button";
 import LanguageIcon from "@mui/icons-material/Language";
-import { teal,common,blueGrey } from "@mui/material/colors";
+import { teal, common, blueGrey } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 
 function Header(props) {
-  const {translate,i18n,
-  
-    sidebarOpen, setSidebarOpen
+  const {
+    translate,
+    i18n,
+
+    sidebarOpen,
+    setSidebarOpen,
   } = props;
   const { language } = i18n;
-  
-    const changeLanguage = (lng) => {
-      i18n.changeLanguage(lng);
-    };
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("i18nextLng", lng);
+    dispatchEvent(new Event("storage"));
+  };
   return (
     <header className="sticky top-0 bg-white border-b border-gray-200 z-30">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -32,11 +37,7 @@ function Header(props) {
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               <span className="sr-only">Open sidebar</span>
-              <svg
-                className="w-6 h-6 fill-current"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <rect x="4" y="5" width="16" height="2" />
                 <rect x="4" y="11" width="16" height="2" />
                 <rect x="4" y="17" width="16" height="2" />
@@ -46,10 +47,9 @@ function Header(props) {
 
           {/* Header: Right side */}
           <div className="flex items-center">
-        
             <SearchModal />
             <Notifications />
-            <Help lang={true} i18n={i18n}/>
+            <Help lang={true} i18n={i18n} />
             {/* <Help /> */}
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 mx-3" />

@@ -50,12 +50,7 @@ export default function Header() {
 
   return (
     <div className={classes.container}>
-      <img
-        className={classes.logo}
-        src={Logo}
-        alt=""
-        onClick={() => history.push("/architect/index")}
-      />
+      <img className={classes.logo} src={Logo} alt="" onClick={() => history.push("/architect/index")} />
       <div>
         {/* change language button */}
         <IconButton
@@ -91,6 +86,8 @@ export default function Header() {
             }}
             onClick={() => {
               i18n.changeLanguage("en");
+              localStorage.setItem("i18nextLng", "en");
+              dispatchEvent(new Event("storage"));
               handleClose2();
             }}
           >
@@ -103,6 +100,8 @@ export default function Header() {
             }}
             onClick={() => {
               i18n.changeLanguage("fr");
+              localStorage.setItem("i18nextLng", "fr");
+              dispatchEvent(new Event("storage"));
               handleClose2();
             }}
           >
@@ -136,21 +135,13 @@ export default function Header() {
           }}
           sx={{ mt: 2.5 }}
         >
-          <MenuItem
-            style={{ width: 250 }}
-            onClick={() => history.push("/architect/management")}
-          >
+          <MenuItem style={{ width: 250 }} onClick={() => history.push("/architect/management")}>
             {t("Stakeholders")}/Chap0Part2
           </MenuItem>
-          <MenuItem
-            style={{ width: 250 }}
-            onClick={() => history.push("/architect/libraries")}
-          >
+          <MenuItem style={{ width: 250 }} onClick={() => history.push("/architect/libraries")}>
             {t("Project Libraries")}
           </MenuItem>
-          <MenuItem onClick={() => history.push("/architect/profile")}>
-            {t("My Profile")}
-          </MenuItem>
+          <MenuItem onClick={() => history.push("/architect/profile")}>{t("My Profile")}</MenuItem>
 
           <Divider />
           <MenuItem
