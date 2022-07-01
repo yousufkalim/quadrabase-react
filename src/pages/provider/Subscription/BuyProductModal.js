@@ -44,9 +44,9 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
   const generateQuote = async () => {
     let temp2 = productList.find((item) => item._id === selectedProduct);
     let invoiceData = {
+      archId: user._id,
       subscriptionCode: temp2.reference,
       subscriptionName: temp2.name,
-      address1: user.address1,
       initialPrice: product.price,
       initialCount: count,
       extendedPrice: 0,
@@ -57,9 +57,9 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
       tvaPercentage: 20,
       tvaAmount: (product.price * count * 20) / 100,
       TotalCost: (product.price * count * 20) / 100 + product.price * count,
-      paymentMode: "Card",
+      paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
     };
-    const result = await api("post", `/Architects/quote/download`, invoiceData);
+    const result = await api("post", `/Providers/quote/download`, invoiceData);
     window.open(result.data.path, "_blank");
   };
 
@@ -90,9 +90,9 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
           duration: product.duration * count,
         },
         invoiceData: {
+          archId: user._id,
           subscriptionCode: temp2.reference,
           subscriptionName: temp2.name,
-          address1: user.address1,
           initialPrice: product.price,
           initialCount: count,
           extendedPrice: 0,
@@ -103,7 +103,7 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
           tvaPercentage: 20,
           tvaAmount: (product.price * count * 20) / 100,
           TotalCost: (product.price * count * 20) / 100 + product.price * count,
-          paymentMode: "Card",
+          paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
         },
       };
 

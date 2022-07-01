@@ -351,9 +351,9 @@ const Register = () => {
             type: "architectSignup",
           },
           invoiceData: {
+            archId,
             subscriptionCode: temp2.reference,
             subscriptionName: temp2.name,
-            address1: form1.values.address_1,
             initialPrice: subAmounts.initial.price,
             initialCount: subAmounts.initial.count,
             extendedPrice: subAmounts.extended.price,
@@ -380,7 +380,7 @@ const Register = () => {
               subAmounts.initial.price * subAmounts.initial.count +
               subAmounts.extended.price * subAmounts.extended.count +
               subAmounts.pack.price * subAmounts.pack.count,
-            paymentMode: "Card",
+            paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
           },
         };
       } else {
@@ -411,9 +411,9 @@ const Register = () => {
             type: "providerSignup",
           },
           invoiceData: {
+            archId,
             subscriptionCode: temp2.reference,
             subscriptionName: temp2.name,
-            address1: form1.values.address_1,
             alertPrice: fabricantSubAmounts.alert,
             alertCount: fabricantSub === "Alertes" ? 1 : 0,
             alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
@@ -428,7 +428,7 @@ const Register = () => {
               fabricantSub === "Alertes"
                 ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
                 : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-            paymentMode: "Card",
+            paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
           },
         };
       }
@@ -485,9 +485,9 @@ const Register = () => {
     if (type === "Prescripteur") {
       // to generate invoice
       let invoiceData = {
+        archId,
         subscriptionCode: temp2.reference,
         subscriptionName: temp2.name,
-        address1: form1.values.address_1,
         initialPrice: subAmounts.initial.price,
         initialCount: subAmounts.initial.count,
         extendedPrice: subAmounts.extended.price,
@@ -514,16 +514,16 @@ const Register = () => {
           subAmounts.initial.price * subAmounts.initial.count +
           subAmounts.extended.price * subAmounts.extended.count +
           subAmounts.pack.price * subAmounts.pack.count,
-        paymentMode: "Card",
+        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
       };
       const result = await api("post", `/Architects/download`, invoiceData);
       window.open(result.data.path, "_blank");
     } else {
       // to generate invoice
       let invoiceData = {
+        archId,
         subscriptionCode: temp2.reference,
         subscriptionName: temp2.name,
-        address1: form1.values.address_1,
         alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
         alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
@@ -537,7 +537,7 @@ const Register = () => {
           fabricantSub === "Alertes"
             ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
             : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-        paymentMode: "Card",
+        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
       };
       const result = await api("post", `/Providers/download`, invoiceData);
       window.open(result.data.path, "_blank");
@@ -548,9 +548,9 @@ const Register = () => {
     let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
     if (type === "Prescripteur") {
       let invoiceData = {
+        archId,
         subscriptionCode: temp2.reference,
         subscriptionName: temp2.name,
-        address1: form1.values.address_1,
         initialPrice: subAmounts.initial.price,
         initialCount: subAmounts.initial.count,
         extendedPrice: subAmounts.extended.price,
@@ -577,16 +577,16 @@ const Register = () => {
           subAmounts.initial.price * subAmounts.initial.count +
           subAmounts.extended.price * subAmounts.extended.count +
           subAmounts.pack.price * subAmounts.pack.count,
-        paymentMode: "Card",
+        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
       };
       const result = await api("post", `/Architects/quote/download`, invoiceData);
       window.open(result.data.path, "_blank");
     } else {
       // to generate invoice
       let invoiceData = {
+        archId,
         subscriptionCode: temp2.reference,
         subscriptionName: temp2.name,
-        address1: form1.values.address_1,
         alertPrice: fabricantSubAmounts.alert,
         alertCount: fabricantSub === "Alertes" ? 1 : 0,
         alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
@@ -600,7 +600,7 @@ const Register = () => {
           fabricantSub === "Alertes"
             ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
             : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-        paymentMode: "Card",
+        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
       };
       const result = await api("post", `/Providers/quote/download`, invoiceData);
       window.open(result.data.path, "_blank");
