@@ -59,18 +59,21 @@ export default function Index(props) {
   const [family, setFamily] = React.useState("");
 
   const handleModalClose = () => {
+    formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level1,
       AddChap0Level1: false,
     });
   };
   const handleModal2Close = () => {
+    level2_formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level2,
       AddChap0Level2: false,
     });
   };
   const handleModal3Close = () => {
+    level3_formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level3,
       AddChap0Level3: false,
@@ -170,6 +173,7 @@ export default function Index(props) {
     });
   };
   const handleEditModal = async (id) => {
+    edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level1,
       EditChap0Level1: false,
@@ -177,6 +181,7 @@ export default function Index(props) {
   };
 
   const handleEdit2Modal = async (id) => {
+    level2_edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level2,
       EditChap0Level2: false,
@@ -184,6 +189,7 @@ export default function Index(props) {
   };
 
   const handleEdit3Modal = async (id) => {
+    level3_edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level3,
       EditChap0Level3: false,
