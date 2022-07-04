@@ -43,3 +43,24 @@
   height: 38px;
   width: 163px;
 }
+
+.profile-label{
+  cursor: pointer;
+  position: relative !important;
+}
+
+.remove-pic{
+  text-transform: none !important;
+  border-radius: 2px !important;
+  white-space: nowrap !important;
+  background-color: rgba(140, 18, 68) !important;
+  box-shadow:rgb(55, 55, 55) 0px 0px 18px 0px !important;
+  position: absolute !important;
+  left: 7px;
+  opacity: 0;
+}
+
+.profile-label:hover >.remove-pic{
+  opacity: 1;
+  transition: all 0.5s ease 0s;
+}

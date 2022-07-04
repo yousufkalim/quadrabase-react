@@ -311,7 +311,7 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Create")}
+            {t("Update")}
           </Button>
         </div>
       </div>

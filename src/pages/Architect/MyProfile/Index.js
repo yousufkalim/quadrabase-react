@@ -79,7 +79,6 @@ const Index = () => {
     let form_data = new FormData();
     form_data.append(`file`, files[0]);
     const response = await api("post", `/fileUploader/`, form_data, t);
-    console.log("repsonse", response.data.files[0].uri);
     setValues({
       ...values,
       profile_pic: response.data.files[0].uri,
@@ -91,7 +90,7 @@ const Index = () => {
       <div style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}>
         <div className={classes.left_container}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <label style={{ cursor: "pointer" }}>
+            <label className="profile-label">
               <Avatar style={{ height: 100, width: 100 }} src={values.profile_pic && values.profile_pic} />
               <TextInput
                 type="file"
@@ -100,6 +99,18 @@ const Index = () => {
                 onChange={handleFileChange}
                 style={{ display: "none" }}
               />
+              <Button
+                variant="contained"
+                className="remove-pic"
+                onClick={() =>
+                  setValues({
+                    ...values,
+                    profile_pic: "",
+                  })
+                }
+              >
+                Remove
+              </Button>
             </label>
 
             <br />
@@ -107,7 +118,7 @@ const Index = () => {
               {store.user.first_name} {store.user.last_name}
             </Typography>
             <Typography color="textSecondary" variant="body1">
-              {t("Member Since")}: {moment(store.user.createdAt).format("MMMM DD, YYYY")}
+              {t("Member Since")}: {moment(store.user.createdAt).format("DD MMMM YYYY")}
             </Typography>
           </div>
         </div>
