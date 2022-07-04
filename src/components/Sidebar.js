@@ -63,7 +63,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-800 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:${
+          !sidebarExpanded ? `sidebar-expanded:` : ``
+        }!w-64 2xl:!w-64 flex-shrink-0 bg-gray-800 p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-64"
         }`}
       >
@@ -93,10 +95,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
           {/* Pages group */}
           <div>
             <h3 className="text-xs uppercase text-gray-500 font-semibold pl-3">
-              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
+              <span
+                className={`hidden lg:block lg:${!sidebarExpanded ? `sidebar-expanded:` : ``}hidden 2xl:hidden text-center w-6`}
+                aria-hidden="true"
+              >
                 •••
               </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">{translate("Pages")}</span>
+              <span className={`lg:hidden lg:${!sidebarExpanded ? `sidebar-expanded:` : ``}block 2xl:block`}>
+                {translate("Pages")}
+              </span>
             </h3>
             <ul className="mt-3">
               {/* Dashboard */}
@@ -110,7 +117,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 >
                   <div className="flex items-center">
                     <DashboardIcon className="text-gray-400" />
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("Dashboard")}
                     </span>
                   </div>
@@ -136,7 +147,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
                       />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("Admins")}
                     </span>
                   </div>
@@ -162,7 +177,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
                       />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("Architects")}
                     </span>
                   </div>
@@ -192,7 +211,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
                       />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("Providers")}
                     </span>
                   </div>
@@ -210,7 +233,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 >
                   <div className="flex items-center">
                     <InventoryIcon className="text-gray-500" />
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("Products")}
                     </span>
                   </div>
@@ -228,7 +255,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                 >
                   <div className="flex items-center">
                     <CloudIcon className="text-gray-500" />
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("File Manager")}
                     </span>
                   </div>
@@ -258,7 +289,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
                       />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                        !sidebarExpanded ? `sidebar-expanded:` : ``
+                      }opacity-100 2xl:opacity-100 duration-200`}
+                    >
                       {translate("General Libraries")}
                     </span>
                   </div>
@@ -283,7 +318,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <LibraryBooksIcon className="text-gray-500" />
-                            <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                            <span
+                              className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                                !sidebarExpanded ? `sidebar-expanded:` : ``
+                              }opacity-100 2xl:opacity-100 duration-200`}
+                            >
                               {translate("Sources")}
                             </span>
                           </div>
@@ -300,7 +339,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                           </div>
                         </div>
                       </a>
-                      <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                      <div className={`lg:${!sidebarExpanded ? `sidebar-expanded:` : ``}block 2xl:block`}>
                         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           {/* <li className="mb-1 last:mb-0">
                             <NavLink
@@ -308,7 +347,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/privateLibraries"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-medium lg:opacity-0 lg:${!sidebarExpanded?`sidebar-expanded:`:``}opacity-100 2xl:opacity-100 duration-200">
                                 {translate("Private Libraries")}
                               </span>
                             </NavLink>
@@ -319,7 +358,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/families"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("Families")}
                               </span>
                             </NavLink>
@@ -330,7 +373,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/units"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("Units")}
                               </span>
                             </NavLink>
@@ -341,7 +388,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/vat"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("VAT")}
                               </span>
                             </NavLink>
@@ -352,7 +403,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/cctp"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("CCTP")}
                               </span>
                             </NavLink>
@@ -363,7 +418,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/chap0"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("Chap0")}
                               </span>
                             </NavLink>
@@ -374,7 +433,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                               to="/admin/stakeholders"
                               className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
                             >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
                                 {translate("Stakeholders")}
                               </span>
                             </NavLink>
@@ -395,7 +458,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
           <div className="px-3 py-2">
             <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
               <span className="sr-only">Expand / collapse sidebar</span>
-              <svg className="w-6 h-6 fill-current sidebar-expanded:rotate-180" viewBox="0 0 24 24">
+              <svg
+                className={`w-6 h-6 fill-current ${!sidebarExpanded ? `sidebar-expanded:` : ``}rotate-180`}
+                viewBox="0 0 24 24"
+              >
                 <path className="text-gray-400" d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z" />
                 <path className="text-gray-600" d="M3 23H1V1h2z" />
               </svg>
