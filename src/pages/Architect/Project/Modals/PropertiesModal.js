@@ -149,6 +149,9 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
 
   const [options, setOptions] = useState([]);
   const [chapOptions, setChapOptions] = useState([]);
+  const [privateChapOptions, setPrivateChapOptions] = useState([]);
+  const [selectedPrivateChap, setSelectedPrivateChap] = useState("");
+  const [showPrivateChapList, setShowPrivateChapList] = useState(false);
   const [selectedFam, setSelectedFam] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
   const [typeValue, setTypeValue] = useState("");
@@ -286,9 +289,21 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       let tempChap = result.data.data.chap0.find((item) => item._id === currentProject.chap0part2[0].id.chap0);
       if (tempChap?.family) {
         setSelectedFam(tempChap.family);
+        setShowPrivateChapList(false);
       } else {
         let privateFam = familyOptions.find((item) => item.name.toUpperCase() === "PRESCRIPTEUR");
         setSelectedFam(privateFam._id);
+        let chap = [];
+        result.data.data.architectsChap0.forEach((item) => {
+          if (item.type === "private") {
+            chap.push(item);
+          }
+        });
+        if (chap) {
+          setPrivateChapOptions(chap);
+        }
+        setSelectedPrivateChap(currentProject?.chap0part2[0].id._id);
+        setShowPrivateChapList(true);
       }
     }
   };
@@ -616,13 +631,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   let chap = [];
                   chapOptions.architectsChap0.forEach((item) => {
                     if (item.type === "private") {
-                      chap.push(item._id);
+                      chap.push(item);
                     }
                   });
                   if (chap) {
-                    handleChange("chap0part2", chap);
-                  } else {
-                    toast.error(t("This family does not have a Chap. 0 part 2"));
+                    setPrivateChapOptions(chap);
+                    setShowPrivateChapList(true);
                   }
                 } else {
                   let chap = [];
@@ -636,9 +650,24 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                   } else {
                     toast.error(t("This family does not have a Chap. 0 part 2"));
                   }
+                  setShowPrivateChapList(false);
                 }
               }}
             />
+            <br />
+            {showPrivateChapList && (
+              <InputDropdown
+                label={t("Chap. 0 part 2")}
+                name="chap0part2"
+                value={selectedPrivateChap}
+                options={privateChapOptions}
+                type="text"
+                onChange={(e) => {
+                  setSelectedPrivateChap(e.target.value);
+                  handleChange("chap0part2", [e.target.value]);
+                }}
+              />
+            )}
             <br />
             <div>
               <Typography>* Mentions obligatoires</Typography>
@@ -648,14 +677,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
                 {t("Close")}
               </Button>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#3b373c",
-                  height: "35px",
-                }}
-                type="submit"
-              >
+              <Button variant="contained" className={classes.btn} type="submit">
                 {t("Update")}
               </Button>
             </div>
