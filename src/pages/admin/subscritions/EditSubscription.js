@@ -114,7 +114,7 @@ export default function AddExpense(props) {
           <TextInput
             type="text"
             placeholder="Rate"
-            label="Rate"
+            label="Price excl. VAT"
             name="price"
             translate={translate}
             onChange={formik.handleChange}
