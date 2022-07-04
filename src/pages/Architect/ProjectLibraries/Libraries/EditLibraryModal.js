@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import InputWithLabel from "../../../../components/Architect/InputWithLabel";
 import { useStyles } from "../../../../css/projectLibraries";
 import { Button, Grid } from "@mui/material";
-import InputWithOptions from "../../../../components/Architect/InputWithOptions";
 import TextEditor from "../../../../components/Architect/TextEditor";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";

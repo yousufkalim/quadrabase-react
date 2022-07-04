@@ -27,6 +27,10 @@ export default function MultipleSelect(props) {
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
           multiple
+          native={props.native}
+          open={props.open}
+          onOpen={props.onOpen}
+          onClose={props.onClose}
           required={props.required}
           value={props.value}
           onChange={props.handleChange}

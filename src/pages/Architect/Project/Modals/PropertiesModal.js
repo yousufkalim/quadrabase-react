@@ -168,6 +168,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   const [stakeholderText2, setStakeholderText2] = useState("");
   const [stakeholderByType2, setStakeholderByType2] = useState([]);
   const [selectedStakeholder2, setSelectedStakeholder2] = useState("");
+  const [openDropDown, setOpenDropDown] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -340,6 +341,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       prev.stakeholders = temp;
       return { ...prev };
     });
+    setOpenDropDown(false);
   };
 
   const removeStakeholder = (id) => {
@@ -735,6 +737,10 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                 value={values3.stakeholders}
                 handleChange={(e) => handleStakeholdersChange(e)}
                 options={stakeholderOptions}
+                native={false}
+                open={openDropDown}
+                onOpen={() => setOpenDropDown(true)}
+                onClose={() => setOpenDropDown(false)}
               />
             </Grid>
           </Grid>
