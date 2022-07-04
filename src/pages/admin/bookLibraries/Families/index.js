@@ -339,7 +339,7 @@ export default function Index(props) {
           <List
             data={familiesData}
             primaryKey="name"
-            secondaryKey="type"
+            secondaryKey="status"
             translate={translate}
             handleanchorEl={handleanchorEl}
             handleDelete={handleDeleteModal}

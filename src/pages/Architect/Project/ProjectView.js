@@ -643,7 +643,7 @@ const ProjectView = () => {
         temp.push(item);
       }
     });
-    setSelectedTranche(temp[0]._id);
+    setSelectedTranche(temp[0]?._id);
     setTranchesData(data);
   };
 
@@ -659,10 +659,11 @@ const ProjectView = () => {
     const inUse = tranchesData.find((item) => item.trade === selectedData.data._id);
     if (!inUse) {
       if (tradesData.length > 1) {
-        const result = await api("delete", `/Trades/${selectedData.data._id}`, {}, t);
+        const result = await api("delete", `/Trades/${selectedData.data._id}/${currentProject._id}`, {}, t);
         toast.success(t(result.data.message));
         handleOpenDeleteTradeModal();
         getTrades();
+        getworks();
       } else {
         toast.error(t("The last remaining Batch cannot be deleted."));
       }
@@ -674,10 +675,11 @@ const ProjectView = () => {
   // handle delete
   const handleTranchDelete = async () => {
     if (tranchesData.length > 1) {
-      const result = await api("delete", `/Tranches/${selectedData.data._id}`, {}, t);
+      const result = await api("delete", `/Tranches/${selectedData.data._id}/${currentProject._id}`, {}, t);
       toast.success(t(result.data.message));
       handleOpenDeleteTranchModal();
       getTranches();
+      getworks();
     } else {
       toast.error(t("The last remaining Slice cannot be deleted."));
     }

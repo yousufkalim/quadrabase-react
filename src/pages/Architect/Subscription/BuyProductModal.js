@@ -43,9 +43,9 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
   const generateQuote = async () => {
     let temp2 = productList.find((item) => item._id === selectedProduct);
     let invoiceData = {
+      archId: user._id,
       subscriptionCode: temp2.reference,
       subscriptionName: temp2.name,
-      address1: user.address_1,
       initialPrice: product.price,
       initialCount: count,
       extendedPrice: 0,
@@ -56,7 +56,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
       tvaPercentage: 20,
       tvaAmount: (product.price * count * 20) / 100,
       TotalCost: (product.price * count * 20) / 100 + product.price * count,
-      paymentMode: "Card",
+      paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
     };
     const result = await api("post", `/Architects/quote/download`, invoiceData);
     window.open(result.data.path, "_blank");
@@ -91,9 +91,9 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           count,
         },
         invoiceData: {
+          archId: user._id,
           subscriptionCode: temp2.reference,
           subscriptionName: temp2.name,
-          address1: user.address_1,
           initialPrice: product.price,
           initialCount: count,
           extendedPrice: 0,
@@ -104,7 +104,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           tvaPercentage: 20,
           tvaAmount: (product.price * count * 20) / 100,
           TotalCost: (product.price * count * 20) / 100 + product.price * count,
-          paymentMode: "Card",
+          paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
         },
       };
 
@@ -115,7 +115,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
 
   return (
     !loading && (
-      <div style={{ width: "35vw" }}>
+      <div style={{ width: "35vw", maxHeight: "85vh", overflow: "auto" }}>
         <div style={{ width: "90%" }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
@@ -360,7 +360,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           {/* Buttons */}
           <div
             style={{
-              width: "100%",
+              width: "110%",
               textAlign: "center",
               marginTop: 40,
             }}

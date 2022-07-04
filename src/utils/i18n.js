@@ -593,6 +593,8 @@ i18n
           "Folders deleted successfully": "Folders deleted successfully",
           Provider: "Provider",
           "No works found for this provider.": "No works found for this provider.",
+          "Rename folder": "Rename folder",
+          "Modify status": "Modify status",
         },
       },
       fr: {
@@ -1172,6 +1174,8 @@ i18n
           "Folders deleted successfully": "Dossiers supprimés avec succès",
           Provider: "Fabricant",
           "No works found for this provider.": "Aucune oeuvre trouvée pour ce fournisseur.",
+          "Rename folder": "Renommer le dossier",
+          "Modify status": "Modifier le statut",
         },
       },
     },

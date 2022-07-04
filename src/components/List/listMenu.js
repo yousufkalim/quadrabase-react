@@ -84,7 +84,7 @@ export default function CustomizedMenus(props) {
                 {translate("Bottom")}
               </MenuItem>
               <MenuItem onClick={handleStatus} disableRipple>
-                {translate("Status")}
+                {translate("Modify status")}
               </MenuItem>
             </div>
           </>
