@@ -335,7 +335,7 @@ export default function AddExpense(props) {
                   backgroundColor: selectedProvider._id == item._id && "lightgray",
                 }}
               >
-                {item.name}
+                {item.establishment}
               </h3>
             ))}
           </div>
@@ -369,7 +369,7 @@ export default function AddExpense(props) {
                   backgroundColor: selectedAssociatedProvider._id == item._id && "lightgray",
                 }}
               >
-                {item.name}
+                {item.establishment}
               </h3>
             ))}
           </div>
