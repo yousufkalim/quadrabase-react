@@ -153,7 +153,7 @@ const EditWorkModal = ({ selectedWork, currentProject, handleOpenEditWorkModal, 
             <InputDropdown
               name="unit"
               label={t("Unit")}
-              value={values.unit._id}
+              value={values?.unit?._id}
               onChange={(e) => handleChange(e.target.name, e.target.value)}
               options={options}
             />

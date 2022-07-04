@@ -30,7 +30,7 @@ export const useStyles = makeStyles({
     marginTop: "auto",
     marginBottom: "auto",
     textAlign: "left",
-    width: "35vw",
+    width: "30vw",
   },
   docViewer: {
     height: "400px !important",

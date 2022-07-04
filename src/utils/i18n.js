@@ -464,7 +464,7 @@ i18n
           "Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2":
             "Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2",
           "Project updated successfully": "Project updated successfully",
-          "Edit Chap. 0 part 2": "Edit Chap. 0 part 2",
+          "Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES": "Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES",
           "Add a Work": "Add a Work",
           "Select Work Details": "Select Work Details",
           "Project Properties": "Project Properties",
@@ -1056,7 +1056,7 @@ i18n
           "Select Stakeholder": "Sélectionnez un Intervenant",
           "Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2": "Le Chap0Part2 existe déjà.",
           "Project updated successfully": "Projet mis à jour avec succès",
-          "Edit Chap. 0 part 2": "Modifier Chap. 0 partie 2",
+          "Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES": "Modifier Chap0 part2 – CLAUSES COMMUNES",
           "Add a Work": "Ajouter un Ouvrage",
           "Select Work Details": "Sélectionnez les détails d'Ouvrage'",
           "Project Properties": "Propriétés du projet",

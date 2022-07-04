@@ -11,14 +11,7 @@ import { useStyles } from "../../../../css/projectLibraries";
 import { Button, Grid } from "@mui/material";
 
 // component
-const TranchesModal = ({
-  handleTranchesModal,
-  tranchesData,
-  getTranches,
-  tradeOption,
-  currentProject,
-  selectedTrade,
-}) => {
+const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOption, currentProject, selectedTrade }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [name, setName] = useState();
@@ -59,41 +52,27 @@ const TranchesModal = ({
       <form className={classes.smform} onSubmit={handleSubmit}>
         {/* All fields */}
         <br />
-        <Grid container spacing={2}>
-          <Grid item zeroMinWidth xs>
-            <InputWithLabel
-              label={t("Name")}
-              required={true}
-              name="text"
-              type="text"
-              value={name}
-              handleChange={(e) => setName(e.target.value)}
-            />
-          </Grid>
-          <Grid item zeroMinWidth xs>
-            <InputDropdown
-              options={tradeOption}
-              label={t("Trade")}
-              value={trade}
-              onChange={(e) => setTrade(e.target.value)}
-              backgroundColor="white"
-              required
-            />
-          </Grid>
-        </Grid>
-
+        <InputDropdown
+          options={tradeOption}
+          label={t("Trade")}
+          value={trade}
+          onChange={(e) => setTrade(e.target.value)}
+          backgroundColor="white"
+          required
+        />
         <br />
+        <InputWithLabel
+          label={t("Name")}
+          required={true}
+          name="text"
+          type="text"
+          value={name}
+          handleChange={(e) => setName(e.target.value)}
+        />
 
         {/* create button */}
         <div style={{ width: "100%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#3b373c",
-              height: "35px",
-            }}
-            onClick={handleTranchesModal}
-          >
+          <Button variant="contained" className={classes.btn} onClick={handleTranchesModal}>
             {t("Close")}
           </Button>
           &nbsp;&nbsp;

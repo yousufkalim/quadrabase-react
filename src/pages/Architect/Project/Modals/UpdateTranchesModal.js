@@ -55,14 +55,7 @@ const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranc
 
         {/* create button */}
         <div style={{ width: "100%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#3b373c",
-              height: "35px",
-            }}
-            onClick={handleOpenUpdateTranchesModal}
-          >
+          <Button variant="contained" className={classes.btn} onClick={handleOpenUpdateTranchesModal}>
             {t("Close")}
           </Button>
           &nbsp;&nbsp;

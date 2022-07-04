@@ -10,12 +10,7 @@ import { useStyles } from "../../../../css/projectLibraries";
 import { Button } from "@mui/material";
 
 // component
-const TradesModal = ({
-  handleTradesModal,
-  currentProject,
-  tradesData,
-  getTrades,
-}) => {
+const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [name, setName] = useState();
@@ -67,14 +62,7 @@ const TradesModal = ({
 
         {/* create button */}
         <div style={{ width: "100%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#3b373c",
-              height: "35px",
-            }}
-            onClick={handleTradesModal}
-          >
+          <Button variant="contained" className={classes.btn} onClick={handleTradesModal}>
             {t("Close")}
           </Button>
           &nbsp;&nbsp;

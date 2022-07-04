@@ -54,14 +54,7 @@ const UpdateTradesModal = ({ handleTradesModal, updateTrade, getTrades }) => {
 
         {/* create button */}
         <div style={{ width: "100%", textAlign: "right" }}>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "#3b373c",
-              height: "35px",
-            }}
-            onClick={handleTradesModal}
-          >
+          <Button variant="contained" className={classes.btn} onClick={handleTradesModal}>
             {t("Close")}
           </Button>
           &nbsp;&nbsp;

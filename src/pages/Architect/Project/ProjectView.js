@@ -1118,7 +1118,7 @@ const ProjectView = () => {
             }
           />
           <Modal
-            title={t("Edit Chap. 0 part 2")}
+            title={t("Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES")}
             open={openEditChap0Part2Modal}
             onClose={handleOpenEditChap0Part2Modal}
             component={

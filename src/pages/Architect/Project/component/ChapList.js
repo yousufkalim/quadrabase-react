@@ -61,7 +61,7 @@ export default function NestedList({
   setParentChap,
 }) {
   const { t } = useTranslation();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState("");
   const [anchorElLevel0, setAnchorElLevel0] = React.useState(null);
   const [menuItem0, setMenuItem0] = React.useState({});
