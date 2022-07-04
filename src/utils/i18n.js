@@ -595,6 +595,8 @@ i18n
           "No works found for this provider.": "No works found for this provider.",
           "Rename folder": "Rename folder",
           "Modify status": "Modify status",
+          "Type of Customer": "Type of Customer",
+          "Price excl. VAT": "Price excl. VAT",
         },
       },
       fr: {
@@ -1176,6 +1178,8 @@ i18n
           "No works found for this provider.": "Aucune oeuvre trouvée pour ce fournisseur.",
           "Rename folder": "Renommer le dossier",
           "Modify status": "Modifier le statut",
+          "Type of Customer": "Type de Client",
+          "Price excl. VAT": "Tarif H.T.",
         },
       },
     },

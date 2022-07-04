@@ -134,7 +134,7 @@ export const ProductheadCells = [
   {
     id: "product_type",
 
-    label: "Type",
+    label: "Type of Customer",
   },
   {
     id: "reference",
@@ -158,9 +158,9 @@ export const ProductheadCells = [
     label: "Projects",
   },
   {
-    id: "price",
+    id: "productPrice",
 
-    label: "Rate",
+    label: "Price excl. VAT",
   },
 
   {

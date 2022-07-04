@@ -25,6 +25,7 @@ import { visuallyHidden } from "@mui/utils";
 import WorkIcon from "@mui/icons-material/Work";
 import { useTranslation } from "react-i18next";
 import noLogo from "../../assets/nologo.png";
+import { formatNumber } from "../../utils/markThousand";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -309,6 +310,10 @@ export default function EnhancedTable(props) {
                         ) : record == "product_type" ? (
                           <TableCell align="center" title={row?.reference?.title}>
                             {t(row?.type)}
+                          </TableCell>
+                        ) : record == "productPrice" ? (
+                          <TableCell align="center" title={row?.reference?.title}>
+                            {formatNumber(parseFloat(row.price).toFixed(2).toString(), ".")}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="center" title={row[record]}>
