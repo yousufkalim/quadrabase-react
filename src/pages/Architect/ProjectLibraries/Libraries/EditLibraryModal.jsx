@@ -1,21 +1,20 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import { Store } from "../../../../StoreContext";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import { Store } from '../../../../StoreContext';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button, Grid } from "@mui/material";
-import InputWithOptions from "../../../../components/Architect/InputWithOptions";
-import TextEditor from "../../../../components/Architect/TextEditor";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button, Grid } from '@mui/material';
+import TextEditor from '../../../../components/Architect/TextEditor';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,7 +45,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
@@ -57,14 +56,14 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
   const store = Store();
   // states
   const [values, setValues] = useState({
-    name: "",
+    name: '',
     cctp_text: [],
-    type: "private",
+    type: 'private',
   });
-  const [cctp_text1, setcctp_text1] = React.useState("");
-  const [cctp_text2, setcctp_text2] = React.useState("");
-  const [cctp_text3, setcctp_text3] = React.useState("");
-  const [cctp_text4, setcctp_text4] = React.useState("");
+  const [cctp_text1, setcctp_text1] = React.useState('');
+  const [cctp_text2, setcctp_text2] = React.useState('');
+  const [cctp_text3, setcctp_text3] = React.useState('');
+  const [cctp_text4, setcctp_text4] = React.useState('');
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -79,7 +78,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
       setValues((prev) => {
         prev.name = library.name;
         prev.cctp_text = [];
-        prev.type = "private";
+        prev.type = 'private';
         return { ...prev };
       });
     library.cctp_text[0] && setcctp_text1(library.cctp_text[0]);
@@ -106,7 +105,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
     cctp_text3 && data.cctp_text.push(cctp_text3);
     cctp_text4 && data.cctp_text.push(cctp_text4);
     data.architect = store.user._id;
-    const result = await api("put", `/BookLibraries/update/${library._id}`, data, t);
+    const result = await api('put', `/BookLibraries/update/${library._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditLibrariesModal();
   };
@@ -119,7 +118,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
       <Grid container spacing={2}>
         <Grid item zeroMinWidth xs>
           <InputWithLabel
-            label={t("Name")}
+            label={t('Name')}
             required={true}
             name="name"
             type="text"
@@ -131,8 +130,8 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
       <br />
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
@@ -157,13 +156,13 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
       <br />
 
       {/* create button */}
-      <div style={{ width: "100%", textAlign: "right" }}>
+      <div style={{ width: '100%', textAlign: 'right' }}>
         <Button variant="contained" className={classes.btn} onClick={handleOpenEditLibrariesModal}>
-          {t("Close")}
-        </Button>{" "}
+          {t('Close')}
+        </Button>{' '}
         &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
-          {t("Update")}
+          {t('Update')}
         </Button>
       </div>
     </form>

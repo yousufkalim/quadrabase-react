@@ -1,34 +1,34 @@
-import React, { useEffect } from "react";
-import { useFormik } from "formik";
-import { WORK_STATE } from "../../../components/formik/initialValues";
-import { WORK_YUP } from "../../../components/formik/validations";
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
-import Notifier from "../../../utils/Notifier";
-import Button from "../../../components/Button";
-import TextInput from "../../../components/TextInput";
-import SelectField from "../../../components/SelectField";
+import React, { useEffect } from 'react';
+import { useFormik } from 'formik';
+import { WORK_STATE } from '../../../components/formik/initialValues';
+import { WORK_YUP } from '../../../components/formik/validations';
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
+import { getToken } from '../../../utils/Auth';
+import Notifier from '../../../utils/Notifier';
+import Button from '../../../components/Button';
+import TextInput from '../../../components/TextInput';
+import SelectField from '../../../components/SelectField';
 
-import { red, green } from "@mui/material/colors";
-import RichTextEditor from "../../../components/RichTextEditor";
+import { red, green } from '@mui/material/colors';
+import RichTextEditor from '../../../components/RichTextEditor';
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 
-import { TabPanel, a11yProps } from "../../../components/CCTPTabs";
-import { formatNumber } from "../../../utils/markThousand";
+import { TabPanel, a11yProps } from '../../../components/CCTPTabs';
+import { formatNumber } from '../../../utils/markThousand';
 
 export default function AddExpense(props) {
   const token = getToken();
   const { translate } = props;
   const [isLoading, setisLoading] = React.useState(false);
-  const [cctp_text1, setcctp_text1] = React.useState("");
-  const [cctp_text2, setcctp_text2] = React.useState("");
-  const [cctp_text3, setcctp_text3] = React.useState("");
-  const [cctp_text4, setcctp_text4] = React.useState("");
-  const [bpu_text, setbpu_text] = React.useState("");
+  const [cctp_text1, setcctp_text1] = React.useState('');
+  const [cctp_text2, setcctp_text2] = React.useState('');
+  const [cctp_text3, setcctp_text3] = React.useState('');
+  const [cctp_text4, setcctp_text4] = React.useState('');
+  const [bpu_text, setbpu_text] = React.useState('');
 
   const [UnitOptions, setUnitOptions] = React.useState([]);
   const [ProviderDataArr, setProviderDataArr] = React.useState([]);
@@ -39,9 +39,9 @@ export default function AddExpense(props) {
   const [ProviderOptions, setProviderOptions] = React.useState([]);
   const [filteredOptions, setFilteredOptions] = React.useState([]);
   const [associatedProviders, setAssociatedProviders] = React.useState([]);
-  const [selectedProvider, setSelectedProvider] = React.useState("");
-  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState("");
-  const [fileName, setFileName] = React.useState("");
+  const [selectedProvider, setSelectedProvider] = React.useState('');
+  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState('');
+  const [fileName, setFileName] = React.useState('');
   const [documents, setDocuments] = React.useState([]);
 
   const handleTabChange = (event, newValue) => {
@@ -62,7 +62,7 @@ export default function AddExpense(props) {
       cctp_text.push(cctp_text4);
       values.bpu_text = [bpu_text];
       values.cctp_text = cctp_text;
-      values.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+      values.unit_price = values.unit_price.replace(/\s/g, '').split(',').join('.');
       if (documents.length !== 0) {
         let tempProvider = [];
         ProviderDataArr.map((item) => {
@@ -83,7 +83,7 @@ export default function AddExpense(props) {
 
       try {
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editWork/${props.libraryId}`,
           data: values,
           headers: {
@@ -91,7 +91,7 @@ export default function AddExpense(props) {
           },
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         setisLoading(false);
         props.getLevel3(props.editData.category);
         props.handleClose();
@@ -99,16 +99,16 @@ export default function AddExpense(props) {
         formik.resetForm();
       } catch (err) {
         setisLoading(false);
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
   const getAllUnits = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Units`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -116,13 +116,13 @@ export default function AddExpense(props) {
       });
       setUnitOptions(response.data.units.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
-      console.log(error?.response?.data?.message, "error ");
+      console.log(error?.response?.data?.message, 'error ');
     }
   };
   const getAllProviders = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Providers`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ export default function AddExpense(props) {
       });
       setProviderOptions(response.data.providers);
     } catch (error) {
-      console.log(error?.response?.data?.message, "error ");
+      console.log(error?.response?.data?.message, 'error ');
     }
   };
   useEffect(() => {
@@ -155,9 +155,13 @@ export default function AddExpense(props) {
   };
 
   const handleRemoveProvider = () => {
-    let filteredData = associatedProviders.filter((item) => item._id !== selectedAssociatedProvider._id);
+    let filteredData = associatedProviders.filter(
+      (item) => item._id !== selectedAssociatedProvider._id
+    );
     setAssociatedProviders(filteredData);
-    let filteredProviderData = ProviderDataArr.filter((item) => item.provider !== selectedAssociatedProvider._id);
+    let filteredProviderData = ProviderDataArr.filter(
+      (item) => item.provider !== selectedAssociatedProvider._id
+    );
     setProviderDataArr(filteredProviderData);
     setFilteredOptions([...filteredOptions, selectedAssociatedProvider]);
   };
@@ -171,7 +175,7 @@ export default function AddExpense(props) {
     }
     try {
       let response = await Axios({
-        method: "post",
+        method: 'post',
         url: `${baseUrl}/fileUploader`,
         data: form_data,
       });
@@ -180,9 +184,9 @@ export default function AddExpense(props) {
       setDocuments(documents);
     } catch (error) {
       if (error.response) {
-        Notifier(error.response.data.message, "error");
+        Notifier(error.response.data.message, 'error');
       }
-      console.log(error?.response?.data?.message, "error ");
+      console.log(error?.response?.data?.message, 'error ');
     }
   };
   React.useEffect(() => {
@@ -192,14 +196,14 @@ export default function AddExpense(props) {
     if (editData && Object.keys(editData).length > 0) {
       Object.keys(editData).map((dat, i) => {
         if (Object.keys(initialValues).includes(dat)) {
-          if (dat == "cctp_text") {
+          if (dat == 'cctp_text') {
             setcctp_text1(editData[dat][0]);
             setcctp_text2(editData[dat][1]);
             setcctp_text3(editData[dat][2]);
             setcctp_text4(editData[dat][3]);
-          } else if (dat == "bpu_text") {
+          } else if (dat == 'bpu_text') {
             setbpu_text(props.editData.bpu_text[0]);
-          } else if (dat == "providers") {
+          } else if (dat == 'providers') {
             if (editData[dat].length > 0) {
               setProviderDataArr(editData[dat]);
               let temp = [];
@@ -217,13 +221,18 @@ export default function AddExpense(props) {
 
               setFilteredOptions(tempFilter);
               setAssociatedProviders(temp);
-              setFileName(editData?.providers[0]?.documents[0]?.uri.split("/").pop().split("-").pop());
+              setFileName(
+                editData?.providers[0]?.documents[0]?.uri.split('/').pop().split('-').pop()
+              );
               setDocuments(editData?.providers[0]?.documents);
             } else {
               setFilteredOptions(ProviderOptions);
             }
-          } else if (dat == "unit_price") {
-            formik.setFieldValue("unit_price", formatNumber(parseFloat(editData[dat]).toFixed(2).toString(), "."));
+          } else if (dat == 'unit_price') {
+            formik.setFieldValue(
+              'unit_price',
+              formatNumber(parseFloat(editData[dat]).toFixed(2).toString(), '.')
+            );
           } else {
             formik.setFieldValue(dat, editData[dat]);
           }
@@ -233,12 +242,18 @@ export default function AddExpense(props) {
   }, [props.editmodal, ProviderOptions]);
   const handleRemoveDocument = () => {
     setDocuments([]);
-    setFileName("");
+    setFileName('');
   };
   return (
     <form className="w-full  pt-1 pb-5">
       <div className="w-full mb-6 md:mb-0 mb-3">
-        <TextInput type="text" label={translate("Name")} name="name" onChange={formik.handleChange} value={formik.values.name} />
+        <TextInput
+          type="text"
+          label={translate('Name')}
+          name="name"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+        />
         <div className="text-red-600 ">
           {formik.touched.name && formik.errors.name ? <small>{formik.errors.name}</small> : null}
         </div>
@@ -247,27 +262,43 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ">
           <TextInput
             type="text"
-            label={translate("PU HT")}
+            label={translate('PU HT')}
             name="unit_price"
             onChange={formik.handleChange}
             value={formik.values.unit_price}
             onBlur={() => {
-              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
-              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+              let temp = formik.values.unit_price
+                .toString()
+                .replace(/\s/g, '')
+                .split(',')
+                .join('.');
+              formik.setFieldValue(
+                'unit_price',
+                formatNumber(parseFloat(temp).toFixed(2).toString(), '.')
+              );
             }}
             onFocus={() => {
-              let temp = formik.values.unit_price.toString().replace(/\s/g, "").split(",").join(".");
-              formik.setFieldValue("unit_price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+              let temp = formik.values.unit_price
+                .toString()
+                .replace(/\s/g, '')
+                .split(',')
+                .join('.');
+              formik.setFieldValue(
+                'unit_price',
+                formatNumber(parseFloat(temp).toFixed(2).toString(), '.')
+              );
             }}
           />
           <small className="text-red-600 ">
-            {formik.touched.unit_price && formik.errors.unit_price ? <small>{formik.errors.unit_price}</small> : null}
+            {formik.touched.unit_price && formik.errors.unit_price ? (
+              <small>{formik.errors.unit_price}</small>
+            ) : null}
           </small>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <SelectField
             name="unit"
-            label={translate("Select Unit")}
+            label={translate('Select Unit')}
             value={formik.values.unit}
             onChange={formik.handleChange}
             options={UnitOptions}
@@ -279,8 +310,8 @@ export default function AddExpense(props) {
       </div>
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="BPU" {...a11yProps(0)} />
             <Tab label="CCTP1" {...a11yProps(1)} />
@@ -306,16 +337,16 @@ export default function AddExpense(props) {
         </TabPanel>
       </Box>
       <div className="flex justify-between w-full">
-        <div style={{ width: "49%" }}>
+        <div style={{ width: '49%' }}>
           <div
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            {translate("Provider List")}
+            {translate('Provider List')}
             <Button
               onClick={handleAddPriovider}
               disabled={!selectedProvider}
-              label={translate("Add")}
+              label={translate('Add')}
               backgroundColor={green}
               default={false}
             />
@@ -323,32 +354,32 @@ export default function AddExpense(props) {
           <div
             style={{
               height: 180,
-              border: "1px solid black",
-              overflow: "auto",
+              border: '1px solid black',
+              overflow: 'auto',
             }}
           >
             {filteredOptions?.map((item) => (
               <h3
                 onClick={() => setSelectedProvider(item)}
                 style={{
-                  cursor: "pointer",
-                  backgroundColor: selectedProvider._id == item._id && "lightgray",
+                  cursor: 'pointer',
+                  backgroundColor: selectedProvider._id == item._id && 'lightgray',
                 }}
               >
-                {item.name}
+                {item.establishment}
               </h3>
             ))}
           </div>
         </div>
-        <div style={{ width: "49%" }}>
+        <div style={{ width: '49%' }}>
           <div
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
-            {translate("Associated Provider")}
+            {translate('Associated Provider')}
             <Button
               onClick={handleRemoveProvider}
-              label={translate("Remove")}
+              label={translate('Remove')}
               disabled={!selectedAssociatedProvider}
               backgroundColor={red}
               default={false}
@@ -357,19 +388,19 @@ export default function AddExpense(props) {
           <div
             style={{
               height: 180,
-              border: "1px solid black",
-              overflow: "auto",
+              border: '1px solid black',
+              overflow: 'auto',
             }}
           >
             {associatedProviders?.map((item) => (
               <h3
                 onClick={() => setSelectedAssociatedProvider(item)}
                 style={{
-                  cursor: "pointer",
-                  backgroundColor: selectedAssociatedProvider._id == item._id && "lightgray",
+                  cursor: 'pointer',
+                  backgroundColor: selectedAssociatedProvider._id == item._id && 'lightgray',
                 }}
               >
-                {item.name}
+                {item.establishment}
               </h3>
             ))}
           </div>
@@ -379,57 +410,72 @@ export default function AddExpense(props) {
       <div
         style={{
           marginTop: 10,
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <div style={{ width: "49%" }}>
+        <div style={{ width: '49%' }}>
           <div
             className="block tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-between items-center"
             htmlFor="grid-first-name"
           >
             Document
           </div>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             <div
               style={{
-                border: "1px solid gray",
+                border: '1px solid gray',
                 height: 35,
                 padding: 4,
                 borderRadius: 4,
-                backgroundColor: associatedProviders.length === 0 && "lightgray",
-                width: "100%",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                backgroundColor: associatedProviders.length === 0 && 'lightgray',
+                width: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               }}
             >
-              <label style={{ cursor: "pointer" }}>
-                {translate("Choose file")} - {fileName ? fileName : translate("no file chosen")}
+              <label style={{ cursor: 'pointer' }}>
+                {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
                 <TextInput
                   type="file"
                   placeholder="Document"
                   name="document"
                   onChange={handleFileChange}
                   multiple={true}
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   disabled={associatedProviders.length === 0}
                 />
               </label>
             </div>
             &nbsp;&nbsp;
-            <Button onClick={() => handleRemoveDocument()} label={translate("Remove")} backgroundColor={red} default={false} />
+            <Button
+              onClick={() => handleRemoveDocument()}
+              label={translate('Remove')}
+              backgroundColor={red}
+              default={false}
+            />
           </div>
         </div>
 
         <div className="flex">
           <div className="">
-            <Button onClick={() => props.handleClose()} label={translate("Close")} backgroundColor={red} default={false} />
+            <Button
+              onClick={() => props.handleClose()}
+              label={translate('Close')}
+              backgroundColor={red}
+              default={false}
+            />
           </div>
           <div className=" ml-3">
-            <Button onClick={formik.handleSubmit} disabled={isLoading} label={translate("Update")} default={true} />
+            <Button
+              onClick={formik.handleSubmit}
+              disabled={isLoading}
+              label={translate('Update')}
+              default={true}
+            />
           </div>
         </div>
       </div>

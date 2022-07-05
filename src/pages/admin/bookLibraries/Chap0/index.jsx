@@ -1,30 +1,34 @@
-import React, { useEffect } from "react";
-import UnitsTable from "../../../../components/Table";
-import Button from "../../../../components/Button";
-import AddIcon from "@mui/icons-material/Add";
-import Modal from "../../../../components/Modal";
-import DeleteModal from "../../../../components/DeleteModal";
-import Notifier from "../../../../utils/Notifier";
-import { useFormik } from "formik";
-import { CHAP0_STATE, CHAP0_Level2_STATE, CHAP0_Level3_STATE } from "../../../../components/formik/initialValues";
-import { CHAP0_YUP } from "../../../../components/formik/validations";
-import AddChap0 from "./AddChap0";
-import EditChap0 from "./EditChap0";
-import EditChap0Level2 from "./EditChap0Level2";
-import EditChap0Level3 from "./EditChap0Level3";
-import AddChap0Level2 from "./AddChap0Level2";
-import AddChap0Level3 from "./AddChap0Level3";
+import React, { useEffect } from 'react';
+import UnitsTable from '../../../../components/Table';
+import Button from '../../../../components/Button';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '../../../../components/Modal';
+import DeleteModal from '../../../../components/DeleteModal';
+import Notifier from '../../../../utils/Notifier';
+import { useFormik } from 'formik';
+import {
+  CHAP0_STATE,
+  CHAP0_Level2_STATE,
+  CHAP0_Level3_STATE,
+} from '../../../../components/formik/initialValues';
+import { CHAP0_YUP } from '../../../../components/formik/validations';
+import AddChap0 from './AddChap0';
+import EditChap0 from './EditChap0';
+import EditChap0Level2 from './EditChap0Level2';
+import EditChap0Level3 from './EditChap0Level3';
+import AddChap0Level2 from './AddChap0Level2';
+import AddChap0Level3 from './AddChap0Level3';
 
-import { Chap0headCells } from "../../../../utils/tableHeads";
-import Axios from "axios";
-import { baseUrl } from "../../../../utils/BaseUrl";
-import { getToken, getUser } from "../../../../utils/Auth";
+import { Chap0headCells } from '../../../../utils/tableHeads';
+import Axios from 'axios';
+import { baseUrl } from '../../../../utils/BaseUrl';
+import { getToken, getUser } from '../../../../utils/Auth';
 
-import List from "../../../../components/Chap0List/index";
-import ListMenu from "../../../../components/Chap0List/listMenu";
-import { Chap0Reducer } from "../reducer";
-import { initialState } from "../initialState";
-import actionTypes from "../actionTypes";
+import List from '../../../../components/Chap0List/index';
+import ListMenu from '../../../../components/Chap0List/listMenu';
+import { Chap0Reducer } from '../reducer';
+import { initialState } from '../initialState';
+import actionTypes from '../actionTypes';
 
 export default function Index(props) {
   const { translate } = props;
@@ -36,18 +40,18 @@ export default function Index(props) {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
-  const [headCells, setheadCells] = React.useState("");
-  const [text, setText] = React.useState("");
-  const [text2, setText2] = React.useState("");
-  const [text3, setText3] = React.useState("");
-  const [editText, setEditText] = React.useState("");
-  const [editText2, setEditText2] = React.useState("");
-  const [editText3, setEditText3] = React.useState("");
+  const [headCells, setheadCells] = React.useState('');
+  const [text, setText] = React.useState('');
+  const [text2, setText2] = React.useState('');
+  const [text3, setText3] = React.useState('');
+  const [editText, setEditText] = React.useState('');
+  const [editText2, setEditText2] = React.useState('');
+  const [editText3, setEditText3] = React.useState('');
 
-  const [adminId, setadminId] = React.useState("");
-  const [adminDeleteId, setadminDeleteId] = React.useState("");
-  const [deleteIdLevel2, setDeleteIdLevel2] = React.useState("");
-  const [deleteIdLevel3, setDeleteIdLevel3] = React.useState("");
+  const [adminId, setadminId] = React.useState('');
+  const [adminDeleteId, setadminDeleteId] = React.useState('');
+  const [deleteIdLevel2, setDeleteIdLevel2] = React.useState('');
+  const [deleteIdLevel3, setDeleteIdLevel3] = React.useState('');
 
   const [adminsData, setadminsData] = React.useState([]);
   const [chap0Level2Data, setChap0Level2Data] = React.useState([]);
@@ -56,21 +60,24 @@ export default function Index(props) {
   const [editData2, seteditData2] = React.useState([]);
   const [editData3, seteditData3] = React.useState([]);
   const [familyOptions, setFamilyOptions] = React.useState([]);
-  const [family, setFamily] = React.useState("");
+  const [family, setFamily] = React.useState('');
 
   const handleModalClose = () => {
+    formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level1,
       AddChap0Level1: false,
     });
   };
   const handleModal2Close = () => {
+    level2_formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level2,
       AddChap0Level2: false,
     });
   };
   const handleModal3Close = () => {
+    level3_formik.resetForm();
     dispatch({
       type: actionTypes.AddChap0Level3,
       AddChap0Level3: false,
@@ -99,7 +106,7 @@ export default function Index(props) {
   const handleDelete = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/Chap0/${adminDeleteId}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,9 +115,9 @@ export default function Index(props) {
       let temp = [];
       temp = adminsData.filter((dat) => dat._id !== adminDeleteId);
       setadminsData(temp);
-      Notifier("Chap0 Deleted!", "success", translate);
+      Notifier('Chap0 Deleted!', 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
     handleanchorElClose();
 
@@ -124,7 +131,7 @@ export default function Index(props) {
   const handleDelete2 = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/Chap0Level2/${deleteIdLevel2}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -133,9 +140,9 @@ export default function Index(props) {
       let temp = [];
       temp = chap0Level2Data.filter((dat) => dat._id !== deleteIdLevel2);
       setChap0Level2Data(temp);
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
     handleanchorElClose();
 
@@ -149,7 +156,7 @@ export default function Index(props) {
   const handleDelete3 = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/Chap0Level3/${deleteIdLevel3}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -158,9 +165,9 @@ export default function Index(props) {
       let temp = [];
       temp = chap0Level3Data.filter((dat) => dat._id !== deleteIdLevel3);
       setChap0Level3Data(temp);
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
     handleanchorElClose();
 
@@ -170,6 +177,7 @@ export default function Index(props) {
     });
   };
   const handleEditModal = async (id) => {
+    edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level1,
       EditChap0Level1: false,
@@ -177,6 +185,7 @@ export default function Index(props) {
   };
 
   const handleEdit2Modal = async (id) => {
+    level2_edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level2,
       EditChap0Level2: false,
@@ -184,6 +193,7 @@ export default function Index(props) {
   };
 
   const handleEdit3Modal = async (id) => {
+    level3_edit_formik.resetForm();
     dispatch({
       type: actionTypes.EditChap0Level3,
       EditChap0Level3: false,
@@ -193,7 +203,7 @@ export default function Index(props) {
   const getAdmins = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Chap0/`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -203,14 +213,14 @@ export default function Index(props) {
       let newData = data.filter((dat) => dat.email !== USER.email);
       setadminsData(newData.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
   const getFamilies = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Families/`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -218,13 +228,13 @@ export default function Index(props) {
       });
       let data = response.data.families.filter((item) => {
         let famName = item.name.toUpperCase();
-        return famName !== "PRESCRIPTEUR";
+        return famName !== 'PRESCRIPTEUR';
       });
 
       let newData = data.filter((dat) => dat.email !== USER.email);
       setFamilyOptions(newData.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
@@ -266,7 +276,7 @@ export default function Index(props) {
           values.ranking = 0;
         }
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/Chap0/create`,
           data: values,
           headers: {
@@ -274,15 +284,15 @@ export default function Index(props) {
           },
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleModalClose();
         getAdmins();
         formik.resetForm();
-        setFamily("");
+        setFamily('');
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -304,7 +314,7 @@ export default function Index(props) {
           values.family = null;
         }
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0/${adminId}`,
           data: values,
           headers: {
@@ -312,15 +322,15 @@ export default function Index(props) {
           },
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         getAdmins();
         handleEditModal();
         edit_formik.resetForm();
-        setFamily("");
+        setFamily('');
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -345,7 +355,7 @@ export default function Index(props) {
           values.ranking = 0;
         }
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/Chap0Level2/create`,
           data: values,
           headers: {
@@ -355,13 +365,13 @@ export default function Index(props) {
         let temp = chap0Level2Data;
         temp.push(response.data.chap0Level2);
         setChap0Level2Data(temp);
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleModal2Close();
         level2_formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -375,21 +385,21 @@ export default function Index(props) {
       try {
         values.text = editText2;
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level2/${LevelID}`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         getChap0Level2(adminsData.find((dat) => dat._id === editData2.parentLevel)._id);
         handleEdit2Modal();
         level2_edit_formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -414,7 +424,7 @@ export default function Index(props) {
           values.ranking = 0;
         }
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/Chap0Level3/create`,
           data: values,
           headers: {
@@ -424,13 +434,13 @@ export default function Index(props) {
         let temp = chap0Level3Data;
         temp.push(response.data.chap0Level3);
         setChap0Level3Data(temp);
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleModal3Close();
         level3_formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -444,29 +454,29 @@ export default function Index(props) {
       try {
         values.text = editText3;
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level3/${LevelID}`,
           data: values,
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         getChap0Level3(chap0Level2Data.find((dat) => dat._id === editData3.parentLevel)._id);
         handleEdit3Modal();
         level3_edit_formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
 
   // for list menu
   const openanchorEl = Boolean(state.Chap0AnchorEl);
-  const [Level, setLevel] = React.useState("");
-  const [LevelID, setLevelID] = React.useState("");
+  const [Level, setLevel] = React.useState('');
+  const [LevelID, setLevelID] = React.useState('');
   const handleanchorEl = (event, id, level, family) => {
     dispatch({
       type: actionTypes.Chap0AnchorEl,
@@ -476,21 +486,21 @@ export default function Index(props) {
 
     setLevelID(id);
     switch (level) {
-      case "Chap0Level1":
-        setTextAction("AddChap0Level1");
+      case 'Chap0Level1':
+        setTextAction('AddChap0Level1');
         setParentLevel(true);
         setFamily(family);
         break;
-      case "Chap0Level2":
-        setTextAction("AddChap0Level2");
+      case 'Chap0Level2':
+        setTextAction('AddChap0Level2');
         setParentLevel(false);
         break;
-      case "Chap0Level3":
-        setTextAction("AddChap0Level3");
+      case 'Chap0Level3':
+        setTextAction('AddChap0Level3');
         setParentLevel(false);
         break;
       default:
-        setTextAction("");
+        setTextAction('');
         break;
     }
   };
@@ -592,7 +602,7 @@ export default function Index(props) {
         default:
           break;
       }
-    } else if (Level == "lastLevel") {
+    } else if (Level == 'lastLevel') {
       switch (value) {
         case `Edit_lastLevel`:
           let filteredData = chap0Level3Data.find((data) => data._id == LevelID);
@@ -636,7 +646,7 @@ export default function Index(props) {
   const getChap0Level2 = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Chap0Level2/getbyParentId/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -644,14 +654,14 @@ export default function Index(props) {
       });
       setChap0Level2Data(response.data.chap0Level2.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
   const getChap0Level3 = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Chap0Level3/getbyParentId/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -659,7 +669,7 @@ export default function Index(props) {
       });
       setChap0Level3Data(response.data.chap0Level3.sort((a, b) => a.ranking - b.ranking));
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
@@ -675,7 +685,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
@@ -700,7 +710,7 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0/${id}`,
         data: { ranking: prevIndex },
         headers: {
@@ -708,7 +718,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -734,7 +744,7 @@ export default function Index(props) {
       let prev = tempArr[nextIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0/${id}`,
         data: { ranking: nextIndex },
         headers: {
@@ -742,7 +752,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -770,7 +780,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
@@ -799,7 +809,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level2/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
@@ -825,7 +835,7 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level2/${id}`,
         data: { ranking: prevIndex },
         headers: {
@@ -833,7 +843,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level2/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -859,7 +869,7 @@ export default function Index(props) {
       let prev = tempArr[nextIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level2/${id}`,
         data: { ranking: nextIndex },
         headers: {
@@ -867,7 +877,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level2/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -895,7 +905,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level2/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
@@ -924,7 +934,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level3/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
@@ -950,7 +960,7 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level3/${id}`,
         data: { ranking: prevIndex },
         headers: {
@@ -958,7 +968,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level3/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -984,7 +994,7 @@ export default function Index(props) {
       let prev = tempArr[nextIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level3/${id}`,
         data: { ranking: nextIndex },
         headers: {
@@ -992,7 +1002,7 @@ export default function Index(props) {
         },
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Chap0Level3/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
@@ -1020,7 +1030,7 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Chap0Level3/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
@@ -1040,7 +1050,7 @@ export default function Index(props) {
     <>
       {/* Level1 Modals*/}
       <Modal
-        title={translate("Add Chap0")}
+        title={translate('Add Chap0')}
         open={state.AddChap0Level1}
         onClose={handleModalClose}
         width="45%"
@@ -1060,7 +1070,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Edit Chap0")}
+        title={translate('Edit Chap0')}
         titleUpperCase={true}
         open={state.EditChap0Level1}
         width="45%"
@@ -1089,21 +1099,34 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleDeleteModal} handleDelete={handleDelete} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleDeleteModal}
+            handleDelete={handleDelete}
+          />
+        }
       />
       {/* Level 2 Modals */}
       <Modal
-        title={translate("Add Chap0 Level2")}
+        title={translate('Add Chap0 Level2')}
         open={state.AddChap0Level2}
         onClose={handleModal2Close}
         width="45%"
         buttonLabel="Create"
         onSubmit={level2_formik.handleSubmit}
         translate={translate}
-        component={<AddChap0Level2 translate={translate} formik={level2_formik} text={text2} setText={setText2} />}
+        component={
+          <AddChap0Level2
+            translate={translate}
+            formik={level2_formik}
+            text={text2}
+            setText={setText2}
+          />
+        }
       />
       <Modal
-        title={translate("Edit Chap0 Level2")}
+        title={translate('Edit Chap0 Level2')}
         titleUpperCase={true}
         open={state.EditChap0Level2}
         width="45%"
@@ -1127,21 +1150,34 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleDelete2Modal} handleDelete={handleDelete2} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleDelete2Modal}
+            handleDelete={handleDelete2}
+          />
+        }
       />
       {/* Level 3 Modals */}
       <Modal
-        title={translate("Add Chap0 Level3")}
+        title={translate('Add Chap0 Level3')}
         open={state.AddChap0Level3}
         onClose={handleModal3Close}
         width="45%"
         buttonLabel="Create"
         onSubmit={level3_formik.handleSubmit}
         translate={translate}
-        component={<AddChap0Level3 translate={translate} formik={level3_formik} text={text3} setText={setText3} />}
+        component={
+          <AddChap0Level3
+            translate={translate}
+            formik={level3_formik}
+            text={text3}
+            setText={setText3}
+          />
+        }
       />
       <Modal
-        title={translate("Edit Chap0 Level3")}
+        title={translate('Edit Chap0 Level3')}
         titleUpperCase={true}
         open={state.EditChap0Level3}
         width="45%"
@@ -1165,7 +1201,13 @@ export default function Index(props) {
         width="35%"
         translate={translate}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleDelete3Modal} handleDelete={handleDelete3} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleDelete3Modal}
+            handleDelete={handleDelete3}
+          />
+        }
       />
       <ListMenu
         onClick={handleanchorEl}
@@ -1175,7 +1217,7 @@ export default function Index(props) {
         anchorEl={state.Chap0AnchorEl}
         text={TextAction}
         level={Level}
-        id={"demo-customized-button"}
+        id={'demo-customized-button'}
         parentLevel={parentLevel}
         translate={translate}
         {...props}

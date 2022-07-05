@@ -1,25 +1,25 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import { Store } from "../../../../StoreContext";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import { Store } from '../../../../StoreContext';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button, Grid } from "@mui/material";
-import CustomButton from "../../../../components/Button";
-import TextEditor from "../../../../components/Architect/TextEditor";
-import InputDropdown from "../../../../components/Architect/InputDropdown";
-import TextInput from "../../../../components/TextInput";
-import { red, green } from "@mui/material/colors";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { formatNumber } from "../../../../utils/markThousand";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button, Grid } from '@mui/material';
+import CustomButton from '../../../../components/Button';
+import TextEditor from '../../../../components/Architect/TextEditor';
+import InputDropdown from '../../../../components/Architect/InputDropdown';
+import TextInput from '../../../../components/TextInput';
+import { red, green } from '@mui/material/colors';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { formatNumber } from '../../../../utils/markThousand';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,7 +50,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
@@ -60,25 +60,25 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   const classes = useStyles();
   // states
   const [values, setValues] = useState({
-    name: "",
-    unit: "",
+    name: '',
+    unit: '',
     unit_price: 0,
     cctp_text: [],
     bpu_text: [],
   });
   const [options, setOptions] = useState([]);
   const [ProviderOptions, setProviderOptions] = React.useState([]);
-  const [cctp_text1, setcctp_text1] = useState("");
-  const [cctp_text2, setcctp_text2] = useState("");
-  const [cctp_text3, setcctp_text3] = useState("");
-  const [cctp_text4, setcctp_text4] = useState("");
-  const [bpu_text1, setbpu_text1] = useState("");
+  const [cctp_text1, setcctp_text1] = useState('');
+  const [cctp_text2, setcctp_text2] = useState('');
+  const [cctp_text3, setcctp_text3] = useState('');
+  const [cctp_text4, setcctp_text4] = useState('');
+  const [bpu_text1, setbpu_text1] = useState('');
   const [ProviderDataArr, setProviderDataArr] = React.useState([]);
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
   const [associatedProviders, setAssociatedProviders] = React.useState([]);
-  const [selectedProvider, setSelectedProvider] = React.useState("");
-  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState("");
-  const [fileName, setFileName] = React.useState("");
+  const [selectedProvider, setSelectedProvider] = React.useState('');
+  const [selectedAssociatedProvider, setSelectedAssociatedProvider] = React.useState('');
+  const [fileName, setFileName] = React.useState('');
   const [documents, setDocuments] = React.useState([]);
 
   const handleTabChange = (event, newValue) => {
@@ -93,13 +93,13 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
 
   // func to getAll Units
   const getUnits = async () => {
-    const result = await api("get", `/Units/get`);
+    const result = await api('get', `/Units/get`);
     setOptions(result.data.units.sort((a, b) => a.ranking - b.ranking));
   };
 
   // func to getAll Providers
   const getAllProviders = async () => {
-    const result = await api("get", `/Providers/get/all`);
+    const result = await api('get', `/Providers/get/all`);
     setProviderOptions(result.data.providers);
   };
 
@@ -141,7 +141,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
     bpu_text1 && data.bpu_text.push(bpu_text1);
     data.categoryId = category;
     data.ranking = workData ? workData.length : 0;
-    data.unit_price = values.unit_price.replace(/\s/g, "").split(",").join(".");
+    data.unit_price = values.unit_price.replace(/\s/g, '').split(',').join('.');
     if (documents.length !== 0) {
       let tempProvider = [];
       ProviderDataArr.map((item) => {
@@ -155,7 +155,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
     } else {
       data.providers = ProviderDataArr;
     }
-    const result = await api("post", `/BookLibraries/add/Work`, data, t);
+    const result = await api('post', `/BookLibraries/add/Work`, data, t);
     toast.success(t(result.data.message));
     handleOpenAddWorkModal();
   };
@@ -177,9 +177,13 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   };
 
   const handleRemoveProvider = () => {
-    let filteredData = associatedProviders.filter((item) => item._id !== selectedAssociatedProvider._id);
+    let filteredData = associatedProviders.filter(
+      (item) => item._id !== selectedAssociatedProvider._id
+    );
     setAssociatedProviders(filteredData);
-    let filteredProviderData = ProviderDataArr.filter((item) => item.provider !== selectedAssociatedProvider._id);
+    let filteredProviderData = ProviderDataArr.filter(
+      (item) => item.provider !== selectedAssociatedProvider._id
+    );
     setProviderDataArr(filteredProviderData);
     setProviderOptions([...ProviderOptions, selectedAssociatedProvider]);
   };
@@ -192,7 +196,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       form_data.append(`file`, files[i]);
     }
 
-    const response = await api("post", `/fileUploader/`, form_data, t);
+    const response = await api('post', `/fileUploader/`, form_data, t);
     let documents = response.data.files;
     setFileName(files[0].name);
     setDocuments(documents);
@@ -205,7 +209,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       <br />
       <Grid item zeroMinWidth xs>
         <InputWithLabel
-          label={t("Name")}
+          label={t('Name')}
           required={true}
           name="name"
           type="text"
@@ -213,6 +217,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
           handleChange={(e) => handleChange(e.target.name, e.target.value)}
         />
       </Grid>
+      <br />
       <Grid container spacing={2}>
         <Grid item zeroMinWidth xs>
           <InputWithLabel
@@ -222,16 +227,16 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
             handleChange={(e) => handleChange(e.target.name, e.target.value)}
             required={true}
             onBlur={() => {
-              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              let temp = values.unit_price.replace(/\s/g, '').split(',').join('.');
               setValues((prev) => {
-                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                prev['unit_price'] = formatNumber(parseFloat(temp).toFixed(2).toString(), '.');
                 return { ...prev };
               });
             }}
             onFocus={() => {
-              let temp = values.unit_price.replace(/\s/g, "").split(",").join(".");
+              let temp = values.unit_price.replace(/\s/g, '').split(',').join('.');
               setValues((prev) => {
-                prev["unit_price"] = formatNumber(parseFloat(temp).toFixed(2).toString(), ".");
+                prev['unit_price'] = formatNumber(parseFloat(temp).toFixed(2).toString(), '.');
                 return { ...prev };
               });
             }}
@@ -240,7 +245,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
         <Grid item zeroMinWidth xs>
           <InputDropdown
             name="unit"
-            label={t("Unit")}
+            label={t('Unit')}
             value={values.unit}
             onChange={(e) => handleChange(e.target.name, e.target.value)}
             options={options}
@@ -250,8 +255,8 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       </Grid>
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="BPU" {...a11yProps(0)} />
             <Tab label="CCTP1" {...a11yProps(1)} />
@@ -281,17 +286,21 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
       <div
         style={{
           marginTop: 10,
-          width: "100%",
-          textAlign: "right",
+          width: '100%',
+          textAlign: 'right',
         }}
       >
         <div>
-          <Button variant="contained" className={classes.btn} onClick={() => handleOpenAddWorkModal()}>
-            {t("Close")}
+          <Button
+            variant="contained"
+            className={classes.btn}
+            onClick={() => handleOpenAddWorkModal()}
+          >
+            {t('Close')}
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Create")}
+            {t('Create')}
           </Button>
         </div>
       </div>

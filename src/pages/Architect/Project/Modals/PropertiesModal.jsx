@@ -1,37 +1,37 @@
 // init
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useStyles } from "../../../../css/projectView";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import styled from "@emotion/styled";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useStyles } from '../../../../css/projectView';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 
 // components
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { Button, Grid } from "@mui/material";
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import InputDropdown from "../../../../components/Architect/InputDropdown";
-import RowRadioButtonsGroup from "../component/RadioGroup";
-import InputWithOptions from "../../../../components/Architect/InputWithOptions";
-import { TextField } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import Autocomplete from "../../../../components/Architect/Autocomplete";
-import EditStakholder from "./EditStakholder";
-import Modal from "../../../../components/Architect/Modal";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { Button, Grid } from '@mui/material';
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import InputDropdown from '../../../../components/Architect/InputDropdown';
+import RowRadioButtonsGroup from '../component/RadioGroup';
+import InputWithOptions from '../../../../components/Architect/InputWithOptions';
+import { TextField } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import Autocomplete from '../../../../components/Architect/Autocomplete';
+import EditStakholder from './EditStakholder';
+import Modal from '../../../../components/Architect/Modal';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const Textarea = styled.textarea`
   margin-right: 4rem;
@@ -62,31 +62,31 @@ const Textarea = styled.textarea`
 
 const TOC = [
   {
-    value: "Simple",
-    label: "Simple",
+    value: 'Simple',
+    label: 'Simple',
   },
   {
-    value: "Trades",
-    label: "Trades",
+    value: 'Trades',
+    label: 'Trades',
   },
   {
-    value: "TradesAndTranches",
-    label: "Trades And Tranches",
+    value: 'TradesAndTranches',
+    label: 'Trades And Tranches',
   },
   {
-    value: "PurchaseOrder",
-    label: "Purchase Order",
+    value: 'PurchaseOrder',
+    label: 'Purchase Order',
   },
 ];
 
 const TOP = [
   {
-    value: "DQEAndBPU",
-    label: "DQE & BPU",
+    value: 'DQEAndBPU',
+    label: 'DQE & BPU',
   },
   {
-    value: "DPGF",
-    label: "DPGF",
+    value: 'DPGF',
+    label: 'DPGF',
   },
 ];
 
@@ -119,29 +119,34 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
 // component
-const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject, familyOptions }) => {
+const PropertiesModal = ({
+  handleOpenPropertiesModal,
+  currentProject,
+  getProject,
+  familyOptions,
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
   //  States
   const [values, setValues] = useState({
-    name: "",
-    prescriber: "",
-    vat: "",
-    reference: "",
-    description: "",
+    name: '',
+    prescriber: '',
+    vat: '',
+    reference: '',
+    description: '',
     chap0part2: [],
     architectStakeholder: [],
   });
 
   const [values2, setValues2] = useState({
-    market_type: "Simple",
-    structure: "DQEAndBPU",
+    market_type: 'Simple',
+    structure: 'DQEAndBPU',
   });
   const [values3, setValues3] = useState({
     stakeholders: [],
@@ -149,22 +154,26 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
 
   const [options, setOptions] = useState([]);
   const [chapOptions, setChapOptions] = useState([]);
-  const [selectedFam, setSelectedFam] = useState("");
+  const [privateChapOptions, setPrivateChapOptions] = useState([]);
+  const [selectedPrivateChap, setSelectedPrivateChap] = useState('');
+  const [showPrivateChapList, setShowPrivateChapList] = useState(false);
+  const [selectedFam, setSelectedFam] = useState('');
   const [typeOptions, setTypeOptions] = useState([]);
-  const [typeValue, setTypeValue] = useState("");
+  const [typeValue, setTypeValue] = useState('');
   const [stakeholderOptions, setStakeholderOptions] = useState([]);
   const [allStakeholderOptions, setAllStakeholderOptions] = useState([]);
   const [value, setValue] = useState(0);
   const [editStakeholderModal, setEditStakeholderModal] = useState(false);
   const [editStakeholder, setEditStakeholder] = useState({});
 
-  const [stakeholderText, setStakeholderText] = useState("");
+  const [stakeholderText, setStakeholderText] = useState('');
   const [stakeholderByType1, setStakeholderByType1] = useState([]);
-  const [selectedStakeholder, setSelectedStakeholder] = useState("");
+  const [selectedStakeholder, setSelectedStakeholder] = useState('');
 
-  const [stakeholderText2, setStakeholderText2] = useState("");
+  const [stakeholderText2, setStakeholderText2] = useState('');
   const [stakeholderByType2, setStakeholderByType2] = useState([]);
-  const [selectedStakeholder2, setSelectedStakeholder2] = useState("");
+  const [selectedStakeholder2, setSelectedStakeholder2] = useState('');
+  const [openDropDown, setOpenDropDown] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -191,8 +200,8 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
         prev.name = currentProject?.name;
         prev.prescriber = currentProject?.prescriber;
         prev.vat = currentProject?.vat?._id;
-        prev.reference = currentProject?.reference ? currentProject?.reference : "";
-        prev.description = currentProject?.description ? currentProject?.description : "";
+        prev.reference = currentProject?.reference ? currentProject?.reference : '';
+        prev.description = currentProject?.description ? currentProject?.description : '';
         let temp = [];
         currentProject?.chap0part2?.map((item) => {
           temp.push(item.id._id);
@@ -235,13 +244,16 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   }, [editStakeholderModal]);
 
   const getCurrentType = async () => {
-    const result = await api("get", `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]._id}`);
+    const result = await api(
+      'get',
+      `/StakeholderTypes/getByStakeholder/${currentProject?.stakeholders[0]._id}`
+    );
     setTypeValue(result.data.type._id);
   };
 
   // func to getAll Units
   const getTypes = async () => {
-    const result = await api("get", `/StakeholderTypes/`);
+    const result = await api('get', `/StakeholderTypes/`);
     const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
     setTypeOptions(data);
     const selected = data.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
@@ -251,44 +263,58 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   //   func to get stakeholders
   const getStakeholders = async () => {
     if (typeValue) {
-      const result = await api("get", `/Stakeholders/getByType/${typeValue}`);
+      const result = await api('get', `/Stakeholders/getByType/${typeValue}`);
       setStakeholderOptions(result.data.stakeholder.sort((a, b) => a.ranking - b.ranking));
     }
   };
 
   //   func to get stakeholders
   const getStakeholders2 = async () => {
-    const result = await api("get", `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
+    const result = await api('get', `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
     setStakeholderByType1(result.data.stakeholders);
-    const result2 = await api("get", `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
+    const result2 = await api('get', `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
     setStakeholderByType2(result2.data.stakeholders);
   };
 
   //   func to get stakeholders
   const getAllStakeholders = async () => {
-    const result = await api("get", `/Stakeholders/`);
+    const result = await api('get', `/Stakeholders/`);
     let data = result.data.stakeholders.sort((a, b) => a.ranking - b.ranking);
     setAllStakeholderOptions(data);
   };
 
   //   func to get vat
   const getVat = async () => {
-    const result = await api("get", `/VAT/getAll`);
+    const result = await api('get', `/VAT/getAll`);
     setOptions(result?.data?.vat.sort((a, b) => a.ranking - b.ranking));
   };
 
   //   func to get Chap0Part2Data
   const getChap0Part2 = async () => {
-    const result = await api("get", `/ArchitectsChap0/current/getByProject`);
+    const result = await api('get', `/ArchitectsChap0/current/getByProject`);
     setChapOptions(result.data.data);
 
     if (currentProject?.chap0part2?.length > 0) {
-      let tempChap = result.data.data.chap0.find((item) => item._id === currentProject.chap0part2[0].id.chap0);
+      let tempChap = result.data.data.chap0.find(
+        (item) => item._id === currentProject.chap0part2[0].id.chap0
+      );
       if (tempChap?.family) {
         setSelectedFam(tempChap.family);
+        setShowPrivateChapList(false);
       } else {
-        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === "PRESCRIPTEUR");
+        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === 'PRESCRIPTEUR');
         setSelectedFam(privateFam._id);
+        let chap = [];
+        result.data.data.architectsChap0.forEach((item) => {
+          if (item.type === 'private') {
+            chap.push(item);
+          }
+        });
+        if (chap) {
+          setPrivateChapOptions(chap);
+        }
+        setSelectedPrivateChap(currentProject?.chap0part2[0].id._id);
+        setShowPrivateChapList(true);
       }
     }
   };
@@ -314,7 +340,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
     const {
       target: { value },
     } = event;
-    let temp = typeof value === "string" ? value.split(",") : value;
+    let temp = typeof value === 'string' ? value.split(',') : value;
     if (values3.stakeholders.length < value.length) {
       let newVal = temp[temp.length - 1];
       let compArr = stakeholderOptions.map((item) => item._id);
@@ -325,6 +351,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       prev.stakeholders = temp;
       return { ...prev };
     });
+    setOpenDropDown(false);
   };
 
   const removeStakeholder = (id) => {
@@ -347,7 +374,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       data.client = selectedStakeholder;
     } else {
       const result = await api(
-        "put",
+        'put',
         `/stakeholders/${currentProject?.client._id}`,
         {
           establishment: stakeholderText,
@@ -361,7 +388,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       data.prescriber = selectedStakeholder2;
     } else {
       const result = await api(
-        "put",
+        'put',
         `/stakeholders/${currentProject?.prescriber._id}`,
         {
           establishment: stakeholderText2,
@@ -378,17 +405,17 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       data?.chap0part2?.map((item2) => {
         chapOptions?.architectsChap0?.map((item) => {
           if (item._id == item2) {
-            item2 = { id: item2, status: "selected" };
+            item2 = { id: item2, status: 'selected' };
           }
         });
         if (!item2.status) {
-          item2 = { id: item2, status: "modified" };
+          item2 = { id: item2, status: 'modified' };
         }
         temp.push(item2);
       });
       data.chap0part2 = temp;
     }
-    const result = await api("put", `/project/${currentProject._id}`, data, t);
+    const result = await api('put', `/project/${currentProject._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenPropertiesModal();
     getProject();
@@ -397,14 +424,14 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   //   handle submit
   const handleSubmit2 = async (e) => {
     e.preventDefault();
-    const result = await api("put", `/project/${currentProject._id}`, values2, t);
+    const result = await api('put', `/project/${currentProject._id}`, values2, t);
     toast.success(t(result.data.message));
     handleOpenPropertiesModal();
     getProject();
   };
   //   handle submit
   const handleSubmit3 = async () => {
-    const result = await api("put", `/project/${currentProject._id}`, values3, t);
+    const result = await api('put', `/project/${currentProject._id}`, values3, t);
     toast.success(t(result.data.message));
     handleOpenPropertiesModal();
     getProject();
@@ -423,7 +450,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
   // for dropdown menu
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [stakeId, setStakeId] = useState("");
+  const [stakeId, setStakeId] = useState('');
   const open = Boolean(anchorEl);
   const handleClick = (event, row, id) => {
     setEditStakeholder(row);
@@ -442,11 +469,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
-      api("put", `/stakeholders/${id}`, {
+      api('put', `/stakeholders/${id}`, {
         workId: id,
         ranking: prevIndex,
       }).then(() => {
-        api("put", `/stakeholders/${step3Values[prevIndex]._id}`, {
+        api('put', `/stakeholders/${step3Values[prevIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
@@ -467,11 +494,11 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
       let tempArr = [...step3Values];
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
-      api("put", `/stakeholders/${id}`, {
+      api('put', `/stakeholders/${id}`, {
         workId: id,
         ranking: nextIndex,
       }).then(() => {
-        api("put", `/stakeholders/${step3Values[nextIndex]._id}`, {
+        api('put', `/stakeholders/${step3Values[nextIndex]._id}`, {
           workId: prev._id,
           ranking: filteredIndex,
         }).then(() => {
@@ -486,7 +513,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
 
   return (
     !loading && (
-      <Box sx={{ width: "60vw", maxHeight: "80vh", overflow: "auto" }}>
+      <Box sx={{ width: '60vw', maxHeight: '80vh', overflow: 'auto' }}>
         <Menu
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"
@@ -494,12 +521,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
           open={open}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           sx={{ mt: 2.5 }}
         >
@@ -509,14 +536,14 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               handleEditStakeholderModal();
             }}
           >
-            {t("Edit")}
+            {t('Edit')}
           </MenuItem>
-          <MenuItem onClick={() => removeStakeholder(stakeId)}>{t("Delete")}</MenuItem>
-          <MenuItem onClick={() => handleStakeholderUp(stakeId)}>{t("Up")}</MenuItem>
-          <MenuItem onClick={() => handleStakeholderDown(stakeId)}>{t("Down")}</MenuItem>
+          <MenuItem onClick={() => removeStakeholder(stakeId)}>{t('Delete')}</MenuItem>
+          <MenuItem onClick={() => handleStakeholderUp(stakeId)}>{t('Up')}</MenuItem>
+          <MenuItem onClick={() => handleStakeholderDown(stakeId)}>{t('Down')}</MenuItem>
         </Menu>
         <Modal
-          title={t("Edit Stakeholder")}
+          title={t('Edit Stakeholder')}
           open={editStakeholderModal}
           onClose={handleEditStakeholderModal}
           component={
@@ -527,18 +554,18 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             />
           }
         />
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleTabChange}>
-            <Tab label={t("Project References")} {...a11yProps(0)} />
-            <Tab label={t("Market Type / Structure")} {...a11yProps(1)} />
-            <Tab label={t("Stakeholders")} {...a11yProps(2)} />
+            <Tab label={t('Project References')} {...a11yProps(0)} />
+            <Tab label={t('Market Type / Structure')} {...a11yProps(1)} />
+            <Tab label={t('Stakeholders')} {...a11yProps(2)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
           <form className={classes.form} onSubmit={handleSubmit}>
             {/* All fields */}
             <InputWithLabel
-              label={t("Project Name")}
+              label={t('Project Name')}
               name="name"
               type="text"
               value={values.name}
@@ -571,7 +598,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
               </Grid>
               <Grid item zeroMinWidth xs={4}>
                 <InputDropdown
-                  label={t("VAT")}
+                  label={t('VAT')}
                   required={true}
                   name="vat"
                   value={values.vat}
@@ -583,7 +610,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             </Grid>
             <br />
             <InputWithLabel
-              label={t("Reference")}
+              label={t('Reference')}
               name="reference"
               type="text"
               value={values.reference}
@@ -591,8 +618,8 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             />
             <br />
             <br />
-            <label htmlFor="grid-first-name" style={{ color: "gray" }}>
-              {t("Description")}
+            <label htmlFor="grid-first-name" style={{ color: 'gray' }}>
+              {t('Description')}
             </label>
             <Textarea
               name="description"
@@ -603,7 +630,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             <br />
             <br />
             <InputDropdown
-              label={t("Chap. 0 part 2")}
+              label={t('Chap. 0 part 2')}
               name="chap0part2"
               value={selectedFam}
               options={familyOptions}
@@ -612,17 +639,16 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                 setSelectedFam(e.target.value);
                 let tempFam = familyOptions.find((item) => item._id === e.target.value);
                 let famName = tempFam.name.toUpperCase();
-                if (famName === "PRESCRIPTEUR") {
+                if (famName === 'PRESCRIPTEUR') {
                   let chap = [];
                   chapOptions.architectsChap0.forEach((item) => {
-                    if (item.type === "private") {
-                      chap.push(item._id);
+                    if (item.type === 'private') {
+                      chap.push(item);
                     }
                   });
                   if (chap) {
-                    handleChange("chap0part2", chap);
-                  } else {
-                    toast.error(t("This family does not have a Chap. 0 part 2"));
+                    setPrivateChapOptions(chap);
+                    setShowPrivateChapList(true);
                   }
                 } else {
                   let chap = [];
@@ -632,31 +658,43 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                     }
                   });
                   if (chap) {
-                    handleChange("chap0part2", chap);
+                    handleChange('chap0part2', chap);
                   } else {
-                    toast.error(t("This family does not have a Chap. 0 part 2"));
+                    toast.error(t('This family does not have a Chap. 0 part 2'));
                   }
+                  setShowPrivateChapList(false);
                 }
               }}
             />
+            <br />
+            {showPrivateChapList && (
+              <InputDropdown
+                label={t('Chap. 0 part 2')}
+                name="chap0part2"
+                value={selectedPrivateChap}
+                options={privateChapOptions}
+                type="text"
+                onChange={(e) => {
+                  setSelectedPrivateChap(e.target.value);
+                  handleChange('chap0part2', [e.target.value]);
+                }}
+              />
+            )}
             <br />
             <div>
               <Typography>* Mentions obligatoires</Typography>
             </div>
             {/* register button */}
-            <div style={{ width: "100%", textAlign: "right" }}>
-              <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
-                {t("Close")}
-              </Button>
+            <div style={{ width: '100%', textAlign: 'right' }}>
               <Button
                 variant="contained"
-                style={{
-                  backgroundColor: "#3b373c",
-                  height: "35px",
-                }}
-                type="submit"
+                className={classes.btn}
+                onClick={handleOpenPropertiesModal}
               >
-                {t("Update")}
+                {t('Close')}
+              </Button>
+              <Button variant="contained" className={classes.btn} type="submit">
+                {t('Update')}
               </Button>
             </div>
           </form>
@@ -666,7 +704,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             {/* All fields */}
             <RowRadioButtonsGroup
               row={true}
-              label={t("Type Of Contract")}
+              label={t('Type Of Contract')}
               data={TOC}
               value={values2.market_type}
               name="market_type"
@@ -676,19 +714,23 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             <br />
             <RowRadioButtonsGroup
               row={true}
-              label={t("Type Of Project")}
+              label={t('Type Of Project')}
               data={TOP}
               value={values2.structure}
               name="structure"
               handleChange={(e) => handleChange2(e.target.name, e.target.value)}
             />
             {/* register button */}
-            <div style={{ width: "100%", textAlign: "right" }}>
-              <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
-                {t("Close")}
+            <div style={{ width: '100%', textAlign: 'right' }}>
+              <Button
+                variant="contained"
+                className={classes.btn}
+                onClick={handleOpenPropertiesModal}
+              >
+                {t('Close')}
               </Button>
               <Button variant="contained" className={classes.btn} type="submit">
-                {t("Update")}
+                {t('Update')}
               </Button>
             </div>
           </form>
@@ -698,7 +740,7 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             <Grid item zeroMinWidth xs>
               <InputDropdown
                 name="type"
-                label={t("Select a type of stakeholder")}
+                label={t('Select a type of stakeholder')}
                 value={typeValue}
                 onChange={(e) => setTypeValue(e.target.value)}
                 options={typeOptions}
@@ -707,85 +749,89 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
             </Grid>
             <Grid item zeroMinWidth xs>
               <InputWithOptions
-                label={t("Select Stakeholder")}
+                label={t('Select Stakeholder')}
                 required={true}
                 name="family"
                 value={values3.stakeholders}
                 handleChange={(e) => handleStakeholdersChange(e)}
                 options={stakeholderOptions}
+                native={false}
+                open={openDropDown}
+                onOpen={() => setOpenDropDown(true)}
+                onClose={() => setOpenDropDown(false)}
               />
             </Grid>
           </Grid>
           <br />
           <TableContainer component={Paper}>
-            <Table sx={{ width: "100%" }} aria-label="simple table">
-              <TableHead sx={{ bgcolor: "#3b373c" }}>
-                <TableRow sx={{ whiteSpace: "nowrap" }}>
+            <Table sx={{ width: '100%' }} aria-label="simple table">
+              <TableHead sx={{ bgcolor: '#3b373c' }}>
+                <TableRow sx={{ whiteSpace: 'nowrap' }}>
                   <TableCell
                     sx={{
-                      color: "white",
+                      color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
                       width: 140,
                     }}
                   >
-                    {t("Type of stakeholder")}
+                    {t('Type of stakeholder')}
                   </TableCell>
                   <TableCell
                     align="left"
                     sx={{
-                      color: "white",
+                      color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
                       width: 160,
                     }}
                   >
-                    {t("Name of stakeholder")}
+                    {t('Name of stakeholder')}
                   </TableCell>
                   <TableCell
                     sx={{
-                      color: "white",
+                      color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
                       width: 140,
                     }}
                   >
-                    {t("Address 1")}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    sx={{
-                      color: "white",
-                      fontWeight: 900,
-                      fontSize: 12,
-                      width: 140,
-                    }}
-                  >
-                    {t("Address 2")}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "white",
-                      fontWeight: 900,
-                      fontSize: 12,
-                      width: 140,
-                    }}
-                  >
-                    {t("Zipcode")}
+                    {t('Address 1')}
                   </TableCell>
                   <TableCell
                     align="left"
                     sx={{
-                      color: "white",
+                      color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
                       width: 140,
                     }}
                   >
-                    {t("City")}
+                    {t('Address 2')}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t('Zipcode')}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      color: 'white',
+                      fontWeight: 900,
+                      fontSize: 12,
+                      width: 140,
+                    }}
+                  >
+                    {t('City')}
                   </TableCell>
 
-                  <TableCell align="left" sx={{ color: "white", fontWeight: 900 }}></TableCell>
+                  <TableCell align="left" sx={{ color: 'white', fontWeight: 900 }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -794,10 +840,10 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                     <TableRow
                       key={row.name}
                       sx={{
-                        "&:last-child td, &:last-child th": {
+                        '&:last-child td, &:last-child th': {
                           border: 0,
                         },
-                        whiteSpace: "nowrap",
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       <TableCell align="left">{row.type.text}</TableCell>
@@ -806,13 +852,13 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.address1.substring(0, 20)}
-                        {row.address1.length > 40 && "..."}
+                        {row.address1.length > 40 && '...'}
                       </TableCell>
                       <TableCell align="left">
                         {row.address2 && (
                           <>
                             {row.address2.substring(0, 20)}
-                            {row.address2.length > 40 && "..."}
+                            {row.address2.length > 40 && '...'}
                           </>
                         )}
                       </TableCell>
@@ -821,9 +867,9 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
                       <TableCell align="left">
                         <IconButton
                           id="demo-positioned-button"
-                          aria-controls={open ? "demo-positioned-menu" : undefined}
+                          aria-controls={open ? 'demo-positioned-menu' : undefined}
                           aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
+                          aria-expanded={open ? 'true' : undefined}
                           onClick={(e) => handleClick(e, row, row._id)}
                         >
                           <MoreVertIcon color="primary" />
@@ -837,12 +883,12 @@ const PropertiesModal = ({ handleOpenPropertiesModal, currentProject, getProject
           </TableContainer>
           <br />
           {/* register button */}
-          <div style={{ width: "100%", textAlign: "right" }}>
+          <div style={{ width: '100%', textAlign: 'right' }}>
             <Button variant="contained" className={classes.btn} onClick={handleOpenPropertiesModal}>
-              {t("Close")}
+              {t('Close')}
             </Button>
             <Button variant="contained" className={classes.btn} onClick={handleSubmit3}>
-              {t("Update")}
+              {t('Update')}
             </Button>
           </div>
         </TabPanel>
