@@ -25,3 +25,10 @@
     color:#8C1244;
     
 }
+
+.btn-container{
+    margin: 10px;
+    width:99%;
+    display: flex;
+    justify-content: flex-end;
+}

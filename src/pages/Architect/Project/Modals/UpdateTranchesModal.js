@@ -1,13 +1,13 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button } from "@mui/material";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button } from '@mui/material';
 
 // component
 const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranch }) => {
@@ -23,7 +23,7 @@ const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranc
   const handleUpdate = async (e) => {
     e.preventDefault();
     const result = await api(
-      "put",
+      'put',
       `/Tranches/${updateTranch._id}`,
       {
         name,
@@ -42,7 +42,7 @@ const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranc
         {/* All fields */}
         <br />
         <InputWithLabel
-          label={t("Name")}
+          label={t('Name')}
           required={true}
           name="text"
           type="text"
@@ -54,13 +54,17 @@ const TranchesModal = ({ handleOpenUpdateTranchesModal, getTranches, updateTranc
         <br />
 
         {/* create button */}
-        <div style={{ width: "100%", textAlign: "right" }}>
-          <Button variant="contained" className={classes.btn} onClick={handleOpenUpdateTranchesModal}>
-            {t("Close")}
+        <div style={{ width: '100%', textAlign: 'right' }}>
+          <Button
+            variant="contained"
+            className={classes.btn}
+            onClick={handleOpenUpdateTranchesModal}
+          >
+            {t('Close')}
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Update")}
+            {t('Update')}
           </Button>
         </div>
       </form>

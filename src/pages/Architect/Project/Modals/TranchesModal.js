@@ -1,21 +1,28 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import InputDropdown from "../../../../components/Architect/InputDropdown";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button, Grid } from "@mui/material";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import InputDropdown from '../../../../components/Architect/InputDropdown';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button, Grid } from '@mui/material';
 
 // component
-const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOption, currentProject, selectedTrade }) => {
+const TranchesModal = ({
+  handleTranchesModal,
+  tranchesData,
+  getTranches,
+  tradeOption,
+  currentProject,
+  selectedTrade,
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [name, setName] = useState();
-  const [trade, setTrade] = useState("");
+  const [trade, setTrade] = useState('');
   useEffect(() => {
     setName(`Tranche n°${tranchesData.length + 1}`);
     setTrade(selectedTrade);
@@ -31,7 +38,7 @@ const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOp
       })
     );
     const result = await api(
-      "post",
+      'post',
       `/Tranches/create`,
       {
         name,
@@ -54,7 +61,7 @@ const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOp
         <br />
         <InputDropdown
           options={tradeOption}
-          label={t("Trade")}
+          label={t('Trade')}
           value={trade}
           onChange={(e) => setTrade(e.target.value)}
           backgroundColor="white"
@@ -62,7 +69,7 @@ const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOp
         />
         <br />
         <InputWithLabel
-          label={t("Name")}
+          label={t('Name')}
           required={true}
           name="text"
           type="text"
@@ -71,13 +78,13 @@ const TranchesModal = ({ handleTranchesModal, tranchesData, getTranches, tradeOp
         />
 
         {/* create button */}
-        <div style={{ width: "100%", textAlign: "right" }}>
+        <div style={{ width: '100%', textAlign: 'right' }}>
           <Button variant="contained" className={classes.btn} onClick={handleTranchesModal}>
-            {t("Close")}
+            {t('Close')}
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Add Tranch")}
+            {t('Add Tranch')}
           </Button>
         </div>
       </form>

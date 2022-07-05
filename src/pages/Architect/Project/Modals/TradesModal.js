@@ -1,13 +1,13 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button } from "@mui/material";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button } from '@mui/material';
 
 // component
 const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades }) => {
@@ -29,7 +29,7 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
       })
     );
     const result = await api(
-      "post",
+      'post',
       `/Trades/create`,
       {
         name,
@@ -50,7 +50,7 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
         {/* All fields */}
         <br />
         <InputWithLabel
-          label={t("Name")}
+          label={t('Name')}
           required={true}
           name="text"
           type="text"
@@ -61,13 +61,13 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
         <br />
 
         {/* create button */}
-        <div style={{ width: "100%", textAlign: "right" }}>
+        <div style={{ width: '100%', textAlign: 'right' }}>
           <Button variant="contained" className={classes.btn} onClick={handleTradesModal}>
-            {t("Close")}
+            {t('Close')}
           </Button>
           &nbsp;&nbsp;
           <Button variant="contained" className={classes.btn} type="submit">
-            {t("Add Trade")}
+            {t('Add Trade')}
           </Button>
         </div>
       </form>

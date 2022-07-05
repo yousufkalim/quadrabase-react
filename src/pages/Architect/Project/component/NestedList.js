@@ -1,64 +1,66 @@
-import * as React from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import CircleIcon from "@mui/icons-material/Circle";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import LinearProgress from "@mui/material/LinearProgress";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { styled, alpha } from "@mui/material/styles";
-import Divider from "@mui/material/Divider";
-import { useTranslation } from "react-i18next";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Zoom from "@mui/material/Zoom";
+import * as React from 'react';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import CircleIcon from '@mui/icons-material/Circle';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import LinearProgress from '@mui/material/LinearProgress';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { styled, alpha } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+import { useTranslation } from 'react-i18next';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
 
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
     anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "left",
+      vertical: 'bottom',
+      horizontal: 'left',
     }}
     transformOrigin={{
-      vertical: "tp",
-      horizontal: "left",
+      vertical: 'tp',
+      horizontal: 'left',
     }}
     {...props}
   />
 ))(({ theme }) => ({
-  "& .MuiPaper-root": {
+  '& .MuiPaper-root': {
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 150,
-    color: theme.palette.mode === "light" ? "rgb(55, 65, 81)" : theme.palette.grey[300],
-    border: "1px solid lightgray",
-    "& .MuiMenu-list": {
-      padding: "4px 0",
+    color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    border: '1px solid lightgray',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
     },
-    "& .MuiMenuItem-root": {
-      "& .MuiSvgIcon-root": {
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
         fontSize: 18,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
-      "&:active": {
+      '&:active': {
         backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
   },
 }));
 
-const NoMaxWidthTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)({
+const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
   [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: "none",
-    backgroundColor: "#fff8e3",
-    color: "gray",
+    maxWidth: 'none',
+    backgroundColor: '#fff8e3',
+    color: 'gray',
   },
 });
 
@@ -67,24 +69,24 @@ const screenSize = window.innerWidth;
 const NestedList = (props) => {
   const { t } = useTranslation();
   // for level 1
-  const [openLevel1, setOpenLevel1] = React.useState("");
+  const [openLevel1, setOpenLevel1] = React.useState('');
 
   const handleClick = (id) => {
     if (id) {
       setOpenLevel1(id);
     } else {
-      setOpenLevel1("");
+      setOpenLevel1('');
     }
   };
 
   // for level 2
-  const [openLevel2, setOpenLevel2] = React.useState("");
+  const [openLevel2, setOpenLevel2] = React.useState('');
 
   const handleClicklevel2 = (id) => {
     if (id) {
       setOpenLevel2(id);
     } else {
-      setOpenLevel2("");
+      setOpenLevel2('');
     }
   };
 
@@ -105,12 +107,12 @@ const NestedList = (props) => {
       sx={{
         width: props.width,
         maxHeight: props.maxHeight,
-        minHeight: "2vh",
-        postion: "relative",
-        overflow: "scroll",
-        overflowX: "hidden",
-        backgroundColor: "#e3e2e5",
-        boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+        minHeight: '2vh',
+        postion: 'relative',
+        overflow: 'scroll',
+        overflowX: 'hidden',
+        backgroundColor: '#e3e2e5',
+        boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px',
         paddingTop: 0,
         paddingBottom: 0,
       }}
@@ -124,12 +126,12 @@ const NestedList = (props) => {
         open={openLevel}
         onClose={handleAnchorElClose}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left',
         }}
         sx={{ mt: 1 }}
       >
@@ -139,7 +141,7 @@ const NestedList = (props) => {
               return (
                 <MenuItem
                   onClick={() => {
-                    props.openCctpModal(bpu, "BPU");
+                    props.openCctpModal(bpu, 'BPU');
                     handleAnchorElClose();
                   }}
                 >
@@ -166,11 +168,11 @@ const NestedList = (props) => {
             <Divider />
             <MenuItem
               onClick={() => {
-                window.open(menuItem?.providers[0].documents[0].uri, "_blank");
+                window.open(menuItem?.providers[0].documents[0].uri, '_blank');
                 handleAnchorElClose();
               }}
             >
-              {t("Technical Doc")}
+              {t('Technical Doc')}
             </MenuItem>
           </>
         )}
@@ -183,14 +185,14 @@ const NestedList = (props) => {
                 handleAnchorElClose();
               }}
             >
-              {t("Providers")}
+              {t('Providers')}
             </MenuItem>
           </>
         )}
         {menuItem?.cctp_text?.length === 0 &&
-          (typeof menuItem?.bpu_text === "undefined" || menuItem?.bpu_text?.length === 0) &&
-          (typeof menuItem?.providers === "undefined" || menuItem?.providers?.length === 0) && (
-            <MenuItem disabled>{t("No texts")}</MenuItem>
+          (typeof menuItem?.bpu_text === 'undefined' || menuItem?.bpu_text?.length === 0) &&
+          (typeof menuItem?.providers === 'undefined' || menuItem?.providers?.length === 0) && (
+            <MenuItem disabled>{t('No text')}</MenuItem>
           )}
       </StyledMenu>
       {props.level1?.map((item) => {
@@ -206,9 +208,9 @@ const NestedList = (props) => {
                 {open ? (
                   <ExpandLess
                     sx={{
-                      color: "#f2966c",
+                      color: '#f2966c',
                       fontSize: 24,
-                      cursor: "pointer",
+                      cursor: 'pointer',
                     }}
                     onClick={() => {
                       handleClick();
@@ -220,9 +222,9 @@ const NestedList = (props) => {
                 ) : (
                   <ExpandMore
                     sx={{
-                      color: "#f2966c",
+                      color: '#f2966c',
                       fontSize: 24,
-                      cursor: "pointer",
+                      cursor: 'pointer',
                     }}
                     onClick={() => {
                       handleClick(item._id);
@@ -237,12 +239,16 @@ const NestedList = (props) => {
                   <div
                     style={{
                       fontSize: 13,
-                      display: "flex",
-                      alignItems: "center",
+                      display: 'flex',
+                      alignItems: 'center',
                       fontWeight: 900,
                     }}
                   >
-                    <NoMaxWidthTooltip title={item?.name} placement="top" TransitionComponent={Zoom}>
+                    <NoMaxWidthTooltip
+                      title={item?.name}
+                      placement="top"
+                      TransitionComponent={Zoom}
+                    >
                       <div
                         onClick={() => {
                           if (!open) {
@@ -256,10 +262,10 @@ const NestedList = (props) => {
                           }
                         }}
                         style={{
-                          cursor: "pointer",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         }}
                       >
                         {item?.name}
@@ -267,13 +273,13 @@ const NestedList = (props) => {
                     </NoMaxWidthTooltip>
                     <ArrowDropDownIcon
                       id="demo-positioned-button"
-                      aria-controls={openLevel ? "demo-positioned-menu" : undefined}
+                      aria-controls={openLevel ? 'demo-positioned-menu' : undefined}
                       aria-haspopup="true"
-                      aria-expanded={openLevel ? "true" : undefined}
+                      aria-expanded={openLevel ? 'true' : undefined}
                       onClick={(e) => handleAnchorElClick(e, item)}
                       sx={{
                         fontSize: 18,
-                        cursor: "pointer",
+                        cursor: 'pointer',
                       }}
                     />
                   </div>
@@ -292,9 +298,9 @@ const NestedList = (props) => {
                           {open2 ? (
                             <ExpandLess
                               sx={{
-                                color: "#f2966c",
+                                color: '#f2966c',
                                 fontSize: 24,
-                                cursor: "pointer",
+                                cursor: 'pointer',
                               }}
                               onClick={() => {
                                 props.setLevel3([]);
@@ -304,9 +310,9 @@ const NestedList = (props) => {
                           ) : (
                             <ExpandMore
                               sx={{
-                                color: "#f2966c",
+                                color: '#f2966c',
                                 fontSize: 24,
-                                cursor: "pointer",
+                                cursor: 'pointer',
                               }}
                               onClick={() => {
                                 handleClicklevel2(item2._id);
@@ -320,11 +326,15 @@ const NestedList = (props) => {
                             <div
                               style={{
                                 fontSize: 13,
-                                display: "flex",
-                                alignItems: "center",
+                                display: 'flex',
+                                alignItems: 'center',
                               }}
                             >
-                              <NoMaxWidthTooltip title={item2?.name} placement="top" TransitionComponent={Zoom}>
+                              <NoMaxWidthTooltip
+                                title={item2?.name}
+                                placement="top"
+                                TransitionComponent={Zoom}
+                              >
                                 <div
                                   onClick={() => {
                                     if (!open2) {
@@ -336,10 +346,10 @@ const NestedList = (props) => {
                                     }
                                   }}
                                   style={{
-                                    cursor: "pointer",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
+                                    cursor: 'pointer',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
                                   }}
                                 >
                                   {item2?.name}
@@ -347,13 +357,13 @@ const NestedList = (props) => {
                               </NoMaxWidthTooltip>
                               <ArrowDropDownIcon
                                 id="demo-positioned-button"
-                                aria-controls={openLevel ? "demo-positioned-menu" : undefined}
+                                aria-controls={openLevel ? 'demo-positioned-menu' : undefined}
                                 aria-haspopup="true"
-                                aria-expanded={openLevel ? "true" : undefined}
+                                aria-expanded={openLevel ? 'true' : undefined}
                                 onClick={(e) => handleAnchorElClick(e, item2)}
                                 sx={{
                                   fontSize: 18,
-                                  cursor: "pointer",
+                                  cursor: 'pointer',
                                 }}
                               />
                             </div>
@@ -370,40 +380,46 @@ const NestedList = (props) => {
                                   <ListItemIcon sx={{ mr: -3 }}>
                                     <CircleIcon
                                       sx={{
-                                        color: "#f2966c",
+                                        color: '#f2966c',
                                         fontSize: 18,
                                       }}
                                     />
                                   </ListItemIcon>
                                   <ListItemText
                                     primary={
-                                      <NoMaxWidthTooltip title={item3?.name} placement="top" TransitionComponent={Zoom}>
+                                      <NoMaxWidthTooltip
+                                        title={item3?.name}
+                                        placement="top"
+                                        TransitionComponent={Zoom}
+                                      >
                                         <div
                                           style={{
                                             fontSize: 13,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            cursor: "default",
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            cursor: 'default',
                                           }}
                                         >
                                           <div
                                             style={{
-                                              whiteSpace: "nowrap",
-                                              overflow: "hidden",
-                                              textOverflow: "ellipsis",
+                                              whiteSpace: 'nowrap',
+                                              overflow: 'hidden',
+                                              textOverflow: 'ellipsis',
                                             }}
                                           >
                                             {item3?.name}
                                           </div>
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={openLevel ? "demo-positioned-menu" : undefined}
+                                            aria-controls={
+                                              openLevel ? 'demo-positioned-menu' : undefined
+                                            }
                                             aria-haspopup="true"
-                                            aria-expanded={openLevel ? "true" : undefined}
+                                            aria-expanded={openLevel ? 'true' : undefined}
                                             onClick={(e) => handleAnchorElClick(e, item3)}
                                             sx={{
                                               fontSize: 18,
-                                              cursor: "pointer",
+                                              cursor: 'pointer',
                                             }}
                                           />
                                         </div>
@@ -412,9 +428,9 @@ const NestedList = (props) => {
                                   />
                                   <AddCircleRoundedIcon
                                     sx={{
-                                      color: "#f2966c",
+                                      color: '#f2966c',
                                       fontSize: 18,
-                                      cursor: "pointer",
+                                      cursor: 'pointer',
                                     }}
                                     onClick={() => props.openModal(item3)}
                                   />

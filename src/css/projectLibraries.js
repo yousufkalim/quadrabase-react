@@ -1,43 +1,43 @@
 // init
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles';
 
 // makeStyles from material UI for styling
 export const useStyles = makeStyles({
   container: {
-    display: "flex",
-    justifyContent: "center",
+    display: 'flex',
+    justifyContent: 'center',
     paddingTop: 20,
   },
   btn: {
-    backgroundColor: "#3b373c !important",
+    backgroundColor: '#3b373c !important',
     borderRadius: 10,
   },
   btn2: {
-    backgroundColor: "#3b373c !important",
-    marginRight: "10px important",
+    backgroundColor: '#3b373c !important',
+    marginRight: '10px important',
     height: 35,
     borderRadius: 10,
   },
   form: {
-    marginTop: "auto",
-    marginBottom: "auto",
-    textAlign: "left",
-    width: "60vw",
-    maxHeight: "80vh",
-    overflow: "auto",
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    textAlign: 'left',
+    width: '60vw',
+    maxHeight: '80vh',
+    overflow: 'auto',
   },
   smform: {
-    marginTop: "auto",
-    marginBottom: "auto",
-    textAlign: "left",
-    width: "30vw",
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    textAlign: 'left',
+    width: '30vw',
   },
   docViewer: {
-    height: "400px !important",
-    overflow: "scroll !important",
-    backgroundColor: "#f9f9f9 !important",
-    "& #pdf-controls": {
-      display: "none",
+    height: '400px !important',
+    overflow: 'scroll !important',
+    backgroundColor: '#f9f9f9 !important',
+    '& #pdf-controls': {
+      display: 'none',
     },
   },
 });

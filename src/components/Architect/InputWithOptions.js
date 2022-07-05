@@ -1,9 +1,9 @@
-import * as React from "react";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import * as React from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,8 +19,12 @@ const MenuProps = {
 export default function MultipleSelect(props) {
   return (
     <div>
-      <FormControl sx={{ width: "100%" }}>
-        <InputLabel id="demo-multiple-name-label" shrink={true} style={{ color: "#3b373c", backgroundColor: "white" }}>
+      <FormControl sx={{ width: '100%' }}>
+        <InputLabel
+          id="demo-multiple-name-label"
+          shrink={true}
+          style={{ color: '#3b373c', backgroundColor: 'white' }}
+        >
           {props.label}
         </InputLabel>
         <Select

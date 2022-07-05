@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import TextInput from "../../../components/TextInput";
-import SelectField from "../../../components/SelectField";
-import { formatNumber } from "../../../utils/markThousand";
+import TextInput from '../../../components/TextInput';
+import SelectField from '../../../components/SelectField';
+import { formatNumber } from '../../../utils/markThousand';
 
 const typeOptions = [
   {
-    _id: "Prescribers",
-    name: "Prescripteurs",
+    _id: 'Prescribers',
+    name: 'Prescripteurs',
   },
-  { _id: "Manufacturers", name: "Fabricants" },
+  { _id: 'Manufacturers', name: 'Fabricants' },
 ];
 
 export default function AddExpense(props) {
@@ -21,11 +21,11 @@ export default function AddExpense(props) {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <SelectField
             name="type"
-            label={translate("Type")}
+            label={translate('Type')}
             value={formik.values.type}
             onChange={(e) => {
-              if (e.target.value === "Manufacturers") formik.setFieldValue("projects", 0);
-              formik.setFieldValue("type", e.target.value);
+              if (e.target.value === 'Manufacturers') formik.setFieldValue('projects', 0);
+              formik.setFieldValue('type', e.target.value);
             }}
             translate={translate}
             options={typeOptions}
@@ -46,7 +46,9 @@ export default function AddExpense(props) {
             value={formik.values.reference}
           />
           <div className="text-red-600 ">
-            {formik.touched.reference && formik.errors.reference ? <small>{formik.errors.reference}</small> : null}
+            {formik.touched.reference && formik.errors.reference ? (
+              <small>{formik.errors.reference}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -76,7 +78,9 @@ export default function AddExpense(props) {
             value={formik.values.duration}
           />
           <div className="text-red-600 ">
-            {formik.touched.duration && formik.errors.duration ? <small>{formik.errors.duration}</small> : null}
+            {formik.touched.duration && formik.errors.duration ? (
+              <small>{formik.errors.duration}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -90,10 +94,12 @@ export default function AddExpense(props) {
             translate={translate}
             onChange={formik.handleChange}
             value={formik.values.projects}
-            disabled={formik.values.type === "Manufacturers"}
+            disabled={formik.values.type === 'Manufacturers'}
           />
           <div className="text-red-600 ">
-            {formik.touched.projects && formik.errors.projects ? <small>{formik.errors.projects}</small> : null}
+            {formik.touched.projects && formik.errors.projects ? (
+              <small>{formik.errors.projects}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -106,16 +112,24 @@ export default function AddExpense(props) {
             onChange={formik.handleChange}
             value={formik.values.price}
             onBlur={() => {
-              let temp = formik.values.price.toString().replace(/\s/g, "").split(",").join(".");
-              formik.setFieldValue("price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+              let temp = formik.values.price.toString().replace(/\s/g, '').split(',').join('.');
+              formik.setFieldValue(
+                'price',
+                formatNumber(parseFloat(temp).toFixed(2).toString(), '.')
+              );
             }}
             onFocus={() => {
-              let temp = formik.values.price.toString().replace(/\s/g, "").split(",").join(".");
-              formik.setFieldValue("price", formatNumber(parseFloat(temp).toFixed(2).toString(), "."));
+              let temp = formik.values.price.toString().replace(/\s/g, '').split(',').join('.');
+              formik.setFieldValue(
+                'price',
+                formatNumber(parseFloat(temp).toFixed(2).toString(), '.')
+              );
             }}
           />
           <div className="text-red-600 ">
-            {formik.touched.price && formik.errors.price ? <small>{formik.errors.price}</small> : null}
+            {formik.touched.price && formik.errors.price ? (
+              <small>{formik.errors.price}</small>
+            ) : null}
           </div>
         </div>
       </div>
