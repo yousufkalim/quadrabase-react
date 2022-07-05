@@ -211,8 +211,8 @@ export default function EnhancedTable(props) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
-          <Table sx={{ width: '100%' }} aria-labelledby="tableTitle">
+        <TableContainer sx={{maxHeight:"75vh"}}>
+          <Table sx={{ width: '100%' }} stickyHeader aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}

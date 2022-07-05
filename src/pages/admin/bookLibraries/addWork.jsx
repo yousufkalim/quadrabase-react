@@ -193,6 +193,11 @@ export default function AddExpense(props) {
     }
   };
 
+  const handleRemoveDocument = () => {
+    setDocuments([]);
+    setFileName('');
+  };
+
   return (
     <form className="w-full  pt-1 pb-5">
       <div className="w-full md:mb-0 mb-2">
@@ -374,6 +379,7 @@ export default function AddExpense(props) {
           >
             Document
           </div>
+          <div style={{ display: 'flex' }}>
           <div
             style={{
               border: '1px solid gray',
@@ -381,6 +387,10 @@ export default function AddExpense(props) {
               padding: 4,
               borderRadius: 4,
               backgroundColor: associatedProviders.length === 0 && 'lightgray',
+              width: '100%',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}
           >
             <label style={{ cursor: 'pointer' }}>
@@ -395,8 +405,18 @@ export default function AddExpense(props) {
                 disabled={associatedProviders.length === 0}
               />
             </label>
+            </div>
+            &nbsp;&nbsp;
+            <Button
+              onClick={() => handleRemoveDocument()}
+              label={translate('Remove')}
+              backgroundColor={red}
+              default={false}
+            />
           </div>
         </div>
+
+
         <div className="flex">
           <div className="">
             <Button

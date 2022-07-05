@@ -112,7 +112,7 @@ const Index = () => {
                   })
                 }
               >
-                Remove
+                {t("Remove")}
               </Button>
             </label>
 
