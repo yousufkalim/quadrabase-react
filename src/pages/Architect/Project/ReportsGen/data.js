@@ -1,5 +1,6 @@
 import { Paragraph, TextRun, UnderlineType } from 'docx';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
+import { formatNumber } from '../../../../utils/markThousand';
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
@@ -137,14 +138,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
       arr.push(`${prefix}.${i + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(data[i].work?.quantity?.toFixed(2) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
 
-      if (noPrice || !data[i].workUnit?.symbol) {
+      if (noPrice) {
         arr.push('');
         arr.push('');
       } else {
-        arr.push(data[i].work?.unit_price?.toFixed(2) ?? '0.00');
-        arr.push(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2));
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2)) ?? '0.00');
+        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
       }
 
       toBeModifiedArr.push(arr);
@@ -154,15 +155,15 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
 
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
-        arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(data[i].workDetails.quantity.toFixed(2));
+        arrD.push(data[i].workDetailsUnit?.symbol ?? '');
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
 
         if (noPrice) {
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(data[i].workDetails.unit_price.toFixed(2));
-          arrD.push((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2));
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
+          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
         }
 
         toBeModifiedArr.push(arrD);
@@ -172,15 +173,15 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
 
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
-      arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(data[i].workDetails.quantity.toFixed(2));
+      arrD.push(data[i].workDetailsUnit?.symbol ?? '');
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
 
       if (noPrice) {
         arrD.push('');
         arrD.push('');
       } else {
-        arrD.push(data[i].workDetails.unit_price.toFixed(2));
-        arrD.push((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2));
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
+        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
       }
 
       toBeModifiedArr.push(arrD);
@@ -287,9 +288,9 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTObj = {};
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = `Trade Total: `;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot: `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -350,7 +351,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = {};
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = `Tranche Total:`;
+        trancheTotalHTObj[dataColumnsEstimation[j]] = `Total HT Tranche:`;
       } else if (j == 5) {
         trancheTotalHTObj[dataColumnsEstimation[j]] = trancheTotalHT ?? '';
       } else {
@@ -360,7 +361,11 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     xlsxParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -368,9 +373,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = {};
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = `Trade Total:`;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -413,9 +418,9 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? '';
+      tradeTotalHTArr[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -476,7 +481,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else if (j == 5) {
         trancheTotalHTObj[j] = trancheTotalHT ?? '';
       } else {
@@ -486,7 +491,11 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     pdfParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -494,9 +503,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = tradeTotal ?? '';
+      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -539,9 +548,9 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? '';
+      tradeTotalHTArr[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -602,7 +611,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else if (j == 5) {
         trancheTotalHTObj[j] = trancheTotalHT ?? '';
       } else {
@@ -612,7 +621,11 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     docxParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -620,9 +633,9 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = tradeTotal ?? '';
+      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -642,13 +655,18 @@ function calculateTotalHT(data, noPrice) {
   for (let i = 0; i < data.length; i++) {
     const currentArr = data[i];
 
-    if (!currentArr[5]) {
+    let _ = currentArr[5];
+    if (!_) {
       continue;
     }
 
-    const ht = parseInt(currentArr[5]);
-    totalHT = totalHT + ht;
+    _.slice(0, -3);
+    _ = _.replace(' ', '');
+    _ = parseInt(_);
+    totalHT = totalHT + _;
   }
+
+  totalHT = formatNumber(totalHT.toFixed(2));
 
   return totalHT;
 }
@@ -684,7 +702,7 @@ function docxParsedDataGenTradesDPGF(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -742,7 +760,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else {
         trancheTotalHTObj[j] = '';
       }
@@ -754,7 +772,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -783,10 +801,9 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
 
   if (!noPrice) {
     footerData = [
-      totalHT.toFixed(2),
-      totalHT.toFixed(2),
-      currentProject?.vat?.value?.toFixed(2),
-      Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
     ];
   } else {
     footerData = ['', '', '', ''];
@@ -843,6 +860,10 @@ const calculateWSCols = (arr) => {
     if (values[2].length > unitL) {
       unitL = values[2].length;
     }
+  }
+
+  if (unitL < 10) {
+    unitL = 10;
   }
 
   const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
@@ -1348,10 +1369,10 @@ const tagsToDocxMap = {
 };
 
 const dataColumnsEstimation = [
-  localStorage.getItem('i18nextLng') == 'en' ? 'No #' : 'Non #',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'Numéro',
   localStorage.getItem('i18nextLng') == 'en' ? 'Designation' : 'Désignation',
   localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
-  'Qty',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Qty' : 'Qté',
   'PU HT',
   'Total HT',
 ];
@@ -1359,7 +1380,6 @@ const dataColumnsEstimation = [
 const footerColumnsSimpleEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
-  'Total HT :',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
