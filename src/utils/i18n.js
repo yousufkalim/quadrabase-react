@@ -602,11 +602,15 @@ i18n
           'Modify status': 'Modify status',
           'Type of Customer': 'Type of Customer',
           'Price excl. VAT': 'Price excl. VAT',
+          'Updated successfully': 'Updated successfully',
+          'Static Pages': 'Static Pages',
         },
       },
       fr: {
         translations: {
-          'Number of Administrators': 'Nombre de Administrateurs ',
+          'Static Pages': 'Pages statiques',
+          'Updated successfully': 'Mis à jour avec succés',
+          'Number of Administrators': 'Nombre d’administrateurs',
           'Administrators ': 'Administrateurs',
           'Number of Architects': ' Nombre de Prescripteurs ',
           Architects: ' Prescripteurs ',
