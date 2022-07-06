@@ -64,6 +64,7 @@ const Index = () => {
       prev[name] = value;
       return { ...prev };
     });
+    localStorage.setItem('warning', true);
   };
 
   // handle submit
@@ -71,6 +72,7 @@ const Index = () => {
     e.preventDefault();
     const result = await api('put', `/Architects/update/${store.user._id}`, values, t);
     updateStore({ loggedIn: true, user: result.data.architect });
+    localStorage.removeItem('warning');
     toast.success(t(result.data.message));
   };
 
@@ -83,6 +85,7 @@ const Index = () => {
       ...values,
       profile_pic: response.data.files[0].uri,
     });
+    localStorage.setItem('warning', true);
   };
 
   return (
@@ -105,14 +108,15 @@ const Index = () => {
               <Button
                 variant="contained"
                 className="remove-pic"
-                onClick={() =>
+                onClick={() => {
                   setValues({
                     ...values,
                     profile_pic: '',
-                  })
-                }
+                  });
+                  localStorage.setItem('warning', true);
+                }}
               >
-                {t("Remove")}
+                {t('Remove')}
               </Button>
             </label>
 
