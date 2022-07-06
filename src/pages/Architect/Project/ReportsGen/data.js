@@ -786,7 +786,7 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
       totalHT.toFixed(2),
       totalHT.toFixed(2),
       currentProject?.vat?.value?.toFixed(2),
-      Math.floor(totalHT * (1 + currentProject?.vat?.value / 100).toFixed(2)),
+      Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
     ];
   } else {
     footerData = ['', '', '', ''];
