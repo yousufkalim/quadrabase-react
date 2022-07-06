@@ -22,7 +22,7 @@ function App() {
     const storageHandler = () => {
       const i18nextLng = localStorage.getItem('i18nextLng');
       dataColumnsEstimation[0] = i18nextLng == 'en' ? 'No #' : 'Non #';
-      dataColumnsEstimation[1] = i18nextLng == 'en' ? 'Name' : 'Nom';
+      dataColumnsEstimation[1] = i18nextLng == 'en' ? 'Designation' : 'Désignation';
       dataColumnsEstimation[2] = i18nextLng == 'en' ? 'Unit' : 'Unité';
     };
     window.addEventListener('storage', storageHandler);

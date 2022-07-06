@@ -782,7 +782,12 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
   });
 
   if (!noPrice) {
-    footerData = [totalHT, totalHT, currentProject?.vat?.value, Math.floor(totalHT * (1 + currentProject?.vat?.value / 100))];
+    footerData = [
+      totalHT.toFixed(2),
+      totalHT.toFixed(2),
+      currentProject?.vat?.value?.toFixed(2),
+      Math.floor(totalHT * (1 + currentProject?.vat?.value / 100).toFixed(2)),
+    ];
   } else {
     footerData = ['', '', '', ''];
   }
@@ -1344,7 +1349,7 @@ const tagsToDocxMap = {
 
 const dataColumnsEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'No #' : 'Non #',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Name' : 'Nom',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Designation' : 'Désignation',
   localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
   'Qty',
   'PU HT',
