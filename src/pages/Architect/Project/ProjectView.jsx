@@ -1327,8 +1327,9 @@ const ProjectView = () => {
             </div>
             <div
               style={{
-                width: '100vw',
+                width: '100%',
                 display: 'flex',
+                overflow: 'hidden',
               }}
             >
               <div className={classes.left_container}>
@@ -1771,10 +1772,11 @@ const ProjectView = () => {
                                   style={{
                                     padding: '2px 16px',
                                     fontWeight: 600,
+                                    whiteSpace: 'nowrap',
                                   }}
                                   align="right"
                                 >
-                                  Total HT {item2.name} :
+                                  {item2.name} Total HT :
                                 </TableCell>
 
                                 <TableCell
@@ -1784,6 +1786,7 @@ const ProjectView = () => {
                                   style={{
                                     padding: '2px 16px',
                                     fontWeight: 600,
+                                    whiteSpace: 'nowrap',
                                   }}
                                   align="right"
                                 >
@@ -1963,9 +1966,10 @@ const ProjectView = () => {
                                                 width: '100%',
                                                 fontWeight: 600,
                                                 textAlign: 'right',
+                                                whiteSpace: 'nowrap',
                                               }}
                                             >
-                                              Total HT {item4.name} :
+                                              {item4.name} Total HT :
                                             </div>
                                           </TableCell>
                                           <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
@@ -1974,6 +1978,7 @@ const ProjectView = () => {
                                                 width: '100%',
                                                 fontWeight: 600,
                                                 textAlign: 'right',
+                                                whiteSpace: 'nowrap',
                                               }}
                                             >
                                               {formatNumber(tranchTotalAmount.toFixed(2))}
@@ -1992,9 +1997,10 @@ const ProjectView = () => {
                                         width: '100%',
                                         fontWeight: 600,
                                         textAlign: 'right',
+                                        whiteSpace: 'nowrap',
                                       }}
                                     >
-                                      Total HT {item3.name} :
+                                      {item3.name} Total HT :
                                     </div>
                                   </TableCell>
                                   <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
@@ -2003,6 +2009,7 @@ const ProjectView = () => {
                                         width: '100%',
                                         fontWeight: 600,
                                         textAlign: 'right',
+                                        whiteSpace: 'nowrap',
                                       }}
                                     >
                                       {tradeTotalIndex !== -1
