@@ -40,6 +40,7 @@ export default function MultipleSelect(props) {
           onChange={props.handleChange}
           input={<OutlinedInput label={props.label} />}
           MenuProps={MenuProps}
+          style={props.style}
           sx={{
             height: 38,
           }}

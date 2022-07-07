@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../api";
-import { formatNumber } from "../../../utils/markThousand";
-import BasicDropdown from "../../../components/Architect/BasicDropdown";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState } from 'react';
+import api from '../../../api';
+import { formatNumber } from '../../../utils/markThousand';
+import BasicDropdown from '../../../components/Architect/BasicDropdown';
+import InputWithOptions from '../../../components/Architect/InputWithOptions';
+import Button from '@mui/material/Button';
 
 const options = [
   { _id: 1, title: 1 },
@@ -13,163 +14,197 @@ const options = [
 ];
 
 const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const [productList, setProductList] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [product, setProduct] = useState({});
-  const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [selectedSubscriptions, setSelectedSubscriptions] = useState([]);
+  const [subscriptionsData, setSubscriptionData] = useState([]);
+  const [total, setTotal] = useState({
+    subTotal: 0,
+    tax: 0,
+    grandTotal: 0,
+  });
+
   useEffect(() => {
     getProducts();
   }, []);
 
   useEffect(() => {
-    if (selectedProduct) {
-      let temp = productList.find((item) => item._id === selectedProduct);
-      setProduct(temp);
+    if (selectedSubscriptions.length > 0) {
+      let temp = [];
+      selectedSubscriptions.map((item1) => {
+        let existing = productList.find((item2) => item2._id === item1);
+        existing.count = 1;
+        temp.push(existing);
+      });
+      setSubscriptionData(temp);
       setLoading(false);
     }
-  }, [selectedProduct]);
+  }, [selectedSubscriptions]);
+
+  useEffect(() => {
+    if (subscriptionsData.length > 0) {
+      let tempSubTotal = 0;
+      let tempTax = 0;
+      let tempGrandTotal = 0;
+      subscriptionsData.map((item) => {
+        tempSubTotal += item.count * item.price;
+      });
+      tempTax = (tempSubTotal * 20) / 100;
+      tempGrandTotal = tempSubTotal + tempTax;
+      setTotal((prev) => {
+        prev.subTotal = tempSubTotal;
+        prev.tax = tempTax;
+        prev.grandTotal = tempGrandTotal;
+        return { ...prev };
+      });
+    }
+  }, [subscriptionsData]);
 
   const getProducts = async () => {
-    const response = await api("get", `/Subscriptions/`);
+    const response = await api('get', `/Subscriptions/`);
     let data = response.data.subscription;
-    data = data.filter((item) => item.type === "Prescribers");
+    data = data.filter((item) => item.type === 'Prescribers');
 
     setProductList(data);
-    setSelectedProduct(data[0]._id);
+    setSelectedSubscriptions([data[0]._id]);
   };
 
   const generateQuote = async () => {
-    let temp2 = productList.find((item) => item._id === selectedProduct);
+    let temp = subscriptionsData.map((item) => {
+      item.subTotal = item.count * item.price;
+      return item;
+    });
     let invoiceData = {
       archId: user._id,
-      subscriptionCode: temp2.reference,
-      subscriptionName: temp2.name,
-      initialPrice: product.price,
-      initialCount: count,
-      extendedPrice: 0,
-      extendedCount: 0,
-      packPrice: 0,
-      packCount: 0,
-      totalHT: product.price * count,
+      subscriptionsData: temp,
+      totalHT: total.subTotal,
       tvaPercentage: 20,
-      tvaAmount: (product.price * count * 20) / 100,
-      TotalCost: (product.price * count * 20) / 100 + product.price * count,
-      paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+      tvaAmount: total.tax,
+      TotalCost: total.grandTotal,
+      paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
     };
-    const result = await api("post", `/Architects/quote/download`, invoiceData);
-    window.open(result.data.path, "_blank");
+    const result = await api('post', `/Architects/quote/download`, invoiceData);
+    window.open(result.data.path, '_blank');
+  };
+
+  // handle change for subscription
+  const handleSubscriptionChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    let temp = typeof value === 'string' ? value.split(',') : value;
+    setSelectedSubscriptions(temp);
   };
 
   // handle Finish function
   const handleFinish = async () => {
-    if (paymentMethod === "mandat") {
+    if (paymentMethod === 'mandat') {
       handleBuySubModal();
     } else {
-      let temp2 = productList.find((item) => item._id === selectedProduct);
+      let temp = subscriptionsData.map((item) => {
+        item.subTotal = item.count * item.price;
+        return item;
+      });
       let data = {};
       data = {
         paymentMethod,
         line_items: [
           {
             price_data: {
-              currency: "eur",
+              currency: 'eur',
               product_data: {
-                name: "Subscription",
+                name: 'Subscription',
               },
-              unit_amount: parseInt((product.price * count * 20) / 100 + product.price * count) * 100,
+              unit_amount: parseInt(total.grandTotal * 100),
             },
             quantity: 1,
           },
         ],
         metaData: {
-          type: product.reference,
-          subscription: product._id,
-          architectId: user._id,
-          licenseId: user?.subscriptions._id,
-          count,
+          id: user._id,
+          type: 'architectOrder',
         },
         invoiceData: {
           archId: user._id,
-          subscriptionCode: temp2.reference,
-          subscriptionName: temp2.name,
-          initialPrice: product.price,
-          initialCount: count,
-          extendedPrice: 0,
-          extendedCount: 0,
-          packPrice: 0,
-          packCount: 0,
-          totalHT: product.price * count,
+          subscriptionsData: temp,
+          totalHT: total.subTotal,
           tvaPercentage: 20,
-          tvaAmount: (product.price * count * 20) / 100,
-          TotalCost: (product.price * count * 20) / 100 + product.price * count,
-          paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+          tvaAmount: total.tax,
+          TotalCost: total.grandTotal,
+          paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
         },
       };
 
-      const res = await api("post", `/licenses/checkout`, data);
+      const res = await api('post', `/licenses/checkout`, data);
       window.location = res.data.url;
     }
   };
 
   return (
     !loading && (
-      <div style={{ width: "35vw", maxHeight: "85vh", overflow: "auto" }}>
-        <div style={{ width: "90%" }}>
+      <div style={{ width: '35vw', maxHeight: '85vh', overflow: 'auto' }}>
+        <div style={{ width: '90%' }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
-            <BasicDropdown
+            <InputWithOptions
+              value={selectedSubscriptions}
+              handleChange={(e) => handleSubscriptionChange(e)}
               options={productList}
-              value={selectedProduct}
-              onChange={(e) => {
-                setSelectedProduct(e.target.value);
-              }}
-              component="register"
               style={{
-                backgroundColor: "#f5f5f5",
+                backgroundColor: '#f5f5f5',
                 borderRadius: 10,
                 height: 40,
-                width: "110%",
-                fontSize: 20,
-                fontWeight: 700,
+                width: '110%',
+                fontSize: 16,
                 padding: 5,
               }}
             />
             <br />
             <strong>Abonnement</strong>
-            <div className="subscription-box">
-              <div className="subscription-box-intial">
-                <div className="common-text">
-                  <span>{product.duration} mois</span>
-                  <br />
-                  <br />
-                  <span> {product.projects} projets</span>
+            {subscriptionsData.map((item, index) => {
+              return (
+                <div className="subscription-box">
+                  <div className="subscription-box-intial">
+                    <div className="common-text">
+                      <span>{item.name}</span>
+                      <br />
+                      <span style={{ fontSize: 12, fontStyle: 'italic' }}>
+                        {' '}
+                        {item.projects > 0 && <>{item.projects} projets</>}{' '}
+                        {item.duration > 0 && <>{item.duration} mois</>}
+                      </span>
+                      <br />
+                    </div>
+                    <BasicDropdown
+                      options={options}
+                      value={item.count}
+                      onChange={(e) => {
+                        setSubscriptionData((prev) => {
+                          prev[index].count = e.target.value;
+                          return [...prev];
+                        });
+                      }}
+                      component="register"
+                      style={{
+                        backgroundColor: '#f5f5f5',
+                        borderRadius: 10,
+                        height: 40,
+                        width: 60,
+                        fontSize: 20,
+                        fontWeight: 700,
+                        padding: 5,
+                      }}
+                    />
+                    <div className="amount-container">
+                      <div>Total HT</div>
+                      <div>{formatNumber((item.count * item.price).toFixed(2))} €</div>
+                    </div>
+                  </div>
                   <br />
                 </div>
-                <BasicDropdown
-                  options={options}
-                  value={count}
-                  onChange={(e) => {
-                    setCount(e.target.value);
-                  }}
-                  component="register"
-                  style={{
-                    backgroundColor: "#f5f5f5",
-                    borderRadius: 10,
-                    height: 40,
-                    width: 60,
-                    fontSize: 20,
-                    fontWeight: 700,
-                    padding: 5,
-                  }}
-                />
-                <div className="amount-container">
-                  <div>Total HT</div>
-                  <div>{formatNumber((product.price * count)?.toFixed(2))} €</div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
           {/* Projects */}
           {/* <div style={{ padding: "20px 0" }}>
@@ -210,42 +245,47 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         </div>
       </div> */}
           {/* Total */}
-          <div style={{ padding: "20px 0" }}>
+          <div style={{ padding: '20px 0' }}>
             <div className="payment-box">
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 <div
                   className="common-text"
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end",
-                    color: "black",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    color: 'black',
                     fontWeight: 600,
                     fontSize: 20,
                   }}
                 >
                   <div className="amount-container" style={{ border: 0 }}>
-                    Montant à payer :{" "}
+                    Montant à payer :{' '}
                   </div>
                 </div>
                 <div>
                   <div className="amount-container" style={{ marginBottom: 10 }}>
+                    <div>Total HT</div>
+                    <div> {formatNumber(total.subTotal.toFixed(2))} €</div>
+                  </div>
+
+                  <div className="amount-container" style={{ marginBottom: 10 }}>
                     <div>T.V.A 20%</div>
-                    <div> {formatNumber(((product.price * count * 20) / 100)?.toFixed(2))} €</div>
+                    <div> {formatNumber(total.tax.toFixed(2))} €</div>
                   </div>
                   <div className="amount-container">
                     <div>Total T.T.C</div>
-                    <div> {formatNumber(((product.price * count * 20) / 100 + product.price * count)?.toFixed(2))} €</div>
+                    <div> {formatNumber(total.grandTotal.toFixed(2))} €</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{ width: "110%", height: 4, backgroundColor: "#8C1244" }} />
+          <div style={{ width: '110%', height: 4, backgroundColor: '#8C1244' }} />
           <div style={{ marginTop: 20 }}>
             <strong>Mode de paiement</strong>
-            <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
+            <div className="subscription-box" style={{ display: 'flex', marginTop: 10 }}>
               <div className="payment-flex-contaner">
                 <div className="common-text-3">
                   <span>CB</span>
@@ -256,7 +296,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                   name="payment"
                   value="card"
                   className="radio-button"
-                  checked={paymentMethod === "card"}
+                  checked={paymentMethod === 'card'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </div>
@@ -270,7 +310,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                   name="payment"
                   value="sepa_debit"
                   className="radio-button"
-                  checked={paymentMethod === "sepa_debit"}
+                  checked={paymentMethod === 'sepa_debit'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </div>
@@ -284,13 +324,13 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                   name="payment"
                   value="mandat"
                   className="radio-button"
-                  checked={paymentMethod === "mandat"}
+                  checked={paymentMethod === 'mandat'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </div>
             </div>
             {/* exports */}
-            {paymentMethod === "mandat" ? (
+            {paymentMethod === 'mandat' ? (
               <div
                 style={{
                   marginTop: 20,
@@ -299,45 +339,61 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                 <div style={{ fontSize: 15 }}>
                   Merci de bien vouloir nous retourner votre bon de commande
                   <br />
-                  <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre bon d’achat
-                  vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation de l’application
-                  Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute de règlement de votre
-                  part, les droits accordéd seront suspendus automatiquement.
+                  <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture
+                  correspondant à votre bon d’achat vous sera transmise par e-mail. Vous disposerez
+                  alors des droits d’accès et d’utilisation de l’application Quadrabase pendant 2
+                  mois dans l’attente de votre règlement. Passé ce délai, et faute de règlement de
+                  votre part, les droits accordéd seront suspendus automatiquement.
                 </div>
-                <div style={{ padding: "20px 0" }}>
+                <div style={{ padding: '20px 0' }}>
                   <div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: 'flex' }}>
                       <div
                         className="common-text"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          color: "black",
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          color: 'black',
                           fontWeight: 600,
                           fontSize: 20,
-                          width: "auto",
+                          width: 'auto',
                         }}
                       >
-                        <div style={{ border: 0, padding: 0, fontSize: 15, marginRight: 20, whiteSpace: "nowrap" }}>
-                          Coordonées :{" "}
+                        <div
+                          style={{
+                            border: 0,
+                            padding: 0,
+                            fontSize: 15,
+                            marginRight: 20,
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          Coordonées :{' '}
                         </div>
                       </div>
                       <div style={{ fontSize: 15 }}>
-                        <div style={{ marginBottom: 10 }}>Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE</div>
-                        <div style={{ marginBottom: 10 }}>IBAN : FR76 1695 8000 0115 4724 0729 575</div>
+                        <div style={{ marginBottom: 10 }}>
+                          Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE
+                        </div>
+                        <div style={{ marginBottom: 10 }}>
+                          IBAN : FR76 1695 8000 0115 4724 0729 575
+                        </div>
                         <div>BIC/SWIFT : QNTOFRP1XXX / BNPAFRPP</div>
                       </div>
                       <div
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
                           marginLeft: 30,
                           fontSize: 15,
                         }}
                       >
-                        <div style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }} onClick={generateQuote}>
+                        <div
+                          style={{ cursor: 'pointer', color: '#FF8616', whiteSpace: 'nowrap' }}
+                          onClick={generateQuote}
+                        >
                           Générer un devis
                         </div>
                         {/* <div
@@ -352,7 +408,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                 </div>
               </div>
             ) : (
-              <div style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }} onClick={generateQuote}>
+              <div
+                style={{ cursor: 'pointer', color: '#FF8616', whiteSpace: 'nowrap' }}
+                onClick={generateQuote}
+              >
                 Générer un devis
               </div>
             )}
@@ -360,16 +419,16 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           {/* Buttons */}
           <div
             style={{
-              width: "110%",
-              textAlign: "center",
+              width: '110%',
+              textAlign: 'center',
               marginTop: 40,
             }}
           >
             <Button
               variant="contained"
               style={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 8,
               }}
               onClick={() => {
@@ -382,12 +441,11 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
             <Button
               variant="contained"
               style={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 8,
               }}
               onClick={() => handleFinish()}
-              disabled={count < 1}
             >
               Valider
             </Button>
