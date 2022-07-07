@@ -1776,7 +1776,7 @@ const ProjectView = () => {
                                   }}
                                   align="right"
                                 >
-                                  Total HT {item2.name} :
+                                  {item2.name} Total HT :
                                 </TableCell>
 
                                 <TableCell
@@ -1969,7 +1969,7 @@ const ProjectView = () => {
                                                 whiteSpace: 'nowrap',
                                               }}
                                             >
-                                              Total HT {item4.name} :
+                                              {item4.name} Total HT :
                                             </div>
                                           </TableCell>
                                           <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
@@ -2000,7 +2000,7 @@ const ProjectView = () => {
                                         whiteSpace: 'nowrap',
                                       }}
                                     >
-                                      Total HT {item3.name} :
+                                      {item3.name} Total HT :
                                     </div>
                                   </TableCell>
                                   <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
