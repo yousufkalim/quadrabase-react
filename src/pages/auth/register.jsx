@@ -19,6 +19,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import BasicDropdown from '../../components/Architect/BasicDropdown';
 import InputWithOptions from '../../components/Architect/InputWithOptions';
 import { formatNumber } from '../../utils/markThousand';
+import CloseIcon from '@mui/icons-material/Close';
 
 // input styling
 const InputStyle = {
@@ -577,6 +578,11 @@ const Register = () => {
           />
           <img src={Vector} alt="QBSoft" className="vector" />
         </div>
+        <CloseIcon
+          fontSize="large"
+          style={{ position: 'absolute', top: '2%', right: '2%', cursor: 'pointer' }}
+          onClick={() => history.push('/auth/home')}
+        />
         <div className="register-right-container">
           <div className="register-form-container">
             {!startStepper && !payment ? (

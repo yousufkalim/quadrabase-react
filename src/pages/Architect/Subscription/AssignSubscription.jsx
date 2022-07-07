@@ -1,17 +1,17 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../api";
-import InputWithLabel from "../../../components/Architect/InputWithLabel";
-import { Button } from "@mui/material";
-import { toast } from "react-toastify";
-import { UpdateStore } from "../../../StoreContext";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../api';
+import InputWithLabel from '../../../components/Architect/InputWithLabel';
+import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
+import { UpdateStore } from '../../../StoreContext';
+import { useTranslation } from 'react-i18next';
 
 // component
 const BuySubscription = ({ assignSub, handleAssignSubModal }) => {
   const { t } = useTranslation();
   const updateStore = UpdateStore();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     setEmail(assignSub?.email);
@@ -23,8 +23,8 @@ const BuySubscription = ({ assignSub, handleAssignSubModal }) => {
     const data = {
       email: email,
     };
-    const result = await api("put", `/licenses/${assignSub.id}`, data, t);
-    const response = await api("get", "/Architects/current/loggedIn");
+    const result = await api('put', `/licenses/${assignSub.id}`, data, t);
+    const response = await api('get', '/Architects/current/loggedIn');
     if (response.data.user) {
       updateStore({ loggedIn: true, user: response.data.user });
     }
@@ -43,26 +43,28 @@ const BuySubscription = ({ assignSub, handleAssignSubModal }) => {
           type="email"
           handleChange={(e) => setEmail(e.target.value)}
           style={{ width: 450 }}
+          disabled={assignSub?.email}
         />
         <br />
         <br />
-        <div style={{ width: "104.5%", textAlign: "right" }}>
+        <div style={{ width: '104.5%', textAlign: 'right' }}>
           <Button
             variant="contained"
             color="primary"
             sx={{
-              textTransform: "none",
-              backgroundColor: "#8C1244",
+              textTransform: 'none',
+              backgroundColor: '#8C1244',
               borderRadius: 2,
-              whiteSpace: "nowrap",
+              whiteSpace: 'nowrap',
               mr: 2,
-              ":hover": {
-                backgroundColor: "#8C1244",
+              ':hover': {
+                backgroundColor: '#8C1244',
               },
             }}
             type="submit"
+            disabled={assignSub?.email}
           >
-            {t("Assign Subscription")}
+            {t('Assign Subscription')}
           </Button>
         </div>
       </form>
