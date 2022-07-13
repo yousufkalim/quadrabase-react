@@ -698,17 +698,32 @@ const ProjectView = () => {
 
   // handle delete
   const handleChapDelete = async () => {
-    const result = await api(
-      'delete',
-      `/ArchitectsChap0/deleteChapLevel/${parentChap.id._id}`,
-      {
-        data: {
-          type: deleteChap.type,
-          id: deleteChap.item._id,
+    let result = '';
+    if (deleteChap.type === 'level0') {
+      result = await api(
+        'delete',
+        `/ArchitectsChap0/deleteParentChap/${parentChap.id._id}/${currentProject._id}`,
+        {
+          data: {
+            type: deleteChap.type,
+            id: deleteChap.item._id,
+          },
         },
-      },
-      t
-    );
+        t
+      );
+    } else {
+      result = await api(
+        'delete',
+        `/ArchitectsChap0/deleteChapLevel/${parentChap.id._id}`,
+        {
+          data: {
+            type: deleteChap.type,
+            id: deleteChap.item._id,
+          },
+        },
+        t
+      );
+    }
     toast.success(t(result.data.message));
     handleOpenDeleteChapModal();
     getProject();

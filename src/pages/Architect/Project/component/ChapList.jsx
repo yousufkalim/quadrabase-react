@@ -52,6 +52,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function NestedList({
+  allChaps,
   editChap0Part2,
   handleOpenEditChapModal,
   handleOpenDeleteChapModal,
@@ -92,6 +93,35 @@ export default function NestedList({
   };
 
   //Level Up
+  const handleParentLevelUp = async () => {
+    let chap = allChaps;
+
+    let filteredIndex = chap.findIndex((dt) => dt.id._id == menuItem0.item._id);
+    if (filteredIndex != 0) {
+      let tempArr = [...chap];
+      let prevIndex = filteredIndex - 1;
+
+      let prev = tempArr[prevIndex];
+      api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
+        id: menuItem0.item._id,
+        ranking: tempArr[prevIndex].id.ranking,
+        type: menuItem0.type,
+      }).then(() => {
+        api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
+          id: prev._id,
+          ranking: tempArr[filteredIndex].id.ranking,
+          type: menuItem0.type,
+        }).then(() => {
+          tempArr[filteredIndex] = chap[filteredIndex - 1];
+          tempArr[filteredIndex - 1] = chap[filteredIndex];
+
+          setEditChap0Part2(tempArr);
+        });
+      });
+    }
+  };
+
+  //Level Up
   const handleLevelUp = async () => {
     let chap = [];
     if (menuItem0.type === 'level1') {
@@ -112,12 +142,12 @@ export default function NestedList({
       let prevIndex = filteredIndex - 1;
 
       let prev = tempArr[prevIndex];
-      api('put', `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+      api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
         id: menuItem0.item._id,
         ranking: tempArr[prevIndex].ranking,
         type: menuItem0.type,
       }).then(() => {
-        api('put', `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+        api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
           id: prev._id,
           ranking: tempArr[filteredIndex].ranking,
           type: menuItem0.type,
@@ -126,19 +156,51 @@ export default function NestedList({
           tempArr[filteredIndex - 1] = chap[filteredIndex];
 
           setEditChap0Part2((prev) => {
-            if (menuItem0.type === 'level1') {
-              prev.id.level2 = tempArr;
-            } else if (menuItem0.type === 'level2') {
-              prev.id.level2.map((item) => {
-                item.level3.map((item2) => {
-                  if (item2._id.toString() === menuItem0.item._id.toString()) {
-                    item.level3 = tempArr;
-                  }
-                });
-              });
-            }
-            return { ...prev };
+            prev.map((prevItem) => {
+              if (prevItem.id._id === editChap0Part2.id._id) {
+                if (menuItem0.type === 'level1') {
+                  prevItem.id.level2 = tempArr;
+                } else if (menuItem0.type === 'level2') {
+                  prevItem.id.level2.map((item) => {
+                    item.level3.map((item2) => {
+                      if (item2._id.toString() === menuItem0.item._id.toString()) {
+                        item.level3 = tempArr;
+                      }
+                    });
+                  });
+                }
+              }
+            });
+            return [...prev];
           });
+        });
+      });
+    }
+  };
+
+  //Level Down
+  const handleParentLevelDown = async (id) => {
+    let chap = allChaps;
+
+    let filteredIndex = chap.findIndex((dt) => dt.id._id == menuItem0.item._id);
+
+    if (filteredIndex !== chap.length - 1) {
+      let tempArr = [...chap];
+      let nextIndex = filteredIndex + 1;
+      let prev = tempArr[nextIndex];
+      api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
+        id: menuItem0.item._id,
+        ranking: tempArr[nextIndex].id.ranking,
+        type: menuItem0.type,
+      }).then(() => {
+        api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
+          id: prev._id,
+          ranking: tempArr[filteredIndex].id.ranking,
+          type: menuItem0.type,
+        }).then(() => {
+          tempArr[filteredIndex] = chap[nextIndex];
+          tempArr[nextIndex] = chap[filteredIndex];
+          setEditChap0Part2(tempArr);
         });
       });
     }
@@ -165,12 +227,12 @@ export default function NestedList({
       let tempArr = [...chap];
       let nextIndex = filteredIndex + 1;
       let prev = tempArr[nextIndex];
-      api('put', `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+      api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
         id: menuItem0.item._id,
         ranking: tempArr[nextIndex].ranking,
         type: menuItem0.type,
       }).then(() => {
-        api('put', `/ArchitectsChap0/editChapLevel/${currentProject.chap0part2.id._id}`, {
+        api('put', `/ArchitectsChap0/editChapLevel/${editChap0Part2.id._id}`, {
           id: prev._id,
           ranking: tempArr[filteredIndex].ranking,
           type: menuItem0.type,
@@ -178,18 +240,23 @@ export default function NestedList({
           tempArr[filteredIndex] = chap[nextIndex];
           tempArr[nextIndex] = chap[filteredIndex];
           setEditChap0Part2((prev) => {
-            if (menuItem0.type === 'level1') {
-              prev.id.level2 = tempArr;
-            } else if (menuItem0.type === 'level2') {
-              prev.id.level2.map((item) => {
-                item.level3.map((item2) => {
-                  if (item2._id.toString() === menuItem0.item._id.toString()) {
-                    item.level3 = tempArr;
-                  }
-                });
-              });
-            }
-            return { ...prev };
+            prev.map((prevItem) => {
+              if (prevItem.id._id === editChap0Part2.id._id) {
+                if (menuItem0.type === 'level1') {
+                  prevItem.id.level2 = tempArr;
+                } else if (menuItem0.type === 'level2') {
+                  prevItem.id.level2.map((item) => {
+                    item.level3.map((item2) => {
+                      if (item2._id.toString() === menuItem0.item._id.toString()) {
+                        item.level3 = tempArr;
+                      }
+                    });
+                  });
+                }
+              }
+            });
+
+            return [...prev];
           });
         });
       });
@@ -234,35 +301,39 @@ export default function NestedList({
         >
           {t('To Modify')}
         </MenuItem>
-        {menuItem0.type !== 'level0' && (
-          <>
-            <MenuItem
-              onClick={() => {
-                setParentChap(editChap0Part2);
-                handleOpenDeleteChapModal(menuItem0);
-                handleAnchorElLevel0Close();
-              }}
-            >
-              {t('To Delete')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleLevelUp(menuItem0);
-                handleAnchorElLevel0Close();
-              }}
-            >
-              {t('Up')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleLevelDown(menuItem0);
-                handleAnchorElLevel0Close();
-              }}
-            >
-              {t('Down')}
-            </MenuItem>
-          </>
-        )}
+        <MenuItem
+          onClick={() => {
+            setParentChap(editChap0Part2);
+            handleOpenDeleteChapModal(menuItem0);
+            handleAnchorElLevel0Close();
+          }}
+        >
+          {t('To Delete')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            if (menuItem0.type === 'level0') {
+              handleParentLevelUp();
+            } else {
+              handleLevelUp();
+            }
+            handleAnchorElLevel0Close();
+          }}
+        >
+          {t('Up')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            if (menuItem0.type === 'level0') {
+              handleParentLevelDown();
+            } else {
+              handleLevelDown();
+            }
+            handleAnchorElLevel0Close();
+          }}
+        >
+          {t('Down')}
+        </MenuItem>
       </StyledMenu>
 
       <ListItem>
