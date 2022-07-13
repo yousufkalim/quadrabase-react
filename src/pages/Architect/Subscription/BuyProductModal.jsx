@@ -34,7 +34,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
       let temp = [];
       selectedSubscriptions.map((item1) => {
         let existing = productList.find((item2) => item2._id === item1);
-        existing.count = 1;
+        existing.count = 0;
         temp.push(existing);
       });
       setSubscriptionData(temp);
@@ -67,7 +67,9 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     data = data.filter((item) => item.type === 'Prescribers');
 
     setProductList(data);
-    setSelectedSubscriptions([data[0]._id]);
+    let ids = [];
+    data.map((item) => ids.push(item._id));
+    setSelectedSubscriptions(ids);
   };
 
   const generateQuote = async () => {
@@ -147,20 +149,6 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         <div style={{ width: '90%' }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
-            <InputWithOptions
-              value={selectedSubscriptions}
-              handleChange={(e) => handleSubscriptionChange(e)}
-              options={productList}
-              style={{
-                backgroundColor: '#f5f5f5',
-                borderRadius: 10,
-                height: 40,
-                width: '110%',
-                fontSize: 16,
-                padding: 5,
-              }}
-            />
-            <br />
             <strong>Abonnement</strong>
             {subscriptionsData.map((item, index) => {
               return (
@@ -186,6 +174,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                         });
                       }}
                       component="register"
+                      first="notDisable"
                       style={{
                         backgroundColor: '#f5f5f5',
                         borderRadius: 10,

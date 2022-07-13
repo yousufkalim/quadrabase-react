@@ -241,7 +241,7 @@ const Register = () => {
       let temp = [];
       selectedSubscriptions.map((item1) => {
         let existing = subscriptionOptions.find((item2) => item2._id === item1);
-        existing.count = 1;
+        existing.count = 0;
         temp.push(existing);
       });
       setSubscriptionData(temp);
@@ -274,7 +274,9 @@ const Register = () => {
     if (type === 'Prescripteur') {
       let filteredData = data.filter((item) => item.type === 'Prescribers');
       setSubscriptionOptions(filteredData);
-      setSelectedSubscriptions([filteredData[0]._id]);
+      let ids = [];
+      filteredData.map((item) => ids.push(item._id));
+      setSelectedSubscriptions(ids);
     } else {
       let filteredData = data.filter((item) => item.type === 'Manufacturers');
       setSubscriptionOptions(filteredData);
@@ -1311,20 +1313,6 @@ const Register = () => {
                   <>
                     {/* Subscription */}
                     <div>
-                      <InputWithOptions
-                        value={selectedSubscriptions}
-                        handleChange={(e) => handleSubscriptionChange(e)}
-                        options={subscriptionOptions}
-                        style={{
-                          backgroundColor: '#f5f5f5',
-                          borderRadius: 10,
-                          height: 40,
-                          width: '110%',
-                          fontSize: 16,
-                          padding: 5,
-                        }}
-                      />
-                      <br />
                       <strong>Abonnement</strong>
 
                       {subscriptionsData.map((item, index) => {
@@ -1350,6 +1338,7 @@ const Register = () => {
                                     return [...prev];
                                   });
                                 }}
+                                first="notDisable"
                                 component="register"
                                 style={{
                                   backgroundColor: '#f5f5f5',
