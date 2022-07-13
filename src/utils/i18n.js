@@ -1192,7 +1192,7 @@ i18n
           'No file to upload': 'Aucun fichier à télécharger',
           'Folders deleted successfully': 'Dossiers supprimés avec succès',
           Provider: 'Fabricant',
-          'No works found for this provider.': 'Aucune oeuvre trouvée pour ce fournisseur.',
+          'No works found for this provider.': 'Aucun ouvrage associé pour ce Fabricant.',
           'Rename folder': 'Renommer le dossier',
           'Modify status': 'Modifier le statut',
           'Type of Customer': 'Type de Client',
