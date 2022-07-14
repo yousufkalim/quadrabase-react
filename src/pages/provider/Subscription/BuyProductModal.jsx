@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../api";
-import { formatNumber } from "../../../utils/markThousand";
-import BasicDropdown from "../../../components/Architect/BasicDropdown";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState } from 'react';
+import api from '../../../api';
+import { formatNumber } from '../../../utils/markThousand';
+import BasicDropdown from '../../../components/Architect/BasicDropdown';
+import Button from '@mui/material/Button';
 
 const options = [
   { _id: 1, title: 1 },
@@ -13,9 +13,9 @@ const options = [
 ];
 
 const BuyProductModal = ({ handleBuySubModal, user }) => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const [productList, setProductList] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -32,9 +32,9 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
   }, [selectedProduct]);
 
   const getProducts = async () => {
-    const response = await api("get", `/Subscriptions/`);
+    const response = await api('get', `/Subscriptions/`);
     let data = response.data.subscription;
-    data = data.filter((item) => item.type === "Manufacturers");
+    data = data.filter((item) => item.type === 'Manufacturers');
     let current = data.find((item) => item._id === user.subscription.id)?._id;
 
     setProductList(data);
@@ -50,22 +50,24 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
       alertPrice: 0,
       alertCount: 0,
       alertTotal: 0,
-      referenPrice: product.price,
+      referenPrice: formatNumber(product.price.toFixed(2)),
       referenCount: count,
-      referenTotal: product.price * count,
-      totalHT: product.price * count,
+      referenTotal: formatNumber((product.price * count).toFixed(2)),
+      totalHT: formatNumber((product.price * count).toFixed(2)),
       tvaPercentage: 20,
-      tvaAmount: (product.price * count * 20) / 100,
-      TotalCost: (product.price * count * 20) / 100 + product.price * count,
-      paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+      tvaAmount: formatNumber(((product.price * count * 20) / 100).toFixed(2)),
+      TotalCost: formatNumber(
+        ((product.price * count * 20) / 100 + product.price * count).toFixed(2)
+      ),
+      paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
     };
-    const result = await api("post", `/Providers/quote/download`, invoiceData);
-    window.open(result.data.path, "_blank");
+    const result = await api('post', `/Providers/quote/download`, invoiceData);
+    window.open(result.data.path, '_blank');
   };
 
   // handle Finish function
   const handleFinish = async () => {
-    if (paymentMethod === "mandat") {
+    if (paymentMethod === 'mandat') {
       handleBuySubModal();
     } else {
       let temp2 = productList.find((item) => item._id === selectedProduct);
@@ -75,17 +77,18 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
         line_items: [
           {
             price_data: {
-              currency: "eur",
+              currency: 'eur',
               product_data: {
-                name: "Subscription",
+                name: 'Subscription',
               },
-              unit_amount: parseInt((product.price * count * 20) / 100 + product.price * count) * 100,
+              unit_amount:
+                parseInt((product.price * count * 20) / 100 + product.price * count) * 100,
             },
             quantity: 1,
           },
         ],
         metaData: {
-          type: "ProviderOrder",
+          type: 'ProviderOrder',
           providerId: user._id,
           duration: product.duration * count,
         },
@@ -96,26 +99,28 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
           alertPrice: 0,
           alertCount: 0,
           alertTotal: 0,
-          referenPrice: product.price,
+          referenPrice: formatNumber(product.price.toFixed(2)),
           referenCount: count,
-          referenTotal: product.price * count,
-          totalHT: product.price * count,
+          referenTotal: formatNumber((product.price * count).toFixed(2)),
+          totalHT: formatNumber((product.price * count).toFixed(2)),
           tvaPercentage: 20,
-          tvaAmount: (product.price * count * 20) / 100,
-          TotalCost: (product.price * count * 20) / 100 + product.price * count,
-          paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+          tvaAmount: formatNumber(((product.price * count * 20) / 100).toFixed(2)),
+          TotalCost: formatNumber(
+            ((product.price * count * 20) / 100 + product.price * count).toFixed(2)
+          ),
+          paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
         },
       };
 
-      const res = await api("post", `/licenses/checkout`, data);
+      const res = await api('post', `/licenses/checkout`, data);
       window.location = res.data.url;
     }
   };
 
   return (
     !loading && (
-      <div style={{ width: "35vw", maxHeight: "85vh", overflow: "auto" }}>
-        <div style={{ width: "90%" }}>
+      <div style={{ width: '35vw', maxHeight: '85vh', overflow: 'auto' }}>
+        <div style={{ width: '90%' }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
             <BasicDropdown
@@ -126,10 +131,10 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
               }}
               disabled
               style={{
-                backgroundColor: "#f5f5f5",
+                backgroundColor: '#f5f5f5',
                 borderRadius: 10,
                 height: 40,
-                width: "110%",
+                width: '110%',
                 fontSize: 20,
                 fontWeight: 700,
                 padding: 5,
@@ -150,7 +155,7 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
                   }}
                   component="register"
                   style={{
-                    backgroundColor: "#f5f5f5",
+                    backgroundColor: '#f5f5f5',
                     borderRadius: 10,
                     height: 40,
                     width: 60,
@@ -205,23 +210,23 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
         </div>
       </div> */}
           {/* Total */}
-          <div style={{ padding: "20px 0" }}>
+          <div style={{ padding: '20px 0' }}>
             <div className="payment-box">
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 <div
                   className="common-text"
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end",
-                    color: "black",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    color: 'black',
                     fontWeight: 600,
                     fontSize: 20,
                   }}
                 >
                   <div className="amount-container" style={{ border: 0 }}>
-                    Montant à payer :{" "}
+                    Montant à payer :{' '}
                   </div>
                 </div>
                 <div>
@@ -231,16 +236,22 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
                   </div>
                   <div className="amount-container">
                     <div>Total T.T.C</div>
-                    <div> {formatNumber(((product.price * count * 20) / 100 + product.price * count)?.toFixed(2))} €</div>
+                    <div>
+                      {' '}
+                      {formatNumber(
+                        ((product.price * count * 20) / 100 + product.price * count)?.toFixed(2)
+                      )}{' '}
+                      €
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{ width: "110%", height: 4, backgroundColor: "#8C1244" }} />
+          <div style={{ width: '110%', height: 4, backgroundColor: '#8C1244' }} />
           <div style={{ marginTop: 20 }}>
             <strong>Mode de paiement</strong>
-            <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
+            <div className="subscription-box" style={{ display: 'flex', marginTop: 10 }}>
               <div className="payment-flex-contaner">
                 <div className="common-text-3">
                   <span>CB</span>
@@ -251,7 +262,7 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
                   name="payment"
                   value="card"
                   className="radio-button"
-                  checked={paymentMethod === "card"}
+                  checked={paymentMethod === 'card'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </div>
@@ -265,29 +276,32 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
                   name="payment"
                   value="sepa_debit"
                   className="radio-button"
-                  checked={paymentMethod === "sepa_debit"}
+                  checked={paymentMethod === 'sepa_debit'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </div>
             </div>
             {/* exports */}
-            <div style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }} onClick={generateQuote}>
+            <div
+              style={{ cursor: 'pointer', color: '#FF8616', whiteSpace: 'nowrap' }}
+              onClick={generateQuote}
+            >
               Générer un devis
             </div>
           </div>
           {/* Buttons */}
           <div
             style={{
-              width: "110%",
-              textAlign: "center",
+              width: '110%',
+              textAlign: 'center',
               marginTop: 40,
             }}
           >
             <Button
               variant="contained"
               style={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 8,
               }}
               onClick={() => {
@@ -300,8 +314,8 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
             <Button
               variant="contained"
               style={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 8,
               }}
               onClick={() => handleFinish()}

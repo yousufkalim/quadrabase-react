@@ -321,9 +321,11 @@ const Register = () => {
       // to creating account
       let data = {};
       if (type === 'Prescripteur') {
-        let temp = subscriptionsData.map((item) => {
-          item.subTotal = item.count * item.price;
-          return item;
+        let temp = [];
+        subscriptionsData.map((item) => {
+          let subTotal = formatNumber((item.count * item.price).toFixed(2));
+          let price = formatNumber(item.price.toFixed(2));
+          temp.push({ ...item, subTotal, price });
         });
         data = {
           paymentMethod,
@@ -346,10 +348,10 @@ const Register = () => {
           invoiceData: {
             archId,
             subscriptionsData: temp,
-            totalHT: total.subTotal,
+            totalHT: formatNumber(total.subTotal.toFixed(2)),
             tvaPercentage: 20,
-            tvaAmount: total.tax,
-            TotalCost: total.grandTotal,
+            tvaAmount: formatNumber(total.tax.toFixed(2)),
+            TotalCost: formatNumber(total.grandTotal.toFixed(2)),
             paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
           },
         };
@@ -390,15 +392,24 @@ const Register = () => {
             alertPrice: 0,
             alertCount: 0,
             alertTotal: 0,
-            referenPrice: fabricantSubAmounts.refer,
+            referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
             referenCount: fabricantSubAmounts.count,
-            referenTotal: fabricantSubAmounts.refer * fabricantSubAmounts.count,
-            totalHT: fabricantSubAmounts.refer * fabricantSubAmounts.count,
+            referenTotal: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
+            totalHT: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
             tvaPercentage: 20,
-            tvaAmount: (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100,
-            TotalCost:
-              (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
-              fabricantSubAmounts.refer * fabricantSubAmounts.count,
+            tvaAmount: formatNumber(
+              ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+            ),
+            TotalCost: formatNumber(
+              (
+                (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+                fabricantSubAmounts.refer * fabricantSubAmounts.count
+              ).toFixed(2)
+            ),
             paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
           },
         };
@@ -453,17 +464,19 @@ const Register = () => {
 
   const generateQuote = async () => {
     if (type === 'Prescripteur') {
-      let temp = subscriptionsData.map((item) => {
-        item.subTotal = item.count * item.price;
-        return item;
+      let temp = [];
+      subscriptionsData.map((item) => {
+        let subTotal = formatNumber((item.count * item.price).toFixed(2));
+        let price = formatNumber(item.price.toFixed(2));
+        temp.push({ ...item, subTotal, price });
       });
       let invoiceData = {
         archId,
         subscriptionsData: temp,
-        totalHT: total.subTotal,
+        totalHT: formatNumber(total.subTotal.toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount: total.tax,
-        TotalCost: total.grandTotal,
+        tvaAmount: formatNumber(total.tax.toFixed(2)),
+        TotalCost: formatNumber(total.grandTotal.toFixed(2)),
         paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
       };
       const result = await api('post', `/Architects/quote/download`, invoiceData);
@@ -478,15 +491,22 @@ const Register = () => {
         alertPrice: 0,
         alertCount: 0,
         alertTotal: 0,
-        referenPrice: fabricantSubAmounts.refer,
+        referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
         referenCount: fabricantSubAmounts.count,
-        referenTotal: fabricantSubAmounts.refer * fabricantSubAmounts.count,
-        totalHT: fabricantSubAmounts.refer * fabricantSubAmounts.count,
+        referenTotal: formatNumber(
+          (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+        ),
+        totalHT: formatNumber((fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount: (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100,
-        TotalCost:
-          (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
-          fabricantSubAmounts.refer * fabricantSubAmounts.count,
+        tvaAmount: formatNumber(
+          ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+        ),
+        TotalCost: formatNumber(
+          (
+            (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+            fabricantSubAmounts.refer * fabricantSubAmounts.count
+          ).toFixed(2)
+        ),
         paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
       };
       const result = await api('post', `/Providers/quote/download`, invoiceData);

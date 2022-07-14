@@ -73,17 +73,19 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
   };
 
   const generateQuote = async () => {
-    let temp = subscriptionsData.map((item) => {
-      item.subTotal = item.count * item.price;
-      return item;
+    let temp = [];
+    subscriptionsData.map((item) => {
+      let subTotal = formatNumber((item.count * item.price).toFixed(2));
+      let price = formatNumber(item.price.toFixed(2));
+      temp.push({ ...item, subTotal, price });
     });
     let invoiceData = {
       archId: user._id,
       subscriptionsData: temp,
-      totalHT: total.subTotal,
+      totalHT: formatNumber(total.subTotal.toFixed(2)),
       tvaPercentage: 20,
-      tvaAmount: total.tax,
-      TotalCost: total.grandTotal,
+      tvaAmount: formatNumber(total.tax.toFixed(2)),
+      TotalCost: formatNumber(total.grandTotal.toFixed(2)),
       paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
     };
     const result = await api('post', `/Architects/quote/download`, invoiceData);
@@ -104,9 +106,11 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     if (paymentMethod === 'mandat') {
       handleBuySubModal();
     } else {
-      let temp = subscriptionsData.map((item) => {
-        item.subTotal = item.count * item.price;
-        return item;
+      let temp = [];
+      subscriptionsData.map((item) => {
+        let subTotal = formatNumber((item.count * item.price).toFixed(2));
+        let price = formatNumber(item.price.toFixed(2));
+        temp.push({ ...item, subTotal, price });
       });
       let data = {};
       data = {
@@ -130,10 +134,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         invoiceData: {
           archId: user._id,
           subscriptionsData: temp,
-          totalHT: total.subTotal,
+          totalHT: formatNumber(total.subTotal.toFixed(2)),
           tvaPercentage: 20,
-          tvaAmount: total.tax,
-          TotalCost: total.grandTotal,
+          tvaAmount: formatNumber(total.tax.toFixed(2)),
+          TotalCost: formatNumber(total.grandTotal.toFixed(2)),
           paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
         },
       };
