@@ -1140,7 +1140,9 @@ function findCCTPsTrades(data, index) {
         tradeObj.arr.push(workObj);
       }
     }
-    cp.push(tradeObj);
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
+    }
   }
   return cp;
 }
@@ -1175,9 +1177,13 @@ function findCCTPsTradesAndTranches(data, index) {
           tranchObj.arr.push(workObj);
         }
       }
-      tradeObj.arr.push(tranchObj);
+      if (tranchObj.arr.length > 0) {
+        tradeObj.arr.push(tranchObj);
+      }
     }
-    cp.push(tradeObj);
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
+    }
   }
   return cp;
 }
