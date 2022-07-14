@@ -444,6 +444,10 @@ export const ProviderSubscriptionheadCells = [
     id: 'end_date',
     label: 'End date',
   },
+  {
+    id: 'authorize',
+    label: 'Authorize',
+  },
 ];
 
 export const MyProjectHeadCells = [

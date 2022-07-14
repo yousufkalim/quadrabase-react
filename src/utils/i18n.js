@@ -606,10 +606,12 @@ i18n
           'Static Pages': 'Static Pages',
           Warning: 'Warning',
           Continue: 'Continue',
+          'Email is required!': 'Email is required!',
         },
       },
       fr: {
         translations: {
+          'Email is required!': "L'e-mail est requis !",
           'Static Pages': 'Pages statiques',
           'Updated successfully': 'Mis à jour avec succés',
           'Number of Administrators': 'Nombre d’administrateurs',
@@ -1190,7 +1192,7 @@ i18n
           'No file to upload': 'Aucun fichier à télécharger',
           'Folders deleted successfully': 'Dossiers supprimés avec succès',
           Provider: 'Fabricant',
-          'No works found for this provider.': 'Aucune oeuvre trouvée pour ce fournisseur.',
+          'No works found for this provider.': 'Aucun ouvrage associé pour ce Fabricant.',
           'Rename folder': 'Renommer le dossier',
           'Modify status': 'Modifier le statut',
           'Type of Customer': 'Type de Client',

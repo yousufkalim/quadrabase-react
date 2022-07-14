@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import SelectField from "../../../components/SelectField";
-import TextInput from "../../../components/TextInput";
-import DatePicker from "react-flatpickr";
-import moment from "moment";
+import React, { useEffect } from 'react';
+import SelectField from '../../../components/SelectField';
+import TextInput from '../../../components/TextInput';
+import DatePicker from 'react-flatpickr';
+import { French } from 'flatpickr/dist/l10n/fr.js';
+import moment from 'moment';
 
 const SubscriptionModal = (props) => {
   const {
@@ -23,7 +24,7 @@ const SubscriptionModal = (props) => {
         <div className="w-full px-3 mb-3">
           <SelectField
             name="subscription"
-            label={translate("Subscription")}
+            label={translate('Subscription')}
             value={value}
             onChange={onChange}
             translate={translate}
@@ -37,16 +38,15 @@ const SubscriptionModal = (props) => {
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-first-name"
           >
-            {translate("Sub Start Date")}
+            {translate('Sub Start Date')}
           </label>
           <DatePicker
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
+            options={{ locale: French }}
             value={startDate}
             onChange={(date) => {
               setStartDate(date[0]);
-              let tempEndDate = moment(date[0])
-                .add(1, "years")
-                .subtract(1, "days")._d;
+              let tempEndDate = moment(date[0]).add(1, 'years').subtract(1, 'days')._d;
               setEndDate(tempEndDate);
             }}
           />
@@ -58,11 +58,11 @@ const SubscriptionModal = (props) => {
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-first-name"
           >
-            {translate("End Date")}
+            {translate('End Date')}
           </label>
           <DatePicker
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
-            options={{ minDate: startDate }}
+            options={{ minDate: startDate, locale: French }}
             value={endDate}
             disabled={true}
           />
@@ -74,7 +74,7 @@ const SubscriptionModal = (props) => {
             type="number"
             min={0}
             placeholder="Projects"
-            label={translate("Number of projects")}
+            label={translate('Number of projects')}
             name="projects"
             onChange={onChange}
             value={projects}
@@ -87,7 +87,7 @@ const SubscriptionModal = (props) => {
             type="number"
             min={0}
             placeholder="Projects"
-            label={translate("Ongoing Projects")}
+            label={translate('Ongoing Projects')}
             name="projects"
             onChange={onChange}
             value={architectData?.projects?.length}
@@ -101,12 +101,11 @@ const SubscriptionModal = (props) => {
             type="number"
             min={0}
             placeholder="Projects"
-            label={translate("Remaining Projects")}
+            label={translate('Remaining Projects')}
             name="projects"
             onChange={onChange}
             value={
-              (architectData?.subscriptions?.projects ?? 0) -
-              (architectData?.projects?.length ?? 0)
+              (architectData?.subscriptions?.projects ?? 0) - (architectData?.projects?.length ?? 0)
             }
             disabled={true}
           />

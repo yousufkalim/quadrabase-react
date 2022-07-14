@@ -241,7 +241,7 @@ const Register = () => {
       let temp = [];
       selectedSubscriptions.map((item1) => {
         let existing = subscriptionOptions.find((item2) => item2._id === item1);
-        existing.count = 1;
+        existing.count = 0;
         temp.push(existing);
       });
       setSubscriptionData(temp);
@@ -274,7 +274,9 @@ const Register = () => {
     if (type === 'Prescripteur') {
       let filteredData = data.filter((item) => item.type === 'Prescribers');
       setSubscriptionOptions(filteredData);
-      setSelectedSubscriptions([filteredData[0]._id]);
+      let ids = [];
+      filteredData.map((item) => ids.push(item._id));
+      setSelectedSubscriptions(ids);
     } else {
       let filteredData = data.filter((item) => item.type === 'Manufacturers');
       setSubscriptionOptions(filteredData);
@@ -319,9 +321,11 @@ const Register = () => {
       // to creating account
       let data = {};
       if (type === 'Prescripteur') {
-        let temp = subscriptionsData.map((item) => {
-          item.subTotal = item.count * item.price;
-          return item;
+        let temp = [];
+        subscriptionsData.map((item) => {
+          let subTotal = formatNumber((item.count * item.price).toFixed(2));
+          let price = formatNumber(item.price.toFixed(2));
+          temp.push({ ...item, subTotal, price });
         });
         data = {
           paymentMethod,
@@ -344,10 +348,10 @@ const Register = () => {
           invoiceData: {
             archId,
             subscriptionsData: temp,
-            totalHT: total.subTotal,
+            totalHT: formatNumber(total.subTotal.toFixed(2)),
             tvaPercentage: 20,
-            tvaAmount: total.tax,
-            TotalCost: total.grandTotal,
+            tvaAmount: formatNumber(total.tax.toFixed(2)),
+            TotalCost: formatNumber(total.grandTotal.toFixed(2)),
             paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
           },
         };
@@ -388,15 +392,24 @@ const Register = () => {
             alertPrice: 0,
             alertCount: 0,
             alertTotal: 0,
-            referenPrice: fabricantSubAmounts.refer,
+            referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
             referenCount: fabricantSubAmounts.count,
-            referenTotal: fabricantSubAmounts.refer * fabricantSubAmounts.count,
-            totalHT: fabricantSubAmounts.refer * fabricantSubAmounts.count,
+            referenTotal: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
+            totalHT: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
             tvaPercentage: 20,
-            tvaAmount: (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100,
-            TotalCost:
-              (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
-              fabricantSubAmounts.refer * fabricantSubAmounts.count,
+            tvaAmount: formatNumber(
+              ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+            ),
+            TotalCost: formatNumber(
+              (
+                (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+                fabricantSubAmounts.refer * fabricantSubAmounts.count
+              ).toFixed(2)
+            ),
             paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
           },
         };
@@ -451,17 +464,19 @@ const Register = () => {
 
   const generateQuote = async () => {
     if (type === 'Prescripteur') {
-      let temp = subscriptionsData.map((item) => {
-        item.subTotal = item.count * item.price;
-        return item;
+      let temp = [];
+      subscriptionsData.map((item) => {
+        let subTotal = formatNumber((item.count * item.price).toFixed(2));
+        let price = formatNumber(item.price.toFixed(2));
+        temp.push({ ...item, subTotal, price });
       });
       let invoiceData = {
         archId,
         subscriptionsData: temp,
-        totalHT: total.subTotal,
+        totalHT: formatNumber(total.subTotal.toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount: total.tax,
-        TotalCost: total.grandTotal,
+        tvaAmount: formatNumber(total.tax.toFixed(2)),
+        TotalCost: formatNumber(total.grandTotal.toFixed(2)),
         paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
       };
       const result = await api('post', `/Architects/quote/download`, invoiceData);
@@ -476,15 +491,22 @@ const Register = () => {
         alertPrice: 0,
         alertCount: 0,
         alertTotal: 0,
-        referenPrice: fabricantSubAmounts.refer,
+        referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
         referenCount: fabricantSubAmounts.count,
-        referenTotal: fabricantSubAmounts.refer * fabricantSubAmounts.count,
-        totalHT: fabricantSubAmounts.refer * fabricantSubAmounts.count,
+        referenTotal: formatNumber(
+          (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+        ),
+        totalHT: formatNumber((fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount: (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100,
-        TotalCost:
-          (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
-          fabricantSubAmounts.refer * fabricantSubAmounts.count,
+        tvaAmount: formatNumber(
+          ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+        ),
+        TotalCost: formatNumber(
+          (
+            (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+            fabricantSubAmounts.refer * fabricantSubAmounts.count
+          ).toFixed(2)
+        ),
         paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
       };
       const result = await api('post', `/Providers/quote/download`, invoiceData);
@@ -1311,20 +1333,6 @@ const Register = () => {
                   <>
                     {/* Subscription */}
                     <div>
-                      <InputWithOptions
-                        value={selectedSubscriptions}
-                        handleChange={(e) => handleSubscriptionChange(e)}
-                        options={subscriptionOptions}
-                        style={{
-                          backgroundColor: '#f5f5f5',
-                          borderRadius: 10,
-                          height: 40,
-                          width: '110%',
-                          fontSize: 16,
-                          padding: 5,
-                        }}
-                      />
-                      <br />
                       <strong>Abonnement</strong>
 
                       {subscriptionsData.map((item, index) => {
@@ -1350,6 +1358,7 @@ const Register = () => {
                                     return [...prev];
                                   });
                                 }}
+                                first="notDisable"
                                 component="register"
                                 style={{
                                   backgroundColor: '#f5f5f5',

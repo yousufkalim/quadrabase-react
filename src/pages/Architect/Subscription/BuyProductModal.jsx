@@ -34,7 +34,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
       let temp = [];
       selectedSubscriptions.map((item1) => {
         let existing = productList.find((item2) => item2._id === item1);
-        existing.count = 1;
+        existing.count = 0;
         temp.push(existing);
       });
       setSubscriptionData(temp);
@@ -67,21 +67,25 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     data = data.filter((item) => item.type === 'Prescribers');
 
     setProductList(data);
-    setSelectedSubscriptions([data[0]._id]);
+    let ids = [];
+    data.map((item) => ids.push(item._id));
+    setSelectedSubscriptions(ids);
   };
 
   const generateQuote = async () => {
-    let temp = subscriptionsData.map((item) => {
-      item.subTotal = item.count * item.price;
-      return item;
+    let temp = [];
+    subscriptionsData.map((item) => {
+      let subTotal = formatNumber((item.count * item.price).toFixed(2));
+      let price = formatNumber(item.price.toFixed(2));
+      temp.push({ ...item, subTotal, price });
     });
     let invoiceData = {
       archId: user._id,
       subscriptionsData: temp,
-      totalHT: total.subTotal,
+      totalHT: formatNumber(total.subTotal.toFixed(2)),
       tvaPercentage: 20,
-      tvaAmount: total.tax,
-      TotalCost: total.grandTotal,
+      tvaAmount: formatNumber(total.tax.toFixed(2)),
+      TotalCost: formatNumber(total.grandTotal.toFixed(2)),
       paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
     };
     const result = await api('post', `/Architects/quote/download`, invoiceData);
@@ -102,9 +106,11 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     if (paymentMethod === 'mandat') {
       handleBuySubModal();
     } else {
-      let temp = subscriptionsData.map((item) => {
-        item.subTotal = item.count * item.price;
-        return item;
+      let temp = [];
+      subscriptionsData.map((item) => {
+        let subTotal = formatNumber((item.count * item.price).toFixed(2));
+        let price = formatNumber(item.price.toFixed(2));
+        temp.push({ ...item, subTotal, price });
       });
       let data = {};
       data = {
@@ -128,10 +134,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         invoiceData: {
           archId: user._id,
           subscriptionsData: temp,
-          totalHT: total.subTotal,
+          totalHT: formatNumber(total.subTotal.toFixed(2)),
           tvaPercentage: 20,
-          tvaAmount: total.tax,
-          TotalCost: total.grandTotal,
+          tvaAmount: formatNumber(total.tax.toFixed(2)),
+          TotalCost: formatNumber(total.grandTotal.toFixed(2)),
           paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
         },
       };
@@ -147,20 +153,6 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
         <div style={{ width: '90%' }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
-            <InputWithOptions
-              value={selectedSubscriptions}
-              handleChange={(e) => handleSubscriptionChange(e)}
-              options={productList}
-              style={{
-                backgroundColor: '#f5f5f5',
-                borderRadius: 10,
-                height: 40,
-                width: '110%',
-                fontSize: 16,
-                padding: 5,
-              }}
-            />
-            <br />
             <strong>Abonnement</strong>
             {subscriptionsData.map((item, index) => {
               return (
@@ -186,6 +178,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                         });
                       }}
                       component="register"
+                      first="notDisable"
                       style={{
                         backgroundColor: '#f5f5f5',
                         borderRadius: 10,
