@@ -1,6 +1,7 @@
 import { Paragraph, TextRun, UnderlineType } from 'docx';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
+import { l4Font, l3Font, l2Font, l1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text } from './docxFormatting';
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
@@ -290,7 +291,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot: `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -375,7 +376,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -420,7 +421,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -505,7 +506,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -550,7 +551,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -635,7 +636,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -1107,7 +1108,11 @@ function findCCTPsSimple(data, index) {
       continue;
     }
     if (_cctpArr[index]) {
-      cp.push(_cctpArr[index]);
+      const obj = {
+        title: `${index + 1}.${i + 1} ${data[i].work.name}`,
+        text: _cctpArr[index],
+      };
+      cp.push(obj);
     }
   }
   return cp;
@@ -1117,6 +1122,10 @@ function findCCTPsTrades(data, index) {
   const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
+    const tradeObj = {
+      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
+      arr: [],
+    };
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
@@ -1125,8 +1134,15 @@ function findCCTPsTrades(data, index) {
         continue;
       }
       if (_cctpArr[index]) {
-        cp.push(_cctpArr[index]);
+        const workObj = {
+          title: `${index + 1}.${i + 1}.${j + 1} ${currentObjWork.work.name}`,
+          text: _cctpArr[index],
+        };
+        tradeObj.arr.push(workObj);
       }
+    }
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
     }
   }
   return cp;
@@ -1136,9 +1152,17 @@ function findCCTPsTradesAndTranches(data, index) {
   const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
+    const tradeObj = {
+      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
+      arr: [],
+    };
     const tranchesArr = currentObjTrade.data;
     for (let j = 0; j < tranchesArr.length; j++) {
       const currentObjTranch = tranchesArr[j];
+      const tranchObj = {
+        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjTranch.tranch}`,
+        arr: [],
+      };
       const workAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
@@ -1147,9 +1171,19 @@ function findCCTPsTradesAndTranches(data, index) {
           continue;
         }
         if (_cctpArr[index]) {
-          cp.push(_cctpArr[index]);
+          const workObj = {
+            title: `${index + 1}.${i + 1}.${j + 1}.${k + 1} ${currentObjWork.work.name}`,
+            text: _cctpArr[index],
+          };
+          tranchObj.arr.push(workObj);
         }
       }
+      if (tranchObj.arr.length > 0) {
+        tradeObj.arr.push(tranchObj);
+      }
+    }
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
     }
   }
   return cp;
@@ -1251,16 +1285,7 @@ const tagsToDocxMap = {
           }
         }
       } else {
-        objsArr.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: currentText,
-                size: 20,
-              }),
-            ],
-          })
-        );
+        objsArr.push(l1Text(currentText));
       }
     }
 
@@ -1282,6 +1307,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           bold: true,
         }),
       ],
@@ -1294,6 +1321,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           italics: true,
         }),
       ],
@@ -1306,6 +1335,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           underline: {
             color: '#f2f2f2',
             type: UnderlineType.DASH,
@@ -1321,6 +1352,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           strike: true,
         }),
       ],
@@ -1350,17 +1383,18 @@ const tagsToDocxMap = {
 
     let size;
     if (classList == 'ql-size-small') {
-      size = 20;
+      size = l1Font;
     } else if (classList == 'ql-size-large') {
-      size = 40;
+      size = l2Font;
     } else if (classList == 'ql-size-huge') {
-      size = 60;
+      size = l3Font;
     }
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
           size: size,
         }),
       ],
