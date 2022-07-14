@@ -1,19 +1,19 @@
 // init
-import React, { useState, useEffect } from "react";
-import { useStyles } from "../../../css/myProfile";
-import { Store, UpdateStore } from "../../../StoreContext";
-import moment from "moment";
-import api from "../../../api";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
-import "moment/locale/fr"; // without this line it didn't work
+import React, { useState, useEffect } from 'react';
+import { useStyles } from '../../../css/myProfile';
+import { Store, UpdateStore } from '../../../StoreContext';
+import moment from 'moment';
+import api from '../../../api';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import 'moment/locale/fr'; // without this line it didn't work
 
 // Importing Components
-import { Grid, Button, Avatar, Typography } from "@mui/material";
-import InputWithLabel from "../../../components/Architect/InputWithLabel";
-import TextInput from "../../../components/TextInput";
+import { Grid, Button, Avatar, Typography } from '@mui/material';
+import InputWithLabel from '../../../components/Architect/InputWithLabel';
+import TextInput from '../../../components/TextInput';
 
-moment.locale("fr");
+moment.locale('fr');
 // component
 const Index = () => {
   const { t } = useTranslation();
@@ -22,36 +22,38 @@ const Index = () => {
   const updateStore = UpdateStore();
   // states
   const [values, setValues] = useState({
-    name: "",
-    firstname: "",
-    email: "",
-    telephone_no: "",
-    oldPassword: "",
-    newPassword: "",
-    establishment: "",
-    address1: "",
-    address2: "",
-    po_box: "",
-    zipcode: "",
-    city: "",
+    name: '',
+    firstname: '',
+    email: '',
+    telephone_no: '',
+    oldPassword: '',
+    newPassword: '',
+    establishment: '',
+    address1: '',
+    address2: '',
+    po_box: '',
+    zipcode: '',
+    city: '',
+    profile_pic: '',
   });
 
   // useEffect to set values
   useEffect(() => {
-    console.log(store.user, "store.user");
+    console.log(store.user, 'store.user');
     setValues({
       name: store.user.name,
       firstname: store.user.firstname,
       email: store.user.email,
       telephone_no: store.user.telephone_no,
-      oldPassword: "",
-      newPassword: "",
+      oldPassword: '',
+      newPassword: '',
       establishment: store.user.establishment,
       address1: store.user.address1,
       address2: store.user.address2,
       po_box: store.user.po_box,
       zipcode: store.user.zipcode,
       city: store.user.city,
+      profile_pic: store.user.profile_pic,
     });
   }, [store.user]);
 
@@ -61,33 +63,72 @@ const Index = () => {
       prev[name] = value;
       return { ...prev };
     });
+    localStorage.setItem('warning', true);
   };
 
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await api("put", `/Providers/${store.user._id}`, values, t);
+    const result = await api('put', `/Providers/${store.user._id}`, values, t);
     updateStore({ loggedIn: true, user: result.data.provider });
+    localStorage.removeItem('warning');
     toast.success(t(result.data.message));
   };
 
+  const handleFileChange = async (e) => {
+    const files = e.target.files;
+    let form_data = new FormData();
+    form_data.append(`file`, files[0]);
+    const response = await api('post', `/fileUploader/`, form_data, t);
+    setValues({
+      ...values,
+      profile_pic: response.data.files[0].uri,
+    });
+    localStorage.setItem('warning', true);
+  };
+
   return (
-    <div style={{ overflow: "hidden" }}>
-      <div style={{ display: "flex", justifyContent: "center", paddingTop: 10 }}>
+    <div style={{ overflow: 'hidden' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
         <div className={classes.left_container}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Avatar style={{ height: 100, width: 100 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <label className="profile-label">
+              <Avatar
+                style={{ height: 100, width: 100 }}
+                src={values.profile_pic && values.profile_pic}
+              />
+              <TextInput
+                type="file"
+                placeholder="Document"
+                name="document"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+              <Button
+                variant="contained"
+                className="remove-pic"
+                onClick={() => {
+                  setValues({
+                    ...values,
+                    profile_pic: '',
+                  });
+                  localStorage.setItem('warning', true);
+                }}
+              >
+                {t('Remove')}
+              </Button>
+            </label>
             <br />
             <Typography className={classes.name} variant="h4">
               {store.user.name} {store.user.firstname}
             </Typography>
             <Typography color="textSecondary" variant="body1">
-              {t("Member Since")}: {moment(store.user.createdAt).format("MMMM DD, YYYY")}
+              {t('Member Since')}: {moment(store.user.createdAt).format('MMMM DD, YYYY')}
             </Typography>
           </div>
         </div>
         <div className={classes.right_container} onSubmit={handleSubmit}>
-          <h1 style={{ width: "100vw", color: "black" }}>{t("My Profile")}</h1>
+          <h1 style={{ width: '100vw', color: 'black' }}>{t('My Profile')}</h1>
           <form className={classes.form} autoComplete="off">
             {/* All fields */}
             <br />
@@ -95,7 +136,7 @@ const Index = () => {
             <Grid container spacing={2}>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("Lastname")}
+                  label={t('Lastname')}
                   required={true}
                   name="name"
                   type="text"
@@ -105,7 +146,7 @@ const Index = () => {
               </Grid>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("Firstname")}
+                  label={t('Firstname')}
                   required={true}
                   name="firstname"
                   type="text"
@@ -129,7 +170,7 @@ const Index = () => {
               </Grid>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("Phone")}
+                  label={t('Phone')}
                   required={true}
                   name="telephone_no"
                   type="text"
@@ -141,7 +182,7 @@ const Index = () => {
             <Grid container spacing={2}>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("Old Password")}
+                  label={t('Old Password')}
                   name="oldPassword"
                   type="password"
                   value={values.oldPassword}
@@ -150,7 +191,7 @@ const Index = () => {
               </Grid>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("New Password")}
+                  label={t('New Password')}
                   name="newPassword"
                   type="password"
                   value={values.newPassword}
@@ -159,7 +200,7 @@ const Index = () => {
               </Grid>
             </Grid>
             <InputWithLabel
-              label={t("Establishment")}
+              label={t('Establishment')}
               required={true}
               disabled={true}
               name="establishment"
@@ -168,7 +209,7 @@ const Index = () => {
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <InputWithLabel
-              label={t("Address 1")}
+              label={t('Address 1')}
               required={true}
               name="address1"
               type="text"
@@ -176,7 +217,7 @@ const Index = () => {
               handleChange={(e) => handleChange(e.target.name, e.target.value)}
             />
             <InputWithLabel
-              label={t("Address 2")}
+              label={t('Address 2')}
               name="address2"
               type="text"
               value={values.address2}
@@ -186,7 +227,7 @@ const Index = () => {
             <Grid container spacing={2}>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("CS/BP")}
+                  label={t('CS/BP')}
                   name="po_box"
                   type="text"
                   value={values.po_box}
@@ -195,7 +236,7 @@ const Index = () => {
               </Grid>
               <Grid item zeroMinWidth xs>
                 <InputWithLabel
-                  label={t("CP")}
+                  label={t('CP')}
                   required={true}
                   name="zipcode"
                   type="text"
@@ -206,7 +247,7 @@ const Index = () => {
             </Grid>
 
             <InputWithLabel
-              label={t("City")}
+              label={t('City')}
               required={true}
               name="city"
               type="text"
@@ -215,21 +256,21 @@ const Index = () => {
             />
 
             {/* register button */}
-            <div style={{ width: "100%", textAlign: "right" }}>
+            <div style={{ width: '100%', textAlign: 'right' }}>
               <Button
                 variant="contained"
                 sx={{
-                  textTransform: "none",
-                  backgroundColor: "#8C1244",
+                  textTransform: 'none',
+                  backgroundColor: '#8C1244',
                   borderRadius: 2,
-                  whiteSpace: "nowrap",
-                  ":hover": {
-                    backgroundColor: "#8C1244",
+                  whiteSpace: 'nowrap',
+                  ':hover': {
+                    backgroundColor: '#8C1244',
                   },
                 }}
                 type="submit"
               >
-                {t("Update")}
+                {t('Update')}
               </Button>
             </div>
           </form>
