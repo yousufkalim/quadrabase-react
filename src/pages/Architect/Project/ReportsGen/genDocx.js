@@ -38,6 +38,8 @@ import {
   dataColumnsBPU,
 } from './data.js';
 
+import { l4Font, l3Font, l2Font, l1Font, docText, l4Text, l3Text, l2Text, l1Text, fontType } from './docxFormatting';
+
 const Spacer = new Paragraph({
   text: '',
 });
@@ -1072,8 +1074,9 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         children: [
           new TextRun({
             text: cctps[i].title,
-            size: 28,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
@@ -1081,17 +1084,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     const cctpArr = cctps[i].arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const _ = cctpArr[j];
-      parsedCCTPs.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: _.title,
-              size: 24,
-              bold: true,
-            }),
-          ],
-        })
-      );
+      parsedCCTPs.push(l2Text(_.title));
       let docxObjs = textRunsSplitGen(_.text);
       parsedCCTPs.push(...docxObjs);
     }
@@ -1147,8 +1140,9 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
         children: [
           new TextRun({
             text: _.title,
-            size: 28,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
@@ -1156,30 +1150,10 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const trade = cctpArr[j];
-      parsedCCTPs.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: trade.title,
-              size: 24,
-              bold: true,
-            }),
-          ],
-        })
-      );
+      parsedCCTPs.push(l3Text(trade.title));
       for (let k = 0; k < trade.arr.length; k++) {
         const work = trade.arr[k];
-        parsedCCTPs.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: work.title,
-                size: 24,
-                bold: true,
-              }),
-            ],
-          })
-        );
+        parsedCCTPs.push(l2Text(trade.title));
         let docxObjs = textRunsSplitGen(work.text);
         parsedCCTPs.push(...docxObjs);
       }
@@ -1236,8 +1210,9 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
         children: [
           new TextRun({
             text: _.title,
-            size: 28,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
@@ -1245,43 +1220,13 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const trade = cctpArr[j];
-      parsedCCTPs.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: trade.title,
-              size: 24,
-              bold: true,
-            }),
-          ],
-        })
-      );
+      parsedCCTPs.push(l3Text(trade.title));
       for (let k = 0; k < trade.arr.length; k++) {
         const tranch = trade.arr[k];
-        parsedCCTPs.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: tranch.title,
-                size: 24,
-                bold: true,
-              }),
-            ],
-          })
-        );
+        parsedCCTPs.push(l2Text(tranch.title));
         for (let l = 0; l < tranch.arr.length; l++) {
           const work = tranch.arr[l];
-          parsedCCTPs.push(
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: work.title,
-                  size: 24,
-                  bold: true,
-                }),
-              ],
-            })
-          );
+          parsedCCTPs.push(l2Text(work.title));
           let docxObjs = textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
@@ -1338,12 +1283,7 @@ function _parseHead(headArr) {
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.72),
-                right: convertInchesToTwip(0.72),
-              },
+              width: { size: 100, type: WidthType.PERCENTAGE },
               shading: {
                 fill: '#C4C8CC',
               },
@@ -1372,154 +1312,23 @@ function _parseHead(headArr) {
 
 function _parseChap0part1(part1) {
   const arr = [];
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'CHAP 0 - CLAUSES GENERALES',
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'CHAP 0 - PART 1',
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'Nom du Projet: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.name,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Maitre d'Ouvrage: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.client,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Maitre d'Oeuvre: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.prescriber,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'T.V.A: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.vat,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'Reference: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.reference,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'Description: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.description,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'Type de marché: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.market_type,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'Structure du projet: ',
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.structure,
-          size: 20,
-        }),
-      ],
-    })
-  );
+  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES'));
+  arr.push(l3Text('CHAP 0 - PART 1'));
+  arr.push(_chap0part1Item('Nom du Projet: ', part1.name));
+  arr.push(_chap0part1Item("Maitre d'Ouvrage: ", part1.client));
+  arr.push(_chap0part1Item("Maitre d'Oeuvre: ", part1.prescriber));
+  arr.push(_chap0part1Item('T.V.A: ', part1.vat));
+  arr.push(_chap0part1Item('Reference: ', part1.reference));
+  arr.push(_chap0part1Item('Description: ', part1.description));
+  arr.push(_chap0part1Item('Type de marché: ', part1.market_type));
+  arr.push(_chap0part1Item('Structure du projet: ', part1.structure));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
           text: 'Intervenants: ',
-          size: 20,
+          font: fontType,
+          size: l2Font,
           bold: true,
         }),
       ],
@@ -1539,74 +1348,43 @@ function _parseChap0part1(part1) {
   return arr;
 }
 
+function _chap0part1Item(title, description) {
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: title,
+        font: fontType,
+        size: l2Font,
+        bold: true,
+      }),
+      new TextRun({
+        text: description,
+        font: fontType,
+        size: l1Font,
+      }),
+    ],
+  });
+}
+
 function _parseChap0part2(part2) {
   const arr = [];
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: 'CHAP 0 - PART 2',
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
+  arr.push(l3Text('CHAP 0 - PART 2'));
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
-    arr.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: _.title,
-            size: 24,
-            bold: true,
-          }),
-        ],
-      })
-    );
+    arr.push(l2Text(_.title));
     if (_.text) {
-      arr.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: _.text,
-              size: 20,
-            }),
-          ],
-        })
-      );
+      arr.push(l1Text(_.text));
     }
     for (let j = 0; j < _.lvl2.length; j++) {
       const __ = _.lvl2[j];
-      arr.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: __.title,
-              size: 20,
-              bold: true,
-            }),
-          ],
-        })
-      );
+      arr.push(l2Text(__.title));
       if (__.text) {
         let docxObjs = textRunsSplitGen(__.text);
         arr.push(...docxObjs);
       }
       for (let k = 0; k < __.lvl3.length; k++) {
         const ___ = __.lvl3[k];
-        arr.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: ___.title,
-                size: 20,
-                bold: true,
-              }),
-            ],
-          })
-        );
+        arr.push(l2Text(___.title));
         if (___.text) {
           let docxObjs = textRunsSplitGen(___.text);
           arr.push(...docxObjs);

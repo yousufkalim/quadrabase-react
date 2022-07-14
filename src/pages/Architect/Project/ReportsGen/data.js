@@ -1,6 +1,7 @@
 import { Paragraph, TextRun, UnderlineType } from 'docx';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
+import { l4Font, l3Font, l2Font, l1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text } from './docxFormatting';
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
@@ -1284,16 +1285,7 @@ const tagsToDocxMap = {
           }
         }
       } else {
-        objsArr.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: currentText,
-                size: 20,
-              }),
-            ],
-          })
-        );
+        objsArr.push(l1Text(currentText));
       }
     }
 
@@ -1315,6 +1307,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           bold: true,
         }),
       ],
@@ -1327,6 +1321,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           italics: true,
         }),
       ],
@@ -1339,6 +1335,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           underline: {
             color: '#f2f2f2',
             type: UnderlineType.DASH,
@@ -1354,6 +1352,8 @@ const tagsToDocxMap = {
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: l2Font,
           strike: true,
         }),
       ],
@@ -1383,17 +1383,18 @@ const tagsToDocxMap = {
 
     let size;
     if (classList == 'ql-size-small') {
-      size = 20;
+      size = l1Font;
     } else if (classList == 'ql-size-large') {
-      size = 40;
+      size = l2Font;
     } else if (classList == 'ql-size-huge') {
-      size = 60;
+      size = l3Font;
     }
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
           size: size,
         }),
       ],
