@@ -875,17 +875,19 @@ const calculateWSCols = (arr) => {
 function rowsGenSimpleBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
     if (data[i].work.bpu_text.length == 0) {
       continue;
     }
     const arr = [];
-    arr.push(`${workIndex}.1`);
-    arr.push(`${data[i].work.name}\n${data[i].work.bpu_text}`);
+    arr.push(`${i + 1}`);
+    const obj = {
+      title: data[i].work.name,
+      text: data[i].work.bpu_text[0],
+    };
+    arr.push(obj);
     arr.push(data[i].work.unit_price ? 'PU HT \n(en chiffres)' : '');
     rows.push(arr);
-    workIndex = workIndex + 1;
   }
 
   return rows;
@@ -894,21 +896,29 @@ function rowsGenSimpleBPU(data) {
 function rowsGenTradesBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
-    const worksAndWorkDetailsArr = data[i].data;
+    const currentObjTrade = data[i];
+    const tradeObj = {
+      rows: [`${i + 1}`, currentObjTrade._id, ''],
+      arr: [],
+    };
+    const worksAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < worksAndWorkDetailsArr.length; j++) {
       const currentObj = worksAndWorkDetailsArr[j];
       if (currentObj.work.bpu_text.length == 0) {
         continue;
       }
       const arr = [];
-      arr.push(`${workIndex}.1`);
-      arr.push(`${currentObj.work.name}\n${currentObj.work.bpu_text}`);
+      arr.push(`${i + 1}.${j + 1}`);
+      const obj = {
+        title: currentObj.work.name,
+        text: currentObj.work.bpu_text[0],
+      };
+      arr.push(obj);
       arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
-      rows.push(arr);
-      workIndex = workIndex + 1;
+      tradeObj.arr.push(arr);
     }
+    rows.push(tradeObj);
   }
 
   return rows;
@@ -917,24 +927,38 @@ function rowsGenTradesBPU(data) {
 function rowsGenTradesAndTranchesBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
-    const tradesArr = data[i].data;
-    for (let j = 0; j < tradesArr.length; j++) {
-      const worksAndWorkDetailsArr = tradesArr[j].tranchData;
+    const currentObjTrade = data[i];
+    const tradeObj = {
+      rows: [`${i + 1}`, currentObjTrade._id, ''],
+      arr: [],
+    };
+    const tranchesArr = currentObjTrade.data;
+    for (let j = 0; j < tranchesArr.length; j++) {
+      const currentObjTranch = tranchesArr[j];
+      const tranchObj = {
+        rows: [`${i + 1}.${j + 1}`, currentObjTranch.tranch, ''],
+        arr: [],
+      };
+      const worksAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < worksAndWorkDetailsArr.length; k++) {
         const currentObj = worksAndWorkDetailsArr[k];
         if (currentObj.work.bpu_text.length == 0) {
           continue;
         }
         const arr = [];
-        arr.push(`${workIndex}.1`);
-        arr.push(`${currentObj.work.name}\n${currentObj.work.bpu_text}`);
+        arr.push(`${i + 1}.${j + 1}.${k + 1}`);
+        const obj = {
+          title: currentObj.work.name,
+          text: currentObj.work.bpu_text[0],
+        };
+        arr.push(obj);
         arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
-        rows.push(arr);
-        workIndex = workIndex + 1;
+        tranchObj.arr.push(arr);
       }
+      tradeObj.arr.push(tranchObj);
     }
+    rows.push(tradeObj);
   }
 
   return rows;

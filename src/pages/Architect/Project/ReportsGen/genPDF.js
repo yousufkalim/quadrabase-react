@@ -21,7 +21,6 @@ import {
   footerDataGenSimpleEstimation,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
-  dataColumnsBPU,
   blobFromURL,
 } from './data.js';
 
@@ -118,9 +117,19 @@ async function exportPDFSimpleBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
   const pdfParsedData = rowsGenSimpleBPU(data);
 
+  for (let i = 0; i < pdfParsedData.length; i++) {
+    const work = pdfParsedData[i];
+    const workSecondCol = work[1];
+
+    let str = '';
+    str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
+    str = str.concat(`${workSecondCol.text}`);
+    str = str.concat(`</p>`);
+    work[1] = str;
+  }
+
   const body = {
     headerArr: headArr,
-    bodyKeysArr: dataColumnsBPU,
     bodyValuesArr: pdfParsedData,
   };
 
@@ -142,10 +151,32 @@ async function exportPDFTradesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
   const pdfParsedData = rowsGenTradesBPU(data);
 
+  const pdfHTMLData = [];
+  for (let i = 0; i < pdfParsedData.length; i++) {
+    const trade = pdfParsedData[i];
+    const tradeSecondCol = trade.rows[1];
+
+    let str = '';
+    str = str.concat(`<p>${tradeSecondCol}</p>`);
+    trade.rows[1] = str;
+    pdfHTMLData.push(trade.rows);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const work = trade.arr[j];
+      const workSecondCol = work[1];
+
+      let str = '';
+      str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
+      str = str.concat(`${workSecondCol.text}`);
+      str = str.concat(`</p>`);
+      work[1] = str;
+      pdfHTMLData.push(work);
+    }
+  }
+
   const body = {
     headerArr: headArr,
-    bodyKeysArr: dataColumnsBPU,
-    bodyValuesArr: pdfParsedData,
+    bodyValuesArr: pdfHTMLData,
   };
 
   const response = await api('post', `/Reports/bpu`, body);
@@ -166,10 +197,42 @@ async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
   const pdfParsedData = rowsGenTradesAndTranchesBPU(data);
 
+  const pdfHTMLData = [];
+  for (let i = 0; i < pdfParsedData.length; i++) {
+    const trade = pdfParsedData[i];
+    const tradeSecondCol = trade.rows[1];
+
+    let str = '';
+    str = str.concat(`<p>${tradeSecondCol}</p>`);
+    trade.rows[1] = str;
+    pdfHTMLData.push(trade.rows);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const tranch = trade.arr[j];
+      const tranchSecondCol = tranch.rows[1];
+
+      let str = '';
+      str = str.concat(`<p>${tranchSecondCol}</p>`);
+      tranch.rows[1] = str;
+      pdfHTMLData.push(tranch.rows);
+
+      for (let k = 0; k < tranch.arr.length; k++) {
+        const work = tranch.arr[k];
+        const workSecondCol = work[1];
+
+        let str = '';
+        str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
+        str = str.concat(`${workSecondCol.text}`);
+        str = str.concat(`</p>`);
+        work[1] = str;
+        pdfHTMLData.push(work);
+      }
+    }
+  }
+
   const body = {
     headerArr: headArr,
-    bodyKeysArr: dataColumnsBPU,
-    bodyValuesArr: pdfParsedData,
+    bodyValuesArr: pdfHTMLData,
   };
 
   const response = await api('post', `/Reports/bpu`, body);
