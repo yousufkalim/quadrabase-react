@@ -1213,14 +1213,14 @@ function findCCTPsTradesAndTranches(data, index) {
   return cp;
 }
 
-function textRunsSplitGen(str) {
+function textRunsSplitGen(str, size) {
   let strSingle = String(str);
 
   let textRunArr = [];
   if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
     strSingle = strSingle.replace(/\&nbsp;/g, ' ');
-    textRunArr = handleBuiltInCCTPs(strSingle);
+    textRunArr = handleBuiltInCCTPs(strSingle, size);
   } else {
     textRunArr = handleImportedCCTPs(strSingle);
   }
@@ -1252,14 +1252,14 @@ function handleImportedCCTPs(str) {
   return objsArr;
 }
 
-function handleBuiltInCCTPs(str) {
+function handleBuiltInCCTPs(str, size) {
   let strSingle = String(str);
   const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1292,7 +1292,7 @@ function parseHTMLTag(str) {
 }
 
 const tagsToDocxMap = {
-  P: function (_) {
+  P: function (_, size) {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
@@ -1300,16 +1300,16 @@ const tagsToDocxMap = {
     for (let i = 0; i < textArr.length; i++) {
       const currentText = textArr[i];
       if (htmlTagRegex.test(currentText)) {
-        const parsedObjsArr = parseHTMLTag(currentText); // Handled for first level only.
+        const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
           const obj = parsedObjsArr[j];
-          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj, size);
           if (objElm) {
             objsArr.push(objElm);
           }
         }
       } else {
-        objsArr.push(l1Text(currentText));
+        objsArr.push(docText(currentText, size ?? l1Font, false));
       }
     }
 
@@ -1324,7 +1324,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  STRONG: function (_) {
+  STRONG: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1332,13 +1332,13 @@ const tagsToDocxMap = {
         new TextRun({
           text: text,
           font: fontType,
-          size: l2Font,
+          size: size ?? l2Font,
           bold: true,
         }),
       ],
     });
   },
-  EM: function (_) {
+  EM: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1346,13 +1346,13 @@ const tagsToDocxMap = {
         new TextRun({
           text: text,
           font: fontType,
-          size: l2Font,
+          size: size ?? l2Font,
           italics: true,
         }),
       ],
     });
   },
-  U: function (_) {
+  U: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1360,7 +1360,7 @@ const tagsToDocxMap = {
         new TextRun({
           text: text,
           font: fontType,
-          size: l2Font,
+          size: size ?? l2Font,
           underline: {
             color: '#f2f2f2',
             type: UnderlineType.DASH,
@@ -1369,7 +1369,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  S: function (_) {
+  S: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1377,7 +1377,7 @@ const tagsToDocxMap = {
         new TextRun({
           text: text,
           font: fontType,
-          size: l2Font,
+          size: size ?? l2Font,
           strike: true,
         }),
       ],

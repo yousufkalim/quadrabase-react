@@ -35,10 +35,22 @@ import {
   textRunsSplitGen,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
-  dataColumnsBPU,
 } from './data.js';
 
-import { l4Font, l3Font, l2Font, l1Font, docText, l4Text, l3Text, l2Text, l1Text, fontType } from './docxFormatting';
+import {
+  l4Font,
+  l3Font,
+  l2Font,
+  l1Font,
+  docText,
+  l4Text,
+  l3Text,
+  l2Text,
+  l1Text,
+  fontType,
+  l0Text,
+  ln1Font,
+} from './docxFormatting';
 
 const Spacer = new Paragraph({
   text: '',
@@ -624,91 +636,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
 
   const rows = rowsGenSimpleBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: 'bold',
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: 'bold',
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: 'bold',
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: '#DCDADA',
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
@@ -716,7 +644,13 @@ async function exportDOCXSimpleBPU(data, currentProject) {
     const currentRow = rows[i];
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+      const work = currentRow[j];
+      let docxObjs;
+      if (j == 1) {
+        docxObjs = [l0Text(work.title, true), l0Text(''), ...textRunsSplitGen(work.text, ln1Font)];
+      } else {
+        docxObjs = [l0Text(work)];
+      }
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
@@ -732,12 +666,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
@@ -766,120 +695,57 @@ async function exportDOCXTradesBPU(data, currentProject) {
 
   const rows = rowsGenTradesBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: 'bold',
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: 'bold',
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: 'bold',
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: '#DCDADA',
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const currentRow = rows[i];
-    const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+    const trade = rows[i];
+
+    const tradeTableRowCells = [];
+    for (let j = 0; j < trade.rows.length; j++) {
+      const tradeCurrentRow = trade.rows[j];
+      let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
       });
-      tableRowCells.push(tableCell);
+      tradeTableRowCells.push(tableCell);
     }
-    const tableRow = new TableRow({
-      children: tableRowCells,
+    const tradeTableRow = new TableRow({
+      children: tradeTableRowCells,
     });
-    tableBodyRows.push(tableRow);
+    tableBodyRows.push(tradeTableRow);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const work = trade.arr[j];
+      const workTableRowCells = [];
+      for (let k = 0; k < work.length; k++) {
+        const workCurrentRow = work[k];
+        let docxObjs;
+        if (k == 1) {
+          docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+        } else {
+          docxObjs = [l0Text(workCurrentRow)];
+        }
+        const tableCell = new TableCell({
+          children: docxObjs,
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+        });
+        workTableRowCells.push(tableCell);
+      }
+      const workTableRow = new TableRow({
+        children: workTableRowCells,
+      });
+      tableBodyRows.push(workTableRow);
+    }
   }
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
@@ -908,120 +774,77 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
 
   const rows = rowsGenTradesAndTranchesBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: 'bold',
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: 'bold',
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: 'bold',
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: '#DCDADA',
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const currentRow = rows[i];
-    const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+    const trade = rows[i];
+
+    const tradeTableRowCells = [];
+    for (let j = 0; j < trade.rows.length; j++) {
+      const tradeCurrentRow = trade.rows[j];
+      let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
       });
-      tableRowCells.push(tableCell);
+      tradeTableRowCells.push(tableCell);
     }
-    const tableRow = new TableRow({
-      children: tableRowCells,
+    const tradeTableRow = new TableRow({
+      children: tradeTableRowCells,
     });
-    tableBodyRows.push(tableRow);
+    tableBodyRows.push(tradeTableRow);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const tranch = trade.arr[j];
+
+      const tranchTableRowCells = [];
+      for (let k = 0; k < tranch.rows.length; k++) {
+        const tranchCurrentRow = tranch.rows[k];
+        let docxObjs = [l0Text(tranchCurrentRow, true)];
+        const tableCell = new TableCell({
+          children: docxObjs,
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+        });
+        tranchTableRowCells.push(tableCell);
+      }
+      const tranchTableRow = new TableRow({
+        children: tranchTableRowCells,
+      });
+      tableBodyRows.push(tranchTableRow);
+
+      for (let k = 0; k < tranch.arr.length; k++) {
+        const work = tranch.arr[k];
+        const workTableRowCells = [];
+        for (let l = 0; l < work.length; l++) {
+          const workCurrentRow = work[l];
+          let docxObjs;
+          if (l == 1) {
+            docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+          } else {
+            docxObjs = [l0Text(workCurrentRow)];
+          }
+          const tableCell = new TableCell({
+            children: docxObjs,
+            verticalAlign: VerticalAlign.CENTER,
+            margins: normalMargin,
+          });
+          workTableRowCells.push(tableCell);
+        }
+        const workTableRow = new TableRow({
+          children: workTableRowCells,
+        });
+        tableBodyRows.push(workTableRow);
+      }
+    }
   }
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
