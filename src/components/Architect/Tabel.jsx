@@ -404,6 +404,7 @@ export default function EnhancedTable(props) {
                             <Tooltip title="Attribuer">
                               <IconButton
                                 aria-label="edit"
+                                color="info"
                                 onClick={() =>
                                   props.handleAssign(row?._id, row?.assigned_to?.email)
                                 }
@@ -416,6 +417,7 @@ export default function EnhancedTable(props) {
                               <Tooltip title="Voir">
                                 <IconButton
                                   aria-label="edit"
+                                  color="info"
                                   onClick={() => props.handleView(row?._id)}
                                 >
                                   <DriveFileRenameOutlineRoundedIcon />
@@ -424,9 +426,19 @@ export default function EnhancedTable(props) {
                               <Tooltip title="Statut">
                                 <IconButton
                                   aria-label="edit"
+                                  color="info"
                                   onClick={() => props.handleOpenStatusModal(row)}
                                 >
                                   <WrapTextIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Effacer">
+                                <IconButton
+                                  color="error"
+                                  aria-label="delete"
+                                  onClick={() => props.handleDeleteProjectModal(row._id)}
+                                >
+                                  <DeleteIcon />
                                 </IconButton>
                               </Tooltip>
                             </>

@@ -1088,6 +1088,7 @@ const ProjectView = () => {
                 viewFileName={filename}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+                onClose={() => setOpenEstimationReportModal(false)}
               />
             }
           />
@@ -1101,6 +1102,7 @@ const ProjectView = () => {
                 viewFileName={filename}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+                onClose={() => setOpenDQEReportModal(false)}
               />
             }
           />
@@ -1114,6 +1116,7 @@ const ProjectView = () => {
                 viewFileName={filename}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+                onClose={() => setOpenBPUReportModal(false)}
               />
             }
           />
@@ -1143,6 +1146,7 @@ const ProjectView = () => {
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
                 selectedCCTPIndexes={selectedCCTPIndexes}
+                onClose={() => setOpenCCTPReportModal(false)}
               />
             }
           />
@@ -1156,6 +1160,7 @@ const ProjectView = () => {
                 viewFileName={filename}
                 currentProject={currentProject}
                 projectWorkData={projectWorkData}
+                onClose={() => setOpenDPGFReportModal(false)}
               />
             }
           />
@@ -1311,7 +1316,11 @@ const ProjectView = () => {
             open={openDocModal}
             onClose={handleDocModal}
             component={
-              <TechnicalDocModal handleDocModal={handleDocModal} technicalDoc={technicalDoc} />
+              <TechnicalDocModal
+                onClose={handleDocModal}
+                handleDocModal={handleDocModal}
+                technicalDoc={technicalDoc}
+              />
             }
           />
           <div className={classes.container}>
