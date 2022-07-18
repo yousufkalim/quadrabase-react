@@ -153,6 +153,7 @@ const Register = () => {
     touched: {},
   });
 
+  const [totalDuration, setTotalDuration] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const [subscriptionsData, setSubscriptionData] = useState([]);
@@ -253,9 +254,12 @@ const Register = () => {
       let tempSubTotal = 0;
       let tempTax = 0;
       let tempGrandTotal = 0;
+      let tempDuration = 0;
       subscriptionsData.map((item) => {
         tempSubTotal += item.count * item.price;
+        tempDuration += item.count * item.duration;
       });
+      setTotalDuration(tempDuration);
       tempTax = (tempSubTotal * 20) / 100;
       tempGrandTotal = tempSubTotal + tempTax;
       setTotal((prev) => {
@@ -266,6 +270,20 @@ const Register = () => {
       });
     }
   }, [subscriptionsData]);
+
+  useEffect(() => {
+    if (totalDuration === 0) {
+      setSubscriptionData((prev) => {
+        prev.map((item) => {
+          if (item.duration === 0) {
+            item.count = 0;
+          }
+          return item;
+        });
+        return [...prev];
+      });
+    }
+  }, [totalDuration]);
 
   const getProducts = async () => {
     const response = await api('get', `/Subscriptions/`);
@@ -1354,7 +1372,6 @@ const Register = () => {
                     {/* Subscription */}
                     <div>
                       <strong>Abonnement</strong>
-
                       {subscriptionsData.map((item, index) => {
                         return (
                           <div className="subscription-box">
@@ -1372,6 +1389,7 @@ const Register = () => {
                               <BasicDropdown
                                 options={options}
                                 value={item.count}
+                                disabled={totalDuration === 0 && item.duration === 0}
                                 onChange={(e) => {
                                   setSubscriptionData((prev) => {
                                     prev[index].count = e.target.value;
