@@ -25,26 +25,17 @@ function App() {
   useEffect(() => {
     const storageHandler = () => {
       const i18nextLng = localStorage.getItem('i18nextLng');
-      dataColumnsEstimation[0] = i18nextLng == 'en' ? 'No #' : 'Non #';
-      dataColumnsEstimation[1] = i18nextLng == 'en' ? 'Name' : 'Nom';
+      dataColumnsEstimation[0] = i18nextLng == 'en' ? 'Number' : 'Numéro';
+      dataColumnsEstimation[1] = i18nextLng == 'en' ? 'Designation' : 'Désignation';
       dataColumnsEstimation[2] = i18nextLng == 'en' ? 'Unit' : 'Unité';
-    };
-    document.addEventListener('storage', storageHandler);
-    return () => document.removeEventListener('storage', storageHandler);
-  });
+      dataColumnsEstimation[3] = i18nextLng == 'en' ? 'Qty' : 'Qté';
 
-  useEffect(() => {
-    const storageHandler = () => {
-      const i18nextLng = localStorage.getItem('i18nextLng');
       footerColumnsSimpleEstimation[0] = i18nextLng == 'en' ? 'Total Lot n°1 :' : 'Total HT :';
-      footerColumnsSimpleEstimation[3] =
-        i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :';
-      footerColumnsSimpleEstimation[4] =
-        i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
+      footerColumnsSimpleEstimation[2] = i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :';
+      footerColumnsSimpleEstimation[3] = i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
     };
-
-    document.addEventListener('storage', storageHandler);
-    return () => document.removeEventListener('storage', storageHandler);
+    window.addEventListener('storage', storageHandler);
+    return () => window.removeEventListener('storage', storageHandler);
   });
 
   const CheckVist = async () => {

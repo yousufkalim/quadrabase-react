@@ -10,7 +10,7 @@ import {
   TableCell,
   TableRow,
   VerticalAlign,
-} from "docx";
+} from 'docx';
 
 import {
   headGen,
@@ -35,15 +35,29 @@ import {
   textRunsSplitGen,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
-  dataColumnsBPU,
-} from "./data.js";
+} from './data.js';
+
+import {
+  l4Font,
+  l3Font,
+  l2Font,
+  l1Font,
+  docText,
+  l4Text,
+  l3Text,
+  l2Text,
+  l1Text,
+  fontType,
+  l0Text,
+  ln1Font,
+} from './docxFormatting';
 
 const Spacer = new Paragraph({
-  text: "",
+  text: '',
 });
 
 async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleEstimation(data, noPrice);
   const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
@@ -69,7 +83,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -93,7 +107,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -112,7 +126,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -147,7 +161,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -261,12 +275,12 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesEstimation(data, noPrice);
 
@@ -299,7 +313,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -323,7 +337,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -342,7 +356,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -377,7 +391,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -437,12 +451,12 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? "DQE" : "Estimation"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
 
@@ -475,7 +489,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -499,7 +513,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -518,7 +532,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -553,7 +567,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -613,100 +627,16 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - ${noPrice ? "DQE" : "Estimation"}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
 async function exportDOCXSimpleBPU(data, currentProject) {
-  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: "bold",
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: "bold",
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: "bold",
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: "#DCDADA",
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
@@ -714,7 +644,13 @@ async function exportDOCXSimpleBPU(data, currentProject) {
     const currentRow = rows[i];
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+      const work = currentRow[j];
+      let docxObjs;
+      if (j == 1) {
+        docxObjs = [l0Text(work.title, true), l0Text(''), ...textRunsSplitGen(work.text, ln1Font)];
+      } else {
+        docxObjs = [l0Text(work)];
+      }
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
@@ -730,12 +666,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
@@ -755,129 +686,66 @@ async function exportDOCXSimpleBPU(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - BPU`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesBPU(data, currentProject) {
-  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: "bold",
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: "bold",
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: "bold",
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: "#DCDADA",
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const currentRow = rows[i];
-    const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+    const trade = rows[i];
+
+    const tradeTableRowCells = [];
+    for (let j = 0; j < trade.rows.length; j++) {
+      const tradeCurrentRow = trade.rows[j];
+      let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
       });
-      tableRowCells.push(tableCell);
+      tradeTableRowCells.push(tableCell);
     }
-    const tableRow = new TableRow({
-      children: tableRowCells,
+    const tradeTableRow = new TableRow({
+      children: tradeTableRowCells,
     });
-    tableBodyRows.push(tableRow);
+    tableBodyRows.push(tradeTableRow);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const work = trade.arr[j];
+      const workTableRowCells = [];
+      for (let k = 0; k < work.length; k++) {
+        const workCurrentRow = work[k];
+        let docxObjs;
+        if (k == 1) {
+          docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+        } else {
+          docxObjs = [l0Text(workCurrentRow)];
+        }
+        const tableCell = new TableCell({
+          children: docxObjs,
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+        });
+        workTableRowCells.push(tableCell);
+      }
+      const workTableRow = new TableRow({
+        children: workTableRowCells,
+      });
+      tableBodyRows.push(workTableRow);
+    }
   }
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
@@ -897,129 +765,86 @@ async function exportDOCXTradesBPU(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - BPU`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
-  const headArr = headGen("BPU", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesBPU(data);
 
-  const tableHeader = [
-    new Table({
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[0],
-                  style: "bold",
-                  alignment: AlignmentType.START,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[1],
-                  style: "bold",
-                  alignment: AlignmentType.CENTER,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
-              },
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-            new TableCell({
-              children: [
-                new Paragraph({
-                  text: headArr[2],
-                  style: "bold",
-                  alignment: AlignmentType.END,
-                }),
-              ],
-              verticalAlign: VerticalAlign.CENTER,
-              margins: normalMargin,
-              shading: {
-                fill: "#C4C8CC",
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  const tableBodyColumns = [];
-
-  for (let i = 0; i < dataColumnsBPU.length; i++) {
-    const tableCell = new TableCell({
-      children: [
-        new Paragraph({
-          text: dataColumnsEstimation[i],
-          alignment: AlignmentType.START,
-        }),
-      ],
-      verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
-      shading: {
-        fill: "#DCDADA",
-      },
-    });
-
-    tableBodyColumns.push(tableCell);
-  }
+  const tableHeader = _parseHead(headArr);
 
   const tableBodyRows = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const currentRow = rows[i];
-    const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      let docxObjs = textRunsSplitGen(currentRow[j]);
+    const trade = rows[i];
+
+    const tradeTableRowCells = [];
+    for (let j = 0; j < trade.rows.length; j++) {
+      const tradeCurrentRow = trade.rows[j];
+      let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
       });
-      tableRowCells.push(tableCell);
+      tradeTableRowCells.push(tableCell);
     }
-    const tableRow = new TableRow({
-      children: tableRowCells,
+    const tradeTableRow = new TableRow({
+      children: tradeTableRowCells,
     });
-    tableBodyRows.push(tableRow);
+    tableBodyRows.push(tradeTableRow);
+
+    for (let j = 0; j < trade.arr.length; j++) {
+      const tranch = trade.arr[j];
+
+      const tranchTableRowCells = [];
+      for (let k = 0; k < tranch.rows.length; k++) {
+        const tranchCurrentRow = tranch.rows[k];
+        let docxObjs = [l0Text(tranchCurrentRow, true)];
+        const tableCell = new TableCell({
+          children: docxObjs,
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+        });
+        tranchTableRowCells.push(tableCell);
+      }
+      const tranchTableRow = new TableRow({
+        children: tranchTableRowCells,
+      });
+      tableBodyRows.push(tranchTableRow);
+
+      for (let k = 0; k < tranch.arr.length; k++) {
+        const work = tranch.arr[k];
+        const workTableRowCells = [];
+        for (let l = 0; l < work.length; l++) {
+          const workCurrentRow = work[l];
+          let docxObjs;
+          if (l == 1) {
+            docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+          } else {
+            docxObjs = [l0Text(workCurrentRow)];
+          }
+          const tableCell = new TableCell({
+            children: docxObjs,
+            verticalAlign: VerticalAlign.CENTER,
+            margins: normalMargin,
+          });
+          workTableRowCells.push(tableCell);
+        }
+        const workTableRow = new TableRow({
+          children: workTableRowCells,
+        });
+        tableBodyRows.push(workTableRow);
+      }
+    }
   }
 
   const tableBody = [
     new Table({
-      rows: [
-        new TableRow({
-          children: tableBodyColumns,
-        }),
-        ...tableBodyRows,
-      ],
+      rows: [...tableBodyRows],
     }),
   ];
 
@@ -1039,12 +864,12 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - BPU`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - BPU`;
   return { blob, filename };
 }
 
 async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes);
   const { chap0, cctps } = rows;
@@ -1072,15 +897,18 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         children: [
           new TextRun({
             text: cctps[i].title,
-            size: 28,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
     );
     const cctpArr = cctps[i].arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      let docxObjs = textRunsSplitGen(cctpArr[j]);
+      const _ = cctpArr[j];
+      parsedCCTPs.push(l2Text(_.title));
+      let docxObjs = textRunsSplitGen(_.text);
       parsedCCTPs.push(...docxObjs);
     }
   }
@@ -1101,12 +929,12 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes);
   const { chap0, cctps } = rows;
@@ -1125,6 +953,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse CCTPs
   const parsedCCTPs = [];
   for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
         spacing: {
@@ -1133,17 +962,24 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
         },
         children: [
           new TextRun({
-            text: cctps[i].title,
-            size: 28,
+            text: _.title,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
     );
-    const cctpArr = cctps[i].arr;
+    const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      let docxObjs = textRunsSplitGen(cctpArr[j]);
-      parsedCCTPs.push(...docxObjs);
+      const trade = cctpArr[j];
+      parsedCCTPs.push(l3Text(trade.title));
+      for (let k = 0; k < trade.arr.length; k++) {
+        const work = trade.arr[k];
+        parsedCCTPs.push(l2Text(trade.title));
+        let docxObjs = textRunsSplitGen(work.text);
+        parsedCCTPs.push(...docxObjs);
+      }
     }
   }
 
@@ -1163,12 +999,12 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen("CCTP", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
   const { chap0, cctps } = rows;
@@ -1187,6 +1023,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   // Parse CCTPs
   const parsedCCTPs = [];
   for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
         spacing: {
@@ -1195,17 +1032,28 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
         },
         children: [
           new TextRun({
-            text: cctps[i].title,
-            size: 28,
+            text: _.title,
+            size: l4Font,
             bold: true,
+            font: fontType,
           }),
         ],
       })
     );
-    const cctpArr = cctps[i].arr;
+    const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      let docxObjs = textRunsSplitGen(cctpArr[j]);
-      parsedCCTPs.push(...docxObjs);
+      const trade = cctpArr[j];
+      parsedCCTPs.push(l3Text(trade.title));
+      for (let k = 0; k < trade.arr.length; k++) {
+        const tranch = trade.arr[k];
+        parsedCCTPs.push(l2Text(tranch.title));
+        for (let l = 0; l < tranch.arr.length; l++) {
+          const work = tranch.arr[l];
+          parsedCCTPs.push(l2Text(work.title));
+          let docxObjs = textRunsSplitGen(work.text);
+          parsedCCTPs.push(...docxObjs);
+        }
+      }
     }
   }
 
@@ -1225,7 +1073,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - CCTP`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
   return { blob, filename };
 }
 
@@ -1239,47 +1087,42 @@ function _parseHead(headArr) {
               children: [
                 new Paragraph({
                   text: headArr[0],
-                  style: "bold",
+                  style: 'bold',
                   alignment: AlignmentType.START,
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
               children: [
                 new Paragraph({
                   text: headArr[1],
-                  style: "bold",
+                  style: 'bold',
                   alignment: AlignmentType.CENTER,
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
-              margins: {
-                top: convertInchesToTwip(0.06),
-                bottom: convertInchesToTwip(0.06),
-                left: convertInchesToTwip(0.72),
-                right: convertInchesToTwip(0.72),
-              },
+              width: { size: 100, type: WidthType.PERCENTAGE },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
               children: [
                 new Paragraph({
                   text: headArr[2],
-                  style: "bold",
+                  style: 'bold',
                   alignment: AlignmentType.END,
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -1292,154 +1135,23 @@ function _parseHead(headArr) {
 
 function _parseChap0part1(part1) {
   const arr = [];
+  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES'));
+  arr.push(l3Text('CHAP 0 - PART 1'));
+  arr.push(_chap0part1Item('Nom du Projet: ', part1.name));
+  arr.push(_chap0part1Item("Maitre d'Ouvrage: ", part1.client));
+  arr.push(_chap0part1Item("Maitre d'Oeuvre: ", part1.prescriber));
+  arr.push(_chap0part1Item('T.V.A: ', part1.vat));
+  arr.push(_chap0part1Item('Reference: ', part1.reference));
+  arr.push(_chap0part1Item('Description: ', part1.description));
+  arr.push(_chap0part1Item('Type de marché: ', part1.market_type));
+  arr.push(_chap0part1Item('Structure du projet: ', part1.structure));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: "CHAP 0 - CLAUSES GENERALES",
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "CHAP 0 - PART 1",
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Nom du Projet: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.name,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Maitre d'Ouvrage: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.client,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Maitre d'Oeuvre: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.prescriber,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "T.V.A: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.vat,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Reference: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.reference,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Description: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.description,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Type de marché: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.market_type,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Structure du projet: ",
-          size: 20,
-          bold: true,
-        }),
-        new TextRun({
-          text: part1.structure,
-          size: 20,
-        }),
-      ],
-    })
-  );
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "Intervenants: ",
-          size: 20,
+          text: 'Intervenants: ',
+          font: fontType,
+          size: l2Font,
           bold: true,
         }),
       ],
@@ -1459,74 +1171,43 @@ function _parseChap0part1(part1) {
   return arr;
 }
 
+function _chap0part1Item(title, description) {
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: title,
+        font: fontType,
+        size: l2Font,
+        bold: true,
+      }),
+      new TextRun({
+        text: description,
+        font: fontType,
+        size: l1Font,
+      }),
+    ],
+  });
+}
+
 function _parseChap0part2(part2) {
   const arr = [];
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: "CHAP 0 - PART 2",
-          size: 28,
-          bold: true,
-        }),
-      ],
-    })
-  );
+  arr.push(l3Text('CHAP 0 - PART 2'));
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
-    arr.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: _.title,
-            size: 24,
-            bold: true,
-          }),
-        ],
-      })
-    );
+    arr.push(l2Text(_.title));
     if (_.text) {
-      arr.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: _.text,
-              size: 20,
-            }),
-          ],
-        })
-      );
+      arr.push(l1Text(_.text));
     }
     for (let j = 0; j < _.lvl2.length; j++) {
       const __ = _.lvl2[j];
-      arr.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: __.title,
-              size: 20,
-              bold: true,
-            }),
-          ],
-        })
-      );
+      arr.push(l2Text(__.title));
       if (__.text) {
         let docxObjs = textRunsSplitGen(__.text);
         arr.push(...docxObjs);
       }
       for (let k = 0; k < __.lvl3.length; k++) {
         const ___ = __.lvl3[k];
-        arr.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: ___.title,
-                size: 20,
-                bold: true,
-              }),
-            ],
-          })
-        );
+        arr.push(l2Text(___.title));
         if (___.text) {
           let docxObjs = textRunsSplitGen(___.text);
           arr.push(...docxObjs);
@@ -1538,7 +1219,7 @@ function _parseChap0part2(part2) {
 }
 
 async function exportDOCXSimpleDPGF(data, currentProject) {
-  const headArr = headGen("DPGF", `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen('DPGF', `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleDPGF(data);
   const footerData = footerDataGenSimpleDPGF(true);
@@ -1564,7 +1245,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -1588,7 +1269,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -1607,7 +1288,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -1642,7 +1323,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -1655,7 +1336,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
     const currentRow = rows[i];
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
-      if (typeof currentRow[j] == "object") {
+      if (typeof currentRow[j] == 'object') {
         const docxObjs = textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
@@ -1670,7 +1351,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               ],
             }),
             new Paragraph({
-              text: "",
+              text: '',
             }),
             ...docxObjs,
           ],
@@ -1780,12 +1461,12 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesDPGF(data, currentProject) {
-  const headArr = headGen(`"DPGF"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen(`"DPGF"}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesDPGF(data);
 
@@ -1818,7 +1499,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -1842,7 +1523,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -1861,7 +1542,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -1896,7 +1577,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -1909,7 +1590,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
-      if (typeof currentRow[j] == "object") {
+      if (typeof currentRow[j] == 'object') {
         const docxObjs = textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
@@ -1924,7 +1605,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               ],
             }),
             new Paragraph({
-              text: "",
+              text: '',
             }),
             ...docxObjs,
           ],
@@ -1981,12 +1662,12 @@ async function exportDOCXTradesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
-  const headArr = headGen(`${"DPGF"}`, `${currentProject?.name ?? "N/A"}`);
+  const headArr = headGen(`${'DPGF'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesDPGF(data);
 
@@ -2019,7 +1700,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
             new TableCell({
@@ -2043,7 +1724,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 right: convertInchesToTwip(0.24),
               },
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
               width: { size: 100, type: WidthType.PERCENTAGE },
             }),
@@ -2062,7 +1743,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: "#C4C8CC",
+                fill: '#C4C8CC',
               },
             }),
           ],
@@ -2097,7 +1778,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               right: convertInchesToTwip(0.72),
             },
       shading: {
-        fill: "#DCDADA",
+        fill: '#DCDADA',
       },
     });
 
@@ -2110,7 +1791,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
-      if (typeof currentRow[j] == "object") {
+      if (typeof currentRow[j] == 'object') {
         const docxObjs = textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
@@ -2125,7 +1806,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               ],
             }),
             new Paragraph({
-              text: "",
+              text: '',
             }),
             ...docxObjs,
           ],
@@ -2182,7 +1863,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? "N/A"} - ${Date.now()} - DPGF`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - DPGF`;
   return { blob, filename };
 }
 
@@ -2205,7 +1886,7 @@ const normalMargin = {
 };
 
 const firstRowShade = {
-  fill: "#DCDADA",
+  fill: '#DCDADA',
 };
 
 export {

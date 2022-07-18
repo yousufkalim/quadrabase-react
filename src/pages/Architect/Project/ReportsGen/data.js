@@ -1,8 +1,10 @@
-import { Paragraph, TextRun, UnderlineType } from "docx";
-import { htmlTagRegex, cctpArr } from "../../../../utils/Constants";
+import { Paragraph, TextRun, UnderlineType } from 'docx';
+import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
+import { formatNumber } from '../../../../utils/markThousand';
+import { l4Font, l3Font, l2Font, l1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text } from './docxFormatting';
 
 function dateNowFormatted() {
-  return `${new Date(Date.now()).toLocaleDateString("en-gb")}`;
+  return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
 }
 
 function headGen(headingName, projectName) {
@@ -18,7 +20,7 @@ function headGen(headingName, projectName) {
 function rowsGenSimpleEstimation(data, noPrice) {
   const rows = [];
 
-  rows.push(["'1", "Lot n°1", "", "", "", ""]);
+  rows.push(["'1", 'Lot n°1', '', '', '', '']);
 
   rowsGenEstimationHandleWorksAndWorkDetails(rows, data, `${1}`, noPrice);
 
@@ -74,7 +76,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 function rowsGenSimpleDPGF(data) {
   const rows = [];
 
-  rows.push(["'1", "Lot n°1", "", "", "", ""]);
+  rows.push(["'1", 'Lot n°1', '', '', '', '']);
 
   rowsGenDPGFHandleWorksAndWorkDetails(rows, data, `${1}`);
 
@@ -136,15 +138,15 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
 
       arr.push(`${prefix}.${i + 1}`);
       arr.push(data[i].work.name);
-      arr.push(data[i].workUnit?.name ?? "");
-      arr.push(data[i].work?.quantity ?? "");
+      arr.push(data[i].workUnit?.symbol ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
 
-      if (noPrice || !data[i].workUnit?.name) {
-        arr.push("");
-        arr.push("");
+      if (noPrice) {
+        arr.push('');
+        arr.push('');
       } else {
-        arr.push(data[i].work?.unit_price ?? "0");
-        arr.push((data[i].work?.unit_price ?? "0") * (data[i].work.quantity ?? "0"));
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2)) ?? '0.00');
+        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
       }
 
       toBeModifiedArr.push(arr);
@@ -154,15 +156,15 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
 
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
-        arrD.push(data[i].workDetailsUnit.name);
-        arrD.push(data[i].workDetails.quantity);
+        arrD.push(data[i].workDetailsUnit?.symbol ?? '');
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
 
         if (noPrice) {
-          arrD.push("");
-          arrD.push("");
+          arrD.push('');
+          arrD.push('');
         } else {
-          arrD.push(data[i].workDetails.unit_price);
-          arrD.push(data[i].workDetails.unit_price * data[i].workDetails.quantity);
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
+          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
         }
 
         toBeModifiedArr.push(arrD);
@@ -172,15 +174,15 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
 
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
-      arrD.push(data[i].workDetailsUnit.name);
-      arrD.push(data[i].workDetails.quantity);
+      arrD.push(data[i].workDetailsUnit?.symbol ?? '');
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
 
       if (noPrice) {
-        arrD.push("");
-        arrD.push("");
+        arrD.push('');
+        arrD.push('');
       } else {
-        arrD.push(data[i].workDetails.unit_price);
-        arrD.push(data[i].workDetails.unit_price * data[i].workDetails.quantity);
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
+        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
       }
 
       toBeModifiedArr.push(arrD);
@@ -203,10 +205,10 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         bpu: data[i].work.bpu_text[0],
       };
       arr.push(obj);
-      arr.push(data[i].workUnit?.name ?? "");
-      arr.push(data[i].work?.quantity ?? "");
-      arr.push("");
-      arr.push("");
+      arr.push(data[i].workUnit?.name ?? '');
+      arr.push(data[i].work?.quantity ?? '');
+      arr.push('');
+      arr.push('');
 
       toBeModifiedArr.push(arr);
 
@@ -217,8 +219,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.name);
         arrD.push(data[i].workDetails.quantity);
-        arrD.push("");
-        arrD.push("");
+        arrD.push('');
+        arrD.push('');
 
         toBeModifiedArr.push(arrD);
       }
@@ -229,8 +231,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.name);
       arrD.push(data[i].workDetails.quantity);
-      arrD.push("");
-      arrD.push("");
+      arrD.push('');
+      arrD.push('');
 
       toBeModifiedArr.push(arrD);
     }
@@ -265,7 +267,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     } else if (i == 1) {
       tradeObj[dataColumnsEstimation[i]] = trade.trade;
     } else {
-      tradeObj[dataColumnsEstimation[i]] = "";
+      tradeObj[dataColumnsEstimation[i]] = '';
     }
   }
   xlsxParsedData.push(tradeObj);
@@ -287,11 +289,11 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTObj = {};
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = `Trade Total: `;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot: `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal ?? "";
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = "";
+      tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
   }
   xlsxParsedData.push(tradeTotalHTObj);
@@ -310,7 +312,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     } else if (i == 1) {
       tradeObj[dataColumnsEstimation[i]] = trade.trade;
     } else {
-      tradeObj[dataColumnsEstimation[i]] = "";
+      tradeObj[dataColumnsEstimation[i]] = '';
     }
   }
   xlsxParsedData.push(tradeObj);
@@ -328,7 +330,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       } else if (j == 1) {
         tranchObj[dataColumnsEstimation[j]] = currentObj.tranch;
       } else {
-        tranchObj[dataColumnsEstimation[j]] = "";
+        tranchObj[dataColumnsEstimation[j]] = '';
       }
     }
     xlsxParsedData.push(tranchObj);
@@ -350,17 +352,21 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = {};
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = `Tranche Total:`;
+        trancheTotalHTObj[dataColumnsEstimation[j]] = `Total HT Tranche:`;
       } else if (j == 5) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = trancheTotalHT ?? "";
+        trancheTotalHTObj[dataColumnsEstimation[j]] = trancheTotalHT ?? '';
       } else {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = "";
+        trancheTotalHTObj[dataColumnsEstimation[j]] = '';
       }
     }
     xlsxParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -368,11 +374,11 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = {};
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = `Trade Total:`;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal ?? "";
+      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = "";
+      tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
   }
   xlsxParsedData.push(tradeTotalHTObj);
@@ -391,7 +397,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   pdfParsedData.push(tradeArr);
@@ -413,11 +419,11 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? "";
+      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTArr[j] = "";
+      tradeTotalHTArr[j] = '';
     }
   }
   pdfParsedData.push(tradeTotalHTArr);
@@ -436,7 +442,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   pdfParsedData.push(tradeArr);
@@ -454,7 +460,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
       } else if (j == 1) {
         tranchArr[j] = currentObj.tranch;
       } else {
-        tranchArr[j] = "";
+        tranchArr[j] = '';
       }
     }
     pdfParsedData.push(tranchArr);
@@ -476,17 +482,21 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? "";
+        trancheTotalHTObj[j] = trancheTotalHT ?? '';
       } else {
-        trancheTotalHTObj[j] = "";
+        trancheTotalHTObj[j] = '';
       }
     }
     pdfParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -494,11 +504,11 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = tradeTotal ?? "";
+      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTObj[j] = "";
+      tradeTotalHTObj[j] = '';
     }
   }
   pdfParsedData.push(tradeTotalHTObj);
@@ -517,7 +527,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   docxParsedData.push(tradeArr);
@@ -539,11 +549,11 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? "";
+      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTArr[j] = "";
+      tradeTotalHTArr[j] = '';
     }
   }
   docxParsedData.push(tradeTotalHTArr);
@@ -562,7 +572,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   docxParsedData.push(tradeArr);
@@ -580,7 +590,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       } else if (j == 1) {
         tranchArr[j] = currentObj.tranch;
       } else {
-        tranchArr[j] = "";
+        tranchArr[j] = '';
       }
     }
     docxParsedData.push(tranchArr);
@@ -602,17 +612,21 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? "";
+        trancheTotalHTObj[j] = trancheTotalHT ?? '';
       } else {
-        trancheTotalHTObj[j] = "";
+        trancheTotalHTObj[j] = '';
       }
     }
     docxParsedData.push(trancheTotalHTObj);
 
     if (trancheTotalHT) {
-      tradeTotal = tradeTotal + trancheTotalHT;
+      let _ = trancheTotalHT;
+      _.slice(0, -3);
+      _ = _.replace(' ', '');
+      _ = parseInt(_);
+      tradeTotal = tradeTotal + _;
     }
   }
 
@@ -620,11 +634,11 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = tradeTotal ?? "";
+      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
     } else {
-      tradeTotalHTObj[j] = "";
+      tradeTotalHTObj[j] = '';
     }
   }
   docxParsedData.push(tradeTotalHTObj);
@@ -642,13 +656,18 @@ function calculateTotalHT(data, noPrice) {
   for (let i = 0; i < data.length; i++) {
     const currentArr = data[i];
 
-    if (!currentArr[5]) {
+    let _ = currentArr[5];
+    if (!_) {
       continue;
     }
 
-    const ht = parseInt(currentArr[5]);
-    totalHT = totalHT + ht;
+    _.slice(0, -3);
+    _ = _.replace(' ', '');
+    _ = parseInt(_);
+    totalHT = totalHT + _;
   }
+
+  totalHT = formatNumber(totalHT.toFixed(2));
 
   return totalHT;
 }
@@ -664,7 +683,7 @@ function docxParsedDataGenTradesDPGF(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   docxParsedData.push(tradeArr);
@@ -684,9 +703,9 @@ function docxParsedDataGenTradesDPGF(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Trade Total:`;
+      tradeTotalHTArr[j] = `Total HT Lot:`;
     } else {
-      tradeTotalHTArr[j] = "";
+      tradeTotalHTArr[j] = '';
     }
   }
   docxParsedData.push(tradeTotalHTArr);
@@ -705,7 +724,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
     } else if (i == 1) {
       tradeArr[i] = trade.trade;
     } else {
-      tradeArr[i] = "";
+      tradeArr[i] = '';
     }
   }
   docxParsedData.push(tradeArr);
@@ -722,7 +741,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
       } else if (j == 1) {
         tranchArr[j] = currentObj.tranch;
       } else {
-        tranchArr[j] = "";
+        tranchArr[j] = '';
       }
     }
     docxParsedData.push(tranchArr);
@@ -742,9 +761,9 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Tranche Total:`;
+        trancheTotalHTObj[j] = `Total HT Tranche:`;
       } else {
-        trancheTotalHTObj[j] = "";
+        trancheTotalHTObj[j] = '';
       }
     }
     docxParsedData.push(trancheTotalHTObj);
@@ -754,9 +773,9 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Trade Total:`;
+      tradeTotalHTObj[j] = `Total HT Lot:`;
     } else {
-      tradeTotalHTObj[j] = "";
+      tradeTotalHTObj[j] = '';
     }
   }
   docxParsedData.push(tradeTotalHTObj);
@@ -782,13 +801,17 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
   });
 
   if (!noPrice) {
-    footerData = [totalHT, totalHT, currentProject?.vat?.value, Math.floor(totalHT * (1 + currentProject?.vat?.value / 100))];
+    footerData = [
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+    ];
   } else {
-    footerData = ["", "", "", ""];
+    footerData = ['', '', '', ''];
   }
 
   if (addSpace) {
-    footerData.splice(1, 0, "");
+    footerData.splice(1, 0, '');
   }
 
   return footerData;
@@ -797,10 +820,10 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
 function footerDataGenSimpleDPGF(addSpace) {
   let footerData = [];
 
-  footerData = ["", "", "", ""];
+  footerData = ['', '', '', ''];
 
   if (addSpace) {
-    footerData.splice(1, 0, "");
+    footerData.splice(1, 0, '');
   }
 
   return footerData;
@@ -817,7 +840,7 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns) {
       } else if (j == 5) {
         obj[dataColumnsEstimation[j]] = floatsRow[i];
       } else {
-        obj[dataColumnsEstimation[j]] = "";
+        obj[dataColumnsEstimation[j]] = '';
       }
     }
     xlsxParsedData.push(obj);
@@ -840,6 +863,10 @@ const calculateWSCols = (arr) => {
     }
   }
 
+  if (unitL < 10) {
+    unitL = 10;
+  }
+
   const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
 
   return wscols;
@@ -848,17 +875,19 @@ const calculateWSCols = (arr) => {
 function rowsGenSimpleBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
     if (data[i].work.bpu_text.length == 0) {
       continue;
     }
     const arr = [];
-    arr.push(`${workIndex}.1`);
-    arr.push(`${data[i].work.name}\n${data[i].work.bpu_text}`);
-    arr.push(data[i].work.unit_price ? "PU HT \n(en chiffres)" : "");
+    arr.push(`${i + 1}`);
+    const obj = {
+      title: data[i].work.name,
+      text: data[i].work.bpu_text[0],
+    };
+    arr.push(obj);
+    arr.push(data[i].work.unit_price ? 'PU HT \n(en chiffres)' : '');
     rows.push(arr);
-    workIndex = workIndex + 1;
   }
 
   return rows;
@@ -867,21 +896,29 @@ function rowsGenSimpleBPU(data) {
 function rowsGenTradesBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
-    const worksAndWorkDetailsArr = data[i].data;
+    const currentObjTrade = data[i];
+    const tradeObj = {
+      rows: [`${i + 1}`, currentObjTrade._id, ''],
+      arr: [],
+    };
+    const worksAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < worksAndWorkDetailsArr.length; j++) {
       const currentObj = worksAndWorkDetailsArr[j];
       if (currentObj.work.bpu_text.length == 0) {
         continue;
       }
       const arr = [];
-      arr.push(`${workIndex}.1`);
-      arr.push(`${currentObj.work.name}\n${currentObj.work.bpu_text}`);
-      arr.push(currentObj.work.unit_price ? "PU HT \n(en chiffres)" : "");
-      rows.push(arr);
-      workIndex = workIndex + 1;
+      arr.push(`${i + 1}.${j + 1}`);
+      const obj = {
+        title: currentObj.work.name,
+        text: currentObj.work.bpu_text[0],
+      };
+      arr.push(obj);
+      arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
+      tradeObj.arr.push(arr);
     }
+    rows.push(tradeObj);
   }
 
   return rows;
@@ -890,24 +927,38 @@ function rowsGenTradesBPU(data) {
 function rowsGenTradesAndTranchesBPU(data) {
   const rows = [];
 
-  let workIndex = 1;
   for (let i = 0; i < data.length; i++) {
-    const tradesArr = data[i].data;
-    for (let j = 0; j < tradesArr.length; j++) {
-      const worksAndWorkDetailsArr = tradesArr[j].tranchData;
+    const currentObjTrade = data[i];
+    const tradeObj = {
+      rows: [`${i + 1}`, currentObjTrade._id, ''],
+      arr: [],
+    };
+    const tranchesArr = currentObjTrade.data;
+    for (let j = 0; j < tranchesArr.length; j++) {
+      const currentObjTranch = tranchesArr[j];
+      const tranchObj = {
+        rows: [`${i + 1}.${j + 1}`, currentObjTranch.tranch, ''],
+        arr: [],
+      };
+      const worksAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < worksAndWorkDetailsArr.length; k++) {
         const currentObj = worksAndWorkDetailsArr[k];
         if (currentObj.work.bpu_text.length == 0) {
           continue;
         }
         const arr = [];
-        arr.push(`${workIndex}.1`);
-        arr.push(`${currentObj.work.name}\n${currentObj.work.bpu_text}`);
-        arr.push(currentObj.work.unit_price ? "PU HT \n(en chiffres)" : "");
-        rows.push(arr);
-        workIndex = workIndex + 1;
+        arr.push(`${i + 1}.${j + 1}.${k + 1}`);
+        const obj = {
+          title: currentObj.work.name,
+          text: currentObj.work.bpu_text[0],
+        };
+        arr.push(obj);
+        arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
+        tranchObj.arr.push(arr);
       }
+      tradeObj.arr.push(tranchObj);
     }
+    rows.push(tradeObj);
   }
 
   return rows;
@@ -1025,14 +1076,14 @@ function parseChap0(currentProject) {
 
   // Parse chap0part1
   const part1 = {
-    name: currentProject?.name ?? "",
-    client: currentProject?.client?.establishment ?? "",
-    prescriber: currentProject?.prescriber?.establishment ?? "",
+    name: currentProject?.name ?? '',
+    client: currentProject?.client?.establishment ?? '',
+    prescriber: currentProject?.prescriber?.establishment ?? '',
     vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
-    reference: currentProject?.reference ?? "",
-    description: currentProject?.description ?? "",
-    market_type: currentProject?.market_type ?? "",
-    structure: currentProject?.structure ?? "",
+    reference: currentProject?.reference ?? '',
+    description: currentProject?.description ?? '',
+    market_type: currentProject?.market_type ?? '',
+    structure: currentProject?.structure ?? '',
     stakeholders: _stakeholders,
   };
 
@@ -1081,7 +1132,11 @@ function findCCTPsSimple(data, index) {
       continue;
     }
     if (_cctpArr[index]) {
-      cp.push(_cctpArr[index]);
+      const obj = {
+        title: `${index + 1}.${i + 1} ${data[i].work.name}`,
+        text: _cctpArr[index],
+      };
+      cp.push(obj);
     }
   }
   return cp;
@@ -1091,6 +1146,10 @@ function findCCTPsTrades(data, index) {
   const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
+    const tradeObj = {
+      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
+      arr: [],
+    };
     const workAndWorkDetailsArr = currentObjTrade.data;
     for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
       const currentObjWork = workAndWorkDetailsArr[j];
@@ -1099,8 +1158,15 @@ function findCCTPsTrades(data, index) {
         continue;
       }
       if (_cctpArr[index]) {
-        cp.push(_cctpArr[index]);
+        const workObj = {
+          title: `${index + 1}.${i + 1}.${j + 1} ${currentObjWork.work.name}`,
+          text: _cctpArr[index],
+        };
+        tradeObj.arr.push(workObj);
       }
+    }
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
     }
   }
   return cp;
@@ -1110,9 +1176,17 @@ function findCCTPsTradesAndTranches(data, index) {
   const cp = [];
   for (let i = 0; i < data.length; i++) {
     const currentObjTrade = data[i];
+    const tradeObj = {
+      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
+      arr: [],
+    };
     const tranchesArr = currentObjTrade.data;
     for (let j = 0; j < tranchesArr.length; j++) {
       const currentObjTranch = tranchesArr[j];
+      const tranchObj = {
+        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjTranch.tranch}`,
+        arr: [],
+      };
       const workAndWorkDetailsArr = currentObjTranch.tranchData;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
@@ -1121,22 +1195,32 @@ function findCCTPsTradesAndTranches(data, index) {
           continue;
         }
         if (_cctpArr[index]) {
-          cp.push(_cctpArr[index]);
+          const workObj = {
+            title: `${index + 1}.${i + 1}.${j + 1}.${k + 1} ${currentObjWork.work.name}`,
+            text: _cctpArr[index],
+          };
+          tranchObj.arr.push(workObj);
         }
       }
+      if (tranchObj.arr.length > 0) {
+        tradeObj.arr.push(tranchObj);
+      }
+    }
+    if (tradeObj.arr.length > 0) {
+      cp.push(tradeObj);
     }
   }
   return cp;
 }
 
-function textRunsSplitGen(str) {
+function textRunsSplitGen(str, size) {
   let strSingle = String(str);
 
   let textRunArr = [];
   if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
-    strSingle = strSingle.replace(/\&nbsp;/g, " ");
-    textRunArr = handleBuiltInCCTPs(strSingle);
+    strSingle = strSingle.replace(/\&nbsp;/g, ' ');
+    textRunArr = handleBuiltInCCTPs(strSingle, size);
   } else {
     textRunArr = handleImportedCCTPs(strSingle);
   }
@@ -1146,7 +1230,7 @@ function textRunsSplitGen(str) {
 
 function handleImportedCCTPs(str) {
   let strSingle = String(str);
-  let strArr = strSingle.split("\n");
+  let strArr = strSingle.split('\n');
 
   const textRunArr = [];
   for (let i = 0; i < strArr.length; i++) {
@@ -1168,14 +1252,14 @@ function handleImportedCCTPs(str) {
   return objsArr;
 }
 
-function handleBuiltInCCTPs(str) {
+function handleBuiltInCCTPs(str, size) {
   let strSingle = String(str);
   const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1189,7 +1273,7 @@ function handleBuiltInCCTPs(str) {
 }
 
 function parseHTMLTag(str) {
-  const elMain = document.createElement("div");
+  const elMain = document.createElement('div');
   elMain.innerHTML = str;
   let htmlCollectionMain = elMain.children;
 
@@ -1208,33 +1292,24 @@ function parseHTMLTag(str) {
 }
 
 const tagsToDocxMap = {
-  P: function (_) {
+  P: function (_, size) {
     const text = _.innerHTML;
 
-    const textArr = text.split("<br>");
+    const textArr = text.split('<br>');
     const objsArr = [];
     for (let i = 0; i < textArr.length; i++) {
       const currentText = textArr[i];
       if (htmlTagRegex.test(currentText)) {
-        const parsedObjsArr = parseHTMLTag(currentText); // Handled for first level only.
+        const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
           const obj = parsedObjsArr[j];
-          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj);
+          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj, size);
           if (objElm) {
             objsArr.push(objElm);
           }
         }
       } else {
-        objsArr.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: currentText,
-                size: 20,
-              }),
-            ],
-          })
-        );
+        objsArr.push(docText(currentText, size ?? l1Font, false));
       }
     }
 
@@ -1244,57 +1319,65 @@ const tagsToDocxMap = {
     return new Paragraph({
       children: [
         new TextRun({
-          text: "", // We know this for sure
+          text: '', // We know this for sure
         }),
       ],
     });
   },
-  STRONG: function (_) {
+  STRONG: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: size ?? l2Font,
           bold: true,
         }),
       ],
     });
   },
-  EM: function (_) {
+  EM: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: size ?? l2Font,
           italics: true,
         }),
       ],
     });
   },
-  U: function (_) {
+  U: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: size ?? l2Font,
           underline: {
-            color: "#f2f2f2",
+            color: '#f2f2f2',
             type: UnderlineType.DASH,
           },
         }),
       ],
     });
   },
-  S: function (_) {
+  S: function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
+          size: size ?? l2Font,
           strike: true,
         }),
       ],
@@ -1323,18 +1406,19 @@ const tagsToDocxMap = {
     const classList = _.classList;
 
     let size;
-    if (classList == "ql-size-small") {
-      size = 20;
-    } else if (classList == "ql-size-large") {
-      size = 40;
-    } else if (classList == "ql-size-huge") {
-      size = 60;
+    if (classList == 'ql-size-small') {
+      size = l1Font;
+    } else if (classList == 'ql-size-large') {
+      size = l2Font;
+    } else if (classList == 'ql-size-huge') {
+      size = l3Font;
     }
 
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
+          font: fontType,
           size: size,
         }),
       ],
@@ -1343,32 +1427,31 @@ const tagsToDocxMap = {
 };
 
 const dataColumnsEstimation = [
-  localStorage.getItem("i18nextLng") == "en" ? "No #" : "Non #",
-  localStorage.getItem("i18nextLng") == "en" ? "Name" : "Nom",
-  localStorage.getItem("i18nextLng") == "en" ? "Unit" : "Unité",
-  "Qty",
-  "PU HT",
-  "Total HT",
+  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'Numéro',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Designation' : 'Désignation',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Qty' : 'Qté',
+  'PU HT',
+  'Total HT',
 ];
 
 const footerColumnsSimpleEstimation = [
-  localStorage.getItem("i18nextLng") == "en" ? "Total Lot n°1 :" : "Total HT :",
-  "",
-  "Total HT :",
-  localStorage.getItem("i18nextLng") == "en" ? "Total VAT (%) :" : "TVA totale (%) :",
-  localStorage.getItem("i18nextLng") == "en" ? "Total Amount including VAT :" : "Montant total TTC :",
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
+  '',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 
-const dataColumnsBPU = ["'1", "Lot n°1", ""];
+const dataColumnsBPU = ["'1", 'Lot n°1', ''];
 
 function downloadBlob(blob, filename) {
   const blobUrl = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = blobUrl;
   link.download = filename;
   document.body.appendChild(link);
   link.dispatchEvent(
-    new MouseEvent("click", {
+    new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window,
