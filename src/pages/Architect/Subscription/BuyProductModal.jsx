@@ -86,7 +86,12 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
       tvaPercentage: 20,
       tvaAmount: formatNumber(total.tax.toFixed(2)),
       TotalCost: formatNumber(total.grandTotal.toFixed(2)),
-      paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
+      paymentMode:
+        paymentMethod === 'card'
+          ? 'CB'
+          : paymentMethod === 'mandat'
+          ? 'Mandat administratif'
+          : 'SEPA',
     };
     const result = await api('post', `/Architects/quote/download`, invoiceData);
     window.open(result.data.path, '_blank');
@@ -138,7 +143,12 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
           tvaPercentage: 20,
           tvaAmount: formatNumber(total.tax.toFixed(2)),
           TotalCost: formatNumber(total.grandTotal.toFixed(2)),
-          paymentMode: paymentMethod === 'card' ? 'CB' : 'SEPA',
+          paymentMode:
+            paymentMethod === 'card'
+              ? 'CB'
+              : paymentMethod === 'mandat'
+              ? 'Mandat administratif'
+              : 'SEPA',
         },
       };
 
