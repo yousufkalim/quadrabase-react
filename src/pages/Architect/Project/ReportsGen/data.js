@@ -62,7 +62,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       const tranchObj = {};
       const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
         data: tranchDataArr,
-        prefix: `${i + 1}.${j + 1}`,
+        prefix: `${i + 1}.${j + 1}.`,
         noPrice: noPrice,
       });
       tranchObj.tranch = tranchTitle;
@@ -798,9 +798,9 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
   return docxParsedData;
 }
 
-function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) {
+function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
   let footerData = [];
-
   let totalHT = 0;
 
   data.map((item, index) => {
@@ -822,7 +822,95 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
     ];
   } else {
-    footerData = ['', '', '', ''];
+    footerData = ['', '', ''];
+  }
+
+  if (addSpace) {
+    footerData.splice(1, 0, '');
+  }
+
+  return footerData;
+}
+
+function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
+  let footerData = [];
+  let totalHT = 0;
+
+  let tempArray = [];
+  data.map((dat, index1) => {
+    let tempSum = 0;
+    dat.data.map((item, index) => {
+      let temp = 0;
+      if (!item.workDetails) {
+        temp += item.work.unit_price * item.work.quantity;
+      } else {
+        if (item?.work?._id !== data[index - 1]?.work?._id) {
+          temp += item.workDetails.quantity * item.workDetails.unit_price;
+        } else {
+          temp += item.workDetails.quantity * item.workDetails.unit_price;
+        }
+      }
+      tempSum += temp;
+      totalHT += temp;
+    });
+    tempArray[index1] = tempSum;
+  });
+
+  if (!noPrice) {
+    footerData = [
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+    ];
+  } else {
+    footerData = ['', '', ''];
+  }
+
+  if (addSpace) {
+    footerData.splice(1, 0, '');
+  }
+
+  return footerData;
+}
+
+function footerDataGenTradesAndTranchesEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
+  let footerData = [];
+  let totalHT = 0;
+
+  data.map((item) => {
+    let tempArray2 = [];
+    item.data.map((item2) => {
+      let tempObject = {};
+      tempObject.tranch = item2.tranch.name;
+      tempObject.ranking = item2.tranch.ranking;
+      tempObject.tranchData = [];
+      let existingTranch = '';
+      if (tempArray2.length > 0) {
+        existingTranch = tempArray2.find(({ tranch }) => tranch === tempObject.tranch);
+      }
+      if (!existingTranch) {
+        let amountTranch = 0;
+        item.data.map((item3, index) => {
+          amountTranch += item3.tranchAmount;
+        });
+        tempObject.tranchAmount = amountTranch;
+        totalHT = totalHT + amountTranch;
+        tempArray2.push(tempObject);
+      }
+    });
+    item.data = tempArray2.sort((a, b) => a.ranking - b.ranking);
+  });
+
+  if (!noPrice) {
+    footerData = [
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+    ];
+  } else {
+    footerData = ['', '', ''];
   }
 
   if (addSpace) {
@@ -1507,6 +1595,8 @@ export {
   rowsGenTradesCCTP,
   rowsGenTradesAndTranchesCCTP,
   footerDataGenSimpleEstimation,
+  footerDataGenTradesEstimation,
+  footerDataGenTradesAndTranchesEstimation,
   footerDataGenSimpleDPGF,
   textRunsSplitGen,
   dataColumnsEstimation,

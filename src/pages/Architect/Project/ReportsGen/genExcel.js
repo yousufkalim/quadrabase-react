@@ -10,6 +10,8 @@ import {
   xlsxParsedFooterDataGenEstimation,
   calculateWSCols,
   footerDataGenSimpleEstimation,
+  footerDataGenTradesEstimation,
+  footerDataGenTradesAndTranchesEstimation,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
 } from './data.js';
@@ -185,14 +187,20 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
 
 const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const rows = rowsGenTradesEstimation(data, noPrice);
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
   let xlsxParsedData = [];
+  const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const currentRowXLSXParsedData = xlsxParsedDataGenTradesEstimation(currentRow, i + 1);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
+
+  xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.json_to_sheet(xlsxParsedData);
 
@@ -228,6 +236,21 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     cursor = cursor + 1;
   }
 
+  let stopAt = cursor - 1;
+  for (let i = 0; i < footerDataFloatsArr.length; i++) {
+    const obj = {
+      s: { r: stopAt + i, c: 1 },
+      e: { r: stopAt + i, c: 4 },
+    };
+    merge.push(obj);
+  }
+
+  // Apply styling to footer
+  stopAt = footerDataFloatsArr.length + cursor;
+  for (let i = cursor; i < stopAt; i++) {
+    applyRowStyle(ws, i, { ...Font1, ...BorderFirst2 });
+  }
+
   // Merge footer cells - Merge must be done after styling
   ws['!merges'] = merge;
 
@@ -244,14 +267,20 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
 const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) => {
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
   let xlsxParsedData = [];
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
+
+  xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.json_to_sheet(xlsxParsedData);
 
@@ -299,6 +328,21 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
       e: { r: cursor - 1, c: 4 },
     });
     cursor = cursor + 1;
+  }
+
+  let stopAt = cursor - 1;
+  for (let i = 0; i < footerDataFloatsArr.length; i++) {
+    const obj = {
+      s: { r: stopAt + i, c: 1 },
+      e: { r: stopAt + i, c: 4 },
+    };
+    merge.push(obj);
+  }
+
+  // Apply styling to footer
+  stopAt = footerDataFloatsArr.length + cursor;
+  for (let i = cursor; i < stopAt; i++) {
+    applyRowStyle(ws, i, { ...Font1, ...BorderFirst2 });
   }
 
   // Merge footer cells - Merge must be done after styling
