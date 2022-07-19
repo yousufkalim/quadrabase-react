@@ -18,12 +18,10 @@ function headGen(headingName, projectName) {
 }
 
 function rowsGenSimpleEstimation(data, noPrice) {
-  const rows = [];
-
-  rows.push(["'1", 'Lot n°1', '', '', '', '']);
-
-  rowsGenEstimationHandleWorksAndWorkDetails(rows, data, `${1}`, noPrice);
-
+  const rows = rowsGenEstimationHandleWorksAndWorkDetails({
+    data: data,
+    noPrice,
+  });
   return rows;
 }
 
@@ -36,7 +34,11 @@ function rowsGenTradesEstimation(data, noPrice) {
     const tradeData = data[i].data;
     const workAndDetailsRows = [];
     const tradeObj = {};
-    rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`, noPrice);
+    rows = rowsGenEstimationHandleWorksAndWorkDetails({
+      data: tradeData,
+      prefix: `${i + 1}.`,
+      noPrice: noPrice,
+    });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
     rows.push(tradeObj);
@@ -60,7 +62,11 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       const tranchDataArr = tradeData[j].tranchData;
       const workAndDetailsRows = [];
       const tranchObj = {};
-      rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`, noPrice);
+      rows = rowsGenEstimationHandleWorksAndWorkDetails({
+        data: tranchDataArr,
+        prefix: `${i + 1}.${j + 1}`,
+        noPrice: noPrice,
+      });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
       tranchesRows.push(tranchObj);
@@ -129,14 +135,17 @@ function rowsGenTradesAndTranchesDPGF(data) {
   return rows;
 }
 
-function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix, noPrice) {
+function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice = false }) {
+  const resArr = [];
   let _id;
+  let workIndex = 0;
+  let workDetailsIndex = 0;
 
   for (let i = 0; i < data.length; i++) {
     if (_id != data[i].work._id) {
       const arr = [];
 
-      arr.push(`${prefix}.${i + 1}`);
+      arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
       arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
@@ -149,12 +158,12 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
         arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
       }
 
-      toBeModifiedArr.push(arr);
+      resArr.push(arr);
 
       if (data[i].workDetails) {
         const arrD = [];
 
-        arrD.push(`${prefix}.${i + 1}`);
+        arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
@@ -167,12 +176,17 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
           arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
         }
 
-        toBeModifiedArr.push(arrD);
+        resArr.push(arrD);
+        workDetailsIndex++;
+        workIndex--; // In order to stop increment
+      } else {
+        workDetailsIndex = 0;
       }
+      workIndex++;
     } else {
       const arrD = [];
 
-      arrD.push(`${prefix}.${i + 1}`);
+      arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
@@ -185,11 +199,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
         arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
       }
 
-      toBeModifiedArr.push(arrD);
+      resArr.push(arrD);
+      workDetailsIndex++;
     }
 
     _id = data[i].work._id;
   }
+
+  return resArr;
 }
 
 function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
@@ -291,7 +308,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot: `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -421,7 +438,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = tradeTotal ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -667,9 +684,9 @@ function calculateTotalHT(data, noPrice) {
     totalHT = totalHT + _;
   }
 
-  totalHT = formatNumber(totalHT.toFixed(2));
+  const formattedTotalHT = formatNumber(totalHT.toFixed(2));
 
-  return totalHT;
+  return formattedTotalHT;
 }
 
 function docxParsedDataGenTradesDPGF(trade, index) {
@@ -1427,7 +1444,7 @@ const tagsToDocxMap = {
 };
 
 const dataColumnsEstimation = [
-  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'Numéro',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'N°',
   localStorage.getItem('i18nextLng') == 'en' ? 'Designation' : 'Désignation',
   localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
   localStorage.getItem('i18nextLng') == 'en' ? 'Qty' : 'Qté',
