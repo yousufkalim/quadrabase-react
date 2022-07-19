@@ -1,169 +1,171 @@
-import Admin from "./pages/admin";
-import Architects from "./pages/admin/architects";
-import BookLibraries from "./pages/admin/bookLibraries";
-import PrivateLibraries from "./pages/admin/bookLibraries/PrivateLibraries";
-import Providers from "./pages/admin/providers";
-import Subscriptions from "./pages/admin/subscritions";
+import Admin from './pages/admin';
+import Architects from './pages/admin/architects';
+import BookLibraries from './pages/admin/bookLibraries';
+import PrivateLibraries from './pages/admin/bookLibraries/PrivateLibraries';
+import Providers from './pages/admin/providers';
+import Subscriptions from './pages/admin/subscritions';
 
-import AdminsList from "./pages/admin/admins";
-import profileSettings from "./pages/admin/profileSettings";
+import AdminsList from './pages/admin/admins';
+import profileSettings from './pages/admin/profileSettings';
 
-import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
-import Presentation from "./pages/auth/presentation";
-import EducationalMaterial from "./pages/auth/educationalMaterial";
-import Home from "./pages/auth/home";
-import StudyMaterial from "./pages/auth/studyMaterial";
-import Documentation from "./pages/auth/documentation";
-import Manufacturer from "./pages/auth/manufacturers";
-import Fabricant from "./pages/auth/fabricants";
-import Libraries from "./pages/auth/libraries";
-import Services from "./pages/auth/services";
-import Contact from "./pages/auth/contactUs";
-import Privacy from "./pages/auth/privacy";
-import Terms from "./pages/auth/terms";
-import Units from "./pages/admin/bookLibraries/Units";
-import Stakeholders from "./pages/admin/bookLibraries/Stakeholders";
+import Login from './pages/auth/login';
+import Register from './pages/auth/register';
+import Presentation from './pages/auth/presentation';
+import EducationalMaterial from './pages/auth/educationalMaterial';
+import Home from './pages/auth/home';
+import StudyMaterial from './pages/auth/studyMaterial';
+import Documentation from './pages/auth/documentation';
+import Manufacturer from './pages/auth/manufacturers';
+import Fabricant from './pages/auth/fabricants';
+import Libraries from './pages/auth/libraries';
+import Services from './pages/auth/services';
+import Contact from './pages/auth/contactUs';
+import Privacy from './pages/auth/privacy';
+import Terms from './pages/auth/terms';
+import Units from './pages/admin/bookLibraries/Units';
+import Stakeholders from './pages/admin/bookLibraries/Stakeholders';
 
-import Families from "./pages/admin/bookLibraries/Families";
-import VAT from "./pages/admin/bookLibraries/VAT";
-import CCTP from "./pages/admin/bookLibraries/CCTP";
-import Chap0 from "./pages/admin/bookLibraries/Chap0";
-import FileManager from "./pages/admin/fileManager";
+import Families from './pages/admin/bookLibraries/Families';
+import VAT from './pages/admin/bookLibraries/VAT';
+import CCTP from './pages/admin/bookLibraries/CCTP';
+import Chap0 from './pages/admin/bookLibraries/Chap0';
+import FileManager from './pages/admin/fileManager';
+import AdminTerms from './pages/admin/staticPages/Terms';
+import AdminPrivacy from './pages/admin/staticPages/Privacy';
 
-import ArchitectIndex from "./pages/Architect/Home";
-import Management from "./pages/Architect/Stakeholder-Chap0Part2/Index";
-import ProjectLibraries from "./pages/Architect/ProjectLibraries/Index";
-import MyProfile from "./pages/Architect/MyProfile/Index";
-import ProjectView from "./pages/Architect/Project/ProjectView";
-import Projects from "./pages/Architect/Project/Index";
-import SubscriptionSuccess from "./pages/Architect/Subscription/Success";
+import ArchitectIndex from './pages/Architect/Home';
+import Management from './pages/Architect/Stakeholder-Chap0Part2/Index';
+import ProjectLibraries from './pages/Architect/ProjectLibraries/Index';
+import MyProfile from './pages/Architect/MyProfile/Index';
+import ProjectView from './pages/Architect/Project/ProjectView';
+import Projects from './pages/Architect/Project/Index';
+import SubscriptionSuccess from './pages/Architect/Subscription/Success';
 
 // Architect drawer Icons
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
-import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
-import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
-import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import SettingsApplicationsOutlinedIcon from '@mui/icons-material/SettingsApplicationsOutlined';
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 
 // Provider
-import Provider from "./pages/provider";
-import ProviderProfile from "./pages/provider/Profile";
+import Provider from './pages/provider';
+import ProviderProfile from './pages/provider/Profile';
 
 var routes = [
   // architect side routes
   {
-    path: "/index", //admin dashboard
-    name: "Provider",
-    text: "Dashboard",
+    path: '/index', //admin dashboard
+    name: 'Provider',
+    text: 'Dashboard',
     icon: <HomeOutlinedIcon />,
     component: Provider,
-    layout: "/provider",
+    layout: '/provider',
   },
   {
-    path: "/profile", //admin dashboard
-    name: "Provider",
-    text: "Profile",
+    path: '/profile', //admin dashboard
+    name: 'Provider',
+    text: 'Profile',
     icon: <ManageAccountsOutlinedIcon />,
     component: ProviderProfile,
-    layout: "/provider",
+    layout: '/provider',
   },
 
   // architect side routes
   {
-    path: "/index", //Architect
-    name: "Architect",
-    text: "Dashboard",
+    path: '/index', //Architect
+    name: 'Architect',
+    text: 'Dashboard',
     icon: <HomeOutlinedIcon />,
     component: ArchitectIndex,
-    layout: "/architect",
+    layout: '/architect',
   },
   {
-    path: "/projects", //Architect
-    name: "Architect",
-    text: "My Projects",
+    path: '/projects', //Architect
+    name: 'Architect',
+    text: 'My Projects',
     icon: <WorkOutlineIcon />,
     component: Projects,
-    layout: "/architect",
+    layout: '/architect',
   },
   {
-    path: "/management", //Architect
-    name: "Architect",
-    text: "Management",
+    path: '/management', //Architect
+    name: 'Architect',
+    text: 'Management',
     icon: <SettingsApplicationsOutlinedIcon />,
     component: Management,
-    layout: "/architect",
+    layout: '/architect',
   },
 
   {
-    path: "/libraries", //Architect
-    name: "Architect",
-    text: "Libraries",
+    path: '/libraries', //Architect
+    name: 'Architect',
+    text: 'Libraries',
     icon: <LibraryBooksOutlinedIcon />,
     component: ProjectLibraries,
-    layout: "/architect",
+    layout: '/architect',
   },
 
   {
-    path: "/profile", //Architect
-    name: "Architect",
-    text: "Profile",
+    path: '/profile', //Architect
+    name: 'Architect',
+    text: 'Profile',
     icon: <ManageAccountsOutlinedIcon />,
     component: MyProfile,
-    layout: "/architect",
+    layout: '/architect',
   },
 
   {
-    path: "/projectview/:id", //Architect
-    name: "Architect",
-    text: "ProjectView",
+    path: '/projectview/:id', //Architect
+    name: 'Architect',
+    text: 'ProjectView',
     component: ProjectView,
-    layout: "/architect",
+    layout: '/architect',
   },
 
   {
-    path: "/success", //Architect
-    name: "Architect",
-    text: "Success",
+    path: '/success', //Architect
+    name: 'Architect',
+    text: 'Success',
     component: SubscriptionSuccess,
-    layout: "/architect",
+    layout: '/architect',
   },
 
   //admin  side routes
   {
-    path: "/index", //admin dashboard
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/index', //admin dashboard
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Admin,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/architects", //architects list
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/architects', //architects list
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Architects,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/admins", //admins list
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/admins', //admins list
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: AdminsList,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/settings",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/settings',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: profileSettings,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/libraries",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/libraries',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: BookLibraries,
-    layout: "/admin",
+    layout: '/admin',
   },
   // {
   //   path: "/privateLibraries",
@@ -173,177 +175,191 @@ var routes = [
   //   layout: "/admin",
   // },
   {
-    path: "/providers",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/providers',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Providers,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/products",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/products',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Subscriptions,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/folders",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/folders',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: FileManager,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/units",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/units',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Units,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/stakeholders",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/stakeholders',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Stakeholders,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/vat",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/vat',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: VAT,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/cctp",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/cctp',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: CCTP,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/chap0",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/chap0',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Chap0,
-    layout: "/admin",
+    layout: '/admin',
   },
 
   {
-    path: "/families",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/families',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Families,
-    layout: "/admin",
+    layout: '/admin',
   },
 
   {
-    path: "/admin/libraries",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/admin/libraries',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
     component: Families,
-    layout: "/admin",
+    layout: '/admin',
+  },
+  {
+    path: '/privacy',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: AdminPrivacy,
+    layout: '/admin',
+  },
+  {
+    path: '/terms',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: AdminTerms,
+    layout: '/admin',
   },
 
   // ******** auth routes
   {
-    path: "/login",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/login',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Login,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/register",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/register',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Register,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/presentation",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/presentation',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Presentation,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/educational_materials",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/educational_materials',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: EducationalMaterial,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/home",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/home',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Home,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/support",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/support',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: StudyMaterial,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/documentation",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/documentation',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Documentation,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/fabricant",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/fabricant',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Fabricant,
-    layout: "/auth",
+    layout: '/auth',
   },
 
   {
-    path: "/libraries",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/libraries',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Libraries,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/services",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/services',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Services,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/contact",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/contact',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Contact,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/manufacturers",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/manufacturers',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Manufacturer,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/privacy",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/privacy',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Privacy,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/terms",
-    name: "Auth",
-    icon: "ni ni-tv-2 text-primary",
+    path: '/terms',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
     component: Terms,
-    layout: "/auth",
+    layout: '/auth',
   },
 ];
 export default routes;

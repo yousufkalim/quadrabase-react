@@ -1,80 +1,80 @@
-import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import Services1 from "../assets/images/Services1.svg";
-import Services2 from "../assets/images/Services2.svg";
-import Services3 from "../assets/images/Services3.svg";
-import Services4 from "../assets/images/Services4.jpg";
-import Services5 from "../assets/images/Services5.jpg";
-import Services6 from "../assets/images/Services6.jpg";
-import Services7 from "../assets/images/services7.png";
-import Services8 from "../assets/images/Services8.jpg";
-import Services9 from "../assets/images/Services9.jpg";
-import Services10 from "../assets/images/Services10.jpg";
-import Services11 from "../assets/images/Services11.jpg";
-import Services13 from "../assets/images/Services13.jpg";
+import React, { useEffect, useState } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import Services1 from '../assets/images/Services1.svg';
+import Services2 from '../assets/images/Services2.svg';
+import Services3 from '../assets/images/Services3.svg';
+import Services4 from '../assets/images/Services4.jpg';
+import Services5 from '../assets/images/Services5.jpg';
+import Services6 from '../assets/images/Services6.jpg';
+import Services7 from '../assets/images/services7.png';
+import Services8 from '../assets/images/Services8.jpg';
+import Services9 from '../assets/images/Services9.jpg';
+import Services10 from '../assets/images/Services10.jpg';
+import Services11 from '../assets/images/Services11.jpg';
+import Services13 from '../assets/images/Services13.jpg';
 
 const CustomerReviews = () => {
   const Services = [
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Routes & Autoroutes",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Routes & Autoroutes',
       img: Services1,
     },
 
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Aménagements urbains",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Aménagements urbains',
       img: Services2,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Bâtiments",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Bâtiments',
       img: Services3,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Construction de réseaux",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Construction de réseaux',
       img: Services4,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Electricité & Eclairage",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Electricité & Eclairage',
       img: Services5,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Espaces de loisirs",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Espaces de loisirs',
       img: Services13,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Mobilier urbain",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Mobilier urbain',
       img: Services7,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Aménagements paysagers",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Aménagements paysagers',
       img: Services8,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Signalisation & Sécurité routière",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Signalisation & Sécurité routière',
       img: Services9,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Equipements sportifs",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Equipements sportifs',
       img: Services10,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Environnement & Collecte des déchets",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Environnement & Collecte des déchets',
       img: Services11,
     },
     {
-      label: "CUSTOMER SERVICE",
-      heading: "Ouvrages de génie civil",
+      label: 'CUSTOMER SERVICE',
+      heading: 'Ouvrages de génie civil',
       img: Services13,
     },
   ];
@@ -105,7 +105,7 @@ const CustomerReviews = () => {
           responsive={responsive}
           infinite={true}
           arrows={true}
-          autoPlay={false}
+          autoPlay={true}
           className="spc_CustomerreviewCarousel"
         >
           {Services.map((item) => (
@@ -113,11 +113,11 @@ const CustomerReviews = () => {
               <img
                 src={item.img}
                 style={{
-                  width: "100%",
-                  objectFit: "cover",
-                  borderTopLeftRadius: "20px",
-                  borderTopRightRadius: "20px",
-                  height: "320px",
+                  width: '100%',
+                  objectFit: 'cover',
+                  borderTopLeftRadius: '20px',
+                  borderTopRightRadius: '20px',
+                  height: '320px',
                   marginBottom: 10,
                 }}
               ></img>

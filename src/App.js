@@ -9,13 +9,17 @@ import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Main from './containers';
 import api from './api';
-import { dataColumnsEstimation, footerColumnsSimpleEstimation } from './pages/Architect/Project/ReportsGen/data.js';
+import {
+  dataColumnsEstimation,
+  footerColumnsSimpleEstimation,
+} from './pages/Architect/Project/ReportsGen/data.js';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 function App() {
   useEffect(() => {
     CheckVist();
+    localStorage.removeItem('warning');
   }, []);
 
   useEffect(() => {
@@ -40,7 +44,12 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} transition={Flip} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        transition={Flip}
+      />
       <Toaster />
       <BrowserRouter>
         <Main />

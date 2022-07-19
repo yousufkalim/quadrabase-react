@@ -76,14 +76,6 @@ export default function AddExpense(props) {
         values.providers = ProviderDataArr;
       }
 
-      let maxRanking = Math.max.apply(
-        Math,
-        props.works.map((item) => {
-          return item.ranking;
-        })
-      );
-      values.ranking = maxRanking > 0 ? maxRanking + 1 : 0;
-
       try {
         let response = await Axios({
           method: 'post',
@@ -380,31 +372,31 @@ export default function AddExpense(props) {
             Document
           </div>
           <div style={{ display: 'flex' }}>
-          <div
-            style={{
-              border: '1px solid gray',
-              height: 35,
-              padding: 4,
-              borderRadius: 4,
-              backgroundColor: associatedProviders.length === 0 && 'lightgray',
-              width: '100%',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            <label style={{ cursor: 'pointer' }}>
-              {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
-              <TextInput
-                type="file"
-                placeholder="Document"
-                name="document"
-                onChange={handleFileChange}
-                multiple={true}
-                style={{ display: 'none' }}
-                disabled={associatedProviders.length === 0}
-              />
-            </label>
+            <div
+              style={{
+                border: '1px solid gray',
+                height: 35,
+                padding: 4,
+                borderRadius: 4,
+                backgroundColor: associatedProviders.length === 0 && 'lightgray',
+                width: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <label style={{ cursor: 'pointer' }}>
+                {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
+                <TextInput
+                  type="file"
+                  placeholder="Document"
+                  name="document"
+                  onChange={handleFileChange}
+                  multiple={true}
+                  style={{ display: 'none' }}
+                  disabled={associatedProviders.length === 0}
+                />
+              </label>
             </div>
             &nbsp;&nbsp;
             <Button
@@ -415,7 +407,6 @@ export default function AddExpense(props) {
             />
           </div>
         </div>
-
 
         <div className="flex">
           <div className="">

@@ -1,11 +1,11 @@
 // init
-import React from "react";
-import { useTranslation } from "react-i18next";
-import List from "@mui/material/List";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import List from '@mui/material/List';
 
 // component
-import { Button } from "@mui/material";
-import ChapList from "../component/ChapList";
+import { Button } from '@mui/material';
+import ChapList from '../component/ChapList';
 
 const EditChap0Part2 = ({
   handleOpenEditChap0Part2Modal,
@@ -20,11 +20,16 @@ const EditChap0Part2 = ({
   const { t } = useTranslation();
 
   return (
-    <div style={{ width: "45vw", maxHeight: 600, overflow: "auto" }}>
-      <List sx={{ width: "100%", bgcolor: "background.paper" }} component="nav" aria-labelledby="nested-list-subheader">
+    <div style={{ width: '45vw', maxHeight: 600, overflow: 'auto' }}>
+      <List
+        sx={{ width: '100%', bgcolor: 'background.paper' }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
         {editChap0Part2.map((item) => {
           return (
             <ChapList
+              allChaps={editChap0Part2}
               editChap0Part2={item}
               handleOpenEditChapModal={handleOpenEditChapModal}
               handleOpenDeleteChapModal={handleOpenDeleteChapModal}
@@ -37,16 +42,16 @@ const EditChap0Part2 = ({
         })}
       </List>
       {/* create button */}
-      <div style={{ width: "100%", textAlign: "right" }}>
+      <div style={{ width: '100%', textAlign: 'right' }}>
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#3b373c",
-            height: "35px",
+            backgroundColor: '#3b373c',
+            height: '35px',
           }}
           onClick={handleOpenEditChap0Part2Modal}
         >
-          {t("Close")}
+          {t('Close')}
         </Button>
       </div>
     </div>

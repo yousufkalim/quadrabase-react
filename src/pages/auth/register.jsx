@@ -1,45 +1,46 @@
 // init
-import React, { useState, useEffect } from "react";
-import "../../css/register.css";
-import logo from "../../assets/Quadralogo.png";
-import Vector from "../../assets/Vector.png";
-import TextInput from "../../components/TextInput";
-import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { toast } from "react-toastify";
-import { Typography } from "@mui/material";
-import Stepper from "./Components/Stepper";
-import validate from "validate.js";
-import moment from "moment";
-import api from "../../api";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import BasicDropdown from "../../components/Architect/BasicDropdown";
-import Checkbox from "@mui/material/Checkbox";
-import { formatNumber } from "../../utils/markThousand";
+import React, { useState, useEffect } from 'react';
+import '../../css/register.css';
+import logo from '../../assets/Quadralogo.png';
+import Vector from '../../assets/Vector.png';
+import TextInput from '../../components/TextInput';
+import Button from '@mui/material/Button';
+import { useHistory } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { toast } from 'react-toastify';
+import { Typography } from '@mui/material';
+import Stepper from './Components/Stepper';
+import validate from 'validate.js';
+import moment from 'moment';
+import api from '../../api';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import BasicDropdown from '../../components/Architect/BasicDropdown';
+import InputWithOptions from '../../components/Architect/InputWithOptions';
+import { formatNumber } from '../../utils/markThousand';
+import CloseIcon from '@mui/icons-material/Close';
 
 // input styling
 const InputStyle = {
-  borderColor: "#8C1244",
+  borderColor: '#8C1244',
   marginTop: 5,
-  backgroundColor: "transparent",
+  backgroundColor: 'transparent',
   height: 40,
   borderRadius: 10,
 };
 
-const steps = ["Informations générales", "Informations de connexion"];
+const steps = ['Informations générales', 'Informations de connexion'];
 
 const schema1 = {
   establishment: {
-    presence: { allowEmpty: false, message: "is required" },
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32,
     },
   },
   address_1: {
-    presence: { allowEmpty: false, message: "is required" },
+    presence: { allowEmpty: false, message: 'is required' },
   },
   postal_code: {
     length: {
@@ -48,7 +49,7 @@ const schema1 = {
     },
   },
   city: {
-    presence: { allowEmpty: false, message: "is required" },
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32,
     },
@@ -57,13 +58,13 @@ const schema1 = {
 
 const schema2 = {
   first_name: {
-    presence: { allowEmpty: false, message: "is required" },
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32,
     },
   },
   last_name: {
-    presence: { allowEmpty: false, message: "is required" },
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32,
     },
@@ -103,8 +104,8 @@ const options = [
 ];
 
 const typeOptions = [
-  { _id: "Prescripteur", title: "Prescripteur" },
-  { _id: "Fabricant", title: "Fabricant" },
+  { _id: 'Prescripteur', title: 'Prescripteur' },
+  { _id: 'Fabricant', title: 'Fabricant' },
 ];
 
 // component
@@ -113,28 +114,27 @@ const Register = () => {
   const history = useHistory();
 
   // states
-  const [type, setType] = useState("Prescripteur");
+  const [type, setType] = useState('Prescripteur');
   const [startStepper, setStartStepper] = useState(false);
-  const [fabricantSub, setFabricantSub] = useState("Référencement");
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
-  const [invoiceUrl, setInvoiceUrl] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [payment, setPayment] = useState(false);
-  const [archId, setArchId] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [archId, setArchId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const [subscriptionOptions, setSubscriptionOptions] = useState([]);
-  const [selectedSubscription, setSelectedSubscription] = useState("");
+  const [selectedSubscription, setSelectedSubscription] = useState('');
+  const [selectedSubscriptions, setSelectedSubscriptions] = useState([]);
   const [form1, setForm1] = useState({
     values: {
-      establishment: "",
-      service: "",
-      address_1: "",
-      address_2: "",
-      po_box: "",
-      postal_code: "",
-      city: "",
+      establishment: '',
+      service: '',
+      address_1: '',
+      address_2: '',
+      po_box: '',
+      postal_code: '',
+      city: '',
     },
     error: {},
     touched: {},
@@ -142,34 +142,25 @@ const Register = () => {
 
   const [form2, setForm2] = useState({
     values: {
-      last_name: "",
-      first_name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-      phone: "",
+      last_name: '',
+      first_name: '',
+      email: '',
+      password: '',
+      confirm_password: '',
+      phone: '',
     },
     error: {},
     touched: {},
   });
 
+  const [totalDuration, setTotalDuration] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [subAmounts, setSubAmount] = useState({
-    initial: {
-      count: 1,
-      price: 1190,
-      name: "",
-    },
-    extended: {
-      count: 0,
-      price: 0,
-    },
-    pack: {
-      count: 0,
-      price: 0,
-      name: "",
-      number: 0,
-    },
+
+  const [subscriptionsData, setSubscriptionData] = useState([]);
+  const [total, setTotal] = useState({
+    subTotal: 0,
+    tax: 0,
+    grandTotal: 0,
   });
 
   const [fabricantSubAmounts, setFabricantSubAmount] = useState({
@@ -177,28 +168,28 @@ const Register = () => {
     refer: 0,
     alertDuration: 0,
     referDuration: 0,
-    alertName: "",
-    referName: "",
+    alertName: '',
+    referName: '',
     count: 1,
   });
 
   useEffect(() => {
-    if (localStorage.getItem("step") == 2) {
-      let tempArch = localStorage.getItem("archId");
+    if (localStorage.getItem('step') == 2) {
+      let tempArch = localStorage.getItem('archId');
       if (tempArch) {
         setArchId(tempArch);
         setPayment(true);
         setStartStepper(false);
-        setType("Prescripteur");
-        localStorage.removeItem("archId");
-        localStorage.removeItem("step");
+        setType('Prescripteur');
+        localStorage.removeItem('archId');
+        localStorage.removeItem('step');
       } else {
-        setArchId(localStorage.getItem("provId"));
+        setArchId(localStorage.getItem('provId'));
         setPayment(true);
         setStartStepper(false);
-        setType("Fabricant");
-        localStorage.removeItem("provId");
-        localStorage.removeItem("step");
+        setType('Fabricant');
+        localStorage.removeItem('provId');
+        localStorage.removeItem('step');
       }
     }
   }, []);
@@ -225,57 +216,87 @@ const Register = () => {
 
   useEffect(() => {
     if (selectedSubscription) {
-      if (type === "Prescripteur") {
-        let temp = {
-          initial: {
-            count: 1,
-            price: 1190,
-            name: "",
-          },
-          extended: {
-            count: 0,
-            price: 0,
-          },
-          pack: {
-            count: 0,
-            price: 500,
-            name: "",
-            number: 0,
-          },
-        };
-        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
-        temp = { ...temp, initial: { count: 1, price: temp2.price, name: temp2.name } };
-        temp = { ...temp, pack: { count: 0, price: 0, name: "", number: temp2.projects } };
-        setDuration(temp2.duration);
-        setSubAmount(temp);
-      } else {
-        let temp = {
-          alert: 0,
-          refer: 0,
-          alertDuration: 0,
-          referDuration: 0,
-          alertName: "",
-          referName: "",
-          count: 1,
-        };
-        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
-        temp = { ...temp, refer: temp2.price, referDuration: temp2.duration, referName: temp2.name };
-        setDuration(temp2.duration);
-        setFabricantSubAmount(temp);
-      }
+      let temp = {
+        alert: 0,
+        refer: 0,
+        alertDuration: 0,
+        referDuration: 0,
+        alertName: '',
+        referName: '',
+        count: 1,
+      };
+      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+      temp = {
+        ...temp,
+        refer: temp2.price,
+        referDuration: temp2.duration,
+        referName: temp2.name,
+      };
+      setDuration(temp2.duration);
+      setFabricantSubAmount(temp);
     }
   }, [selectedSubscription]);
 
+  useEffect(() => {
+    if (selectedSubscriptions.length > 0) {
+      let temp = [];
+      selectedSubscriptions.map((item1) => {
+        let existing = subscriptionOptions.find((item2) => item2._id === item1);
+        existing.count = 0;
+        temp.push(existing);
+      });
+      setSubscriptionData(temp);
+    }
+  }, [selectedSubscriptions]);
+
+  useEffect(() => {
+    if (subscriptionsData.length > 0) {
+      let tempSubTotal = 0;
+      let tempTax = 0;
+      let tempGrandTotal = 0;
+      let tempDuration = 0;
+      subscriptionsData.map((item) => {
+        tempSubTotal += item.count * item.price;
+        tempDuration += item.count * item.duration;
+      });
+      setTotalDuration(tempDuration);
+      tempTax = (tempSubTotal * 20) / 100;
+      tempGrandTotal = tempSubTotal + tempTax;
+      setTotal((prev) => {
+        prev.subTotal = tempSubTotal;
+        prev.tax = tempTax;
+        prev.grandTotal = tempGrandTotal;
+        return { ...prev };
+      });
+    }
+  }, [subscriptionsData]);
+
+  useEffect(() => {
+    if (totalDuration === 0) {
+      setSubscriptionData((prev) => {
+        prev.map((item) => {
+          if (item.duration === 0) {
+            item.count = 0;
+          }
+          return item;
+        });
+        return [...prev];
+      });
+    }
+  }, [totalDuration]);
+
   const getProducts = async () => {
-    const response = await api("get", `/Subscriptions/`);
+    const response = await api('get', `/Subscriptions/`);
     let data = response.data.subscription;
 
-    if (type === "Prescripteur") {
-      let filteredData = data.filter((item) => item.type === "Prescribers");
+    if (type === 'Prescripteur') {
+      let filteredData = data.filter((item) => item.type === 'Prescribers');
       setSubscriptionOptions(filteredData);
-      setSelectedSubscription(filteredData[0]._id);
+      let ids = [];
+      filteredData.map((item) => ids.push(item._id));
+      setSelectedSubscriptions(ids);
     } else {
-      let filteredData = data.filter((item) => item.type === "Manufacturers");
+      let filteredData = data.filter((item) => item.type === 'Manufacturers');
       setSubscriptionOptions(filteredData);
       setSelectedSubscription(filteredData[0]._id);
     }
@@ -312,86 +333,61 @@ const Register = () => {
 
   // handle Finish function
   const handleFinish = async () => {
-    if (paymentMethod === "mandat") {
-      history.push("/auth/login");
+    if (paymentMethod === 'mandat') {
+      history.push('/auth/login');
     } else {
-      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
       // to creating account
       let data = {};
-      if (type === "Prescripteur") {
+      if (type === 'Prescripteur') {
+        let temp = [];
+        subscriptionsData.map((item) => {
+          let subTotal = formatNumber((item.count * item.price).toFixed(2));
+          let price = formatNumber(item.price.toFixed(2));
+          temp.push({ ...item, subTotal, price });
+        });
         data = {
           paymentMethod,
           line_items: [
             {
               price_data: {
-                currency: "eur",
+                currency: 'eur',
                 product_data: {
-                  name: "Subscription",
+                  name: 'Subscription',
                 },
-                unit_amount:
-                  parseInt(
-                    ((subAmounts.initial.price * subAmounts.initial.count +
-                      subAmounts.extended.price * subAmounts.extended.count +
-                      subAmounts.pack.price * subAmounts.pack.count) *
-                      20) /
-                      100 +
-                      subAmounts.initial.price * subAmounts.initial.count +
-                      subAmounts.extended.price * subAmounts.extended.count +
-                      subAmounts.pack.price * subAmounts.pack.count
-                  ) * 100,
+                unit_amount: parseInt(total.grandTotal * 100),
               },
               quantity: 1,
             },
           ],
           metaData: {
             id: archId,
-            subscriptionid: selectedSubscription,
-            subscriptionDuration: (parseInt(subAmounts.initial.count) + parseInt(subAmounts.extended.count)) * duration,
-            subscriptionProjects: parseInt(subAmounts.pack.number),
-            type: "architectSignup",
+            type: 'architectSignup',
           },
           invoiceData: {
             archId,
-            subscriptionCode: temp2.reference,
-            subscriptionName: temp2.name,
-            initialPrice: subAmounts.initial.price,
-            initialCount: subAmounts.initial.count,
-            extendedPrice: subAmounts.extended.price,
-            extendedCount: subAmounts.extended.count,
-            packPrice: subAmounts.pack.price,
-            packCount: subAmounts.pack.count,
-            totalHT:
-              subAmounts.initial.price * subAmounts.initial.count +
-              subAmounts.extended.price * subAmounts.extended.count +
-              subAmounts.pack.price * subAmounts.pack.count,
+            subscriptionsData: temp,
+            totalHT: formatNumber(total.subTotal.toFixed(2)),
             tvaPercentage: 20,
-            tvaAmount:
-              ((subAmounts.initial.price * subAmounts.initial.count +
-                subAmounts.extended.price * subAmounts.extended.count +
-                subAmounts.pack.price * subAmounts.pack.count) *
-                20) /
-              100,
-            TotalCost:
-              ((subAmounts.initial.price * subAmounts.initial.count +
-                subAmounts.extended.price * subAmounts.extended.count +
-                subAmounts.pack.price * subAmounts.pack.count) *
-                20) /
-                100 +
-              subAmounts.initial.price * subAmounts.initial.count +
-              subAmounts.extended.price * subAmounts.extended.count +
-              subAmounts.pack.price * subAmounts.pack.count,
-            paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+            tvaAmount: formatNumber(total.tax.toFixed(2)),
+            TotalCost: formatNumber(total.grandTotal.toFixed(2)),
+            paymentMode:
+              paymentMethod === 'card'
+                ? 'CB'
+                : paymentMethod === 'mandat'
+                ? 'Mandat administratif'
+                : 'SEPA',
           },
         };
       } else {
+        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
         data = {
           paymentMethod,
           line_items: [
             {
               price_data: {
-                currency: "eur",
+                currency: 'eur',
                 product_data: {
-                  name: "Subscription",
+                  name: 'Subscription',
                 },
                 unit_amount:
                   parseInt(
@@ -406,40 +402,54 @@ const Register = () => {
             id: archId,
             subscriptionid: selectedSubscription,
             subscriptionName: fabricantSubAmounts.referName,
-            subscriptionStartDate: moment(new Date()).format("YYYY/MM/DD"),
-            subscriptionEndDate: moment(moment(new Date()).add(fabricantSubAmounts.referDuration, "months")).format("YYYY/MM/DD"),
-            type: "providerSignup",
+            subscriptionStartDate: moment(new Date()).format('YYYY/MM/DD'),
+            subscriptionEndDate: moment(
+              moment(new Date()).add(fabricantSubAmounts.referDuration, 'months')
+            ).format('YYYY/MM/DD'),
+            type: 'providerSignup',
           },
           invoiceData: {
             archId,
             subscriptionCode: temp2.reference,
             subscriptionName: temp2.name,
-            alertPrice: fabricantSubAmounts.alert,
-            alertCount: fabricantSub === "Alertes" ? 1 : 0,
-            alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
-            referenPrice: fabricantSubAmounts.refer,
-            referenCount: fabricantSub === "Référencement" ? 1 : 0,
-            referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
-            totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
+            alertPrice: 0,
+            alertCount: 0,
+            alertTotal: 0,
+            referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
+            referenCount: fabricantSubAmounts.count,
+            referenTotal: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
+            totalHT: formatNumber(
+              (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+            ),
             tvaPercentage: 20,
-            tvaAmount:
-              fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
-            TotalCost:
-              fabricantSub === "Alertes"
-                ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
-                : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-            paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+            tvaAmount: formatNumber(
+              ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+            ),
+            TotalCost: formatNumber(
+              (
+                (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+                fabricantSubAmounts.refer * fabricantSubAmounts.count
+              ).toFixed(2)
+            ),
+            paymentMode:
+              paymentMethod === 'card'
+                ? 'CB'
+                : paymentMethod === 'mandat'
+                ? 'Mandat administratif'
+                : 'SEPA',
           },
         };
       }
 
-      const res = await api("post", `/licenses/checkout`, data);
+      const res = await api('post', `/licenses/checkout`, data);
       window.location = res.data.url;
     }
   };
 
   const createUser = async () => {
-    if (type === "Prescripteur") {
+    if (type === 'Prescripteur') {
       let data = {
         establishment: form1.values.establishment,
         service: form1.values.service,
@@ -455,7 +465,7 @@ const Register = () => {
         password: form2.values.password,
         confirm_password: form2.values.confirm_password,
       };
-      const res = await api("post", `/Architects/createOnSingup`, data);
+      const res = await api('post', `/Architects/createOnSingup`, data);
       setArchId(res.data.architect._id);
       toast.success(res.data.message);
       return res.data.success;
@@ -473,137 +483,72 @@ const Register = () => {
         establishment: form1.values.establishment,
         password: form2.values.password,
       };
-      const res = await api("post", `/Providers/createOnSingup`, data);
+      const res = await api('post', `/Providers/createOnSingup`, data);
       setArchId(res.data.provider._id);
       toast.success(res.data.message);
       return res.data.success;
     }
   };
 
-  const generateInvoice = async () => {
-    let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
-    if (type === "Prescripteur") {
-      // to generate invoice
-      let invoiceData = {
-        archId,
-        subscriptionCode: temp2.reference,
-        subscriptionName: temp2.name,
-        initialPrice: subAmounts.initial.price,
-        initialCount: subAmounts.initial.count,
-        extendedPrice: subAmounts.extended.price,
-        extendedCount: subAmounts.extended.count,
-        packPrice: subAmounts.pack.price,
-        packCount: subAmounts.pack.count,
-        totalHT:
-          subAmounts.initial.price * subAmounts.initial.count +
-          subAmounts.extended.price * subAmounts.extended.count +
-          subAmounts.pack.price * subAmounts.pack.count,
-        tvaPercentage: 20,
-        tvaAmount:
-          ((subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count) *
-            20) /
-          100,
-        TotalCost:
-          ((subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count) *
-            20) /
-            100 +
-          subAmounts.initial.price * subAmounts.initial.count +
-          subAmounts.extended.price * subAmounts.extended.count +
-          subAmounts.pack.price * subAmounts.pack.count,
-        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
-      };
-      const result = await api("post", `/Architects/download`, invoiceData);
-      window.open(result.data.path, "_blank");
-    } else {
-      // to generate invoice
-      let invoiceData = {
-        archId,
-        subscriptionCode: temp2.reference,
-        subscriptionName: temp2.name,
-        alertPrice: fabricantSubAmounts.alert,
-        alertCount: fabricantSub === "Alertes" ? 1 : 0,
-        alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
-        referenPrice: fabricantSubAmounts.refer,
-        referenCount: fabricantSub === "Référencement" ? 1 : 0,
-        referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
-        totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
-        tvaPercentage: 20,
-        tvaAmount: fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
-        TotalCost:
-          fabricantSub === "Alertes"
-            ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
-            : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
-      };
-      const result = await api("post", `/Providers/download`, invoiceData);
-      window.open(result.data.path, "_blank");
-    }
-  };
-
   const generateQuote = async () => {
-    let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
-    if (type === "Prescripteur") {
+    if (type === 'Prescripteur') {
+      let temp = [];
+      subscriptionsData.map((item) => {
+        let subTotal = formatNumber((item.count * item.price).toFixed(2));
+        let price = formatNumber(item.price.toFixed(2));
+        temp.push({ ...item, subTotal, price });
+      });
       let invoiceData = {
         archId,
-        subscriptionCode: temp2.reference,
-        subscriptionName: temp2.name,
-        initialPrice: subAmounts.initial.price,
-        initialCount: subAmounts.initial.count,
-        extendedPrice: subAmounts.extended.price,
-        extendedCount: subAmounts.extended.count,
-        packPrice: subAmounts.pack.price,
-        packCount: subAmounts.pack.count,
-        totalHT:
-          subAmounts.initial.price * subAmounts.initial.count +
-          subAmounts.extended.price * subAmounts.extended.count +
-          subAmounts.pack.price * subAmounts.pack.count,
+        subscriptionsData: temp,
+        totalHT: formatNumber(total.subTotal.toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount:
-          ((subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count) *
-            20) /
-          100,
-        TotalCost:
-          ((subAmounts.initial.price * subAmounts.initial.count +
-            subAmounts.extended.price * subAmounts.extended.count +
-            subAmounts.pack.price * subAmounts.pack.count) *
-            20) /
-            100 +
-          subAmounts.initial.price * subAmounts.initial.count +
-          subAmounts.extended.price * subAmounts.extended.count +
-          subAmounts.pack.price * subAmounts.pack.count,
-        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+        tvaAmount: formatNumber(total.tax.toFixed(2)),
+        TotalCost: formatNumber(total.grandTotal.toFixed(2)),
+        paymentMode:
+          paymentMethod === 'card'
+            ? 'CB'
+            : paymentMethod === 'mandat'
+            ? 'Mandat administratif'
+            : 'SEPA',
       };
-      const result = await api("post", `/Architects/quote/download`, invoiceData);
-      window.open(result.data.path, "_blank");
+      const result = await api('post', `/Architects/quote/download`, invoiceData);
+      window.open(result.data.path, '_blank');
     } else {
+      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
       // to generate invoice
       let invoiceData = {
         archId,
         subscriptionCode: temp2.reference,
         subscriptionName: temp2.name,
-        alertPrice: fabricantSubAmounts.alert,
-        alertCount: fabricantSub === "Alertes" ? 1 : 0,
-        alertTotal: fabricantSub === "Alertes" ? fabricantSubAmounts.alert : 0,
-        referenPrice: fabricantSubAmounts.refer,
-        referenCount: fabricantSub === "Référencement" ? 1 : 0,
-        referenTotal: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
-        totalHT: fabricantSub === "Référencement" ? fabricantSubAmounts.refer : 0,
+        alertPrice: 0,
+        alertCount: 0,
+        alertTotal: 0,
+        referenPrice: formatNumber(fabricantSubAmounts.refer.toFixed(2)),
+        referenCount: fabricantSubAmounts.count,
+        referenTotal: formatNumber(
+          (fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)
+        ),
+        totalHT: formatNumber((fabricantSubAmounts.refer * fabricantSubAmounts.count).toFixed(2)),
         tvaPercentage: 20,
-        tvaAmount: fabricantSub === "Alertes" ? (fabricantSubAmounts.alert * 20) / 100 : (fabricantSubAmounts.refer * 20) / 100,
-        TotalCost:
-          fabricantSub === "Alertes"
-            ? (fabricantSubAmounts.alert * 20) / 100 + fabricantSubAmounts.alert
-            : (fabricantSubAmounts.refer * 20) / 100 + fabricantSubAmounts.refer,
-        paymentMode: paymentMethod === "card" ? "CB" : "SEPA",
+        tvaAmount: formatNumber(
+          ((fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100).toFixed(2)
+        ),
+        TotalCost: formatNumber(
+          (
+            (fabricantSubAmounts.refer * fabricantSubAmounts.count * 20) / 100 +
+            fabricantSubAmounts.refer * fabricantSubAmounts.count
+          ).toFixed(2)
+        ),
+        paymentMode:
+          paymentMethod === 'card'
+            ? 'CB'
+            : paymentMethod === 'mandat'
+            ? 'Mandat administratif'
+            : 'SEPA',
       };
-      const result = await api("post", `/Providers/quote/download`, invoiceData);
-      window.open(result.data.path, "_blank");
+      const result = await api('post', `/Providers/quote/download`, invoiceData);
+      window.open(result.data.path, '_blank');
     }
   };
 
@@ -628,7 +573,7 @@ const Register = () => {
     if (activeStep === 1) {
       let success = await createUser();
       if (success) {
-        history.push("/auth/login");
+        history.push('/auth/login');
       }
     } else {
       if (activeStep === 1) {
@@ -656,7 +601,7 @@ const Register = () => {
     e?.preventDefault();
     if (activeStep === 1) {
       if (form2.values.password !== form2.values.confirm_password) {
-        toast.error("Le mot de passe et le mot de passe de confirmation ne correspondent pas!");
+        toast.error('Le mot de passe et le mot de passe de confirmation ne correspondent pas!');
       } else {
         const newCompleted = completed;
         newCompleted[activeStep] = true;
@@ -671,19 +616,40 @@ const Register = () => {
     }
   };
 
+  // handle change for subscription
+  const handleSubscriptionChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    let temp = typeof value === 'string' ? value.split(',') : value;
+    setSelectedSubscriptions(temp);
+  };
+
   // jsx
   return (
     <div className="register-main">
       <div className="register-conatainer">
         <div className="register-left-container">
-          <img src={logo} alt="QBSoft" className="logo-qb" onClick={() => history.push("/auth/home")} />
+          <img
+            src={logo}
+            alt="QBSoft"
+            className="logo-qb"
+            onClick={() => history.push('/auth/home')}
+          />
           <img src={Vector} alt="QBSoft" className="vector" />
         </div>
+        <CloseIcon
+          fontSize="large"
+          style={{ position: 'absolute', top: '2%', right: '2%', cursor: 'pointer' }}
+          onClick={() => history.push('/auth/home')}
+        />
         <div className="register-right-container">
           <div className="register-form-container">
             {!startStepper && !payment ? (
-              <Box sx={{ width: "70%" }}>
-                <div style={{ width: "100%", textAlign: "center", marginBottom: 40, color: "#8c1244" }}>
+              <Box sx={{ width: '70%' }}>
+                <div
+                  style={{ width: '100%', textAlign: 'center', marginBottom: 40, color: '#8c1244' }}
+                >
                   <Typography variant="h4" gutterBottom>
                     S’INSCRIRE
                   </Typography>
@@ -691,10 +657,10 @@ const Register = () => {
 
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "row",
+                    display: 'flex',
+                    flexDirection: 'row',
                     pt: 2,
-                    justifyContent: "center",
+                    justifyContent: 'center',
                   }}
                 >
                   <Typography variant="h4" gutterBottom>
@@ -710,25 +676,25 @@ const Register = () => {
                   type="text"
                   onChange={(e) => setType(e.target.value)}
                   style={{
-                    width: "100%",
+                    width: '100%',
                     height: 40,
-                    border: "1px solid #8C1244",
+                    border: '1px solid #8C1244',
                     borderRadius: 10,
                   }}
                 />
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "row",
+                    display: 'flex',
+                    flexDirection: 'row',
                     pt: 2,
-                    justifyContent: "center",
+                    justifyContent: 'center',
                   }}
                 >
                   <Button
                     variant="contained"
                     style={{
-                      textTransform: "none",
-                      backgroundColor: "#8C1244",
+                      textTransform: 'none',
+                      backgroundColor: '#8C1244',
                       borderRadius: 8,
                     }}
                     onClick={() => setStartStepper(true)}
@@ -739,14 +705,14 @@ const Register = () => {
               </Box>
             ) : (
               startStepper && (
-                <Box sx={{ width: "80%" }}>
+                <Box sx={{ width: '80%' }}>
                   <Stepper activeStep={activeStep} handleStep={handleStep} completed={completed} />
                   <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
                       {activeStep === 0 ? (
                         <form>
                           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                            {type === "Prescripteur" ? (
+                            {type === 'Prescripteur' ? (
                               <>
                                 <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                   <TextInput
@@ -764,7 +730,9 @@ const Register = () => {
                                   <div className="text-red-600 ">
                                     {form1.touched.establishment ? (
                                       <div style={{ fontSize: 12 }}>
-                                        {form1.errors.establishment && <>L'établissement est requis</>}
+                                        {form1.errors.establishment && (
+                                          <>L'établissement est requis</>
+                                        )}
                                       </div>
                                     ) : null}
                                   </div>
@@ -801,7 +769,9 @@ const Register = () => {
                                 <div className="text-red-600 ">
                                   {form1.touched.establishment ? (
                                     <div style={{ fontSize: 12 }}>
-                                      {form1.errors.establishment && <>L'établissement est requis</>}
+                                      {form1.errors.establishment && (
+                                        <>L'établissement est requis</>
+                                      )}
                                     </div>
                                   ) : null}
                                 </div>
@@ -823,7 +793,9 @@ const Register = () => {
                               />
                               <div className="text-red-600 ">
                                 {form1.touched.address_1 ? (
-                                  <div style={{ fontSize: 12 }}>{form1.errors.address_1 && <>L'adresse 1 est obligatoire</>}</div>
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.address_1 && <>L'adresse 1 est obligatoire</>}
+                                  </div>
                                 ) : null}
                               </div>
                             </Grid>
@@ -872,7 +844,9 @@ const Register = () => {
                               <div className="text-red-600 ">
                                 {form1.touched.postal_code ? (
                                   <div style={{ fontSize: 12 }}>
-                                    {form1.errors.postal_code && <>Le code postal doit comporter exactement 5 caractères</>}
+                                    {form1.errors.postal_code && (
+                                      <>Le code postal doit comporter exactement 5 caractères</>
+                                    )}
                                   </div>
                                 ) : null}
                               </div>
@@ -892,23 +866,25 @@ const Register = () => {
                               />
                               <div className="text-red-600 ">
                                 {form1.touched.city ? (
-                                  <div style={{ fontSize: 12 }}>{form1.errors.city && <>La ville est obligatoire</>}</div>
+                                  <div style={{ fontSize: 12 }}>
+                                    {form1.errors.city && <>La ville est obligatoire</>}
+                                  </div>
                                 ) : null}
                               </div>
                             </Grid>
                           </Grid>
                           <div
                             style={{
-                              width: "100%",
-                              textAlign: "center",
+                              width: '100%',
+                              textAlign: 'center',
                               marginTop: 20,
                             }}
                           >
                             <Button
                               variant="contained"
                               style={{
-                                textTransform: "none",
-                                backgroundColor: "#8C1244",
+                                textTransform: 'none',
+                                backgroundColor: '#8C1244',
                                 borderRadius: 8,
                               }}
                               onClick={() => setStartStepper()}
@@ -919,15 +895,21 @@ const Register = () => {
                             <Button
                               variant="contained"
                               style={{
-                                textTransform: "none",
+                                textTransform: 'none',
                                 backgroundColor:
-                                  form1?.errors?.establishment || form1?.errors?.address_1 || form1?.errors?.postal_code
-                                    ? "#d9adad"
-                                    : "#8C1244",
+                                  form1?.errors?.establishment ||
+                                  form1?.errors?.address_1 ||
+                                  form1?.errors?.postal_code
+                                    ? '#d9adad'
+                                    : '#8C1244',
                                 borderRadius: 8,
                               }}
                               onClick={() => handleComplete()}
-                              disabled={form1?.errors?.establishment || form1?.errors?.address_1 || form1?.errors?.postal_code}
+                              disabled={
+                                form1?.errors?.establishment ||
+                                form1?.errors?.address_1 ||
+                                form1?.errors?.postal_code
+                              }
                             >
                               Suivant
                             </Button>
@@ -936,9 +918,13 @@ const Register = () => {
                       ) : (
                         activeStep === 1 && (
                           <form>
-                            {type === "Prescripteur" ? (
+                            {type === 'Prescripteur' ? (
                               <>
-                                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid
+                                  container
+                                  rowSpacing={1}
+                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                >
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Nom *"
@@ -955,7 +941,9 @@ const Register = () => {
                                     <div className="text-red-600 ">
                                       {form2.touched.last_name ? (
                                         <div style={{ fontSize: 12 }}>
-                                          {form2.errors.last_name && <>Le nom de famille est requis</>}
+                                          {form2.errors.last_name && (
+                                            <>Le nom de famille est requis</>
+                                          )}
                                         </div>
                                       ) : null}
                                     </div>
@@ -975,7 +963,9 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.first_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le prénom est requis</>}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.first_name && <>Le prénom est requis</>}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -994,7 +984,9 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.email ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.email && <>L'e-mail n'est pas valide</>}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.email && <>L'e-mail n'est pas valide</>}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -1015,7 +1007,10 @@ const Register = () => {
                                       {form2.touched.phone ? (
                                         <div style={{ fontSize: 12 }}>
                                           {form2.errors.phone && (
-                                            <>Le numéro de téléphone doit comporter exactement 10 caractères</>
+                                            <>
+                                              Le numéro de téléphone doit comporter exactement
+                                              10 caractères
+                                            </>
                                           )}
                                         </div>
                                       ) : null}
@@ -1024,7 +1019,7 @@ const Register = () => {
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Mot de passe"
-                                      type={showPassword ? "text" : "password"}
+                                      type={showPassword ? 'text' : 'password'}
                                       name="password"
                                       value={form2.values.password}
                                       onChange={(e) => handleChange(e.target.name, e.target.value)}
@@ -1036,15 +1031,25 @@ const Register = () => {
                                     />
                                     <div className="forget-pass">
                                       {!showPassword ? (
-                                        <VisibilityIcon className="register-eye-icon" onClick={() => setShowPassword(true)} />
+                                        <VisibilityIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowPassword(true)}
+                                        />
                                       ) : (
-                                        <VisibilityOffIcon className="register-eye-icon" onClick={() => setShowPassword(false)} />
+                                        <VisibilityOffIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowPassword(false)}
+                                        />
                                       )}
                                     </div>
                                     <div className="text-red-600 " style={{ marginTop: -22 }}>
                                       {form2.touched.password ? (
                                         <div style={{ fontSize: 12 }}>
-                                          {form2.errors.password && <>Le mot de passe doit comporter au moins 6 caractères</>}
+                                          {form2.errors.password && (
+                                            <>
+                                              Le mot de passe doit comporter au moins 6 caractères
+                                            </>
+                                          )}
                                         </div>
                                       ) : null}
                                     </div>
@@ -1052,7 +1057,7 @@ const Register = () => {
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Confirmer le mot de passe"
-                                      type={showConfirmPassword ? "text" : "password"}
+                                      type={showConfirmPassword ? 'text' : 'password'}
                                       name="confirm_password"
                                       value={form2.values.confirm_password}
                                       onChange={(e) => handleChange(e.target.name, e.target.value)}
@@ -1079,7 +1084,10 @@ const Register = () => {
                                       {form2.touched.confirm_password ? (
                                         <div style={{ fontSize: 12 }}>
                                           {form2.errors.confirm_password && (
-                                            <>Le mot de passe de confirmation doit contenir au moins 6 caractères</>
+                                            <>
+                                              Le mot de passe de confirmation doit contenir au moins
+                                              6 caractères
+                                            </>
                                           )}
                                         </div>
                                       ) : null}
@@ -1088,16 +1096,16 @@ const Register = () => {
                                 </Grid>
                                 <div
                                   style={{
-                                    width: "100%",
-                                    textAlign: "center",
+                                    width: '100%',
+                                    textAlign: 'center',
                                     marginTop: 20,
                                   }}
                                 >
                                   <Button
                                     variant="contained"
                                     style={{
-                                      textTransform: "none",
-                                      backgroundColor: "#8C1244",
+                                      textTransform: 'none',
+                                      backgroundColor: '#8C1244',
                                       borderRadius: 8,
                                     }}
                                     onClick={() => handleBack()}
@@ -1108,7 +1116,7 @@ const Register = () => {
                                   <Button
                                     variant="contained"
                                     style={{
-                                      textTransform: "none",
+                                      textTransform: 'none',
                                       backgroundColor:
                                         form2?.errors?.first_name ||
                                         form2?.errors?.last_name ||
@@ -1116,8 +1124,8 @@ const Register = () => {
                                         form2?.errors?.password ||
                                         form2?.errors?.confirm_password ||
                                         form2?.errors?.phone
-                                          ? "#d9adad"
-                                          : "#8C1244",
+                                          ? '#d9adad'
+                                          : '#8C1244',
                                       borderRadius: 8,
                                     }}
                                     onClick={() => handleComplete()}
@@ -1136,7 +1144,11 @@ const Register = () => {
                               </>
                             ) : (
                               <>
-                                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid
+                                  container
+                                  rowSpacing={1}
+                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                >
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Nom *"
@@ -1153,7 +1165,9 @@ const Register = () => {
                                     <div className="text-red-600 ">
                                       {form2.touched.last_name ? (
                                         <div style={{ fontSize: 12 }}>
-                                          {form2.errors.last_name && <>Le nom de famille est requis</>}
+                                          {form2.errors.last_name && (
+                                            <>Le nom de famille est requis</>
+                                          )}
                                         </div>
                                       ) : null}
                                     </div>
@@ -1173,7 +1187,9 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.first_name ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.first_name && <>Le prénom est requis</>}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.first_name && <>Le prénom est requis</>}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -1192,7 +1208,9 @@ const Register = () => {
                                     />
                                     <div className="text-red-600 ">
                                       {form2.touched.email ? (
-                                        <div style={{ fontSize: 12 }}>{form2.errors.email && <>L'e-mail n'est pas valide</>}</div>
+                                        <div style={{ fontSize: 12 }}>
+                                          {form2.errors.email && <>L'e-mail n'est pas valide</>}
+                                        </div>
                                       ) : null}
                                     </div>
                                   </Grid>
@@ -1213,7 +1231,10 @@ const Register = () => {
                                       {form2.touched.phone ? (
                                         <div style={{ fontSize: 12 }}>
                                           {form2.errors.phone && (
-                                            <>Le numéro de téléphone doit comporter exactement 10 caractères</>
+                                            <>
+                                              Le numéro de téléphone doit comporter exactement
+                                              10 caractères
+                                            </>
                                           )}
                                         </div>
                                       ) : null}
@@ -1222,7 +1243,7 @@ const Register = () => {
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Mot de passe"
-                                      type={showPassword ? "text" : "password"}
+                                      type={showPassword ? 'text' : 'password'}
                                       name="password"
                                       value={form2.values.password}
                                       onChange={(e) => handleChange(e.target.name, e.target.value)}
@@ -1234,15 +1255,25 @@ const Register = () => {
                                     />
                                     <div className="forget-pass">
                                       {!showPassword ? (
-                                        <VisibilityIcon className="register-eye-icon" onClick={() => setShowPassword(true)} />
+                                        <VisibilityIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowPassword(true)}
+                                        />
                                       ) : (
-                                        <VisibilityOffIcon className="register-eye-icon" onClick={() => setShowPassword(false)} />
+                                        <VisibilityOffIcon
+                                          className="register-eye-icon"
+                                          onClick={() => setShowPassword(false)}
+                                        />
                                       )}
                                     </div>
                                     <div className="text-red-600 " style={{ marginTop: -22 }}>
                                       {form2.touched.password ? (
                                         <div style={{ fontSize: 12 }}>
-                                          {form2.errors.password && <>Le mot de passe doit comporter au moins 6 caractères</>}
+                                          {form2.errors.password && (
+                                            <>
+                                              Le mot de passe doit comporter au moins 6 caractères
+                                            </>
+                                          )}
                                         </div>
                                       ) : null}
                                     </div>
@@ -1250,7 +1281,7 @@ const Register = () => {
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Confirmer le mot de passe"
-                                      type={showConfirmPassword ? "text" : "password"}
+                                      type={showConfirmPassword ? 'text' : 'password'}
                                       name="confirm_password"
                                       value={form2.values.confirm_password}
                                       onChange={(e) => handleChange(e.target.name, e.target.value)}
@@ -1277,7 +1308,10 @@ const Register = () => {
                                       {form2.touched.confirm_password ? (
                                         <div style={{ fontSize: 12 }}>
                                           {form2.errors.confirm_password && (
-                                            <>Le mot de passe de confirmation doit contenir au moins 6 caractères</>
+                                            <>
+                                              Le mot de passe de confirmation doit contenir au moins
+                                              6 caractères
+                                            </>
                                           )}
                                         </div>
                                       ) : null}
@@ -1286,16 +1320,16 @@ const Register = () => {
                                 </Grid>
                                 <div
                                   style={{
-                                    width: "100%",
-                                    textAlign: "center",
+                                    width: '100%',
+                                    textAlign: 'center',
                                     marginTop: 20,
                                   }}
                                 >
                                   <Button
                                     variant="contained"
                                     style={{
-                                      textTransform: "none",
-                                      backgroundColor: "#8C1244",
+                                      textTransform: 'none',
+                                      backgroundColor: '#8C1244',
                                       borderRadius: 8,
                                     }}
                                     onClick={() => handleBack()}
@@ -1306,8 +1340,11 @@ const Register = () => {
                                   <Button
                                     variant="contained"
                                     style={{
-                                      textTransform: "none",
-                                      backgroundColor: form2?.errors?.first_name || form2?.errors?.email ? "#d9adad" : "#8C1244",
+                                      textTransform: 'none',
+                                      backgroundColor:
+                                        form2?.errors?.first_name || form2?.errors?.email
+                                          ? '#d9adad'
+                                          : '#8C1244',
                                       borderRadius: 8,
                                     }}
                                     onClick={() => handleComplete()}
@@ -1328,130 +1365,101 @@ const Register = () => {
             )}
 
             {!startStepper && payment && (
-              <div style={{ width: "80%" }}>
+              <div style={{ width: '80%' }}>
                 <div className="purchase-header">Commande {type}</div>
-                {type === "Prescripteur" ? (
+                {type === 'Prescripteur' ? (
                   <>
                     {/* Subscription */}
                     <div>
-                      <BasicDropdown
-                        options={subscriptionOptions}
-                        value={selectedSubscription}
-                        onChange={(e) => {
-                          setSelectedSubscription(e.target.value);
-                        }}
-                        style={{
-                          backgroundColor: "#f5f5f5",
-                          borderRadius: 10,
-                          height: 40,
-                          width: "110%",
-                          fontSize: 20,
-                          fontWeight: 700,
-                          padding: 5,
-                        }}
-                      />
-                      <br />
                       <strong>Abonnement</strong>
-                      <div className="subscription-box">
-                        <div className="subscription-box-intial">
-                          <div className="common-text">
-                            <span>{duration} mois</span>
-                            <br />
-                            <br />
-                            <span> {subAmounts.pack.number} projets</span>
+                      {subscriptionsData.map((item, index) => {
+                        return (
+                          <div className="subscription-box">
+                            <div className="subscription-box-intial">
+                              <div className="common-text">
+                                <span>{item.name}</span>
+                                <br />
+                                <span style={{ fontSize: 12, fontStyle: 'italic' }}>
+                                  {' '}
+                                  {item.projects > 0 && <>{item.projects} projets</>}{' '}
+                                  {item.duration > 0 && <>{item.duration} mois</>}
+                                </span>
+                                <br />
+                              </div>
+                              <BasicDropdown
+                                options={options}
+                                value={item.count}
+                                disabled={totalDuration === 0 && item.duration === 0}
+                                onChange={(e) => {
+                                  setSubscriptionData((prev) => {
+                                    prev[index].count = e.target.value;
+                                    return [...prev];
+                                  });
+                                }}
+                                first="notDisable"
+                                component="register"
+                                style={{
+                                  backgroundColor: '#f5f5f5',
+                                  borderRadius: 10,
+                                  height: 40,
+                                  width: 60,
+                                  fontSize: 20,
+                                  fontWeight: 700,
+                                  padding: 5,
+                                }}
+                              />
+                              <div className="amount-container">
+                                <div>Total HT</div>
+                                <div>{formatNumber((item.count * item.price).toFixed(2))} €</div>
+                              </div>
+                            </div>
                             <br />
                           </div>
-                          <BasicDropdown
-                            options={options}
-                            value={subAmounts.initial.count}
-                            onChange={(e) => {
-                              setSubAmount((prev) => {
-                                prev.initial.count = e.target.value;
-                                return { ...prev };
-                              });
-                            }}
-                            component="register"
-                            style={{
-                              backgroundColor: "#f5f5f5",
-                              borderRadius: 10,
-                              height: 40,
-                              width: 60,
-                              fontSize: 20,
-                              fontWeight: 700,
-                              padding: 5,
-                            }}
-                          />
-                          <div className="amount-container">
-                            <div>Total HT</div>
-                            <div>{formatNumber((subAmounts.initial.price * subAmounts.initial.count).toFixed(2))} €</div>
-                          </div>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </div>
                     {/* Total */}
-                    <div style={{ padding: "20px 0" }}>
+                    <div style={{ padding: '20px 0' }}>
                       <div className="payment-box">
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                           <div
                             className="common-text"
                             style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "flex-end",
-                              alignItems: "flex-end",
-                              color: "black",
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'flex-end',
+                              alignItems: 'flex-end',
+                              color: 'black',
                               fontWeight: 600,
                               fontSize: 20,
                             }}
                           >
                             <div className="amount-container" style={{ border: 0 }}>
-                              Montant à payer :{" "}
+                              Montant à payer :{' '}
                             </div>
                           </div>
                           <div>
                             <div className="amount-container" style={{ marginBottom: 10 }}>
+                              <div>Total HT</div>
+                              <div> {formatNumber(total.subTotal.toFixed(2))} €</div>
+                            </div>
+
+                            <div className="amount-container" style={{ marginBottom: 10 }}>
                               <div>T.V.A 20%</div>
-                              <div>
-                                {" "}
-                                {formatNumber(
-                                  (
-                                    ((subAmounts.initial.price * subAmounts.initial.count +
-                                      subAmounts.extended.price * subAmounts.extended.count +
-                                      subAmounts.pack.price * subAmounts.pack.count) *
-                                      20) /
-                                    100
-                                  ).toFixed(2)
-                                )}{" "}
-                                €
-                              </div>
+                              <div> {formatNumber(total.tax.toFixed(2))} €</div>
                             </div>
                             <div className="amount-container">
                               <div>Total T.T.C</div>
-                              <div>
-                                {" "}
-                                {formatNumber(
-                                  (
-                                    ((subAmounts.initial.price * subAmounts.initial.count +
-                                      subAmounts.extended.price * subAmounts.extended.count +
-                                      subAmounts.pack.price * subAmounts.pack.count) *
-                                      20) /
-                                      100 +
-                                    subAmounts.initial.price * subAmounts.initial.count +
-                                    subAmounts.extended.price * subAmounts.extended.count +
-                                    subAmounts.pack.price * subAmounts.pack.count
-                                  ).toFixed(2)
-                                )}{" "}
-                                €
-                              </div>
+                              <div> {formatNumber(total.grandTotal.toFixed(2))} €</div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div style={{ width: "110%", height: 4, backgroundColor: "#8C1244" }} />
+                    <div style={{ width: '110%', height: 4, backgroundColor: '#8C1244' }} />
                     <div style={{ marginTop: 20 }}>
                       <strong>Mode de paiement</strong>
-                      <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
+                      <div className="subscription-box" style={{ display: 'flex', marginTop: 10 }}>
                         <div className="payment-flex-contaner">
                           <div className="common-text-3">
                             <span>CB</span>
@@ -1462,7 +1470,7 @@ const Register = () => {
                             name="payment"
                             value="card"
                             className="radio-button"
-                            checked={paymentMethod === "card"}
+                            checked={paymentMethod === 'card'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
@@ -1476,7 +1484,7 @@ const Register = () => {
                             name="payment"
                             value="sepa_debit"
                             className="radio-button"
-                            checked={paymentMethod === "sepa_debit"}
+                            checked={paymentMethod === 'sepa_debit'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
@@ -1490,13 +1498,13 @@ const Register = () => {
                             name="payment"
                             value="mandat"
                             className="radio-button"
-                            checked={paymentMethod === "mandat"}
+                            checked={paymentMethod === 'mandat'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
                       {/* exports */}
-                      {paymentMethod === "mandat" ? (
+                      {paymentMethod === 'mandat' ? (
                         <div
                           style={{
                             marginTop: 20,
@@ -1505,46 +1513,64 @@ const Register = () => {
                           <div style={{ fontSize: 15 }}>
                             Merci de bien vouloir nous retourner votre bon de commande
                             <br />
-                            <strong> IMPORTANT:</strong> À réception de votre bon de commande, la facture correspondant à votre
-                            bon d’achat vous sera transmise par e-mail. Vous disposerez alors des droits d’accès et d’utilisation
-                            de l’application Quadrabase pendant 2 mois dans l’attente de votre règlement. Passé ce délai, et faute
-                            de règlement de votre part, les droits accordéd seront suspendus automatiquement.
+                            <strong> IMPORTANT:</strong> À réception de votre bon de commande, la
+                            facture correspondant à votre bon d’achat vous sera transmise par
+                            e-mail. Vous disposerez alors des droits d’accès et d’utilisation de
+                            l’application Quadrabase pendant 2 mois dans l’attente de votre
+                            règlement. Passé ce délai, et faute de règlement de votre part, les
+                            droits accordéd seront suspendus automatiquement.
                           </div>
-                          <div style={{ padding: "20px 0" }}>
+                          <div style={{ padding: '20px 0' }}>
                             <div>
-                              <div style={{ display: "flex" }}>
+                              <div style={{ display: 'flex' }}>
                                 <div
                                   className="common-text"
                                   style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    color: "black",
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    color: 'black',
                                     fontWeight: 600,
                                     fontSize: 20,
-                                    width: "auto",
+                                    width: 'auto',
                                   }}
                                 >
-                                  <div style={{ border: 0, padding: 0, fontSize: 15, marginRight: 20, whiteSpace: "nowrap" }}>
-                                    Coordonées :{" "}
+                                  <div
+                                    style={{
+                                      border: 0,
+                                      padding: 0,
+                                      fontSize: 15,
+                                      marginRight: 20,
+                                      whiteSpace: 'nowrap',
+                                    }}
+                                  >
+                                    Coordonées :{' '}
                                   </div>
                                 </div>
                                 <div style={{ fontSize: 15 }}>
-                                  <div style={{ marginBottom: 10 }}>Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE</div>
-                                  <div style={{ marginBottom: 10 }}>IBAN : FR76 1695 8000 0115 4724 0729 575</div>
+                                  <div style={{ marginBottom: 10 }}>
+                                    Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE
+                                  </div>
+                                  <div style={{ marginBottom: 10 }}>
+                                    IBAN : FR76 1695 8000 0115 4724 0729 575
+                                  </div>
                                   <div>BIC/SWIFT : QNTOFRP1XXX / BNPAFRPP</div>
                                 </div>
                                 <div
                                   style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
                                     marginLeft: 30,
                                     fontSize: 15,
                                   }}
                                 >
                                   <div
-                                    style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap" }}
+                                    style={{
+                                      cursor: 'pointer',
+                                      color: '#FF8616',
+                                      whiteSpace: 'nowrap',
+                                    }}
                                     onClick={generateQuote}
                                   >
                                     Générer un devis
@@ -1562,7 +1588,12 @@ const Register = () => {
                         </div>
                       ) : (
                         <div
-                          style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap", marginTop: 10 }}
+                          style={{
+                            cursor: 'pointer',
+                            color: '#FF8616',
+                            whiteSpace: 'nowrap',
+                            marginTop: 10,
+                          }}
                           onClick={generateQuote}
                         >
                           Générer un devis
@@ -1581,10 +1612,10 @@ const Register = () => {
                           setSelectedSubscription(e.target.value);
                         }}
                         style={{
-                          backgroundColor: "#f5f5f5",
+                          backgroundColor: '#f5f5f5',
                           borderRadius: 10,
                           height: 40,
-                          width: "110%",
+                          width: '110%',
                           fontSize: 20,
                           fontWeight: 700,
                           padding: 5,
@@ -1612,7 +1643,7 @@ const Register = () => {
                             }}
                             component="register"
                             style={{
-                              backgroundColor: "#f5f5f5",
+                              backgroundColor: '#f5f5f5',
                               borderRadius: 10,
                               height: 40,
                               width: 60,
@@ -1624,46 +1655,57 @@ const Register = () => {
 
                           <div className="amount-container">
                             <div>Total HT</div>
-                            <div>{formatNumber((fabricantSubAmounts.count * fabricantSubAmounts.refer).toFixed(2))}€</div>
+                            <div>
+                              {formatNumber(
+                                (fabricantSubAmounts.count * fabricantSubAmounts.refer).toFixed(2)
+                              )}
+                              €
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div style={{ padding: "20px 0" }}>
+                      <div style={{ padding: '20px 0' }}>
                         <div className="payment-box">
-                          <div style={{ display: "flex" }}>
+                          <div style={{ display: 'flex' }}>
                             <div
                               className="common-text"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "flex-end",
-                                alignItems: "flex-end",
-                                color: "black",
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'flex-end',
+                                alignItems: 'flex-end',
+                                color: 'black',
                                 fontWeight: 600,
                                 fontSize: 20,
                               }}
                             >
                               <div className="amount-container" style={{ border: 0 }}>
-                                Montant à payer :{" "}
+                                Montant à payer :{' '}
                               </div>
                             </div>
                             <div>
                               <div className="amount-container" style={{ marginBottom: 10 }}>
                                 <div>T.V.A 20%</div>
                                 <div>
-                                  {formatNumber(((fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100).toFixed(2))}{" "}
+                                  {formatNumber(
+                                    (
+                                      (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) /
+                                      100
+                                    ).toFixed(2)
+                                  )}{' '}
                                   €
                                 </div>
                               </div>
                               <div className="amount-container">
-                                <div>Total T.T.C</div>{" "}
+                                <div>Total T.T.C</div>{' '}
                                 <div>
                                   {formatNumber(
                                     (
-                                      (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100 +
+                                      (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) /
+                                        100 +
                                       fabricantSubAmounts.count * fabricantSubAmounts.refer
                                     ).toFixed(2)
-                                  )}{" "}
+                                  )}{' '}
                                   €
                                 </div>
                               </div>
@@ -1672,10 +1714,10 @@ const Register = () => {
                         </div>
                       </div>
                     </div>
-                    <div style={{ width: "110%", height: 4, backgroundColor: "#8C1244" }} />
+                    <div style={{ width: '110%', height: 4, backgroundColor: '#8C1244' }} />
                     <div style={{ marginTop: 20 }}>
                       <strong>Mode de paiement</strong>
-                      <div className="subscription-box" style={{ display: "flex", marginTop: 10 }}>
+                      <div className="subscription-box" style={{ display: 'flex', marginTop: 10 }}>
                         <div className="payment-flex-contaner">
                           <div className="common-text-3">
                             <span>CB</span>
@@ -1686,7 +1728,7 @@ const Register = () => {
                             name="payment"
                             value="card"
                             className="radio-button"
-                            checked={paymentMethod === "card"}
+                            checked={paymentMethod === 'card'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
@@ -1700,13 +1742,18 @@ const Register = () => {
                             name="payment"
                             value="sepa_debit"
                             className="radio-button"
-                            checked={paymentMethod === "sepa_debit"}
+                            checked={paymentMethod === 'sepa_debit'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
                       <div
-                        style={{ cursor: "pointer", color: "#FF8616", whiteSpace: "nowrap", marginTop: 10 }}
+                        style={{
+                          cursor: 'pointer',
+                          color: '#FF8616',
+                          whiteSpace: 'nowrap',
+                          marginTop: 10,
+                        }}
                         onClick={generateQuote}
                       >
                         Générer un devis
@@ -1717,20 +1764,20 @@ const Register = () => {
                 {/* Buttons */}
                 <div
                   style={{
-                    width: "100%",
-                    textAlign: "center",
+                    width: '100%',
+                    textAlign: 'center',
                     marginTop: 40,
                   }}
                 >
                   <Button
                     variant="contained"
                     style={{
-                      textTransform: "none",
-                      backgroundColor: "#8C1244",
+                      textTransform: 'none',
+                      backgroundColor: '#8C1244',
                       borderRadius: 8,
                     }}
                     onClick={() => {
-                      history.push("/auth/login");
+                      history.push('/auth/login');
                     }}
                   >
                     Retour
@@ -1739,8 +1786,8 @@ const Register = () => {
                   <Button
                     variant="contained"
                     style={{
-                      textTransform: "none",
-                      backgroundColor: "#8C1244",
+                      textTransform: 'none',
+                      backgroundColor: '#8C1244',
                       borderRadius: 8,
                     }}
                     onClick={() => handleFinish()}

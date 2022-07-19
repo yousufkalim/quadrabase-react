@@ -64,6 +64,7 @@ export default function Index(props) {
 
   const handleModalClose = () => {
     formik.resetForm();
+    setText('');
     dispatch({
       type: actionTypes.AddChap0Level1,
       AddChap0Level1: false,
@@ -71,6 +72,7 @@ export default function Index(props) {
   };
   const handleModal2Close = () => {
     level2_formik.resetForm();
+    setText2('');
     dispatch({
       type: actionTypes.AddChap0Level2,
       AddChap0Level2: false,
@@ -78,6 +80,7 @@ export default function Index(props) {
   };
   const handleModal3Close = () => {
     level3_formik.resetForm();
+    setText3('');
     dispatch({
       type: actionTypes.AddChap0Level3,
       AddChap0Level3: false,
@@ -178,6 +181,7 @@ export default function Index(props) {
   };
   const handleEditModal = async (id) => {
     edit_formik.resetForm();
+    setEditText('');
     dispatch({
       type: actionTypes.EditChap0Level1,
       EditChap0Level1: false,
@@ -186,6 +190,7 @@ export default function Index(props) {
 
   const handleEdit2Modal = async (id) => {
     level2_edit_formik.resetForm();
+    setEditText2('');
     dispatch({
       type: actionTypes.EditChap0Level2,
       EditChap0Level2: false,
@@ -194,6 +199,7 @@ export default function Index(props) {
 
   const handleEdit3Modal = async (id) => {
     level3_edit_formik.resetForm();
+    setEditText3('');
     dispatch({
       type: actionTypes.EditChap0Level3,
       EditChap0Level3: false,
@@ -289,6 +295,7 @@ export default function Index(props) {
         getAdmins();
         formik.resetForm();
         setFamily('');
+        setText('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
@@ -327,6 +334,7 @@ export default function Index(props) {
         handleEditModal();
         edit_formik.resetForm();
         setFamily('');
+        setEditText('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
@@ -368,6 +376,7 @@ export default function Index(props) {
         Notifier(response.data.message, 'success', translate);
         handleModal2Close();
         level2_formik.resetForm();
+        setText2('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
@@ -396,6 +405,7 @@ export default function Index(props) {
         getChap0Level2(adminsData.find((dat) => dat._id === editData2.parentLevel)._id);
         handleEdit2Modal();
         level2_edit_formik.resetForm();
+        setEditText2('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
@@ -437,6 +447,7 @@ export default function Index(props) {
         Notifier(response.data.message, 'success', translate);
         handleModal3Close();
         level3_formik.resetForm();
+        setText3('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
@@ -465,6 +476,7 @@ export default function Index(props) {
         getChap0Level3(chap0Level2Data.find((dat) => dat._id === editData3.parentLevel)._id);
         handleEdit3Modal();
         level3_edit_formik.resetForm();
+        setText3('');
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
