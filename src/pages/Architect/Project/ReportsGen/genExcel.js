@@ -57,6 +57,7 @@ const Fill1 = {
   ...Font1,
 };
 
+// For trades
 const Fill2 = {
   fill: {
     fgColor: { rgb: 'FFD3D3D3' },
@@ -64,33 +65,27 @@ const Fill2 = {
   ...Font1,
 };
 
-// For trades
+// For trades and tranches
 const Fill3 = {
   fill: {
-    fgColor: { rgb: 'FFF1966C' },
-  },
-  ...Font1,
-};
-
-// For trades and tranches
-const Fill4 = {
-  fill: {
-    fgColor: { rgb: 'FFEBECF0' },
+    fgColor: { rgb: 'FFF2F2F2' },
   },
 };
 
 // For trades total
-const Fill5 = {
+const Fill4 = {
   fill: {
-    fgColor: { rgb: 'FFB1F2FF' },
+    fgColor: { rgb: 'FFFFFFFF' },
   },
+  ...Font1,
 };
 
 // For tranch total
-const Fill6 = {
+const Fill5 = {
   fill: {
-    fgColor: { rgb: 'FF63E5FF' },
+    fgColor: { rgb: 'FFFFFFFF' },
   },
+  ...Font1,
 };
 
 const BorderFirst2 = {
@@ -216,7 +211,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   for (let i = 0; i < rows.length; i++) {
     const tradeRow = rows[i];
     // Trade label row style
-    applyRowStyle(ws, cursor, { ...Fill3, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...Fill2, ...BorderFirst2 });
     cursor = cursor + 1;
     const workAndWorkDetailsRows = tradeRow.rows;
     for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
@@ -225,7 +220,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
       cursor = cursor + 1;
     }
     // Trade total row style
-    applyRowStyle(ws, cursor, { ...Fill6, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
       e: { r: cursor - 1, c: 4 },
@@ -275,13 +270,13 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   for (let i = 0; i < rows.length; i++) {
     const tradeRow = rows[i];
     // Trade label row style
-    applyRowStyle(ws, cursor, { ...Fill3, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...Fill2, ...BorderFirst2 });
     cursor = cursor + 1;
     const trancheRows = tradeRow.rows;
     for (let j = 0; j < trancheRows.length; j++) {
       const tranchRow = trancheRows[j];
       // Tranch label row style
-      applyRowStyle(ws, cursor, { ...Fill4, ...BorderFirst2 });
+      applyRowStyle(ws, cursor, { ...Fill3, ...BorderFirst2 });
       cursor = cursor + 1;
       const workAndWorkDetailsRows = tranchRow.rows;
       for (let k = 0; k < workAndWorkDetailsRows.length; k++) {
@@ -290,7 +285,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
         cursor = cursor + 1;
       }
       // Tranch total row style
-      applyRowStyle(ws, cursor, { ...Fill5, ...BorderFirst2 });
+      applyRowStyle(ws, cursor, { ...Fill4, ...BorderFirst2 });
       merge.push({
         s: { r: cursor - 1, c: 1 },
         e: { r: cursor - 1, c: 4 },
@@ -298,7 +293,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
       cursor = cursor + 1;
     }
     // Trade total row style
-    applyRowStyle(ws, cursor, { ...Fill6, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
       e: { r: cursor - 1, c: 4 },
@@ -320,10 +315,10 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   return { blob, filename };
 };
 
-function applyRowStyle(ws, RowNum, style) {
+function applyRowStyle(ws, rownum, style) {
   for (let i = 0; i < dataColumnsEstimation.length; i++) {
     let char = ABC[i];
-    ws[`${char}${RowNum}`].s = style;
+    ws[`${char}${rownum}`].s = style;
   }
 }
 

@@ -32,9 +32,8 @@ function rowsGenTradesEstimation(data, noPrice) {
     // Trade for loop
     const tradeTitle = data[i]._id;
     const tradeData = data[i].data;
-    const workAndDetailsRows = [];
     const tradeObj = {};
-    rows = rowsGenEstimationHandleWorksAndWorkDetails({
+    const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
       data: tradeData,
       prefix: `${i + 1}.`,
       noPrice: noPrice,
@@ -60,9 +59,8 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       // Tranch for loop
       const tranchTitle = tradeData[j].tranch;
       const tranchDataArr = tradeData[j].tranchData;
-      const workAndDetailsRows = [];
       const tranchObj = {};
-      rows = rowsGenEstimationHandleWorksAndWorkDetails({
+      const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
         data: tranchDataArr,
         prefix: `${i + 1}.${j + 1}`,
         noPrice: noPrice,
