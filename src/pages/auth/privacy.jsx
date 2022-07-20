@@ -13,19 +13,13 @@ const Privacy = () => {
   }, []);
 
   const getTerms = async () => {
-    const result = await api('get', `/StaticPages/privacy`);
+    const result = await api('get', `/StaticPages/`);
     setData(result.data.data.privacy);
   };
   return (
     <>
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
-        <div className="spc_">
-          <Typography className="spc_suppportHeroheading" style={{ paddingBottom: '14%' }}>
-            Déclaration de confidentialité sur le site : <br />
-            Quadrabase
-          </Typography>
-        </div>
       </div>
 
       <div>

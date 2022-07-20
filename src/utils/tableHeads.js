@@ -130,6 +130,19 @@ export const AdminheadCells = [
   },
 ];
 
+export const SupportheadCells = [
+  {
+    id: 'title',
+
+    label: 'Title',
+  },
+  {
+    id: 'action',
+
+    label: 'Action',
+  },
+];
+
 export const ProductheadCells = [
   {
     id: 'product_type',

@@ -13,22 +13,20 @@ const Terms = () => {
   }, []);
 
   const getTerms = async () => {
-    const result = await api('get', `/StaticPages/terms`);
-    setData(result.data.data.terms);
+    const result = await api('get', `/StaticPages/`);
+    setData(result.data.data.cgu);
   };
   return (
     <>
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading" style={{ paddingBottom: '14%' }}>
-            Conditions d'utilisation
-          </Typography>
+          <Typography className="spc_suppportHeroheading">Conditions d'utilisation</Typography>
         </div>
       </div>
 
       <div>
-        <Grid container spacing={1} sx={{ padding: '6%' }}>
+        <Grid container spacing={1} sx={{ padding: '2% 6%' }}>
           <div
             style={{ padding: '0px 15px 0px 20px' }}
             dangerouslySetInnerHTML={{ __html: data }}

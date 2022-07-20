@@ -63,6 +63,10 @@ export const PRODUCT_YUP = Yup.object({
   reference: Yup.string().required('Obligatoire'),
 });
 
+export const SUPPORT_YUP = Yup.object({
+  title: Yup.string().required('Obligatoire'),
+});
+
 export const FOLDER_YUP = Yup.object({
   name: Yup.string().required('Obligatoire'),
 });
