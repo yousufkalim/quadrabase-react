@@ -171,10 +171,9 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                     <div className="common-text">
                       <span>{item.name}</span>
                       <br />
-                      <span style={{ fontSize: 12, fontStyle: 'italic' }}>
+                      <span style={{ fontSize: 12, fontWeight: 900 }}>
                         {' '}
-                        {item.projects > 0 && <>{item.projects} projets</>}{' '}
-                        {item.duration > 0 && <>{item.duration} mois</>}
+                        ({item.price.toFixed('2')} € HT)
                       </span>
                       <br />
                     </div>

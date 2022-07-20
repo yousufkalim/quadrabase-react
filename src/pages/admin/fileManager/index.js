@@ -407,21 +407,21 @@ const Index = () => {
           {folders?.map((item) => {
             return (
               <Grid item xs={12} sm={12} md={12}>
-                <Card sx={{ display: 'flex', cursor: 'pointer', position: 'relative' }}>
+                <Card sx={{ display: 'flex', cursor: 'pointer', position: 'relative', height: 45 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent
-                      sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
+                      sx={{ whiteSpace: 'nowrap', overflow: 'hidden', paddingY: '6px' }}
                       onClick={() => {
                         getSubFolders(item._id);
                       }}
                     >
-                      <Typography component="div" variant="h6">
-                        <FolderIcon fontSize="large" color="primary" /> &nbsp;&nbsp; {item.name}
+                      <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                        <FolderIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
                       </Typography>
                     </CardContent>
                     {item.name.toLowerCase() !== 'documentation générale' && (
                       <IconButton
-                        style={{ position: 'absolute', right: 5, top: 10 }}
+                        style={{ position: 'absolute', right: 5, top: 5 }}
                         id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
                         aria-haspopup="true"
@@ -445,6 +445,7 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
+                      height: 45,
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -453,14 +454,15 @@ const Index = () => {
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
+                          paddingY: '6px',
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="h6">
-                          <InsertDriveFileIcon fontSize="large" color="primary" /> &nbsp;&nbsp;{' '}
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <InsertDriveFileIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
                           {item.name}
                         </Typography>
                       </CardContent>
@@ -472,7 +474,7 @@ const Index = () => {
                         onClick={(e) =>
                           handleClick(e, { type: 'docx', _id: item._id, name: item.name })
                         }
-                        style={{ position: 'absolute', right: 5, top: 10 }}
+                        style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />
                       </IconButton>
@@ -490,6 +492,7 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
+                      height: 45,
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -498,14 +501,16 @@ const Index = () => {
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
+                          paddingY: '6px',
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="h6">
-                          <VideocamIcon fontSize="large" color="primary" /> &nbsp;&nbsp; {item.name}
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <VideocamIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
+                          {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
@@ -516,7 +521,7 @@ const Index = () => {
                         onClick={(e) =>
                           handleClick(e, { type: 'videos', _id: item._id, name: item.name })
                         }
-                        style={{ position: 'absolute', right: 5, top: 10 }}
+                        style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />
                       </IconButton>
@@ -534,6 +539,7 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
+                      height: 45,
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -542,14 +548,15 @@ const Index = () => {
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
+                          paddingY: '6px',
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="h6">
-                          <ImageIcon fontSize="large" color="primary" /> &nbsp;&nbsp; {item.name}
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <ImageIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
@@ -560,7 +567,7 @@ const Index = () => {
                         onClick={(e) =>
                           handleClick(e, { type: 'images', _id: item._id, name: item.name })
                         }
-                        style={{ position: 'absolute', right: 5, top: 10 }}
+                        style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />
                       </IconButton>

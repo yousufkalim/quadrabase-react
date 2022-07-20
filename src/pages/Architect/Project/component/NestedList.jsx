@@ -381,7 +381,7 @@ const NestedList = (props) => {
                                     <CircleIcon
                                       sx={{
                                         color: '#f2966c',
-                                        fontSize: 18,
+                                        fontSize: 14,
                                       }}
                                     />
                                   </ListItemIcon>
