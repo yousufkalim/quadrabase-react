@@ -1379,10 +1379,21 @@ const Register = () => {
                               <div className="common-text">
                                 <span>{item.name}</span>
                                 <br />
-                                <span style={{ fontSize: 12, fontStyle: 'italic' }}>
+                                <span
+                                  style={{ fontSize: 9, fontWeight: 900, whiteSpace: 'nowrap' }}
+                                >
                                   {' '}
-                                  {item.projects > 0 && <>{item.projects} projets</>}{' '}
-                                  {item.duration > 0 && <>{item.duration} mois</>}
+                                  {item.name.toUpperCase().includes('ABONNEMENT 1') && (
+                                    <>
+                                      (1 Pack de 5 projets est offert lors de l’abonnement initial)
+                                      <br />
+                                    </>
+                                  )}
+                                </span>
+
+                                <span style={{ fontSize: 12, fontWeight: 900 }}>
+                                  {' '}
+                                  ({item.price.toFixed('2')} € HT)
                                 </span>
                                 <br />
                               </div>

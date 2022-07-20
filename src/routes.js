@@ -30,8 +30,11 @@ import VAT from './pages/admin/bookLibraries/VAT';
 import CCTP from './pages/admin/bookLibraries/CCTP';
 import Chap0 from './pages/admin/bookLibraries/Chap0';
 import FileManager from './pages/admin/fileManager';
-import AdminTerms from './pages/admin/staticPages/Terms';
+import Cgu from './pages/admin/staticPages/Cgu';
+import Cgv from './pages/admin/staticPages/Cgv';
 import AdminPrivacy from './pages/admin/staticPages/Privacy';
+import Product from './pages/admin/staticPages/Product';
+import Supports from './pages/admin/staticPages/Supports';
 
 import ArchitectIndex from './pages/Architect/Home';
 import Management from './pages/Architect/Stakeholder-Chap0Part2/Index';
@@ -247,6 +250,20 @@ var routes = [
     layout: '/admin',
   },
   {
+    path: '/cgu',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: Cgu,
+    layout: '/admin',
+  },
+  {
+    path: '/cgv',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: Cgv,
+    layout: '/admin',
+  },
+  {
     path: '/privacy',
     name: 'Dashboard',
     icon: 'ni ni-tv-2 text-primary',
@@ -254,10 +271,18 @@ var routes = [
     layout: '/admin',
   },
   {
-    path: '/terms',
+    path: '/product',
     name: 'Dashboard',
     icon: 'ni ni-tv-2 text-primary',
-    component: AdminTerms,
+    component: Product,
+    layout: '/admin',
+  },
+
+  {
+    path: '/supports',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: Supports,
     layout: '/admin',
   },
 

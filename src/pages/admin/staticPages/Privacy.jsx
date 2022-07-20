@@ -15,7 +15,7 @@ const Privacy = () => {
   }, []);
 
   const getPrivacy = async () => {
-    const result = await api('get', `/StaticPages/privacy`);
+    const result = await api('get', `/StaticPages/`);
     setData(result.data.data.privacy);
     setDocId(result.data.data._id);
   };
@@ -31,7 +31,7 @@ const Privacy = () => {
     <div className="w-full  md:mx-auto py-9 ">
       <div className="container mx-auto px-6">
         <div className="flex justify-between pb-3">
-          <h1 className="text-2xl font-bold">CGU</h1>
+          <h1 className="text-2xl font-bold">Politique de confidentialité</h1>
         </div>
 
         <RichTextEditor setValue={setData} value={data} />

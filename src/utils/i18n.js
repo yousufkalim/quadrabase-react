@@ -607,10 +607,12 @@ i18n
           Warning: 'Warning',
           Continue: 'Continue',
           'Email is required!': 'Email is required!',
+          'Created successfully': 'Created successfully',
         },
       },
       fr: {
         translations: {
+          'Created successfully': 'Créé avec succès',
           'Email is required!': "L'e-mail est requis !",
           'Static Pages': 'Pages statiques',
           'Updated successfully': 'Mis à jour avec succés',
