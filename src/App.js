@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const storageHandler = () => {
       const i18nextLng = localStorage.getItem('i18nextLng');
-      dataColumnsEstimation[0] = i18nextLng == 'en' ? 'Number' : 'Numéro';
+      dataColumnsEstimation[0] = i18nextLng == 'en' ? 'Number' : 'N°';
       dataColumnsEstimation[1] = i18nextLng == 'en' ? 'Designation' : 'Désignation';
       dataColumnsEstimation[2] = i18nextLng == 'en' ? 'Unit' : 'Unité';
       dataColumnsEstimation[3] = i18nextLng == 'en' ? 'Qty' : 'Qté';

@@ -18,12 +18,10 @@ function headGen(headingName, projectName) {
 }
 
 function rowsGenSimpleEstimation(data, noPrice) {
-  const rows = [];
-
-  rows.push(["'1", 'Lot n°1', '', '', '', '']);
-
-  rowsGenEstimationHandleWorksAndWorkDetails(rows, data, `${1}`, noPrice);
-
+  const rows = rowsGenEstimationHandleWorksAndWorkDetails({
+    data: data,
+    noPrice,
+  });
   return rows;
 }
 
@@ -34,9 +32,12 @@ function rowsGenTradesEstimation(data, noPrice) {
     // Trade for loop
     const tradeTitle = data[i]._id;
     const tradeData = data[i].data;
-    const workAndDetailsRows = [];
     const tradeObj = {};
-    rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`, noPrice);
+    const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
+      data: tradeData,
+      prefix: `${i + 1}.`,
+      noPrice: noPrice,
+    });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
     rows.push(tradeObj);
@@ -58,9 +59,12 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       // Tranch for loop
       const tranchTitle = tradeData[j].tranch;
       const tranchDataArr = tradeData[j].tranchData;
-      const workAndDetailsRows = [];
       const tranchObj = {};
-      rowsGenEstimationHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`, noPrice);
+      const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
+        data: tranchDataArr,
+        prefix: `${i + 1}.${j + 1}.`,
+        noPrice: noPrice,
+      });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
       tranchesRows.push(tranchObj);
@@ -129,14 +133,17 @@ function rowsGenTradesAndTranchesDPGF(data) {
   return rows;
 }
 
-function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix, noPrice) {
+function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice = false }) {
+  const resArr = [];
   let _id;
+  let workIndex = 0;
+  let workDetailsIndex = 0;
 
   for (let i = 0; i < data.length; i++) {
     if (_id != data[i].work._id) {
       const arr = [];
 
-      arr.push(`${prefix}.${i + 1}`);
+      arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
       arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
@@ -149,12 +156,12 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
         arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
       }
 
-      toBeModifiedArr.push(arr);
+      resArr.push(arr);
 
       if (data[i].workDetails) {
         const arrD = [];
 
-        arrD.push(`${prefix}.${i + 1}`);
+        arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
@@ -167,12 +174,17 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
           arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
         }
 
-        toBeModifiedArr.push(arrD);
+        resArr.push(arrD);
+        workDetailsIndex++;
+        workIndex--; // In order to stop increment
+      } else {
+        workDetailsIndex = 0;
       }
+      workIndex++;
     } else {
       const arrD = [];
 
-      arrD.push(`${prefix}.${i + 1}`);
+      arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
@@ -185,11 +197,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails(toBeModifiedArr, data, prefi
         arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
       }
 
-      toBeModifiedArr.push(arrD);
+      resArr.push(arrD);
+      workDetailsIndex++;
     }
 
     _id = data[i].work._id;
   }
+
+  return resArr;
 }
 
 function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
@@ -291,7 +306,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot: `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -376,7 +391,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -421,7 +436,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = tradeTotal ?? '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -551,7 +566,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = tradeTotal;
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -636,7 +651,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = tradeTotal;
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -667,9 +682,9 @@ function calculateTotalHT(data, noPrice) {
     totalHT = totalHT + _;
   }
 
-  totalHT = formatNumber(totalHT.toFixed(2));
+  const formattedTotalHT = formatNumber(totalHT.toFixed(2));
 
-  return totalHT;
+  return formattedTotalHT;
 }
 
 function docxParsedDataGenTradesDPGF(trade, index) {
@@ -783,9 +798,9 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
   return docxParsedData;
 }
 
-function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) {
+function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
   let footerData = [];
-
   let totalHT = 0;
 
   data.map((item, index) => {
@@ -807,7 +822,95 @@ function footerDataGenSimpleEstimation(data, currentProject, noPrice, addSpace) 
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
     ];
   } else {
-    footerData = ['', '', '', ''];
+    footerData = ['', '', ''];
+  }
+
+  if (addSpace) {
+    footerData.splice(1, 0, '');
+  }
+
+  return footerData;
+}
+
+function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
+  let footerData = [];
+  let totalHT = 0;
+
+  let tempArray = [];
+  data.map((dat, index1) => {
+    let tempSum = 0;
+    dat.data.map((item, index) => {
+      let temp = 0;
+      if (!item.workDetails) {
+        temp += item.work.unit_price * item.work.quantity;
+      } else {
+        if (item?.work?._id !== data[index - 1]?.work?._id) {
+          temp += item.workDetails.quantity * item.workDetails.unit_price;
+        } else {
+          temp += item.workDetails.quantity * item.workDetails.unit_price;
+        }
+      }
+      tempSum += temp;
+      totalHT += temp;
+    });
+    tempArray[index1] = tempSum;
+  });
+
+  if (!noPrice) {
+    footerData = [
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+    ];
+  } else {
+    footerData = ['', '', ''];
+  }
+
+  if (addSpace) {
+    footerData.splice(1, 0, '');
+  }
+
+  return footerData;
+}
+
+function footerDataGenTradesAndTranchesEstimation(_data, currentProject, noPrice, addSpace) {
+  const data = [..._data];
+  let footerData = [];
+  let totalHT = 0;
+
+  data.map((item) => {
+    let tempArray2 = [];
+    item.data.map((item2) => {
+      let tempObject = {};
+      tempObject.tranch = item2.tranch.name;
+      tempObject.ranking = item2.tranch.ranking;
+      tempObject.tranchData = [];
+      let existingTranch = '';
+      if (tempArray2.length > 0) {
+        existingTranch = tempArray2.find(({ tranch }) => tranch === tempObject.tranch);
+      }
+      if (!existingTranch) {
+        let amountTranch = 0;
+        item.data.map((item3, index) => {
+          amountTranch += item3.tranchAmount;
+        });
+        tempObject.tranchAmount = amountTranch;
+        totalHT = totalHT + amountTranch;
+        tempArray2.push(tempObject);
+      }
+    });
+    item.data = tempArray2.sort((a, b) => a.ranking - b.ranking);
+  });
+
+  if (!noPrice) {
+    footerData = [
+      formatNumber(totalHT.toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+    ];
+  } else {
+    footerData = ['', '', ''];
   }
 
   if (addSpace) {
@@ -1427,7 +1530,7 @@ const tagsToDocxMap = {
 };
 
 const dataColumnsEstimation = [
-  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'Numéro',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Number' : 'N°',
   localStorage.getItem('i18nextLng') == 'en' ? 'Designation' : 'Désignation',
   localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
   localStorage.getItem('i18nextLng') == 'en' ? 'Qty' : 'Qté',
@@ -1492,6 +1595,8 @@ export {
   rowsGenTradesCCTP,
   rowsGenTradesAndTranchesCCTP,
   footerDataGenSimpleEstimation,
+  footerDataGenTradesEstimation,
+  footerDataGenTradesAndTranchesEstimation,
   footerDataGenSimpleDPGF,
   textRunsSplitGen,
   dataColumnsEstimation,
