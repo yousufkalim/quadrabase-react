@@ -19,6 +19,8 @@ import {
   docxParsedDataGenTradesDPGF,
   docxParsedDataGenTradesAndTranchesDPGF,
   footerDataGenSimpleEstimation,
+  footerDataGenTradesEstimation,
+  footerDataGenTradesAndTranchesEstimation,
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
   blobFromURL,
@@ -54,7 +56,10 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
 async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
   let pdfParsedData = [];
+  const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
@@ -66,6 +71,8 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: pdfParsedData,
+    footerKeysArr: footerColumnsSimpleEstimationNoSpace,
+    footerValuesArr: footerDataFloatsArr,
   };
 
   const response = await api('post', `/Reports/tt_estimation`, body);
@@ -82,10 +89,15 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   return obj;
 }
 
-async function exportPDFTradesAndTranchesEstimation(data, currentProject, noPrice) {
+async function exportPDFTradesAndTranchesEstimation(_data, _currentProject, noPrice) {
+  const data = [..._data];
+  const currentProject = { ..._currentProject };
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
   let pdfParsedData = [];
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
@@ -97,6 +109,8 @@ async function exportPDFTradesAndTranchesEstimation(data, currentProject, noPric
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: pdfParsedData,
+    footerKeysArr: footerColumnsSimpleEstimationNoSpace,
+    footerValuesArr: footerDataFloatsArr,
   };
 
   const response = await api('post', `/Reports/tt_estimation`, body);

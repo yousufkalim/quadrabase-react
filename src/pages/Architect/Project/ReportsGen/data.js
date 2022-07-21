@@ -391,7 +391,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -566,7 +566,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTArr[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTArr[j] = tradeTotal;
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -651,7 +651,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total HT Lot:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = tradeTotal;
     } else {
       tradeTotalHTObj[j] = '';
     }
