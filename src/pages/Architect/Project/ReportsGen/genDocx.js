@@ -31,6 +31,8 @@ import {
   rowsGenTradesCCTP,
   rowsGenTradesAndTranchesCCTP,
   footerDataGenSimpleEstimation,
+  footerDataGenTradesEstimation,
+  footerDataGenTradesAndTranchesEstimation,
   footerDataGenSimpleDPGF,
   textRunsSplitGen,
   dataColumnsEstimation,
@@ -283,6 +285,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesEstimation(data, noPrice);
+  const footerData = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
   let docxParsedData = [];
 
@@ -435,7 +438,65 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
     }),
   ];
 
-  const children = [...tableHeader, Spacer, ...tableBody];
+  const tableFooterRows = [];
+
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+
+  console.log(footerColumnsSimpleEstimationNoSpace, 'footerColumnsSimpleEstimationNoSpace');
+
+  for (let i = 0; i < footerColumnsSimpleEstimationNoSpace.length; i++) {
+    const tableRowCells = [];
+    const tableCell1 = new TableCell({
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.END,
+          children: [
+            new TextRun({
+              text: footerColumnsSimpleEstimationNoSpace[i],
+              bold: true,
+            }),
+          ],
+        }),
+      ],
+      verticalAlign: VerticalAlign.CENTER,
+      margins: normalMargin,
+      shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
+    });
+    const tableCell2 = new TableCell({
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.END,
+          children: [
+            new TextRun({
+              text: `${footerData[i]}`,
+              bold: true,
+            }),
+          ],
+        }),
+      ],
+      verticalAlign: VerticalAlign.CENTER,
+      margins: normalMargin,
+      shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
+    });
+    tableRowCells.push(tableCell1);
+    tableRowCells.push(tableCell2);
+    const tableRow = new TableRow({
+      children: tableRowCells,
+    });
+    tableFooterRows.push(tableRow);
+  }
+
+  const tableFooter = [
+    new Table({
+      alignment: AlignmentType.RIGHT,
+      rows: [...tableFooterRows],
+    }),
+  ];
+
+  const children = [...tableHeader, Spacer, ...tableBody, Spacer, ...tableFooter];
 
   const sections = [
     {
@@ -459,6 +520,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
+  const footerData = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
 
   let docxParsedData = [];
 
@@ -611,7 +673,63 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     }),
   ];
 
-  const children = [...tableHeader, Spacer, ...tableBody];
+  const tableFooterRows = [];
+
+  const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+
+  for (let i = 0; i < footerColumnsSimpleEstimationNoSpace.length; i++) {
+    const tableRowCells = [];
+    const tableCell1 = new TableCell({
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.END,
+          children: [
+            new TextRun({
+              text: footerColumnsSimpleEstimationNoSpace[i],
+              bold: true,
+            }),
+          ],
+        }),
+      ],
+      verticalAlign: VerticalAlign.CENTER,
+      margins: normalMargin,
+      shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
+    });
+    const tableCell2 = new TableCell({
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.END,
+          children: [
+            new TextRun({
+              text: `${footerData[i]}`,
+              bold: true,
+            }),
+          ],
+        }),
+      ],
+      verticalAlign: VerticalAlign.CENTER,
+      margins: normalMargin,
+      shading: i == 0 ? firstRowShade : null,
+      width: { size: 50, type: WidthType.PERCENTAGE },
+    });
+    tableRowCells.push(tableCell1);
+    tableRowCells.push(tableCell2);
+    const tableRow = new TableRow({
+      children: tableRowCells,
+    });
+    tableFooterRows.push(tableRow);
+  }
+
+  const tableFooter = [
+    new Table({
+      alignment: AlignmentType.RIGHT,
+      rows: [...tableFooterRows],
+    }),
+  ];
+
+  const children = [...tableHeader, Spacer, ...tableBody, Spacer, tableFooter];
 
   const sections = [
     {
