@@ -386,6 +386,98 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                                 !sidebarExpanded ? `sidebar-expanded:` : ``
                               }opacity-100 2xl:opacity-100 duration-200`}
                             >
+                              {translate('Static Pages')}
+                            </span>
+                          </div>
+                          {/* Icon */}
+                          <div className="flex flex-shrink-0 ml-2">
+                            <svg
+                              className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
+                                open && 'transform rotate-180'
+                              }`}
+                              viewBox="0 0 12 12"
+                            >
+                              <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                      <div
+                        className={`lg:${
+                          !sidebarExpanded ? `sidebar-expanded:` : ``
+                        }block 2xl:block`}
+                      >
+                        <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          {/* <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/privateLibraries"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span className="text-sm font-medium lg:opacity-0 lg:${!sidebarExpanded?`sidebar-expanded:`:``}opacity-100 2xl:opacity-100 duration-200">
+                                {translate("Private Libraries")}
+                              </span>
+                            </NavLink>
+                          </li> */}
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/terms"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
+                                {translate('CGV')}
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              exact
+                              to="/admin/privacy"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
+                                {translate('CGU')}
+                              </span>
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                    </React.Fragment>
+                  );
+                }}
+              </SidebarLinkGroup>
+
+              <SidebarLinkGroup activecondition={pathname.includes('team')}>
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <a
+                        href="#0"
+                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                          pathname.includes('team') && 'hover:text-gray-200'
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                        }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <LibraryBooksIcon className="text-gray-500" />
+                            <span
+                              className={`text-sm font-medium ml-3 lg:opacity-0 lg:${
+                                !sidebarExpanded ? `sidebar-expanded:` : ``
+                              }opacity-100 2xl:opacity-100 duration-200`}
+                            >
                               {translate('Sources')}
                             </span>
                           </div>

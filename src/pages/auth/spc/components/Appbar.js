@@ -1,20 +1,20 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import Quadralogo from "../assets/images/Quadralogo.svg";
-import Quadralogo2 from "../assets/images/Quadralogo2.svg";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Quadralogo from '../assets/images/Quadralogo.svg';
+import Quadralogo2 from '../assets/images/Quadralogo2.svg';
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 const pages = [
   // {
@@ -22,24 +22,24 @@ const pages = [
   //   path: null
   // },
   {
-    title: "Supports pédagogiques",
-    path: "/auth/support",
+    title: 'Supports pédagogiques',
+    path: '/auth/support',
   },
   {
-    title: "Documentation",
-    path: "/auth/documentation",
+    title: 'Documentation',
+    path: '/auth/documentation',
   },
   {
-    title: "Fabricants",
-    path: "/auth/fabricant",
+    title: 'Fabricants',
+    path: '/auth/fabricant',
   },
   {
-    title: "Bibliothèques",
-    path: "/auth/libraries",
+    title: 'Bibliothèques',
+    path: '/auth/libraries',
   },
   {
-    title: "Les services",
-    path: "/auth/services",
+    title: 'Produits',
+    path: '/auth/services',
   },
   // {
   //   title: "Commande",
@@ -78,9 +78,9 @@ const ResponsiveAppBar = (props) => {
 
   //useEffect to Event Listen
   React.useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -88,7 +88,14 @@ const ResponsiveAppBar = (props) => {
     <AppBar
       position="fixed"
       className="spc_appbardiv"
-      sx={{ background: !scroll ? "inherit" : "#8c1244", boxShadow: "none" }}
+      sx={{
+        background: !scroll
+          ? props.backgroundColor
+            ? props.backgroundColor
+            : '#8c1244'
+          : '#8c1244',
+        boxShadow: 'none',
+      }}
     >
       <Container maxWidth="lg" className="spc_containerdiv">
         <Toolbar disableGutters>
@@ -96,14 +103,11 @@ const ResponsiveAppBar = (props) => {
             variant=""
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            <img
-              src={!scroll ? props.logo : Quadralogo2}
-              onClick={() => navTo("/auth/home")}
-            ></img>
+            <img src={!scroll ? props.logo : Quadralogo2} onClick={() => navTo('/auth/home')}></img>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -118,18 +122,18 @@ const ResponsiveAppBar = (props) => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map((page) => (
@@ -151,7 +155,7 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              display: { xs: "none", sm: "flex", md: "none" },
+              display: { xs: 'none', sm: 'flex', md: 'none' },
             }}
           >
             <img src={Quadralogo}></img>
@@ -159,7 +163,7 @@ const ResponsiveAppBar = (props) => {
           <Box
             sx={{
               flexGrow: 2,
-              display: { xs: "none !important", md: "flex !important" },
+              display: { xs: 'none !important', md: 'flex !important' },
             }}
             className="spc_navitems"
           >
@@ -172,27 +176,21 @@ const ResponsiveAppBar = (props) => {
                 }}
                 sx={{
                   my: 2,
-                  color: props.dark ? "black" : "white",
-                  padding: "0 1% 0 1%",
-                  textTransform: "capitalize",
-                  fontSize: "14px",
+                  color: props.dark ? 'black' : 'white',
+                  padding: '0 1% 0 1%',
+                  textTransform: 'capitalize',
+                  fontSize: '14px',
                 }}
               >
                 {page.title}
               </Button>
             ))}
           </Box>
-          <Box sx={{ display: "flex" }}>
-            <Button
-              className="spc_Appbar_contct_btn"
-              onClick={() => navTo("/auth/contact")}
-            >
+          <Box sx={{ display: 'flex' }}>
+            <Button className="spc_Appbar_contct_btn" onClick={() => navTo('/auth/contact')}>
               Nous contacter
             </Button>
-            <Button
-              className="spc_Appbar_connect_btn"
-              onClick={() => navTo("/auth/login")}
-            >
+            <Button className="spc_Appbar_connect_btn" onClick={() => navTo('/auth/login')}>
               Se connecter
             </Button>
           </Box>

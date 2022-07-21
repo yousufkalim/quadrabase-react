@@ -7,6 +7,7 @@ import api from '../../../api';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import 'moment/locale/fr'; // without this line it didn't work
+import { useHistory } from 'react-router-dom';
 
 // Importing Components
 import { Grid, Button, Avatar, Typography } from '@mui/material';
@@ -20,6 +21,7 @@ const Index = () => {
   const classes = useStyles();
   const store = Store();
   const updateStore = UpdateStore();
+  const history = useHistory();
   // states
   const [values, setValues] = useState({
     first_name: '',
@@ -64,6 +66,7 @@ const Index = () => {
       prev[name] = value;
       return { ...prev };
     });
+    localStorage.setItem('warning', true);
   };
 
   // handle submit
@@ -71,6 +74,7 @@ const Index = () => {
     e.preventDefault();
     const result = await api('put', `/Architects/update/${store.user._id}`, values, t);
     updateStore({ loggedIn: true, user: result.data.architect });
+    localStorage.removeItem('warning');
     toast.success(t(result.data.message));
   };
 
@@ -83,6 +87,7 @@ const Index = () => {
       ...values,
       profile_pic: response.data.files[0].uri,
     });
+    localStorage.setItem('warning', true);
   };
 
   return (
@@ -105,14 +110,15 @@ const Index = () => {
               <Button
                 variant="contained"
                 className="remove-pic"
-                onClick={() =>
+                onClick={() => {
                   setValues({
                     ...values,
                     profile_pic: '',
-                  })
-                }
+                  });
+                  localStorage.setItem('warning', true);
+                }}
               >
-                {t("Remove")}
+                {t('Remove')}
               </Button>
             </label>
 
@@ -265,6 +271,25 @@ const Index = () => {
 
             {/* register button */}
             <div style={{ width: '100%', textAlign: 'right' }}>
+              <Button
+                variant="contained"
+                sx={{
+                  textTransform: 'none',
+                  backgroundColor: '#8C1244',
+                  borderRadius: 2,
+                  whiteSpace: 'nowrap',
+                  ':hover': {
+                    backgroundColor: '#8C1244',
+                  },
+                }}
+                onClick={() => {
+                  localStorage.removeItem('warning');
+                  history.push('/architect/index');
+                }}
+              >
+                {t('Close')}
+              </Button>
+              &nbsp;&nbsp;
               <Button
                 variant="contained"
                 sx={{

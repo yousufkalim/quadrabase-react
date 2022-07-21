@@ -1,37 +1,37 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import moment from "moment";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { alpha } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import moment from 'moment';
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import PageviewIcon from "@mui/icons-material/Pageview";
-import { useTranslation } from "react-i18next";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
-import WrapTextIcon from "@mui/icons-material/WrapText";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { visuallyHidden } from '@mui/utils';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import { useTranslation } from 'react-i18next';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import WrapTextIcon from '@mui/icons-material/WrapText';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,7 +44,9 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -76,31 +78,31 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow
         sx={{
-          whiteSpace: "nowrap",
-          borderTop: "2px solid lightgray !important",
-          borderBottom: "2px solid lightgray !important",
+          whiteSpace: 'nowrap',
+          borderTop: '2px solid lightgray !important',
+          borderBottom: '2px solid lightgray !important',
         }}
       >
         {props.headCells &&
           props?.headCells?.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={"left"}
-              padding={headCell.disablePadding ? "none" : "normal"}
+              align={'left'}
+              padding={headCell.disablePadding ? 'none' : 'normal'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
+                direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
                 sx={{
-                  whiteSpace: "nowrap",
+                  whiteSpace: 'nowrap',
                 }}
               >
                 <strong>{t(headCell.label)}</strong>
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -115,7 +117,7 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
@@ -128,7 +130,7 @@ const EnhancedTableToolbar = (props) => {
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
       }}
     >
       <strong>{props.headerText}</strong>
@@ -136,21 +138,27 @@ const EnhancedTableToolbar = (props) => {
         <Button
           variant="contained"
           onClick={() => {
-            if (props.buttonText === "Buy a project pack" || props.buttonText === "Acheter un pack projet") {
-              props.buttonAction("project");
-            } else if (props.buttonText === "Buy Subscription" || props.buttonText === "Acheter un abonnement") {
-              props.buttonAction("subscription");
+            if (
+              props.buttonText === 'Buy a project pack' ||
+              props.buttonText === 'Acheter un pack projet'
+            ) {
+              props.buttonAction('project');
+            } else if (
+              props.buttonText === 'Buy Subscription' ||
+              props.buttonText === 'Acheter un abonnement'
+            ) {
+              props.buttonAction('subscription');
             } else {
               props.buttonAction();
             }
           }}
           sx={{
-            textTransform: "none",
-            backgroundColor: "#8C1244",
+            textTransform: 'none',
+            backgroundColor: '#8C1244',
             borderRadius: 2,
-            whiteSpace: "nowrap",
-            ":hover": {
-              backgroundColor: "#8C1244",
+            whiteSpace: 'nowrap',
+            ':hover': {
+              backgroundColor: '#8C1244',
             },
           }}
           startIcon={<AddCircleOutlineIcon />}
@@ -167,15 +175,15 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(4);
   const { t } = useTranslation();
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -199,7 +207,10 @@ export default function EnhancedTable(props) {
     } else if (selectedIndex === selected?.length - 1) {
       newSelected = newSelected.concat(selected?.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected?.slice(0, selectedIndex), selected?.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected?.slice(0, selectedIndex),
+        selected?.slice(selectedIndex + 1)
+      );
     }
 
     setSelected(newSelected);
@@ -220,10 +231,14 @@ export default function EnhancedTable(props) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props?.data?.length) : 0;
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2, borderRadius: 5 }}>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2, borderRadius: 5 }}>
         {props.headerText && (
-          <EnhancedTableToolbar headerText={props.headerText} buttonAction={props.buttonAction} buttonText={props.buttonText} />
+          <EnhancedTableToolbar
+            headerText={props.headerText}
+            buttonAction={props.buttonAction}
+            buttonText={props.buttonText}
+          />
         )}
         <TableContainer>
           <Table aria-labelledby="tableTitle">
@@ -252,97 +267,109 @@ export default function EnhancedTable(props) {
                       tabIndex={-1}
                       key={row._id}
                       sx={{
-                        backgroundColor: index % 2 !== 0 && "#F5F5F5",
+                        backgroundColor: index % 2 !== 0 && '#F5F5F5',
                       }}
                     >
                       {props?.rows?.map((record, index) =>
-                        record == "subscriptionEndDate" ? (
+                        record == 'subscriptionEndDate' ? (
                           <TableCell align="left" title={row?.subscription?.end_date}>
-                            {row?.end_date ? moment(row?.end_date).format("DD/MM/YYYY") : "N/A"}
+                            {row?.end_date ? moment(row?.end_date).format('DD/MM/YYYY') : 'N/A'}
                           </TableCell>
-                        ) : record == "subscriptionStartDate" ? (
+                        ) : record == 'subscriptionStartDate' ? (
                           <TableCell align="left" title={row?.subscription?.start_date}>
-                            {row?.start_date ? moment(row?.start_date).format("DD/MM/YYYY") : "N/A"}
+                            {row?.start_date ? moment(row?.start_date).format('DD/MM/YYYY') : 'N/A'}
                           </TableCell>
-                        ) : record === "subscriptionName" ? (
+                        ) : record === 'subscriptionName' ? (
                           <TableCell key={index} align="left" title={row?.subscriptions?.name}>
                             {row?.subscription?.name
                               ? row?.subscription?.name?.length > 20
-                                ? row?.subscription?.name.substring(0, 20) + "..."
+                                ? row?.subscription?.name.substring(0, 20) + '...'
                                 : row?.subscription?.name
-                              : "Abonnement initiale"}
+                              : 'Abonnement initiale'}
                           </TableCell>
-                        ) : record == "assignedToName" ? (
+                        ) : record == 'assignedToName' ? (
                           <TableCell align="left" title={row?.assigned_to?.first_name}>
                             {row?.assigned_to?.first_name
                               ? row?.assigned_to?.first_name?.length > 20
-                                ? row?.assigned_to?.first_name.substring(0, 20) + "..."
+                                ? row?.assigned_to?.first_name.substring(0, 20) + '...'
                                 : row?.assigned_to?.first_name
-                              : "N/A"}
+                              : 'N/A'}
                           </TableCell>
-                        ) : record === "createdAt" ? (
+                        ) : record === 'createdAt' ? (
                           <TableCell
                             align="left"
                             title={row?.subscription?.createdAt}
-                            style={{ width: props.type === "project" && 170 }}
+                            style={{ width: props.type === 'project' && 170 }}
                           >
-                            {row?.createdAt ? moment(row?.createdAt).format("DD/MM/YYYY") : "N/A"}
+                            {row?.createdAt ? moment(row?.createdAt).format('DD/MM/YYYY') : 'N/A'}
                           </TableCell>
-                        ) : record === "updatedAt" ? (
+                        ) : record === 'updatedAt' ? (
                           <TableCell
                             align="left"
                             title={row?.subscription?.updatedAt}
-                            style={{ width: props.type === "project" && 170 }}
+                            style={{ width: props.type === 'project' && 170 }}
                           >
-                            {row?.updatedAt ? moment(row?.updatedAt).format("DD/MM/YYYY") : "N/A"}
+                            {row?.updatedAt ? moment(row?.updatedAt).format('DD/MM/YYYY') : 'N/A'}
                           </TableCell>
-                        ) : record === "projectName" ? (
+                        ) : record === 'projectName' ? (
                           <TableCell
                             key={index}
                             align="left"
                             title={row[record]}
-                            style={{ width: props.type === "project" && 450 }}
+                            style={{ width: props.type === 'project' && 450 }}
                           >
-                            {row.name ? row.name : "N/A"}
+                            {row.name ? row.name : 'N/A'}
                           </TableCell>
-                        ) : record === "projectStatus" ? (
+                        ) : record === 'projectStatus' ? (
                           <TableCell key={index} align="left" title={row[record]}>
-                            {row.status ? (row.status === "Complété" ? "Terminé" : row.status) : "N/A"}
+                            {row.status
+                              ? row.status === 'Complété'
+                                ? 'Terminé'
+                                : row.status
+                              : 'N/A'}
                           </TableCell>
-                        ) : record === "chapTitle" ? (
-                          <TableCell key={index} align="left" title={row[record]} style={{ width: "90%" }}>
-                            {row.title ? row.title : "N/A"}
+                        ) : record === 'chapTitle' ? (
+                          <TableCell
+                            key={index}
+                            align="left"
+                            title={row[record]}
+                            style={{ width: '90%' }}
+                          >
+                            {row.title ? row.title : 'N/A'}
                           </TableCell>
-                        ) : record === "vat" ? (
+                        ) : record === 'vat' ? (
                           <TableCell key={index} align="left" title={row?.vat?.value}>
                             {row?.vat?.value
                               ? row?.vat?.value?.length > 20
-                                ? row?.vat?.value.substring(0, 20) + "..."
+                                ? row?.vat?.value.substring(0, 20) + '...'
                                 : row?.vat?.value
-                              : "N/A"}
+                              : 'N/A'}
                             %
                           </TableCell>
-                        ) : record === "text" ? (
+                        ) : record === 'text' ? (
                           <TableCell key={index} align="left" title={row?.vat?.value}>
                             <div
                               dangerouslySetInnerHTML={{
-                                __html: row?.text.length > 20 ? row?.text.substring(0, 20) + "..." : row?.text,
+                                __html:
+                                  row?.text.length > 20
+                                    ? row?.text.substring(0, 20) + '...'
+                                    : row?.text,
                               }}
                             ></div>
                           </TableCell>
-                        ) : record === "prescriber" ? (
+                        ) : record === 'prescriber' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.name}
                           </TableCell>
-                        ) : record === "client" ? (
+                        ) : record === 'client' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.client?.establishment}
                           </TableCell>
-                        ) : record === "type" ? (
+                        ) : record === 'type' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.type?.text}
                           </TableCell>
-                        ) : record === "subStatus" ? (
+                        ) : record === 'subStatus' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.assigned_to?._id ? (
                               <CheckBoxOutlinedIcon color="success" />
@@ -350,11 +377,11 @@ export default function EnhancedTable(props) {
                               <CancelOutlinedIcon color="error" />
                             )}
                           </TableCell>
-                        ) : record === "code" ? (
+                        ) : record === 'code' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {row?.subscription?.reference ? row?.subscription?.reference : <>N/A</>}
                           </TableCell>
-                        ) : record === "market_type" ? (
+                        ) : record === 'market_type' ? (
                           <TableCell key={index} align="left" title={row[record]}>
                             {t(row?.market_type)}
                           </TableCell>
@@ -362,11 +389,11 @@ export default function EnhancedTable(props) {
                           <TableCell key={index} align="left" title={row[record]}>
                             {row[record]
                               ? row[record]?.length > 20
-                                ? row[record].substring(0, 20) + "..."
+                                ? row[record].substring(0, 20) + '...'
                                 : row[record]
                               : row[record] === 0
                               ? 0
-                              : "N/A"}
+                              : 'N/A'}
                           </TableCell>
                         )
                       )}
@@ -374,26 +401,67 @@ export default function EnhancedTable(props) {
                       {props.noActions !== true && (
                         <TableCell align="left">
                           {props.handleAssign ? (
-                            <IconButton aria-label="edit" onClick={() => props.handleAssign(row?._id, row?.assigned_to?.email)}>
-                              <DriveFileRenameOutlineRoundedIcon />
-                            </IconButton>
-                          ) : props.handleView ? (
-                            <>
-                              <IconButton aria-label="edit" onClick={() => props.handleView(row?._id)}>
+                            <Tooltip title="Attribuer">
+                              <IconButton
+                                aria-label="edit"
+                                color="info"
+                                onClick={() =>
+                                  props.handleAssign(row?._id, row?.assigned_to?.email)
+                                }
+                              >
                                 <DriveFileRenameOutlineRoundedIcon />
                               </IconButton>
-                              <IconButton aria-label="edit" onClick={() => props.handleOpenStatusModal(row)}>
-                                <WrapTextIcon />
-                              </IconButton>
+                            </Tooltip>
+                          ) : props.handleView ? (
+                            <>
+                              <Tooltip title="Voir">
+                                <IconButton
+                                  aria-label="edit"
+                                  color="info"
+                                  onClick={() => props.handleView(row?._id)}
+                                >
+                                  <DriveFileRenameOutlineRoundedIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Statut">
+                                <IconButton
+                                  aria-label="edit"
+                                  color="info"
+                                  onClick={() => props.handleOpenStatusModal(row)}
+                                >
+                                  <WrapTextIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Effacer">
+                                <IconButton
+                                  color="error"
+                                  aria-label="delete"
+                                  onClick={() => props.handleDeleteProjectModal(row._id)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Tooltip>
                             </>
                           ) : (
                             <>
-                              <IconButton color="info" aria-label="edit" onClick={() => props.handleEdit(row)}>
-                                <EditIcon />
-                              </IconButton>
-                              <IconButton color="error" aria-label="delete" onClick={() => props.handleDelete(row._id)}>
-                                <DeleteIcon />
-                              </IconButton>
+                              <Tooltip title="Éditer">
+                                <IconButton
+                                  color="info"
+                                  aria-label="edit"
+                                  onClick={() => props.handleEdit(row)}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Effacer">
+                                <IconButton
+                                  color="error"
+                                  aria-label="delete"
+                                  onClick={() => props.handleDelete(row._id)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Tooltip>
                             </>
                           )}
                         </TableCell>
@@ -408,35 +476,38 @@ export default function EnhancedTable(props) {
           <div
             style={{
               height: 50,
-              width: "100%",
-              color: "#8C1244",
-              display: "grid",
-              placeItems: "center",
+              width: '100%',
+              color: '#8C1244',
+              display: 'grid',
+              placeItems: 'center',
             }}
           >
             <strong>
-              {" "}
+              {' '}
               <ArrowBackIosIcon
                 fontSize="md"
                 onClick={() => {
                   if (page !== 0) {
-                    handleChangePage("", page - 1);
+                    handleChangePage('', page - 1);
                   }
                 }}
                 sx={{
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
               />
-              {page + 1}/{Math.ceil(props?.data?.length / rowsPerPage) > 0 ? Math.ceil(props?.data?.length / rowsPerPage) : 1}{" "}
+              {page + 1}/
+              {Math.ceil(props?.data?.length / rowsPerPage) > 0
+                ? Math.ceil(props?.data?.length / rowsPerPage)
+                : 1}{' '}
               <ArrowForwardIosIcon
                 fontSize="md"
                 onClick={() => {
                   if (page + 1 < Math.ceil(props?.data?.length / rowsPerPage)) {
-                    handleChangePage("", page + 1);
+                    handleChangePage('', page + 1);
                   }
                 }}
                 sx={{
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
               />
             </strong>

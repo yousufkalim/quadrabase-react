@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
-import Appbar from "./spc/components/Appbar";
-import Typography from "@mui/material/Typography";
-import Quadralogo from "./spc/assets/images/Quadralogo2.svg";
-import List from "../../components/LibrariesList/index";
-import { useTranslation } from "react-i18next";
-import LibraryReducer from "../admin/bookLibraries/reducer";
-import { initialState } from "../admin/bookLibraries/initialState";
-import actionTypes from "../admin/bookLibraries/actionTypes";
-import { baseUrl } from "../../utils/BaseUrl";
-import Axios from "axios";
+import React, { useEffect } from 'react';
+import Appbar from './spc/components/Appbar';
+import Typography from '@mui/material/Typography';
+import Quadralogo from './spc/assets/images/Quadralogo2.svg';
+import List from '../../components/LibrariesList/index';
+import { useTranslation } from 'react-i18next';
+import LibraryReducer from '../admin/bookLibraries/reducer';
+import { initialState } from '../admin/bookLibraries/initialState';
+import actionTypes from '../admin/bookLibraries/actionTypes';
+import { baseUrl } from '../../utils/BaseUrl';
+import Axios from 'axios';
 
 const Libraries = () => {
   const { t } = useTranslation();
-  const [loadingData, setLoadingData] = React.useState("");
+  const [loadingData, setLoadingData] = React.useState('');
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [familiesData, setFamiliesData] = React.useState([]);
   const [librariesData, setlibrariesData] = React.useState([]);
   const [Level2, setLevel2] = React.useState([]);
   const [Level3, setLevel3] = React.useState([]);
   const [Level4, setLevel4] = React.useState([]);
-  const [currentFamily, setCurrentFamily] = React.useState("");
+  const [currentFamily, setCurrentFamily] = React.useState('');
 
   useEffect(() => {
     getFamilies();
@@ -28,13 +28,13 @@ const Libraries = () => {
   const getFamilies = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Families/`,
       });
       let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
       data = data.filter((item) => {
         let famName = item.name.toUpperCase();
-        return famName !== "PRESCRIPTEUR";
+        return famName !== 'PRESCRIPTEUR';
       });
       setCurrentFamily(data[0]._id);
       getBookLibraries(data[0]._id);
@@ -43,27 +43,25 @@ const Libraries = () => {
       };
       let tempKey = data[0].name;
       tempObj[tempKey] = true;
-      handleClick("level0", data[0]._id, tempObj);
+      handleClick('level0', data[0]._id, tempObj);
       setFamiliesData(data);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
   const getBookLibraries = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getByFamily/${id}`,
       });
-      let data = response.data.bookLibraries.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      let data = response.data.bookLibraries.sort((a, b) => a.ranking - b.ranking);
       setlibrariesData(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
     //}
   };
@@ -71,47 +69,45 @@ const Libraries = () => {
   const getLevel2 = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel2/${id}`,
       });
       let data = response.data.categories.sort((a, b) => a.ranking - b.ranking);
       setLevel2(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
   const getLevel3 = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel3/${id}`,
       });
       let data = response.data.works.sort((a, b) => a.ranking - b.ranking);
       setLevel3(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
   const getLevel4 = async (id) => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel4/${id}`,
       });
-      let data = response.data.workDetails.sort(
-        (a, b) => a.ranking - b.ranking
-      );
+      let data = response.data.workDetails.sort((a, b) => a.ranking - b.ranking);
       setLevel4(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
@@ -128,12 +124,7 @@ const Libraries = () => {
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography
-            className="spc_suppportHeroheading"
-            style={{ paddingBottom: "14%" }}
-          >
-            Bibliothèques
-          </Typography>
+          <Typography className="spc_suppportHeroheading">Bibliothèques</Typography>
         </div>
       </div>
       <div className="w-full  md:mx-auto py-20 ">
