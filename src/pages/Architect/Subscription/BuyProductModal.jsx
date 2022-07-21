@@ -444,9 +444,10 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
               variant="contained"
               style={{
                 textTransform: 'none',
-                backgroundColor: '#8C1244',
+                backgroundColor: total.grandTotal === 0 ? '#d9adad' : '#8C1244',
                 borderRadius: 8,
               }}
+              disabled={total.grandTotal === 0}
               onClick={() => handleFinish()}
             >
               Valider

@@ -109,7 +109,7 @@ export default function ResponsiveDrawer(props) {
                     handleWarningModal();
                     setPath(item.layout + item.path);
                   } else {
-                    if (props.user?.subscription) {
+                    if (props.user.authorized.toUpperCase() !== 'NO') {
                       history.push(item.layout + item.path);
                     }
                   }
