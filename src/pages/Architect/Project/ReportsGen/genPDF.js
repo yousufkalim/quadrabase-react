@@ -89,9 +89,8 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   return obj;
 }
 
-async function exportPDFTradesAndTranchesEstimation(_data, _currentProject, noPrice) {
-  const data = [..._data];
-  const currentProject = { ..._currentProject };
+async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPrice) {
+  const data = structuredClone(_data);
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];

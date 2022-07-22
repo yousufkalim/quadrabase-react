@@ -874,12 +874,11 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   return footerData;
 }
 
-function footerDataGenTradesAndTranchesEstimation(_data, currentProject, noPrice, addSpace) {
-  const data = [..._data];
+function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, addSpace) {
   let footerData = [];
   let totalHT = 0;
 
-  data.map((item) => {
+  data.map(({ ...item }) => {
     let tempArray2 = [];
     item.data.map((item2) => {
       let tempObject = {};

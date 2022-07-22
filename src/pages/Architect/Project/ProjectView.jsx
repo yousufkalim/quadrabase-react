@@ -954,7 +954,6 @@ const ProjectView = () => {
 
   return (
     <>
-      {/* {console.log(projectWorkData, 'projectWorkData')} */}
       <div className={classes.main_container}>
         {loading ? (
           <Loader />

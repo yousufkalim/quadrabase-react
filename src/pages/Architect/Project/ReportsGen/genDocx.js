@@ -443,8 +443,6 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
-  console.log(footerColumnsSimpleEstimationNoSpace, 'footerColumnsSimpleEstimationNoSpace');
-
   for (let i = 0; i < footerColumnsSimpleEstimationNoSpace.length; i++) {
     const tableRowCells = [];
     const tableCell1 = new TableCell({
@@ -461,7 +459,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null,
+      shading: firstRowShade,
       width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
@@ -478,7 +476,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null,
+      shading: null,
       width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
@@ -694,7 +692,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null,
+      shading: firstRowShade,
       width: { size: 50, type: WidthType.PERCENTAGE },
     });
     const tableCell2 = new TableCell({
@@ -703,7 +701,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
           alignment: AlignmentType.END,
           children: [
             new TextRun({
-              text: `${footerData[i]}`,
+              text: footerData[i],
               bold: true,
             }),
           ],
@@ -711,7 +709,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
-      shading: i == 0 ? firstRowShade : null,
+      shading: null,
       width: { size: 50, type: WidthType.PERCENTAGE },
     });
     tableRowCells.push(tableCell1);
@@ -729,7 +727,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     }),
   ];
 
-  const children = [...tableHeader, Spacer, ...tableBody, Spacer, tableFooter];
+  const children = [...tableHeader, Spacer, ...tableBody, Spacer, ...tableFooter];
 
   const sections = [
     {
