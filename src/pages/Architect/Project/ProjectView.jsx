@@ -838,6 +838,7 @@ const ProjectView = () => {
   async function generateEstimate() {
     try {
       let res;
+      getworks();
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
@@ -848,7 +849,6 @@ const ProjectView = () => {
         console.trace('Show me');
         return;
       }
-      getworks();
       setBlob(res.blob);
       setFilename(res.filename);
       setOpenEstimationReportModal(true);
@@ -861,6 +861,7 @@ const ProjectView = () => {
   async function generateDQE() {
     try {
       let res;
+      getworks();
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == 'Trades') {
@@ -870,7 +871,6 @@ const ProjectView = () => {
       } else {
         console.trace('Show me');
       }
-      getworks();
       setBlob(res.blob);
       setFilename(res.filename);
       setOpenDQEReportModal(true);
@@ -954,7 +954,6 @@ const ProjectView = () => {
 
   return (
     <>
-      {/* {console.log(projectWorkData, 'projectWorkData')} */}
       <div className={classes.main_container}>
         {loading ? (
           <Loader />
@@ -1581,6 +1580,7 @@ const ProjectView = () => {
                       backgroundColor: 'white',
                       height: '80vh',
                       overflow: 'hidden',
+                      marginRight: 50,
                     }}
                   >
                     <StyledMenu
