@@ -5,7 +5,6 @@ import api from '../../../api';
 import { useStyles } from '../../../css/projectView';
 import BuildIcon from '@mui/icons-material/Build';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Store } from '../../../StoreContext';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -118,9 +117,9 @@ const ProjectView = () => {
   const history = useHistory();
   const { id } = params;
   const classes = useStyles();
-  const store = Store();
 
   //   states
+  const [store] = useState({ loggedIn: true, user: JSON.parse(localStorage.getItem('user')) });
   const [currentProject, setCurrentProject] = useState({});
   const [generalLibrariesData, setGeneralLibrariesData] = useState();
   const [openWorkModal, setOpenWorkModal] = useState(false);
@@ -848,7 +847,6 @@ const ProjectView = () => {
         console.trace('Show me');
         return;
       }
-      getworks();
       setBlob(res.blob);
       setFilename(res.filename);
       setOpenEstimationReportModal(true);
@@ -870,7 +868,6 @@ const ProjectView = () => {
       } else {
         console.trace('Show me');
       }
-      getworks();
       setBlob(res.blob);
       setFilename(res.filename);
       setOpenDQEReportModal(true);
@@ -1580,6 +1577,7 @@ const ProjectView = () => {
                       backgroundColor: 'white',
                       height: '80vh',
                       overflow: 'hidden',
+                      marginRight: 50,
                     }}
                   >
                     <StyledMenu

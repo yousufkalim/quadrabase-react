@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import Services1 from '../assets/images/Services1.svg';
-import Services2 from '../assets/images/Services2.svg';
-import Services3 from '../assets/images/Services3.svg';
-import Services4 from '../assets/images/Services4.jpg';
-import Services5 from '../assets/images/Services5.jpg';
-import Services6 from '../assets/images/Services6.jpg';
-import Services7 from '../assets/images/services7.png';
-import Services8 from '../assets/images/Services8.jpg';
-import Services9 from '../assets/images/Services9.jpg';
-import Services10 from '../assets/images/Services10.jpg';
-import Services11 from '../assets/images/Services11.jpg';
-import Services13 from '../assets/images/Services13.jpg';
+import Services1 from '../assets/images/presentation/01-Routes & Autoroutes.png';
+import Services2 from '../assets/images/presentation/02-Aménagements Urbains.png';
+import Services3 from '../assets/images/presentation/03-Réseaux VRD.png';
+import Services4 from '../assets/images/presentation/04-Electricite & Eclairage.png';
+import Services5 from '../assets/images/presentation/05-Espaces de loisirs.png';
+import Services6 from '../assets/images/presentation/06-Mobilier Urbain.png';
+import Services7 from '../assets/images/presentation/07-Aménagements_Paysagers.png';
+import Services8 from '../assets/images/presentation/08-Signalisation Routière.png';
+import Services9 from '../assets/images/presentation/09-Equipements Sportifs.png';
+import Services10 from '../assets/images/presentation/10-Environnement & Collecte des Dechets.png';
+import Services11 from '../assets/images/presentation/11-Ouvrages de Genie civil.png';
+import Services12 from '../assets/images/presentation/12-Batiment.png';
 
 const CustomerReviews = () => {
   const Services = [
@@ -30,52 +30,52 @@ const CustomerReviews = () => {
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Bâtiments',
-      img: Services3,
+      img: Services12,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Construction de réseaux',
-      img: Services4,
+      img: Services3,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Electricité & Eclairage',
-      img: Services5,
+      img: Services4,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Espaces de loisirs',
-      img: Services13,
+      img: Services5,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Mobilier urbain',
-      img: Services7,
+      img: Services6,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Aménagements paysagers',
-      img: Services8,
+      img: Services7,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Signalisation & Sécurité routière',
-      img: Services9,
+      img: Services8,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Equipements sportifs',
-      img: Services10,
+      img: Services9,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Environnement & Collecte des déchets',
-      img: Services11,
+      img: Services10,
     },
     {
       label: 'CUSTOMER SERVICE',
       heading: 'Ouvrages de génie civil',
-      img: Services13,
+      img: Services11,
     },
   ];
   const responsive = {

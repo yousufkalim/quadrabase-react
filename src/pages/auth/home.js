@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 
 // Importing Components
 import Header from '../../pages/auth/spc/components/Header';
+import Footer from '../../pages/auth/spc/components/Footer';
 import DocumentProduits from './spc/components/DocumentProduits';
 import Appbar from './spc/components/Appbar';
 
@@ -323,6 +324,7 @@ export default function Home() {
           </div>
         </Grid>
       </div>
+      <Footer />
     </div>
   );
 }
