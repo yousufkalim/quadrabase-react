@@ -1,6 +1,7 @@
 .footer-container{
     position: relative;
     border-top: 20px solid #FF8616;
+    background-color: #f5f5f5 !important;
 }
 
 .q4-logo{
