@@ -1,24 +1,24 @@
 // Init
-import React, { useState } from "react";
-import { useStyles } from "../../css/header";
-import Logo from "../../assets/Quadralogo.png";
-import { UpdateStore, Store } from "../../StoreContext";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import { useHistory } from "react-router";
-import LanguageIcon from "@mui/icons-material/Language";
-import { IconButton } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import { useStyles } from '../../css/header';
+import Logo from '../../assets/Quadralogo.png';
+import { UpdateStore } from '../../StoreContext';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import { useHistory } from 'react-router';
+import LanguageIcon from '@mui/icons-material/Language';
+import { IconButton } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 // Component
 export default function Header() {
   const { i18n, t } = useTranslation();
   const classes = useStyles();
   const updateStore = UpdateStore();
-  const store = Store();
   const history = useHistory();
+  const [store] = useState({ loggedIn: true, user: JSON.parse(localStorage.getItem('user')) });
 
   // for dropdown menu
 
@@ -44,22 +44,27 @@ export default function Header() {
 
   //   logout function
   const onLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     updateStore({ loggedIn: false, user: {} });
   };
 
   return (
     <div className={classes.container}>
-      <img className={classes.logo} src={Logo} alt="" onClick={() => history.push("/architect/index")} />
+      <img
+        className={classes.logo}
+        src={Logo}
+        alt=""
+        onClick={() => history.push('/architect/index')}
+      />
       <div>
         {/* change language button */}
         <IconButton
           id="demo-positioned-button"
-          aria-controls={open2 ? "demo-positioned-menu" : undefined}
+          aria-controls={open2 ? 'demo-positioned-menu' : undefined}
           aria-haspopup="true"
-          aria-expanded={open2 ? "true" : undefined}
+          aria-expanded={open2 ? 'true' : undefined}
           onClick={handleClick2}
-          style={{ color: "#3b373c" }}
+          style={{ color: '#3b373c' }}
         >
           <LanguageIcon />
         </IconButton>
@@ -70,12 +75,12 @@ export default function Header() {
           open={open2}
           onClose={handleClose2}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
           sx={{ mt: 2.5 }}
         >
@@ -85,13 +90,13 @@ export default function Header() {
               height: 30,
             }}
             onClick={() => {
-              i18n.changeLanguage("en");
-              localStorage.setItem("i18nextLng", "en");
-              dispatchEvent(new Event("storage"));
+              i18n.changeLanguage('en');
+              localStorage.setItem('i18nextLng', 'en');
+              dispatchEvent(new Event('storage'));
               handleClose2();
             }}
           >
-            {t("English")}
+            {t('English')}
           </MenuItem>
           <MenuItem
             style={{
@@ -99,23 +104,23 @@ export default function Header() {
               height: 30,
             }}
             onClick={() => {
-              i18n.changeLanguage("fr");
-              localStorage.setItem("i18nextLng", "fr");
-              dispatchEvent(new Event("storage"));
+              i18n.changeLanguage('fr');
+              localStorage.setItem('i18nextLng', 'fr');
+              dispatchEvent(new Event('storage'));
               handleClose2();
             }}
           >
-            {t("French")}
+            {t('French')}
           </MenuItem>
         </Menu>
         {/* dropdonw menu */}
         <Button
           id="demo-positioned-button"
-          aria-controls={open ? "demo-positioned-menu" : undefined}
+          aria-controls={open ? 'demo-positioned-menu' : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
-          style={{ color: "#3b373c" }}
+          style={{ color: '#3b373c' }}
         >
           {`${store.user.first_name} ${store.user.last_name}`}
         </Button>
@@ -126,31 +131,31 @@ export default function Header() {
           open={open}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           sx={{ mt: 2.5 }}
         >
-          <MenuItem style={{ width: 250 }} onClick={() => history.push("/architect/management")}>
-            {t("Stakeholders")}/Chap0Part2
+          <MenuItem style={{ width: 250 }} onClick={() => history.push('/architect/management')}>
+            {t('Stakeholders')}/Chap0Part2
           </MenuItem>
-          <MenuItem style={{ width: 250 }} onClick={() => history.push("/architect/libraries")}>
-            {t("Project Libraries")}
+          <MenuItem style={{ width: 250 }} onClick={() => history.push('/architect/libraries')}>
+            {t('Project Libraries')}
           </MenuItem>
-          <MenuItem onClick={() => history.push("/architect/profile")}>{t("My Profile")}</MenuItem>
+          <MenuItem onClick={() => history.push('/architect/profile')}>{t('My Profile')}</MenuItem>
 
           <Divider />
           <MenuItem
             onClick={() => {
               onLogout();
-              history.push("/");
+              history.push('/');
             }}
           >
-            {t("Logout")}
+            {t('Logout')}
           </MenuItem>
         </Menu>
       </div>

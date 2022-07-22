@@ -5,7 +5,6 @@ import api from '../../../api';
 import { useStyles } from '../../../css/projectView';
 import BuildIcon from '@mui/icons-material/Build';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Store } from '../../../StoreContext';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -118,9 +117,9 @@ const ProjectView = () => {
   const history = useHistory();
   const { id } = params;
   const classes = useStyles();
-  const store = Store();
 
   //   states
+  const [store] = useState({ loggedIn: true, user: JSON.parse(localStorage.getItem('user')) });
   const [currentProject, setCurrentProject] = useState({});
   const [generalLibrariesData, setGeneralLibrariesData] = useState();
   const [openWorkModal, setOpenWorkModal] = useState(false);
@@ -838,7 +837,6 @@ const ProjectView = () => {
   async function generateEstimate() {
     try {
       let res;
-      getworks();
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
@@ -861,7 +859,6 @@ const ProjectView = () => {
   async function generateDQE() {
     try {
       let res;
-      getworks();
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
         res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == 'Trades') {
