@@ -8,6 +8,7 @@ import LibraryReducer from '../admin/bookLibraries/reducer';
 import { initialState } from '../admin/bookLibraries/initialState';
 import actionTypes from '../admin/bookLibraries/actionTypes';
 import { baseUrl } from '../../utils/BaseUrl';
+import Footer from './spc/components/Footer';
 import Axios from 'axios';
 
 const Libraries = () => {
@@ -120,7 +121,14 @@ const Libraries = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100vh',
+      }}
+    >
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
@@ -156,7 +164,8 @@ const Libraries = () => {
           </div>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

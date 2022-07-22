@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Appbar from './spc/components/Appbar';
 import Typography from '@mui/material/Typography';
 import Quadralogo from './spc/assets/images/Quadralogo2.svg';
+import Footer from './spc/components/Footer';
 import api from '../../api';
 
 const Services = () => {
@@ -15,7 +16,14 @@ const Services = () => {
     setData(result.data.data.product);
   };
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100vh',
+      }}
+    >
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
@@ -31,7 +39,8 @@ const Services = () => {
           ></div>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

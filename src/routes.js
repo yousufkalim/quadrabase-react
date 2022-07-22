@@ -22,6 +22,7 @@ import Services from './pages/auth/services';
 import Contact from './pages/auth/contactUs';
 import Privacy from './pages/auth/privacy';
 import Terms from './pages/auth/terms';
+import CgvPage from './pages/auth/cgv';
 import Units from './pages/admin/bookLibraries/Units';
 import Stakeholders from './pages/admin/bookLibraries/Stakeholders';
 
@@ -384,6 +385,13 @@ var routes = [
     name: 'Auth',
     icon: 'ni ni-tv-2 text-primary',
     component: Terms,
+    layout: '/auth',
+  },
+  {
+    path: '/cgv',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
+    component: CgvPage,
     layout: '/auth',
   },
 ];

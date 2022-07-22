@@ -1,0 +1,54 @@
+.footer-container{
+    position: relative;
+    border-top: 20px solid #FF8616;
+}
+
+.q4-logo{
+    height: 85%;
+    position: absolute;
+    right: 0;
+    bottom:0;
+}
+
+.quadrabase-logo{
+    width: 200px;
+}
+
+.link-container{
+    margin-top: 25px;
+    font-size: 16px;
+}
+
+.footer-left-conatiener{
+    position: relative;
+    min-height: 100%;
+    padding: 4%;
+    padding-right: 0;
+}
+
+.footer-flex-container{
+    display: flex;
+    height:75%;
+}
+
+.footer-right-conatiener{
+    padding-left: 6%;
+    padding-top: 4%;
+    font-size: 16px;
+    line-height:1.8;
+}
+
+.footer-copyright-container{
+    height:25%;
+    border-top: 2px solid #d3d1d1;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding:1.5% 4%;
+}
+
+@media only screen and (max-width: 660px) {
+    .footer-flex-container{
+        flex-direction: column;
+    }
+  }
