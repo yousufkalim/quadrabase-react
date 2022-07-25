@@ -432,7 +432,7 @@ export default function EnhancedTable(props) {
                                   <WrapTextIcon />
                                 </IconButton>
                               </Tooltip>
-                              <Tooltip title="Effacer">
+                              <Tooltip title="Supprimer">
                                 <IconButton
                                   color="error"
                                   aria-label="delete"
@@ -453,7 +453,7 @@ export default function EnhancedTable(props) {
                                   <EditIcon />
                                 </IconButton>
                               </Tooltip>
-                              <Tooltip title="Effacer">
+                              <Tooltip title="Supprimer">
                                 <IconButton
                                   color="error"
                                   aria-label="delete"

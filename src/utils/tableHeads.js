@@ -451,11 +451,11 @@ export const ProviderSubscriptionheadCells = [
   },
   {
     id: 'start_date',
-    label: 'Start date',
+    label: 'Start Date',
   },
   {
     id: 'end_date',
-    label: 'End date',
+    label: 'End Date',
   },
   {
     id: 'authorize',

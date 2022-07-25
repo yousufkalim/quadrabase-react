@@ -23,7 +23,14 @@ const Home = () => {
   const updateStore = UpdateStore();
   // states
   const [subscriptionHeadCells, setSubscriptionHeadCells] = useState('');
+  const [subscription, setSubscription] = useState({});
   const [buySubModal, setBuySubModal] = useState(false);
+
+  useEffect(async () => {
+    const response = await api('get', `/Subscriptions/${store?.user.subscription.id}`);
+    setSubscription(response.data.subscription);
+    console.log(response, 'resp');
+  }, []);
 
   useEffect(() => {
     let temp = [];
@@ -43,6 +50,7 @@ const Home = () => {
 
   const handleBuySubModal = () => setBuySubModal(!buySubModal);
 
+  console.log(store?.user.subscription, 'store?.user.subscription');
   return store?.user?.authorized.toUpperCase() === 'YES' ? (
     <div className="home-container">
       <Modal
@@ -57,7 +65,7 @@ const Home = () => {
             subscriptionHeadCells
               ? [
                   {
-                    name: store?.user ? store?.user.subscription.name : 'N/A',
+                    name: subscription?.name ? subscription.name : 'N/A',
                     start_date: store?.user
                       ? moment(store?.user.subscription.start_date).format('DD/MM/YYYY')
                       : 'N/A',

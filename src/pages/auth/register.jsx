@@ -287,7 +287,7 @@ const Register = () => {
 
   const getProducts = async () => {
     const response = await api('get', `/Subscriptions/`);
-    let data = response.data.subscription;
+    let data = response.data.subscription.sort((a, b) => a.reference - b.reference);
 
     if (type === 'Prescripteur') {
       let filteredData = data.filter((item) => item.type === 'Prescribers');

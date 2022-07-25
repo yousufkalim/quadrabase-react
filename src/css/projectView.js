@@ -16,6 +16,7 @@ export const useStyles = makeStyles({
   flex_container: {
     display: 'flex',
     justifyContent: 'space-between',
+    whiteSpace: 'nowrap',
   },
   btn: {
     backgroundColor: '#3b373c !important',

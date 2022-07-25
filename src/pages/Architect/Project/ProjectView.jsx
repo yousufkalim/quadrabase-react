@@ -1655,7 +1655,7 @@ const ProjectView = () => {
                     </StyledMenu>
                     <TableContainer component={Paper} sx={{ height: '80%' }}>
                       <Table
-                        sx={{ minWidth: 650 }}
+                        sx={{ width: 'auto', tableLayout: 'auto' }}
                         size="small"
                         stickyHeader
                         aria-label="sticky table"
@@ -1987,7 +1987,7 @@ const ProjectView = () => {
                                             }
                                           })}
 
-                                          <TableRow>
+                                          <TableRow style={{ whiteSpace: 'nowrap' }}>
                                             <TableCell colSpan={4} style={{ padding: '2px 16px' }}>
                                               <div
                                                 style={{
@@ -2016,7 +2016,7 @@ const ProjectView = () => {
                                     }
                                   })}
 
-                                  <TableRow>
+                                  <TableRow style={{ whiteSpace: 'nowrap' }}>
                                     <TableCell colSpan={4} style={{ padding: '2px 16px' }}>
                                       <div
                                         style={{

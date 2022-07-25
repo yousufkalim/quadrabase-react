@@ -42,7 +42,7 @@ const SubscriptionModal = (props) => {
           </label>
           <DatePicker
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
-            options={{ locale: French }}
+            options={{ locale: French, dateFormat: 'd-m-Y' }}
             value={startDate}
             onChange={(date) => {
               setStartDate(date[0]);
@@ -62,7 +62,7 @@ const SubscriptionModal = (props) => {
           </label>
           <DatePicker
             className="w-full px-3 py-2 mb-1 text-sm leading-tight text-gray-700 border rounded focus:shadow-gray-800 appearance-none focus:outline-none focus:shadow-outline"
-            options={{ minDate: startDate, locale: French }}
+            options={{ minDate: startDate, locale: French, dateFormat: 'd-m-Y' }}
             value={endDate}
             disabled={true}
           />
