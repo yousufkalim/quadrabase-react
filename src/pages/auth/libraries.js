@@ -30,7 +30,7 @@ const Libraries = () => {
     try {
       let response = await Axios({
         method: 'get',
-        url: `${baseUrl}/Families/`,
+        url: `${baseUrl}/Families/architect/getAll`,
       });
       let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
       data = data.filter((item) => {

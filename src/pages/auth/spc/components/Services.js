@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Services1 from '../assets/images/presentation/01-Routes & Autoroutes.png';
 import Services2 from '../assets/images/presentation/02-Aménagements Urbains.png';
 import Services3 from '../assets/images/presentation/03-Réseaux VRD.png';
@@ -98,13 +100,49 @@ const CustomerReviews = () => {
       items: 1,
     },
   };
+  const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
+    const {
+      carouselState: { currentSlide },
+    } = rest;
+    return (
+      <div className="carousel-button-group">
+        {' '}
+        <ChevronLeftIcon
+          className={currentSlide === 0 ? 'disable' : ''}
+          fontSize="large"
+          onClick={() => previous()}
+          style={{
+            position: 'absolute',
+            left: 30,
+            top: 160,
+            backgroundColor: 'white',
+            borderRadius: 50,
+            cursor: 'pointer',
+          }}
+        />
+        <ChevronRightIcon
+          fontSize="large"
+          onClick={() => next()}
+          style={{
+            position: 'absolute',
+            right: 30,
+            top: 160,
+            backgroundColor: 'white',
+            borderRadius: 50,
+            cursor: 'pointer',
+          }}
+        />
+      </div>
+    );
+  };
   return (
     <>
       <div className="spc_Customerreviewcaruseldiv1">
         <Carousel
           responsive={responsive}
           infinite={true}
-          arrows={true}
+          arrows={false}
+          customButtonGroup={<ButtonGroup />}
           autoPlay={true}
           className="spc_CustomerreviewCarousel"
         >

@@ -29,7 +29,6 @@ const Home = () => {
   useEffect(async () => {
     const response = await api('get', `/Subscriptions/${store?.user.subscription.id}`);
     setSubscription(response.data.subscription);
-    console.log(response, 'resp');
   }, []);
 
   useEffect(() => {
@@ -50,7 +49,6 @@ const Home = () => {
 
   const handleBuySubModal = () => setBuySubModal(!buySubModal);
 
-  console.log(store?.user.subscription, 'store?.user.subscription');
   return store?.user?.authorized.toUpperCase() === 'YES' ? (
     <div className="home-container">
       <Modal

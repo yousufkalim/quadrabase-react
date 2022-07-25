@@ -146,6 +146,7 @@
   border-radius: 20px !important;
 }
 .spc_Customerreviewcaruseldiv1 {
+  position: relative;
   width: 70% !important;
   margin: auto !important;
 }
