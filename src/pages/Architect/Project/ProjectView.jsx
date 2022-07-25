@@ -1655,7 +1655,7 @@ const ProjectView = () => {
                     </StyledMenu>
                     <TableContainer component={Paper} sx={{ height: '80%' }}>
                       <Table
-                        sx={{ width: 'auto', tableLayout: 'auto' }}
+                        sx={{ tableLayout: 'auto' }}
                         size="small"
                         stickyHeader
                         aria-label="sticky table"
