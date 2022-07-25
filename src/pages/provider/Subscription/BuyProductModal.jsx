@@ -34,7 +34,9 @@ const BuyProductModal = ({ handleBuySubModal, user }) => {
   const getProducts = async () => {
     const response = await api('get', `/Subscriptions/`);
     let data = response.data.subscription;
-    data = data.filter((item) => item.type === 'Manufacturers');
+    data = data
+      .filter((item) => item.type === 'Manufacturers')
+      .sort((a, b) => a.reference - b.reference);
     let current = data.find((item) => item._id === user.subscription.id)?._id;
 
     setProductList(data);

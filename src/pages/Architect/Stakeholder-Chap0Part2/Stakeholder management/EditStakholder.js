@@ -1,13 +1,13 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { Button, Grid } from "@mui/material";
-import { Store } from "../../../../StoreContext";
-import { toast } from "react-toastify";
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import InputDropdown from "../../../../components/Architect/InputDropdown";
-import { useStyles } from "../../../../css/addStakeholder";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { Button, Grid } from '@mui/material';
+import { Store } from '../../../../StoreContext';
+import { toast } from 'react-toastify';
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import InputDropdown from '../../../../components/Architect/InputDropdown';
+import { useStyles } from '../../../../css/addStakeholder';
+import { useTranslation } from 'react-i18next';
 
 // component
 const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
@@ -16,19 +16,19 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
   const classes = useStyles();
   // states
   const [values, setValues] = useState({
-    type: "",
-    establishment: "",
-    service: "",
-    address1: "",
-    address2: "",
-    po_box: "",
-    zipcode: "",
-    lastname: "",
-    firstname: "",
-    email: "",
-    contact_no: "",
-    entity: "",
-    city: "",
+    type: '',
+    establishment: '',
+    service: '',
+    address1: '',
+    address2: '',
+    po_box: '',
+    zipcode: '',
+    lastname: '',
+    firstname: '',
+    email: '',
+    contact_no: '',
+    entity: '',
+    city: '',
   });
   const [options, setOptions] = useState([]);
 
@@ -39,7 +39,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
 
   // func to getAll Units
   const getTypes = async () => {
-    const result = await api("get", `/StakeholderTypes/`);
+    const result = await api('get', `/StakeholderTypes/`);
     setOptions(result.data.stakeholderTypes);
   };
 
@@ -64,16 +64,25 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
 
   // handle change function
   const handleChange = (name, value) => {
-    setValues((prev) => {
-      prev[name] = value;
-      return { ...prev };
-    });
+    if (name === 'contact_no') {
+      if (value.length <= 10) {
+        setValues((prev) => {
+          prev[name] = value;
+          return { ...prev };
+        });
+      }
+    } else {
+      setValues((prev) => {
+        prev[name] = value;
+        return { ...prev };
+      });
+    }
   };
 
   // handle Submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await api("put", `/stakeholders/${stakeholder._id}`, values, t);
+    const result = await api('put', `/stakeholders/${stakeholder._id}`, values, t);
     toast.success(t(result.data.message));
     handleEditStakeholderModal();
   };
@@ -89,7 +98,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             <Grid item zeroMinWidth xs>
               <InputDropdown
                 name="type"
-                label={t("Type Of Stakeholder")}
+                label={t('Type Of Stakeholder')}
                 value={values.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
                 options={options}
@@ -101,7 +110,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Establishment")}
+                label={t('Establishment')}
                 required={true}
                 name="establishment"
                 type="text"
@@ -111,7 +120,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Service")}
+                label={t('Service')}
                 name="service"
                 type="text"
                 value={values.service}
@@ -123,7 +132,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Address 1")}
+                label={t('Address 1')}
                 required={true}
                 name="address1"
                 type="text"
@@ -133,7 +142,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Address 2")}
+                label={t('Address 2')}
                 name="address2"
                 type="text"
                 value={values.address2}
@@ -145,7 +154,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
-                label={t("BP/CS")}
+                label={t('BP/CS')}
                 name="po_box"
                 type="text"
                 value={values.po_box}
@@ -154,7 +163,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs={3}>
               <InputWithLabel
-                label={t("CP")}
+                label={t('CP')}
                 required={true}
                 name="zipcode"
                 type="number"
@@ -164,7 +173,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs={6}>
               <InputWithLabel
-                label={t("City")}
+                label={t('City')}
                 required={true}
                 name="city"
                 type="text"
@@ -177,7 +186,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Lastname")}
+                label={t('Lastname')}
                 required={true}
                 name="lastname"
                 type="text"
@@ -187,7 +196,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Firstname")}
+                label={t('Firstname')}
                 name="firstname"
                 type="text"
                 value={values.firstname}
@@ -199,7 +208,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           <Grid container spacing={2}>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Email")}
+                label={t('Email')}
                 required={true}
                 name="email"
                 type="email"
@@ -209,7 +218,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
             </Grid>
             <Grid item zeroMinWidth xs>
               <InputWithLabel
-                label={t("Telephone No")}
+                label={t('Telephone No')}
                 required={true}
                 name="contact_no"
                 type="number"
@@ -220,37 +229,37 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
           </Grid>
           <br />
           {/* register button */}
-          <div style={{ width: "100%", textAlign: "right" }}>
+          <div style={{ width: '100%', textAlign: 'right' }}>
             <Button
               variant="contained"
               sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
+                whiteSpace: 'nowrap',
+                ':hover': {
+                  backgroundColor: '#8C1244',
                 },
               }}
               onClick={handleEditStakeholderModal}
             >
-              {t("Close")}
+              {t('Close')}
             </Button>
             &nbsp;
             <Button
               variant="contained"
               sx={{
-                textTransform: "none",
-                backgroundColor: "#8C1244",
+                textTransform: 'none',
+                backgroundColor: '#8C1244',
                 borderRadius: 2,
-                whiteSpace: "nowrap",
-                ":hover": {
-                  backgroundColor: "#8C1244",
+                whiteSpace: 'nowrap',
+                ':hover': {
+                  backgroundColor: '#8C1244',
                 },
               }}
               type="submit"
             >
-              {t("Update")}
+              {t('Update')}
             </Button>
           </div>
         </form>

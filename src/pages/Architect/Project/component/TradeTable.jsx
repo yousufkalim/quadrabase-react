@@ -296,6 +296,18 @@ export default function DenseTable({
                     // eslint-disable-line no-useless-computed-key
                     width: '30vw',
                   },
+                  ['@media (max-width:1075px)']: {
+                    // eslint-disable-line no-useless-computed-key
+                    width: '28vw',
+                  },
+                  ['@media (max-width:1050px)']: {
+                    // eslint-disable-line no-useless-computed-key
+                    width: '26vw',
+                  },
+                  ['@media (max-width:1020px)']: {
+                    // eslint-disable-line no-useless-computed-key
+                    width: '24vw',
+                  },
                 }}
               >
                 <div
@@ -482,6 +494,18 @@ export default function DenseTable({
                     ['@media (max-width:1100px)']: {
                       // eslint-disable-line no-useless-computed-key
                       width: '30vw',
+                    },
+                    ['@media (max-width:1075px)']: {
+                      // eslint-disable-line no-useless-computed-key
+                      width: '28vw',
+                    },
+                    ['@media (max-width:1050px)']: {
+                      // eslint-disable-line no-useless-computed-key
+                      width: '26vw',
+                    },
+                    ['@media (max-width:1020px)']: {
+                      // eslint-disable-line no-useless-computed-key
+                      width: '24vw',
                     },
                   }}
                 >
@@ -679,6 +703,18 @@ export default function DenseTable({
                           ['@media (max-width:1100px)']: {
                             // eslint-disable-line no-useless-computed-key
                             width: '30vw',
+                          },
+                          ['@media (max-width:1075px)']: {
+                            // eslint-disable-line no-useless-computed-key
+                            width: '28vw',
+                          },
+                          ['@media (max-width:1050px)']: {
+                            // eslint-disable-line no-useless-computed-key
+                            width: '26vw',
+                          },
+                          ['@media (max-width:1020px)']: {
+                            // eslint-disable-line no-useless-computed-key
+                            width: '24vw',
                           },
                         }}
                       >
