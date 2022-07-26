@@ -1611,6 +1611,16 @@ const Register = () => {
                         </div>
                       )}
                     </div>
+                    <div
+                      style={{
+                        cursor: 'pointer',
+                        color: '#FF8616',
+                        whiteSpace: 'nowrap',
+                      }}
+                      onClick={() => history.push('/auth/cgv')}
+                    >
+                      Conditions Générales des Ventes (CGV)
+                    </div>
                   </>
                 ) : (
                   <>
@@ -1769,6 +1779,16 @@ const Register = () => {
                       >
                         Générer un devis
                       </div>
+                    </div>
+                    <div
+                      style={{
+                        cursor: 'pointer',
+                        color: '#FF8616',
+                        whiteSpace: 'nowrap',
+                      }}
+                      onClick={() => history.push('/auth/cgv')}
+                    >
+                      Conditions Générales des Ventes (CGV)
                     </div>
                   </>
                 )}

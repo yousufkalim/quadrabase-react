@@ -1,6 +1,6 @@
-import React from "react";
-import TextInput from "../../../components/TextInput";
-import RadioButton from "../../../components/RadioButton";
+import React from 'react';
+import TextInput from '../../../components/TextInput';
+import RadioButton from '../../../components/RadioButton';
 
 export default function AddExpense(props) {
   const { translate, formik } = props;
@@ -18,7 +18,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.establishment && formik.errors.establishment ? <small>{formik.errors.establishment}</small> : null}
+            {formik.touched.establishment && formik.errors.establishment ? (
+              <small>{formik.errors.establishment}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -32,7 +34,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.service && formik.errors.service ? <small>{formik.errors.service}</small> : null}
+            {formik.touched.service && formik.errors.service ? (
+              <small>{formik.errors.service}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -49,7 +53,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_1 && formik.errors.address_1 ? <small>{formik.errors.address_1}</small> : null}
+            {formik.touched.address_1 && formik.errors.address_1 ? (
+              <small>{formik.errors.address_1}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -63,7 +69,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address_2 && formik.errors.address_2 ? <small>{formik.errors.address_2}</small> : null}
+            {formik.touched.address_2 && formik.errors.address_2 ? (
+              <small>{formik.errors.address_2}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -80,7 +88,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.po_box && formik.errors.po_box ? <small>{formik.errors.po_box}</small> : null}
+            {formik.touched.po_box && formik.errors.po_box ? (
+              <small>{formik.errors.po_box}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -94,7 +104,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.postal_code && formik.errors.postal_code ? <small>{formik.errors.postal_code}</small> : null}
+            {formik.touched.postal_code && formik.errors.postal_code ? (
+              <small>{formik.errors.postal_code}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -114,6 +126,25 @@ export default function AddExpense(props) {
             {formik.touched.city && formik.errors.city ? <small>{formik.errors.city}</small> : null}
           </div>
         </div>
+        <div className="w-full md:w-1/2  px-3">
+          <TextInput
+            type="text"
+            placeholder="Email Address (Client)"
+            label="Email Address (Client)"
+            name="email_address_client"
+            translate={translate}
+            onChange={formik.handleChange}
+            value={formik.values.email_address_client}
+          />
+          <div className="text-red-600 ">
+            {formik.touched.email_address_client && formik.errors.email_address_client ? (
+              <small>{formik.errors.email_address_client}</small>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
@@ -125,12 +156,11 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.last_name && formik.errors.last_name ? <small>{formik.errors.last_name}</small> : null}
+            {formik.touched.last_name && formik.errors.last_name ? (
+              <small>{formik.errors.last_name}</small>
+            ) : null}
           </div>
         </div>
-      </div>
-
-      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
@@ -142,10 +172,13 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.first_name && formik.errors.first_name ? <small>{formik.errors.first_name}</small> : null}
+            {formik.touched.first_name && formik.errors.first_name ? (
+              <small>{formik.errors.first_name}</small>
+            ) : null}
           </div>
         </div>
-
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="text"
@@ -157,11 +190,11 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.phone && formik.errors.phone ? <small>{formik.errors.phone}</small> : null}
+            {formik.touched.phone && formik.errors.phone ? (
+              <small>{formik.errors.phone}</small>
+            ) : null}
           </div>
         </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3">
           <TextInput
             type="email"
@@ -174,9 +207,13 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : null}
+            {formik.touched.email && formik.errors.email ? (
+              <small>{formik.errors.email}</small>
+            ) : null}
           </div>
         </div>
+      </div>
+      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="password"
@@ -189,11 +226,11 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.password && formik.errors.password ? <small>{formik.errors.password}</small> : null}
+            {formik.touched.password && formik.errors.password ? (
+              <small>{formik.errors.password}</small>
+            ) : null}
           </div>
         </div>
-      </div>
-      <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <TextInput
             type="password"

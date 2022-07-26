@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import api from '../../../api';
 import { formatNumber } from '../../../utils/markThousand';
 import BasicDropdown from '../../../components/Architect/BasicDropdown';
-import InputWithOptions from '../../../components/Architect/InputWithOptions';
+import Modal from '../../../components/Architect/Modal';
+import CgvModal from '../../../components/CgvModal';
 import Button from '@mui/material/Button';
 
 const options = [
@@ -17,6 +18,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openCgvModal, setOpenCgvModal] = useState(false);
   const [selectedSubscriptions, setSelectedSubscriptions] = useState([]);
   const [subscriptionsData, setSubscriptionData] = useState([]);
   const [total, setTotal] = useState({
@@ -159,9 +161,17 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
     }
   };
 
+  const handleOpenCgvModal = () => setOpenCgvModal(!openCgvModal);
+
   return (
     !loading && (
       <div style={{ width: '35vw', maxHeight: '85vh', overflow: 'auto' }}>
+        <Modal
+          title="Conditions Générales des Ventes (CGV)"
+          open={openCgvModal}
+          onClose={handleOpenCgvModal}
+          component={<CgvModal handleOpenCgvModal={handleOpenCgvModal} />}
+        />
         <div style={{ width: '90%' }}>
           <div className="purchase-header">Commande Prescripteur</div> {/* Subscription */}
           <div>
@@ -419,6 +429,16 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                 Générer un devis
               </div>
             )}
+            <div
+              style={{
+                cursor: 'pointer',
+                color: '#FF8616',
+                whiteSpace: 'nowrap',
+              }}
+              onClick={handleOpenCgvModal}
+            >
+              Conditions Générales des Ventes (CGV)
+            </div>
           </div>
           {/* Buttons */}
           <div
