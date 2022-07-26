@@ -608,6 +608,8 @@ i18n
           Continue: 'Continue',
           'Email is required!': 'Email is required!',
           'Created successfully': 'Created successfully',
+          'Add title': 'Add title',
+          'Edit text': 'Edit text',
         },
       },
       fr: {
@@ -1201,6 +1203,8 @@ i18n
           'Price excl. VAT': 'Tarif H.T.',
           Warning: 'Avertissement',
           Continue: 'Continuer',
+          'Add title': 'Ajouter un Titre',
+          'Edit text': 'Modifier le texte',
         },
       },
     },

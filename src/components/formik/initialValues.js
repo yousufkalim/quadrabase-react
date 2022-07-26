@@ -8,6 +8,7 @@ export const ARCHITECT_STATE = {
   po_box: '',
   postal_code: '',
   city: '',
+  email_address_client: '',
   phone: '',
   client_code: '',
   first_name: '',

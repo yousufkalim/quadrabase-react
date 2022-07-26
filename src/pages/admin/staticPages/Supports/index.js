@@ -161,11 +161,11 @@ export default function Index(props) {
   return (
     <>
       <Modal
-        title="Ajouter un  Supports pédagogique"
+        title="Add title"
         open={modal}
         translate={translate}
         onClose={handleModal}
-        width="45%"
+        width="55%"
         buttonLabel="Create"
         onSubmit={formik.handleSubmit}
         component={
@@ -173,10 +173,10 @@ export default function Index(props) {
         }
       />
       <Modal
-        title="Edit Product"
+        title="Edit text"
         open={editmodal}
         translate={translate}
-        width="35%"
+        width="55%"
         onClose={handleEditModal}
         buttonLabel={t('Update')}
         onSubmit={edit_formik.handleSubmit}
@@ -211,7 +211,7 @@ export default function Index(props) {
             <h1 className="text-2xl font-bold">{translate('Supports pédagogiques')}</h1>
             <Button
               variant="outlined"
-              label="Ajouter un  Supports pédagogique"
+              label="Add title"
               onClick={handleModal}
               translate={translate}
               startIcon={<AddIcon />}

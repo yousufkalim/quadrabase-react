@@ -454,7 +454,7 @@ const ProjectView = () => {
     } else {
       const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
       setSelectedWork(work);
-      setWorkDetails(result.data.workDetails);
+      setWorkDetails(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
       setOpenWorkDetailModal(true);
     }
   };
@@ -976,6 +976,7 @@ const ProjectView = () => {
                 />
               }
             />
+            {console.log(workDetails, 'workDetails')}
             <Modal
               title={t('Select Work Details')}
               open={openWorkDetailModal}
@@ -1802,7 +1803,7 @@ const ProjectView = () => {
                                     }}
                                     align="right"
                                   >
-                                    Total HT {item2.name} :
+                                    {item2.name} Total HT :
                                   </TableCell>
                                   <TableCell
                                     component="th"
@@ -1996,7 +1997,7 @@ const ProjectView = () => {
                                                   textAlign: 'right',
                                                 }}
                                               >
-                                                Total HT {item4.name} :
+                                                {item4.name} Total HT :
                                               </div>
                                             </TableCell>
                                             <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
@@ -2025,7 +2026,7 @@ const ProjectView = () => {
                                           textAlign: 'right',
                                         }}
                                       >
-                                        Total HT {item3.name} :
+                                        {item3.name} Total HT :
                                       </div>
                                     </TableCell>
                                     <TableCell colSpan={1} style={{ padding: '2px 16px' }}>

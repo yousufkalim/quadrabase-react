@@ -35,6 +35,11 @@ export const ArchitectheadCells = [
     label: 'City',
   },
   {
+    id: 'email_address_client',
+
+    label: 'Email Address (Client)',
+  },
+  {
     id: 'last_name',
 
     label: 'Last Name',
