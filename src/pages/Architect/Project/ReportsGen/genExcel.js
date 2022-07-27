@@ -52,6 +52,13 @@ const Font1 = {
   },
 };
 
+// Styles
+const Font2 = {
+  font: {
+    italic: true,
+  },
+};
+
 const Fill1 = {
   fill: {
     fgColor: { rgb: 'FFBFBFBF' },
@@ -124,13 +131,34 @@ const BorderRestAll = {
   },
 };
 
+const textAlignment1 = {
+  alignment: {
+    horizontal: 'left',
+  },
+};
+
+const textAlignment2 = {
+  alignment: {
+    horizontal: 'center',
+  },
+};
+
+const textAlignment3 = {
+  alignment: {
+    horizontal: 'right',
+  },
+};
+
 const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const rows = rowsGenSimpleEstimation(data, noPrice);
 
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
   const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimation);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
+    footerDataFloatsArr,
+    footerColumnsSimpleEstimation
+  );
 
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedBodyData);
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
@@ -145,19 +173,40 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   let stopAt;
 
   // Header row style
-  applyRowStyle(ws, cursor, { ...Fill1, ...BorderFirst2 });
+  applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
 
   // Apply styling to body
   stopAt = rows.length + cursor + 1;
   for (let i = cursor + 1; i < stopAt; i++) {
-    applyRowStyle(ws, i, BorderRestAll);
+    applyRowStyle(
+      ws,
+      i,
+      BorderRestAll,
+      'WorkAndWorkDetail3',
+      {
+        ...Font2,
+        ...BorderRestAll,
+      },
+      {
+        ...textAlignment2,
+        ...BorderRestAll,
+      },
+      {
+        ...textAlignment3,
+        ...BorderRestAll,
+      }
+    );
     cursor = cursor + 1;
   }
 
   // Apply styling to footer
   stopAt = footerDataFloatsArr.length + cursor + 1;
   for (let i = cursor + 1; i < stopAt; i++) {
-    applyRowStyle(ws, i, { ...Font1, ...BorderFirst2 });
+    applyRowStyle(ws, i, { ...textAlignment3, ...Font1, ...BorderFirst2 });
   }
 
   // Make merger object
@@ -181,7 +230,9 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }.xlsx`;
   return { blob, filename };
 };
 
@@ -192,7 +243,10 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   let xlsxParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
+    footerDataFloatsArr,
+    footerColumnsSimpleEstimationNoSpace
+  );
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
@@ -212,7 +266,11 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const merge = [];
 
   // Header row style
-  applyRowStyle(ws, cursor, { ...Fill1, ...BorderFirst2 });
+  applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
   cursor = cursor + 1;
 
   // Trades styling
@@ -224,11 +282,28 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     const workAndWorkDetailsRows = tradeRow.rows;
     for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
       // WorkAndWorkDetail row style
-      applyRowStyle(ws, cursor, BorderRestAll);
+      applyRowStyle(
+        ws,
+        cursor,
+        BorderRestAll,
+        'WorkAndWorkDetail2',
+        {
+          ...Font2,
+          ...BorderRestAll,
+        },
+        {
+          ...textAlignment2,
+          ...BorderRestAll,
+        },
+        {
+          ...textAlignment3,
+          ...BorderRestAll,
+        }
+      );
       cursor = cursor + 1;
     }
     // Trade total row style
-    applyRowStyle(ws, cursor, { ...Fill5, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
       e: { r: cursor - 1, c: 4 },
@@ -248,7 +323,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   // Apply styling to footer
   stopAt = footerDataFloatsArr.length + cursor;
   for (let i = cursor; i < stopAt; i++) {
-    applyRowStyle(ws, i, { ...Font1, ...BorderFirst2 });
+    applyRowStyle(ws, i, { ...textAlignment3, ...Font1, ...BorderFirst2 });
   }
 
   // Merge footer cells - Merge must be done after styling
@@ -261,7 +336,9 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }.xlsx`;
   return { blob, filename };
 };
 
@@ -271,12 +348,23 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
   let xlsxParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
+    data,
+    currentProject,
+    noPrice,
+    false
+  );
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
+    footerDataFloatsArr,
+    footerColumnsSimpleEstimationNoSpace
+  );
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1
+    );
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -292,7 +380,11 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const merge = [];
 
   // Header row style
-  applyRowStyle(ws, cursor, { ...Fill1, ...BorderFirst2 });
+  applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
   cursor = cursor + 1;
 
   // Trades styling
@@ -305,16 +397,33 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     for (let j = 0; j < trancheRows.length; j++) {
       const tranchRow = trancheRows[j];
       // Tranch label row style
-      applyRowStyle(ws, cursor, { ...Fill3, ...BorderFirst2 });
+      applyRowStyle(ws, cursor, { ...Font1, ...Fill3, ...BorderFirst2 });
       cursor = cursor + 1;
       const workAndWorkDetailsRows = tranchRow.rows;
       for (let k = 0; k < workAndWorkDetailsRows.length; k++) {
         // WorkAndWorkDetail row style
-        applyRowStyle(ws, cursor, BorderRestAll);
+        applyRowStyle(
+          ws,
+          cursor,
+          BorderRestAll,
+          'WorkAndWorkDetail',
+          {
+            ...Font2,
+            ...BorderRestAll,
+          },
+          {
+            ...textAlignment2,
+            ...BorderRestAll,
+          },
+          {
+            ...textAlignment3,
+            ...BorderRestAll,
+          }
+        );
         cursor = cursor + 1;
       }
       // Tranch total row style
-      applyRowStyle(ws, cursor, { ...Fill4, ...BorderFirst2 });
+      applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill4, ...BorderFirst2 });
       merge.push({
         s: { r: cursor - 1, c: 1 },
         e: { r: cursor - 1, c: 4 },
@@ -322,7 +431,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
       cursor = cursor + 1;
     }
     // Trade total row style
-    applyRowStyle(ws, cursor, { ...Fill5, ...BorderFirst2 });
+    applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
       e: { r: cursor - 1, c: 4 },
@@ -342,7 +451,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   // Apply styling to footer
   stopAt = footerDataFloatsArr.length + cursor;
   for (let i = cursor; i < stopAt; i++) {
-    applyRowStyle(ws, i, { ...Font1, ...BorderFirst2 });
+    applyRowStyle(ws, i, { ...textAlignment3, ...Font1, ...BorderFirst2 });
   }
 
   // Merge footer cells - Merge must be done after styling
@@ -355,15 +464,91 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }.xlsx`;
   return { blob, filename };
 };
 
-function applyRowStyle(ws, rownum, style) {
+function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
+  let rowType = 'trade';
   for (let i = 0; i < dataColumnsEstimation.length; i++) {
     let char = ABC[i];
-    ws[`${char}${rownum}`].s = style;
+    if (type === 'header') {
+      if (i === 0 || i === 1) {
+        ws[`${char}${rownum}`].s = style;
+      } else {
+        ws[`${char}${rownum}`].s = style2;
+      }
+    } else if (
+      type === 'WorkAndWorkDetail' ||
+      type === 'WorkAndWorkDetail2' ||
+      type === 'WorkAndWorkDetail3'
+    ) {
+      if (char === 'A') {
+        if (type === 'WorkAndWorkDetail') {
+          if (ws[`${char}${rownum}`].v.length >= 7) {
+            rowType = 'tranch';
+          } else {
+            rowType = 'trade';
+          }
+        } else if (type === 'WorkAndWorkDetail2') {
+          if (ws[`${char}${rownum}`].v.length >= 5) {
+            rowType = 'tranch';
+          } else {
+            rowType = 'trade';
+          }
+        } else if (type === 'WorkAndWorkDetail3') {
+          if (ws[`${char}${rownum}`].v.length >= 3) {
+            rowType = 'tranch';
+          } else {
+            rowType = 'trade';
+          }
+        }
+      }
+      if (rowType === 'tranch') {
+        if (char === 'B') {
+          ws[`${char}${rownum}`].v = `  ${ws[`${char}${rownum}`].v}`;
+          ws[`${char}${rownum}`].s = style2;
+        } else if (char === 'A') {
+          ws[`${char}${rownum}`].s = style2;
+        } else if (char === 'C') {
+          ws[`${char}${rownum}`].s = style3;
+        } else {
+          ws[`${char}${rownum}`].s = style4;
+        }
+      } else {
+        if (char === 'A' || char === 'B') {
+          ws[`${char}${rownum}`].s = style;
+        } else if (char === 'C') {
+          ws[`${char}${rownum}`].s = style3;
+        } else {
+          if (type === 'WorkAndWorkDetail') {
+            if (ws[`A${rownum + 1}`].v.length >= 7) {
+              ws[`${char}${rownum}`].v = ``;
+            }
+            ws[`${char}${rownum}`].s = style4;
+          } else if (type === 'WorkAndWorkDetail2') {
+            if (ws[`A${rownum + 1}`].v.length >= 5) {
+              ws[`${char}${rownum}`].v = ``;
+            }
+            ws[`${char}${rownum}`].s = style4;
+          } else if (type === 'WorkAndWorkDetail3') {
+            if (ws[`A${rownum + 1}`].v.length >= 3) {
+              ws[`${char}${rownum}`].v = ``;
+            }
+            ws[`${char}${rownum}`].s = style4;
+          }
+        }
+      }
+    } else {
+      ws[`${char}${rownum}`].s = style;
+    }
   }
 }
 
-export { exportXLSXSimpleEstimation, exportXLSXTradesEstimation, exportXLSXTradesAndTranchesEstimation };
+export {
+  exportXLSXSimpleEstimation,
+  exportXLSXTradesEstimation,
+  exportXLSXTradesAndTranchesEstimation,
+};

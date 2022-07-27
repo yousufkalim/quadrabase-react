@@ -73,7 +73,7 @@ function EnhancedTableHead(props) {
           props.headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={'center'}
+              align={headCell.label === 'supportTitle' ? 'left' : 'center'}
               // padding={headCell.disablePadding ? "none" : "normal"}
               padding={'normal'}
               sortDirection={orderBy === headCell.id ? order : false}
@@ -83,7 +83,11 @@ function EnhancedTableHead(props) {
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
-                {props.translate ? props.translate(`${headCell.label}`) : headCell.label}
+                {props.translate
+                  ? props.translate(
+                      `${headCell.label === 'supportTitle' ? 'Title' : headCell.label}`
+                    )
+                  : headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -211,7 +215,7 @@ export default function EnhancedTable(props) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer sx={{maxHeight:"75vh"}}>
+        <TableContainer sx={{ maxHeight: '75vh' }}>
           <Table sx={{ width: '100%' }} stickyHeader aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
@@ -341,6 +345,10 @@ export default function EnhancedTable(props) {
                         ) : record == 'productPrice' ? (
                           <TableCell align="center" title={row?.reference?.title}>
                             {formatNumber(parseFloat(row.price).toFixed(2).toString(), '.')}
+                          </TableCell>
+                        ) : record == 'supportTitle' ? (
+                          <TableCell align="left" title={row?.title}>
+                            {row?.title}
                           </TableCell>
                         ) : (
                           <TableCell key={index} align="center" title={row[record]}>

@@ -260,6 +260,7 @@ export default function DenseTable({
                   display: 'flex',
                   alignItems: 'center',
                   padding: '2px 16px',
+                  fontSize: 15,
                   ['@media (max-width:1665px)']: {
                     // eslint-disable-line no-useless-computed-key
                     width: '50vw',
@@ -412,6 +413,7 @@ export default function DenseTable({
                   borderRight: '1px solid lightgray',
                   width: '4vw',
                   padding: '2px 16px',
+                  fontSize: 15,
                 }}
               >
                 {row?.unit?.symbol}
@@ -422,6 +424,7 @@ export default function DenseTable({
                   borderRight: '1px solid lightgray',
                   width: '6vw',
                   padding: '2px 16px',
+                  fontSize: 15,
                 }}
               >
                 {formatNumber(parseFloat(row.quantity).toFixed(2), '.')}
@@ -432,6 +435,7 @@ export default function DenseTable({
                   borderRight: '1px solid lightgray',
                   width: '6vw',
                   padding: '2px 16px',
+                  fontSize: 15,
                 }}
               >
                 {formatNumber(parseFloat(row.unit_price).toFixed(2))}
@@ -442,6 +446,7 @@ export default function DenseTable({
                   borderRight: '1px solid lightgray',
                   width: '6vw',
                   padding: '2px 16px',
+                  fontSize: 15,
                 }}
               >
                 {formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
@@ -459,6 +464,7 @@ export default function DenseTable({
                     display: 'flex',
                     alignItems: 'center',
                     padding: '2px 16px',
+                    fontSize: 15,
                     ['@media (max-width:1665px)']: {
                       // eslint-disable-line no-useless-computed-key
                       width: '50vw',
@@ -618,6 +624,7 @@ export default function DenseTable({
                     borderRight: '1px solid lightgray',
                     width: '4vw',
                     padding: '2px 16px',
+                    fontSize: 15,
                   }}
                 >
                   {row?.unit?.symbol}
@@ -628,6 +635,7 @@ export default function DenseTable({
                     borderRight: '1px solid lightgray',
                     width: '6vw',
                     padding: '2px 16px',
+                    fontSize: 15,
                   }}
                 >
                   {row.quantity && formatNumber(parseFloat(row.quantity).toFixed(2), '.')}
@@ -638,6 +646,7 @@ export default function DenseTable({
                     borderRight: '1px solid lightgray',
                     width: '6vw',
                     padding: '2px 16px',
+                    fontSize: 15,
                   }}
                 >
                   {row.unit_price && formatNumber(parseFloat(row.unit_price).toFixed(2))}
@@ -648,6 +657,7 @@ export default function DenseTable({
                     borderRight: '1px solid lightgray',
                     width: '6vw',
                     padding: '2px 16px',
+                    fontSize: 15,
                   }}
                 >
                   {row.unit_price &&
@@ -668,6 +678,7 @@ export default function DenseTable({
                           display: 'flex',
                           alignItems: 'center',
                           padding: '2px 16px',
+                          fontSize: 15,
                           ['@media (max-width:1665px)']: {
                             // eslint-disable-line no-useless-computed-key
                             width: '50vw',
@@ -819,6 +830,7 @@ export default function DenseTable({
                           borderRight: '1px solid lightgray',
                           width: '4vw',
                           padding: '2px 16px',
+                          fontSize: 15,
                         }}
                       >
                         {row2?.unit?.symbol}
@@ -829,6 +841,7 @@ export default function DenseTable({
                           borderRight: '1px solid lightgray',
                           width: '6vw',
                           padding: '2px 16px',
+                          fontSize: 15,
                         }}
                       >
                         {formatNumber(parseFloat(row2.quantity).toFixed(2), '.')}
@@ -840,6 +853,7 @@ export default function DenseTable({
                           width: '6vw',
                           padding: '2px 16px',
                           whiteSpace: 'nowrap',
+                          fontSize: 15,
                         }}
                       >
                         {formatNumber(parseFloat(row2.unit_price).toFixed(2))}
@@ -850,6 +864,7 @@ export default function DenseTable({
                           borderRight: '1px solid lightgray',
                           width: '6vw',
                           padding: '2px 16px',
+                          fontSize: 15,
                         }}
                       >
                         {formatNumber(parseFloat(row2.quantity * row2.unit_price).toFixed(2))}
