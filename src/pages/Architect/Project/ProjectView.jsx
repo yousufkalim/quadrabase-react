@@ -1654,7 +1654,7 @@ const ProjectView = () => {
                         {t('Down')}
                       </MenuItem>
                     </StyledMenu>
-                    <TableContainer component={Paper} sx={{ height: '80%' }}>
+                    <TableContainer component={Paper} sx={{ height: '85%' }}>
                       <Table
                         sx={{ tableLayout: 'auto' }}
                         size="small"
@@ -1800,6 +1800,7 @@ const ProjectView = () => {
                                     style={{
                                       padding: '2px 16px',
                                       fontWeight: 600,
+                                      fontSize: 16,
                                     }}
                                     align="right"
                                   >
@@ -1812,6 +1813,7 @@ const ProjectView = () => {
                                     style={{
                                       padding: '2px 16px',
                                       fontWeight: 600,
+                                      fontSize: 16,
                                     }}
                                     align="right"
                                   >
@@ -1989,7 +1991,10 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell colSpan={4} style={{ padding: '2px 16px' }}>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ padding: '2px 16px', fontSize: 16 }}
+                                            >
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2006,6 +2011,7 @@ const ProjectView = () => {
                                                   width: '100%',
                                                   fontWeight: 600,
                                                   textAlign: 'right',
+                                                  fontSize: 16,
                                                 }}
                                               >
                                                 {formatNumber(tranchTotalAmount.toFixed(2))}
@@ -2024,6 +2030,7 @@ const ProjectView = () => {
                                           width: '100%',
                                           fontWeight: 600,
                                           textAlign: 'right',
+                                          fontSize: 16,
                                         }}
                                       >
                                         {item3.name} Total HT :
@@ -2035,6 +2042,7 @@ const ProjectView = () => {
                                           width: '100%',
                                           fontWeight: 600,
                                           textAlign: 'right',
+                                          fontSize: 16,
                                         }}
                                       >
                                         {tradeTotalIndex !== -1
@@ -2064,7 +2072,7 @@ const ProjectView = () => {
                     </TableContainer>
                     <div
                       style={{
-                        height: '20%',
+                        height: '15%',
                       }}
                     >
                       <Divider style={{ backgroundColor: 'lightgray' }} />

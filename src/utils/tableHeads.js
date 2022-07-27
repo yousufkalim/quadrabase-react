@@ -137,9 +137,9 @@ export const AdminheadCells = [
 
 export const SupportheadCells = [
   {
-    id: 'title',
+    id: 'supportTitle',
 
-    label: 'Title',
+    label: 'supportTitle',
   },
   {
     id: 'action',
