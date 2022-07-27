@@ -976,7 +976,6 @@ const ProjectView = () => {
                 />
               }
             />
-            {console.log(workDetails, 'workDetails')}
             <Modal
               title={t('Select Work Details')}
               open={openWorkDetailModal}
