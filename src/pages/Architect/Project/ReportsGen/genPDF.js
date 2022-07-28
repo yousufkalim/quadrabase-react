@@ -43,7 +43,9 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
 
   const obj = {
     blob,
@@ -73,13 +75,16 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
     bodyValuesArr: pdfParsedData,
     footerKeysArr: footerColumnsSimpleEstimationNoSpace,
     footerValuesArr: footerDataFloatsArr,
+    type: 'trades',
   };
 
   const response = await api('post', `/Reports/tt_estimation`, body);
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
 
   const obj = {
     blob,
@@ -96,7 +101,12 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
   let pdfParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
+    data,
+    currentProject,
+    noPrice,
+    false
+  );
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
@@ -110,13 +120,16 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
     bodyValuesArr: pdfParsedData,
     footerKeysArr: footerColumnsSimpleEstimationNoSpace,
     footerValuesArr: footerDataFloatsArr,
+    type: 'tranches',
   };
 
   const response = await api('post', `/Reports/tt_estimation`, body);
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
 
   const obj = {
     blob,
@@ -128,7 +141,7 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
 
 async function exportPDFSimpleBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenSimpleBPU(data);
+  const pdfParsedData = rowsGenSimpleBPU(data, 'pdf');
 
   for (let i = 0; i < pdfParsedData.length; i++) {
     const work = pdfParsedData[i];
@@ -162,7 +175,7 @@ async function exportPDFSimpleBPU(data, currentProject) {
 
 async function exportPDFTradesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenTradesBPU(data);
+  const pdfParsedData = rowsGenTradesBPU(data, 'pdf');
 
   const pdfHTMLData = [];
   for (let i = 0; i < pdfParsedData.length; i++) {
@@ -190,6 +203,7 @@ async function exportPDFTradesBPU(data, currentProject) {
   const body = {
     headerArr: headArr,
     bodyValuesArr: pdfHTMLData,
+    type: 'trades',
   };
 
   const response = await api('post', `/Reports/bpu`, body);
@@ -208,7 +222,7 @@ async function exportPDFTradesBPU(data, currentProject) {
 
 async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenTradesAndTranchesBPU(data);
+  const pdfParsedData = rowsGenTradesAndTranchesBPU(data, 'pdf');
 
   const pdfHTMLData = [];
   for (let i = 0; i < pdfParsedData.length; i++) {
@@ -246,6 +260,7 @@ async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const body = {
     headerArr: headArr,
     bodyValuesArr: pdfHTMLData,
+    type: 'tranches',
   };
 
   const response = await api('post', `/Reports/bpu`, body);
@@ -563,7 +578,9 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
 
 function _parseChap0part1(part1) {
   let str = '';
-  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
+  str = str.concat(
+    `<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`
+  );
   str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 1</strong><br></p>`);
   str = str.concat(`<p><strong>Nom du Projet:</strong> ${part1.name}</p>`);
   str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong> ${part1.client}</p>`);

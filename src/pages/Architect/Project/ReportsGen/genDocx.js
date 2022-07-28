@@ -73,11 +73,12 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.START,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[0],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -116,11 +117,12 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.END,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[2],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -143,28 +145,22 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.CENTER,
+          alignment: i === 0 || i === 1 ? AlignmentType.LEFT : AlignmentType.CENTER,
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
-              size: 26,
+              size: 22,
+              bold: 'true',
             }),
           ],
         }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      margins: normalMargin,
       shading: {
         fill: '#DCDADA',
       },
+      columnSpan: i === 1 && 2,
     });
 
     tableBodyColumns.push(tableCell);
@@ -179,14 +175,28 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       const tableCell = new TableCell({
         children: [
           new Paragraph({
-            text: `${currentRow[j]}`,
-            alignment: AlignmentType.START,
+            alignment:
+              j === 0 || j === 1
+                ? currentRow[0].length === 0
+                  ? AlignmentType.RIGHT
+                  : AlignmentType.LEFT
+                : j === 2
+                ? AlignmentType.CENTER
+                : AlignmentType.RIGHT,
+            children: [
+              new TextRun({
+                text:
+                  currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                size: 16,
+                italics: currentRow[0].length === 3 && (j === 1 || j === 0) ? true : false,
+              }),
+            ],
           }),
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
         shading: i == 0 ? firstRowShade : null,
-        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
+        columnSpan: j === 1 && 2,
       });
       tableRowCells.push(tableCell);
     }
@@ -215,7 +225,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
     const tableCell1 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimation[i],
@@ -232,7 +242,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
     const tableCell2 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: `${footerData[i]}`,
@@ -277,7 +287,9 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
   return { blob, filename };
 }
 
@@ -304,11 +316,12 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.START,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[0],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -347,11 +360,12 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.END,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[2],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -374,28 +388,22 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
     const tableCell = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.CENTER,
+          alignment: i === 0 || i === 1 ? AlignmentType.LEFT : AlignmentType.CENTER,
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
-              size: 26,
+              size: 22,
+              bold: true,
             }),
           ],
         }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      margins: normalMargin,
       shading: {
         fill: '#DCDADA',
       },
+      columnSpan: i === 1 && 2,
     });
 
     tableBodyColumns.push(tableCell);
@@ -406,19 +414,68 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      const tableCell = new TableCell({
-        children: [
-          new Paragraph({
-            text: `${currentRow[j]}`,
-            alignment: AlignmentType.START,
-          }),
-        ],
-        verticalAlign: VerticalAlign.CENTER,
-        margins: normalMargin,
-        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
-      });
-      tableRowCells.push(tableCell);
+    if (currentRow[0].length === 0) {
+      for (let j = 0; j < currentRow.length; j++) {
+        if (j === 0 || j === 1 || j === currentRow.length - 1) {
+          const tableCell = new TableCell({
+            children: [
+              new Paragraph({
+                alignment:
+                  j === 0 || j === 1
+                    ? currentRow[0].length === 0
+                      ? AlignmentType.RIGHT
+                      : AlignmentType.LEFT
+                    : j === 2
+                    ? AlignmentType.CENTER
+                    : AlignmentType.RIGHT,
+                children: [
+                  new TextRun({
+                    text: `${currentRow[j]}`,
+                    size: 16,
+                    bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
+                  }),
+                ],
+              }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+            margins: normalMargin,
+            columnSpan: j === 1 && 5,
+          });
+          tableRowCells.push(tableCell);
+        }
+      }
+    } else {
+      for (let j = 0; j < currentRow.length; j++) {
+        const tableCell = new TableCell({
+          children: [
+            new Paragraph({
+              alignment:
+                j === 0 || j === 1
+                  ? currentRow[0].length === 0
+                    ? AlignmentType.RIGHT
+                    : AlignmentType.LEFT
+                  : j === 2
+                  ? AlignmentType.CENTER
+                  : AlignmentType.RIGHT,
+              children: [
+                new TextRun({
+                  text:
+                    currentRow[0].length === 5 && j === 1
+                      ? `  ${currentRow[j]}`
+                      : `${currentRow[j]}`,
+                  size: 16,
+                  italics: currentRow[0].length === 5 && (j === 1 || j === 0) ? true : false,
+                  bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
+                }),
+              ],
+            }),
+          ],
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+          columnSpan: j === 1 && 2,
+        });
+        tableRowCells.push(tableCell);
+      }
     }
     const tableRow = new TableRow({
       children: tableRowCells,
@@ -448,7 +505,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
     const tableCell1 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimationNoSpace[i],
@@ -465,7 +522,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
     const tableCell2 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: `${footerData[i]}`,
@@ -510,7 +567,9 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
   return { blob, filename };
 }
 
@@ -524,7 +583,10 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1
+    );
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -537,11 +599,12 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.START,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[0],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -580,11 +643,12 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
             new TableCell({
               children: [
                 new Paragraph({
-                  alignment: AlignmentType.END,
+                  alignment: AlignmentType.CENTER,
                   children: [
                     new TextRun({
                       text: headArr[2],
                       size: 22,
+                      bold: true,
                     }),
                   ],
                 }),
@@ -607,28 +671,22 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     const tableCell = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.CENTER,
+          alignment: i === 0 || i === 1 ? AlignmentType.LEFT : AlignmentType.CENTER,
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
-              size: 26,
+              size: 22,
+              bold: true,
             }),
           ],
         }),
       ],
       verticalAlign: VerticalAlign.CENTER,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      margins: normalMargin,
       shading: {
         fill: '#DCDADA',
       },
+      columnSpan: i === 1 && 2,
     });
 
     tableBodyColumns.push(tableCell);
@@ -639,19 +697,78 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
-    for (let j = 0; j < currentRow.length; j++) {
-      const tableCell = new TableCell({
-        children: [
-          new Paragraph({
-            text: `${currentRow[j]}`,
-            alignment: AlignmentType.START,
-          }),
-        ],
-        verticalAlign: VerticalAlign.CENTER,
-        margins: normalMargin,
-        width: j == 1 ? { size: 100, type: WidthType.PERCENTAGE } : undefined,
-      });
-      tableRowCells.push(tableCell);
+    if (currentRow[0].length === 0) {
+      for (let j = 0; j < currentRow.length; j++) {
+        if (j === 0 || j === 1 || j === currentRow.length - 1) {
+          const tableCell = new TableCell({
+            children: [
+              new Paragraph({
+                alignment:
+                  j === 0 || j === 1
+                    ? currentRow[0].length === 0
+                      ? AlignmentType.RIGHT
+                      : AlignmentType.LEFT
+                    : j === 2
+                    ? AlignmentType.CENTER
+                    : AlignmentType.RIGHT,
+                children: [
+                  new TextRun({
+                    text: `${currentRow[j]}`,
+                    size: 16,
+                    bold:
+                      currentRow[0].length === 1 ||
+                      currentRow[0].length === 3 ||
+                      currentRow[0].length === 0
+                        ? true
+                        : false,
+                  }),
+                ],
+              }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+            margins: normalMargin,
+            columnSpan: j === 1 && 5,
+          });
+          tableRowCells.push(tableCell);
+        }
+      }
+    } else {
+      for (let j = 0; j < currentRow.length; j++) {
+        const tableCell = new TableCell({
+          children: [
+            new Paragraph({
+              alignment:
+                j === 0 || j === 1
+                  ? currentRow[0].length === 0
+                    ? AlignmentType.RIGHT
+                    : AlignmentType.LEFT
+                  : j === 2
+                  ? AlignmentType.CENTER
+                  : AlignmentType.RIGHT,
+              children: [
+                new TextRun({
+                  text:
+                    currentRow[0].length === 7 && j === 1
+                      ? `  ${currentRow[j]}`
+                      : `${currentRow[j]}`,
+                  size: 16,
+                  italics: currentRow[0].length === 7 && (j === 1 || j === 0) ? true : false,
+                  bold:
+                    currentRow[0].length === 1 ||
+                    currentRow[0].length === 3 ||
+                    currentRow[0].length === 0
+                      ? true
+                      : false,
+                }),
+              ],
+            }),
+          ],
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+          columnSpan: j === 1 && 2,
+        });
+        tableRowCells.push(tableCell);
+      }
     }
     const tableRow = new TableRow({
       children: tableRowCells,
@@ -681,7 +798,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     const tableCell1 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimationNoSpace[i],
@@ -698,7 +815,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     const tableCell2 = new TableCell({
       children: [
         new Paragraph({
-          alignment: AlignmentType.END,
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: footerData[i],
@@ -743,7 +860,9 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estimation'
+  }`;
   return { blob, filename };
 }
 
@@ -841,7 +960,11 @@ async function exportDOCXTradesBPU(data, currentProject) {
         const workCurrentRow = work[k];
         let docxObjs;
         if (k == 1) {
-          docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+          docxObjs = [
+            l0Text(workCurrentRow.title, true),
+            l0Text(''),
+            ...textRunsSplitGen(workCurrentRow.text, ln1Font),
+          ];
         } else {
           docxObjs = [l0Text(workCurrentRow)];
         }
@@ -939,7 +1062,12 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           const workCurrentRow = work[l];
           let docxObjs;
           if (l == 1) {
-            docxObjs = [l0Text(workCurrentRow.title, true), l0Text(''), ...textRunsSplitGen(workCurrentRow.text, ln1Font)];
+            docxObjs = [
+              l0Text(workCurrentRow.title, true),
+              l0Text(''),
+              ...textRunsSplitGen(workCurrentRow.text, ln1Font),
+              l0Text(''),
+            ];
           } else {
             docxObjs = [l0Text(workCurrentRow)];
           }

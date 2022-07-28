@@ -16,7 +16,11 @@ import {
   exportXLSXTradesEstimation,
   exportXLSXTradesAndTranchesEstimation,
 } from '../ReportsGen/genExcel';
-import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from '../ReportsGen/genPDF';
+import {
+  exportPDFSimpleEstimation,
+  exportPDFTradesEstimation,
+  exportPDFTradesAndTranchesEstimation,
+} from '../ReportsGen/genPDF';
 import {
   exportDOCXSimpleEstimation,
   exportDOCXTradesEstimation,
@@ -27,7 +31,6 @@ import { downloadBlob } from '../ReportsGen/data';
 import { toast } from 'react-toastify';
 
 function ReportEstimationModal(props) {
-  console.log('1', 'XYZ');
   const { projectWorkData, currentProject, viewBlob, viewFileName, onClose } = props;
 
   const [pdfs, setPdfs] = useState([]);
@@ -83,7 +86,6 @@ function ReportEstimationModal(props) {
   }
 
   async function generateWord() {
-    console.log('2', 'XYZ');
     try {
       let res;
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
