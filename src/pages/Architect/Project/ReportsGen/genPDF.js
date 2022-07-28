@@ -141,7 +141,7 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
 
 async function exportPDFSimpleBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenSimpleBPU(data);
+  const pdfParsedData = rowsGenSimpleBPU(data, 'pdf');
 
   for (let i = 0; i < pdfParsedData.length; i++) {
     const work = pdfParsedData[i];
@@ -175,7 +175,7 @@ async function exportPDFSimpleBPU(data, currentProject) {
 
 async function exportPDFTradesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenTradesBPU(data);
+  const pdfParsedData = rowsGenTradesBPU(data, 'pdf');
 
   const pdfHTMLData = [];
   for (let i = 0; i < pdfParsedData.length; i++) {
@@ -222,7 +222,7 @@ async function exportPDFTradesBPU(data, currentProject) {
 
 async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const headArr = headGen('BPU', `${currentProject?.name ?? 'N/A'}`);
-  const pdfParsedData = rowsGenTradesAndTranchesBPU(data);
+  const pdfParsedData = rowsGenTradesAndTranchesBPU(data, 'pdf');
 
   const pdfHTMLData = [];
   for (let i = 0; i < pdfParsedData.length; i++) {

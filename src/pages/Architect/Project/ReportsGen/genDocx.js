@@ -1066,6 +1066,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
               l0Text(workCurrentRow.title, true),
               l0Text(''),
               ...textRunsSplitGen(workCurrentRow.text, ln1Font),
+              l0Text(''),
             ];
           } else {
             docxObjs = [l0Text(workCurrentRow)];

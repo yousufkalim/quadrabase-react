@@ -998,7 +998,7 @@ const calculateWSCols = (arr) => {
   return wscols;
 };
 
-function rowsGenSimpleBPU(data) {
+function rowsGenSimpleBPU(data, type) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -1012,14 +1012,16 @@ function rowsGenSimpleBPU(data) {
       text: data[i].work.bpu_text[0],
     };
     arr.push(obj);
-    arr.push(data[i].work.unit_price ? 'PU HT \n(en chiffres)' : '');
+    arr.push(
+      data[i].work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
+    );
     rows.push(arr);
   }
 
   return rows;
 }
 
-function rowsGenTradesBPU(data) {
+function rowsGenTradesBPU(data, type) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -1041,7 +1043,9 @@ function rowsGenTradesBPU(data) {
         text: currentObj.work.bpu_text[0],
       };
       arr.push(obj);
-      arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
+      arr.push(
+        currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
+      );
       tradeObj.arr.push(arr);
     }
     rows.push(tradeObj);
@@ -1050,7 +1054,7 @@ function rowsGenTradesBPU(data) {
   return rows;
 }
 
-function rowsGenTradesAndTranchesBPU(data) {
+function rowsGenTradesAndTranchesBPU(data, type) {
   const rows = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -1079,7 +1083,9 @@ function rowsGenTradesAndTranchesBPU(data) {
           text: currentObj.work.bpu_text[0],
         };
         arr.push(obj);
-        arr.push(currentObj.work.unit_price ? 'PU HT \n(en chiffres)' : '');
+        arr.push(
+          currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
+        );
         tranchObj.arr.push(arr);
       }
       tradeObj.arr.push(tranchObj);
