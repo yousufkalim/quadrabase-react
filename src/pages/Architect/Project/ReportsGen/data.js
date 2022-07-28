@@ -644,7 +644,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Total HT Tranche:`;
+        trancheTotalHTObj[j] = `Total ${trade.rows[i].tranch}:`;
       } else if (j == 5) {
         trancheTotalHTObj[j] = trancheTotalHT ?? '';
       } else {
@@ -666,9 +666,9 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Total HT Lot:`;
+      tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = tradeTotal;
+      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2));
     } else {
       tradeTotalHTObj[j] = '';
     }
