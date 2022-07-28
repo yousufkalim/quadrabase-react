@@ -203,6 +203,7 @@ async function exportPDFTradesBPU(data, currentProject) {
   const body = {
     headerArr: headArr,
     bodyValuesArr: pdfHTMLData,
+    type: 'trades',
   };
 
   const response = await api('post', `/Reports/bpu`, body);
@@ -259,6 +260,7 @@ async function exportPDFTradesAndTranchesBPU(data, currentProject) {
   const body = {
     headerArr: headArr,
     bodyValuesArr: pdfHTMLData,
+    type: 'tranches',
   };
 
   const response = await api('post', `/Reports/bpu`, body);
