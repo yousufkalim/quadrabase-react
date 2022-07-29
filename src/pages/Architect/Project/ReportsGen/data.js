@@ -105,9 +105,21 @@ function rowsGenTradesDPGF(data) {
     // Trade for loop
     const tradeTitle = data[i]._id;
     const tradeData = data[i].data;
-    const workAndDetailsRows = [];
+    let workAndDetailsRows = [];
     const tradeObj = {};
     rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`);
+    let number = 1;
+    let prevWork;
+    workAndDetailsRows = workAndDetailsRows.map((item, index) => {
+      if (typeof item[1] === 'string') {
+        item[0] = `${prevWork}.${number}`;
+        number += 1;
+      } else {
+        number = 1;
+        prevWork = item[0];
+      }
+      return item;
+    });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
     rows.push(tradeObj);
@@ -129,9 +141,21 @@ function rowsGenTradesAndTranchesDPGF(data) {
       // Tranch for loop
       const tranchTitle = tradeData[j].tranch;
       const tranchDataArr = tradeData[j].tranchData;
-      const workAndDetailsRows = [];
+      let workAndDetailsRows = [];
       const tranchObj = {};
       rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`);
+      let number = 1;
+      let prevWork;
+      workAndDetailsRows = workAndDetailsRows.map((item, index) => {
+        if (typeof item[1] === 'string') {
+          item[0] = `${prevWork}.${number}`;
+          number += 1;
+        } else {
+          number = 1;
+          prevWork = item[0];
+        }
+        return item;
+      });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
       tranchesRows.push(tranchObj);
@@ -237,8 +261,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         bpu: data[i].work.bpu_text[0],
       };
       arr.push(obj);
-      arr.push(data[i].workUnit?.name ?? '');
-      arr.push(data[i].work?.quantity ?? '');
+      arr.push(data[i].workUnit?.symbol ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
       arr.push('');
       arr.push('');
 
@@ -249,8 +273,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
-        arrD.push(data[i].workDetailsUnit.name);
-        arrD.push(data[i].workDetails.quantity);
+        arrD.push(data[i].workDetailsUnit.symbol);
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
         arrD.push('');
         arrD.push('');
 
@@ -261,8 +285,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
-      arrD.push(data[i].workDetailsUnit.name);
-      arrD.push(data[i].workDetails.quantity);
+      arrD.push(data[i].workDetailsUnit.symbol);
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
       arrD.push('');
       arrD.push('');
 
@@ -733,17 +757,6 @@ function docxParsedDataGenTradesDPGF(trade, index) {
     docxParsedData.push(arr);
   }
 
-  // Populate trade total in docxParsedData
-  const tradeTotalHTArr = [];
-  for (let j = 0; j < dataColumnsEstimation.length; j++) {
-    if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
-    } else {
-      tradeTotalHTArr[j] = '';
-    }
-  }
-  docxParsedData.push(tradeTotalHTArr);
-
   return docxParsedData;
 }
 
@@ -790,29 +803,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
       }
       docxParsedData.push(arr);
     }
-
-    // Populate tranch total in docxParsedData
-    const trancheTotalHTObj = [];
-    for (let j = 0; j < dataColumnsEstimation.length; j++) {
-      if (j == 1) {
-        trancheTotalHTObj[j] = `Total HT Tranche:`;
-      } else {
-        trancheTotalHTObj[j] = '';
-      }
-    }
-    docxParsedData.push(trancheTotalHTObj);
   }
-
-  // Populate trade total in docxParsedData
-  const tradeTotalHTObj = [];
-  for (let j = 0; j < dataColumnsEstimation.length; j++) {
-    if (j == 1) {
-      tradeTotalHTObj[j] = `Total HT Lot:`;
-    } else {
-      tradeTotalHTObj[j] = '';
-    }
-  }
-  docxParsedData.push(tradeTotalHTObj);
 
   return docxParsedData;
 }

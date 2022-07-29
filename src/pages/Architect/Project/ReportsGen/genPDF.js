@@ -359,6 +359,7 @@ async function exportPDFTradesDPGF(data, currentProject) {
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: pdfParsedData,
+    type: 'trades',
   };
 
   const response = await api('post', `/Reports/dpgf`, body);
@@ -410,6 +411,7 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: pdfParsedData,
+    type: 'tranches',
   };
 
   const response = await api('post', `/Reports/dpgf`, body);
