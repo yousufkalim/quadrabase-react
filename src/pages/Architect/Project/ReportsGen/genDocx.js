@@ -303,7 +303,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesEstimation(currentRow, i + 1);
+    const currentRowDOCXParsedData = docxParsedDataGenTradesEstimation(currentRow, i + 1, noPrice);
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -585,7 +585,8 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
     const currentRow = rows[i];
     const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(
       currentRow,
-      i + 1
+      i + 1,
+      noPrice
     );
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }

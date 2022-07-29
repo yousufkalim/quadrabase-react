@@ -550,7 +550,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   return pdfParsedData;
 }
 
-function docxParsedDataGenTradesEstimation(trade, index) {
+function docxParsedDataGenTradesEstimation(trade, index, noPrice) {
   const docxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -583,9 +583,9 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
+      tradeTotalHTArr[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal;
+      tradeTotalHTArr[j] = !noPrice ? tradeTotal : '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -595,7 +595,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   return docxParsedData;
 }
 
-function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const docxParsedData = [];
 
   // Populate trade title in docxParsedData
@@ -648,7 +648,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       if (j == 1) {
         trancheTotalHTObj[j] = `Total ${trade.rows[i].tranch}:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? '';
+        trancheTotalHTObj[j] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[j] = '';
       }
@@ -670,7 +670,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2));
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2)) : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
