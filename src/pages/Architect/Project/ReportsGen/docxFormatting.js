@@ -9,9 +9,9 @@ const ln1Font = 9 * 2;
 
 const fontType = 'Calibri';
 
-function docText(text, size, bold = false, font = fontType) {
+function docText(text, size, bold = false, font = fontType, center = false) {
   return new Paragraph({
-    alignment: AlignmentType.START,
+    alignment: !center ? AlignmentType.START : AlignmentType.CENTER,
     children: text
       .split('\n')
       .map((line) => new TextRun({ break: 1, text: line, size: size, bold: bold, font: font })),
@@ -34,8 +34,8 @@ function l1Text(text, bold = false) {
   return docText(text, l1Font, bold);
 }
 
-function l0Text(text, bold = false) {
-  return docText(text, l0Font, bold);
+function l0Text(text, bold = false, center = false) {
+  return docText(text, l0Font, bold, fontType, center);
 }
 
 function ln1Text(text, bold = false) {

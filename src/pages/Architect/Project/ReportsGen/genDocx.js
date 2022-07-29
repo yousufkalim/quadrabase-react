@@ -882,13 +882,17 @@ async function exportDOCXSimpleBPU(data, currentProject) {
       const work = currentRow[j];
       let docxObjs;
       if (j == 1) {
-        docxObjs = [l0Text(work.title, true), l0Text(''), ...textRunsSplitGen(work.text, ln1Font)];
+        docxObjs = [l0Text(work.title, true), ...textRunsSplitGen(work.text, ln1Font), l0Text('')];
       } else {
-        docxObjs = [l0Text(work)];
+        if (j == 0) {
+          docxObjs = [l0Text(work, false, false)];
+        } else {
+          docxObjs = [l0Text(work, false, true)];
+        }
       }
       const tableCell = new TableCell({
         children: docxObjs,
-        verticalAlign: VerticalAlign.CENTER,
+        verticalAlign: VerticalAlign.TOP,
         margins: normalMargin,
       });
       tableRowCells.push(tableCell);
@@ -943,8 +947,11 @@ async function exportDOCXTradesBPU(data, currentProject) {
       let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
-        verticalAlign: VerticalAlign.CENTER,
+        verticalAlign: VerticalAlign.TOP,
         margins: normalMargin,
+        shading: {
+          fill: '#C0C0C0',
+        },
       });
       tradeTableRowCells.push(tableCell);
     }
@@ -962,15 +969,19 @@ async function exportDOCXTradesBPU(data, currentProject) {
         if (k == 1) {
           docxObjs = [
             l0Text(workCurrentRow.title, true),
-            l0Text(''),
             ...textRunsSplitGen(workCurrentRow.text, ln1Font),
+            l0Text(''),
           ];
         } else {
-          docxObjs = [l0Text(workCurrentRow)];
+          if (k == 0) {
+            docxObjs = [l0Text(workCurrentRow, false, false)];
+          } else {
+            docxObjs = [l0Text(workCurrentRow, false, true)];
+          }
         }
         const tableCell = new TableCell({
           children: docxObjs,
-          verticalAlign: VerticalAlign.CENTER,
+          verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
         });
         workTableRowCells.push(tableCell);
@@ -1026,8 +1037,11 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
       let docxObjs = [l0Text(tradeCurrentRow, true)];
       const tableCell = new TableCell({
         children: docxObjs,
-        verticalAlign: VerticalAlign.CENTER,
+        verticalAlign: VerticalAlign.TOP,
         margins: normalMargin,
+        shading: {
+          fill: '#C0C0C0',
+        },
       });
       tradeTableRowCells.push(tableCell);
     }
@@ -1045,7 +1059,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
         let docxObjs = [l0Text(tranchCurrentRow, true)];
         const tableCell = new TableCell({
           children: docxObjs,
-          verticalAlign: VerticalAlign.CENTER,
+          verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
         });
         tranchTableRowCells.push(tableCell);
@@ -1064,16 +1078,19 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           if (l == 1) {
             docxObjs = [
               l0Text(workCurrentRow.title, true),
-              l0Text(''),
               ...textRunsSplitGen(workCurrentRow.text, ln1Font),
               l0Text(''),
             ];
           } else {
-            docxObjs = [l0Text(workCurrentRow)];
+            if (l == 0) {
+              docxObjs = [l0Text(workCurrentRow, false, false)];
+            } else {
+              docxObjs = [l0Text(workCurrentRow, false, true)];
+            }
           }
           const tableCell = new TableCell({
             children: docxObjs,
-            verticalAlign: VerticalAlign.CENTER,
+            verticalAlign: VerticalAlign.TOP,
             margins: normalMargin,
           });
           workTableRowCells.push(tableCell);
@@ -1330,9 +1347,12 @@ function _parseHead(headArr) {
             new TableCell({
               children: [
                 new Paragraph({
-                  text: headArr[0],
-                  style: 'bold',
-                  alignment: AlignmentType.START,
+                  alignment: AlignmentType.CENTER,
+                  children: [
+                    new TextRun({
+                      text: headArr[0],
+                    }),
+                  ],
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
@@ -1344,9 +1364,13 @@ function _parseHead(headArr) {
             new TableCell({
               children: [
                 new Paragraph({
-                  text: headArr[1],
-                  style: 'bold',
                   alignment: AlignmentType.CENTER,
+                  children: [
+                    new TextRun({
+                      text: headArr[1],
+                      bold: true,
+                    }),
+                  ],
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
@@ -1358,9 +1382,12 @@ function _parseHead(headArr) {
             new TableCell({
               children: [
                 new Paragraph({
-                  text: headArr[2],
-                  style: 'bold',
-                  alignment: AlignmentType.END,
+                  alignment: AlignmentType.RIGHT,
+                  children: [
+                    new TextRun({
+                      text: headArr[2],
+                    }),
+                  ],
                 }),
               ],
               verticalAlign: VerticalAlign.CENTER,
