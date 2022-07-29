@@ -91,9 +91,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 function rowsGenSimpleDPGF(data) {
   const rows = [];
 
-  rows.push(["'1", 'Lot n°1', '', '', '', '']);
-
-  rowsGenDPGFHandleWorksAndWorkDetails(rows, data, `${1}`);
+  rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data, `${1}`);
 
   return rows;
 }
@@ -284,6 +282,57 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       const arrD = [];
 
       arrD.push(`${prefix}.${i + 1}`);
+      arrD.push(data[i].workDetails.name);
+      arrD.push(data[i].workDetailsUnit.symbol);
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push('');
+      arrD.push('');
+
+      toBeModifiedArr.push(arrD);
+    }
+
+    _id = data[i].work._id;
+  }
+}
+
+function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
+  let _id;
+
+  let currentWork = 1;
+  for (let i = 0; i < data.length; i++) {
+    if (_id != data[i].work._id) {
+      currentWork = i + 1;
+      const arr = [];
+
+      arr.push(`${i + 1}`);
+      const obj = {
+        title: data[i].work.name,
+        bpu: data[i].work.bpu_text[0],
+      };
+      arr.push(obj);
+      arr.push(data[i].workUnit?.symbol ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push('');
+      arr.push('');
+
+      toBeModifiedArr.push(arr);
+
+      if (data[i].workDetails) {
+        const arrD = [];
+
+        arrD.push(`${currentWork}.${i + 1}`);
+        arrD.push(data[i].workDetails.name);
+        arrD.push(data[i].workDetailsUnit.symbol);
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push('');
+        arrD.push('');
+
+        toBeModifiedArr.push(arrD);
+      }
+    } else {
+      const arrD = [];
+
+      arrD.push(`${currentWork}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
