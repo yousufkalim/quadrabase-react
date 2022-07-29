@@ -288,7 +288,7 @@ function xlsxParsedDataGenSimpleEstimation(rows) {
   return xlsxParsedData;
 }
 
-function xlsxParsedDataGenTradesEstimation(trade, index) {
+function xlsxParsedDataGenTradesEstimation(trade, index, noPrice) {
   const xlsxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -323,7 +323,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} : `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? tradeTotal : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -333,7 +333,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
   return xlsxParsedData;
 }
 
-function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const xlsxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -386,7 +386,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       if (j == 1) {
         trancheTotalHTObj[dataColumnsEstimation[j]] = `Total ${currentObj.tranch} :`;
       } else if (j == 5) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = trancheTotalHT ?? '';
+        trancheTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[dataColumnsEstimation[j]] = '';
       }
@@ -408,7 +408,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(parseInt(tradeTotal).toFixed(2));
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+        ? formatNumber(parseInt(tradeTotal).toFixed(2))
+        : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }

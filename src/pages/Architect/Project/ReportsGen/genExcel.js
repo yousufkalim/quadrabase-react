@@ -250,7 +250,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesEstimation(currentRow, i + 1);
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesEstimation(currentRow, i + 1, noPrice);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -363,7 +363,8 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     const currentRow = rows[i];
     const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(
       currentRow,
-      i + 1
+      i + 1,
+      noPrice
     );
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
