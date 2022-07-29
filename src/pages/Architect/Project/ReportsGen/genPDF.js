@@ -65,7 +65,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowPDFParsedData = pdfParsedDataGenTradesEstimation(currentRow, i + 1);
+    const currentRowPDFParsedData = pdfParsedDataGenTradesEstimation(currentRow, i + 1, noPrice);
     pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 
@@ -110,7 +110,11 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1);
+    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1,
+      noPrice
+    );
     pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 

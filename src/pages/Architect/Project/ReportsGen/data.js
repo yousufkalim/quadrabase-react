@@ -420,7 +420,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   return xlsxParsedData;
 }
 
-function pdfParsedDataGenTradesEstimation(trade, index) {
+function pdfParsedDataGenTradesEstimation(trade, index, noPrice) {
   const pdfParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -453,9 +453,9 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
+      tradeTotalHTArr[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? '';
+      tradeTotalHTArr[j] = !noPrice ? tradeTotal ?? '' : '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -465,7 +465,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   return pdfParsedData;
 }
 
-function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const pdfParsedData = [];
 
   // Populate trade title in pdfParsedData
@@ -516,9 +516,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Total HT Tranche:`;
+        trancheTotalHTObj[j] = `Total ${trade.rows[i].tranch}:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? '';
+        trancheTotalHTObj[j] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[j] = '';
       }
@@ -538,9 +538,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Total HT Lot:`;
+      tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2)) ?? '' : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
