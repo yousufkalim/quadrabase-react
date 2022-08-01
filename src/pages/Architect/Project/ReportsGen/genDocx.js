@@ -49,6 +49,7 @@ import {
   l3Text,
   l2Text,
   l1Text,
+  lineBreak,
   fontType,
   l0Text,
   ln1Font,
@@ -1277,6 +1278,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
         for (let l = 0; l < tranch.arr.length; l++) {
           const work = tranch.arr[l];
           parsedCCTPs.push(l2Text(work.title));
+          parsedCCTPs.push(lineBreak());
           let docxObjs = textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }

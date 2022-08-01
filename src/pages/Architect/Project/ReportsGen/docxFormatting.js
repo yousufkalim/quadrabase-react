@@ -43,4 +43,26 @@ function ln1Text(text, bold = false) {
   return docText({ text: text, size: ln1Font, bold: bold });
 }
 
-export { l4Font, l3Font, l2Font, l1Font, l0Font, ln1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text, l0Text, ln1Text };
+function lineBreak() {
+  return new Paragraph({
+    text: '',
+  });
+}
+
+export {
+  l4Font,
+  l3Font,
+  l2Font,
+  l1Font,
+  l0Font,
+  ln1Font,
+  fontType,
+  docText,
+  l4Text,
+  l3Text,
+  l2Text,
+  l1Text,
+  l0Text,
+  ln1Text,
+  lineBreak,
+};

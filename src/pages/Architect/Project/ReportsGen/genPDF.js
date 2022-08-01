@@ -570,11 +570,17 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
 function _parseChap0part1(part1) {
   let str = '';
   str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
-  str = str.concat(`<p><strong>Nom du Projet:</strong> ${part1.name}</p>`);
-  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong> ${part1.client}</p>`);
-  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong> ${part1.prescriber}</p>`);
-  str = str.concat(`<p><strong>Description:</strong> ${part1.description}</p>`);
-  str = str.concat(`<p><strong>Type de marché:</strong> ${part1.market_type}</p>`);
+  str = str.concat(`<p><strong>0.1 DESCRIPTION DU MARCHE</strong></p>`);
+  str = str.concat(`<p><strong>0.1.1 OBJET DU MARCHE</strong></p>`);
+  str = str.concat(`<p>Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :</p>`);
+  str = str.concat(`<p>${part1.description}</p>`);
+  str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
+  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
+  str = str.concat(`<p>    ${part1.client}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
+  str = str.concat(`<p>    ${part1.prescriber}</p>`);
+  str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
+  str = str.concat(`<p>${part1.market_type}</p>`);
   str = str.concat(`<p><strong>Intervenants</strong></p>`);
   str = str.concat(`<ul>`);
   for (let i = 0; i < part1.stakeholders.length; i++) {
