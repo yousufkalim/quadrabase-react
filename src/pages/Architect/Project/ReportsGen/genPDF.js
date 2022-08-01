@@ -594,6 +594,7 @@ function _parseChap0part1(part1) {
 
 function _parseChap0part2(part2) {
   let str = '';
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 2</strong><br>`);
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
     str = str.concat(`<p><strong>${_.title}</strong><br>`);
