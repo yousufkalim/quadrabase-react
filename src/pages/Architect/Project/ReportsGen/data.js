@@ -91,9 +91,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 function rowsGenSimpleDPGF(data) {
   const rows = [];
 
-  rows.push(["'1", 'Lot n°1', '', '', '', '']);
-
-  rowsGenDPGFHandleWorksAndWorkDetails(rows, data, `${1}`);
+  rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data, `${1}`);
 
   return rows;
 }
@@ -105,9 +103,21 @@ function rowsGenTradesDPGF(data) {
     // Trade for loop
     const tradeTitle = data[i]._id;
     const tradeData = data[i].data;
-    const workAndDetailsRows = [];
+    let workAndDetailsRows = [];
     const tradeObj = {};
     rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`);
+    let number = 1;
+    let prevWork;
+    workAndDetailsRows = workAndDetailsRows.map((item, index) => {
+      if (typeof item[1] === 'string') {
+        item[0] = `${prevWork}.${number}`;
+        number += 1;
+      } else {
+        number = 1;
+        prevWork = item[0];
+      }
+      return item;
+    });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
     rows.push(tradeObj);
@@ -129,9 +139,21 @@ function rowsGenTradesAndTranchesDPGF(data) {
       // Tranch for loop
       const tranchTitle = tradeData[j].tranch;
       const tranchDataArr = tradeData[j].tranchData;
-      const workAndDetailsRows = [];
+      let workAndDetailsRows = [];
       const tranchObj = {};
       rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`);
+      let number = 1;
+      let prevWork;
+      workAndDetailsRows = workAndDetailsRows.map((item, index) => {
+        if (typeof item[1] === 'string') {
+          item[0] = `${prevWork}.${number}`;
+          number += 1;
+        } else {
+          number = 1;
+          prevWork = item[0];
+        }
+        return item;
+      });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
       tranchesRows.push(tranchObj);
@@ -237,8 +259,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         bpu: data[i].work.bpu_text[0],
       };
       arr.push(obj);
-      arr.push(data[i].workUnit?.name ?? '');
-      arr.push(data[i].work?.quantity ?? '');
+      arr.push(data[i].workUnit?.symbol ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
       arr.push('');
       arr.push('');
 
@@ -249,8 +271,8 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
-        arrD.push(data[i].workDetailsUnit.name);
-        arrD.push(data[i].workDetails.quantity);
+        arrD.push(data[i].workDetailsUnit.symbol);
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
         arrD.push('');
         arrD.push('');
 
@@ -261,8 +283,59 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
-      arrD.push(data[i].workDetailsUnit.name);
-      arrD.push(data[i].workDetails.quantity);
+      arrD.push(data[i].workDetailsUnit.symbol);
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push('');
+      arrD.push('');
+
+      toBeModifiedArr.push(arrD);
+    }
+
+    _id = data[i].work._id;
+  }
+}
+
+function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
+  let _id;
+
+  let currentWork = 1;
+  for (let i = 0; i < data.length; i++) {
+    if (_id != data[i].work._id) {
+      currentWork = i + 1;
+      const arr = [];
+
+      arr.push(`${i + 1}`);
+      const obj = {
+        title: data[i].work.name,
+        bpu: data[i].work.bpu_text[0],
+      };
+      arr.push(obj);
+      arr.push(data[i].workUnit?.symbol ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push('');
+      arr.push('');
+
+      toBeModifiedArr.push(arr);
+
+      if (data[i].workDetails) {
+        const arrD = [];
+
+        arrD.push(`${currentWork}.${i + 1}`);
+        arrD.push(data[i].workDetails.name);
+        arrD.push(data[i].workDetailsUnit.symbol);
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push('');
+        arrD.push('');
+
+        toBeModifiedArr.push(arrD);
+      }
+    } else {
+      const arrD = [];
+
+      arrD.push(`${currentWork}.${i + 1}`);
+      arrD.push(data[i].workDetails.name);
+      arrD.push(data[i].workDetailsUnit.symbol);
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
       arrD.push('');
       arrD.push('');
 
@@ -288,7 +361,7 @@ function xlsxParsedDataGenSimpleEstimation(rows) {
   return xlsxParsedData;
 }
 
-function xlsxParsedDataGenTradesEstimation(trade, index) {
+function xlsxParsedDataGenTradesEstimation(trade, index, noPrice) {
   const xlsxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -323,7 +396,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} : `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = tradeTotal;
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? tradeTotal : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -333,7 +406,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index) {
   return xlsxParsedData;
 }
 
-function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const xlsxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -386,7 +459,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       if (j == 1) {
         trancheTotalHTObj[dataColumnsEstimation[j]] = `Total ${currentObj.tranch} :`;
       } else if (j == 5) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = trancheTotalHT ?? '';
+        trancheTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[dataColumnsEstimation[j]] = '';
       }
@@ -408,7 +481,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = formatNumber(parseInt(tradeTotal).toFixed(2));
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+        ? formatNumber(parseInt(tradeTotal).toFixed(2))
+        : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -418,7 +493,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index) {
   return xlsxParsedData;
 }
 
-function pdfParsedDataGenTradesEstimation(trade, index) {
+function pdfParsedDataGenTradesEstimation(trade, index, noPrice) {
   const pdfParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -451,9 +526,9 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
+      tradeTotalHTArr[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal ?? '';
+      tradeTotalHTArr[j] = !noPrice ? tradeTotal ?? '' : '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -463,7 +538,7 @@ function pdfParsedDataGenTradesEstimation(trade, index) {
   return pdfParsedData;
 }
 
-function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const pdfParsedData = [];
 
   // Populate trade title in pdfParsedData
@@ -514,9 +589,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
     const trancheTotalHTObj = [];
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        trancheTotalHTObj[j] = `Total HT Tranche:`;
+        trancheTotalHTObj[j] = `Total ${trade.rows[i].tranch}:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? '';
+        trancheTotalHTObj[j] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[j] = '';
       }
@@ -536,9 +611,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
   const tradeTotalHTObj = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTObj[j] = `Total HT Lot:`;
+      tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal?.toFixed(2)) ?? '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2)) ?? '' : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -548,7 +623,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index) {
   return pdfParsedData;
 }
 
-function docxParsedDataGenTradesEstimation(trade, index) {
+function docxParsedDataGenTradesEstimation(trade, index, noPrice) {
   const docxParsedData = [];
 
   // Populate trade title in xlsxParsedData
@@ -581,9 +656,9 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   const tradeTotalHTArr = [];
   for (let j = 0; j < dataColumnsEstimation.length; j++) {
     if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
+      tradeTotalHTArr[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTArr[j] = tradeTotal;
+      tradeTotalHTArr[j] = !noPrice ? tradeTotal : '';
     } else {
       tradeTotalHTArr[j] = '';
     }
@@ -593,7 +668,7 @@ function docxParsedDataGenTradesEstimation(trade, index) {
   return docxParsedData;
 }
 
-function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
+function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
   const docxParsedData = [];
 
   // Populate trade title in docxParsedData
@@ -646,7 +721,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
       if (j == 1) {
         trancheTotalHTObj[j] = `Total ${trade.rows[i].tranch}:`;
       } else if (j == 5) {
-        trancheTotalHTObj[j] = trancheTotalHT ?? '';
+        trancheTotalHTObj[j] = !noPrice ? trancheTotalHT ?? '' : '';
       } else {
         trancheTotalHTObj[j] = '';
       }
@@ -668,7 +743,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = formatNumber(tradeTotal.toFixed(2));
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2)) : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -731,17 +806,6 @@ function docxParsedDataGenTradesDPGF(trade, index) {
     docxParsedData.push(arr);
   }
 
-  // Populate trade total in docxParsedData
-  const tradeTotalHTArr = [];
-  for (let j = 0; j < dataColumnsEstimation.length; j++) {
-    if (j == 1) {
-      tradeTotalHTArr[j] = `Total HT Lot:`;
-    } else {
-      tradeTotalHTArr[j] = '';
-    }
-  }
-  docxParsedData.push(tradeTotalHTArr);
-
   return docxParsedData;
 }
 
@@ -788,29 +852,7 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
       }
       docxParsedData.push(arr);
     }
-
-    // Populate tranch total in docxParsedData
-    const trancheTotalHTObj = [];
-    for (let j = 0; j < dataColumnsEstimation.length; j++) {
-      if (j == 1) {
-        trancheTotalHTObj[j] = `Total HT Tranche:`;
-      } else {
-        trancheTotalHTObj[j] = '';
-      }
-    }
-    docxParsedData.push(trancheTotalHTObj);
   }
-
-  // Populate trade total in docxParsedData
-  const tradeTotalHTObj = [];
-  for (let j = 0; j < dataColumnsEstimation.length; j++) {
-    if (j == 1) {
-      tradeTotalHTObj[j] = `Total HT Lot:`;
-    } else {
-      tradeTotalHTObj[j] = '';
-    }
-  }
-  docxParsedData.push(tradeTotalHTObj);
 
   return docxParsedData;
 }
