@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectField from '../../../components/SelectField';
 import DatePicker from 'react-flatpickr';
 import moment from 'moment';
 import { French } from 'flatpickr/dist/l10n/fr.js';
-
-const options = [
-  {
-    _id: 'Référencement',
-    name: 'Référencement',
-  },
-  { _id: 'Alertes', name: 'Alertes' },
-];
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
+import { getToken } from '../../../utils/Auth';
 
 const SubscriptionModal = ({
   translate,
-  name,
-  setName,
+  selectedSubscription,
+  setSelectedSubscription,
   startDate,
   setStartDate,
   endDate,
   setEndDate,
 }) => {
+  const token = getToken();
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    getAllSubscriptions();
+  }, []);
+
+  const getAllSubscriptions = async () => {
+    try {
+      let response = await Axios({
+        method: 'get',
+        url: `${baseUrl}/Subscriptions`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = response.data.subscription.filter(
+        (item) => item.type.toLowerCase() === 'manufacturers'
+      );
+      setOptions(data);
+      if (!selectedSubscription) setSelectedSubscription(data[0]._id);
+    } catch (error) {
+      console.log(error?.response?.data?.message, 'error ');
+    }
+  };
   return (
     <form className="w-full  pt-9">
       <div className="flex no-wrap -mx-3 ">
@@ -28,8 +47,8 @@ const SubscriptionModal = ({
           <SelectField
             name="subscription"
             label={translate('Subscription')}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={selectedSubscription}
+            onChange={(e) => setSelectedSubscription(e.target.value)}
             translate={translate}
             options={options}
             type="provider"

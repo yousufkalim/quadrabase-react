@@ -86,7 +86,7 @@ function Single(props) {
         />
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent sx={{ background: '#F5F6F8', paddingLeft: '2%' }}>
-            <div dangerouslySetInnerHTML={{ __html: props.text }}></div>
+            <div className="support-text" dangerouslySetInnerHTML={{ __html: props.text }}></div>
           </CardContent>
         </Collapse>
       </Card>

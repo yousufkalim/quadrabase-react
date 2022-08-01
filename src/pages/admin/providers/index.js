@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import ArchitectsTable from "../../../components/Table";
-import Button from "../../../components/Button";
-import AddIcon from "@mui/icons-material/Add";
-import Modal from "../../../components/Modal";
-import DeleteModal from "../../../components/DeleteModal";
-import Notifier from "../../../utils/Notifier";
-import { useFormik } from "formik";
-import { PROVIDER_STATE } from "../../../components/formik/initialValues";
-import { PROVIDER_YUP } from "../../../components/formik/validations";
-import AddProvider from "./addProvider";
-import EditProvider from "./editProvider";
-import SubscriptionModal from "./SubscriptionModal";
-import ListOfWork from "./listOfWork";
+import React, { useEffect, useState } from 'react';
+import ArchitectsTable from '../../../components/Table';
+import Button from '../../../components/Button';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '../../../components/Modal';
+import DeleteModal from '../../../components/DeleteModal';
+import Notifier from '../../../utils/Notifier';
+import { useFormik } from 'formik';
+import { PROVIDER_STATE } from '../../../components/formik/initialValues';
+import { PROVIDER_YUP } from '../../../components/formik/validations';
+import AddProvider from './addProvider';
+import EditProvider from './editProvider';
+import SubscriptionModal from './SubscriptionModal';
+import ListOfWork from './listOfWork';
 
-import { ProviderheadCells } from "../../../utils/tableHeads";
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
-import moment from "moment";
+import { ProviderheadCells } from '../../../utils/tableHeads';
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
+import { getToken } from '../../../utils/Auth';
+import moment from 'moment';
 
 export default function Index(props) {
   const { translate } = props;
@@ -28,18 +28,18 @@ export default function Index(props) {
   const [providerModal, setproviderModal] = React.useState(false);
   const [provider, setprovider] = useState([]);
 
-  const [headCells, setheadCells] = React.useState("");
+  const [headCells, setheadCells] = React.useState('');
 
-  const [providerId, setproviderId] = React.useState("");
+  const [providerId, setproviderId] = React.useState('');
 
-  const [providerDeleteId, setproviderDeleteId] = React.useState("");
+  const [providerDeleteId, setproviderDeleteId] = React.useState('');
 
   const [providersData, setprovidersData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
 
   // states for subscription
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
-  const [name, setName] = React.useState("Advertising");
+  const [selectedSubscription, setSelectedSubscription] = React.useState('');
   const [startDate, setStartDate] = React.useState();
   const [endDate, setEndDate] = React.useState();
 
@@ -55,15 +55,15 @@ export default function Index(props) {
   const handleDelete = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/Providers/${providerDeleteId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -80,7 +80,7 @@ export default function Index(props) {
     if (id) {
       try {
         let response = await Axios({
-          method: "get",
+          method: 'get',
           url: `${baseUrl}/Providers/works/${id}`,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -88,12 +88,12 @@ export default function Index(props) {
         });
         let data = response.data.works;
         if (data && data.length == 0) {
-          alert(translate("No works found for this provider."));
+          alert(translate('No works found for this provider.'));
           return;
         }
         setprovider(data);
       } catch (error) {
-        if (error.response) console.log(error.response.data.message, "error ");
+        if (error.response) console.log(error.response.data.message, 'error ');
       }
     }
     setproviderModal(!providerModal);
@@ -102,10 +102,10 @@ export default function Index(props) {
   const handleSubmit = async () => {
     try {
       let response = await Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/Providers/addsubscription/${providerId}`,
         data: {
-          name: name,
+          subscriptionId: selectedSubscription,
           start_date: startDate,
           end_date: endDate,
         },
@@ -113,12 +113,12 @@ export default function Index(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
       handleSubscriptionModal();
       getProviders();
     } catch (error) {
       console.log(error);
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
   };
 
@@ -127,12 +127,12 @@ export default function Index(props) {
     if (row?._id) {
       setproviderId(row._id);
       if (row.subscription?.name) {
-        setName(row.subscription.name);
+        setSelectedSubscription(row?.subscription?.id?._id);
         setStartDate(moment(row.subscription.start_date)._i);
         setEndDate(moment(row.subscription.end_date)._i);
       }
     } else {
-      setName("");
+      setSelectedSubscription('');
       setStartDate();
       setEndDate();
     }
@@ -142,7 +142,7 @@ export default function Index(props) {
   const getProviders = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Providers/`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -151,7 +151,7 @@ export default function Index(props) {
       let data = response.data.providers;
       setprovidersData(data);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
     //}
   };
@@ -171,7 +171,7 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/Providers/create`,
           data: values,
           headers: {
@@ -179,13 +179,13 @@ export default function Index(props) {
           },
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleModal();
         formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -196,7 +196,7 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Providers/${providerId}`,
           data: values,
           headers: {
@@ -204,12 +204,12 @@ export default function Index(props) {
           },
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleEditModal();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
     },
   });
@@ -227,7 +227,7 @@ export default function Index(props) {
       <Modal
         title="List Of Works"
         open={providerModal}
-        width={"70%"}
+        width={'70%'}
         onClose={handleProvider}
         translate={translate}
         component={<ListOfWork translate={translate} provider={provider} />}
@@ -239,7 +239,14 @@ export default function Index(props) {
         onSubmit={edit_formik.handleSubmit}
         onClose={handleEditModal}
         translate={translate}
-        component={<EditProvider translate={translate} editData={editData} formik={edit_formik} editmodal={editmodal} />}
+        component={
+          <EditProvider
+            translate={translate}
+            editData={editData}
+            formik={edit_formik}
+            editmodal={editmodal}
+          />
+        }
       />
       <Modal
         // title="Add Architect"
@@ -248,10 +255,16 @@ export default function Index(props) {
         width="35%"
         height="40%"
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleDeleteModal} handleDelete={handleDelete} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleDeleteModal}
+            handleDelete={handleDelete}
+          />
+        }
       />
       <Modal
-        title={translate("Provider Subscription")}
+        title={translate('Provider Subscription')}
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
         width="35%"
@@ -261,8 +274,8 @@ export default function Index(props) {
         component={
           <SubscriptionModal
             translate={translate}
-            name={name}
-            setName={setName}
+            selectedSubscription={selectedSubscription}
+            setSelectedSubscription={setSelectedSubscription}
             startDate={startDate}
             setStartDate={setStartDate}
             endDate={endDate}
@@ -273,9 +286,16 @@ export default function Index(props) {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3">
-            <h1 className="text-2xl font-bold">{translate("Providers")}</h1>
-            <Button variant="outlined" label="Add Provider" onClick={handleModal} translate={translate} startIcon={<AddIcon />} />
+            <h1 className="text-2xl font-bold">{translate('Providers')}</h1>
+            <Button
+              variant="outlined"
+              label="Add Provider"
+              onClick={handleModal}
+              translate={translate}
+              startIcon={<AddIcon />}
+            />
           </div>
+
           <ArchitectsTable
             headCells={ProviderheadCells}
             data={providersData}
