@@ -12,9 +12,7 @@ const fontType = 'Calibri';
 function docText(text, size, bold = false, font = fontType, center = false) {
   return new Paragraph({
     alignment: !center ? AlignmentType.START : AlignmentType.CENTER,
-    children: text
-      .split('\n')
-      .map((line) => new TextRun({ break: 1, text: line, size: size, bold: bold, font: font })),
+    children: text.split('\n').map((line) => new TextRun({ break: 1, text: line, size: size, bold: bold, font: font })),
   });
 }
 
@@ -42,6 +40,12 @@ function ln1Text(text, bold = false) {
   return docText(text, ln1Font, bold);
 }
 
+function lineBreak() {
+  return new Paragraph({
+    text: '',
+  });
+}
+
 export {
   l4Font,
   l3Font,
@@ -57,4 +61,5 @@ export {
   l1Text,
   l0Text,
   ln1Text,
+  lineBreak,
 };
