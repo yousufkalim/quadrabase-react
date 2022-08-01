@@ -1692,7 +1692,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
 }
 
 async function exportDOCXTradesDPGF(data, currentProject) {
-  const headArr = headGen(`"DPGF"}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`DPGF`, `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesDPGF(data);
 
