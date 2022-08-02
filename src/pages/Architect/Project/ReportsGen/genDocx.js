@@ -5,11 +5,13 @@ import {
   Document,
   Paragraph,
   TextRun,
+  HeadingLevel,
   AlignmentType,
   Table,
   TableCell,
   TableRow,
   VerticalAlign,
+  TableOfContents,
 } from 'docx';
 
 import {
@@ -1140,6 +1142,11 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1163,8 +1170,10 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = cctps[i].arr;
@@ -1176,7 +1185,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1188,6 +1197,9 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
@@ -1205,6 +1217,11 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1229,8 +1246,10 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = _.arr;
@@ -1246,7 +1265,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1258,6 +1277,9 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
@@ -1275,6 +1297,11 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1299,8 +1326,10 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = _.arr;
@@ -1321,7 +1350,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1333,6 +1362,9 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
