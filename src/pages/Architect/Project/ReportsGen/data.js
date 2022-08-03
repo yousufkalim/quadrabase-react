@@ -1,18 +1,7 @@
 import { Paragraph, TextRun, UnderlineType } from 'docx';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
-import {
-  l4Font,
-  l3Font,
-  l2Font,
-  l1Font,
-  fontType,
-  docText,
-  l4Text,
-  l3Text,
-  l2Text,
-  l1Text,
-} from './docxFormatting';
+import { l4Font, l3Font, l2Font, l1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text } from './docxFormatting';
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
@@ -186,9 +175,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arr.push('');
       } else {
         arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2)) ?? '0.00');
-        arr.push(
-          formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2))
-        );
+        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
       }
 
       resArr.push(arr);
@@ -206,9 +193,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
           arrD.push('');
         } else {
           arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
-          arrD.push(
-            formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2))
-          );
+          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
         }
 
         resArr.push(arrD);
@@ -231,9 +216,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push('');
       } else {
         arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
-        arrD.push(
-          formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2))
-        );
+        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
       }
 
       resArr.push(arrD);
@@ -481,9 +464,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
-        ? formatNumber(parseInt(tradeTotal).toFixed(2))
-        : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2)) : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -1028,14 +1009,7 @@ const calculateWSCols = (arr) => {
     unitL = 10;
   }
 
-  const wscols = [
-    { wch: 10 },
-    { wch: nameL },
-    { wch: unitL },
-    { wch: 10 },
-    { wch: 10 },
-    { wch: 10 },
-  ];
+  const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
 
   return wscols;
 };
@@ -1054,9 +1028,7 @@ function rowsGenSimpleBPU(data, type) {
       text: data[i].work.bpu_text[0],
     };
     arr.push(obj);
-    arr.push(
-      data[i].work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-    );
+    arr.push(data[i].work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
     rows.push(arr);
   }
 
@@ -1085,9 +1057,7 @@ function rowsGenTradesBPU(data, type) {
         text: currentObj.work.bpu_text[0],
       };
       arr.push(obj);
-      arr.push(
-        currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-      );
+      arr.push(currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
       tradeObj.arr.push(arr);
     }
     rows.push(tradeObj);
@@ -1125,9 +1095,7 @@ function rowsGenTradesAndTranchesBPU(data, type) {
           text: currentObj.work.bpu_text[0],
         };
         arr.push(obj);
-        arr.push(
-          currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-        );
+        arr.push(currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
         tranchObj.arr.push(arr);
       }
       tradeObj.arr.push(tranchObj);
@@ -1256,7 +1224,7 @@ function parseChap0(currentProject) {
     vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
     reference: currentProject?.reference ?? '',
     description: currentProject?.description ?? '',
-    market_type: currentProject?.market_type ?? '',
+    market_type: _translatedMarketType(currentProject?.market_type),
     structure: currentProject?.structure ?? '',
     stakeholders: _stakeholders,
   };
@@ -1433,8 +1401,7 @@ function handleBuiltInCCTPs(str, size) {
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj =
-      tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1484,7 +1451,7 @@ const tagsToDocxMap = {
           }
         }
       } else {
-        objsArr.push(docText(currentText, size ?? l1Font, false));
+        objsArr.push(docText({ text: currentText, size: size ?? l1Font, bold: false }));
       }
     }
 
@@ -1614,9 +1581,7 @@ const footerColumnsSimpleEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :',
-  localStorage.getItem('i18nextLng') == 'en'
-    ? 'Total Amount including VAT :'
-    : 'Montant total TTC :',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 
 const dataColumnsBPU = ["'1", 'Lot n°1', ''];
@@ -1641,6 +1606,23 @@ async function blobFromURL(url) {
   const res = await fetch(url);
   const blob = await res.blob();
   return blob;
+}
+
+function _translatedMarketType(str) {
+  let _;
+  let lang = localStorage.getItem('i18nextLng');
+  if (str == 'Simple') {
+    _ = lang == 'en' ? 'Simple' : 'Simple';
+  } else if (str == 'Trades') {
+    _ = lang == 'en' ? 'Trades' : 'Lots';
+  } else if (str == 'TradesAndTranches') {
+    _ = lang == 'en' ? 'Trades And Tranches' : 'Lots et tranches';
+  } else if (str == 'PurchaseOrder') {
+    _ = lang == 'en' ? 'Purchase Order' : 'Bon de commande';
+  } else {
+    _ = '';
+  }
+  return _;
 }
 
 export {

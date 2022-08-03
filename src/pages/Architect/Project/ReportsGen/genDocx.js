@@ -188,8 +188,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                 : AlignmentType.RIGHT,
             children: [
               new TextRun({
-                text:
-                  currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                text: currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                 size: 16,
                 italics: currentRow[0].length === 3 && (j === 1 || j === 0) ? true : false,
               }),
@@ -290,9 +289,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -462,10 +459,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text:
-                    currentRow[0].length === 5 && j === 1
-                      ? `  ${currentRow[j]}`
-                      : `${currentRow[j]}`,
+                  text: currentRow[0].length === 5 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 5 && (j === 1 || j === 0) ? true : false,
                   bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
@@ -570,9 +564,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -586,11 +578,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(
-      currentRow,
-      i + 1,
-      noPrice
-    );
+    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -719,12 +707,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   new TextRun({
                     text: `${currentRow[j]}`,
                     size: 16,
-                    bold:
-                      currentRow[0].length === 1 ||
-                      currentRow[0].length === 3 ||
-                      currentRow[0].length === 0
-                        ? true
-                        : false,
+                    bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
                   }),
                 ],
               }),
@@ -751,18 +734,10 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text:
-                    currentRow[0].length === 7 && j === 1
-                      ? `  ${currentRow[j]}`
-                      : `${currentRow[j]}`,
+                  text: currentRow[0].length === 7 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 7 && (j === 1 || j === 0) ? true : false,
-                  bold:
-                    currentRow[0].length === 1 ||
-                    currentRow[0].length === 3 ||
-                    currentRow[0].length === 0
-                      ? true
-                      : false,
+                  bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
                 }),
               ],
             }),
@@ -864,9 +839,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -971,11 +944,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
         const workCurrentRow = work[k];
         let docxObjs;
         if (k == 1) {
-          docxObjs = [
-            l0Text(workCurrentRow.title, true),
-            ...textRunsSplitGen(workCurrentRow.text, ln1Font),
-            l0Text(''),
-          ];
+          docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
         } else {
           if (k == 0) {
             docxObjs = [l0Text(workCurrentRow, false, false)];
@@ -1080,11 +1049,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           const workCurrentRow = work[l];
           let docxObjs;
           if (l == 1) {
-            docxObjs = [
-              l0Text(workCurrentRow.title, true),
-              ...textRunsSplitGen(workCurrentRow.text, ln1Font),
-              l0Text(''),
-            ];
+            docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
           } else {
             if (l == 0) {
               docxObjs = [l0Text(workCurrentRow, false, false)];
@@ -1481,7 +1446,6 @@ function _parseChap0part1(part1) {
 
 function _parseChap0part2(part2) {
   const arr = [];
-  arr.push(l3Text('CHAP 0 - PART 2'));
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
     arr.push(l2Text(_.title));
@@ -1868,10 +1832,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
-                  bold:
-                    currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1)
-                      ? true
-                      : false,
+                  bold: currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1) ? true : false,
                   italics: currentRow[0].length === 5 && j === 1 ? true : false,
                 }),
               ],
@@ -2082,9 +2043,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j]}`,
                   bold:
-                    currentRow[0].length === 1 ||
-                    currentRow[0].length === 3 ||
-                    (currentRow[0].length === 7 && j === 1)
+                    currentRow[0].length === 1 || currentRow[0].length === 3 || (currentRow[0].length === 7 && j === 1)
                       ? true
                       : false,
                   italics: currentRow[0].length === 7 && j === 1 ? true : false,
