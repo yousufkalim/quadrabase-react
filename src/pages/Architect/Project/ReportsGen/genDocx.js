@@ -1112,6 +1112,22 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     headingStyleRange: '1-5',
   });
 
+  const tableOfContentSection = [
+    Spacer,
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          size: l4Font,
+          font: fontType,
+        }),
+      ],
+      heading: HeadingLevel.HEADING_1,
+    }),
+    tableOfContent,
+    Spacer,
+  ];
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1150,7 +1166,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1186,6 +1202,22 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     hyperlink: true,
     headingStyleRange: '1-5',
   });
+
+  const tableOfContentSection = [
+    Spacer,
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          size: l4Font,
+          font: fontType,
+        }),
+      ],
+      heading: HeadingLevel.HEADING_1,
+    }),
+    tableOfContent,
+    Spacer,
+  ];
 
   // Parse Chap0
   let parsedChap0part1 = [];
@@ -1230,7 +1262,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1266,6 +1298,22 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     hyperlink: true,
     headingStyleRange: '1-5',
   });
+
+  const tableOfContentSection = [
+    Spacer,
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          size: l4Font,
+          font: fontType,
+        }),
+      ],
+      heading: HeadingLevel.HEADING_1,
+    }),
+    tableOfContent,
+    Spacer,
+  ];
 
   // Parse Chap0
   let parsedChap0part1 = [];
@@ -1315,7 +1363,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     }
   }
 
-  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1351,6 +1399,7 @@ function _parseHead(headArr) {
                   children: [
                     new TextRun({
                       text: headArr[0],
+                      bold: true,
                     }),
                   ],
                 }),
@@ -1386,6 +1435,7 @@ function _parseHead(headArr) {
                   children: [
                     new TextRun({
                       text: headArr[2],
+                      bold: true,
                     }),
                   ],
                 }),
