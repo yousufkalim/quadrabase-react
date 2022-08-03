@@ -43,9 +43,7 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
 
   const obj = {
     blob,
@@ -82,9 +80,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
 
   const obj = {
     blob,
@@ -101,20 +97,11 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
   let pdfParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
-    data,
-    currentProject,
-    noPrice,
-    false
-  );
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(
-      currentRow,
-      i + 1,
-      noPrice
-    );
+    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
     pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 
@@ -131,9 +118,7 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
 
   const obj = {
     blob,
@@ -584,18 +569,18 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
 
 function _parseChap0part1(part1) {
   let str = '';
-  str = str.concat(
-    `<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`
-  );
-  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 1</strong><br></p>`);
-  str = str.concat(`<p><strong>Nom du Projet:</strong> ${part1.name}</p>`);
-  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong> ${part1.client}</p>`);
-  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong> ${part1.prescriber}</p>`);
-  str = str.concat(`<p><strong>T.V.A:</strong> ${part1.vat}</p>`);
-  str = str.concat(`<p><strong>Reference:</strong> ${part1.reference}</p>`);
-  str = str.concat(`<p><strong>Description:</strong> ${part1.description}</p>`);
-  str = str.concat(`<p><strong>Type de marché:</strong> ${part1.market_type}</p>`);
-  str = str.concat(`<p><strong>Structure du projet:</strong> ${part1.structure}</p>`);
+  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
+  str = str.concat(`<p><strong>0.1 DESCRIPTION DU MARCHE</strong></p>`);
+  str = str.concat(`<p><strong>0.1.1 OBJET DU MARCHE</strong></p>`);
+  str = str.concat(`<p>Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :</p>`);
+  str = str.concat(`<p>${part1.description}</p>`);
+  str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
+  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
+  str = str.concat(`<p>    ${part1.client}</p>`);
+  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
+  str = str.concat(`<p>    ${part1.prescriber}</p>`);
+  str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
+  str = str.concat(`<p>${part1.market_type}</p>`);
   str = str.concat(`<p><strong>Intervenants</strong></p>`);
   str = str.concat(`<ul>`);
   for (let i = 0; i < part1.stakeholders.length; i++) {
@@ -609,7 +594,6 @@ function _parseChap0part1(part1) {
 
 function _parseChap0part2(part2) {
   let str = '';
-  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - PART 2</strong><br>`);
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
     str = str.concat(`<p><strong>${_.title}</strong><br>`);

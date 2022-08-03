@@ -5,11 +5,13 @@ import {
   Document,
   Paragraph,
   TextRun,
+  HeadingLevel,
   AlignmentType,
   Table,
   TableCell,
   TableRow,
   VerticalAlign,
+  TableOfContents,
 } from 'docx';
 
 import {
@@ -49,6 +51,7 @@ import {
   l3Text,
   l2Text,
   l1Text,
+  lineBreak,
   fontType,
   l0Text,
   ln1Font,
@@ -185,8 +188,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                 : AlignmentType.RIGHT,
             children: [
               new TextRun({
-                text:
-                  currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                text: currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                 size: 16,
                 italics: currentRow[0].length === 3 && (j === 1 || j === 0) ? true : false,
               }),
@@ -287,9 +289,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -459,10 +459,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text:
-                    currentRow[0].length === 5 && j === 1
-                      ? `  ${currentRow[j]}`
-                      : `${currentRow[j]}`,
+                  text: currentRow[0].length === 5 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 5 && (j === 1 || j === 0) ? true : false,
                   bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
@@ -567,9 +564,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -583,11 +578,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(
-      currentRow,
-      i + 1,
-      noPrice
-    );
+    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -716,12 +707,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   new TextRun({
                     text: `${currentRow[j]}`,
                     size: 16,
-                    bold:
-                      currentRow[0].length === 1 ||
-                      currentRow[0].length === 3 ||
-                      currentRow[0].length === 0
-                        ? true
-                        : false,
+                    bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
                   }),
                 ],
               }),
@@ -748,18 +734,10 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text:
-                    currentRow[0].length === 7 && j === 1
-                      ? `  ${currentRow[j]}`
-                      : `${currentRow[j]}`,
+                  text: currentRow[0].length === 7 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 7 && (j === 1 || j === 0) ? true : false,
-                  bold:
-                    currentRow[0].length === 1 ||
-                    currentRow[0].length === 3 ||
-                    currentRow[0].length === 0
-                      ? true
-                      : false,
+                  bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
                 }),
               ],
             }),
@@ -861,9 +839,7 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
   return { blob, filename };
 }
 
@@ -968,11 +944,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
         const workCurrentRow = work[k];
         let docxObjs;
         if (k == 1) {
-          docxObjs = [
-            l0Text(workCurrentRow.title, true),
-            ...textRunsSplitGen(workCurrentRow.text, ln1Font),
-            l0Text(''),
-          ];
+          docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
         } else {
           if (k == 0) {
             docxObjs = [l0Text(workCurrentRow, false, false)];
@@ -1077,11 +1049,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           const workCurrentRow = work[l];
           let docxObjs;
           if (l == 1) {
-            docxObjs = [
-              l0Text(workCurrentRow.title, true),
-              ...textRunsSplitGen(workCurrentRow.text, ln1Font),
-              l0Text(''),
-            ];
+            docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
           } else {
             if (l == 0) {
               docxObjs = [l0Text(workCurrentRow, false, false)];
@@ -1139,6 +1107,11 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1162,8 +1135,10 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = cctps[i].arr;
@@ -1175,7 +1150,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1187,6 +1162,9 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
@@ -1204,6 +1182,11 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1228,8 +1211,10 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = _.arr;
@@ -1245,7 +1230,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1257,6 +1242,9 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
@@ -1274,6 +1262,11 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   // Parse head
   const parsedHead = _parseHead(headArr);
 
+  const tableOfContent = new TableOfContents('Summary', {
+    hyperlink: true,
+    headingStyleRange: '1-5',
+  });
+
   // Parse Chap0
   let parsedChap0part1 = [];
   let parsedChap0part2 = [];
@@ -1298,8 +1291,10 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
             size: l4Font,
             bold: true,
             font: fontType,
+            color: '000000',
           }),
         ],
+        heading: HeadingLevel.HEADING_1,
       })
     );
     const cctpArr = _.arr;
@@ -1312,6 +1307,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
         for (let l = 0; l < tranch.arr.length; l++) {
           const work = tranch.arr[l];
           parsedCCTPs.push(l2Text(work.title));
+          parsedCCTPs.push(lineBreak());
           let docxObjs = textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
@@ -1319,7 +1315,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     }
   }
 
-  const children = [...parsedHead, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [...parsedHead, Spacer, tableOfContent, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
 
   const sections = [
     {
@@ -1331,6 +1327,9 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   ];
 
   const doc = new Document({
+    features: {
+      updateFields: true,
+    },
     sections: sections,
   });
 
@@ -1408,15 +1407,17 @@ function _parseHead(headArr) {
 function _parseChap0part1(part1) {
   const arr = [];
   arr.push(l4Text('CHAP 0 - CLAUSES GENERALES'));
-  arr.push(l3Text('CHAP 0 - PART 1'));
-  arr.push(_chap0part1Item('Nom du Projet: ', part1.name));
-  arr.push(_chap0part1Item("Maitre d'Ouvrage: ", part1.client));
-  arr.push(_chap0part1Item("Maitre d'Oeuvre: ", part1.prescriber));
-  arr.push(_chap0part1Item('T.V.A: ', part1.vat));
-  arr.push(_chap0part1Item('Reference: ', part1.reference));
-  arr.push(_chap0part1Item('Description: ', part1.description));
-  arr.push(_chap0part1Item('Type de marché: ', part1.market_type));
-  arr.push(_chap0part1Item('Structure du projet: ', part1.structure));
+  arr.push(l3Text('0.1 DESCRIPTION DU MARCHE'));
+  arr.push(l2Text('0.1.1 OBJET DU MARCHE'));
+  arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
+  arr.push(l1Text(part1.description, true));
+  arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE'));
+  arr.push(l1Text("Maitre d'Ouvrage:", true));
+  arr.push(l0Text(`    ${part1.client}`));
+  arr.push(l1Text("Maitre d'Oeuvre:", true));
+  arr.push(l0Text(`    ${part1.prescriber}`));
+  arr.push(l2Text('0.1.3 TYPE DE MARCHE'));
+  arr.push(l1Text(part1.market_type));
   arr.push(
     new Paragraph({
       children: [
@@ -1443,27 +1444,8 @@ function _parseChap0part1(part1) {
   return arr;
 }
 
-function _chap0part1Item(title, description) {
-  return new Paragraph({
-    children: [
-      new TextRun({
-        text: title,
-        font: fontType,
-        size: l2Font,
-        bold: true,
-      }),
-      new TextRun({
-        text: description,
-        font: fontType,
-        size: l1Font,
-      }),
-    ],
-  });
-}
-
 function _parseChap0part2(part2) {
   const arr = [];
-  arr.push(l3Text('CHAP 0 - PART 2'));
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
     arr.push(l2Text(_.title));
@@ -1850,10 +1832,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
-                  bold:
-                    currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1)
-                      ? true
-                      : false,
+                  bold: currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1) ? true : false,
                   italics: currentRow[0].length === 5 && j === 1 ? true : false,
                 }),
               ],
@@ -2064,9 +2043,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j]}`,
                   bold:
-                    currentRow[0].length === 1 ||
-                    currentRow[0].length === 3 ||
-                    (currentRow[0].length === 7 && j === 1)
+                    currentRow[0].length === 1 || currentRow[0].length === 3 || (currentRow[0].length === 7 && j === 1)
                       ? true
                       : false,
                   italics: currentRow[0].length === 7 && j === 1 ? true : false,
