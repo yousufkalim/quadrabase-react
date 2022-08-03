@@ -1399,6 +1399,8 @@ function _parseHead(headArr) {
                   children: [
                     new TextRun({
                       text: headArr[0],
+                      font: fontType,
+                      size: l2Font,
                       bold: true,
                     }),
                   ],
@@ -1417,6 +1419,8 @@ function _parseHead(headArr) {
                   children: [
                     new TextRun({
                       text: headArr[1],
+                      font: fontType,
+                      size: l2Font,
                       bold: true,
                     }),
                   ],
@@ -1435,6 +1439,8 @@ function _parseHead(headArr) {
                   children: [
                     new TextRun({
                       text: headArr[2],
+                      font: fontType,
+                      size: l2Font,
                       bold: true,
                     }),
                   ],
