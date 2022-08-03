@@ -1442,15 +1442,17 @@ function _parseHead(headArr) {
 function _parseChap0part1(part1) {
   const arr = [];
   arr.push(l4Text('CHAP 0 - CLAUSES GENERALES'));
-  arr.push(l3Text('CHAP 0 - PART 1'));
-  arr.push(_chap0part1Item('Nom du Projet: ', part1.name));
-  arr.push(_chap0part1Item("Maitre d'Ouvrage: ", part1.client));
-  arr.push(_chap0part1Item("Maitre d'Oeuvre: ", part1.prescriber));
-  arr.push(_chap0part1Item('T.V.A: ', part1.vat));
-  arr.push(_chap0part1Item('Reference: ', part1.reference));
-  arr.push(_chap0part1Item('Description: ', part1.description));
-  arr.push(_chap0part1Item('Type de marché: ', part1.market_type));
-  arr.push(_chap0part1Item('Structure du projet: ', part1.structure));
+  arr.push(l3Text('0.1 DESCRIPTION DU MARCHE'));
+  arr.push(l2Text('0.1.1 OBJET DU MARCHE'));
+  arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
+  arr.push(l1Text(part1.description, true));
+  arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE'));
+  arr.push(l1Text("Maitre d'Ouvrage:", true));
+  arr.push(l0Text(`    ${part1.client}`));
+  arr.push(l1Text("Maitre d'Oeuvre:", true));
+  arr.push(l0Text(`    ${part1.prescriber}`));
+  arr.push(l2Text('0.1.3 TYPE DE MARCHE'));
+  arr.push(l1Text(part1.market_type));
   arr.push(
     new Paragraph({
       children: [
@@ -1475,24 +1477,6 @@ function _parseChap0part1(part1) {
     );
   }
   return arr;
-}
-
-function _chap0part1Item(title, description) {
-  return new Paragraph({
-    children: [
-      new TextRun({
-        text: title,
-        font: fontType,
-        size: l2Font,
-        bold: true,
-      }),
-      new TextRun({
-        text: description,
-        font: fontType,
-        size: l1Font,
-      }),
-    ],
-  });
 }
 
 function _parseChap0part2(part2) {
