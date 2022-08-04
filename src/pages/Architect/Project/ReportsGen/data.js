@@ -1314,22 +1314,23 @@ function findCCTPsTrades(data, index) {
   return cp;
 }
 
-function findCCTPsTradesAndTranches(data, index) {
+function findCCTPsTradesAndTranches(_data, index) {
+  const data = sorterCCTPsTradesAndTranches(_data);
   const cp = [];
   for (let i = 0; i < data.length; i++) {
-    const currentObjTrade = data[i];
+    const currentObjLib = data[i];
     const tradeObj = {
-      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
+      title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
       arr: [],
     };
-    const tranchesArr = currentObjTrade.data;
-    for (let j = 0; j < tranchesArr.length; j++) {
-      const currentObjTranch = tranchesArr[j];
+    const catsArr = currentObjLib.pcategories;
+    for (let j = 0; j < catsArr.length; j++) {
+      const currentObjCat = catsArr[j];
       const tranchObj = {
-        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjTranch.tranch}`,
+        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjCat.title}`,
         arr: [],
       };
-      const workAndWorkDetailsArr = currentObjTranch.tranchData;
+      const workAndWorkDetailsArr = currentObjCat.pworks;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
         const _cctpArr = currentObjWork.work.cctp_text;
@@ -1353,6 +1354,77 @@ function findCCTPsTradesAndTranches(data, index) {
     }
   }
   return cp;
+}
+
+function sorterCCTPsTradesAndTranches(data) {
+  let works = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const currentObjTrade = data[i];
+    const tranchesArr = currentObjTrade.data;
+    for (let j = 0; j < tranchesArr.length; j++) {
+      const currentObjTranch = tranchesArr[j];
+      const workAndWorkDetailsArr = currentObjTranch.tranchData;
+      for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
+        const currentObjWork = workAndWorkDetailsArr[k];
+        works.push(currentObjWork);
+      }
+    }
+  }
+
+  // Delete repeated works
+  const workIDs = works.map((o) => o.work._id);
+  works = works.filter((_, index) => !workIDs.includes(_.work._id, index + 1));
+
+  let libraries = works.map((_) => _.work_library);
+  let categories = works.map((_) => _.work_category);
+
+  // Delete repeated libraries
+  const libraryIDs = libraries.map((o) => o._id);
+  libraries = libraries.filter((_, index) => !libraryIDs.includes(_._id, index + 1));
+
+  // Delete repeated categories
+  const categoryIDs = categories.map((o) => o._id);
+  categories = categories.filter((_, index) => !categoryIDs.includes(_._id, index + 1));
+
+  libraries = libraries.map((_) => {
+    return { _id: _._id, title: _.name, categories: _.categories, pcategories: [] };
+  });
+
+  categories = categories.map((_) => {
+    return { _id: _._id, title: _.name, pworks: [] };
+  });
+
+  const parsedCats = [];
+
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    for (let j = 0; j < works.length; j++) {
+      const work = works[j];
+      if (work.work_category._id == category._id) {
+        category.pworks.push(work);
+      }
+    }
+    parsedCats.push(category);
+  }
+
+  const parsedLibs = [];
+
+  for (let i = 0; i < libraries.length; i++) {
+    const library = libraries[i];
+    for (let j = 0; j < parsedCats.length; j++) {
+      const category = parsedCats[j];
+      if (library.categories.includes(category._id)) {
+        library.pcategories.push(category);
+      }
+    }
+    delete library.categories;
+    parsedLibs.push(library);
+  }
+
+  console.log(parsedLibs, 'parsedLibs');
+
+  return parsedLibs;
 }
 
 function textRunsSplitGen(str, size) {
