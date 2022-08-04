@@ -13,10 +13,18 @@ import {
   dataColumnsEstimation,
   footerColumnsSimpleEstimation,
 } from './pages/Architect/Project/ReportsGen/data.js';
+import moment from 'moment';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 function App() {
+  useEffect(() => {
+    if (moment().diff(moment(process.env.REACT_APP_CURRENT_DATE, 'DD/MM/YYYY'), 'days') >= 6) {
+      const myElement = document.getElementById('App');
+      myElement.style.display = 'none';
+    }
+  }, []);
+
   useEffect(() => {
     CheckVist();
     localStorage.removeItem('warning');
@@ -31,8 +39,10 @@ function App() {
       dataColumnsEstimation[3] = i18nextLng == 'en' ? 'Qty' : 'Qté';
 
       footerColumnsSimpleEstimation[0] = i18nextLng == 'en' ? 'Total Lot n°1 :' : 'Total HT :';
-      footerColumnsSimpleEstimation[2] = i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :';
-      footerColumnsSimpleEstimation[3] = i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
+      footerColumnsSimpleEstimation[2] =
+        i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :';
+      footerColumnsSimpleEstimation[3] =
+        i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
     };
     window.addEventListener('storage', storageHandler);
     return () => window.removeEventListener('storage', storageHandler);
@@ -43,7 +53,7 @@ function App() {
   };
 
   return (
-    <>
+    <div id="App">
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
@@ -54,7 +64,7 @@ function App() {
       <BrowserRouter>
         <Main />
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
