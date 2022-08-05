@@ -1139,6 +1139,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   // Parse CCTPs
   const parsedCCTPs = [];
   for (let i = 0; i < cctps.length; i++) {
+    const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
         spacing: {
@@ -1147,7 +1148,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         },
         children: [
           new TextRun({
-            text: cctps[i].title,
+            text: _.title,
             size: l4Font,
             bold: true,
             font: fontType,
@@ -1157,12 +1158,21 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         heading: HeadingLevel.HEADING_1,
       })
     );
-    const cctpArr = cctps[i].arr;
+    const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      const _ = cctpArr[j];
-      parsedCCTPs.push(l2Text(_.title));
-      let docxObjs = textRunsSplitGen(_.text);
-      parsedCCTPs.push(...docxObjs);
+      const lib = cctpArr[j];
+      parsedCCTPs.push(l3Text(lib.title));
+      for (let k = 0; k < lib.arr.length; k++) {
+        const cat = lib.arr[k];
+        parsedCCTPs.push(l2Text(cat.title));
+        for (let l = 0; l < cat.arr.length; l++) {
+          const work = cat.arr[l];
+          parsedCCTPs.push(l2Text(work.title));
+          parsedCCTPs.push(lineBreak());
+          let docxObjs = textRunsSplitGen(work.text);
+          parsedCCTPs.push(...docxObjs);
+        }
+      }
     }
   }
 
@@ -1251,13 +1261,18 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     );
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      const trade = cctpArr[j];
-      parsedCCTPs.push(l3Text(trade.title));
-      for (let k = 0; k < trade.arr.length; k++) {
-        const work = trade.arr[k];
-        parsedCCTPs.push(l2Text(trade.title));
-        let docxObjs = textRunsSplitGen(work.text);
-        parsedCCTPs.push(...docxObjs);
+      const lib = cctpArr[j];
+      parsedCCTPs.push(l3Text(lib.title));
+      for (let k = 0; k < lib.arr.length; k++) {
+        const cat = lib.arr[k];
+        parsedCCTPs.push(l2Text(cat.title));
+        for (let l = 0; l < cat.arr.length; l++) {
+          const work = cat.arr[l];
+          parsedCCTPs.push(l2Text(work.title));
+          parsedCCTPs.push(lineBreak());
+          let docxObjs = textRunsSplitGen(work.text);
+          parsedCCTPs.push(...docxObjs);
+        }
       }
     }
   }
@@ -1347,13 +1362,13 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     );
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
-      const trade = cctpArr[j];
-      parsedCCTPs.push(l3Text(trade.title));
-      for (let k = 0; k < trade.arr.length; k++) {
-        const tranch = trade.arr[k];
-        parsedCCTPs.push(l2Text(tranch.title));
-        for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[l];
+      const lib = cctpArr[j];
+      parsedCCTPs.push(l3Text(lib.title));
+      for (let k = 0; k < lib.arr.length; k++) {
+        const cat = lib.arr[k];
+        parsedCCTPs.push(l2Text(cat.title));
+        for (let l = 0; l < cat.arr.length; l++) {
+          const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title));
           parsedCCTPs.push(lineBreak());
           let docxObjs = textRunsSplitGen(work.text);

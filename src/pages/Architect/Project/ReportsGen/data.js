@@ -1266,93 +1266,21 @@ function parseChap0(currentProject) {
   return obj;
 }
 
-function findCCTPsSimple(data, index) {
-  const cp = [];
-  for (let i = 0; i < data.length; i++) {
-    const _cctpArr = data[i].work.cctp_text;
-    if (_cctpArr.length == 0) {
-      continue;
-    }
-    if (_cctpArr[index]) {
-      const obj = {
-        title: `${index + 1}.${i + 1} ${data[i].work.name}`,
-        text: _cctpArr[index],
-      };
-      cp.push(obj);
-    }
-  }
+function findCCTPsSimple(_data, index) {
+  const data = parseSorterWorks(_data);
+  const cp = parseCCTPData(data, index);
   return cp;
 }
 
-function findCCTPsTrades(data, index) {
-  const cp = [];
-  for (let i = 0; i < data.length; i++) {
-    const currentObjTrade = data[i];
-    const tradeObj = {
-      title: `${index + 1}.${i + 1} ${currentObjTrade._id}`,
-      arr: [],
-    };
-    const workAndWorkDetailsArr = currentObjTrade.data;
-    for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
-      const currentObjWork = workAndWorkDetailsArr[j];
-      const _cctpArr = currentObjWork.work.cctp_text;
-      if (_cctpArr.length == 0) {
-        continue;
-      }
-      if (_cctpArr[index]) {
-        const workObj = {
-          title: `${index + 1}.${i + 1}.${j + 1} ${currentObjWork.work.name}`,
-          text: _cctpArr[index],
-        };
-        tradeObj.arr.push(workObj);
-      }
-    }
-    if (tradeObj.arr.length > 0) {
-      cp.push(tradeObj);
-    }
-  }
+function findCCTPsTrades(_data, index) {
+  const data = sorterCCTPsTrades(_data);
+  const cp = parseCCTPData(data, index);
   return cp;
 }
 
 function findCCTPsTradesAndTranches(_data, index) {
   const data = sorterCCTPsTradesAndTranches(_data);
-  const cp = [];
-  for (let i = 0; i < data.length; i++) {
-    const currentObjLib = data[i];
-    const tradeObj = {
-      title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
-      arr: [],
-    };
-    const catsArr = currentObjLib.pcategories;
-    for (let j = 0; j < catsArr.length; j++) {
-      const currentObjCat = catsArr[j];
-      const tranchObj = {
-        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjCat.title}`,
-        arr: [],
-      };
-      const workAndWorkDetailsArr = currentObjCat.pworks;
-      for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
-        const currentObjWork = workAndWorkDetailsArr[k];
-        const _cctpArr = currentObjWork.work.cctp_text;
-        if (_cctpArr.length == 0) {
-          continue;
-        }
-        if (_cctpArr[index]) {
-          const workObj = {
-            title: `${index + 1}.${i + 1}.${j + 1}.${k + 1} ${currentObjWork.work.name}`,
-            text: _cctpArr[index],
-          };
-          tranchObj.arr.push(workObj);
-        }
-      }
-      if (tranchObj.arr.length > 0) {
-        tradeObj.arr.push(tranchObj);
-      }
-    }
-    if (tradeObj.arr.length > 0) {
-      cp.push(tradeObj);
-    }
-  }
+  const cp = parseCCTPData(data, index);
   return cp;
 }
 
@@ -1372,6 +1300,29 @@ function sorterCCTPsTradesAndTranches(data) {
     }
   }
 
+  const parsedLibs = parseSorterWorks(works);
+
+  return parsedLibs;
+}
+
+function sorterCCTPsTrades(data) {
+  let works = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const currentObjTrade = data[i];
+    const workAndWorkDetailsArr = currentObjTrade.data;
+    for (let j = 0; j < workAndWorkDetailsArr.length; j++) {
+      const currentObjWork = workAndWorkDetailsArr[j];
+      works.push(currentObjWork);
+    }
+  }
+
+  const parsedLibs = parseSorterWorks(works);
+
+  return parsedLibs;
+}
+
+function parseSorterWorks(works) {
   // Delete repeated works
   const workIDs = works.map((o) => o.work._id);
   works = works.filter((_, index) => !workIDs.includes(_.work._id, index + 1));
@@ -1422,9 +1373,48 @@ function sorterCCTPsTradesAndTranches(data) {
     parsedLibs.push(library);
   }
 
-  console.log(parsedLibs, 'parsedLibs');
-
   return parsedLibs;
+}
+
+function parseCCTPData(data, index) {
+  const cp = [];
+  for (let i = 0; i < data.length; i++) {
+    const currentObjLib = data[i];
+    const libObj = {
+      title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
+      arr: [],
+    };
+    const catsArr = currentObjLib.pcategories;
+    for (let j = 0; j < catsArr.length; j++) {
+      const currentObjCat = catsArr[j];
+      const catObj = {
+        title: `${index + 1}.${i + 1}.${j + 1} ${currentObjCat.title}`,
+        arr: [],
+      };
+      const workAndWorkDetailsArr = currentObjCat.pworks;
+      for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
+        const currentObjWork = workAndWorkDetailsArr[k];
+        const _cctpArr = currentObjWork.work.cctp_text;
+        if (_cctpArr.length == 0) {
+          continue;
+        }
+        if (_cctpArr[index]) {
+          const workObj = {
+            title: `${index + 1}.${i + 1}.${j + 1}.${k + 1} ${currentObjWork.work.name}`,
+            text: _cctpArr[index],
+          };
+          catObj.arr.push(workObj);
+        }
+      }
+      if (catObj.arr.length > 0) {
+        libObj.arr.push(catObj);
+      }
+    }
+    if (libObj.arr.length > 0) {
+      cp.push(libObj);
+    }
+  }
+  return cp;
 }
 
 function textRunsSplitGen(str, size) {
