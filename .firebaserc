@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "quadrabase-demo"
+  },
+  "targets": {
+    "quadrabase-demo": {
+      "hosting": {
+        "dev": [
+          "quadrabase-demo"
+        ],
+        "prod": [
+          "quadrabase-prod"
+        ]
+      }
+    }
   }
 }
