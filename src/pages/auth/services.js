@@ -18,9 +18,6 @@ const Services = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
         height: '100vh',
       }}
     >
