@@ -48,7 +48,7 @@ textarea::placeholder {
 }
 .borderimg {
   width: 2% !important;
-  height: 83% !important;
+  height: 70vh !important;
   position: absolute !important;
   /* right: 13%; */
   left: 9% !important;
