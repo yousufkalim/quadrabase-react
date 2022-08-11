@@ -1,5 +1,5 @@
 .spc_headerdiv {
-  background: url("../../assets/images/headerbg.svg");
+  background: url('../../assets/images/headerbg.svg');
   background-repeat: no-repeat;
   background-size: cover;
   object-fit: cover !important;
@@ -74,11 +74,17 @@
     background-size: initial !important;
   }
   .spc_container {
-    padding-top: 2% !important;
+    padding-top: 6% !important;
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 850px) {
+  .spc_container {
+    padding-top: 8% !important;
+  }
+}
+
+@media only screen and (max-width: 650px) {
   .spc_Heroheading {
     font-size: 24px !important;
   }
@@ -86,12 +92,25 @@
     font-size: 16px !important;
   }
   .spc_container {
-    padding-top: 8% !important;
+    padding-top: 14% !important;
   }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .spc_herobtn1 {
+    width: 158px !important;
+    height: 50px !important;
     margin-bottom: 4% !important;
+  }
+  .spc_herobtn2 {
+    width: 148px !important;
+    height: 50px !important;
+  }
+  .spc_btndiv {
+    display: flex;
+    flex-direction: column;
+  }
+  .spc_container {
+    padding-top: 16% !important;
   }
 }

@@ -5,7 +5,7 @@
   width: 100% !important;
 }
 .spc_supportheaderdiv_noborder {
-  background: url("../../assets/images/DocumentationBG.svg");
+  background: url('../../assets/images/DocumentationBG.svg');
   background-repeat: no-repeat;
   background-size: cover;
   object-fit: cover !important;
@@ -45,5 +45,8 @@
 
   .spc_doctitle {
     font-size: 13px !important;
+  }
+  .spc_title {
+    font-size: 18px !important;
   }
 }

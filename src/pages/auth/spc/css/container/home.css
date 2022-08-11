@@ -263,4 +263,7 @@
   .spc_border2 {
     margin-left: 88px !important;
   }
+  .spc_fottergrid {
+    margin-top: 10px;
+  }
 }

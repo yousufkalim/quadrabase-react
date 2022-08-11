@@ -28,6 +28,14 @@ export const ADMIN_STATE = {
   confirm_password: '',
 };
 
+export const UPDATE_PROFILE_STATE = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  oldPassword: '',
+  newPassword: '',
+};
+
 export const PRODUCT_STATE = {
   name: '',
   type: 'Prescribers',
