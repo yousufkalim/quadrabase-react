@@ -610,10 +610,12 @@ i18n
           'Created successfully': 'Created successfully',
           'Add title': 'Add title',
           'Edit text': 'Edit text',
+          'Edit Profile': 'Edit Profile',
         },
       },
       fr: {
         translations: {
+          'Edit Profile': 'Editer le profil',
           'Created successfully': 'Créé avec succès',
           'Email is required!': "L'e-mail est requis !",
           'Static Pages': 'Pages statiques',

@@ -103,11 +103,11 @@ const ResponsiveAppBar = (props) => {
             variant=""
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'none', lg: 'flex' } }}
           >
             <img src={!scroll ? props.logo : Quadralogo2} onClick={() => navTo('/auth/home')}></img>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex', lg: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -133,7 +133,7 @@ const ResponsiveAppBar = (props) => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'flex', lg: 'none' },
               }}
             >
               {pages.map((page) => (
@@ -155,15 +155,16 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              display: { xs: 'none', sm: 'flex', md: 'none' },
+              display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'none' },
             }}
+            onClick={() => navTo('/auth/home')}
           >
             <img src={Quadralogo}></img>
           </Typography>
           <Box
             sx={{
               flexGrow: 2,
-              display: { xs: 'none !important', md: 'flex !important' },
+              display: { xs: 'none !important', md: 'none !important', lg: 'flex !important' },
             }}
             className="spc_navitems"
           >
@@ -180,6 +181,7 @@ const ResponsiveAppBar = (props) => {
                   padding: '0 1% 0 1%',
                   textTransform: 'capitalize',
                   fontSize: '14px',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {page.title}

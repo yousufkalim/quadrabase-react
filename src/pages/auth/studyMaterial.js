@@ -10,9 +10,6 @@ const Support = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
         height: '100vh',
       }}
     >
@@ -28,7 +25,6 @@ const Support = () => {
           <CollapseStudyMaterial />
         </Grid>
       </div>
-
       <Footer />
     </div>
   );

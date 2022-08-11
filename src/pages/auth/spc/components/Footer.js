@@ -4,41 +4,45 @@ import Quadralogo from '../assets/images/Quadralogo.svg';
 import { useHistory } from 'react-router-dom';
 
 const Footer = () => {
-  const hisory = useHistory();
+  const history = useHistory();
   return (
     <div className="footer-container">
       <img src={q4} className="q4-logo" />
       <div className="footer-flex-container">
         <div className="footer-left-conatiener">
-          <img src={Quadralogo} className="quadrabase-logo" />
+          <img
+            src={Quadralogo}
+            className="quadrabase-logo"
+            onClick={() => history.push('/auth/home')}
+          />
           <div className="link-container">
-            <span onClick={() => hisory.push('/auth/terms')} style={{ cursor: 'pointer' }}>
+            <span onClick={() => history.push('/auth/terms')} style={{ cursor: 'pointer' }}>
               CGU
             </span>
             &nbsp;&nbsp;&nbsp;
-            <span onClick={() => hisory.push('/auth/cgv')} style={{ cursor: 'pointer' }}>
+            <span onClick={() => history.push('/auth/cgv')} style={{ cursor: 'pointer' }}>
               CGV
             </span>
             &nbsp;&nbsp;&nbsp;
-            <span onClick={() => hisory.push('/auth/privacy')} style={{ cursor: 'pointer' }}>
+            <span onClick={() => history.push('/auth/privacy')} style={{ cursor: 'pointer' }}>
               Politique de confidentialité
             </span>
           </div>
         </div>
         <div className="footer-right-conatiener">
-          <div onClick={() => hisory.push('/auth/support')} style={{ cursor: 'pointer' }}>
+          <div onClick={() => history.push('/auth/support')} style={{ cursor: 'pointer' }}>
             Supports pédagogiques
           </div>
-          <div onClick={() => hisory.push('/auth/documentation')} style={{ cursor: 'pointer' }}>
+          <div onClick={() => history.push('/auth/documentation')} style={{ cursor: 'pointer' }}>
             Documentation
           </div>
-          <div onClick={() => hisory.push('/auth/fabricant')} style={{ cursor: 'pointer' }}>
+          <div onClick={() => history.push('/auth/fabricant')} style={{ cursor: 'pointer' }}>
             Fabricants
           </div>
-          <div onClick={() => hisory.push('/auth/libraries')} style={{ cursor: 'pointer' }}>
+          <div onClick={() => history.push('/auth/libraries')} style={{ cursor: 'pointer' }}>
             Bibliothèques
           </div>
-          <div onClick={() => hisory.push('/auth/services')} style={{ cursor: 'pointer' }}>
+          <div onClick={() => history.push('/auth/services')} style={{ cursor: 'pointer' }}>
             Produits
           </div>
         </div>
