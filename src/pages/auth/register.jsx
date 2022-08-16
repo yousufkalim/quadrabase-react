@@ -1819,10 +1819,11 @@ const Register = () => {
                     style={{
                       textTransform: 'none',
                       backgroundColor: '#8C1244',
-                      backgroundColor: total.grandTotal === 0 ? '#d9adad' : '#8C1244',
+                      backgroundColor:
+                        type === 'Prescripteur' && total.grandTotal === 0 ? '#d9adad' : '#8C1244',
                       borderRadius: 8,
                     }}
-                    disabled={total.grandTotal === 0}
+                    disabled={type === 'Prescripteur' && total.grandTotal === 0}
                     onClick={() => handleFinish()}
                   >
                     Valider
