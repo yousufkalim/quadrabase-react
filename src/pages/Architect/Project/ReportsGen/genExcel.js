@@ -155,24 +155,28 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
   const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
-    footerDataFloatsArr,
-    footerColumnsSimpleEstimation
-  );
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimation);
 
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedBodyData);
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
-  const ws = XLSX.utils.json_to_sheet(xlsxParsedData);
+  const ws = XLSX.utils.book_new();
+  XLSX.utils.sheet_add_aoa(ws, [['Estimation', 'proj4', '16/08/2022', 'Estimation', 'proj4', '16/08/2022']]);
+  XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
   const wscols = calculateWSCols(xlsxParsedData);
   ws['!cols'] = wscols;
 
-  let cursor = 1;
+  let cursor = 3;
   let stopAt;
 
   // Header row style
+  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
@@ -210,10 +214,20 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   }
 
   // Make merger object
-  const merge = [];
+  const merge = [
+    {
+      s: { r: 0, c: 1 },
+      e: { r: 0, c: 4 },
+    },
+    {
+      s: { r: 1, c: 1 },
+      e: { r: 1, c: 5 },
+    },
+  ];
+
   stopAt = cursor;
   for (let i = 0; i < footerDataFloatsArr.length; i++) {
-    const obj = {
+    let obj = {
       s: { r: stopAt + i, c: 1 },
       e: { r: stopAt + i, c: 4 },
     };
@@ -221,6 +235,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   }
 
   // Merge footer cells - Merge must be done after styling
+  console.log('merge --> ', merge);
   ws['!merges'] = merge;
 
   const wb = XLSX.utils.book_new();
@@ -230,9 +245,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
   return { blob, filename };
 };
 
@@ -243,10 +256,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   let xlsxParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
-    footerDataFloatsArr,
-    footerColumnsSimpleEstimationNoSpace
-  );
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
@@ -336,9 +346,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
   return { blob, filename };
 };
 
@@ -348,24 +356,12 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
   let xlsxParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
-    data,
-    currentProject,
-    noPrice,
-    false
-  );
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
-    footerDataFloatsArr,
-    footerColumnsSimpleEstimationNoSpace
-  );
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(footerDataFloatsArr, footerColumnsSimpleEstimationNoSpace);
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(
-      currentRow,
-      i + 1,
-      noPrice
-    );
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -465,9 +461,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estimation'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
   return { blob, filename };
 };
 
@@ -481,11 +475,7 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
       } else {
         ws[`${char}${rownum}`].s = style2;
       }
-    } else if (
-      type === 'WorkAndWorkDetail' ||
-      type === 'WorkAndWorkDetail2' ||
-      type === 'WorkAndWorkDetail3'
-    ) {
+    } else if (type === 'WorkAndWorkDetail' || type === 'WorkAndWorkDetail2' || type === 'WorkAndWorkDetail3') {
       if (char === 'A') {
         if (type === 'WorkAndWorkDetail') {
           if (ws[`${char}${rownum}`].v.length >= 7) {
@@ -548,8 +538,4 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
   }
 }
 
-export {
-  exportXLSXSimpleEstimation,
-  exportXLSXTradesEstimation,
-  exportXLSXTradesAndTranchesEstimation,
-};
+export { exportXLSXSimpleEstimation, exportXLSXTradesEstimation, exportXLSXTradesAndTranchesEstimation };
