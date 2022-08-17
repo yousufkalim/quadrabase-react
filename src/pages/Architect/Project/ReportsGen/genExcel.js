@@ -1,6 +1,7 @@
 import XLSX from 'xlsx-js-style';
 
 import {
+  headGen,
   rowsGenSimpleEstimation,
   rowsGenTradesEstimation,
   rowsGenTradesAndTranchesEstimation,
@@ -150,6 +151,7 @@ const textAlignment3 = {
 };
 
 const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
+  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
   const rows = rowsGenSimpleEstimation(data, noPrice);
 
   let xlsxParsedData = [];
@@ -161,7 +163,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.book_new();
-  XLSX.utils.sheet_add_aoa(ws, [['Estimation', 'proj4', '16/08/2022', 'Estimation', 'proj4', '16/08/2022']]);
+  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -177,6 +179,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
     ...Fill1,
     ...BorderFirst2,
   });
+  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
@@ -235,7 +238,6 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   }
 
   // Merge footer cells - Merge must be done after styling
-  console.log('merge --> ', merge);
   ws['!merges'] = merge;
 
   const wb = XLSX.utils.book_new();
@@ -250,6 +252,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
 };
 
 const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
+  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
@@ -266,22 +269,39 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
-  const ws = XLSX.utils.json_to_sheet(xlsxParsedData);
+  const ws = XLSX.utils.book_new();
+  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
+  XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
   const wscols = calculateWSCols(xlsxParsedData);
   ws['!cols'] = wscols;
 
-  let cursor = 1;
-  const merge = [];
+  let cursor = 3;
 
   // Header row style
+  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
+  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
     ...BorderFirst2,
   });
-  cursor = cursor + 1;
+
+  const merge = [
+    {
+      s: { r: 0, c: 1 },
+      e: { r: 0, c: 4 },
+    },
+    {
+      s: { r: 1, c: 1 },
+      e: { r: 1, c: 5 },
+    },
+  ];
 
   // Trades styling
   for (let i = 0; i < rows.length; i++) {
@@ -290,7 +310,8 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     applyRowStyle(ws, cursor, { ...Fill2, ...BorderFirst2 });
     cursor = cursor + 1;
     const workAndWorkDetailsRows = tradeRow.rows;
-    for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
+    for (let j = 0; j < workAndWorkDetailsRows.length + 1; j++) {
+      // This is not supposed to work
       // WorkAndWorkDetail row style
       applyRowStyle(
         ws,
@@ -351,6 +372,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 };
 
 const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) => {
+  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
@@ -367,21 +389,40 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
 
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
-  const ws = XLSX.utils.json_to_sheet(xlsxParsedData);
+  const ws = XLSX.utils.book_new();
+  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
+  XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
   const wscols = calculateWSCols(xlsxParsedData);
   ws['!cols'] = wscols;
 
-  let cursor = 1;
-  const merge = [];
+  let cursor = 3;
 
   // Header row style
+  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
+    ...textAlignment2,
+    ...Fill1,
+    ...BorderFirst2,
+  });
+  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
     ...BorderFirst2,
   });
+
+  const merge = [
+    {
+      s: { r: 0, c: 1 },
+      e: { r: 0, c: 4 },
+    },
+    {
+      s: { r: 1, c: 1 },
+      e: { r: 1, c: 5 },
+    },
+  ];
+
   cursor = cursor + 1;
 
   // Trades styling
