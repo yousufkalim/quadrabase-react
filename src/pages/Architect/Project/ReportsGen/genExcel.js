@@ -151,7 +151,7 @@ const textAlignment3 = {
 };
 
 const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
-  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
+  const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenSimpleEstimation(data, noPrice);
 
   let xlsxParsedData = [];
@@ -252,7 +252,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
 };
 
 const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
-  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
+  const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
@@ -372,7 +372,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 };
 
 const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) => {
-  const header = headGen(!noPrice ? 'Estimation' : 'DQE', currentProject.name);
+  const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
