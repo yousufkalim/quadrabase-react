@@ -27,7 +27,7 @@ import {
 } from './data.js';
 
 async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
   const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
 
@@ -43,7 +43,7 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
 
   const obj = {
     blob,
@@ -54,7 +54,7 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
 }
 
 async function exportPDFTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
@@ -80,7 +80,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
 
   const obj = {
     blob,
@@ -92,7 +92,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
 async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPrice) {
   const data = structuredClone(_data);
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estimation'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
@@ -118,7 +118,7 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
 
   const obj = {
     blob,
@@ -430,13 +430,20 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
   for (let i = 0; i < cctps.length; i++) {
     const _ = cctps[i];
-
     let str = '';
     str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
     for (let j = 0; j < _.arr.length; j++) {
-      const work = _.arr[j];
-      str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
-      str = str.concat(`${work.text}`);
+      const trade = _.arr[j];
+      str = str.concat(`<p style="font-weight: 600">${trade.title}</p>`);
+      for (let k = 0; k < trade.arr.length; k++) {
+        const tranch = trade.arr[k];
+        str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
+        for (let l = 0; l < tranch.arr.length; l++) {
+          const work = tranch.arr[k];
+          str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
+          str = str.concat(`${work.text}`);
+        }
+      }
     }
     str = str.concat(`</p>`);
     pdfParsedData.push(str);
@@ -484,9 +491,13 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
       const trade = _.arr[j];
       str = str.concat(`<p style="font-weight: 600">${trade.title}</p>`);
       for (let k = 0; k < trade.arr.length; k++) {
-        const work = trade.arr[k];
-        str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
-        str = str.concat(`${work.text}`);
+        const tranch = trade.arr[k];
+        str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
+        for (let l = 0; l < tranch.arr.length; l++) {
+          const work = tranch.arr[k];
+          str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
+          str = str.concat(`${work.text}`);
+        }
       }
     }
     str = str.concat(`</p>`);
