@@ -67,6 +67,17 @@ const Fill1 = {
   ...Font1,
 };
 
+const TitleStyle = {
+  fill: {
+    fgColor: { rgb: 'FFBFBFBF' },
+  },
+  font: {
+    bold: true,
+    sz: 12,
+    name: 'Arial',
+  },
+};
+
 // For trades
 const Fill2 = {
   fill: {
@@ -163,7 +174,15 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.book_new();
-  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
+  let titleRow = [
+    { v: header[0], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+    { v: header[1], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } } },
+    '',
+    '',
+    '',
+    { v: header[2], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+  ];
+  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -173,13 +192,6 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   let cursor = 3;
   let stopAt;
 
-  // Header row style
-  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
-    ...textAlignment2,
-    ...Fill1,
-    ...BorderFirst2,
-  });
-  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
@@ -270,7 +282,15 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.book_new();
-  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
+  let titleRow = [
+    { v: header[0], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+    { v: header[1], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } } },
+    '',
+    '',
+    '',
+    { v: header[2], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+  ];
+  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -279,13 +299,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   let cursor = 3;
 
-  // Header row style
-  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
-    ...textAlignment2,
-    ...Fill1,
-    ...BorderFirst2,
-  });
-  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
+  //   Header row style
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
@@ -390,7 +404,15 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   xlsxParsedData = xlsxParsedData.concat(xlsxParsedFooterData);
 
   const ws = XLSX.utils.book_new();
-  XLSX.utils.sheet_add_aoa(ws, [[header[0], header[1], '', '', '', header[2]]]);
+  let titleRow = [
+    { v: header[0], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+    { v: header[1], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } } },
+    '',
+    '',
+    '',
+    { v: header[2], t: 's', s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } } },
+  ];
+  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -400,12 +422,6 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   let cursor = 3;
 
   // Header row style
-  applyRowStyle(ws, 1, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
-    ...textAlignment2,
-    ...Fill1,
-    ...BorderFirst2,
-  });
-  ws['A1'].s.alignment = { horizontal: 'center', vertical: 'center' };
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
