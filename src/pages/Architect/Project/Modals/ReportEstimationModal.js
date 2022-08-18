@@ -85,27 +85,6 @@ function ReportEstimationModal(props) {
     }
   }
 
-  async function generateWord() {
-    try {
-      let res;
-      if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportDOCXSimpleEstimation(projectWorkData, currentProject);
-      } else if (currentProject.market_type == 'Trades') {
-        res = await exportDOCXTradesEstimation(projectWorkData, currentProject);
-      } else if (currentProject.market_type == 'TradesAndTranches') {
-        console.log('3', 'XYZ');
-        res = await exportDOCXTradesAndTranchesEstimation(projectWorkData, currentProject);
-      } else {
-        console.trace('Show me');
-        return;
-      }
-      downloadBlob(res.blob, res.filename);
-    } catch (e) {
-      toast.error('Could not generate report successfully.');
-      console.trace(e);
-    }
-  }
-
   return (
     <>
       <div style={{ width: '60vw', maxHeight: '85vh', overflow: 'auto' }}>
@@ -120,9 +99,6 @@ function ReportEstimationModal(props) {
           </IconButton>
           <IconButton aria-label="PDF" onClick={generatePDF}>
             <PictureAsPdfIcon />
-          </IconButton>
-          <IconButton aria-label="DOCX" onClick={generateWord}>
-            <TextSnippetIcon />
           </IconButton>
         </Stack>
         {pdfs.length > 0 && (
