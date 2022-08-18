@@ -259,7 +259,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
@@ -381,7 +381,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
@@ -518,7 +518,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estimation'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
