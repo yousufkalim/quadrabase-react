@@ -1,4 +1,7 @@
-import { Paragraph, TextRun, UnderlineType } from 'docx';
+import { Paragraph, TextRun, UnderlineType, ImageRun } from 'docx';
+import reactImageSize from 'react-image-size';
+import axios from 'axios';
+import { Buffer } from 'buffer';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
 import {
@@ -1104,6 +1107,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
       const obj = {
         title: data[i].work.name,
         text: data[i].work.bpu_text[0],
+        unit: data[i].work?.unit?.name,
       };
       arr1.push(obj);
       arr1.push('');
@@ -1259,11 +1263,25 @@ function parseChap0(currentProject) {
     }
   }
 
+  const client = {
+    name: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
+    address: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
+    email: currentProject?.client?.email?.length > 0 ? currentProject?.client?.email : 'N/A',
+    phone: `Tel. : ${currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A'}`,
+  };
+
+  const prescriber = {
+    name: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
+    address: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
+    email: currentProject?.prescriber?.email?.length > 0 ? currentProject?.prescriber?.email : 'N/A',
+    phone: `Tel. : ${currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A'}`,
+  };
+
   // Parse chap0part1
   const part1 = {
     name: currentProject?.name ?? '',
-    client: currentProject?.client?.establishment ?? '',
-    prescriber: currentProject?.prescriber?.establishment ?? '',
+    client: client,
+    prescriber: prescriber,
     vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
     reference: currentProject?.reference ?? '',
     description: currentProject?.description ?? '',
@@ -1277,21 +1295,21 @@ function parseChap0(currentProject) {
   for (let i = 0; i < currentProject.chap0part2.length; i++) {
     const lvl1 = currentProject.chap0part2[i].id;
     const _ = {
-      title: `0.1 ${lvl1.title}`,
+      title: `0.2 ${lvl1.title}`,
       text: lvl1.text,
       lvl2: [],
     };
     for (let j = 0; j < lvl1.level2.length; j++) {
       const lvl2 = lvl1.level2[j];
       const __ = {
-        title: `0.1.${j + 1} ${lvl2.title}`,
+        title: `0.2.${j + 1} ${lvl2.title}`,
         text: lvl2.text,
         lvl3: [],
       };
       for (let k = 0; k < lvl2.level3.length; k++) {
         const lvl3 = lvl2.level3[k];
         const ___ = {
-          title: `0.1.${k + 1}.${k + 1} ${lvl3.title}`,
+          title: `0.2.${k + 1}.${k + 1} ${lvl3.title}`,
           text: lvl3.text,
         };
         __.lvl3.push(___);
@@ -1460,14 +1478,14 @@ function parseCCTPData(data, index) {
   return cp;
 }
 
-function textRunsSplitGen(str, size) {
+async function textRunsSplitGen(str, size) {
   let strSingle = String(str);
 
   let textRunArr = [];
   if (htmlTagRegex.test(strSingle)) {
     // replace "&nbsp;"
     strSingle = strSingle.replace(/\&nbsp;/g, ' ');
-    textRunArr = handleBuiltInCCTPs(strSingle, size);
+    textRunArr = await handleBuiltInCCTPs(strSingle, size);
   } else {
     textRunArr = handleImportedCCTPs(strSingle);
   }
@@ -1499,14 +1517,14 @@ function handleImportedCCTPs(str) {
   return objsArr;
 }
 
-function handleBuiltInCCTPs(str, size) {
+async function handleBuiltInCCTPs(str, size) {
   let strSingle = String(str);
   const parsedObjsArr = parseHTMLTag(strSingle);
 
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && (await tagsToDocxMap[currentObj.tagName](currentObj, size));
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1531,6 +1549,7 @@ function parseHTMLTag(str) {
       tagName: _.tagName,
       innerHTML: _.innerHTML,
       classList: _.classList,
+      src: _.src,
     };
     parsedObjsArr.push(obj);
   }
@@ -1539,7 +1558,7 @@ function parseHTMLTag(str) {
 }
 
 const tagsToDocxMap = {
-  P: function (_, size) {
+  P: async function (_, size) {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
@@ -1552,7 +1571,7 @@ const tagsToDocxMap = {
         const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
           const obj = parsedObjsArr[j];
-          const objElm = tagsToDocxMap[obj.tagName] && tagsToDocxMap[obj.tagName](obj, size);
+          const objElm = tagsToDocxMap[obj.tagName] && (await tagsToDocxMap[obj.tagName](obj, size));
           if (objElm) {
             objsArr.push(objElm);
           }
@@ -1564,7 +1583,7 @@ const tagsToDocxMap = {
 
     return objsArr;
   },
-  BR: function (_) {
+  BR: async function (_) {
     return new Paragraph({
       children: [
         new TextRun({
@@ -1573,7 +1592,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  STRONG: function (_, size) {
+  STRONG: async function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1587,7 +1606,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  EM: function (_, size) {
+  EM: async function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1601,7 +1620,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  U: function (_, size) {
+  U: async function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1618,7 +1637,7 @@ const tagsToDocxMap = {
       ],
     });
   },
-  S: function (_, size) {
+  S: async function (_, size) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1632,15 +1651,15 @@ const tagsToDocxMap = {
       ],
     });
   },
-  OL: function (_) {
+  OL: async function (_) {
     const listItemsArr = [];
     return listItemsArr;
   },
-  UL: function (_) {
+  UL: async function (_) {
     const listItemsArr = [];
     return listItemsArr;
   },
-  LI: function (_) {
+  LI: async function (_) {
     const text = _.innerHTML;
 
     return new Paragraph({
@@ -1650,7 +1669,7 @@ const tagsToDocxMap = {
       },
     });
   },
-  SPAN: function (_) {
+  SPAN: async function (_) {
     const text = _.innerHTML;
     const classList = _.classList;
 
@@ -1672,6 +1691,35 @@ const tagsToDocxMap = {
         }),
       ],
     });
+  },
+  IMG: async function (_) {
+    const response = await axios.get(_.src, {
+      responseType: 'arraybuffer',
+    });
+
+    const buffer = Buffer.from(response.data);
+
+    const originalSize = await reactImageSize(_.src);
+    const originalAspectRatio = originalSize.width / originalSize.height;
+
+    let height;
+    const width = 400;
+
+    height = width / originalAspectRatio;
+
+    const image = new ImageRun({
+      data: buffer,
+      transformation: {
+        height: height,
+        width: width,
+      },
+    });
+
+    const paragraph = new Paragraph({
+      children: [image],
+    });
+
+    return paragraph;
   },
 };
 
