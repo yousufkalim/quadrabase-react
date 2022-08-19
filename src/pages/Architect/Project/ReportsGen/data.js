@@ -173,7 +173,6 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
   let _id;
   let workIndex = 0;
   let workDetailsIndex = 0;
-
   for (let i = 0; i < data.length; i++) {
     if (_id != data[i].work._id) {
       const arr = [];
@@ -181,14 +180,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
 
       if (noPrice) {
         arr.push('');
         arr.push('');
       } else {
-        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2)) ?? '0.00');
-        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2)));
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
+        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.'));
       }
 
       resArr.push(arr);
@@ -199,14 +198,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
 
         if (noPrice) {
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
-          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
+          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
         }
 
         resArr.push(arrD);
@@ -222,17 +221,18 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
 
       if (noPrice) {
         arrD.push('');
         arrD.push('');
       } else {
-        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2)));
-        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
+        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
       }
 
       resArr.push(arrD);
+      if (_id && _id != data[i + 1]?.work?._id) workIndex++;
       workDetailsIndex++;
     }
 
@@ -477,7 +477,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2)) : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2), '.') : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -768,7 +768,7 @@ function calculateTotalHT(data, noPrice) {
     totalHT = totalHT + _;
   }
 
-  const formattedTotalHT = formatNumber(totalHT.toFixed(2));
+  const formattedTotalHT = formatNumber(totalHT.toFixed(2), '.');
 
   return formattedTotalHT;
 }
@@ -957,9 +957,9 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
     ];
   } else {
     footerData = ['', '', ''];
@@ -984,14 +984,19 @@ function footerDataGenSimpleDPGF(addSpace) {
   return footerData;
 }
 
-function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns) {
+function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProject) {
   const xlsxParsedData = [];
 
   for (let i = 0; i < footerColumns.length; i++) {
     const obj = {};
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        obj[dataColumnsEstimation[j]] = footerColumns[i];
+        console.log(footerColumns[j], j);
+        if (i == 1) {
+          obj[dataColumnsEstimation[j]] = `${footerColumns[i]} (${currentProject?.vat?.value}%) :`;
+        } else {
+          obj[dataColumnsEstimation[j]] = footerColumns[i];
+        }
       } else if (j == 5) {
         obj[dataColumnsEstimation[j]] = floatsRow[i];
       } else {
@@ -1044,7 +1049,6 @@ function rowsGenTradesBPU(data, type) {
     const worksAndWorkDetailsArr = currentObjTrade.data;
     const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(worksAndWorkDetailsArr, type, `${i + 1}.`);
     tradeObj.arr.push(...worksAndWorkDetailsArrParsed);
-
     rows.push(tradeObj);
   }
 
@@ -1683,7 +1687,7 @@ const dataColumnsEstimation = [
 const footerColumnsSimpleEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 
