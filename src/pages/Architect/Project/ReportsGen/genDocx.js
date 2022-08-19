@@ -1,4 +1,3 @@
-import { ka } from 'date-fns/locale';
 import {
   Packer,
   WidthType,
@@ -56,6 +55,7 @@ import {
   fontType,
   l0Text,
   ln1Font,
+  l0Font,
 } from './docxFormatting';
 
 const Spacer = new Paragraph({
@@ -860,12 +860,40 @@ async function exportDOCXSimpleBPU(data, currentProject) {
       const work = currentRow[j];
       let docxObjs;
       if (j == 0) {
-        docxObjs = [l0Text(work, false, false)];
+        docxObjs = [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: work,
+                font: fontType,
+                size: l0Font,
+                italics: currentRow[2].length > 0 ? true : false,
+              }),
+            ],
+          }),
+        ];
       } else if (j == 1) {
-        docxObjs = [l0Text(work.title, true), ...textRunsSplitGen(work.text, ln1Font), l0Text('')];
+        docxObjs = [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: work.title,
+                font: fontType,
+                size: l0Font,
+                bold: true,
+                italics: currentRow[2].length > 0 ? true : false,
+              }),
+            ],
+          }),
+          ...(currentRow[2].length > 0
+            ? [l0Text(`${work.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+            : await textRunsSplitGen(work.text, ln1Font)),
+          work.unit && l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
+          l0Text(''),
+        ];
       } else if (j == 2) {
         if (work) {
-          docxObjs = [...textRunsSplitGen(work)];
+          docxObjs = [...(await textRunsSplitGen(work, l0Font))];
         } else {
           docxObjs = [lineBreak()];
         }
@@ -889,7 +917,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
     }),
   ];
 
-  const children = [...tableHeader, ...tableBody];
+  const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
 
   const sections = [
     {
@@ -947,12 +975,40 @@ async function exportDOCXTradesBPU(data, currentProject) {
         const workCurrentRow = work[k];
         let docxObjs;
         if (k == 0) {
-          docxObjs = [l0Text(workCurrentRow, false, false)];
+          docxObjs = [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: workCurrentRow,
+                  font: fontType,
+                  size: l0Font,
+                  italics: work[2].length > 0 ? true : false,
+                }),
+              ],
+            }),
+          ];
         } else if (k == 1) {
-          docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
+          docxObjs = [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: workCurrentRow.title,
+                  font: fontType,
+                  size: l0Font,
+                  bold: true,
+                  italics: work[2].length > 0 ? true : false,
+                }),
+              ],
+            }),
+            ...(work[2].length > 0
+              ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+              : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
+            workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
+            l0Text(''),
+          ];
         } else if (k == 2) {
           if (workCurrentRow) {
-            docxObjs = [...textRunsSplitGen(workCurrentRow)];
+            docxObjs = [...(await textRunsSplitGen(workCurrentRow, l0Font))];
           } else {
             docxObjs = [lineBreak()];
           }
@@ -977,7 +1033,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
     }),
   ];
 
-  const children = [...tableHeader, ...tableBody];
+  const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
 
   const sections = [
     {
@@ -1054,12 +1110,40 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           const workCurrentRow = work[l];
           let docxObjs;
           if (l == 0) {
-            docxObjs = [l0Text(workCurrentRow, false, false)];
+            docxObjs = [
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: workCurrentRow,
+                    font: fontType,
+                    size: l0Font,
+                    italics: work[2].length > 0 ? true : false,
+                  }),
+                ],
+              }),
+            ];
           } else if (l == 1) {
-            docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
+            docxObjs = [
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: workCurrentRow.title,
+                    font: fontType,
+                    size: l0Font,
+                    bold: true,
+                    italics: work[2].length > 0 ? true : false,
+                  }),
+                ],
+              }),
+              ...(work[2].length > 0
+                ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+                : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
+              workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
+              l0Text(''),
+            ];
           } else if (l == 2) {
             if (workCurrentRow) {
-              docxObjs = [...textRunsSplitGen(workCurrentRow)];
+              docxObjs = [...(await textRunsSplitGen(workCurrentRow, l0Font))];
             } else {
               docxObjs = [lineBreak()];
             }
@@ -1085,7 +1169,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
     }),
   ];
 
-  const children = [...tableHeader, ...tableBody];
+  const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
 
   const sections = [
     {
@@ -1104,6 +1188,43 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - BPU`;
   return { blob, filename };
 }
+
+const BPUSignatureSection = [
+  new Paragraph({
+    children: [
+      new TextRun({
+        text: ``,
+      }),
+    ],
+  }),
+  new Paragraph({
+    children: [
+      new TextRun({
+        text: `                 Fait à :                                   Le : `,
+        font: fontType,
+        size: l0Font,
+      }),
+    ],
+  }),
+  new Paragraph({
+    children: [
+      new TextRun({
+        text: `                 L'entrepreneur soussigné`,
+        font: fontType,
+        size: l0Font,
+      }),
+    ],
+  }),
+  new Paragraph({
+    children: [
+      new TextRun({
+        text: `                 Cachet et signature`,
+        font: fontType,
+        size: l0Font,
+      }),
+    ],
+  }),
+];
 
 async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
@@ -1140,7 +1261,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   let parsedChap0part2 = [];
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
-    parsedChap0part2 = _parseChap0part2(chap0.part2);
+    parsedChap0part2 = await _parseChap0part2(chap0.part2);
   }
 
   // Parse CCTPs
@@ -1176,7 +1297,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title));
           parsedCCTPs.push(lineBreak());
-          let docxObjs = textRunsSplitGen(work.text);
+          let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
       }
@@ -1241,7 +1362,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   let parsedChap0part2 = [];
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
-    parsedChap0part2 = _parseChap0part2(chap0.part2);
+    parsedChap0part2 = await _parseChap0part2(chap0.part2);
   }
 
   // Parse CCTPs
@@ -1277,7 +1398,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title));
           parsedCCTPs.push(lineBreak());
-          let docxObjs = textRunsSplitGen(work.text);
+          let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
       }
@@ -1342,7 +1463,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   let parsedChap0part2 = [];
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
-    parsedChap0part2 = _parseChap0part2(chap0.part2);
+    parsedChap0part2 = await _parseChap0part2(chap0.part2);
   }
 
   // Parse CCTPs
@@ -1378,7 +1499,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title));
           parsedCCTPs.push(lineBreak());
-          let docxObjs = textRunsSplitGen(work.text);
+          let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
       }
@@ -1491,38 +1612,74 @@ function _parseChap0part1(part1) {
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE'));
   arr.push(l1Text("Maitre d'Ouvrage:", true));
-  arr.push(l0Text(`    ${part1.client}`));
-  arr.push(l1Text("Maitre d'Oeuvre:", true));
-  arr.push(l0Text(`    ${part1.prescriber}`));
-  arr.push(l2Text('0.1.3 TYPE DE MARCHE'));
-  arr.push(l1Text(part1.market_type));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: 'Intervenants: ',
+          text: '    ',
           font: fontType,
-          size: l2Font,
-          bold: true,
+          size: l1Font,
+        }),
+        new TextRun({
+          text: `${part1.client.address}`,
+          font: fontType,
+          size: l1Font,
+          color: '4472C4',
+          underline: true,
         }),
       ],
     })
   );
-  for (let i = 0; i < part1.stakeholders.length; i++) {
-    const _ = part1.stakeholders[i];
-    arr.push(
-      new Paragraph({
-        text: _,
-        bullet: {
-          level: 0,
-        },
-      })
-    );
-  }
+  arr.push(l1Text(`   ${part1.client.name}`));
+  arr.push(l1Text(`   ${part1.client.email}`));
+  arr.push(l1Text(`   ${part1.client.phone}`));
+  arr.push(l1Text("Maitre d'Oeuvre:", true));
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: '    ',
+          font: fontType,
+          size: l1Font,
+        }),
+        new TextRun({
+          text: `${part1.prescriber.address}`,
+          font: fontType,
+          size: l1Font,
+          color: '4472C4',
+          underline: true,
+        }),
+      ],
+    })
+  );
+  arr.push(l1Text(`   ${part1.prescriber.name}`));
+  arr.push(l1Text(`   ${part1.prescriber.email}`));
+  arr.push(l1Text(`   ${part1.prescriber.phone}`));
+  arr.push(l2Text('0.1.3 TYPE DE MARCHE'));
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: 'Le marché est un marché à : ',
+          size: l1Font,
+          font: fontType,
+          color: '000000',
+        }),
+        new TextRun({
+          text: part1.market_type,
+          size: l1Font,
+          bold: true,
+          italics: true,
+          font: fontType,
+          color: '000000',
+        }),
+      ],
+    })
+  );
   return arr;
 }
 
-function _parseChap0part2(part2) {
+async function _parseChap0part2(part2) {
   const arr = [];
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
@@ -1534,14 +1691,14 @@ function _parseChap0part2(part2) {
       const __ = _.lvl2[j];
       arr.push(l2Text(__.title));
       if (__.text) {
-        let docxObjs = textRunsSplitGen(__.text);
+        let docxObjs = await textRunsSplitGen(__.text);
         arr.push(...docxObjs);
       }
       for (let k = 0; k < __.lvl3.length; k++) {
         const ___ = __.lvl3[k];
         arr.push(l2Text(___.title));
         if (___.text) {
-          let docxObjs = textRunsSplitGen(___.text);
+          let docxObjs = await textRunsSplitGen(___.text);
           arr.push(...docxObjs);
         }
       }
@@ -1671,7 +1828,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
@@ -1880,7 +2037,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
@@ -2090,7 +2247,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
     const tableRowCells = [];
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
