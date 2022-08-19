@@ -187,7 +187,12 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arr.push('');
       } else {
         arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
-        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.'));
+        arr.push(
+          formatNumber(
+            ((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2),
+            '.'
+          )
+        );
       }
 
       resArr.push(arr);
@@ -205,7 +210,12 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
           arrD.push('');
         } else {
           arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+          arrD.push(
+            formatNumber(
+              (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
+              '.'
+            )
+          );
         }
 
         resArr.push(arrD);
@@ -228,12 +238,21 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push('');
       } else {
         arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+        arrD.push(
+          formatNumber(
+            (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
+            '.'
+          )
+        );
       }
 
       resArr.push(arrD);
-      if (_id && _id != data[i + 1]?.work?._id) workIndex++;
-      workDetailsIndex++;
+      if (_id && _id != data[i + 1]?.work?._id) {
+        workIndex++;
+        workDetailsIndex = 0;
+      } else {
+        workDetailsIndex++;
+      }
     }
 
     _id = data[i].work._id;
@@ -256,7 +275,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
       arr.push('');
       arr.push('');
 
@@ -268,7 +287,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
         arrD.push('');
         arrD.push('');
 
@@ -280,7 +299,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
       arrD.push('');
       arrD.push('');
 
@@ -307,7 +326,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
       arr.push('');
       arr.push('');
 
@@ -319,7 +338,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
         arrD.push(`${currentWork}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
         arrD.push('');
         arrD.push('');
 
@@ -331,7 +350,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       arrD.push(`${currentWork}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
       arrD.push('');
       arrD.push('');
 
@@ -477,7 +496,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2), '.') : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')
+        : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -607,7 +628,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2)) ?? '' : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2), '.') ?? '' : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -737,7 +758,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2)) : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2), '.') : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -871,8 +892,8 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(currentProject?.vat?.value?.toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
     ];
   } else {
     footerData = ['', '', ''];
@@ -912,9 +933,9 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(currentProject?.vat?.value?.toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
     ];
   } else {
     footerData = ['', '', ''];
@@ -1027,7 +1048,14 @@ const calculateWSCols = (arr) => {
     unitL = 10;
   }
 
-  const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
+  const wscols = [
+    { wch: 10 },
+    { wch: nameL },
+    { wch: unitL },
+    { wch: 10 },
+    { wch: 10 },
+    { wch: 10 },
+  ];
 
   return wscols;
 };
@@ -1047,7 +1075,11 @@ function rowsGenTradesBPU(data, type) {
       arr: [],
     };
     const worksAndWorkDetailsArr = currentObjTrade.data;
-    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(worksAndWorkDetailsArr, type, `${i + 1}.`);
+    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(
+      worksAndWorkDetailsArr,
+      type,
+      `${i + 1}.`
+    );
     tradeObj.arr.push(...worksAndWorkDetailsArrParsed);
     rows.push(tradeObj);
   }
@@ -1506,7 +1538,8 @@ function handleBuiltInCCTPs(str, size) {
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
+    let docxObj =
+      tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1688,7 +1721,9 @@ const footerColumnsSimpleEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
+  localStorage.getItem('i18nextLng') == 'en'
+    ? 'Total Amount including VAT :'
+    : 'Montant total TTC :',
 ];
 
 const dataColumnsBPU = ["'1", 'Lot n°1', ''];
