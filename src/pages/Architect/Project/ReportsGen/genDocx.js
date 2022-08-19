@@ -1,3 +1,4 @@
+import { ka } from 'date-fns/locale';
 import {
   Packer,
   WidthType,
@@ -858,13 +859,15 @@ async function exportDOCXSimpleBPU(data, currentProject) {
     for (let j = 0; j < currentRow.length; j++) {
       const work = currentRow[j];
       let docxObjs;
-      if (j == 1) {
+      if (j == 0) {
+        docxObjs = [l0Text(work, false, false)];
+      } else if (j == 1) {
         docxObjs = [l0Text(work.title, true), ...textRunsSplitGen(work.text, ln1Font), l0Text('')];
-      } else {
-        if (j == 0) {
-          docxObjs = [l0Text(work, false, false)];
+      } else if (j == 2) {
+        if (work) {
+          docxObjs = [...textRunsSplitGen(work)];
         } else {
-          docxObjs = [l0Text(work, false, true)];
+          docxObjs = [lineBreak()];
         }
       }
       const tableCell = new TableCell({
@@ -943,13 +946,15 @@ async function exportDOCXTradesBPU(data, currentProject) {
       for (let k = 0; k < work.length; k++) {
         const workCurrentRow = work[k];
         let docxObjs;
-        if (k == 1) {
+        if (k == 0) {
+          docxObjs = [l0Text(workCurrentRow, false, false)];
+        } else if (k == 1) {
           docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
-        } else {
-          if (k == 0) {
-            docxObjs = [l0Text(workCurrentRow, false, false)];
+        } else if (k == 2) {
+          if (workCurrentRow) {
+            docxObjs = [...textRunsSplitGen(workCurrentRow)];
           } else {
-            docxObjs = [l0Text(workCurrentRow, false, true)];
+            docxObjs = [lineBreak()];
           }
         }
         const tableCell = new TableCell({
@@ -1048,13 +1053,15 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
         for (let l = 0; l < work.length; l++) {
           const workCurrentRow = work[l];
           let docxObjs;
-          if (l == 1) {
+          if (l == 0) {
+            docxObjs = [l0Text(workCurrentRow, false, false)];
+          } else if (l == 1) {
             docxObjs = [l0Text(workCurrentRow.title, true), ...textRunsSplitGen(workCurrentRow.text, ln1Font), l0Text('')];
-          } else {
-            if (l == 0) {
-              docxObjs = [l0Text(workCurrentRow, false, false)];
+          } else if (l == 2) {
+            if (workCurrentRow) {
+              docxObjs = [...textRunsSplitGen(workCurrentRow)];
             } else {
-              docxObjs = [l0Text(workCurrentRow, false, true)];
+              docxObjs = [lineBreak()];
             }
           }
           const tableCell = new TableCell({

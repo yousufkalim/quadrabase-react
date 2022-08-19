@@ -6,8 +6,10 @@ import {
   l3Font,
   l2Font,
   l1Font,
+  ln1Font,
   fontType,
   docText,
+  singleParagraphText,
   l4Text,
   l3Text,
   l2Text,
@@ -185,12 +187,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arr.push('');
       } else {
         arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
-        arr.push(
-          formatNumber(
-            ((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2),
-            '.'
-          )
-        );
+        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.'));
       }
 
       resArr.push(arr);
@@ -208,12 +205,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
           arrD.push('');
         } else {
           arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-          arrD.push(
-            formatNumber(
-              (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
-              '.'
-            )
-          );
+          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
         }
 
         resArr.push(arrD);
@@ -236,12 +228,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push('');
       } else {
         arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-        arrD.push(
-          formatNumber(
-            (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
-            '.'
-          )
-        );
+        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
       }
 
       resArr.push(arrD);
@@ -490,9 +477,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
-        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')
-        : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2), '.') : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -1042,38 +1027,13 @@ const calculateWSCols = (arr) => {
     unitL = 10;
   }
 
-  const wscols = [
-    { wch: 10 },
-    { wch: nameL },
-    { wch: unitL },
-    { wch: 10 },
-    { wch: 10 },
-    { wch: 10 },
-  ];
+  const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
 
   return wscols;
 };
 
 function rowsGenSimpleBPU(data, type) {
-  const rows = [];
-
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].work.bpu_text.length == 0) {
-      continue;
-    }
-    const arr = [];
-    arr.push(`${i + 1}`);
-    const obj = {
-      title: data[i].work.name,
-      text: data[i].work.bpu_text[0],
-    };
-    arr.push(obj);
-    arr.push(
-      data[i].work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-    );
-    rows.push(arr);
-  }
-
+  const rows = rowsGenBPUHandleWorksAndWorkdetails(data, type);
   return rows;
 }
 
@@ -1087,23 +1047,8 @@ function rowsGenTradesBPU(data, type) {
       arr: [],
     };
     const worksAndWorkDetailsArr = currentObjTrade.data;
-    for (let j = 0; j < worksAndWorkDetailsArr.length; j++) {
-      const currentObj = worksAndWorkDetailsArr[j];
-      if (currentObj.work.bpu_text.length == 0) {
-        continue;
-      }
-      const arr = [];
-      arr.push(`${i + 1}.${j + 1}`);
-      const obj = {
-        title: currentObj.work.name,
-        text: currentObj.work.bpu_text[0],
-      };
-      arr.push(obj);
-      arr.push(
-        currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-      );
-      tradeObj.arr.push(arr);
-    }
+    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(worksAndWorkDetailsArr, type, `${i + 1}.`);
+    tradeObj.arr.push(...worksAndWorkDetailsArrParsed);
     rows.push(tradeObj);
   }
 
@@ -1127,29 +1072,81 @@ function rowsGenTradesAndTranchesBPU(data, type) {
         arr: [],
       };
       const worksAndWorkDetailsArr = currentObjTranch.tranchData;
-      for (let k = 0; k < worksAndWorkDetailsArr.length; k++) {
-        const currentObj = worksAndWorkDetailsArr[k];
-        if (currentObj.work.bpu_text.length == 0) {
-          continue;
-        }
-        const arr = [];
-        arr.push(`${i + 1}.${j + 1}.${k + 1}`);
-        const obj = {
-          title: currentObj.work.name,
-          text: currentObj.work.bpu_text[0],
-        };
-        arr.push(obj);
-        arr.push(
-          currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : ''
-        );
-        tranchObj.arr.push(arr);
-      }
+      const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(
+        worksAndWorkDetailsArr,
+        type,
+        `${i + 1}.${j + 1}.`
+      );
+      tranchObj.arr.push(...worksAndWorkDetailsArrParsed);
       tradeObj.arr.push(tranchObj);
     }
     rows.push(tradeObj);
   }
 
   return rows;
+}
+
+function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
+  const resArr = [];
+  let _id;
+  let workIndex = 0;
+  let workDetailsIndex = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].work.bpu_text.length == 0) {
+      continue;
+    }
+
+    // Work
+    if (_id != data[i].work._id) {
+      const arr1 = [];
+      arr1.push(`${prefix}${workIndex + 1}`);
+      const obj = {
+        title: data[i].work.name,
+        text: data[i].work.bpu_text[0],
+      };
+      arr1.push(obj);
+      arr1.push('');
+      resArr.push(arr1);
+
+      // If there is workdetail then parse it.
+      if (data[i].workDetails) {
+        const arr2 = [];
+        arr2.push(`${prefix}${workIndex + 1}.1`);
+        const obj = {
+          title: data[i].workDetails.name,
+          text: data[i].workDetails.unit.name,
+        };
+        arr2.push(obj);
+        arr2.push(type === 'pdf' ? 'PU HT<br>en chiffres' : '<p>PU HT<br>en chiffres</p>');
+        resArr.push(arr2);
+
+        workDetailsIndex++;
+      }
+    } else {
+      // WorkDetail
+      const arr1 = [];
+      arr1.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
+      const obj = {
+        title: data[i].workDetails.name,
+        text: data[i].workDetails.unit.name,
+      };
+      arr1.push(obj);
+      arr1.push(type === 'pdf' ? 'PU HT<br>en chiffres' : '<p>PU HT<br>en chiffres</p>');
+      resArr.push(arr1);
+      workDetailsIndex++;
+    }
+
+    _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
+  }
+
+  return resArr;
 }
 
 function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
@@ -1509,8 +1506,7 @@ function handleBuiltInCCTPs(str, size) {
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj =
-      tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
+    let docxObj = tagsToDocxMap[currentObj.tagName] && tagsToDocxMap[currentObj.tagName](currentObj, size);
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1547,7 +1543,9 @@ const tagsToDocxMap = {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
+
     const objsArr = [];
+
     for (let i = 0; i < textArr.length; i++) {
       const currentText = textArr[i];
       if (htmlTagRegex.test(currentText)) {
@@ -1690,9 +1688,7 @@ const footerColumnsSimpleEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
-  localStorage.getItem('i18nextLng') == 'en'
-    ? 'Total Amount including VAT :'
-    : 'Montant total TTC :',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 
 const dataColumnsBPU = ["'1", 'Lot n°1', ''];
