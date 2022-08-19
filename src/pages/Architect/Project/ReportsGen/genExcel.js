@@ -9,6 +9,7 @@ import {
   xlsxParsedDataGenTradesEstimation,
   xlsxParsedDataGenTradesAndTranchesEstimation,
   xlsxParsedFooterDataGenEstimation,
+  xlsxParsedFooterDataGenEstimationSimple,
   calculateWSCols,
   footerDataGenSimpleEstimation,
   footerDataGenTradesEstimation,
@@ -168,7 +169,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
   const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
-  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
+  const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimationSimple(
     footerDataFloatsArr,
     footerColumnsSimpleEstimation,
     currentProject

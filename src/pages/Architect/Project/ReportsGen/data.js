@@ -891,8 +891,8 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2), '.'),
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
     ];
   } else {
@@ -1014,6 +1014,31 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
       if (j == 1) {
         console.log(footerColumns[j], j);
         if (i == 1) {
+          obj[dataColumnsEstimation[j]] = `${footerColumns[i]} (${currentProject?.vat?.value}%) :`;
+        } else {
+          obj[dataColumnsEstimation[j]] = footerColumns[i];
+        }
+      } else if (j == 5) {
+        obj[dataColumnsEstimation[j]] = floatsRow[i];
+      } else {
+        obj[dataColumnsEstimation[j]] = '';
+      }
+    }
+    xlsxParsedData.push(obj);
+  }
+
+  return xlsxParsedData;
+}
+
+function xlsxParsedFooterDataGenEstimationSimple(floatsRow, footerColumns, currentProject) {
+  const xlsxParsedData = [];
+
+  for (let i = 0; i < footerColumns.length; i++) {
+    const obj = {};
+    for (let j = 0; j < dataColumnsEstimation.length; j++) {
+      if (j == 1) {
+        console.log(footerColumns[j], j);
+        if (i == 2) {
           obj[dataColumnsEstimation[j]] = `${footerColumns[i]} (${currentProject?.vat?.value}%) :`;
         } else {
           obj[dataColumnsEstimation[j]] = footerColumns[i];
@@ -1779,6 +1804,7 @@ export {
   xlsxParsedDataGenTradesEstimation,
   xlsxParsedDataGenTradesAndTranchesEstimation,
   xlsxParsedFooterDataGenEstimation,
+  xlsxParsedFooterDataGenEstimationSimple,
   pdfParsedDataGenTradesEstimation,
   pdfParsedDataGenTradesAndTranchesEstimation,
   docxParsedDataGenTradesEstimation,
