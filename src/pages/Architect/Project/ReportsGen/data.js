@@ -1,7 +1,20 @@
 import { Paragraph, TextRun, UnderlineType } from 'docx';
 import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
-import { l4Font, l3Font, l2Font, l1Font, fontType, docText, l4Text, l3Text, l2Text, l1Text } from './docxFormatting';
+import {
+  l4Font,
+  l3Font,
+  l2Font,
+  l1Font,
+  ln1Font,
+  fontType,
+  docText,
+  singleParagraphText,
+  l4Text,
+  l3Text,
+  l2Text,
+  l1Text,
+} from './docxFormatting';
 
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
@@ -1015,23 +1028,7 @@ const calculateWSCols = (arr) => {
 };
 
 function rowsGenSimpleBPU(data, type) {
-  const rows = [];
-
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].work.bpu_text.length == 0) {
-      continue;
-    }
-    const arr = [];
-    arr.push(`${i + 1}`);
-    const obj = {
-      title: data[i].work.name,
-      text: data[i].work.bpu_text[0],
-    };
-    arr.push(obj);
-    arr.push(data[i].work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
-    rows.push(arr);
-  }
-
+  const rows = rowsGenBPUHandleWorksAndWorkdetails(data, type);
   return rows;
 }
 
@@ -1045,21 +1042,9 @@ function rowsGenTradesBPU(data, type) {
       arr: [],
     };
     const worksAndWorkDetailsArr = currentObjTrade.data;
-    for (let j = 0; j < worksAndWorkDetailsArr.length; j++) {
-      const currentObj = worksAndWorkDetailsArr[j];
-      if (currentObj.work.bpu_text.length == 0) {
-        continue;
-      }
-      const arr = [];
-      arr.push(`${i + 1}.${j + 1}`);
-      const obj = {
-        title: currentObj.work.name,
-        text: currentObj.work.bpu_text[0],
-      };
-      arr.push(obj);
-      arr.push(currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
-      tradeObj.arr.push(arr);
-    }
+    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(worksAndWorkDetailsArr, type, `${i + 1}.`);
+    tradeObj.arr.push(...worksAndWorkDetailsArrParsed);
+
     rows.push(tradeObj);
   }
 
@@ -1083,27 +1068,81 @@ function rowsGenTradesAndTranchesBPU(data, type) {
         arr: [],
       };
       const worksAndWorkDetailsArr = currentObjTranch.tranchData;
-      for (let k = 0; k < worksAndWorkDetailsArr.length; k++) {
-        const currentObj = worksAndWorkDetailsArr[k];
-        if (currentObj.work.bpu_text.length == 0) {
-          continue;
-        }
-        const arr = [];
-        arr.push(`${i + 1}.${j + 1}.${k + 1}`);
-        const obj = {
-          title: currentObj.work.name,
-          text: currentObj.work.bpu_text[0],
-        };
-        arr.push(obj);
-        arr.push(currentObj.work.unit_price ? `PU HT ${type === 'pdf' ? '<br>' : '\n'} (en chiffres)` : '');
-        tranchObj.arr.push(arr);
-      }
+      const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(
+        worksAndWorkDetailsArr,
+        type,
+        `${i + 1}.${j + 1}.`
+      );
+      tranchObj.arr.push(...worksAndWorkDetailsArrParsed);
       tradeObj.arr.push(tranchObj);
     }
     rows.push(tradeObj);
   }
 
   return rows;
+}
+
+function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
+  const resArr = [];
+  let _id;
+  let workIndex = 0;
+  let workDetailsIndex = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].work.bpu_text.length == 0) {
+      continue;
+    }
+
+    // Work
+    if (_id != data[i].work._id) {
+      const arr1 = [];
+      arr1.push(`${prefix}${workIndex + 1}`);
+      const obj = {
+        title: data[i].work.name,
+        text: data[i].work.bpu_text[0],
+      };
+      arr1.push(obj);
+      arr1.push('');
+      resArr.push(arr1);
+
+      // If there is workdetail then parse it.
+      if (data[i].workDetails) {
+        const arr2 = [];
+        arr2.push(`${prefix}${workIndex + 1}.1`);
+        const obj = {
+          title: data[i].workDetails.name,
+          text: data[i].workDetails.unit.name,
+        };
+        arr2.push(obj);
+        arr2.push(type === 'pdf' ? 'PU HT<br>en chiffres' : '<p>PU HT<br>en chiffres</p>');
+        resArr.push(arr2);
+
+        workDetailsIndex++;
+      }
+    } else {
+      // WorkDetail
+      const arr1 = [];
+      arr1.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
+      const obj = {
+        title: data[i].workDetails.name,
+        text: data[i].workDetails.unit.name,
+      };
+      arr1.push(obj);
+      arr1.push(type === 'pdf' ? 'PU HT<br>en chiffres' : '<p>PU HT<br>en chiffres</p>');
+      resArr.push(arr1);
+      workDetailsIndex++;
+    }
+
+    _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
+  }
+
+  return resArr;
 }
 
 function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
@@ -1500,7 +1539,9 @@ const tagsToDocxMap = {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
+
     const objsArr = [];
+
     for (let i = 0; i < textArr.length; i++) {
       const currentText = textArr[i];
       if (htmlTagRegex.test(currentText)) {
