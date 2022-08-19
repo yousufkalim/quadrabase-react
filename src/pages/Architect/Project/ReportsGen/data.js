@@ -934,7 +934,7 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(currentProject?.vat?.value?.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
     ];
   } else {

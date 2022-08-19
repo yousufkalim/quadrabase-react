@@ -60,6 +60,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[1] = `${footerColumnsSimpleEstimationNoSpace[1]} (${currentProject?.vat?.value}%) :`;
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
