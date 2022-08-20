@@ -30,6 +30,7 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
   const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
+  footerColumnsSimpleEstimation[2] = `${footerColumnsSimpleEstimation[2]} (${currentProject?.vat?.value}%) :`;
 
   const body = {
     headerArr: headArr,
@@ -43,7 +44,9 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
 
   const obj = {
     blob,
@@ -58,6 +61,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[1] = `${footerColumnsSimpleEstimationNoSpace[1]} (${currentProject?.vat?.value}%) :`;
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
@@ -80,7 +84,9 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
 
   const obj = {
     blob,
@@ -96,12 +102,22 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[1] = `${footerColumnsSimpleEstimationNoSpace[1]} (${currentProject?.vat?.value}%) :`;
   let pdfParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
+    data,
+    currentProject,
+    noPrice,
+    false
+  );
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
+    const currentRowPDFParsedData = pdfParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1,
+      noPrice
+    );
     pdfParsedData = pdfParsedData.concat(currentRowPDFParsedData);
   }
 
@@ -118,7 +134,9 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
 
   const obj = {
     blob,
@@ -580,10 +598,14 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
 
 function _parseChap0part1(part1) {
   let str = '';
-  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
+  str = str.concat(
+    `<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`
+  );
   str = str.concat(`<p><strong>0.1 DESCRIPTION DU MARCHE</strong></p>`);
   str = str.concat(`<p><strong>0.1.1 OBJET DU MARCHE</strong></p>`);
-  str = str.concat(`<p>Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :</p>`);
+  str = str.concat(
+    `<p>Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :</p>`
+  );
   str = str.concat(`<p>${part1.description}</p>`);
   str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
   str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);

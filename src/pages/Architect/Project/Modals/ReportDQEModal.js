@@ -16,7 +16,11 @@ import {
   exportXLSXTradesEstimation,
   exportXLSXTradesAndTranchesEstimation,
 } from '../ReportsGen/genExcel';
-import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from '../ReportsGen/genPDF';
+import {
+  exportPDFSimpleEstimation,
+  exportPDFTradesEstimation,
+  exportPDFTradesAndTranchesEstimation,
+} from '../ReportsGen/genPDF';
 import {
   exportDOCXSimpleEstimation,
   exportDOCXTradesEstimation,
@@ -81,26 +85,6 @@ function ReportDQEModal(props) {
     }
   }
 
-  async function generateWord() {
-    try {
-      let res;
-      if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportDOCXSimpleEstimation(projectWorkData, currentProject, true);
-      } else if (currentProject.market_type == 'Trades') {
-        res = await exportDOCXTradesEstimation(projectWorkData, currentProject, true);
-      } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportDOCXTradesAndTranchesEstimation(projectWorkData, currentProject, true);
-      } else {
-        console.trace('Show me');
-        return;
-      }
-      downloadBlob(res.blob, res.filename);
-    } catch (e) {
-      toast.error('Could not generate report successfully.');
-      console.trace(e);
-    }
-  }
-
   return (
     <div style={{ width: '60vw', maxHeight: '85vh', overflow: 'auto' }}>
       <CloseIcon
@@ -114,9 +98,6 @@ function ReportDQEModal(props) {
         </IconButton>
         <IconButton aria-label="PDF" onClick={generatePDF}>
           <PictureAsPdfIcon />
-        </IconButton>
-        <IconButton aria-label="DOCX" onClick={generateWord}>
-          <TextSnippetIcon />
         </IconButton>
       </Stack>
       {pdfs.length > 0 && (
