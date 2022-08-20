@@ -1295,21 +1295,21 @@ function parseChap0(currentProject) {
   for (let i = 0; i < currentProject.chap0part2.length; i++) {
     const lvl1 = currentProject.chap0part2[i].id;
     const _ = {
-      title: `0.2.${i + 1} ${lvl1.title}`,
+      title: `0.${i + 2} ${lvl1.title}`,
       text: lvl1.text,
       lvl2: [],
     };
     for (let j = 0; j < lvl1.level2.length; j++) {
       const lvl2 = lvl1.level2[j];
       const __ = {
-        title: `0.2.${i + 1}.${j + 1} ${lvl2.title}`,
+        title: `0.${i + 2}.${j + 1} ${lvl2.title}`,
         text: lvl2.text,
         lvl3: [],
       };
       for (let k = 0; k < lvl2.level3.length; k++) {
         const lvl3 = lvl2.level3[k];
         const ___ = {
-          title: `0.2.${i + 1}.${j + 1}.${k + 1} ${lvl3.title}`,
+          title: `0.${i + 2}.${j + 1}.${k + 1} ${lvl3.title}`,
           text: lvl3.text,
         };
         __.lvl3.push(___);
