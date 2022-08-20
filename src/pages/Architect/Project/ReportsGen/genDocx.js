@@ -1682,7 +1682,8 @@ async function _parseChap0part2(part2) {
     const _ = part2[i];
     arr.push(l3Text(_.title, null, { before: 12 * 20, after: 12 * 20 }));
     if (_.text) {
-      arr.push(l1Text(_.text));
+      let docxObjs = await textRunsSplitGen(_.text);
+      arr.push(...docxObjs);
     }
     for (let j = 0; j < _.lvl2.length; j++) {
       const __ = _.lvl2[j];
