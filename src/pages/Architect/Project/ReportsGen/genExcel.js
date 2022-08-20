@@ -165,13 +165,13 @@ const textAlignment3 = {
 const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenSimpleEstimation(data, noPrice);
-
+  const footerColumnsSimpleEstimationdata = [...footerColumnsSimpleEstimation];
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
   const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
   const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimationSimple(
     footerDataFloatsArr,
-    footerColumnsSimpleEstimation,
+    footerColumnsSimpleEstimationdata,
     currentProject
   );
 

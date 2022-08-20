@@ -30,13 +30,14 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
   const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
-  footerColumnsSimpleEstimation[2] = `${footerColumnsSimpleEstimation[2]} (${currentProject?.vat?.value}%) :`;
+  const footerColumnsSimpleEstimationdata = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationdata[2] = `${footerColumnsSimpleEstimationdata[2]} (${currentProject?.vat?.value}%) :`;
 
   const body = {
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: bodyArr,
-    footerKeysArr: footerColumnsSimpleEstimation,
+    footerKeysArr: footerColumnsSimpleEstimationdata,
     footerValuesArr: footerArr,
   };
 
