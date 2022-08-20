@@ -587,9 +587,9 @@ function _parseChap0part1(part1) {
   str = str.concat(`<p>${part1.description}</p>`);
   str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
   str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
-  str = str.concat(`<p>    ${part1.client}</p>`);
+  str = str.concat(`<p>    ${part1.client.name}</p>`);
   str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
-  str = str.concat(`<p>    ${part1.prescriber}</p>`);
+  str = str.concat(`<p>    ${part1.prescriber.name}</p>`);
   str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
   str = str.concat(`<p>${part1.market_type}</p>`);
   str = str.concat(`<p><strong>Intervenants</strong></p>`);

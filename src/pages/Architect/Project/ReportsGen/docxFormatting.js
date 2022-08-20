@@ -9,38 +9,76 @@ const ln1Font = 9 * 2;
 
 const fontType = 'Calibri';
 
-function docText({ text, linebreaks, size, heading, bold = false, font = fontType, center = false }) {
+function docText({ text, linebreaks, size, heading, bold = false, font = fontType, center = false, spacing }) {
   return new Paragraph({
     alignment: !center ? AlignmentType.START : AlignmentType.CENTER,
-    children: text
-      .split('\n')
-      .map((line) => new TextRun({ text: line, break: linebreaks, size: size, bold: bold, font: font, color: '000000' })),
+    children: text.split('\n').map(
+      (line) =>
+        new TextRun({
+          text: line,
+          break: linebreaks,
+          size: size,
+          bold: bold,
+          font: font,
+          color: '000000',
+        })
+    ),
     heading: heading ?? null,
+    spacing: spacing,
   });
 }
 
-function l4Text(text, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: l4Font, heading: HeadingLevel.HEADING_1, bold: true });
+function l4Text(text, linebreaks, spacing) {
+  return docText({
+    text: text,
+    linebreaks: linebreaks,
+    size: l4Font,
+    heading: HeadingLevel.HEADING_1,
+    bold: true,
+    spacing: spacing,
+  });
 }
 
-function l3Text(text, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: l3Font, heading: HeadingLevel.HEADING_2, bold: true });
+function l3Text(text, linebreaks, spacing) {
+  return docText({
+    text: text,
+    linebreaks: linebreaks,
+    size: l3Font,
+    heading: HeadingLevel.HEADING_2,
+    bold: true,
+    spacing: spacing,
+  });
 }
 
-function l2Text(text, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: l2Font, heading: HeadingLevel.HEADING_3, bold: true });
+function l2Text(text, linebreaks, spacing) {
+  return docText({
+    text: text,
+    linebreaks: linebreaks,
+    size: l2Font,
+    heading: HeadingLevel.HEADING_3,
+    bold: true,
+    spacing: spacing,
+  });
 }
 
-function l1Text(text, bold = false, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: l1Font, bold: bold });
+function l1Text(text, bold = false, linebreaks, spacing) {
+  return docText({ text: text, linebreaks: linebreaks, size: l1Font, bold: bold, spacing: spacing });
 }
 
-function l0Text(text, bold = false, center = false, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: l0Font, bold: bold, font: fontType, center: center });
+function l0Text(text, bold = false, center = false, linebreaks, spacing) {
+  return docText({
+    text: text,
+    linebreaks: linebreaks,
+    size: l0Font,
+    bold: bold,
+    font: fontType,
+    center: center,
+    spacing: spacing,
+  });
 }
 
-function ln1Text(text, bold = false, linebreaks) {
-  return docText({ text: text, linebreaks: linebreaks, size: ln1Font, bold: bold });
+function ln1Text(text, bold = false, linebreaks, spacing) {
+  return docText({ text: text, linebreaks: linebreaks, size: ln1Font, bold: bold, spacing: spacing });
 }
 
 function lineBreak() {

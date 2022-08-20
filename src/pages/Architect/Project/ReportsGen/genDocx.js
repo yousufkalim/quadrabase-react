@@ -1271,8 +1271,8 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     parsedCCTPs.push(
       new Paragraph({
         spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+          before: i == 0 ? 6 * 20 : 4 * 20,
+          after: 3 * 20,
         },
         children: [
           new TextRun({
@@ -1289,14 +1289,13 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
-      parsedCCTPs.push(l3Text(lib.title));
+      parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
-        parsedCCTPs.push(l2Text(cat.title));
+        parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
-          parsedCCTPs.push(l2Text(work.title));
-          parsedCCTPs.push(lineBreak());
+          parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
           let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
@@ -1390,14 +1389,13 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
-      parsedCCTPs.push(l3Text(lib.title));
+      parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
-        parsedCCTPs.push(l2Text(cat.title));
+        parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
-          parsedCCTPs.push(l2Text(work.title));
-          parsedCCTPs.push(lineBreak());
+          parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
           let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
@@ -1491,14 +1489,13 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     const cctpArr = _.arr;
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
-      parsedCCTPs.push(l3Text(lib.title));
+      parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
-        parsedCCTPs.push(l2Text(cat.title));
+        parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
-          parsedCCTPs.push(l2Text(work.title));
-          parsedCCTPs.push(lineBreak());
+          parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
           let docxObjs = await textRunsSplitGen(work.text);
           parsedCCTPs.push(...docxObjs);
         }
@@ -1605,12 +1602,12 @@ function _parseHead(headArr) {
 
 function _parseChap0part1(part1) {
   const arr = [];
-  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES'));
-  arr.push(l3Text('0.1 DESCRIPTION DU MARCHE'));
-  arr.push(l2Text('0.1.1 OBJET DU MARCHE'));
+  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES', null, { before: 6 * 20, after: 18 * 20 }));
+  arr.push(l3Text('0.1 DESCRIPTION DU MARCHE', null, { before: 12 * 20, after: 12 * 20 }));
+  arr.push(l2Text('0.1.1 OBJET DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
   arr.push(l1Text(part1.description, true));
-  arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE'));
+  arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text("Maitre d'Ouvrage:", true));
   arr.push(
     new Paragraph({
@@ -1655,7 +1652,7 @@ function _parseChap0part1(part1) {
   arr.push(l1Text(`   ${part1.prescriber.name}`));
   arr.push(l1Text(`   ${part1.prescriber.email}`));
   arr.push(l1Text(`   ${part1.prescriber.phone}`));
-  arr.push(l2Text('0.1.3 TYPE DE MARCHE'));
+  arr.push(l2Text('0.1.3 TYPE DE MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(
     new Paragraph({
       children: [
@@ -1683,20 +1680,20 @@ async function _parseChap0part2(part2) {
   const arr = [];
   for (let i = 0; i < part2.length; i++) {
     const _ = part2[i];
-    arr.push(l2Text(_.title));
+    arr.push(l3Text(_.title, null, { before: 12 * 20, after: 12 * 20 }));
     if (_.text) {
       arr.push(l1Text(_.text));
     }
     for (let j = 0; j < _.lvl2.length; j++) {
       const __ = _.lvl2[j];
-      arr.push(l2Text(__.title));
+      arr.push(l2Text(__.title, null, { before: 6 * 20, after: 12 * 20 }));
       if (__.text) {
         let docxObjs = await textRunsSplitGen(__.text);
         arr.push(...docxObjs);
       }
       for (let k = 0; k < __.lvl3.length; k++) {
         const ___ = __.lvl3[k];
-        arr.push(l2Text(___.title));
+        arr.push(l2Text(___.title, null, { before: 6 * 20, after: 6 * 20 }));
         if (___.text) {
           let docxObjs = await textRunsSplitGen(___.text);
           arr.push(...docxObjs);
