@@ -457,7 +457,7 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         const tranch = trade.arr[k];
         str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
         for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[k];
+          const work = tranch.arr[l];
           str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
           str = str.concat(`${work.text}`);
         }
@@ -512,7 +512,7 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
         const tranch = trade.arr[k];
         str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
         for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[k];
+          const work = tranch.arr[l];
           str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
           str = str.concat(`${work.text}`);
         }
@@ -567,7 +567,7 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
         const tranch = trade.arr[k];
         str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
         for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[k];
+          const work = tranch.arr[l];
           str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
           str = str.concat(`${work.text}`);
         }
