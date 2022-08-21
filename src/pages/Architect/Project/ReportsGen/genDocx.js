@@ -1618,7 +1618,18 @@ function _parseHead(headArr) {
 
 function _parseChap0part1(part1) {
   const arr = [];
-  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES', null, { before: 6 * 20, after: 18 * 20 }));
+  arr.push(
+    l4Text(
+      'CHAP 0 - CLAUSES GENERALES',
+      null,
+      { before: 6 * 20, after: 18 * 20 },
+      {
+        color: 'D9D9D9',
+        type: ShadingType.SOLID,
+        fill: 'D9D9D9',
+      }
+    )
+  );
   arr.push(l3Text('0.1 DESCRIPTION DU MARCHE', null, { before: 12 * 20, after: 12 * 20 }));
   arr.push(l2Text('0.1.1 OBJET DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
