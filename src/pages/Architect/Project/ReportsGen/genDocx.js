@@ -1636,16 +1636,18 @@ function _parseChap0part1(part1) {
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text("Maitre d'Ouvrage:", true));
+  arr.push(l1Text(`    ${part1.client.address}`));
+  arr.push(l1Text(`   ${part1.client.name}`));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: '    ',
+          text: '   ',
           font: fontType,
           size: l1Font,
         }),
         new TextRun({
-          text: `${part1.client.address}`,
+          text: `${part1.client.email}`,
           font: fontType,
           size: l1Font,
           color: '4472C4',
@@ -1654,20 +1656,20 @@ function _parseChap0part1(part1) {
       ],
     })
   );
-  arr.push(l1Text(`   ${part1.client.name}`));
-  arr.push(l1Text(`   ${part1.client.email}`));
   arr.push(l1Text(`   ${part1.client.phone}`));
   arr.push(l1Text("Maitre d'Oeuvre:", true));
+  arr.push(l1Text(`    ${part1.prescriber.address}`));
+  arr.push(l1Text(`   ${part1.prescriber.name}`));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: '    ',
+          text: '   ',
           font: fontType,
           size: l1Font,
         }),
         new TextRun({
-          text: `${part1.prescriber.address}`,
+          text: `${part1.prescriber.email}`,
           font: fontType,
           size: l1Font,
           color: '4472C4',
@@ -1676,8 +1678,6 @@ function _parseChap0part1(part1) {
       ],
     })
   );
-  arr.push(l1Text(`   ${part1.prescriber.name}`));
-  arr.push(l1Text(`   ${part1.prescriber.email}`));
   arr.push(l1Text(`   ${part1.prescriber.phone}`));
   arr.push(l2Text('0.1.3 TYPE DE MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(

@@ -589,17 +589,17 @@ function _parseChap0part1(part1) {
   str = str.concat(`<p>${part1.description}</p>`);
   str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
   str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
-  str = str.concat(`<p>    ${part1.client.name}</p>`);
+  str = str.concat(`<p>    ${part1.client.address}</p>`);
+  str = str.concat(`<p>   ${part1.client.name}</p>`);
+  str = str.concat(`<p>   ${part1.client.email}</p>`);
+  str = str.concat(`<p>   ${part1.client.phone}</p>`);
   str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
-  str = str.concat(`<p>    ${part1.prescriber.name}</p>`);
+  str = str.concat(`<p>    ${part1.prescriber.address}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.name}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.email}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.phone}</p>`);
   str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
-  str = str.concat(`<p>${part1.market_type}</p>`);
-  str = str.concat(`<p><strong>Intervenants</strong></p>`);
-  str = str.concat(`<ul>`);
-  for (let i = 0; i < part1.stakeholders.length; i++) {
-    const _ = part1.stakeholders[i];
-    str = str.concat(`<li>${_}</li>`);
-  }
+  str = str.concat(`<p>Le marché est un marché à : <b><i>${part1.market_type}</i></b></p>`);
   str = str.concat(`</ul>`);
   str = str.concat(`</p>`);
   return str;
