@@ -12,6 +12,7 @@ import {
   TableRow,
   VerticalAlign,
   TableOfContents,
+  ShadingType,
 } from 'docx';
 
 import {
@@ -1270,6 +1271,11 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
           before: i == 0 ? 6 * 20 : 4 * 20,
           after: 3 * 20,
@@ -1370,9 +1376,14 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+          before: i == 0 ? 6 * 20 : 4 * 20,
+          after: 3 * 20,
         },
         children: [
           new TextRun({
@@ -1470,9 +1481,14 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+          before: i == 0 ? 6 * 20 : 4 * 20,
+          after: 3 * 20,
         },
         children: [
           new TextRun({
