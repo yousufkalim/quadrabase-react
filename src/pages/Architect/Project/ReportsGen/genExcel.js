@@ -165,6 +165,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenSimpleEstimation(data, noPrice);
   const footerColumnsSimpleEstimationdata = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationdata[2] = `${footerColumnsSimpleEstimationdata[2]} (${currentProject?.vat?.value}%) :`;
   let xlsxParsedData = [];
   const xlsxParsedBodyData = xlsxParsedDataGenSimpleEstimation(rows);
   const footerDataFloatsArr = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
@@ -283,7 +284,8 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const header = headGen(!noPrice ? 'Estim' : 'DQE', currentProject.name);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
 
   let xlsxParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
@@ -422,7 +424,8 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
 
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
 
   let xlsxParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
