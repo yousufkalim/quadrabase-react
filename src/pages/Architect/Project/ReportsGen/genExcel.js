@@ -73,8 +73,8 @@ const TitleStyle = {
   },
   font: {
     bold: true,
-    sz: 12,
-    name: 'Arial',
+    sz: 11,
+    name: 'Calibri',
   },
 };
 
@@ -275,9 +275,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estim'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
@@ -415,9 +413,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estim'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
@@ -429,12 +425,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   footerColumnsSimpleEstimationNoSpace.splice(1, 1);
 
   let xlsxParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
-    data,
-    currentProject,
-    noPrice,
-    false
-  );
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
   const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
     footerDataFloatsArr,
     footerColumnsSimpleEstimationNoSpace,
@@ -443,11 +434,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(
-      currentRow,
-      i + 1,
-      noPrice
-    );
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -580,9 +567,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   const blob = new Blob([wbout], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
-    noPrice ? 'DQE' : 'Estim'
-  }.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
   return { blob, filename };
 };
 
@@ -596,11 +581,7 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
       } else {
         ws[`${char}${rownum}`].s = style2;
       }
-    } else if (
-      type === 'WorkAndWorkDetail' ||
-      type === 'WorkAndWorkDetail2' ||
-      type === 'WorkAndWorkDetail3'
-    ) {
+    } else if (type === 'WorkAndWorkDetail' || type === 'WorkAndWorkDetail2' || type === 'WorkAndWorkDetail3') {
       if (char === 'A') {
         if (type === 'WorkAndWorkDetail') {
           if (ws[`${char}${rownum}`].v.length >= 7) {
@@ -663,8 +644,4 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
   }
 }
 
-export {
-  exportXLSXSimpleEstimation,
-  exportXLSXTradesEstimation,
-  exportXLSXTradesAndTranchesEstimation,
-};
+export { exportXLSXSimpleEstimation, exportXLSXTradesEstimation, exportXLSXTradesAndTranchesEstimation };
