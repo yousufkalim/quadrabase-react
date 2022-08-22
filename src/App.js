@@ -43,7 +43,7 @@ function App() {
       dataColumnsEstimation[3] = i18nextLng == 'en' ? 'Qty' : 'Qté';
 
       footerColumnsSimpleEstimation[1] = i18nextLng == 'en' ? 'Total Lot n°1 :' : 'Total HT :';
-      footerColumnsSimpleEstimation[2] = i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA';
+      footerColumnsSimpleEstimation[2] = i18nextLng == 'en' ? 'Total VAT (%) :' : 'T.V.A';
       footerColumnsSimpleEstimation[3] = i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
     };
     window.addEventListener('storage', storageHandler);

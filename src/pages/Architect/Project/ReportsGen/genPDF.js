@@ -27,7 +27,7 @@ import {
 } from './data.js';
 
 async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'.toUpperCase()}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
   const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
   const footerColumnsSimpleEstimationdata = [...footerColumnsSimpleEstimation];
@@ -56,7 +56,7 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
 }
 
 async function exportPDFTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
@@ -95,7 +95,7 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
 async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPrice) {
   const data = structuredClone(_data);
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
   footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;

@@ -64,7 +64,7 @@ const Spacer = new Paragraph({
 });
 
 async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleEstimation(data, noPrice);
   const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
@@ -296,7 +296,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
 }
 
 async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerData = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
@@ -571,7 +571,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
 }
 
 async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerData = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
