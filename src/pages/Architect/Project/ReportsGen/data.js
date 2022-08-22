@@ -184,14 +184,16 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.')?.replace(' ', ',') ?? '');
 
       if (noPrice) {
         arr.push('');
         arr.push('');
       } else {
-        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
-        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.'));
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.')?.replace(' ', ',') ?? '0.00');
+        arr.push(
+          formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.')?.replace(' ', ',')
+        );
       }
 
       resArr.push(arr);
@@ -203,14 +205,16 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
         if (noPrice) {
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
+          arrD.push(
+            formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+          );
         }
 
         resArr.push(arrD);
@@ -223,14 +227,16 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
       if (noPrice) {
         arrD.push('');
         arrD.push('');
       } else {
-        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
+        arrD.push(
+          formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+        );
       }
 
       resArr.push(arrD);
@@ -263,7 +269,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',')?.replace(' ', ',') ?? '');
       arr.push('');
       arr.push('');
 
@@ -275,7 +281,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
         arrD.push('');
         arrD.push('');
 
@@ -287,7 +293,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
       arrD.push('');
       arrD.push('');
 
@@ -314,7 +320,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',') ?? '');
       arr.push('');
       arr.push('');
 
@@ -326,7 +332,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
         arrD.push(`${currentWork}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
         arrD.push('');
         arrD.push('');
 
@@ -338,7 +344,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       arrD.push(`${currentWork}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
       arrD.push('');
       arrD.push('');
 
@@ -484,7 +490,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2), '.') : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')?.replace(' ', ',')
+        : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -614,7 +622,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2)) ?? '' : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2))?.replace(' ', ',') ?? '' : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -744,7 +752,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2)) : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2))?.replace(' ', ',') : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -775,7 +783,7 @@ function calculateTotalHT(data, noPrice) {
     totalHT = totalHT + _;
   }
 
-  const formattedTotalHT = formatNumber(totalHT.toFixed(2), '.');
+  const formattedTotalHT = formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ',');
 
   return formattedTotalHT;
 }
@@ -877,9 +885,9 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2))?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2))?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
@@ -919,9 +927,9 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2))?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2))?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
@@ -964,9 +972,9 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
@@ -1734,7 +1742,7 @@ const dataColumnsEstimation = [
 const footerColumnsSimpleEstimation = [
   '',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'TVA',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 
