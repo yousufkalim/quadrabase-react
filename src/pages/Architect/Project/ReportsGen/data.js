@@ -177,6 +177,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
   let workIndex = 0;
   let workDetailsIndex = 0;
   for (let i = 0; i < data.length; i++) {
+    // Work
     if (_id != data[i].work._id) {
       const arr = [];
 
@@ -195,6 +196,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
 
       resArr.push(arr);
 
+      // If there is workdetail then parse it.
       if (data[i].workDetails) {
         const arrD = [];
 
@@ -213,12 +215,9 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
 
         resArr.push(arrD);
         workDetailsIndex++;
-        workIndex--; // In order to stop increment
-      } else {
-        workDetailsIndex = 0;
       }
-      workIndex++;
     } else {
+      // WorkDetail
       const arrD = [];
 
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
@@ -240,6 +239,12 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
     }
 
     _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
   }
 
   return resArr;
@@ -874,7 +879,7 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
     ];
   } else {
@@ -916,7 +921,7 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
       formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
     ];
   } else {
@@ -994,12 +999,7 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
     const obj = {};
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        console.log(footerColumns[j], j);
-        if (i == 1) {
-          obj[dataColumnsEstimation[j]] = `${footerColumns[i]} (${currentProject?.vat?.value}%) :`;
-        } else {
-          obj[dataColumnsEstimation[j]] = footerColumns[i];
-        }
+        obj[dataColumnsEstimation[j]] = `${footerColumns[i]}`;
       } else if (j == 5) {
         obj[dataColumnsEstimation[j]] = floatsRow[i];
       } else {
@@ -1008,6 +1008,8 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
     }
     xlsxParsedData.push(obj);
   }
+
+  // `${footerColumns[i]} (${currentProject?.vat?.value}%) :`
 
   return xlsxParsedData;
 }
