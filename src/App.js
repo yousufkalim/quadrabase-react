@@ -10,10 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Main from './containers';
 import api from './api';
 import Axios from 'axios';
-import {
-  dataColumnsEstimation,
-  footerColumnsSimpleEstimation,
-} from './pages/Architect/Project/ReportsGen/data.js';
+import { dataColumnsEstimation, footerColumnsSimpleEstimation } from './pages/Architect/Project/ReportsGen/data.js';
 import moment from 'moment';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
@@ -45,11 +42,9 @@ function App() {
       dataColumnsEstimation[2] = i18nextLng == 'en' ? 'Unit' : 'Unité';
       dataColumnsEstimation[3] = i18nextLng == 'en' ? 'Qty' : 'Qté';
 
-      footerColumnsSimpleEstimation[0] = i18nextLng == 'en' ? 'Total Lot n°1 :' : 'Total HT :';
-      footerColumnsSimpleEstimation[2] =
-        i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA totale (%) :';
-      footerColumnsSimpleEstimation[3] =
-        i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
+      footerColumnsSimpleEstimation[1] = i18nextLng == 'en' ? 'Total Lot n°1 :' : 'Total HT :';
+      footerColumnsSimpleEstimation[2] = i18nextLng == 'en' ? 'Total VAT (%) :' : 'TVA';
+      footerColumnsSimpleEstimation[3] = i18nextLng == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :';
     };
     window.addEventListener('storage', storageHandler);
     return () => window.removeEventListener('storage', storageHandler);
@@ -61,12 +56,7 @@ function App() {
 
   return (
     <div id="App">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        transition={Flip}
-      />
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={true} transition={Flip} />
       <Toaster />
       <BrowserRouter>
         <Main />

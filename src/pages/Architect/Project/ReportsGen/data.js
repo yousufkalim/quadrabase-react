@@ -234,7 +234,6 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       }
 
       resArr.push(arrD);
-      if (_id && _id != data[i + 1]?.work?._id) workIndex++;
       workDetailsIndex++;
     }
 
@@ -887,7 +886,7 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   }
 
   if (addSpace) {
-    footerData.splice(1, 0, '');
+    footerData.splice(0, 0, '');
   }
 
   return footerData;
@@ -929,7 +928,7 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   }
 
   if (addSpace) {
-    footerData.splice(1, 0, '');
+    footerData.splice(0, 0, '');
   }
 
   return footerData;
@@ -1008,8 +1007,6 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
     }
     xlsxParsedData.push(obj);
   }
-
-  // `${footerColumns[i]} (${currentProject?.vat?.value}%) :`
 
   return xlsxParsedData;
 }
@@ -1735,9 +1732,9 @@ const dataColumnsEstimation = [
 ];
 
 const footerColumnsSimpleEstimation = [
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'TVA',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];
 

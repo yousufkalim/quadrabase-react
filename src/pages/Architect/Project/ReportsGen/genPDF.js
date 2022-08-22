@@ -59,7 +59,8 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
@@ -97,7 +98,8 @@ async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPri
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
 
