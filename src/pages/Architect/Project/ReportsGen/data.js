@@ -885,9 +885,9 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2))?.replace(' ', ','),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
       formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2))?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
@@ -927,9 +927,9 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2))?.replace(' ', ','),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
       formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2))?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
