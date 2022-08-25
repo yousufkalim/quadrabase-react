@@ -1,4 +1,5 @@
 import React from 'react';
+// import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
@@ -25,6 +26,8 @@ export default function Index(props) {
 }
 
 const myHeader = (state, previousDocument, nextDocument) => {
+  return <></>;
+
   if (!state.currentDocument || state.config?.header?.disableFileName) {
     return null;
   }
