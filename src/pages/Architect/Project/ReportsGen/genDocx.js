@@ -868,7 +868,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 text: work,
                 font: fontType,
                 size: l0Font,
-                italics: currentRow[2].length > 0 ? true : false,
+                italics: currentRow[1].type == 'workDetail' ? true : false,
               }),
             ],
           }),
@@ -882,11 +882,11 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 font: fontType,
                 size: l0Font,
                 bold: true,
-                italics: currentRow[2].length > 0 ? true : false,
+                italics: currentRow[1].type == 'workDetail' ? true : false,
               }),
             ],
           }),
-          ...(currentRow[2].length > 0
+          ...(currentRow[1].type == 'workDetail'
             ? [l0Text(`${work.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
             : await textRunsSplitGen(work.text, ln1Font)),
           work.unit && l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -983,7 +983,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   text: workCurrentRow,
                   font: fontType,
                   size: l0Font,
-                  italics: work[2].length > 0 ? true : false,
+                  italics: work[1].type == 'workDetail' > 0 ? true : false,
                 }),
               ],
             }),
@@ -997,11 +997,11 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   font: fontType,
                   size: l0Font,
                   bold: true,
-                  italics: work[2].length > 0 ? true : false,
+                  italics: work[1].type == 'workDetail' > 0 ? true : false,
                 }),
               ],
             }),
-            ...(work[2].length > 0
+            ...(work[1].type == 'workDetail'
               ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
               : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
             workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -1118,7 +1118,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     text: workCurrentRow,
                     font: fontType,
                     size: l0Font,
-                    italics: work[2].length > 0 ? true : false,
+                    italics: work[1].type == 'workDetail' > 0 ? true : false,
                   }),
                 ],
               }),
@@ -1132,11 +1132,11 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     font: fontType,
                     size: l0Font,
                     bold: true,
-                    italics: work[2].length > 0 ? true : false,
+                    italics: work[1].type == 'workDetail' > 0 ? true : false,
                   }),
                 ],
               }),
-              ...(work[2].length > 0
+              ...(work[1].type == 'workDetail'
                 ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
                 : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
               workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -1636,8 +1636,15 @@ function _parseChap0part1(part1) {
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text("Maitre d'Ouvrage:", true));
-  arr.push(l1Text(`    ${part1.client.address}`));
-  arr.push(l1Text(`   ${part1.client.name}`));
+  arr.push(l1Text(`   ${part1.client.establishment}`));
+  arr.push(l1Text(`   ${part1.client.service}`));
+  arr.push(l1Text(`   ${part1.client.address1}`));
+  arr.push(l1Text(`   ${part1.client.address2}`));
+  arr.push(l1Text(`   ${part1.client.zipcode}`));
+  arr.push(l1Text(`   ${part1.client.city}`));
+  arr.push(l1Text(`   ${part1.client.lastname}`));
+  arr.push(l1Text(`   ${part1.client.firstname}`));
+  arr.push(l1Text(`   ${part1.client.phone}`));
   arr.push(
     new Paragraph({
       children: [
@@ -1656,10 +1663,16 @@ function _parseChap0part1(part1) {
       ],
     })
   );
-  arr.push(l1Text(`   ${part1.client.phone}`));
   arr.push(l1Text("Maitre d'Oeuvre:", true));
-  arr.push(l1Text(`    ${part1.prescriber.address}`));
-  arr.push(l1Text(`   ${part1.prescriber.name}`));
+  arr.push(l1Text(`   ${part1.prescriber.establishment}`));
+  arr.push(l1Text(`   ${part1.prescriber.service}`));
+  arr.push(l1Text(`   ${part1.prescriber.address1}`));
+  arr.push(l1Text(`   ${part1.prescriber.address2}`));
+  arr.push(l1Text(`   ${part1.prescriber.zipcode}`));
+  arr.push(l1Text(`   ${part1.prescriber.city}`));
+  arr.push(l1Text(`   ${part1.prescriber.lastname}`));
+  arr.push(l1Text(`   ${part1.prescriber.firstname}`));
+  arr.push(l1Text(`   ${part1.prescriber.phone}`));
   arr.push(
     new Paragraph({
       children: [
@@ -1678,7 +1691,6 @@ function _parseChap0part1(part1) {
       ],
     })
   );
-  arr.push(l1Text(`   ${part1.prescriber.phone}`));
   arr.push(l2Text('0.1.3 TYPE DE MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(
     new Paragraph({

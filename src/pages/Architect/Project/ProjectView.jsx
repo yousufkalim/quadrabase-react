@@ -203,10 +203,11 @@ const ProjectView = () => {
     getProject();
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     currentProject.name && getworks();
     currentProject._id && getTrades();
   }, [currentProject]);
+
   useEffect(() => {
     if (selectedTrade) {
       getTranches();
@@ -216,6 +217,10 @@ const ProjectView = () => {
   useEffect(() => {
     getProjectLibraries();
   }, [store.user]);
+
+  useEffect(() => {
+    currentProject.name && getworks();
+  }, [tradesData, tranchesData]);
 
   useEffect(() => {
     if (selectedFamily && store.user && options) {
@@ -374,8 +379,7 @@ const ProjectView = () => {
   // func to get all general libraries
   const getProjectLibraries = async () => {
     try {
-      const response =
-        store?.user?._id && (await api('get', `/BookLibraries/getByArchitect/${store.user._id}`));
+      const response = store?.user?._id && (await api('get', `/BookLibraries/getByArchitect/${store.user._id}`));
       let temp = response?.data?.bookLibrary.sort((a, b) => a.ranking - b.ranking);
 
       setGeneralLibrariesData(temp);
@@ -658,12 +662,7 @@ const ProjectView = () => {
     const inUse = tranchesData.find((item) => item.trade === selectedData.data._id);
     if (!inUse) {
       if (tradesData.length > 1) {
-        const result = await api(
-          'delete',
-          `/Trades/${selectedData.data._id}/${currentProject._id}`,
-          {},
-          t
-        );
+        const result = await api('delete', `/Trades/${selectedData.data._id}/${currentProject._id}`, {}, t);
         toast.success(t(result.data.message));
         handleOpenDeleteTradeModal();
         getTrades();
@@ -679,12 +678,7 @@ const ProjectView = () => {
   // handle delete
   const handleTranchDelete = async () => {
     if (tranchesData.length > 1) {
-      const result = await api(
-        'delete',
-        `/Tranches/${selectedData.data._id}/${currentProject._id}`,
-        {},
-        t
-      );
+      const result = await api('delete', `/Tranches/${selectedData.data._id}/${currentProject._id}`, {}, t);
       toast.success(t(result.data.message));
       handleOpenDeleteTranchModal();
       getTranches();
@@ -906,11 +900,7 @@ const ProjectView = () => {
       } else if (currentProject.market_type == 'Trades') {
         res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(
-          projectWorkData,
-          currentProject,
-          selectedCCTPIndexes
-        );
+        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace('Show me');
       }
@@ -1013,30 +1003,18 @@ const ProjectView = () => {
               title={cctpModalTitle}
               open={openCctpModal}
               onClose={handleOpenCctpModal}
-              component={
-                <CctpModal handleOpenCctpModal={handleOpenCctpModal} cctp_text={cctp_text} />
-              }
+              component={<CctpModal handleOpenCctpModal={handleOpenCctpModal} cctp_text={cctp_text} />}
             />
             <Modal
               open={openDeleteWorkModal}
               onClose={handleOpenDeleteWorkModal}
-              component={
-                <DeleteModal
-                  handleCancel={handleOpenDeleteWorkModal}
-                  handleDelete={handleDeleteWork}
-                />
-              }
+              component={<DeleteModal handleCancel={handleOpenDeleteWorkModal} handleDelete={handleDeleteWork} />}
             />
 
             <Modal
               open={openDeleteWorkDetailModal}
               onClose={handleOpenDeleteWorkDetailModal}
-              component={
-                <DeleteModal
-                  handleCancel={handleOpenDeleteWorkDetailModal}
-                  handleDelete={handleDeleteWorkDetail}
-                />
-              }
+              component={<DeleteModal handleCancel={handleOpenDeleteWorkDetailModal} handleDelete={handleDeleteWorkDetail} />}
             />
             <Modal
               title={t('Edit a Work')}
@@ -1202,9 +1180,7 @@ const ProjectView = () => {
             />
 
             <Modal
-              title={
-                editChapItem?.type === 'level0' ? t('Add Chap0 Level2') : t('Add Chap0 Level3')
-              }
+              title={editChapItem?.type === 'level0' ? t('Add Chap0 Level2') : t('Add Chap0 Level3')}
               open={openAddChapModal}
               onClose={handleOpenAddChapModal}
               component={
@@ -1220,12 +1196,7 @@ const ProjectView = () => {
             <Modal
               open={openDeleteChap}
               onClose={handleOpenDeleteChapModal}
-              component={
-                <DeleteModal
-                  handleCancel={handleOpenDeleteChapModal}
-                  handleDelete={handleChapDelete}
-                />
-              }
+              component={<DeleteModal handleCancel={handleOpenDeleteChapModal} handleDelete={handleChapDelete} />}
             />
 
             <Modal
@@ -1259,12 +1230,7 @@ const ProjectView = () => {
             <Modal
               open={openDeleteTranchModal}
               onClose={handleOpenDeleteTranchModal}
-              component={
-                <DeleteModal
-                  handleCancel={handleOpenDeleteTranchModal}
-                  handleDelete={handleTranchDelete}
-                />
-              }
+              component={<DeleteModal handleCancel={handleOpenDeleteTranchModal} handleDelete={handleTranchDelete} />}
             />
             <Modal
               title={t('Add Trade')}
@@ -1295,33 +1261,19 @@ const ProjectView = () => {
               title={t('Providers')}
               open={openProvidersModal}
               onClose={handleOpenProvidersModal}
-              component={
-                <ProviderModal
-                  handleOpenProviderModal={handleOpenProvidersModal}
-                  providers={providerList}
-                />
-              }
+              component={<ProviderModal handleOpenProviderModal={handleOpenProvidersModal} providers={providerList} />}
             />
             <Modal
               open={openDeleteTradeModal}
               onClose={handleOpenDeleteTradeModal}
-              component={
-                <DeleteModal
-                  handleCancel={handleOpenDeleteTradeModal}
-                  handleDelete={handleTradeDelete}
-                />
-              }
+              component={<DeleteModal handleCancel={handleOpenDeleteTradeModal} handleDelete={handleTradeDelete} />}
             />
             <Modal
               title={t('Technical Doc')}
               open={openDocModal}
               onClose={handleDocModal}
               component={
-                <TechnicalDocModal
-                  handleDocModal={handleDocModal}
-                  technicalDoc={technicalDoc}
-                  onClose={handleDocModal}
-                />
+                <TechnicalDocModal handleDocModal={handleDocModal} technicalDoc={technicalDoc} onClose={handleDocModal} />
               }
             />
             <div className={classes.container}>
@@ -1405,8 +1357,7 @@ const ProjectView = () => {
                       marginLeft: -20,
                     }}
                   >
-                    {(currentProject.market_type === 'TradesAndTranches' ||
-                      currentProject.market_type === 'Trades') && (
+                    {(currentProject.market_type === 'TradesAndTranches' || currentProject.market_type === 'Trades') && (
                       <>
                         <Tooltip title="Ajouter un Lot" placement="top">
                           <ListIcon
@@ -1534,10 +1485,7 @@ const ProjectView = () => {
                       }}
                       sx={{ mt: 2.5 }}
                     >
-                      <MenuItem
-                        onClick={openEstimationModal}
-                        style={{ width: 180, height: 28, fontSize: 15 }}
-                      >
+                      <MenuItem onClick={openEstimationModal} style={{ width: 180, height: 28, fontSize: 15 }}>
                         {t('Generate Estimate')}
                       </MenuItem>
                       <MenuItem
@@ -1654,12 +1602,7 @@ const ProjectView = () => {
                       </MenuItem>
                     </StyledMenu>
                     <TableContainer component={Paper} sx={{ height: '85%' }}>
-                      <Table
-                        sx={{ tableLayout: 'auto' }}
-                        size="small"
-                        stickyHeader
-                        aria-label="sticky table"
-                      >
+                      <Table sx={{ tableLayout: 'auto' }} size="small" stickyHeader aria-label="sticky table">
                         <TableHead>
                           <TableRow style={{ whiteSpace: 'nowrap' }}>
                             <TableCell
@@ -1722,9 +1665,7 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item2._id
-                                          ? 'rgb(241, 150, 108)'
-                                          : 'rgba(241, 150, 108,0.7)',
+                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108,0.7)',
                                       cursor: 'pointer',
                                     }}
                                   >
@@ -1749,9 +1690,7 @@ const ProjectView = () => {
                                         {selectedTrade === item2._id && (
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={
-                                              open2 ? 'demo-positioned-menu' : undefined
-                                            }
+                                            aria-controls={open2 ? 'demo-positioned-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={open2 ? 'true' : undefined}
                                             onClick={(e) => {
@@ -1778,13 +1717,9 @@ const ProjectView = () => {
                                         <TradeTable
                                           projectWorkData={item.data}
                                           handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
-                                          handleOpenDeleteWorkDetailModal={
-                                            handleOpenDeleteWorkDetailModal
-                                          }
+                                          handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
                                           handleOpenEditWorkModal={handleOpenEditWorkModal}
-                                          handleOpenEditWorkDetailModal={
-                                            handleOpenEditWorkDetailModal
-                                          }
+                                          handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
                                           handleOpenEditWWDModal={handleOpenEditWWDModal}
                                           currentProject={currentProject}
                                           getworks={getworks}
@@ -1816,9 +1751,7 @@ const ProjectView = () => {
                                     }}
                                     align="right"
                                   >
-                                    {tradeTotalIndex !== -1
-                                      ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
-                                      : '0,00'}
+                                    {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : '0,00'}
                                   </TableCell>
                                   <br />
                                 </>
@@ -1832,9 +1765,7 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item3._id
-                                          ? 'rgb(241, 150, 108)'
-                                          : 'rgba(241, 150, 108,0.7)',
+                                        selectedTrade === item3._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108,0.7)',
                                       cursor: 'pointer',
                                     }}
                                   >
@@ -1866,9 +1797,7 @@ const ProjectView = () => {
                                         {selectedTrade === item3._id && (
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={
-                                              open2 ? 'demo-positioned-menu' : undefined
-                                            }
+                                            aria-controls={open2 ? 'demo-positioned-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={open2 ? 'true' : undefined}
                                             onClick={(e) => {
@@ -1895,10 +1824,7 @@ const ProjectView = () => {
                                         <>
                                           <TableRow
                                             sx={{
-                                              backgroundColor:
-                                                selectedTranche === item4._id
-                                                  ? 'rgb(227, 226, 229)'
-                                                  : '#fff',
+                                              backgroundColor: selectedTranche === item4._id ? 'rgb(227, 226, 229)' : '#fff',
                                               cursor: 'pointer',
                                             }}
                                           >
@@ -1922,9 +1848,7 @@ const ProjectView = () => {
                                                 {selectedTranche === item4._id && (
                                                   <ArrowDropDownIcon
                                                     id="demo-positioned-button"
-                                                    aria-controls={
-                                                      open2 ? 'demo-positioned-menu' : undefined
-                                                    }
+                                                    aria-controls={open2 ? 'demo-positioned-menu' : undefined}
                                                     aria-haspopup="true"
                                                     aria-expanded={open2 ? 'true' : undefined}
                                                     onClick={(e) => {
@@ -1945,40 +1869,24 @@ const ProjectView = () => {
                                           </TableRow>
 
                                           {projectWorkData?.map((item, index) => {
-                                            if (
-                                              item3?._id ===
-                                              item?.data[0]?.tranchData[0]?.trade?._id
-                                            ) {
+                                            if (item3?._id === item?.data[0]?.tranchData[0]?.trade?._id) {
                                               tradeTotalIndex = index;
                                               return (
                                                 <>
                                                   {item.data.map((item2, index2) => {
-                                                    if (
-                                                      item2?.tranchData[0]?.tranch?._id ===
-                                                      item4?._id
-                                                    ) {
+                                                    if (item2?.tranchData[0]?.tranch?._id === item4?._id) {
                                                       tranchTotalAmount = item2.tranchAmount;
                                                       return (
                                                         <>
                                                           <TradeTable
                                                             projectWorkData={item2.tranchData}
-                                                            handleOpenDeleteWorkModal={
-                                                              handleOpenDeleteWorkModal
-                                                            }
-                                                            handleOpenDeleteWorkDetailModal={
-                                                              handleOpenDeleteWorkDetailModal
-                                                            }
-                                                            handleOpenEditWorkModal={
-                                                              handleOpenEditWorkModal
-                                                            }
-                                                            handleOpenEditWorkDetailModal={
-                                                              handleOpenEditWorkDetailModal
-                                                            }
+                                                            handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
+                                                            handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
+                                                            handleOpenEditWorkModal={handleOpenEditWorkModal}
+                                                            handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
                                                             currentProject={currentProject}
                                                             getworks={getworks}
-                                                            handleOpenEditWWDModal={
-                                                              handleOpenEditWWDModal
-                                                            }
+                                                            handleOpenEditWWDModal={handleOpenEditWWDModal}
                                                           />
                                                         </>
                                                       );
@@ -1990,10 +1898,7 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ padding: '2px 16px', fontSize: 16 }}
-                                            >
+                                            <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2044,9 +1949,7 @@ const ProjectView = () => {
                                           fontSize: 16,
                                         }}
                                       >
-                                        {tradeTotalIndex !== -1
-                                          ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
-                                          : '0,00'}
+                                        {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : '0,00'}
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -2091,19 +1994,14 @@ const ProjectView = () => {
                         >
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total HT')} :</div>
-                            <div className={classes.fotter_amount}>
-                              {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
-                            </div>
+                            <div className={classes.fotter_amount}>{formatNumber(parseFloat(totalHT)?.toFixed(2))} €</div>
                           </div>
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>
                               {t('VAT')} ({currentProject?.vat?.value?.toFixed(2)}%) :
                             </div>
                             <div className={classes.fotter_amount}>
-                              {formatNumber(
-                                ((totalHT / 100) * currentProject?.vat?.value).toFixed(2)
-                              )}{' '}
-                              €
+                              {formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2))} €
                             </div>
                           </div>
                           <div
@@ -2122,15 +2020,10 @@ const ProjectView = () => {
                             ></div>
                           </div>
                           <div className={classes.flex_container}>
-                            <div className={classes.fotter_text}>
-                              {t('Total  Amount  including  VAT')} :
-                            </div>
+                            <div className={classes.fotter_text}>{t('Total  Amount  including  VAT')} :</div>
 
                             <div className={classes.fotter_amount}>
-                              {formatNumber(
-                                (totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2)
-                              )}{' '}
-                              €
+                              {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €
                             </div>
                           </div>
                         </div>

@@ -95,9 +95,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 
 function rowsGenSimpleDPGF(data) {
   const rows = [];
-
   rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data, `${1}`);
-
   return rows;
 }
 
@@ -1115,9 +1113,14 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         title: data[i].work.name,
         text: data[i].work.bpu_text[0],
         unit: data[i].work?.unit?.name,
+        type: 'work',
       };
       arr1.push(obj);
-      arr1.push('');
+      if (data[i].workDetails) {
+        arr1.push('');
+      } else {
+        arr1.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
+      }
       resArr.push(arr1);
 
       // If there is workdetail then parse it.
@@ -1127,6 +1130,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         const obj = {
           title: data[i].workDetails.name,
           text: data[i].workDetails.unit.name,
+          type: 'workDetail',
         };
         arr2.push(obj);
         arr2.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1141,6 +1145,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
       const obj = {
         title: data[i].workDetails.name,
         text: data[i].workDetails.unit.name,
+        type: 'workDetail',
       };
       arr1.push(obj);
       arr1.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1271,17 +1276,29 @@ function parseChap0(currentProject) {
   }
 
   const client = {
-    name: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
-    address: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
+    establishment: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
+    service: currentProject?.client?.service?.length > 0 ? currentProject?.client?.service : 'N/A',
+    address1: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
+    address2: currentProject?.client?.address2?.length > 0 ? currentProject?.client?.address2 : 'N/A',
+    zipcode: currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A',
+    city: currentProject?.client?.city?.length > 0 ? currentProject?.client?.city : 'N/A',
+    firstname: currentProject?.client?.firstname?.length > 0 ? currentProject?.client?.firstname : 'N/A',
+    lastname: currentProject?.client?.lastname?.length > 0 ? currentProject?.client?.lastname : 'N/A',
     email: currentProject?.client?.email?.length > 0 ? currentProject?.client?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A'}`,
+    phone: `Tel. : ${currentProject?.client?.contact_no?.length > 0 ? currentProject?.client?.contact_no : 'N/A'}`,
   };
 
   const prescriber = {
-    name: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
-    address: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
+    establishment: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
+    service: currentProject?.prescriber?.service?.length > 0 ? currentProject?.prescriber?.service : 'N/A',
+    address1: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
+    address2: currentProject?.prescriber?.address2?.length > 0 ? currentProject?.prescriber?.address2 : 'N/A',
+    zipcode: currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A',
+    city: currentProject?.prescriber?.city?.length > 0 ? currentProject?.prescriber?.city : 'N/A',
+    firstname: currentProject?.prescriber?.firstname?.length > 0 ? currentProject?.prescriber?.firstname : 'N/A',
+    lastname: currentProject?.prescriber?.lastname?.length > 0 ? currentProject?.prescriber?.lastname : 'N/A',
     email: currentProject?.prescriber?.email?.length > 0 ? currentProject?.prescriber?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A'}`,
+    phone: `Tel. : ${currentProject?.prescriber?.contact_no?.length > 0 ? currentProject?.prescriber?.contact_no : 'N/A'}`,
   };
 
   // Parse chap0part1
@@ -1446,6 +1463,7 @@ function parseSorterWorks(works) {
 
 function parseCCTPData(data, index) {
   const cp = [];
+
   for (let i = 0; i < data.length; i++) {
     const currentObjLib = data[i];
     const libObj = {
@@ -1482,6 +1500,7 @@ function parseCCTPData(data, index) {
       cp.push(libObj);
     }
   }
+
   return cp;
 }
 

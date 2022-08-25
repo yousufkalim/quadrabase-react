@@ -1,9 +1,9 @@
-import React from "react";
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import FastForwardIcon from "@mui/icons-material/FastForward";
-import FastRewindIcon from "@mui/icons-material/FastRewind";
-import { IconButton } from "@mui/material";
-import { useStyles } from "../../../../css/projectLibraries";
+import React from 'react';
+import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import { IconButton } from '@mui/material';
+import { useStyles } from '../../../../css/projectLibraries';
 
 export default function Index(props) {
   const { documents } = props;
@@ -32,22 +32,14 @@ const myHeader = (state, previousDocument, nextDocument) => {
   return (
     <>
       <div>
-        <div
-          style={{ display: "flex", width: "100%", justifyContent: "flex-end" }}
-        >
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
           <div>
-            <IconButton
-              onClick={previousDocument}
-              disabled={state.currentFileNo === 0}
-            >
+            <IconButton onClick={previousDocument} disabled={state.currentFileNo === 0}>
               <FastRewindIcon />
             </IconButton>
           </div>
           <div>
-            <IconButton
-              onClick={nextDocument}
-              disabled={state.currentFileNo >= state.documents.length - 1}
-            >
+            <IconButton onClick={nextDocument} disabled={state.currentFileNo >= state.documents.length - 1}>
               <FastForwardIcon />
             </IconButton>
           </div>
