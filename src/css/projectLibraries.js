@@ -36,8 +36,8 @@ export const useStyles = makeStyles({
     height: '400px !important',
     overflow: 'scroll !important',
     backgroundColor: '#f9f9f9 !important',
-    '& #pdf-controls': {
-      display: 'none',
-    },
+    // '& #pdf-controls': {
+    //   display: 'none',
+    // },
   },
 });

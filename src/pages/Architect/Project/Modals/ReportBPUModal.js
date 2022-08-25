@@ -10,16 +10,8 @@ import api from '../../../../api';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Reports
-import {
-  exportPDFSimpleBPU,
-  exportPDFTradesBPU,
-  exportPDFTradesAndTranchesBPU,
-} from '../ReportsGen/genPDF';
-import {
-  exportDOCXSimpleBPU,
-  exportDOCXTradesBPU,
-  exportDOCXTradesAndTranchesBPU,
-} from '../ReportsGen/genDocx';
+import { exportPDFSimpleBPU, exportPDFTradesBPU, exportPDFTradesAndTranchesBPU } from '../ReportsGen/genPDF';
+import { exportDOCXSimpleBPU, exportDOCXTradesBPU, exportDOCXTradesAndTranchesBPU } from '../ReportsGen/genDocx';
 import { downloadBlob } from '../ReportsGen/data';
 
 import { toast } from 'react-toastify';
