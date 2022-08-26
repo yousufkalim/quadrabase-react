@@ -60,6 +60,7 @@ export default function DenseTable({
   const { t } = useTranslation();
   const [work, setWork] = useState([]);
   const [workDetails, setWorkDetails] = useState([]);
+
   // for sorting work and workDetails
   useEffect(() => {
     let tempWork = [];
@@ -122,26 +123,58 @@ export default function DenseTable({
 
   //Work Up
   const handleWorkUp = async (id) => {
-    let filteredIndex = work.findIndex((dt) => dt._id == id);
+    let filteredIndex = work.findIndex((_) => _._id == id);
     if (filteredIndex != 0) {
-      let tempArr = [...work];
+      let workCP = structuredClone(work);
       let prevIndex = filteredIndex - 1;
-
-      let prev = tempArr[prevIndex];
+      let prevWork = workCP[prevIndex];
       api('put', `/project/updateWorkRanking/${currentProject._id}`, {
         workId: id,
-        ranking: tempArr[prevIndex].ranking,
+        ranking: workCP[prevIndex].ranking,
       }).then(() => {
         api('put', `/project/updateWorkRanking/${currentProject._id}`, {
-          workId: prev._id,
-          ranking: tempArr[filteredIndex].ranking,
+          workId: prevWork._id,
+          ranking: workCP[filteredIndex].ranking,
         }).then(() => {
-          tempArr[filteredIndex] = work[filteredIndex - 1];
-          tempArr[filteredIndex - 1] = work[filteredIndex];
-          setWork(tempArr);
+          const forwardIndexes = calculateForwardIndexes(filteredIndex);
+          const backwardIndexes = calculateBackwardIndexes(filteredIndex - 1);
+          const forwardArr = workCP.filter((v, i) => forwardIndexes.includes(i));
+          const backwardArr = workCP.filter((v, i) => backwardIndexes.includes(i));
+          let workCPClipped = workCP.filter((v, i) => !forwardIndexes.includes(i) && !backwardIndexes.includes(i));
+          workCPClipped.splice(backwardIndexes[0], 0, forwardArr);
+          workCPClipped.splice(forwardIndexes[0], 0, backwardArr);
+          workCPClipped = workCPClipped.flat();
+          setWork(workCPClipped);
         });
       });
     }
+  };
+
+  const calculateForwardIndexes = (index) => {
+    const indexesArr = [];
+    for (let i = index; i < work.length; i++) {
+      const _work = work[i];
+      if (_work._id == work[index]._id) {
+        indexesArr.push(i);
+      } else {
+        break;
+      }
+    }
+    return indexesArr;
+  };
+
+  const calculateBackwardIndexes = (index) => {
+    const indexesArr = [index];
+    for (let i = index - 1; i > 0; i--) {
+      const _work = work[i];
+      if (_work._id == work[index]._id) {
+        indexesArr.push(i);
+      } else {
+        break;
+      }
+    }
+    indexesArr.reverse();
+    return indexesArr;
   };
 
   //Work Down
@@ -660,9 +693,7 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                  {row.unit_price &&
-                    row.quantity &&
-                    formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
+                  {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
                 </TableCell>
               </TableRow>
               {workDetails.map((row2, index) => {
