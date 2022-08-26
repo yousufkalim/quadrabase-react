@@ -30,7 +30,7 @@ import ReportBPUModal from './Modals/ReportBPUModal';
 import ReportSelectCCTPModal from './Modals/ReportSelectCCTPModal';
 import ReportCCTPModal from './Modals/ReportCCTPModal';
 import ReportDPGFModal from './Modals/ReportDPGFModal';
-import TracnhesModal from './Modals/TranchesModal';
+import TranchesModal from './Modals/TranchesModal';
 import TradesModal from './Modals/TradesModal';
 import UpdateTradesModal from './Modals/UpdateTradesModal';
 import UpdateTranchesModal from './Modals/UpdateTranchesModal';
@@ -543,14 +543,12 @@ const ProjectView = () => {
   const handleOpenEditChap0Part2Modal = () => {
     if (currentProject.chap0part2.length > 0) {
       let chap = currentProject.chap0part2;
-
       chap.map((parentItem) => {
         parentItem?.id?.level2?.map((item) => {
           item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
         });
         parentItem.id.level2 = parentItem?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
       });
-
       setEditChap0Part2(chap);
       setOpenEditChap0Part2Modal(!openEditChap0Part2Modal);
     } else {
@@ -580,8 +578,6 @@ const ProjectView = () => {
   const handleTradesModal = () => setOpenTradesModal(!openTradesModal);
   const handleOpenUpdateTradesModal = () => setOpenUpdateTradesModal(!openUpdateTradesModal);
   const handleOpenUpdateTranchesModal = () => setOpenUpdateTranchesModal(!openUpdateTranchesModal);
-
-  // for dropdown menu
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -1204,7 +1200,7 @@ const ProjectView = () => {
               open={openTranchesModal}
               onClose={handleTranchesModal}
               component={
-                <TracnhesModal
+                <TranchesModal
                   handleTranchesModal={handleTranchesModal}
                   currentProject={currentProject._id}
                   tranchesData={tranchesData}
@@ -1456,7 +1452,6 @@ const ProjectView = () => {
                               },
                             }}
                           />
-
                           <ArrowDropDownIcon
                             sx={{
                               fontSize: 18,
@@ -1665,7 +1660,7 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108,0.7)',
+                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108, 0.7)',
                                       cursor: 'pointer',
                                     }}
                                   >
@@ -1709,7 +1704,6 @@ const ProjectView = () => {
                                       </div>
                                     </TableCell>
                                   </TableRow>
-
                                   {projectWorkData.map((item, index) => {
                                     if (item2?._id === item?.data[0]?.trade?._id) {
                                       tradeTotalIndex = index;
@@ -1983,6 +1977,7 @@ const ProjectView = () => {
                           height: '100%',
                           display: 'flex',
                           justifyContent: 'flex-end',
+                          overflow: 'scroll',
                         }}
                       >
                         <div
@@ -2021,7 +2016,6 @@ const ProjectView = () => {
                           </div>
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total  Amount  including  VAT')} :</div>
-
                             <div className={classes.fotter_amount}>
                               {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €
                             </div>

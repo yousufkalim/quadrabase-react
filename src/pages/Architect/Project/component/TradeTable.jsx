@@ -60,6 +60,7 @@ export default function DenseTable({
   const { t } = useTranslation();
   const [work, setWork] = useState([]);
   const [workDetails, setWorkDetails] = useState([]);
+
   // for sorting work and workDetails
   useEffect(() => {
     let tempWork = [];
@@ -120,55 +121,81 @@ export default function DenseTable({
     setAnchorElLevel2(null);
   };
 
-  //Work Up
+  // const calculateForwardIndexes = (index) => {
+  //   const indexesArr = [];
+  //   for (let i = index; i < work.length; i++) {
+  //     const _work = work[i];
+  //     if (_work._id == work[index]._id) {
+  //       indexesArr.push(i);
+  //     } else {
+  //       break;
+  //     }
+  //   }
+  //   return indexesArr;
+  // };
+
+  // const calculateBackwardIndexes = (index) => {
+  //   const indexesArr = [index];
+  //   for (let i = index - 1; i > 0; i--) {
+  //     const _work = work[i];
+  //     if (_work._id == work[index]._id) {
+  //       indexesArr.push(i);
+  //     } else {
+  //       break;
+  //     }
+  //   }
+  //   indexesArr.reverse();
+  //   return indexesArr;
+  // };
+
+  // Work Up
   const handleWorkUp = async (id) => {
-    let filteredIndex = work.findIndex((dt) => dt._id == id);
+    let workCP = structuredClone(work);
+    let filteredIndex = workCP.findIndex((_) => _._id == id);
     if (filteredIndex != 0) {
-      let tempArr = [...work];
       let prevIndex = filteredIndex - 1;
+      let prevWork = workCP[prevIndex];
 
-      let prev = tempArr[prevIndex];
-      api('put', `/project/updateWorkRanking/${currentProject._id}`, {
-        workId: id,
-        ranking: tempArr[prevIndex].ranking,
+      api('put', `/project/swapWorkRanking/${currentProject._id}`, {
+        work1Id: id,
+        work2Id: prevWork._id,
       }).then(() => {
-        api('put', `/project/updateWorkRanking/${currentProject._id}`, {
-          workId: prev._id,
-          ranking: tempArr[filteredIndex].ranking,
-        }).then(() => {
-          tempArr[filteredIndex] = work[filteredIndex - 1];
-          tempArr[filteredIndex - 1] = work[filteredIndex];
-          setWork(tempArr);
-        });
+        getworks();
       });
     }
   };
 
-  //Work Down
   const handleWorkDown = async (id) => {
-    let filteredIndex = work.findIndex((dt) => dt._id == id);
-
+    let workCP = structuredClone(work);
+    let filteredIndex = workCP.findIndex((_) => _._id == id);
     if (filteredIndex !== work.length - 1) {
-      let tempArr = [...work];
-      let nextIndex = filteredIndex + 1;
-      let prev = tempArr[nextIndex];
-      api('put', `/project/updateWorkRanking/${currentProject._id}`, {
-        workId: id,
-        ranking: tempArr[nextIndex].ranking,
+      let forwardIndexes = calculateForwardIndexes(filteredIndex);
+      let nextIndex = forwardIndexes[forwardIndexes.length - 1] + 1;
+      let nextWork = workCP[nextIndex];
+
+      api('put', `/project/swapWorkRanking/${currentProject._id}`, {
+        work1Id: id,
+        work2Id: nextWork._id,
       }).then(() => {
-        api('put', `/project/updateWorkRanking/${currentProject._id}`, {
-          workId: prev._id,
-          ranking: tempArr[filteredIndex].ranking,
-        }).then(() => {
-          tempArr[filteredIndex] = work[nextIndex];
-          tempArr[nextIndex] = work[filteredIndex];
-          setWork(tempArr);
-        });
+        getworks();
       });
     }
   };
 
-  //WorkDetail Up
+  const calculateForwardIndexes = (index) => {
+    const indexesArr = [];
+    for (let i = index; i < work.length; i++) {
+      const _work = work[i];
+      if (_work._id == work[index]._id) {
+        indexesArr.push(i);
+      } else {
+        break;
+      }
+    }
+    return indexesArr;
+  };
+
+  // WorkDetail Up
   const handleWorkDetailUp = async (id) => {
     let filteredIndex = workDetails.findIndex((dt) => dt._id == id);
     if (filteredIndex != 0) {
@@ -191,6 +218,24 @@ export default function DenseTable({
       });
     }
   };
+
+  // const handleWorkDetailUp = async (workId, workDetailId) => {
+  //   let workDetailsCP = structuredClone(workDetails);
+  //   let filteredIndex = workDetailsCP.findIndex((_) => _._id == workDetailId);
+  //   if (filteredIndex != 0) {
+  //     let prevIndex = filteredIndex - 1;
+  //     let prevWorkDetail = workDetailsCP[prevIndex];
+
+  //     api('put', `/project/swapWorkDetailRanking`, {
+  //       projectId: currentProject._id,
+  //       workId: workId,
+  //       workDetail1Id: workDetailId,
+  //       workDetail2Id: prevWorkDetail._id,
+  //     }).then(() => {
+  //       getworks();
+  //     });
+  //   }
+  // };
 
   //workDetails Down
   const handleWorkDetailsDown = async (id) => {
@@ -660,9 +705,7 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                  {row.unit_price &&
-                    row.quantity &&
-                    formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
+                  {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
                 </TableCell>
               </TableRow>
               {workDetails.map((row2, index) => {
@@ -800,7 +843,7 @@ export default function DenseTable({
                               </MenuItem> */}
                           <MenuItem
                             onClick={() => {
-                              handleWorkDetailUp(menuItem2._id);
+                              handleWorkDetailUp(parentItem._id, menuItem2._id);
                               handleAnchorElLevel2Close();
                             }}
                           >

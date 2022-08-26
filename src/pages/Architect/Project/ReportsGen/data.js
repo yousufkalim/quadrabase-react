@@ -170,6 +170,8 @@ function rowsGenTradesAndTranchesDPGF(data) {
 }
 
 function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice = false }) {
+  data = structuredClone(data);
+  data = data.sort((a, b) => a.work.ranking - b.work.ranking);
   const resArr = [];
   let _id;
   let workIndex = 0;
@@ -1095,6 +1097,8 @@ function rowsGenTradesAndTranchesBPU(data, type) {
 }
 
 function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
+  data = structuredClone(data);
+  data = data.sort((a, b) => a.work.ranking - b.work.ranking);
   const resArr = [];
   let _id;
   let workIndex = 0;
