@@ -9,7 +9,7 @@ const ln1Font = 9 * 2;
 
 const fontType = 'Calibri';
 
-function docText({ text, linebreaks, size, heading, bold = false, font = fontType, center = false, spacing }) {
+function docText({ text, linebreaks, size, heading, bold = false, font = fontType, center = false, spacing, shading }) {
   return new Paragraph({
     alignment: !center ? AlignmentType.START : AlignmentType.CENTER,
     children: text.split('\n').map(
@@ -25,10 +25,11 @@ function docText({ text, linebreaks, size, heading, bold = false, font = fontTyp
     ),
     heading: heading ?? null,
     spacing: spacing,
+    shading: shading,
   });
 }
 
-function l4Text(text, linebreaks, spacing) {
+function l4Text(text, linebreaks, spacing, shading) {
   return docText({
     text: text,
     linebreaks: linebreaks,
@@ -36,6 +37,7 @@ function l4Text(text, linebreaks, spacing) {
     heading: HeadingLevel.HEADING_1,
     bold: true,
     spacing: spacing,
+    shading: shading,
   });
 }
 

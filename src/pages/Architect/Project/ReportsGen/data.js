@@ -95,9 +95,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 
 function rowsGenSimpleDPGF(data) {
   const rows = [];
-
   rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data, `${1}`);
-
   return rows;
 }
 
@@ -179,69 +177,79 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
   let workIndex = 0;
   let workDetailsIndex = 0;
   for (let i = 0; i < data.length; i++) {
+    // Work
     if (_id != data[i].work._id) {
       const arr = [];
 
       arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.')?.replace(' ', ',') ?? '');
 
       if (noPrice) {
         arr.push('');
         arr.push('');
       } else {
-        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
-        arr.push(formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.'));
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.')?.replace(' ', ',') ?? '0.00');
+        arr.push(
+          formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.')?.replace(' ', ',')
+        );
       }
 
       resArr.push(arr);
 
+      // If there is workdetail then parse it.
       if (data[i].workDetails) {
         const arrD = [];
 
         arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
         if (noPrice) {
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-          arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
+          arrD.push(
+            formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+          );
         }
 
         resArr.push(arrD);
         workDetailsIndex++;
-        workIndex--; // In order to stop increment
-      } else {
-        workDetailsIndex = 0;
       }
-      workIndex++;
     } else {
+      // WorkDetail
       const arrD = [];
 
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
       if (noPrice) {
         arrD.push('');
         arrD.push('');
       } else {
-        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
-        arrD.push(formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.'));
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
+        arrD.push(
+          formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+        );
       }
 
       resArr.push(arrD);
-      if (_id && _id != data[i + 1]?.work?._id) workIndex++;
       workDetailsIndex++;
     }
 
     _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
   }
 
   return resArr;
@@ -261,7 +269,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',')?.replace(' ', ',') ?? '');
       arr.push('');
       arr.push('');
 
@@ -273,7 +281,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push(`${prefix}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
         arrD.push('');
         arrD.push('');
 
@@ -285,7 +293,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push(`${prefix}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
       arrD.push('');
       arrD.push('');
 
@@ -312,7 +320,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2)) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',') ?? '');
       arr.push('');
       arr.push('');
 
@@ -324,7 +332,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
         arrD.push(`${currentWork}.${i + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
         arrD.push('');
         arrD.push('');
 
@@ -336,7 +344,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       arrD.push(`${currentWork}.${i + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
       arrD.push('');
       arrD.push('');
 
@@ -482,7 +490,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? formatNumber(parseInt(tradeTotal).toFixed(2), '.') : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')?.replace(' ', ',')
+        : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -612,7 +622,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2)) ?? '' : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2))?.replace(' ', ',') ?? '' : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -742,7 +752,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2)) : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2))?.replace(' ', ',') : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -773,7 +783,7 @@ function calculateTotalHT(data, noPrice) {
     totalHT = totalHT + _;
   }
 
-  const formattedTotalHT = formatNumber(totalHT.toFixed(2), '.');
+  const formattedTotalHT = formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ',');
 
   return formattedTotalHT;
 }
@@ -875,16 +885,16 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
   }
 
   if (addSpace) {
-    footerData.splice(1, 0, '');
+    footerData.splice(0, 0, '');
   }
 
   return footerData;
@@ -917,16 +927,16 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2)),
-      formatNumber(currentProject?.vat?.value?.toFixed(2)),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
   }
 
   if (addSpace) {
-    footerData.splice(1, 0, '');
+    footerData.splice(0, 0, '');
   }
 
   return footerData;
@@ -962,9 +972,9 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.'),
+      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
     ];
   } else {
     footerData = ['', '', ''];
@@ -996,12 +1006,7 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
     const obj = {};
     for (let j = 0; j < dataColumnsEstimation.length; j++) {
       if (j == 1) {
-        console.log(footerColumns[j], j);
-        if (i == 1) {
-          obj[dataColumnsEstimation[j]] = `${footerColumns[i]} (${currentProject?.vat?.value}%) :`;
-        } else {
-          obj[dataColumnsEstimation[j]] = footerColumns[i];
-        }
+        obj[dataColumnsEstimation[j]] = `${footerColumns[i]}`;
       } else if (j == 5) {
         obj[dataColumnsEstimation[j]] = floatsRow[i];
       } else {
@@ -1112,9 +1117,14 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         title: data[i].work.name,
         text: data[i].work.bpu_text[0],
         unit: data[i].work?.unit?.name,
+        type: 'work',
       };
       arr1.push(obj);
-      arr1.push('');
+      if (data[i].workDetails) {
+        arr1.push('');
+      } else {
+        arr1.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
+      }
       resArr.push(arr1);
 
       // If there is workdetail then parse it.
@@ -1124,6 +1134,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         const obj = {
           title: data[i].workDetails.name,
           text: data[i].workDetails.unit.name,
+          type: 'workDetail',
         };
         arr2.push(obj);
         arr2.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1138,6 +1149,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
       const obj = {
         title: data[i].workDetails.name,
         text: data[i].workDetails.unit.name,
+        type: 'workDetail',
       };
       arr1.push(obj);
       arr1.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1268,17 +1280,29 @@ function parseChap0(currentProject) {
   }
 
   const client = {
-    name: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
-    address: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
+    establishment: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
+    service: currentProject?.client?.service?.length > 0 ? currentProject?.client?.service : 'N/A',
+    address1: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
+    address2: currentProject?.client?.address2?.length > 0 ? currentProject?.client?.address2 : 'N/A',
+    zipcode: currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A',
+    city: currentProject?.client?.city?.length > 0 ? currentProject?.client?.city : 'N/A',
+    firstname: currentProject?.client?.firstname?.length > 0 ? currentProject?.client?.firstname : 'N/A',
+    lastname: currentProject?.client?.lastname?.length > 0 ? currentProject?.client?.lastname : 'N/A',
     email: currentProject?.client?.email?.length > 0 ? currentProject?.client?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A'}`,
+    phone: `Tel. : ${currentProject?.client?.contact_no?.length > 0 ? currentProject?.client?.contact_no : 'N/A'}`,
   };
 
   const prescriber = {
-    name: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
-    address: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
+    establishment: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
+    service: currentProject?.prescriber?.service?.length > 0 ? currentProject?.prescriber?.service : 'N/A',
+    address1: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
+    address2: currentProject?.prescriber?.address2?.length > 0 ? currentProject?.prescriber?.address2 : 'N/A',
+    zipcode: currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A',
+    city: currentProject?.prescriber?.city?.length > 0 ? currentProject?.prescriber?.city : 'N/A',
+    firstname: currentProject?.prescriber?.firstname?.length > 0 ? currentProject?.prescriber?.firstname : 'N/A',
+    lastname: currentProject?.prescriber?.lastname?.length > 0 ? currentProject?.prescriber?.lastname : 'N/A',
     email: currentProject?.prescriber?.email?.length > 0 ? currentProject?.prescriber?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A'}`,
+    phone: `Tel. : ${currentProject?.prescriber?.contact_no?.length > 0 ? currentProject?.prescriber?.contact_no : 'N/A'}`,
   };
 
   // Parse chap0part1
@@ -1299,21 +1323,21 @@ function parseChap0(currentProject) {
   for (let i = 0; i < currentProject.chap0part2.length; i++) {
     const lvl1 = currentProject.chap0part2[i].id;
     const _ = {
-      title: `0.2.${i + 1} ${lvl1.title}`,
+      title: `0.${i + 2} ${lvl1.title}`,
       text: lvl1.text,
       lvl2: [],
     };
     for (let j = 0; j < lvl1.level2.length; j++) {
       const lvl2 = lvl1.level2[j];
       const __ = {
-        title: `0.2.${i + 1}.${j + 1} ${lvl2.title}`,
+        title: `0.${i + 2}.${j + 1} ${lvl2.title}`,
         text: lvl2.text,
         lvl3: [],
       };
       for (let k = 0; k < lvl2.level3.length; k++) {
         const lvl3 = lvl2.level3[k];
         const ___ = {
-          title: `0.2.${i + 1}.${j + 1}.${k + 1} ${lvl3.title}`,
+          title: `0.${i + 2}.${j + 1}.${k + 1} ${lvl3.title}`,
           text: lvl3.text,
         };
         __.lvl3.push(___);
@@ -1443,6 +1467,7 @@ function parseSorterWorks(works) {
 
 function parseCCTPData(data, index) {
   const cp = [];
+
   for (let i = 0; i < data.length; i++) {
     const currentObjLib = data[i];
     const libObj = {
@@ -1479,6 +1504,7 @@ function parseCCTPData(data, index) {
       cp.push(libObj);
     }
   }
+
   return cp;
 }
 
@@ -1737,8 +1763,8 @@ const dataColumnsEstimation = [
 ];
 
 const footerColumnsSimpleEstimation = [
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   '',
+  localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
 ];

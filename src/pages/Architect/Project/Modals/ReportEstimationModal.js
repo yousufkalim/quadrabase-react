@@ -16,11 +16,7 @@ import {
   exportXLSXTradesEstimation,
   exportXLSXTradesAndTranchesEstimation,
 } from '../ReportsGen/genExcel';
-import {
-  exportPDFSimpleEstimation,
-  exportPDFTradesEstimation,
-  exportPDFTradesAndTranchesEstimation,
-} from '../ReportsGen/genPDF';
+import { exportPDFSimpleEstimation, exportPDFTradesEstimation, exportPDFTradesAndTranchesEstimation } from '../ReportsGen/genPDF';
 import {
   exportDOCXSimpleEstimation,
   exportDOCXTradesEstimation,

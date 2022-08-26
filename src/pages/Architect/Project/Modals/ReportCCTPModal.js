@@ -10,28 +10,20 @@ import api from '../../../../api';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Reports
-import {
-  exportPDFSimpleCCTP,
-  exportPDFTradesCCTP,
-  exportPDFTradesAndTranchesCCTP,
-} from '../ReportsGen/genPDF';
-import {
-  exportDOCXSimpleCCTP,
-  exportDOCXTradesCCTP,
-  exportDOCXTradesAndTranchesCCTP,
-} from '../ReportsGen/genDocx';
+import { exportPDFSimpleCCTP, exportPDFTradesCCTP, exportPDFTradesAndTranchesCCTP } from '../ReportsGen/genPDF';
+import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from '../ReportsGen/genDocx';
 import { downloadBlob } from '../ReportsGen/data';
 
 import { toast } from 'react-toastify';
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, onClose } =
-    props;
+  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, onClose } = props;
 
   const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
     uploadFile();
   }, []);
+
   const uploadFile = async () => {
     const formData = new FormData();
     const file = new File([viewBlob], viewFileName + '.pdf');
@@ -48,11 +40,7 @@ function ReportCCTPModal(props) {
       } else if (currentProject.market_type == 'Trades') {
         res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(
-          projectWorkData,
-          currentProject,
-          selectedCCTPIndexes
-        );
+        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace('Show me');
         return;
@@ -72,11 +60,7 @@ function ReportCCTPModal(props) {
       } else if (currentProject.market_type == 'Trades') {
         res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportDOCXTradesAndTranchesCCTP(
-          projectWorkData,
-          currentProject,
-          selectedCCTPIndexes
-        );
+        res = await exportDOCXTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else {
         console.trace('Show me');
         return;

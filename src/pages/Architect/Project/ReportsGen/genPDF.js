@@ -27,15 +27,17 @@ import {
 } from './data.js';
 
 async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'.toUpperCase()}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
   const footerArr = footerDataGenSimpleEstimation(data, currentProject, noPrice);
+  const footerColumnsSimpleEstimationdata = [...footerColumnsSimpleEstimation];
+  footerColumnsSimpleEstimationdata[2] = `${footerColumnsSimpleEstimationdata[2]} (${currentProject?.vat?.value}%) :`;
 
   const body = {
     headerArr: headArr,
     bodyKeysArr: dataColumnsEstimation,
     bodyValuesArr: bodyArr,
-    footerKeysArr: footerColumnsSimpleEstimation,
+    footerKeysArr: footerColumnsSimpleEstimationdata,
     footerValuesArr: footerArr,
   };
 
@@ -54,10 +56,11 @@ async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
 }
 
 async function exportPDFTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
 
@@ -92,10 +95,11 @@ async function exportPDFTradesEstimation(data, currentProject, noPrice) {
 
 async function exportPDFTradesAndTranchesEstimation(_data, currentProject, noPrice) {
   const data = structuredClone(_data);
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerColumnsSimpleEstimationNoSpace = [...footerColumnsSimpleEstimation];
-  footerColumnsSimpleEstimationNoSpace.splice(1, 1);
+  footerColumnsSimpleEstimationNoSpace[2] = `${footerColumnsSimpleEstimationNoSpace[2]} (${currentProject?.vat?.value}%) :`;
+  footerColumnsSimpleEstimationNoSpace.splice(0, 1);
   let pdfParsedData = [];
   const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
 
@@ -587,17 +591,27 @@ function _parseChap0part1(part1) {
   str = str.concat(`<p>${part1.description}</p>`);
   str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
   str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
-  str = str.concat(`<p>    ${part1.client.name}</p>`);
+  str = str.concat(`<p>   ${part1.client.establishment}</p>`);
+  str = str.concat(`<p>   ${part1.client.service}</p>`);
+  str = str.concat(`<p>   ${part1.client.address1}</p>`);
+  str = str.concat(`<p>   ${part1.client.address2}</p>`);
+  str = str.concat(`<p>   ${part1.client.zipcode}</p>`);
+  str = str.concat(`<p>   ${part1.client.city}</p>`);
+  str = str.concat(`<p>   ${part1.client.lastname}</p>`);
+  str = str.concat(`<p>   ${part1.client.firstname}</p>`);
+  str = str.concat(`<p>   ${part1.client.phone}</p>`);
   str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
-  str = str.concat(`<p>    ${part1.prescriber.name}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.establishment}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.service}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.address1}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.address2}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.zipcode}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.city}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.lastname}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.firstname}</p>`);
+  str = str.concat(`<p>   ${part1.prescriber.phone}</p>`);
   str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
-  str = str.concat(`<p>${part1.market_type}</p>`);
-  str = str.concat(`<p><strong>Intervenants</strong></p>`);
-  str = str.concat(`<ul>`);
-  for (let i = 0; i < part1.stakeholders.length; i++) {
-    const _ = part1.stakeholders[i];
-    str = str.concat(`<li>${_}</li>`);
-  }
+  str = str.concat(`<p>Le marché est un marché à : <b><i>${part1.market_type}</i></b></p>`);
   str = str.concat(`</ul>`);
   str = str.concat(`</p>`);
   return str;

@@ -12,6 +12,7 @@ import {
   TableRow,
   VerticalAlign,
   TableOfContents,
+  ShadingType,
 } from 'docx';
 
 import {
@@ -63,7 +64,7 @@ const Spacer = new Paragraph({
 });
 
 async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenSimpleEstimation(data, noPrice);
   const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
@@ -295,7 +296,7 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
 }
 
 async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerData = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
@@ -570,7 +571,7 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
 }
 
 async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`, `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
 
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerData = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
@@ -867,7 +868,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 text: work,
                 font: fontType,
                 size: l0Font,
-                italics: currentRow[2].length > 0 ? true : false,
+                italics: currentRow[1].type == 'workDetail' ? true : false,
               }),
             ],
           }),
@@ -881,11 +882,11 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 font: fontType,
                 size: l0Font,
                 bold: true,
-                italics: currentRow[2].length > 0 ? true : false,
+                italics: currentRow[1].type == 'workDetail' ? true : false,
               }),
             ],
           }),
-          ...(currentRow[2].length > 0
+          ...(currentRow[1].type == 'workDetail'
             ? [l0Text(`${work.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
             : await textRunsSplitGen(work.text, ln1Font)),
           work.unit && l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -982,7 +983,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   text: workCurrentRow,
                   font: fontType,
                   size: l0Font,
-                  italics: work[2].length > 0 ? true : false,
+                  italics: work[1].type == 'workDetail' > 0 ? true : false,
                 }),
               ],
             }),
@@ -996,11 +997,11 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   font: fontType,
                   size: l0Font,
                   bold: true,
-                  italics: work[2].length > 0 ? true : false,
+                  italics: work[1].type == 'workDetail' > 0 ? true : false,
                 }),
               ],
             }),
-            ...(work[2].length > 0
+            ...(work[1].type == 'workDetail'
               ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
               : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
             workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -1117,7 +1118,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     text: workCurrentRow,
                     font: fontType,
                     size: l0Font,
-                    italics: work[2].length > 0 ? true : false,
+                    italics: work[1].type == 'workDetail' > 0 ? true : false,
                   }),
                 ],
               }),
@@ -1131,11 +1132,11 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     font: fontType,
                     size: l0Font,
                     bold: true,
-                    italics: work[2].length > 0 ? true : false,
+                    italics: work[1].type == 'workDetail' > 0 ? true : false,
                   }),
                 ],
               }),
-              ...(work[2].length > 0
+              ...(work[1].type == 'workDetail'
                 ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
                 : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
               workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
@@ -1270,6 +1271,11 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
           before: i == 0 ? 6 * 20 : 4 * 20,
           after: 3 * 20,
@@ -1370,9 +1376,14 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+          before: i == 0 ? 6 * 20 : 4 * 20,
+          after: 3 * 20,
         },
         children: [
           new TextRun({
@@ -1470,9 +1481,14 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     const _ = cctps[i];
     parsedCCTPs.push(
       new Paragraph({
+        shading: {
+          color: 'D9D9D9',
+          type: ShadingType.SOLID,
+          fill: 'D9D9D9',
+        },
         spacing: {
-          before: i == 0 ? 120 : 80,
-          after: 60,
+          before: i == 0 ? 6 * 20 : 4 * 20,
+          after: 3 * 20,
         },
         children: [
           new TextRun({
@@ -1602,45 +1618,43 @@ function _parseHead(headArr) {
 
 function _parseChap0part1(part1) {
   const arr = [];
-  arr.push(l4Text('CHAP 0 - CLAUSES GENERALES', null, { before: 6 * 20, after: 18 * 20 }));
+  arr.push(
+    l4Text(
+      'CHAP 0 - CLAUSES GENERALES',
+      null,
+      { before: 6 * 20, after: 18 * 20 },
+      {
+        color: 'D9D9D9',
+        type: ShadingType.SOLID,
+        fill: 'D9D9D9',
+      }
+    )
+  );
   arr.push(l3Text('0.1 DESCRIPTION DU MARCHE', null, { before: 12 * 20, after: 12 * 20 }));
   arr.push(l2Text('0.1.1 OBJET DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(l1Text("Maitre d'Ouvrage:", true));
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: '    ',
-          font: fontType,
-          size: l1Font,
-        }),
-        new TextRun({
-          text: `${part1.client.address}`,
-          font: fontType,
-          size: l1Font,
-          color: '4472C4',
-          underline: true,
-        }),
-      ],
-    })
-  );
-  arr.push(l1Text(`   ${part1.client.name}`));
-  arr.push(l1Text(`   ${part1.client.email}`));
+  arr.push(l1Text(`   ${part1.client.establishment}`));
+  arr.push(l1Text(`   ${part1.client.service}`));
+  arr.push(l1Text(`   ${part1.client.address1}`));
+  arr.push(l1Text(`   ${part1.client.address2}`));
+  arr.push(l1Text(`   ${part1.client.zipcode}`));
+  arr.push(l1Text(`   ${part1.client.city}`));
+  arr.push(l1Text(`   ${part1.client.lastname}`));
+  arr.push(l1Text(`   ${part1.client.firstname}`));
   arr.push(l1Text(`   ${part1.client.phone}`));
-  arr.push(l1Text("Maitre d'Oeuvre:", true));
   arr.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: '    ',
+          text: '   ',
           font: fontType,
           size: l1Font,
         }),
         new TextRun({
-          text: `${part1.prescriber.address}`,
+          text: `${part1.client.email}`,
           font: fontType,
           size: l1Font,
           color: '4472C4',
@@ -1649,9 +1663,34 @@ function _parseChap0part1(part1) {
       ],
     })
   );
-  arr.push(l1Text(`   ${part1.prescriber.name}`));
-  arr.push(l1Text(`   ${part1.prescriber.email}`));
+  arr.push(l1Text("Maitre d'Oeuvre:", true));
+  arr.push(l1Text(`   ${part1.prescriber.establishment}`));
+  arr.push(l1Text(`   ${part1.prescriber.service}`));
+  arr.push(l1Text(`   ${part1.prescriber.address1}`));
+  arr.push(l1Text(`   ${part1.prescriber.address2}`));
+  arr.push(l1Text(`   ${part1.prescriber.zipcode}`));
+  arr.push(l1Text(`   ${part1.prescriber.city}`));
+  arr.push(l1Text(`   ${part1.prescriber.lastname}`));
+  arr.push(l1Text(`   ${part1.prescriber.firstname}`));
   arr.push(l1Text(`   ${part1.prescriber.phone}`));
+  arr.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: '   ',
+          font: fontType,
+          size: l1Font,
+        }),
+        new TextRun({
+          text: `${part1.prescriber.email}`,
+          font: fontType,
+          size: l1Font,
+          color: '4472C4',
+          underline: true,
+        }),
+      ],
+    })
+  );
   arr.push(l2Text('0.1.3 TYPE DE MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(
     new Paragraph({
@@ -1682,7 +1721,8 @@ async function _parseChap0part2(part2) {
     const _ = part2[i];
     arr.push(l3Text(_.title, null, { before: 12 * 20, after: 12 * 20 }));
     if (_.text) {
-      arr.push(l1Text(_.text));
+      let docxObjs = await textRunsSplitGen(_.text);
+      arr.push(...docxObjs);
     }
     for (let j = 0; j < _.lvl2.length; j++) {
       const __ = _.lvl2[j];

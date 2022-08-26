@@ -203,7 +203,7 @@ const ProjectView = () => {
     getProject();
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     currentProject.name && getworks();
     currentProject._id && getTrades();
   }, [currentProject]);
@@ -217,6 +217,10 @@ const ProjectView = () => {
   useEffect(() => {
     getProjectLibraries();
   }, [store.user]);
+
+  useEffect(() => {
+    currentProject.name && getworks();
+  }, [tradesData, tranchesData]);
 
   useEffect(() => {
     if (selectedFamily && store.user && options) {
@@ -1656,7 +1660,7 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108 ,0.7)',
+                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108, 0.7)',
                                       cursor: 'pointer',
                                     }}
                                   >
