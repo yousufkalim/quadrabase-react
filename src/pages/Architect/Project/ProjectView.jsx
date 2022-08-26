@@ -1977,6 +1977,7 @@ const ProjectView = () => {
                           height: '100%',
                           display: 'flex',
                           justifyContent: 'flex-end',
+                          overflow: 'scroll',
                         }}
                       >
                         <div
