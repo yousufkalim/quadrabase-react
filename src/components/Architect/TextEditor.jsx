@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import JoditEditor from 'jodit-react';
 import { toast } from 'react-toastify';
 import '../../css/textEditor.css';
+import { baseUrl } from '../../config';
 
 export default function Index(props) {
   const editor = useRef(null);
@@ -14,7 +15,7 @@ export default function Index(props) {
     defaultActionOnPaste: 'insert_clear_html',
     language: 'fr',
     uploader: {
-      url: `${process.env.REACT_APP_API_URL}/fileUploader`,
+      url: `${baseUrl}/fileUploader`,
       format: 'json',
       pathVariableName: 'path',
       filesVariableName: function (t) {

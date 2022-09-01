@@ -1,28 +1,29 @@
 // Init
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { baseUrl } from '../config';
 
-const api = async (method = "get", uri, body, t) => {
-  const token = localStorage.getItem("token");
-  const lang = localStorage.getItem("i18nextLng");
+const api = async (method = 'get', uri, body, t) => {
+  const token = localStorage.getItem('token');
+  const lang = localStorage.getItem('i18nextLng');
   if (token) {
     axios.defaults.headers = {
       Authorization: `Bearer ${token}`,
-      lang: lang ? lang : "fr",
+      lang: lang ? lang : 'fr',
     };
   }
 
   // API Call
-  const url = process.env.REACT_APP_API_URL + uri;
+  const url = baseUrl + uri;
   return new Promise((resolve, reject) => {
     axios[method](url, body)
       .then((res) => resolve(res))
       .catch((err) => {
         if (err?.response?.status === 403) {
-          window.location = "/login";
+          window.location = '/login';
         } else {
-          console.log("API Error --------> ", err?.response);
-          if (err.response.data.message !== "Unauthorized Access!") {
+          console.log('API Error --------> ', err?.response);
+          if (err.response.data.message !== 'Unauthorized Access!') {
             toast.error(
               err?.response?.data
                 ? t

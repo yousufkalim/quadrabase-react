@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import routes from "../../routes.js";
-import { Switch, Redirect, Route } from "react-router-dom";
-import axios from "axios";
-import { UpdateStore, Store } from "../../StoreContext";
-import { getUser } from "../../utils/Auth";
-import Drawer from "../../components/ProviderDrawer";
+import React, { useEffect, useState } from 'react';
+import routes from '../../routes.js';
+import { Switch, Redirect, Route } from 'react-router-dom';
+import axios from 'axios';
+import { UpdateStore, Store } from '../../StoreContext';
+import { getUser } from '../../utils/Auth';
+import Drawer from '../../components/ProviderDrawer';
+import { baseUrl } from '../../config';
 
 function Dashboard(props) {
   const { translate, i18n } = props;
@@ -20,13 +21,13 @@ function Dashboard(props) {
   const fetch = async () => {
     try {
       let tempUser = getUser();
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       if (token && tempUser) {
         axios.defaults.headers = {
           Authorization: `Bearer ${token}`,
         };
-        const result = await axios.get(`${process.env.REACT_APP_API_URL}/Providers/${tempUser._id}`);
+        const result = await axios.get(`${baseUrl}/Providers/${tempUser._id}`);
         // settin user value in store if logged in
         if (result.data.provider) {
           updateStore({ loggedIn: true, user: result.data.provider });
@@ -41,7 +42,7 @@ function Dashboard(props) {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/provider") {
+      if (prop.layout === '/provider') {
         let Component = prop.component;
         return (
           <Route
@@ -60,18 +61,18 @@ function Dashboard(props) {
     !loading && (
       <Drawer routes={routes} user={user}>
         <div
-          className="flex overflow-hidden"
+          className='flex overflow-hidden'
           style={{
-            backgroundColor: "#eeeeee",
+            backgroundColor: '#eeeeee',
             minHeight: `calc(100vh - 64px)`,
           }}
         >
           {/* Content area */}
-          <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <div className='relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden'>
             {/*  Site header */}
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="*" to="/provider/index" />
+              <Redirect from='*' to='/provider/index' />
             </Switch>
           </div>
         </div>
