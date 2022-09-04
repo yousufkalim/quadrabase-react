@@ -1,6 +1,6 @@
-let baseUrl = 'http://localhost:5000/api/';
+let baseUrl = 'http://localhost:5000/api/v1';
 let url = 'http://localhost:5000';
-GENERATE_SOURCEMAP = false;
+let GENERATE_SOURCEMAP = false;
 
 if (window.location.host === 'quadrabase-dev.falconweb.app') {
   baseUrl = 'https://quadrabase-api-dev.falconweb.app/api/v1';
