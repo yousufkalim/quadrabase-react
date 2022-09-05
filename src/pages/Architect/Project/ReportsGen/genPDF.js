@@ -26,6 +26,8 @@ import {
   blobFromURL,
 } from './data.js';
 
+import { exportDOCXSimpleDPGF, exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from './genDocx';
+
 async function exportPDFSimpleEstimation(data, currentProject, noPrice) {
   const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'.toUpperCase()}`, `${currentProject?.name ?? 'N/A'}`);
   const bodyArr = rowsGenSimpleEstimation(data, noPrice); // It's the same thing in case of pdf plugin.
@@ -418,47 +420,13 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
 }
 
 async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
-  const rows = rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes);
+  const docxRes = await exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes);
+  const file = new File([docxRes.blob], docxRes.filename);
 
-  const { chap0, cctps } = rows;
+  const formData = new FormData();
+  formData.append('buffer', file);
 
-  let pdfParsedData = [];
-
-  if (chap0) {
-    let strChap0part1 = _parseChap0part1(chap0.part1);
-    let strChap0part2 = _parseChap0part2(chap0.part2);
-    pdfParsedData.push(strChap0part1);
-    pdfParsedData.push(strChap0part2);
-  }
-
-  for (let i = 0; i < cctps.length; i++) {
-    const _ = cctps[i];
-    let str = '';
-    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.arr.length; j++) {
-      const trade = _.arr[j];
-      str = str.concat(`<p style="font-weight: 600">${trade.title}</p>`);
-      for (let k = 0; k < trade.arr.length; k++) {
-        const tranch = trade.arr[k];
-        str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
-        for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[l];
-          str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
-          str = str.concat(`${work.text}`);
-        }
-      }
-    }
-    str = str.concat(`</p>`);
-    pdfParsedData.push(str);
-  }
-
-  const body = {
-    headerArr: headArr,
-    bodyValuesArr: pdfParsedData,
-  };
-
-  const response = await api('post', `/Reports/cctp`, body);
+  const response = await api('post', `/Reports/docx_to_pdf`, formData);
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
@@ -473,47 +441,13 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 }
 
 async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
-  const rows = rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes);
+  const docxRes = await exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes);
+  const file = new File([docxRes.blob], docxRes.filename);
 
-  const { chap0, cctps } = rows;
+  const formData = new FormData();
+  formData.append('buffer', file);
 
-  let pdfParsedData = [];
-
-  if (chap0) {
-    let strChap0part1 = _parseChap0part1(chap0.part1);
-    let strChap0part2 = _parseChap0part2(chap0.part2);
-    pdfParsedData.push(strChap0part1);
-    pdfParsedData.push(strChap0part2);
-  }
-
-  for (let i = 0; i < cctps.length; i++) {
-    const _ = cctps[i];
-    let str = '';
-    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.arr.length; j++) {
-      const trade = _.arr[j];
-      str = str.concat(`<p style="font-weight: 600">${trade.title}</p>`);
-      for (let k = 0; k < trade.arr.length; k++) {
-        const tranch = trade.arr[k];
-        str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
-        for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[l];
-          str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
-          str = str.concat(`${work.text}`);
-        }
-      }
-    }
-    str = str.concat(`</p>`);
-    pdfParsedData.push(str);
-  }
-
-  const body = {
-    headerArr: headArr,
-    bodyValuesArr: pdfParsedData,
-  };
-
-  const response = await api('post', `/Reports/cctp`, body);
+  const response = await api('post', `/Reports/docx_to_pdf`, formData);
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
@@ -528,47 +462,13 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 }
 
 async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes) {
-  const headArr = headGen('CCTP', `${currentProject?.name ?? 'N/A'}`);
-  const rows = rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
+  const docxRes = await exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes);
+  const file = new File([docxRes.blob], docxRes.filename);
 
-  const { chap0, cctps } = rows;
+  const formData = new FormData();
+  formData.append('buffer', file);
 
-  let pdfParsedData = [];
-
-  if (chap0) {
-    let strChap0part1 = _parseChap0part1(chap0.part1);
-    let strChap0part2 = _parseChap0part2(chap0.part2);
-    pdfParsedData.push(strChap0part1);
-    pdfParsedData.push(strChap0part2);
-  }
-
-  for (let i = 0; i < cctps.length; i++) {
-    const _ = cctps[i];
-    let str = '';
-    str = str.concat(`<p style="background-color: #C0C0C0"><strong>${_.title}</strong><br>`);
-    for (let j = 0; j < _.arr.length; j++) {
-      const trade = _.arr[j];
-      str = str.concat(`<p style="font-weight: 600">${trade.title}</p>`);
-      for (let k = 0; k < trade.arr.length; k++) {
-        const tranch = trade.arr[k];
-        str = str.concat(`<p style="font-weight: 600">${tranch.title}</p>`);
-        for (let l = 0; l < tranch.arr.length; l++) {
-          const work = tranch.arr[l];
-          str = str.concat(`<p style="font-weight: 600">${work.title}</p>`);
-          str = str.concat(`${work.text}`);
-        }
-      }
-    }
-    str = str.concat(`</p>`);
-    pdfParsedData.push(str);
-  }
-
-  const body = {
-    headerArr: headArr,
-    bodyValuesArr: pdfParsedData,
-  };
-
-  const response = await api('post', `/Reports/cctp`, body);
+  const response = await api('post', `/Reports/docx_to_pdf`, formData);
   const url = response.data.path;
 
   const blob = await blobFromURL(url);
@@ -580,68 +480,6 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
   };
 
   return obj;
-}
-
-function _parseChap0part1(part1) {
-  let str = '';
-  str = str.concat(`<p style="background-color: #C0C0C0"><strong>CHAP 0 - CLAUSES GENERALES</strong><br>`);
-  str = str.concat(`<p><strong>0.1 DESCRIPTION DU MARCHE</strong></p>`);
-  str = str.concat(`<p><strong>0.1.1 OBJET DU MARCHE</strong></p>`);
-  str = str.concat(`<p>Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :</p>`);
-  str = str.concat(`<p>${part1.description}</p>`);
-  str = str.concat(`<p><strong>0.1.2 INTERVENANTS DU MARCHE</strong></p>`);
-  str = str.concat(`<p><strong>Maitre d'Ouvrage:</strong></p>`);
-  str = str.concat(`<p>   ${part1.client.establishment}</p>`);
-  str = str.concat(`<p>   ${part1.client.service}</p>`);
-  str = str.concat(`<p>   ${part1.client.address1}</p>`);
-  str = str.concat(`<p>   ${part1.client.address2}</p>`);
-  str = str.concat(`<p>   ${part1.client.zipcode}</p>`);
-  str = str.concat(`<p>   ${part1.client.city}</p>`);
-  str = str.concat(`<p>   ${part1.client.lastname}</p>`);
-  str = str.concat(`<p>   ${part1.client.firstname}</p>`);
-  str = str.concat(`<p>   ${part1.client.phone}</p>`);
-  str = str.concat(`<p><strong>Maitre d'Oeuvre:</strong></p>`);
-  str = str.concat(`<p>   ${part1.prescriber.establishment}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.service}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.address1}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.address2}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.zipcode}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.city}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.lastname}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.firstname}</p>`);
-  str = str.concat(`<p>   ${part1.prescriber.phone}</p>`);
-  str = str.concat(`<p><strong>0.1.3 TYPE DE MARCHE</strong></p>`);
-  str = str.concat(`<p>Le marché est un marché à : <b><i>${part1.market_type}</i></b></p>`);
-  str = str.concat(`</ul>`);
-  str = str.concat(`</p>`);
-  return str;
-}
-
-function _parseChap0part2(part2) {
-  let str = '';
-  for (let i = 0; i < part2.length; i++) {
-    const _ = part2[i];
-    str = str.concat(`<p><strong>${_.title}</strong><br>`);
-    if (_.text) {
-      str = str.concat(`<p>${_.text}</p><br>`);
-    }
-    for (let j = 0; j < _.lvl2.length; j++) {
-      const __ = _.lvl2[j];
-      str = str.concat(`<p><strong>${__.title}</strong><br>`);
-      if (__.text) {
-        str = str.concat(`<p>${__.text}</p><br>`);
-      }
-      for (let k = 0; k < __.lvl3.length; k++) {
-        const ___ = __.lvl3[k];
-        str = str.concat(`<p><strong>${___.title}</strong><br>`);
-        if (___.text) {
-          str = str.concat(`<p>${___.text}</p><br>`);
-        }
-      }
-    }
-    str = str.concat(`</p>`);
-  }
-  return str;
 }
 
 export {

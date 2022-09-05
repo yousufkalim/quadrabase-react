@@ -1879,9 +1879,6 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               ],
             }),
             ...docxObjs,
-            new Paragraph({
-              text: '',
-            }),
           ],
           verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
@@ -2088,9 +2085,6 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               ],
             }),
             ...docxObjs,
-            new Paragraph({
-              text: '',
-            }),
           ],
           verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
@@ -2298,9 +2292,6 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               ],
             }),
             ...docxObjs,
-            new Paragraph({
-              text: '',
-            }),
           ],
           verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
