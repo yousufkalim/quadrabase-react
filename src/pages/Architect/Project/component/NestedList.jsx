@@ -168,7 +168,7 @@ const NestedList = (props) => {
           }): <MenuItem
           
         >
-          Non Texte
+          Pas de texte
         </MenuItem>}
         {menuItem?.providers?.length >= 1 && menuItem?.providers[0]?.documents?.length >= 1 && (
           <>
