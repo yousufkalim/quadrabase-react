@@ -1316,7 +1316,7 @@ const ProjectView = () => {
                       }}
                     >
                       <div>
-                        <i>{t('General Libraries')}</i>
+                        <i>{t('General Libraries')}</i>a
                       </div>
                     </div>
                     <InputDropdown

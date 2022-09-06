@@ -133,9 +133,9 @@ const Login = () => {
           >
             En vous connectant, vous acceptez nos présentes{' '}
             <Link to="/auth/terms" style={{ color: 'red' }}>
-              <u>Conditions Générales d'Utilisation</u>
+              <u>Conditions Générales d'Utilisation </u>
             </Link>
-            (CGU), de recevoir des e-mails et des mises à jour de QBSoft et vous reconnaissez avoir
+             (CGU), de recevoir des e-mails et des mises à jour de QBSoft et vous reconnaissez avoir
             lu notre{' '}
             <Link to="/auth/privacy" style={{ color: 'red' }}>
               <u> Politique de confidentialité</u>
