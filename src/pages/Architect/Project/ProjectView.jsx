@@ -198,6 +198,7 @@ const ProjectView = () => {
   // doc state
   const [blob, setBlob] = useState(null);
   const [filename, setFilename] = useState(null);
+  const [CCTPURL, setCCTPURL] = useState('');
 
   useEffect(() => {
     getProject();
@@ -902,9 +903,10 @@ const ProjectView = () => {
       }
       setBlob(res.blob);
       setFilename(res.filename);
+      setCCTPURL(res.url);
       setOpenCCTPReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -925,7 +927,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDPGFReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -1094,7 +1096,7 @@ const ProjectView = () => {
               }
             />
             <Modal
-              title="Select CCTP"
+              title="Selection des chapitres du CCTP"
               open={openSelectCCTPReportModal}
               onClose={() => setOpenSelectCCTPReportModal(false)}
               component={
@@ -1116,6 +1118,7 @@ const ProjectView = () => {
                 <ReportCCTPModal
                   viewBlob={blob}
                   viewFileName={filename}
+                  fileUrl={CCTPURL}
                   currentProject={currentProject}
                   projectWorkData={projectWorkData}
                   selectedCCTPIndexes={selectedCCTPIndexes}
