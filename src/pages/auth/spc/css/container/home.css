@@ -36,6 +36,7 @@
   font-size: 14px !important;
   line-height: 20px !important;
   /* or 20px */
+  padding: 10px !important;
 
   display: flex !important;
   align-items: center !important;
@@ -64,7 +65,7 @@
 }
 
 .spc_home_bottom_gird {
-  padding: 2% 2% !important;
+  padding: 2% 0% !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-around !important;
@@ -230,9 +231,26 @@
 .scroll {
   scroll-behavior: smooth !important;
 }
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1250px) {
+  
+  .spc_grid_para {
+    
+    font-size: 12px !important;
+  
+  }
+  .spc_grid_btm {
+    padding: 0 0% !important;
+    
+  }
+}
+@media only screen and (max-width: 990px) {
   .spc_home_bottom_gird {
     margin-bottom: 5% !important;
+  }
+  .spc_grid_para {
+    
+    font-size: 10px !important;
+  
   }
 }
 @media only screen and (max-width: 600px) {
