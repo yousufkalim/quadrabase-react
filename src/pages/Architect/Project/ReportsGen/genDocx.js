@@ -1241,21 +1241,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     headingStyleRange: '1-5',
   });
 
-  const tableOfContentSection = [
-    Spacer,
-    // new Paragraph({
-    //   children: [
-    //     new TextRun({
-    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-    //       size: l4Font,
-    //       font: fontType,
-    //     }),
-    //   ],
-    //   heading: HeadingLevel.HEADING_1,
-    // }),
-    tableOfContent,
-    Spacer,
-  ];
+  const tableOfContentSection = [Spacer, tableOfContent, Spacer];
 
   // Parse Chap0
   let parsedChap0part1 = [];
@@ -1354,21 +1340,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     headingStyleRange: '1-5',
   });
 
-  const tableOfContentSection = [
-    Spacer,
-    // new Paragraph({
-    //   children: [
-    //     new TextRun({
-    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-    //       size: l4Font,
-    //       font: fontType,
-    //     }),
-    //   ],
-    //   heading: HeadingLevel.HEADING_1,
-    // }),
-    tableOfContent,
-    Spacer,
-  ];
+  const tableOfContentSection = [Spacer, tableOfContent, Spacer];
 
   // Parse Chap0
   let parsedChap0part1 = [];
@@ -1467,21 +1439,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     headingStyleRange: '1-5',
   });
 
-  const tableOfContentSection = [
-    Spacer,
-    // new Paragraph({
-    //   children: [
-    //     new TextRun({
-    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-    //       size: l4Font,
-    //       font: fontType,
-    //     }),
-    //   ],
-    //   heading: HeadingLevel.HEADING_1,
-    // }),
-    tableOfContent,
-    Spacer,
-  ];
+  const tableOfContentSection = [Spacer, tableOfContent, Spacer];
 
   // Parse Chap0
   let parsedChap0part1 = [];
@@ -1659,62 +1617,54 @@ function _parseChap0part1(part1) {
   arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
-  arr.push(l1Text("Maitre d'Ouvrage:", true));
-  arr.push(l1Text(`   ${part1.client.establishment}`));
-  arr.push(l1Text(`   ${part1.client.service}`));
-  arr.push(l1Text(`   ${part1.client.address1}`));
-  arr.push(l1Text(`   ${part1.client.address2}`));
-  arr.push(l1Text(`   ${part1.client.zipcode}`));
-  arr.push(l1Text(`   ${part1.client.city}`));
-  arr.push(l1Text(`   ${part1.client.lastname}`));
-  arr.push(l1Text(`   ${part1.client.firstname}`));
-  arr.push(l1Text(`   ${part1.client.phone}`));
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: '   ',
-          font: fontType,
-          size: l1Font,
-        }),
-        new TextRun({
-          text: `${part1.client.email}`,
-          font: fontType,
-          size: l1Font,
-          color: '4472C4',
-          underline: true,
-        }),
-      ],
-    })
-  );
-  arr.push(l1Text("Maitre d'Oeuvre:", true));
-  arr.push(l1Text(`   ${part1.prescriber.establishment}`));
-  arr.push(l1Text(`   ${part1.prescriber.service}`));
-  arr.push(l1Text(`   ${part1.prescriber.address1}`));
-  arr.push(l1Text(`   ${part1.prescriber.address2}`));
-  arr.push(l1Text(`   ${part1.prescriber.zipcode}`));
-  arr.push(l1Text(`   ${part1.prescriber.city}`));
-  arr.push(l1Text(`   ${part1.prescriber.lastname}`));
-  arr.push(l1Text(`   ${part1.prescriber.firstname}`));
-  arr.push(l1Text(`   ${part1.prescriber.phone}`));
-  arr.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: '   ',
-          font: fontType,
-          size: l1Font,
-        }),
-        new TextRun({
-          text: `${part1.prescriber.email}`,
-          font: fontType,
-          size: l1Font,
-          color: '4472C4',
-          underline: true,
-        }),
-      ],
-    })
-  );
+  for (let i = 0; i < part1.stakeholders.length; i++) {
+    const stakeholder = part1.stakeholders[i];
+    arr.push(l1Text(stakeholder.type, true));
+    if (stakeholder.establishment) {
+      arr.push(l1Text(`   ${stakeholder.establishment}`));
+    }
+    if (stakeholder.service) {
+      arr.push(l1Text(`   ${stakeholder.service}`));
+    }
+    if (stakeholder.address1) {
+      arr.push(l1Text(`   ${stakeholder.address1}`));
+    }
+    if (stakeholder.address2) {
+      arr.push(l1Text(`   ${stakeholder.address2}`));
+    }
+    if (stakeholder.zipcode) {
+      arr.push(l1Text(`   ${stakeholder.zipcode}`));
+    }
+    if (stakeholder.city) {
+      arr.push(l1Text(`   ${stakeholder.city}`));
+    }
+    if (stakeholder.lastname) {
+      arr.push(l1Text(`   ${stakeholder.firstname ?? ''} ${stakeholder.lastname ?? ''}`));
+    }
+    if (stakeholder.phone) {
+      arr.push(l1Text(`   ${stakeholder.phone}`));
+    }
+    if (stakeholder.email) {
+      arr.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '   ',
+              font: fontType,
+              size: l1Font,
+            }),
+            new TextRun({
+              text: `${stakeholder.email}`,
+              font: fontType,
+              size: l1Font,
+              color: '4472C4',
+              underline: true,
+            }),
+          ],
+        })
+      );
+    }
+  }
   arr.push(l2Text('0.1.3 TYPE DE MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   arr.push(
     new Paragraph({
@@ -1865,15 +1815,14 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
         }),
       ],
       verticalAlign: VerticalAlign.TOP,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      width:
+        i == 4 || i == 5
+          ? {
+              size: 13,
+              type: WidthType.PERCENTAGE,
+            }
+          : null,
+      margins: _calculateDPGFMargins(i),
       shading: {
         fill: '#DCDADA',
       },
@@ -1964,6 +1913,19 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   const blob = await Packer.toBlob(doc);
   const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - DPGF`;
   return { blob, filename };
+}
+
+function _calculateDPGFMargins(index) {
+  if (index == 1) {
+    return {
+      top: convertInchesToTwip(0.06),
+      bottom: convertInchesToTwip(0.06),
+      left: convertInchesToTwip(0.72),
+      right: convertInchesToTwip(0.72),
+    };
+  } else {
+    return normalMargin;
+  }
 }
 
 async function exportDOCXTradesDPGF(data, currentProject) {

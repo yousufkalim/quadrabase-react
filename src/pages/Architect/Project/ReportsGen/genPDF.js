@@ -143,9 +143,23 @@ async function exportPDFSimpleBPU(data, currentProject) {
     const workSecondCol = work[1];
 
     let str = '';
-    str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
-    str = str.concat(`${workSecondCol.text}`);
-    str = str.concat(`</p>`);
+
+    if (workSecondCol.type == 'workDetail') {
+      str = str.concat(`<div>`);
+      str = str.concat(`<p style="font-weight: 600; font-style: italic">${workSecondCol.title}</p>`);
+      str = str.concat(`<p style="font-weight: 600">${workSecondCol.text} (EN TOUTES LETTRES) :</p>`);
+      str = str.concat(`</div>`);
+    } else {
+      str = str.concat(`<div>`);
+      str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
+      str = str.concat(`${workSecondCol.text}`);
+      if (workSecondCol.unit) {
+        str = str.concat(`<p style="font-weight: 600">${workSecondCol.unit} (EN TOUTES LETTRES) : </p>`);
+      }
+      str = str.concat(`</p>`);
+      str = str.concat(`</div>`);
+    }
+
     work[1] = str;
   }
 

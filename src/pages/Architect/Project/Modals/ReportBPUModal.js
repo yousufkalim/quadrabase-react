@@ -46,7 +46,7 @@ function ReportBPUModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
@@ -66,7 +66,7 @@ function ReportBPUModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }

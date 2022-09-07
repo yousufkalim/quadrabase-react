@@ -841,7 +841,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenEstimationReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
@@ -862,7 +862,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDQEReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
@@ -883,7 +883,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenBPUReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
@@ -904,7 +904,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenCCTPReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
@@ -925,7 +925,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDPGFReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error('Impossible de générer le rapport avec succès.');
       console.trace(e);
     }
   }
