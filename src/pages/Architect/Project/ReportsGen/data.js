@@ -19,6 +19,8 @@ import {
   l1Text,
 } from './docxFormatting';
 
+const tagsRegEx = /<\/?[^>]+(>|$)/g;
+
 function dateNowFormatted() {
   return `${new Date(Date.now()).toLocaleDateString('en-gb')}`;
 }
@@ -95,7 +97,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
 
 function rowsGenSimpleDPGF(data) {
   const rows = [];
-  rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data, `${1}`);
+  rowsGenDPGFHandleWorksAndWorkDetailsForSimple(rows, data);
   return rows;
 }
 
@@ -111,15 +113,15 @@ function rowsGenTradesDPGF(data) {
     rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`);
     let number = 1;
     let prevWork;
-    workAndDetailsRows = workAndDetailsRows.map((item, index) => {
-      if (typeof item[1] === 'string') {
-        item[0] = `${prevWork}.${number}`;
+    workAndDetailsRows = workAndDetailsRows.map((_) => {
+      if (typeof _[1] === 'string') {
+        _[0] = `${prevWork}.${number}`;
         number += 1;
       } else {
         number = 1;
-        prevWork = item[0];
+        prevWork = _[0];
       }
-      return item;
+      return _;
     });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
@@ -147,15 +149,15 @@ function rowsGenTradesAndTranchesDPGF(data) {
       rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`);
       let number = 1;
       let prevWork;
-      workAndDetailsRows = workAndDetailsRows.map((item, index) => {
-        if (typeof item[1] === 'string') {
-          item[0] = `${prevWork}.${number}`;
+      workAndDetailsRows = workAndDetailsRows.map((_) => {
+        if (typeof _[1] === 'string') {
+          _[0] = `${prevWork}.${number}`;
           number += 1;
         } else {
           number = 1;
-          prevWork = item[0];
+          prevWork = _[0];
         }
-        return item;
+        return _;
       });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
@@ -172,6 +174,7 @@ function rowsGenTradesAndTranchesDPGF(data) {
 function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice = false }) {
   data = structuredClone(data);
   data = data.sort((a, b) => a.work.ranking - b.work.ranking);
+
   const resArr = [];
   let _id;
   let workIndex = 0;
@@ -256,6 +259,9 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
 }
 
 function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
+  data = structuredClone(data);
+  data = data.sort((a, b) => a.work.ranking - b.work.ranking);
+
   let _id;
 
   for (let i = 0; i < data.length; i++) {
@@ -305,6 +311,9 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 }
 
 function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
+  data = structuredClone(data);
+  data = data.sort((a, b) => a.work.ranking - b.work.ranking);
+
   let _id;
 
   let currentWork = 1;
@@ -479,6 +488,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       let _ = trancheTotalHT;
       _.slice(0, -3);
       _ = _.replace(' ', '');
+      _ = _.replace(',', '');
       _ = parseInt(_);
       tradeTotal = tradeTotal + _;
     }
@@ -611,6 +621,7 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       let _ = trancheTotalHT;
       _.slice(0, -3);
       _ = _.replace(' ', '');
+      _ = _.replace(',', '');
       _ = parseInt(_);
       tradeTotal = tradeTotal + _;
     }
@@ -741,6 +752,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       let _ = trancheTotalHT;
       _.slice(0, -3);
       _ = _.replace(' ', '');
+      _ = _.replace(',', '');
       _ = parseInt(_);
       tradeTotal = tradeTotal + _;
     }
@@ -752,7 +764,7 @@ function docxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal.toFixed(2))?.replace(' ', ',') : '';
+      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2))?.replace(' ', ',') : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -779,6 +791,7 @@ function calculateTotalHT(data, noPrice) {
 
     _.slice(0, -3);
     _ = _.replace(' ', '');
+    _ = _.replace(',', '');
     _ = parseInt(_);
     totalHT = totalHT + _;
   }
@@ -1274,42 +1287,25 @@ function parseChap0(currentProject) {
   const _stakeholders = [];
   for (let i = 0; i < stakeholders.length; i++) {
     const _ = stakeholders[i];
-    if (_.name || _.establishment) {
-      _stakeholders.push(_.name ?? _.establishment);
-    }
+    const obj = {
+      type: _?.type.text,
+      establishment: _?.establishment?.length > 0 ? _?.establishment : null,
+      service: _?.service?.length > 0 ? _?.service : null,
+      address1: _?.address1?.length > 0 ? _?.address1 : null,
+      address2: _?.address2?.length > 0 ? _?.address2 : null,
+      zipcode: _?.zipcode?.length > 0 ? _?.zipcode : null,
+      city: _?.city?.length > 0 ? _?.city : null,
+      firstname: _?.firstname?.length > 0 ? _?.firstname : null,
+      lastname: _?.lastname?.length > 0 ? _?.lastname : null,
+      email: _?.email?.length > 0 ? _?.email : null,
+      phone: _?.contact_no?.length > 0 ? `Tel. : ${_?.contact_no}` : null,
+    };
+    _stakeholders.push(obj);
   }
-
-  const client = {
-    establishment: currentProject?.client?.establishment?.length > 0 ? currentProject?.client?.establishment : 'N/A',
-    service: currentProject?.client?.service?.length > 0 ? currentProject?.client?.service : 'N/A',
-    address1: currentProject?.client?.address1?.length > 0 ? currentProject?.client?.address1 : 'N/A',
-    address2: currentProject?.client?.address2?.length > 0 ? currentProject?.client?.address2 : 'N/A',
-    zipcode: currentProject?.client?.zipcode?.length > 0 ? currentProject?.client?.zipcode : 'N/A',
-    city: currentProject?.client?.city?.length > 0 ? currentProject?.client?.city : 'N/A',
-    firstname: currentProject?.client?.firstname?.length > 0 ? currentProject?.client?.firstname : 'N/A',
-    lastname: currentProject?.client?.lastname?.length > 0 ? currentProject?.client?.lastname : 'N/A',
-    email: currentProject?.client?.email?.length > 0 ? currentProject?.client?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.client?.contact_no?.length > 0 ? currentProject?.client?.contact_no : 'N/A'}`,
-  };
-
-  const prescriber = {
-    establishment: currentProject?.prescriber?.establishment?.length > 0 ? currentProject?.prescriber?.establishment : 'N/A',
-    service: currentProject?.prescriber?.service?.length > 0 ? currentProject?.prescriber?.service : 'N/A',
-    address1: currentProject?.prescriber?.address1?.length > 0 ? currentProject?.prescriber?.address1 : 'N/A',
-    address2: currentProject?.prescriber?.address2?.length > 0 ? currentProject?.prescriber?.address2 : 'N/A',
-    zipcode: currentProject?.prescriber?.zipcode?.length > 0 ? currentProject?.prescriber?.zipcode : 'N/A',
-    city: currentProject?.prescriber?.city?.length > 0 ? currentProject?.prescriber?.city : 'N/A',
-    firstname: currentProject?.prescriber?.firstname?.length > 0 ? currentProject?.prescriber?.firstname : 'N/A',
-    lastname: currentProject?.prescriber?.lastname?.length > 0 ? currentProject?.prescriber?.lastname : 'N/A',
-    email: currentProject?.prescriber?.email?.length > 0 ? currentProject?.prescriber?.email : 'N/A',
-    phone: `Tel. : ${currentProject?.prescriber?.contact_no?.length > 0 ? currentProject?.prescriber?.contact_no : 'N/A'}`,
-  };
 
   // Parse chap0part1
   const part1 = {
     name: currentProject?.name ?? '',
-    client: client,
-    prescriber: prescriber,
     vat: `${currentProject?.vat?.value}${currentProject?.vat?.symbol}`,
     reference: currentProject?.reference ?? '',
     description: currentProject?.description ?? '',
@@ -1604,7 +1600,7 @@ const tagsToDocxMap = {
     const objsArr = [];
 
     for (let i = 0; i < textArr.length; i++) {
-      const currentText = textArr[i];
+      let currentText = textArr[i];
       if (htmlTagRegex.test(currentText)) {
         const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
@@ -1615,6 +1611,7 @@ const tagsToDocxMap = {
           }
         }
       } else {
+        currentText = currentText.replace(tagsRegEx, '');
         objsArr.push(docText({ text: currentText, size: size ?? l1Font, bold: false }));
       }
     }
@@ -1631,7 +1628,8 @@ const tagsToDocxMap = {
     });
   },
   STRONG: async function (_, size) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
       children: [
@@ -1645,7 +1643,8 @@ const tagsToDocxMap = {
     });
   },
   EM: async function (_, size) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
       children: [
@@ -1659,7 +1658,8 @@ const tagsToDocxMap = {
     });
   },
   U: async function (_, size) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
       children: [
@@ -1676,7 +1676,8 @@ const tagsToDocxMap = {
     });
   },
   S: async function (_, size) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
       children: [
@@ -1698,7 +1699,8 @@ const tagsToDocxMap = {
     return listItemsArr;
   },
   LI: async function (_) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
       text: text,
@@ -1708,7 +1710,9 @@ const tagsToDocxMap = {
     });
   },
   SPAN: async function (_) {
-    const text = _.innerHTML;
+    let text = _.innerHTML;
+    text = text.replace(tagsRegEx, '');
+
     const classList = _.classList;
 
     let size;

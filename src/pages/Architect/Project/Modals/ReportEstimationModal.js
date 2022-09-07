@@ -56,7 +56,7 @@ function ReportEstimationModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -76,7 +76,7 @@ function ReportEstimationModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }

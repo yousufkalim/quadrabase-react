@@ -1986,9 +1986,9 @@ const ProjectView = () => {
                         <div
                           style={{
                             width: '50%',
-                            padding: "20px 20px 0px 20px",
+                            padding: '20px 20px 0px 20px',
                             fontWeight: 900,
-                            fontSize:"13px"
+                            fontSize: '13px',
                           }}
                         >
                           <div className={classes.flex_container}>
