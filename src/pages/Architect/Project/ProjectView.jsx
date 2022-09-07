@@ -1096,7 +1096,7 @@ const ProjectView = () => {
               }
             />
             <Modal
-              title="Select CCTP"
+              title="Selection of CCTP chapters"
               open={openSelectCCTPReportModal}
               onClose={() => setOpenSelectCCTPReportModal(false)}
               component={
@@ -1319,7 +1319,7 @@ const ProjectView = () => {
                       }}
                     >
                       <div>
-                        <i>{t('General Libraries')}</i>
+                        <i>{t('General Libraries')}</i>a
                       </div>
                     </div>
                     <InputDropdown

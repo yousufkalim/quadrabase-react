@@ -1296,9 +1296,17 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
       parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
+      if (lib.cctp) {
+        let docxObjs = await textRunsSplitGen(lib.cctp);
+        parsedCCTPs.push(...docxObjs);
+      }
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
         parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
+        if (cat.cctp) {
+          let docxObjs = await textRunsSplitGen(cat.cctp);
+          parsedCCTPs.push(...docxObjs);
+        }
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
@@ -1401,9 +1409,17 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
       parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
+      if (lib.cctp) {
+        let docxObjs = await textRunsSplitGen(lib.cctp);
+        parsedCCTPs.push(...docxObjs);
+      }
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
         parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
+        if (cat.cctp) {
+          let docxObjs = await textRunsSplitGen(cat.cctp);
+          parsedCCTPs.push(...docxObjs);
+        }
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
@@ -1506,9 +1522,17 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     for (let j = 0; j < cctpArr.length; j++) {
       const lib = cctpArr[j];
       parsedCCTPs.push(l3Text(lib.title, null, { before: 12 * 20, after: 12 * 20 }));
+      if (lib.cctp) {
+        let docxObjs = await textRunsSplitGen(lib.cctp);
+        parsedCCTPs.push(...docxObjs);
+      }
       for (let k = 0; k < lib.arr.length; k++) {
         const cat = lib.arr[k];
         parsedCCTPs.push(l2Text(cat.title, null, { before: 6 * 20, after: 12 * 20 }));
+        if (cat.cctp) {
+          let docxObjs = await textRunsSplitGen(cat.cctp);
+          parsedCCTPs.push(...docxObjs);
+        }
         for (let l = 0; l < cat.arr.length; l++) {
           const work = cat.arr[l];
           parsedCCTPs.push(l2Text(work.title, null, { before: 6 * 20, after: 12 * 20 }));
