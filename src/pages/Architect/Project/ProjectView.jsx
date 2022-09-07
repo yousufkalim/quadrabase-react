@@ -842,7 +842,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenEstimationReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -863,7 +863,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDQEReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -884,7 +884,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenBPUReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -906,7 +906,7 @@ const ProjectView = () => {
       setCCTPURL(res.url);
       setOpenCCTPReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -927,7 +927,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDPGFReportModal(true);
     } catch (e) {
-      toast.error('Could not generate report successfully.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -1096,7 +1096,7 @@ const ProjectView = () => {
               }
             />
             <Modal
-              title="Selection of CCTP chapters"
+              title="Selection des chapitres du CCTP"
               open={openSelectCCTPReportModal}
               onClose={() => setOpenSelectCCTPReportModal(false)}
               component={
