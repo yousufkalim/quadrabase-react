@@ -1977,14 +1977,15 @@ const ProjectView = () => {
                           height: '100%',
                           display: 'flex',
                           justifyContent: 'flex-end',
-                          overflow: 'scroll',
+                          // overflow: 'scroll',
                         }}
                       >
                         <div
                           style={{
                             width: '50%',
-                            padding: 20,
+                            padding: "20px 20px 0px 20px",
                             fontWeight: 900,
+                            fontSize:"13px"
                           }}
                         >
                           <div className={classes.flex_container}>
