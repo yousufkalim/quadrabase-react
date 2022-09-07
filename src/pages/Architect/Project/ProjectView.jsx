@@ -73,7 +73,6 @@ import {
   exportPDFTradesCCTP,
   exportPDFTradesAndTranchesCCTP,
 } from './ReportsGen/genPDF';
-import { UpdateStore } from '../../../StoreContext';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -118,7 +117,6 @@ const ProjectView = () => {
   const history = useHistory();
   const { id } = params;
   const classes = useStyles();
-  const updateStore = UpdateStore();
 
   //   states
   const [store] = useState({ loggedIn: true, user: JSON.parse(localStorage.getItem('user')) });
@@ -200,6 +198,7 @@ const ProjectView = () => {
   // doc state
   const [blob, setBlob] = useState(null);
   const [filename, setFilename] = useState(null);
+  const [CCTPURL, setCCTPURL] = useState('');
 
   useEffect(() => {
     getProject();
@@ -904,13 +903,8 @@ const ProjectView = () => {
       }
       setBlob(res.blob);
       setFilename(res.filename);
+      setCCTPURL(res.url);
       setOpenCCTPReportModal(true);
-      updateStore({
-        cctp_report: {
-          blob: res.blob,
-          filename: res.filename,
-        },
-      });
     } catch (e) {
       toast.error('Could not generate report successfully.');
       console.trace(e);
@@ -1119,21 +1113,16 @@ const ProjectView = () => {
             <Modal
               title="CCTP"
               open={openCCTPReportModal}
-              onClose={() => {
-                setOpenCCTPReportModal(false);
-                updateStore({ cctp_report: null });
-              }}
+              onClose={() => setOpenCCTPReportModal(false)}
               component={
                 <ReportCCTPModal
                   viewBlob={blob}
                   viewFileName={filename}
+                  fileUrl={CCTPURL}
                   currentProject={currentProject}
                   projectWorkData={projectWorkData}
                   selectedCCTPIndexes={selectedCCTPIndexes}
-                  onClose={() => {
-                    setOpenCCTPReportModal(false);
-                    updateStore({ cctp_report: null });
-                  }}
+                  onClose={() => setOpenCCTPReportModal(false)}
                 />
               }
             />

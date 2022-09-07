@@ -13,31 +13,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import { exportPDFSimpleCCTP, exportPDFTradesCCTP, exportPDFTradesAndTranchesCCTP } from '../ReportsGen/genPDF';
 import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from '../ReportsGen/genDocx';
 import { downloadBlob } from '../ReportsGen/data';
-import { Store } from '../../../../StoreContext';
 
 import { toast } from 'react-toastify';
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, onClose } = props;
-  const { cctp_report } = Store();
+  const { projectWorkData, currentProject, selectedCCTPIndexes, fileUrl, viewBlob, viewFileName, onClose } = props;
 
   const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
-    uploadFile();
+    setPdfs([{ uri: fileUrl }]);
   }, []);
-
-  const uploadFile = async () => {
-    const formData = new FormData();
-    const file = new File([viewBlob], viewFileName + '.pdf');
-    formData.append(`file`, file);
-    const response = await api('post', `/fileUploader`, formData);
-    setPdfs(response.data.files);
-  };
 
   async function generatePDF() {
     try {
       let res;
-      if (!cctp_report) {
+      if (!viewBlob && !viewFileName) {
         if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
           res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
         } else if (currentProject.market_type == 'Trades') {
@@ -49,7 +39,7 @@ function ReportCCTPModal(props) {
           return;
         }
       } else {
-        res = cctp_report;
+        res = { blob: viewBlob, filename: viewFileName };
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
