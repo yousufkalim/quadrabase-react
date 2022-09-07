@@ -1187,7 +1187,7 @@ function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     if (selectedCCTPIndexes.includes(i + 1)) {
       const obj = {
         title: `${cctpArr[i + 1]}`,
-        arr: findCCTPsSimple(data, i),
+        arr: findCCTPsSimple(data, i, selectedCCTPIndexes),
       };
       cctps.push(obj);
     }
@@ -1356,24 +1356,24 @@ function parseChap0(currentProject) {
 }
 
 function findCCTPsSimple(_data, index) {
-  const data = parseSorterWorks(_data);
+  const data = parseSorterWorks(_data, index);
   const cp = parseCCTPData(data, index);
   return cp;
 }
 
 function findCCTPsTrades(_data, index) {
-  const data = sorterCCTPsTrades(_data);
+  const data = sorterCCTPsTrades(_data, index);
   const cp = parseCCTPData(data, index);
   return cp;
 }
 
 function findCCTPsTradesAndTranches(_data, index) {
-  const data = sorterCCTPsTradesAndTranches(_data);
+  const data = sorterCCTPsTradesAndTranches(_data, index);
   const cp = parseCCTPData(data, index);
   return cp;
 }
 
-function sorterCCTPsTradesAndTranches(data) {
+function sorterCCTPsTradesAndTranches(data, index) {
   let works = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -1389,12 +1389,12 @@ function sorterCCTPsTradesAndTranches(data) {
     }
   }
 
-  const parsedLibs = parseSorterWorks(works);
+  const parsedLibs = parseSorterWorks(works, index);
 
   return parsedLibs;
 }
 
-function sorterCCTPsTrades(data) {
+function sorterCCTPsTrades(data, index) {
   let works = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -1406,33 +1406,41 @@ function sorterCCTPsTrades(data) {
     }
   }
 
-  const parsedLibs = parseSorterWorks(works);
+  const parsedLibs = parseSorterWorks(works, index);
 
   return parsedLibs;
 }
 
-function parseSorterWorks(works) {
+function parseSorterWorks(works, index) {
   // Delete repeated works
-  const workIDs = works.map((o) => o.work._id);
-  works = works.filter((_, index) => !workIDs.includes(_.work._id, index + 1));
+  const workIDs = works.map((_) => _.work._id);
+  works = works.filter((_, i) => !workIDs.includes(_.work._id, i + 1));
 
   let libraries = works.map((_) => _.work_library);
   let categories = works.map((_) => _.work_category);
 
   // Delete repeated libraries
-  const libraryIDs = libraries.map((o) => o._id);
-  libraries = libraries.filter((_, index) => !libraryIDs.includes(_._id, index + 1));
+  const libraryIDs = libraries.map((_) => _._id);
+  libraries = libraries.filter((_, i) => !libraryIDs.includes(_._id, i + 1));
 
   // Delete repeated categories
-  const categoryIDs = categories.map((o) => o._id);
-  categories = categories.filter((_, index) => !categoryIDs.includes(_._id, index + 1));
+  const categoryIDs = categories.map((_) => _._id);
+  categories = categories.filter((_, i) => !categoryIDs.includes(_._id, i + 1));
 
   libraries = libraries.map((_) => {
-    return { _id: _._id, title: _.name, categories: _.categories, pcategories: [] };
+    let cctp;
+    if (_.cctp_text[index]) {
+      cctp = _.cctp_text[index];
+    }
+    return { _id: _._id, title: _.name, cctp: cctp, categories: _.categories, pcategories: [] };
   });
 
   categories = categories.map((_) => {
-    return { _id: _._id, title: _.name, pworks: [] };
+    let cctp;
+    if (_.cctp_text[index]) {
+      cctp = _.cctp_text[index];
+    }
+    return { _id: _._id, title: _.name, cctp: cctp, pworks: [] };
   });
 
   const parsedCats = [];
@@ -1472,6 +1480,7 @@ function parseCCTPData(data, index) {
     const currentObjLib = data[i];
     const libObj = {
       title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
+      cctp: currentObjLib.cctp,
       arr: [],
     };
     const catsArr = currentObjLib.pcategories;
@@ -1479,9 +1488,11 @@ function parseCCTPData(data, index) {
       const currentObjCat = catsArr[j];
       const catObj = {
         title: `${index + 1}.${i + 1}.${j + 1} ${currentObjCat.title}`,
+        cctp: currentObjCat.cctp,
         arr: [],
       };
       const workAndWorkDetailsArr = currentObjCat.pworks;
+      let kIndex = 1;
       for (let k = 0; k < workAndWorkDetailsArr.length; k++) {
         const currentObjWork = workAndWorkDetailsArr[k];
         const _cctpArr = currentObjWork.work.cctp_text;
@@ -1490,19 +1501,16 @@ function parseCCTPData(data, index) {
         }
         if (_cctpArr[index]) {
           const workObj = {
-            title: `${index + 1}.${i + 1}.${j + 1}.${k + 1} ${currentObjWork.work.name}`,
+            title: `${index + 1}.${i + 1}.${j + 1}.${kIndex} ${currentObjWork.work.name}`,
             text: _cctpArr[index],
           };
           catObj.arr.push(workObj);
+          kIndex++;
         }
       }
-      if (catObj.arr.length > 0) {
-        libObj.arr.push(catObj);
-      }
+      libObj.arr.push(catObj);
     }
-    if (libObj.arr.length > 0) {
-      cp.push(libObj);
-    }
+    cp.push(libObj);
   }
 
   return cp;

@@ -1094,7 +1094,7 @@ const ProjectView = () => {
               }
             />
             <Modal
-              title="Select CCTP"
+              title="Selection of CCTP chapters"
               open={openSelectCCTPReportModal}
               onClose={() => setOpenSelectCCTPReportModal(false)}
               component={
