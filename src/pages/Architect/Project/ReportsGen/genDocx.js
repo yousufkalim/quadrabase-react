@@ -1243,16 +1243,16 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const tableOfContentSection = [
     Spacer,
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-          size: l4Font,
-          font: fontType,
-        }),
-      ],
-      heading: HeadingLevel.HEADING_1,
-    }),
+    // new Paragraph({
+    //   children: [
+    //     new TextRun({
+    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+    //       size: l4Font,
+    //       font: fontType,
+    //     }),
+    //   ],
+    //   heading: HeadingLevel.HEADING_1,
+    // }),
     tableOfContent,
     Spacer,
   ];
@@ -1356,16 +1356,16 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const tableOfContentSection = [
     Spacer,
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-          size: l4Font,
-          font: fontType,
-        }),
-      ],
-      heading: HeadingLevel.HEADING_1,
-    }),
+    // new Paragraph({
+    //   children: [
+    //     new TextRun({
+    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+    //       size: l4Font,
+    //       font: fontType,
+    //     }),
+    //   ],
+    //   heading: HeadingLevel.HEADING_1,
+    // }),
     tableOfContent,
     Spacer,
   ];
@@ -1469,16 +1469,16 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
 
   const tableOfContentSection = [
     Spacer,
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
-          size: l4Font,
-          font: fontType,
-        }),
-      ],
-      heading: HeadingLevel.HEADING_1,
-    }),
+    // new Paragraph({
+    //   children: [
+    //     new TextRun({
+    //       text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+    //       size: l4Font,
+    //       font: fontType,
+    //     }),
+    //   ],
+    //   heading: HeadingLevel.HEADING_1,
+    // }),
     tableOfContent,
     Spacer,
   ];
