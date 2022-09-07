@@ -95,6 +95,7 @@ const NestedList = (props) => {
   const [menuItem, setMenuItem] = React.useState([]);
   const openLevel = Boolean(anchorEl);
   const handleAnchorElClick = (event, item) => {
+    console.log("item",item)
     setMenuItem(item);
     setAnchorEl(event.currentTarget);
   };
@@ -149,9 +150,10 @@ const NestedList = (props) => {
                 </MenuItem>
               );
           })}
-        {menuItem?.cctp_text?.length >= 1 &&
+         
+         {menuItem?.cctp_text?.filter(a => a !== "").length >= 1 ?
           menuItem?.cctp_text?.map((cctp, index) => {
-            if (cctp.length > 5)
+            if (cctp.length > 5){
               return (
                 <MenuItem
                   onClick={() => {
@@ -162,7 +164,12 @@ const NestedList = (props) => {
                   Texte CCTP {index + 1}
                 </MenuItem>
               );
-          })}
+            }
+          }): <MenuItem
+          
+        >
+          Pas de texte
+        </MenuItem>}
         {menuItem?.providers?.length >= 1 && menuItem?.providers[0]?.documents?.length >= 1 && (
           <>
             <Divider />

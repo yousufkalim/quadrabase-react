@@ -29,6 +29,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteModal from '../../../components/DeleteModal';
+import { url } from '../../../config';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -106,11 +107,7 @@ const Index = () => {
     try {
       let response = {};
 
-      if (
-        selectedFolder.type === 'docx' ||
-        selectedFolder.type === 'images' ||
-        selectedFolder.type === 'videos'
-      ) {
+      if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
         response = await Axios({
           method: 'put',
           url: `${baseUrl}/Folders/deleteFile/${currentFolder._id}`,
@@ -129,11 +126,7 @@ const Index = () => {
         });
       }
 
-      if (
-        selectedFolder.type === 'docx' ||
-        selectedFolder.type === 'images' ||
-        selectedFolder.type === 'videos'
-      ) {
+      if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
         getSubFolders(currentFolder._id);
       } else if (selectedFolder.parentFolder) {
         getSubFolders(selectedFolder.parentFolder);
@@ -239,11 +232,7 @@ const Index = () => {
     onSubmit: async (values) => {
       try {
         let response = {};
-        if (
-          selectedFolder.type === 'docx' ||
-          selectedFolder.type === 'images' ||
-          selectedFolder.type === 'videos'
-        ) {
+        if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
           response = await Axios({
             method: 'put',
             url: `${baseUrl}/Folders/updateFile/${currentFolder._id}`,
@@ -263,11 +252,7 @@ const Index = () => {
           });
         }
 
-        if (
-          selectedFolder.type === 'docx' ||
-          selectedFolder.type === 'images' ||
-          selectedFolder.type === 'videos'
-        ) {
+        if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
           getSubFolders(currentFolder._id);
         } else if (selectedFolder.parentFolder) {
           getSubFolders(selectedFolder.parentFolder);
@@ -287,10 +272,10 @@ const Index = () => {
   });
 
   return (
-    <div className="w-full  md:mx-auto py-9 ">
+    <div className='w-full  md:mx-auto py-9 '>
       <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
+        id='demo-positioned-menu'
+        aria-labelledby='demo-positioned-button'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -330,40 +315,34 @@ const Index = () => {
         </MenuItem>
       </Menu>
       <Modal
-        title="Add a folder"
+        title='Add a folder'
         open={openAddFolders}
         translate={t}
         onClose={handleOpenAddFolder}
-        width="40%"
-        buttonLabel="Create"
+        width='40%'
+        buttonLabel='Create'
         onSubmit={formik.handleSubmit}
         component={<AddFolders translate={t} formik={formik} />}
       />
       <Modal
-        title="Rename folder"
+        title='Rename folder'
         open={openEditFolders}
         translate={t}
         onClose={handleOpenEditFolder}
-        width="40%"
-        buttonLabel="Update"
+        width='40%'
+        buttonLabel='Update'
         onSubmit={Editformik.handleSubmit}
         component={<EditFolders translate={t} formik={Editformik} editData={selectedFolder} />}
       />
       <Modal
         open={openDeleteFolder}
         delete={true}
-        width="40%"
-        component={
-          <DeleteModal
-            translate={t}
-            handleClose={handleOpenDeleteFolder}
-            handleDelete={handleDeleteFolder}
-          />
-        }
+        width='40%'
+        component={<DeleteModal translate={t} handleClose={handleOpenDeleteFolder} handleDelete={handleDeleteFolder} />}
       />
-      <div className="container mx-auto px-6">
-        <div className="flex justify-between pb-3">
-          <h1 className="text-2xl font-bold">
+      <div className='container mx-auto px-6'>
+        <div className='flex justify-between pb-3'>
+          <h1 className='text-2xl font-bold'>
             {currentFolder && (
               <IconButton onClick={handleBack}>
                 {' '}
@@ -375,27 +354,21 @@ const Index = () => {
           </h1>
 
           <div style={{ display: 'flex' }}>
-            <Button
-              variant="outlined"
-              label="Add a folder"
-              translate={t}
-              onClick={handleOpenAddFolder}
-              startIcon={<AddIcon />}
-            />{' '}
+            <Button variant='outlined' label='Add a folder' translate={t} onClick={handleOpenAddFolder} startIcon={<AddIcon />} />{' '}
             &nbsp;&nbsp;
             {currentFolder?.name?.toLowerCase() !== 'documentation générale' && (
               <label
-                className="file-button"
+                className='file-button'
                 style={{
                   color: 'white',
                   cursor: 'pointer',
                 }}
               >
-                <AddIcon fontSize="md" /> &nbsp;{t('Add a file')}
+                <AddIcon fontSize='md' /> &nbsp;{t('Add a file')}
                 <TextInput
-                  type="file"
-                  placeholder="Document"
-                  name="document"
+                  type='file'
+                  placeholder='Document'
+                  name='document'
                   onChange={handleUpload}
                   style={{ display: 'none' }}
                 />
@@ -415,16 +388,16 @@ const Index = () => {
                         getSubFolders(item._id);
                       }}
                     >
-                      <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
-                        <FolderIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
+                      <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
+                        <FolderIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
                       </Typography>
                     </CardContent>
                     {item.name.toLowerCase() !== 'documentation générale' && (
                       <IconButton
                         style={{ position: 'absolute', right: 5, top: 5 }}
-                        id="demo-positioned-button"
+                        id='demo-positioned-button'
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
+                        aria-haspopup='true'
                         aria-expanded={open ? 'true' : undefined}
                         onClick={(e) => handleClick(e, item)}
                       >
@@ -457,23 +430,20 @@ const Index = () => {
                           paddingY: '6px',
                         }}
                         onClick={async () => {
-                          let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
+                          let blob = await blobFromURL(`${url}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
-                          <InsertDriveFileIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
-                          {item.name}
+                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
+                          <InsertDriveFileIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id="demo-positioned-button"
+                        id='demo-positioned-button'
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
+                        aria-haspopup='true'
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) =>
-                          handleClick(e, { type: 'docx', _id: item._id, name: item.name })
-                        }
+                        onClick={(e) => handleClick(e, { type: 'docx', _id: item._id, name: item.name })}
                         style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />
@@ -504,23 +474,20 @@ const Index = () => {
                           paddingY: '6px',
                         }}
                         onClick={async () => {
-                          let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
+                          let blob = await blobFromURL(`${url}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
-                          <VideocamIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
-                          {item.name}
+                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
+                          <VideocamIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id="demo-positioned-button"
+                        id='demo-positioned-button'
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
+                        aria-haspopup='true'
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) =>
-                          handleClick(e, { type: 'videos', _id: item._id, name: item.name })
-                        }
+                        onClick={(e) => handleClick(e, { type: 'videos', _id: item._id, name: item.name })}
                         style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />
@@ -551,22 +518,20 @@ const Index = () => {
                           paddingY: '6px',
                         }}
                         onClick={async () => {
-                          let blob = await blobFromURL(`${process.env.REACT_APP_URI}/${item.uri}`);
+                          let blob = await blobFromURL(`${url}/${item.uri}`);
                           downloadBlob(blob, item.name);
                         }}
                       >
-                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
-                          <ImageIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
+                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
+                          <ImageIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id="demo-positioned-button"
+                        id='demo-positioned-button'
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
+                        aria-haspopup='true'
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) =>
-                          handleClick(e, { type: 'images', _id: item._id, name: item.name })
-                        }
+                        onClick={(e) => handleClick(e, { type: 'images', _id: item._id, name: item.name })}
                         style={{ position: 'absolute', right: 5, top: 5 }}
                       >
                         <MoreVertIcon />

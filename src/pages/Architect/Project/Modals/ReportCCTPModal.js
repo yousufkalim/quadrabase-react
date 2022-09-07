@@ -17,37 +17,33 @@ import { downloadBlob } from '../ReportsGen/data';
 import { toast } from 'react-toastify';
 
 function ReportCCTPModal(props) {
-  const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, onClose } = props;
+  const { projectWorkData, currentProject, selectedCCTPIndexes, fileUrl, viewBlob, viewFileName, onClose } = props;
 
   const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
-    uploadFile();
+    setPdfs([{ uri: fileUrl }]);
   }, []);
-
-  const uploadFile = async () => {
-    const formData = new FormData();
-    const file = new File([viewBlob], viewFileName + '.pdf');
-    formData.append(`file`, file);
-    const response = await api('post', `/fileUploader`, formData);
-    setPdfs(response.data.files);
-  };
 
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
-      } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
-      } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+      if (!viewBlob && !viewFileName) {
+        if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
+          res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else if (currentProject.market_type == 'Trades') {
+          res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else if (currentProject.market_type == 'TradesAndTranches') {
+          res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else {
+          console.trace('Show me');
+          return;
+        }
       } else {
-        console.trace('Show me');
-        return;
+        res = { blob: viewBlob, filename: viewFileName };
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -67,7 +63,7 @@ function ReportCCTPModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }

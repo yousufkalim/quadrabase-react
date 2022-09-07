@@ -56,7 +56,7 @@ function ReportDQEModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -76,7 +76,7 @@ function ReportDQEModal(props) {
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }

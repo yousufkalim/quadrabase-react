@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import routes from "../../routes.js";
-import { Switch, Redirect, Route } from "react-router-dom";
-import axios from "axios";
-import { UpdateStore, Store } from "../../StoreContext";
-import Drawer from "../../components/ArchitectDrawer";
+import React, { useEffect, useState } from 'react';
+import routes from '../../routes.js';
+import { Switch, Redirect, Route } from 'react-router-dom';
+import axios from 'axios';
+import { UpdateStore, Store } from '../../StoreContext';
+import Drawer from '../../components/ArchitectDrawer';
+import { baseUrl } from '../../config';
 
 function Dashboard(props) {
   const { translate, i18n } = props;
@@ -18,15 +19,13 @@ function Dashboard(props) {
 
   const fetch = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       if (token) {
         axios.defaults.headers = {
           Authorization: `Bearer ${token}`,
         };
-        const result = await axios.get(
-          `${process.env.REACT_APP_API_URL}/Architects/current/loggedIn`
-        );
+        const result = await axios.get(`${baseUrl}/Architects/current/loggedIn`);
         // settin user value in store if logged in
         if (result.data.user) {
           updateStore({ loggedIn: true, user: result.data.user });
@@ -41,15 +40,13 @@ function Dashboard(props) {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/architect") {
+      if (prop.layout === '/architect') {
         let Component = prop.component;
         return (
           <Route
             path={prop.layout + prop.path}
             key={key}
-            render={(props) => (
-              <Component translate={translate} i18n={i18n} {...props} />
-            )}
+            render={(props) => <Component translate={translate} i18n={i18n} {...props} />}
           />
         );
       } else {
@@ -62,18 +59,18 @@ function Dashboard(props) {
     !loading && (
       <Drawer routes={routes} user={user}>
         <div
-          className="flex overflow-hidden"
+          className='flex overflow-hidden'
           style={{
-            backgroundColor: "#eeeeee",
+            backgroundColor: '#eeeeee',
             minHeight: `calc(100vh - 64px)`,
           }}
         >
           {/* Content area */}
-          <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <div className='relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden'>
             {/*  Site header */}
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="*" to="/architect/index" />
+              <Redirect from='*' to='/architect/index' />
             </Switch>
           </div>
         </div>

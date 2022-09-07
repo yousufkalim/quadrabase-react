@@ -489,6 +489,7 @@ async function exportPDFTradesAndTranchesCCTP(data, currentProject, selectedCCTP
   const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
 
   const obj = {
+    url,
     blob,
     filename,
   };

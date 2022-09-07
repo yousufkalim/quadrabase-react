@@ -198,6 +198,7 @@ const ProjectView = () => {
   // doc state
   const [blob, setBlob] = useState(null);
   const [filename, setFilename] = useState(null);
+  const [CCTPURL, setCCTPURL] = useState('');
 
   useEffect(() => {
     getProject();
@@ -841,7 +842,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenEstimationReportModal(true);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -862,7 +863,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDQEReportModal(true);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -883,7 +884,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenBPUReportModal(true);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -902,9 +903,10 @@ const ProjectView = () => {
       }
       setBlob(res.blob);
       setFilename(res.filename);
+      setCCTPURL(res.url);
       setOpenCCTPReportModal(true);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -925,7 +927,7 @@ const ProjectView = () => {
       setFilename(res.filename);
       setOpenDPGFReportModal(true);
     } catch (e) {
-      toast.error('Impossible de générer le rapport avec succès.');
+      toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
   }
@@ -1094,7 +1096,7 @@ const ProjectView = () => {
               }
             />
             <Modal
-              title="Selection of CCTP chapters"
+              title="Selection des chapitres du CCTP"
               open={openSelectCCTPReportModal}
               onClose={() => setOpenSelectCCTPReportModal(false)}
               component={
@@ -1116,6 +1118,7 @@ const ProjectView = () => {
                 <ReportCCTPModal
                   viewBlob={blob}
                   viewFileName={filename}
+                  fileUrl={CCTPURL}
                   currentProject={currentProject}
                   projectWorkData={projectWorkData}
                   selectedCCTPIndexes={selectedCCTPIndexes}
@@ -1316,7 +1319,7 @@ const ProjectView = () => {
                       }}
                     >
                       <div>
-                        <i>{t('General Libraries')}</i>
+                        <i>{t('General Libraries')}</i>a
                       </div>
                     </div>
                     <InputDropdown
@@ -1977,14 +1980,15 @@ const ProjectView = () => {
                           height: '100%',
                           display: 'flex',
                           justifyContent: 'flex-end',
-                          overflow: 'scroll',
+                          // overflow: 'scroll',
                         }}
                       >
                         <div
                           style={{
                             width: '50%',
-                            padding: 20,
+                            padding: '20px 20px 0px 20px',
                             fontWeight: 900,
+                            fontSize: '13px',
                           }}
                         >
                           <div className={classes.flex_container}>
