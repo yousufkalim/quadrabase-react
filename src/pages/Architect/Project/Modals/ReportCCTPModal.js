@@ -13,11 +13,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import { exportPDFSimpleCCTP, exportPDFTradesCCTP, exportPDFTradesAndTranchesCCTP } from '../ReportsGen/genPDF';
 import { exportDOCXSimpleCCTP, exportDOCXTradesCCTP, exportDOCXTradesAndTranchesCCTP } from '../ReportsGen/genDocx';
 import { downloadBlob } from '../ReportsGen/data';
+import { Store } from '../../../../StoreContext';
 
 import { toast } from 'react-toastify';
 
 function ReportCCTPModal(props) {
   const { projectWorkData, currentProject, selectedCCTPIndexes, viewBlob, viewFileName, onClose } = props;
+  const { cctp_report } = Store();
 
   const [pdfs, setPdfs] = useState([]);
   useEffect(() => {
@@ -35,15 +37,19 @@ function ReportCCTPModal(props) {
   async function generatePDF() {
     try {
       let res;
-      if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
-      } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
-      } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+      if (!cctp_report) {
+        if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
+          res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else if (currentProject.market_type == 'Trades') {
+          res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else if (currentProject.market_type == 'TradesAndTranches') {
+          res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        } else {
+          console.trace('Show me');
+          return;
+        }
       } else {
-        console.trace('Show me');
-        return;
+        res = cctp_report;
       }
       downloadBlob(res.blob, res.filename);
     } catch (e) {

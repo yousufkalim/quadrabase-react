@@ -73,6 +73,7 @@ import {
   exportPDFTradesCCTP,
   exportPDFTradesAndTranchesCCTP,
 } from './ReportsGen/genPDF';
+import { UpdateStore } from '../../../StoreContext';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -117,6 +118,7 @@ const ProjectView = () => {
   const history = useHistory();
   const { id } = params;
   const classes = useStyles();
+  const updateStore = UpdateStore();
 
   //   states
   const [store] = useState({ loggedIn: true, user: JSON.parse(localStorage.getItem('user')) });
@@ -903,6 +905,12 @@ const ProjectView = () => {
       setBlob(res.blob);
       setFilename(res.filename);
       setOpenCCTPReportModal(true);
+      updateStore({
+        cctp_report: {
+          blob: res.blob,
+          filename: res.filename,
+        },
+      });
     } catch (e) {
       toast.error('Could not generate report successfully.');
       console.trace(e);
@@ -1111,7 +1119,10 @@ const ProjectView = () => {
             <Modal
               title="CCTP"
               open={openCCTPReportModal}
-              onClose={() => setOpenCCTPReportModal(false)}
+              onClose={() => {
+                setOpenCCTPReportModal(false);
+                updateStore({ cctp_report: null });
+              }}
               component={
                 <ReportCCTPModal
                   viewBlob={blob}
@@ -1119,7 +1130,10 @@ const ProjectView = () => {
                   currentProject={currentProject}
                   projectWorkData={projectWorkData}
                   selectedCCTPIndexes={selectedCCTPIndexes}
-                  onClose={() => setOpenCCTPReportModal(false)}
+                  onClose={() => {
+                    setOpenCCTPReportModal(false);
+                    updateStore({ cctp_report: null });
+                  }}
                 />
               }
             />
