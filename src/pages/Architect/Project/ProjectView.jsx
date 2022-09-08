@@ -153,6 +153,7 @@ const ProjectView = () => {
   const [openDeleteChap, setOpenDeleteChap] = useState(false);
   const [deleteChap, setDeleteChap] = useState({});
   const [parentChap, setParentChap] = useState({});
+  const [CCTP_loading, setCCTP_loading] = useState(false);
 
   // Estim, DQE, BPU Reports
   const [openEstimationReportModal, setOpenEstimationReportModal] = useState(false);
@@ -190,6 +191,7 @@ const ProjectView = () => {
   const [selectedTranche, setSelectedTranche] = useState('');
   const [technicalDoc, setTechnicalDoc] = useState([]);
   const [openDocModal, setOpenDocModal] = useState(false);
+  //   const [loading, setLoading] = useState(false);
 
   // loader states
   const [loading, setLoading] = useState(true); // main loader
@@ -892,6 +894,7 @@ const ProjectView = () => {
   async function generateCCTP() {
     try {
       let res;
+      setCCTP_loading(true);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
         res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'Trades') {
@@ -901,11 +904,13 @@ const ProjectView = () => {
       } else {
         console.trace('Show me');
       }
+      setCCTP_loading(false);
       setBlob(res.blob);
       setFilename(res.filename);
       setCCTPURL(res.url);
       setOpenCCTPReportModal(true);
     } catch (e) {
+      setCCTP_loading(false);
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
@@ -940,8 +945,8 @@ const ProjectView = () => {
   return (
     <>
       <div className={classes.main_container}>
-        {loading ? (
-          <Loader />
+        {loading || CCTP_loading ? (
+          <Loader text={CCTP_loading && t('Please Wait, Generating CCTP report!')} />
         ) : (
           <>
             <Header />
