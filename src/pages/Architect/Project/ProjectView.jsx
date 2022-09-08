@@ -1991,7 +1991,7 @@ const ProjectView = () => {
                         <div
                           style={{
                             width: '50%',
-                            padding: '20px 20px 0px 20px',
+                            padding: '20px 40px 0px',
                             fontWeight: 900,
                             fontSize: '13px',
                           }}
