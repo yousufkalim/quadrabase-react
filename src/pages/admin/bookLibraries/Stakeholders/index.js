@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import Modal from "../../../../components/Modal";
-import DeleteModal from "../../../../components/DeleteModal";
-import Notifier from "../../../../utils/Notifier";
-import { useFormik } from "formik";
-import { STAKEHOLDER_STATE } from "../../../../components/formik/initialValues";
-import { STAKEHOLDER_YUP } from "../../../../components/formik/validations";
-import AddStakeholder from "./AddStakeholder";
-import EditStakeholder from "./EditStakeholder";
-import Axios from "axios";
-import { baseUrl } from "../../../../utils/BaseUrl";
-import { getToken, getUser } from "../../../../utils/Auth";
-import List from "../../../../components/List";
-import ListMenu from "../../../../components/List/listMenu";
+import Modal from '../../../../components/Modal';
+import DeleteModal from '../../../../components/DeleteModal';
+import Notifier from '../../../../utils/Notifier';
+import { useFormik } from 'formik';
+import { STAKEHOLDER_STATE } from '../../../../components/formik/initialValues';
+import { STAKEHOLDER_YUP } from '../../../../components/formik/validations';
+import AddStakeholder from './AddStakeholder';
+import EditStakeholder from './EditStakeholder';
+import Axios from 'axios';
+import { baseUrl } from '../../../../utils/BaseUrl';
+import { getToken, getUser } from '../../../../utils/Auth';
+import List from '../../../../components/List';
+import ListMenu from '../../../../components/List/listMenu';
 
 export default function Index(props) {
   const { translate } = props;
@@ -21,7 +21,7 @@ export default function Index(props) {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
-  const [stakeholdersId, setstakeholdersId] = React.useState("");
+  const [stakeholdersId, setstakeholdersId] = React.useState('');
   const [stakeholdersData, setstakeholdersData] = React.useState([]);
   const [editData, seteditData] = React.useState([]);
   const [anchorEl, setanchorEl] = React.useState(null);
@@ -53,17 +53,17 @@ export default function Index(props) {
   const handleDelete = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       handleanchorElClose();
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
       if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+        Notifier(error.response.data.message, 'error ', translate);
     }
 
     setdeleteModal(!deletemodal);
@@ -80,11 +80,11 @@ export default function Index(props) {
   const getStakeholders = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/StakeholderTypes/`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.stakeholderTypes.sort(
         (a, b) => a.ranking - b.ranking
@@ -92,7 +92,7 @@ export default function Index(props) {
       let newData = data.filter((dat) => dat.email !== USER.email);
       setstakeholdersData(newData);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
     //}
   };
@@ -120,23 +120,23 @@ export default function Index(props) {
         }
 
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/StakeholderTypes/create`,
           data: values,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         onAddModal();
         formik.resetForm();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
+        Notifier(err.response.data.message, 'error', translate);
 
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
-    },
+    }
   });
 
   //edit unit
@@ -146,21 +146,21 @@ export default function Index(props) {
     onSubmit: async (values) => {
       try {
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
           data: values,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleEditModal();
       } catch (err) {
-        Notifier(err.response.data.message, "error", translate);
-        console.log("Errror->>>", err);
+        Notifier(err.response.data.message, 'error', translate);
+        console.log('Errror->>>', err);
       }
-    },
+    }
   });
 
   // ****************
@@ -170,7 +170,6 @@ export default function Index(props) {
     let filteredIndex = stakeholdersData.findIndex(
       (dt) => dt._id == stakeholdersId
     );
-    console.log("filtered indexs", filteredIndex);
 
     if (filteredIndex != 0) {
       let minRanking = Math.min.apply(
@@ -180,12 +179,12 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: minRanking - 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...stakeholdersData];
         tempArr[filteredIndex].ranking = minRanking - 1;
@@ -207,20 +206,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
       handleanchorElClose();
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/StakeholderTypes/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           tempArr[filteredIndex] = stakeholdersData[filteredIndex - 1];
           tempArr[filteredIndex - 1] = stakeholdersData[filteredIndex];
@@ -242,20 +241,20 @@ export default function Index(props) {
       let prev = tempArr[nextIndex];
       handleanchorElClose();
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: nextIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/StakeholderTypes/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           tempArr[filteredIndex] = stakeholdersData[nextIndex];
           tempArr[nextIndex] = stakeholdersData[filteredIndex];
@@ -279,12 +278,12 @@ export default function Index(props) {
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/StakeholderTypes/${stakeholdersId}`,
         data: { ranking: maxRanking + 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...stakeholdersData];
         tempArr[filteredIndex].ranking = maxRanking + 1;
@@ -310,13 +309,13 @@ export default function Index(props) {
         handleBottom={handleStakeholdersBottom}
         handleUp={handleStakeholdersUp}
         handleDown={handleStakeholdersDown}
-        id={"unit-customized-button"}
-        title={`${translate("Add Stakeholder")}`}
+        id={'unit-customized-button'}
+        title={`${translate('Add Stakeholder')}`}
         translate={translate}
       />
       <div className="w-full md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
-          {console.log("stakeholder data", stakeholdersData)}
+          {console.log('stakeholder data', stakeholdersData)}
           <List
             data={stakeholdersData}
             translate={translate}
@@ -327,7 +326,7 @@ export default function Index(props) {
         </div>
       </div>
       <Modal
-        title={`${translate("Add Stakeholder")}`}
+        title={`${translate('Add Stakeholder')}`}
         translate={translate}
         open={modal}
         onClose={onAddModal}
@@ -338,7 +337,7 @@ export default function Index(props) {
       />
       {console.log(editData)}
       <Modal
-        title={translate("Edit Stakeholder")}
+        title={translate('Edit Stakeholder')}
         open={editmodal}
         translate={translate}
         onSubmit={edit_formik.handleSubmit}

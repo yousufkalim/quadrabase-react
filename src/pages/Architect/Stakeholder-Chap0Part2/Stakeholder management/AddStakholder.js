@@ -29,7 +29,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
     contact_no: '',
     entity: '',
     city: '',
-    ranking: 0,
+    ranking: 0
   });
   const [options, setOptions] = useState([]);
 
@@ -45,6 +45,7 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
     const selected = result.data.stakeholderTypes.find(
       (item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE"
     );
+
     setValues({ ...values, type: selected._id });
   };
 
@@ -75,7 +76,12 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
       })
     );
     values.ranking = maxRanking > 0 ? maxRanking + 1 : 0;
-    const result = await api('post', `/stakeholders/create/${store.user._id}`, values, t);
+    const result = await api(
+      'post',
+      `/stakeholders/create/${store.user._id}`,
+      values,
+      t
+    );
     handleAddStakeholderModal();
     toast.success(t(result.data.message));
   };
@@ -107,7 +113,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="establishment"
                 type="text"
                 value={values.establishment}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -116,7 +124,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="service"
                 type="text"
                 value={values.service}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -129,7 +139,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="address1"
                 type="text"
                 value={values.address1}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -138,7 +150,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="address2"
                 type="text"
                 value={values.address2}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -150,7 +164,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="po_box"
                 type="text"
                 value={values.po_box}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={3}>
@@ -160,7 +176,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="zipcode"
                 type="number"
                 value={values.zipcode}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={6}>
@@ -170,7 +188,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="city"
                 type="text"
                 value={values.city}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -183,7 +203,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="lastname"
                 type="text"
                 value={values.lastname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -192,7 +214,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="firstname"
                 type="text"
                 value={values.firstname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -205,7 +229,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="email"
                 type="email"
                 value={values.email}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -215,7 +241,9 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 name="contact_no"
                 type="number"
                 value={values.contact_no}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -230,8 +258,8 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 borderRadius: 2,
                 whiteSpace: 'nowrap',
                 ':hover': {
-                  backgroundColor: '#8C1244',
-                },
+                  backgroundColor: '#8C1244'
+                }
               }}
               onClick={handleAddStakeholderModal}
             >
@@ -248,8 +276,8 @@ const AddStakholder = ({ handleAddStakeholderModal, stakeholdersData }) => {
                 whiteSpace: 'nowrap',
                 hover: 'none',
                 ':hover': {
-                  backgroundColor: '#8C1244',
-                },
+                  backgroundColor: '#8C1244'
+                }
               }}
             >
               {t('Create')}

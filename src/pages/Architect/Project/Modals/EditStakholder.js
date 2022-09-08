@@ -9,7 +9,11 @@ import { useStyles } from '../../../../css/addStakeholder';
 import { useTranslation } from 'react-i18next';
 
 // component
-const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeholders }) => {
+const EditStakholder = ({
+  stakeholder,
+  handleEditStakeholderModal,
+  getAllStakeholders
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
   // states
@@ -26,7 +30,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
     email: '',
     contact_no: '',
     entity: '',
-    city: '',
+    city: ''
   });
   const [options, setOptions] = useState([]);
 
@@ -44,7 +48,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
   // useEffect to set values
   useEffect(() => {
     setValues({
-      type: stakeholder.type,
+      type: stakeholder.type?._id,
       establishment: stakeholder.establishment,
       service: stakeholder.service,
       address1: stakeholder.address1,
@@ -56,7 +60,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
       email: stakeholder.email,
       contact_no: stakeholder.contact_no,
       entity: stakeholder.entity,
-      city: stakeholder.city,
+      city: stakeholder.city
     });
   }, [stakeholder]);
 
@@ -80,7 +84,12 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
   // handle Submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await api('put', `/stakeholders/${stakeholder._id}`, values, t);
+    const result = await api(
+      'put',
+      `/stakeholders/${stakeholder._id}`,
+      values,
+      t
+    );
     toast.success(t(result.data.message));
     handleEditStakeholderModal();
     getAllStakeholders();
@@ -114,7 +123,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="establishment"
                 type="text"
                 value={values.establishment}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -123,7 +134,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="service"
                 type="text"
                 value={values.service}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -136,7 +149,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="address1"
                 type="text"
                 value={values.address1}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -145,7 +160,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="address2"
                 type="text"
                 value={values.address2}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -157,7 +174,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="po_box"
                 type="text"
                 value={values.po_box}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={3}>
@@ -167,7 +186,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="zipcode"
                 type="text"
                 value={values.zipcode}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={6}>
@@ -177,7 +198,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="city"
                 type="text"
                 value={values.city}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -190,7 +213,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="lastname"
                 type="text"
                 value={values.lastname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -199,7 +224,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="firstname"
                 type="text"
                 value={values.firstname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -212,7 +239,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="email"
                 type="email"
                 value={values.email}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -222,7 +251,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
                 name="contact_no"
                 type="number"
                 value={values.contact_no}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -232,7 +263,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#3b373c',
+                backgroundColor: '#3b373c'
               }}
               onClick={handleEditStakeholderModal}
             >
@@ -242,7 +273,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal, getAllStakeho
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#3b373c',
+                backgroundColor: '#3b373c'
               }}
               type="submit"
             >

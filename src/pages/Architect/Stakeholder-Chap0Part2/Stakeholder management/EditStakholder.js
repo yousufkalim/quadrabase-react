@@ -28,7 +28,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
     email: '',
     contact_no: '',
     entity: '',
-    city: '',
+    city: ''
   });
   const [options, setOptions] = useState([]);
 
@@ -44,9 +44,10 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
   };
 
   // useEffect to set values
+
   useEffect(() => {
     setValues({
-      type: stakeholder.type,
+      type: stakeholder?.type?._id,
       establishment: stakeholder.establishment,
       service: stakeholder.service,
       address1: stakeholder.address1,
@@ -58,7 +59,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
       email: stakeholder.email,
       contact_no: stakeholder.contact_no,
       entity: stakeholder.entity,
-      city: stakeholder.city,
+      city: stakeholder.city
     });
   }, [stakeholder]);
 
@@ -82,7 +83,12 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
   // handle Submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await api('put', `/stakeholders/${stakeholder._id}`, values, t);
+    const result = await api(
+      'put',
+      `/stakeholders/${stakeholder._id}`,
+      values,
+      t
+    );
     toast.success(t(result.data.message));
     handleEditStakeholderModal();
   };
@@ -100,6 +106,7 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="type"
                 label={t('Type Of Stakeholder')}
                 value={values.type}
+                select={values.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
                 options={options}
                 disabled
@@ -115,7 +122,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="establishment"
                 type="text"
                 value={values.establishment}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -124,7 +133,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="service"
                 type="text"
                 value={values.service}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -137,7 +148,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="address1"
                 type="text"
                 value={values.address1}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -146,7 +159,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="address2"
                 type="text"
                 value={values.address2}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -158,7 +173,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="po_box"
                 type="text"
                 value={values.po_box}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={3}>
@@ -168,7 +185,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="zipcode"
                 type="number"
                 value={values.zipcode}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs={6}>
@@ -178,7 +197,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="city"
                 type="text"
                 value={values.city}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -191,7 +212,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="lastname"
                 type="text"
                 value={values.lastname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -200,7 +223,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="firstname"
                 type="text"
                 value={values.firstname}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -213,7 +238,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="email"
                 type="email"
                 value={values.email}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -223,7 +250,9 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 name="contact_no"
                 type="number"
                 value={values.contact_no}
-                handleChange={(e) => handleChange(e.target.name, e.target.value)}
+                handleChange={(e) =>
+                  handleChange(e.target.name, e.target.value)
+                }
               />
             </Grid>
           </Grid>
@@ -238,8 +267,8 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 borderRadius: 2,
                 whiteSpace: 'nowrap',
                 ':hover': {
-                  backgroundColor: '#8C1244',
-                },
+                  backgroundColor: '#8C1244'
+                }
               }}
               onClick={handleEditStakeholderModal}
             >
@@ -254,8 +283,8 @@ const EditStakholder = ({ stakeholder, handleEditStakeholderModal }) => {
                 borderRadius: 2,
                 whiteSpace: 'nowrap',
                 ':hover': {
-                  backgroundColor: '#8C1244',
-                },
+                  backgroundColor: '#8C1244'
+                }
               }}
               type="submit"
             >
