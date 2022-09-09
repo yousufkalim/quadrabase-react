@@ -270,7 +270,8 @@ const ProjectView = () => {
   const getworks = async () => {
     if (currentProject.market_type === 'TradesAndTranches') {
       const result = await api('get', `/project/worksByTranches/${id}`);
-      let data = result?.data?.works.sort((a, b) => a.ranking - b.ranking);
+      let data = result?.data?.works ?? [];
+      data.sort((a, b) => a.work.ranking - b.work.ranking);
       let tempAmount = 0;
       let tempArray = [];
       data.map((dat, index1) => {
@@ -335,7 +336,8 @@ const ProjectView = () => {
       setProjectWorkData(data);
     } else if (currentProject.market_type === 'Trades') {
       const result = await api('get', `/project/worksByTrades/${id}`);
-      let data = result?.data?.works.sort((a, b) => a.ranking - b.ranking);
+      let data = result?.data?.works ?? [];
+      data.sort((a, b) => a.work.ranking - b.work.ranking);
       let tempAmount = 0;
       let tempArray = [];
       data.map((dat, index1) => {
@@ -361,7 +363,8 @@ const ProjectView = () => {
       setProjectWorkData(data);
     } else {
       const result = await api('get', `/project/works/${id}`);
-      let data = result?.data?.works;
+      let data = result?.data?.works ?? [];
+      data.sort((a, b) => a.work.ranking - b.work.ranking);
       let temp = 0;
       data.map((item, index) => {
         if (!item.workDetails) {
@@ -944,6 +947,10 @@ const ProjectView = () => {
 
   return (
     <>
+      {console.log(
+        projectWorkData.map((_) => _.work.ranking),
+        'projectWorkData'
+      )}
       <div className={classes.main_container}>
         {loading || CCTP_loading ? (
           <Loader text={CCTP_loading && t('Please Wait, Generating CCTP report!')} />

@@ -2033,15 +2033,14 @@ async function exportDOCXTradesDPGF(data, currentProject) {
         }),
       ],
       verticalAlign: VerticalAlign.TOP,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      width:
+        i == 4 || i == 5
+          ? {
+              size: 13,
+              type: WidthType.PERCENTAGE,
+            }
+          : null,
+      margins: _calculateDPGFMargins(i),
       shading: {
         fill: '#DCDADA',
       },
@@ -2240,15 +2239,14 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
         }),
       ],
       verticalAlign: VerticalAlign.TOP,
-      margins:
-        i != 1
-          ? normalMargin
-          : {
-              top: convertInchesToTwip(0.06),
-              bottom: convertInchesToTwip(0.06),
-              left: convertInchesToTwip(0.72),
-              right: convertInchesToTwip(0.72),
-            },
+      width:
+        i == 4 || i == 5
+          ? {
+              size: 13,
+              type: WidthType.PERCENTAGE,
+            }
+          : null,
+      margins: _calculateDPGFMargins(i),
       shading: {
         fill: '#DCDADA',
       },
