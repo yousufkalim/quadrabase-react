@@ -952,10 +952,6 @@ const ProjectView = () => {
 
   return (
     <>
-      {console.log(
-        projectWorkData.map((_) => _.work.ranking),
-        'projectWorkData'
-      )}
       <div className={classes.main_container}>
         {loading || CCTP_loading ? (
           <Loader text={CCTP_loading && t('Please Wait, Generating CCTP report!')} />
