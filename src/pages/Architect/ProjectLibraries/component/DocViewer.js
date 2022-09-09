@@ -1,5 +1,4 @@
 import React from 'react';
-// import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';

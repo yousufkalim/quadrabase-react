@@ -298,7 +298,7 @@ async function exportPDFSimpleDPGF(data, currentProject) {
       const _ = row[j];
       if (j == 1) {
         if (typeof _ == 'object') {
-          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+          arr.push(`<strong>${_.title}</strong><p>${_.bpu}</p>`);
         } else {
           arr.push(`<p>${_}</p>`);
         }

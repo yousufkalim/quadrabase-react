@@ -156,10 +156,12 @@ export default function DenseTable({
       let prevIndex = filteredIndex - 1;
       let prevWork = workCP[prevIndex];
 
-      api('put', `/project/swapWorkRanking/${currentProject._id}`, {
+      const body = {
         work1Id: id,
         work2Id: prevWork._id,
-      }).then(() => {
+      };
+
+      api('put', `/project/swapWorkRanking/${currentProject._id}`, body).then(() => {
         getworks();
       });
     }
@@ -173,10 +175,12 @@ export default function DenseTable({
       let nextIndex = forwardIndexes[forwardIndexes.length - 1] + 1;
       let nextWork = workCP[nextIndex];
 
-      api('put', `/project/swapWorkRanking/${currentProject._id}`, {
+      const body = {
         work1Id: id,
         work2Id: nextWork._id,
-      }).then(() => {
+      };
+
+      api('put', `/project/swapWorkRanking/${currentProject._id}`, body).then(() => {
         getworks();
       });
     }
