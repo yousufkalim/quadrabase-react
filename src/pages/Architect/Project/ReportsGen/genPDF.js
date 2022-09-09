@@ -145,19 +145,24 @@ async function exportPDFSimpleBPU(data, currentProject) {
     let str = '';
 
     if (workSecondCol.type == 'workDetail') {
-      str = str.concat(`<div>`);
-      str = str.concat(`<p style="font-weight: 600; font-style: italic">${workSecondCol.title}</p>`);
-      str = str.concat(`<p style="font-weight: 600">${workSecondCol.text} (EN TOUTES LETTRES) :</p>`);
-      str = str.concat(`</div>`);
+      str = str.concat(
+        `<p style="font-weight: 600; font-style: italic">${
+          workSecondCol.title
+        } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
+      );
     } else {
-      str = str.concat(`<div>`);
-      str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
-      str = str.concat(`${workSecondCol.text}`);
-      if (workSecondCol.unit) {
-        str = str.concat(`<p style="font-weight: 600">${workSecondCol.unit} (EN TOUTES LETTRES) : </p>`);
-      }
-      str = str.concat(`</p>`);
-      str = str.concat(`</div>`);
+      str = str.concat(
+        `<p style="font-weight: 600">${
+          workSecondCol.title
+        } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
+          3,
+          workSecondCol.text.length - 5
+        )}</span> <br> ${
+          workSecondCol.unit
+            ? `<span style="font-weight: 600">${workSecondCol.unit.toUpperCase()} (EN TOUTES LETTRES) : </span>`
+            : ''
+        } </p>`
+      );
     }
 
     work[1] = str;
@@ -201,9 +206,28 @@ async function exportPDFTradesBPU(data, currentProject) {
       const workSecondCol = work[1];
 
       let str = '';
-      str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
-      str = str.concat(`${workSecondCol.text}`);
-      str = str.concat(`</p>`);
+
+      if (workSecondCol.type == 'workDetail') {
+        str = str.concat(
+          `<p style="font-weight: 600; font-style: italic">${
+            workSecondCol.title
+          } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
+        );
+      } else {
+        str = str.concat(
+          `<p style="font-weight: 600">${
+            workSecondCol.title
+          } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
+            3,
+            workSecondCol.text.length - 5
+          )}</span> <br> ${
+            workSecondCol.unit
+              ? `<span style="font-weight: 600">${workSecondCol.unit.toUpperCase()} (EN TOUTES LETTRES) : </span>`
+              : ''
+          } </p>`
+        );
+      }
+
       work[1] = str;
       pdfHTMLData.push(work);
     }
@@ -257,9 +281,28 @@ async function exportPDFTradesAndTranchesBPU(data, currentProject) {
         const workSecondCol = work[1];
 
         let str = '';
-        str = str.concat(`<p style="font-weight: 600">${workSecondCol.title}`);
-        str = str.concat(`${workSecondCol.text}`);
-        str = str.concat(`</p>`);
+
+        if (workSecondCol.type == 'workDetail') {
+          str = str.concat(
+            `<p style="font-weight: 600; font-style: italic">${
+              workSecondCol.title
+            } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
+          );
+        } else {
+          str = str.concat(
+            `<p style="font-weight: 600">${
+              workSecondCol.title
+            } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
+              3,
+              workSecondCol.text.length - 5
+            )}</span> <br> ${
+              workSecondCol.unit
+                ? `<span style="font-weight: 600">${workSecondCol.unit.toUpperCase()} (EN TOUTES LETTRES) : </span>`
+                : ''
+            } </p>`
+          );
+        }
+
         work[1] = str;
         pdfHTMLData.push(work);
       }
@@ -298,9 +341,14 @@ async function exportPDFSimpleDPGF(data, currentProject) {
       const _ = row[j];
       if (j == 1) {
         if (typeof _ == 'object') {
-          arr.push(`<strong>${_.title}</strong><p>${_.bpu}</p>`);
+          arr.push(
+            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+              3,
+              _.bpu.length - 5
+            )}</span></p>`
+          );
         } else {
-          arr.push(`<p>${_}</p>`);
+          arr.push(`<p style="font-style: italic;">${_}</p>`);
         }
       } else {
         arr.push(_);
@@ -349,9 +397,14 @@ async function exportPDFTradesDPGF(data, currentProject) {
       const _ = row[j];
       if (j == 1) {
         if (typeof _ == 'object') {
-          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+          arr.push(
+            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+              3,
+              _.bpu.length - 5
+            )}</span></p>`
+          );
         } else {
-          arr.push(`<p>${_}</p>`);
+          arr.push(`<p style="font-style: italic;">${_}</p>`);
         }
       } else {
         arr.push(_);
@@ -401,9 +454,14 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
       const _ = row[j];
       if (j == 1) {
         if (typeof _ == 'object') {
-          arr.push(`<strong>${_.title}</strong><br><p>${_.bpu}</p>`);
+          arr.push(
+            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+              3,
+              _.bpu.length - 5
+            )}</span></p>`
+          );
         } else {
-          arr.push(`<p>${_}</p>`);
+          arr.push(`<p style="font-style: italic;">${_}</p>`);
         }
       } else {
         arr.push(_);
