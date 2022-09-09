@@ -146,13 +146,13 @@ async function exportPDFSimpleBPU(data, currentProject) {
 
     if (workSecondCol.type == 'workDetail') {
       str = str.concat(
-        `<p style="font-weight: 600; font-style: italic">${
+        `<p style="font-weight: 600; font-style: italic; padding: 7px">${
           workSecondCol.title
         } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
       );
     } else {
       str = str.concat(
-        `<p style="font-weight: 600">${
+        `<p style="font-weight: 600; padding: 7px">${
           workSecondCol.title
         } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
           3,
@@ -209,13 +209,13 @@ async function exportPDFTradesBPU(data, currentProject) {
 
       if (workSecondCol.type == 'workDetail') {
         str = str.concat(
-          `<p style="font-weight: 600; font-style: italic">${
+          `<p style="font-weight: 600; font-style: italic; padding: 7px">${
             workSecondCol.title
           } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
         );
       } else {
         str = str.concat(
-          `<p style="font-weight: 600">${
+          `<p style="font-weight: 600; padding: 7px">${
             workSecondCol.title
           } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
             3,
@@ -284,13 +284,13 @@ async function exportPDFTradesAndTranchesBPU(data, currentProject) {
 
         if (workSecondCol.type == 'workDetail') {
           str = str.concat(
-            `<p style="font-weight: 600; font-style: italic">${
+            `<p style="font-weight: 600; font-style: italic; padding: 7px">${
               workSecondCol.title
             } <br> <span style="font-weight: 600; font-style: normal"> ${workSecondCol.text.toUpperCase()} (EN TOUTES LETTRES) </span> :</p>`
           );
         } else {
           str = str.concat(
-            `<p style="font-weight: 600">${
+            `<p style="font-weight: 600; padding: 7px">${
               workSecondCol.title
             } <br> <span style="font-weight: 400; font-style: normal">${workSecondCol.text.substring(
               3,
