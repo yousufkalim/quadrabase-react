@@ -271,7 +271,10 @@ const ProjectView = () => {
     if (currentProject.market_type === 'TradesAndTranches') {
       const result = await api('get', `/project/worksByTranches/${id}`);
       let data = result?.data?.works ?? [];
-      data.sort((a, b) => a.work.ranking - b.work.ranking);
+      data.forEach((_) => {
+        const __ = _.data;
+        __.sort((a, b) => a.work.ranking - b.work.ranking);
+      });
       let tempAmount = 0;
       let tempArray = [];
       data.map((dat, index1) => {
@@ -337,7 +340,9 @@ const ProjectView = () => {
     } else if (currentProject.market_type === 'Trades') {
       const result = await api('get', `/project/worksByTrades/${id}`);
       let data = result?.data?.works ?? [];
-      data.sort((a, b) => a.work.ranking - b.work.ranking);
+      data.forEach((_) => {
+        _.data.sort((a, b) => a.work.ranking - b.work.ranking);
+      });
       let tempAmount = 0;
       let tempArray = [];
       data.map((dat, index1) => {
