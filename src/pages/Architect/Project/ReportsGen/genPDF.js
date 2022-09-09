@@ -447,6 +447,7 @@ async function exportPDFSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
 
   const obj = {
+    url,
     blob,
     filename,
   };
@@ -468,6 +469,7 @@ async function exportPDFTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - CCTP`;
 
   const obj = {
+    url,
     blob,
     filename,
   };
