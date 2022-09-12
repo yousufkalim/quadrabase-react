@@ -165,11 +165,12 @@ const NestedList = (props) => {
                 </MenuItem>
               );
             }
-          }): <MenuItem
+          }):(<>
+          {menuItem?.bpu_text ==undefined && <MenuItem>
           
-        >
-          Pas de texte
+          {"Pas de texte"}
         </MenuItem>}
+          </>) }
         {menuItem?.providers?.length >= 1 && menuItem?.providers[0]?.documents?.length >= 1 && (
           <>
             <Divider />
