@@ -206,7 +206,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         const arrD = [];
 
         arrD.push(`${prefix}${workIndex + 1}.1`);
-        arrD.push(data[i].workDetails.name);
+        arrD.push(`<i>${data[i].workDetails.name}</i>`);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
@@ -228,7 +228,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       const arrD = [];
 
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
-      arrD.push(data[i].workDetails.name);
+      arrD.push(`<i>${data[i].workDetails.name}</i>`);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
