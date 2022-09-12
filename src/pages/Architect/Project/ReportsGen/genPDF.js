@@ -342,13 +342,13 @@ async function exportPDFSimpleDPGF(data, currentProject) {
       if (j == 1) {
         if (typeof _ == 'object') {
           arr.push(
-            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+            `<span style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
               3,
               _.bpu.length - 5
-            )}</span></p>`
+            )}</span></span>`
           );
         } else {
-          arr.push(`<p style="font-style: italic;">${_}</p>`);
+          arr.push(`<span style="font-style: italic;">${_}</span>`);
         }
       } else {
         arr.push(_);
@@ -398,13 +398,13 @@ async function exportPDFTradesDPGF(data, currentProject) {
       if (j == 1) {
         if (typeof _ == 'object') {
           arr.push(
-            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+            `<span style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
               3,
               _.bpu.length - 5
-            )}</span></p>`
+            )}</span></span>`
           );
         } else {
-          arr.push(`<p style="font-style: italic;">${_}</p>`);
+          arr.push(`<span style="font-style: italic;">${_}</span>`);
         }
       } else {
         arr.push(_);
@@ -455,13 +455,13 @@ async function exportPDFTradesAndTrancesDPGF(data, currentProject) {
       if (j == 1) {
         if (typeof _ == 'object') {
           arr.push(
-            `<p style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
+            `<span style="font-weight: 600;">${_.title} <br> <span style="font-weight: 400; font-style: normal">${_.bpu.substring(
               3,
               _.bpu.length - 5
-            )}</span></p>`
+            )}</span></span>`
           );
         } else {
-          arr.push(`<p style="font-style: italic;">${_}</p>`);
+          arr.push(`<span style="font-style: italic;">${_}</span>`);
         }
       } else {
         arr.push(_);
