@@ -263,12 +263,14 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
   data = data.sort((a, b) => a.work.ranking - b.work.ranking);
 
   let _id;
-
+  let workIndex = 0;
+  let workDetailsIndex = 0;
   for (let i = 0; i < data.length; i++) {
+    // Work
     if (_id != data[i].work._id) {
       const arr = [];
 
-      arr.push(`${prefix}.${i + 1}`);
+      arr.push(`${prefix}.${workIndex + 1}`);
       const obj = {
         title: data[i].work.name,
         bpu: data[i].work.bpu_text[0],
@@ -281,10 +283,11 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
 
       toBeModifiedArr.push(arr);
 
+      // If there is workdetail then parse it.
       if (data[i].workDetails) {
         const arrD = [];
 
-        arrD.push(`${prefix}.${i + 1}`);
+        arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
@@ -292,11 +295,13 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push('');
 
         toBeModifiedArr.push(arrD);
+        workDetailsIndex++;
       }
     } else {
+      // WorkDetail
       const arrD = [];
 
-      arrD.push(`${prefix}.${i + 1}`);
+      arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2))?.replace(' ', ','));
@@ -304,9 +309,16 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push('');
 
       toBeModifiedArr.push(arrD);
+      workDetailsIndex++;
     }
 
     _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
   }
 }
 
@@ -315,14 +327,14 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
   data = data.sort((a, b) => a.work.ranking - b.work.ranking);
 
   let _id;
-
-  let currentWork = 1;
+  let workIndex = 0;
+  let workDetailsIndex = 0;
   for (let i = 0; i < data.length; i++) {
+    // Work
     if (_id != data[i].work._id) {
-      currentWork = i + 1;
       const arr = [];
 
-      arr.push(`${i + 1}`);
+      arr.push(`${workIndex + 1}`);
       const obj = {
         title: data[i].work.name,
         bpu: data[i].work.bpu_text[0],
@@ -335,10 +347,11 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
 
       toBeModifiedArr.push(arr);
 
+      // If there is workdetail then parse it.
       if (data[i].workDetails) {
         const arrD = [];
 
-        arrD.push(`${currentWork}.${i + 1}`);
+        arrD.push(`${workIndex + 1}.${workDetailsIndex + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
@@ -346,11 +359,13 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
         arrD.push('');
 
         toBeModifiedArr.push(arrD);
+        workDetailsIndex++;
       }
     } else {
+      // WorkDetail
       const arrD = [];
 
-      arrD.push(`${currentWork}.${i + 1}`);
+      arrD.push(`${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2)?.replace(' ', ',')));
@@ -358,9 +373,16 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       arrD.push('');
 
       toBeModifiedArr.push(arrD);
+      workDetailsIndex++;
     }
 
     _id = data[i].work._id;
+
+    // Next is work
+    if (_id != data[i + 1]?.work?._id) {
+      workDetailsIndex = 0;
+      workIndex++;
+    }
   }
 }
 
