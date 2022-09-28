@@ -83,7 +83,8 @@
     "start": "set TAILWIND_MODE=watch && craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -101,5 +102,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "prettier": "^2.7.1",
+    "pretty-quick": "^3.1.3"
   }
 }
