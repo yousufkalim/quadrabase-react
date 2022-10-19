@@ -877,17 +877,16 @@ const ProjectView = () => {
     try {
       let res;
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXSimpleEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXTradesEstimation(projectWorkData, currentProject, true);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXTradesAndTranchesEstimation(projectWorkData, currentProject, true);
       } else {
         console.trace('Show me');
+        return;
       }
-      setBlob(res.blob);
-      setFilename(res.filename);
-      setOpenDQEReportModal(true);
+      downloadBlob(res.blob, res.filename);
     } catch (e) {
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
@@ -1551,7 +1550,7 @@ const ProjectView = () => {
                         {t('Generate Estimate')}
                       </MenuItem>
                       <MenuItem
-                        onClick={openDQEModal}
+                        onClick={generateDQE}
                         style={{ height: 28, fontSize: 15 }}
                         disabled={currentProject.structure == 'DPGF'}>
                         {t('Generate The DQE')}
