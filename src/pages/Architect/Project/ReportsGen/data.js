@@ -16,7 +16,7 @@ import {
   l4Text,
   l3Text,
   l2Text,
-  l1Text,
+  l1Text
 } from './docxFormatting';
 
 const tagsRegEx = /<\/?[^>]+(>|$)/g;
@@ -38,7 +38,7 @@ function headGen(headingName, projectName) {
 function rowsGenSimpleEstimation(data, noPrice) {
   const rows = rowsGenEstimationHandleWorksAndWorkDetails({
     data: data,
-    noPrice,
+    noPrice
   });
   return rows;
 }
@@ -54,7 +54,7 @@ function rowsGenTradesEstimation(data, noPrice) {
     const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
       data: tradeData,
       prefix: `${i + 1}.`,
-      noPrice: noPrice,
+      noPrice: noPrice
     });
     tradeObj.trade = tradeTitle;
     tradeObj.rows = workAndDetailsRows;
@@ -81,7 +81,7 @@ function rowsGenTradesAndTranchesEstimation(data, noPrice) {
       const workAndDetailsRows = rowsGenEstimationHandleWorksAndWorkDetails({
         data: tranchDataArr,
         prefix: `${i + 1}.${j + 1}.`,
-        noPrice: noPrice,
+        noPrice: noPrice
       });
       tranchObj.tranch = tranchTitle;
       tranchObj.rows = workAndDetailsRows;
@@ -113,7 +113,7 @@ function rowsGenTradesDPGF(data) {
     rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tradeData, `${i + 1}`);
     let number = 1;
     let prevWork;
-    workAndDetailsRows = workAndDetailsRows.map((_) => {
+    workAndDetailsRows = workAndDetailsRows.map(_ => {
       if (typeof _[1] === 'string') {
         _[0] = `${prevWork}.${number}`;
         number += 1;
@@ -149,7 +149,7 @@ function rowsGenTradesAndTranchesDPGF(data) {
       rowsGenDPGFHandleWorksAndWorkDetails(workAndDetailsRows, tranchDataArr, `${i + 1}.${j + 1}`);
       let number = 1;
       let prevWork;
-      workAndDetailsRows = workAndDetailsRows.map((_) => {
+      workAndDetailsRows = workAndDetailsRows.map(_ => {
         if (typeof _[1] === 'string') {
           _[0] = `${prevWork}.${number}`;
           number += 1;
@@ -193,9 +193,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arr.push('');
         arr.push('');
       } else {
-        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.')?.replace(' ', ',') ?? '0.00');
         arr.push(
-          formatNumber(((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2), '.')?.replace(' ', ',')
+          formatNumber(data[i].work?.unit_price?.toFixed(2), '.')?.replace(' ', ',') ?? '0.00'
+        );
+        arr.push(
+          formatNumber(
+            ((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2),
+            '.'
+          )?.replace(' ', ',')
         );
       }
 
@@ -206,7 +211,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         const arrD = [];
 
         arrD.push(`${prefix}${workIndex + 1}.1`);
-        arrD.push(`<i>${data[i].workDetails.name}</i>`);
+        arrD.push(`${data[i].workDetails.name}`);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
         arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
@@ -214,9 +219,14 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
           arrD.push(
-            formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+            formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ',')
+          );
+          arrD.push(
+            formatNumber(
+              (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
+              '.'
+            )?.replace(' ', ',')
           );
         }
 
@@ -228,7 +238,7 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       const arrD = [];
 
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
-      arrD.push(`<i>${data[i].workDetails.name}</i>`);
+      arrD.push(`${data[i].workDetails.name}`);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
       arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
 
@@ -238,7 +248,10 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       } else {
         arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
         arrD.push(
-          formatNumber((data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2), '.')?.replace(' ', ',')
+          formatNumber(
+            (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
+            '.'
+          )?.replace(' ', ',')
         );
       }
 
@@ -273,11 +286,13 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arr.push(`${prefix}.${workIndex + 1}`);
       const obj = {
         title: data[i].work.name,
-        bpu: data[i].work.bpu_text[0],
+        bpu: data[i].work.bpu_text[0]
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',')?.replace(' ', ',') ?? '');
+      arr.push(
+        formatNumber(data[i].work?.quantity?.toFixed(2))?.replace(' ', ',')?.replace(' ', ',') ?? ''
+      );
       arr.push('');
       arr.push('');
 
@@ -337,7 +352,7 @@ function rowsGenDPGFHandleWorksAndWorkDetailsForSimple(toBeModifiedArr, data) {
       arr.push(`${workIndex + 1}`);
       const obj = {
         title: data[i].work.name,
-        bpu: data[i].work.bpu_text[0],
+        bpu: data[i].work.bpu_text[0]
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
@@ -655,7 +670,9 @@ function pdfParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[j] = `Total ${trade.trade}:`;
     } else if (j == 5) {
-      tradeTotalHTObj[j] = !noPrice ? formatNumber(tradeTotal?.toFixed(2))?.replace(' ', ',') ?? '' : '';
+      tradeTotalHTObj[j] = !noPrice
+        ? formatNumber(tradeTotal?.toFixed(2))?.replace(' ', ',') ?? ''
+        : '';
     } else {
       tradeTotalHTObj[j] = '';
     }
@@ -921,8 +938,14 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
+        ' ',
+        ','
+      ),
+      formatNumber(
+        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
+        '.'
+      )?.replace(' ', ',')
     ];
   } else {
     footerData = ['', '', ''];
@@ -963,8 +986,14 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
+        ' ',
+        ','
+      ),
+      formatNumber(
+        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
+        '.'
+      )?.replace(' ', ',')
     ];
   } else {
     footerData = ['', '', ''];
@@ -983,7 +1012,7 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
 
   data.map(({ ...item }) => {
     let tempArray2 = [];
-    item.data.map((item2) => {
+    item.data.map(item2 => {
       let tempObject = {};
       tempObject.tranch = item2.tranch.name;
       tempObject.ranking = item2.tranch.ranking;
@@ -1008,8 +1037,14 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
   if (!noPrice) {
     footerData = [
       formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')?.replace(' ', ','),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
+        ' ',
+        ','
+      ),
+      formatNumber(
+        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
+        '.'
+      )?.replace(' ', ',')
     ];
   } else {
     footerData = ['', '', ''];
@@ -1054,7 +1089,7 @@ function xlsxParsedFooterDataGenEstimation(floatsRow, footerColumns, currentProj
   return xlsxParsedData;
 }
 
-const calculateWSCols = (arr) => {
+const calculateWSCols = arr => {
   let nameL = null;
   let unitL = null;
   for (let i = 0; i < arr.length; i++) {
@@ -1072,7 +1107,14 @@ const calculateWSCols = (arr) => {
     unitL = 10;
   }
 
-  const wscols = [{ wch: 10 }, { wch: nameL }, { wch: unitL }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
+  const wscols = [
+    { wch: 10 },
+    { wch: nameL },
+    { wch: unitL },
+    { wch: 10 },
+    { wch: 10 },
+    { wch: 10 }
+  ];
 
   return wscols;
 };
@@ -1089,10 +1131,14 @@ function rowsGenTradesBPU(data, type) {
     const currentObjTrade = data[i];
     const tradeObj = {
       rows: [`${i + 1}`, currentObjTrade._id, ''],
-      arr: [],
+      arr: []
     };
     const worksAndWorkDetailsArr = currentObjTrade.data;
-    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(worksAndWorkDetailsArr, type, `${i + 1}.`);
+    const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(
+      worksAndWorkDetailsArr,
+      type,
+      `${i + 1}.`
+    );
     tradeObj.arr.push(...worksAndWorkDetailsArrParsed);
     rows.push(tradeObj);
   }
@@ -1107,14 +1153,14 @@ function rowsGenTradesAndTranchesBPU(data, type) {
     const currentObjTrade = data[i];
     const tradeObj = {
       rows: [`${i + 1}`, currentObjTrade._id, ''],
-      arr: [],
+      arr: []
     };
     const tranchesArr = currentObjTrade.data;
     for (let j = 0; j < tranchesArr.length; j++) {
       const currentObjTranch = tranchesArr[j];
       const tranchObj = {
         rows: [`${i + 1}.${j + 1}`, currentObjTranch.tranch, ''],
-        arr: [],
+        arr: []
       };
       const worksAndWorkDetailsArr = currentObjTranch.tranchData;
       const worksAndWorkDetailsArrParsed = rowsGenBPUHandleWorksAndWorkdetails(
@@ -1152,7 +1198,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         title: data[i].work.name,
         text: data[i].work.bpu_text[0],
         unit: data[i].work?.unit?.name,
-        type: 'work',
+        type: 'work'
       };
       arr1.push(obj);
       if (data[i].workDetails) {
@@ -1169,7 +1215,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
         const obj = {
           title: data[i].workDetails.name,
           text: data[i].workDetails.unit.name,
-          type: 'workDetail',
+          type: 'workDetail'
         };
         arr2.push(obj);
         arr2.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1184,7 +1230,7 @@ function rowsGenBPUHandleWorksAndWorkdetails(data, type, prefix = '') {
       const obj = {
         title: data[i].workDetails.name,
         text: data[i].workDetails.unit.name,
-        type: 'workDetail',
+        type: 'workDetail'
       };
       arr1.push(obj);
       arr1.push(type === 'pdf' ? 'PU HT<br>(en chiffres)' : '<p>PU HT<br>(en chiffres)</p>');
@@ -1222,7 +1268,7 @@ function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     if (selectedCCTPIndexes.includes(i + 1)) {
       const obj = {
         title: `${cctpArr[i + 1]}`,
-        arr: findCCTPsSimple(data, i, selectedCCTPIndexes),
+        arr: findCCTPsSimple(data, i, selectedCCTPIndexes)
       };
       cctps.push(obj);
     }
@@ -1230,7 +1276,7 @@ function rowsGenSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const obj = {
     chap0,
-    cctps,
+    cctps
   };
 
   return obj;
@@ -1254,7 +1300,7 @@ function rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     if (selectedCCTPIndexes.includes(i + 1)) {
       const obj = {
         title: `${cctpArr[i + 1]}`,
-        arr: findCCTPsTrades(data, i),
+        arr: findCCTPsTrades(data, i)
       };
       cctps.push(obj);
     }
@@ -1262,7 +1308,7 @@ function rowsGenTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const obj = {
     chap0,
-    cctps,
+    cctps
   };
 
   return obj;
@@ -1286,7 +1332,7 @@ function rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes)
     if (selectedCCTPIndexes.includes(i + 1)) {
       const obj = {
         title: `${cctpArr[i + 1]}`,
-        arr: findCCTPsTradesAndTranches(data, i),
+        arr: findCCTPsTradesAndTranches(data, i)
       };
       cctps.push(obj);
     }
@@ -1294,7 +1340,7 @@ function rowsGenTradesAndTranchesCCTP(data, currentProject, selectedCCTPIndexes)
 
   const obj = {
     chap0,
-    cctps,
+    cctps
   };
 
   return obj;
@@ -1320,7 +1366,7 @@ function parseChap0(currentProject) {
       firstname: _?.firstname?.length > 0 ? _?.firstname : null,
       lastname: _?.lastname?.length > 0 ? _?.lastname : null,
       email: _?.email?.length > 0 ? _?.email : null,
-      phone: _?.contact_no?.length > 0 ? `Tel. : ${_?.contact_no}` : null,
+      phone: _?.contact_no?.length > 0 ? `Tel. : ${_?.contact_no}` : null
     };
     _stakeholders.push(obj);
   }
@@ -1333,7 +1379,7 @@ function parseChap0(currentProject) {
     description: currentProject?.description ?? '',
     market_type: _translatedMarketType(currentProject?.market_type),
     structure: currentProject?.structure ?? '',
-    stakeholders: _stakeholders,
+    stakeholders: _stakeholders
   };
 
   // Parse chap0part2
@@ -1343,20 +1389,20 @@ function parseChap0(currentProject) {
     const _ = {
       title: `0.${i + 2} ${lvl1.title}`,
       text: lvl1.text,
-      lvl2: [],
+      lvl2: []
     };
     for (let j = 0; j < lvl1.level2.length; j++) {
       const lvl2 = lvl1.level2[j];
       const __ = {
         title: `0.${i + 2}.${j + 1} ${lvl2.title}`,
         text: lvl2.text,
-        lvl3: [],
+        lvl3: []
       };
       for (let k = 0; k < lvl2.level3.length; k++) {
         const lvl3 = lvl2.level3[k];
         const ___ = {
           title: `0.${i + 2}.${j + 1}.${k + 1} ${lvl3.title}`,
-          text: lvl3.text,
+          text: lvl3.text
         };
         __.lvl3.push(___);
       }
@@ -1367,7 +1413,7 @@ function parseChap0(currentProject) {
 
   const obj = {
     part1: part1,
-    part2: part2,
+    part2: part2
   };
 
   return obj;
@@ -1431,21 +1477,21 @@ function sorterCCTPsTrades(data, index) {
 
 function parseSorterWorks(works, index) {
   // Delete repeated works
-  const workIDs = works.map((_) => _.work._id);
+  const workIDs = works.map(_ => _.work._id);
   works = works.filter((_, i) => !workIDs.includes(_.work._id, i + 1));
 
-  let libraries = works.map((_) => _.work_library);
-  let categories = works.map((_) => _.work_category);
+  let libraries = works.map(_ => _.work_library);
+  let categories = works.map(_ => _.work_category);
 
   // Delete repeated libraries
-  const libraryIDs = libraries.map((_) => _._id);
+  const libraryIDs = libraries.map(_ => _._id);
   libraries = libraries.filter((_, i) => !libraryIDs.includes(_._id, i + 1));
 
   // Delete repeated categories
-  const categoryIDs = categories.map((_) => _._id);
+  const categoryIDs = categories.map(_ => _._id);
   categories = categories.filter((_, i) => !categoryIDs.includes(_._id, i + 1));
 
-  libraries = libraries.map((_) => {
+  libraries = libraries.map(_ => {
     let cctp;
     if (_.cctp_text[index]) {
       cctp = _.cctp_text[index];
@@ -1453,7 +1499,7 @@ function parseSorterWorks(works, index) {
     return { _id: _._id, title: _.name, cctp: cctp, categories: _.categories, pcategories: [] };
   });
 
-  categories = categories.map((_) => {
+  categories = categories.map(_ => {
     let cctp;
     if (_.cctp_text[index]) {
       cctp = _.cctp_text[index];
@@ -1499,7 +1545,7 @@ function parseCCTPData(data, index) {
     const libObj = {
       title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
       cctp: currentObjLib.cctp,
-      arr: [],
+      arr: []
     };
     const catsArr = currentObjLib.pcategories;
     for (let j = 0; j < catsArr.length; j++) {
@@ -1507,7 +1553,7 @@ function parseCCTPData(data, index) {
       const catObj = {
         title: `${index + 1}.${i + 1}.${j + 1} ${currentObjCat.title}`,
         cctp: currentObjCat.cctp,
-        arr: [],
+        arr: []
       };
       const workAndWorkDetailsArr = currentObjCat.pworks;
       let kIndex = 1;
@@ -1520,7 +1566,7 @@ function parseCCTPData(data, index) {
         if (_cctpArr[index]) {
           const workObj = {
             title: `${index + 1}.${i + 1}.${j + 1}.${kIndex} ${currentObjWork.work.name}`,
-            text: _cctpArr[index],
+            text: _cctpArr[index]
           };
           catObj.arr.push(workObj);
           kIndex++;
@@ -1559,15 +1605,15 @@ function handleImportedCCTPs(str) {
       new TextRun({
         text: strArr[i],
         size: 20,
-        break: i == 0 ? 0 : 1, // If first string then no line breaks
+        break: i == 0 ? 0 : 1 // If first string then no line breaks
       })
     );
   }
 
   const objsArr = [
     new Paragraph({
-      children: [...textRunArr],
-    }),
+      children: [...textRunArr]
+    })
   ];
 
   return objsArr;
@@ -1580,7 +1626,9 @@ async function handleBuiltInCCTPs(str, size) {
   const docxObjsArr = [];
   for (let i = 0; i < parsedObjsArr.length; i++) {
     let currentObj = parsedObjsArr[i];
-    let docxObj = tagsToDocxMap[currentObj.tagName] && (await tagsToDocxMap[currentObj.tagName](currentObj, size));
+    let docxObj =
+      tagsToDocxMap[currentObj.tagName] &&
+      (await tagsToDocxMap[currentObj.tagName](currentObj, size));
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1605,7 +1653,7 @@ function parseHTMLTag(str) {
       tagName: _.tagName,
       innerHTML: _.innerHTML,
       classList: _.classList,
-      src: _.src,
+      src: _.src
     };
     parsedObjsArr.push(obj);
   }
@@ -1627,7 +1675,8 @@ const tagsToDocxMap = {
         const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
           const obj = parsedObjsArr[j];
-          const objElm = tagsToDocxMap[obj.tagName] && (await tagsToDocxMap[obj.tagName](obj, size));
+          const objElm =
+            tagsToDocxMap[obj.tagName] && (await tagsToDocxMap[obj.tagName](obj, size));
           if (objElm) {
             objsArr.push(objElm);
           }
@@ -1644,9 +1693,9 @@ const tagsToDocxMap = {
     return new Paragraph({
       children: [
         new TextRun({
-          text: '', // We know this for sure
-        }),
-      ],
+          text: '' // We know this for sure
+        })
+      ]
     });
   },
   STRONG: async function (_, size) {
@@ -1659,9 +1708,9 @@ const tagsToDocxMap = {
           text: text,
           font: fontType,
           size: size ?? l2Font,
-          bold: true,
-        }),
-      ],
+          bold: true
+        })
+      ]
     });
   },
   EM: async function (_, size) {
@@ -1674,9 +1723,9 @@ const tagsToDocxMap = {
           text: text,
           font: fontType,
           size: size ?? l2Font,
-          italics: true,
-        }),
-      ],
+          italics: true
+        })
+      ]
     });
   },
   U: async function (_, size) {
@@ -1691,10 +1740,10 @@ const tagsToDocxMap = {
           size: size ?? l2Font,
           underline: {
             color: '#f2f2f2',
-            type: UnderlineType.DASH,
-          },
-        }),
-      ],
+            type: UnderlineType.DASH
+          }
+        })
+      ]
     });
   },
   S: async function (_, size) {
@@ -1707,9 +1756,9 @@ const tagsToDocxMap = {
           text: text,
           font: fontType,
           size: size ?? l2Font,
-          strike: true,
-        }),
-      ],
+          strike: true
+        })
+      ]
     });
   },
   OL: async function (_) {
@@ -1727,8 +1776,8 @@ const tagsToDocxMap = {
     return new Paragraph({
       text: text,
       bullet: {
-        level: 0,
-      },
+        level: 0
+      }
     });
   },
   SPAN: async function (_) {
@@ -1751,14 +1800,14 @@ const tagsToDocxMap = {
         new TextRun({
           text: text,
           font: fontType,
-          size: size,
-        }),
-      ],
+          size: size
+        })
+      ]
     });
   },
   IMG: async function (_) {
     const response = await axios.get(_.src, {
-      responseType: 'arraybuffer',
+      responseType: 'arraybuffer'
     });
 
     const buffer = Buffer.from(response.data);
@@ -1775,16 +1824,16 @@ const tagsToDocxMap = {
       data: buffer,
       transformation: {
         height: height,
-        width: width,
-      },
+        width: width
+      }
     });
 
     const paragraph = new Paragraph({
-      children: [image],
+      children: [image]
     });
 
     return paragraph;
-  },
+  }
 };
 
 const dataColumnsEstimation = [
@@ -1793,14 +1842,16 @@ const dataColumnsEstimation = [
   localStorage.getItem('i18nextLng') == 'en' ? 'Unit' : 'Unité',
   localStorage.getItem('i18nextLng') == 'en' ? 'Qty' : 'Qté',
   'PU HT',
-  'Total HT',
+  'Total HT'
 ];
 
 const footerColumnsSimpleEstimation = [
   '',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total Lot n°1 :' : 'Total HT :',
   localStorage.getItem('i18nextLng') == 'en' ? 'Total VAT' : 'T.V.A',
-  localStorage.getItem('i18nextLng') == 'en' ? 'Total Amount including VAT :' : 'Montant total TTC :',
+  localStorage.getItem('i18nextLng') == 'en'
+    ? 'Total Amount including VAT :'
+    : 'Montant total TTC :'
 ];
 
 const dataColumnsBPU = ["'1", 'Lot n°1', ''];
@@ -1815,7 +1866,7 @@ function downloadBlob(blob, filename) {
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
+      view: window
     })
   );
   document.body.removeChild(link);
@@ -1878,5 +1929,5 @@ export {
   footerColumnsSimpleEstimation,
   dataColumnsBPU,
   downloadBlob,
-  blobFromURL,
+  blobFromURL
 };
