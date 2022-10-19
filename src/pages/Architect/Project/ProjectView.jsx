@@ -58,22 +58,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TechnicalDocModal from './Modals/TechnicalDoc';
 
-// Reports
-import {
-  exportPDFSimpleEstimation,
-  exportPDFTradesEstimation,
-  exportPDFTradesAndTranchesEstimation,
-  exportPDFSimpleBPU,
-  exportPDFTradesBPU,
-  exportPDFTradesAndTranchesBPU,
-  exportPDFSimpleDPGF,
-  exportPDFTradesDPGF,
-  exportPDFTradesAndTrancesDPGF,
-  exportPDFSimpleCCTP,
-  exportPDFTradesCCTP,
-  exportPDFTradesAndTranchesCCTP
-} from './ReportsGen/genPDF';
-
 import {
   exportXLSXSimpleEstimation,
   exportXLSXTradesEstimation,
@@ -626,18 +610,6 @@ const ProjectView = () => {
     setAnchorEl2(null);
   };
 
-  const openEstimationModal = () => {
-    handleClose();
-    generateEstimate();
-  };
-  const openDQEModal = () => {
-    handleClose();
-    generateDQE();
-  };
-  const openBPUModal = () => {
-    handleClose();
-    generateBPU();
-  };
   const openSelectCCTPModal = () => {
     handleClose();
     setOpenSelectCCTPReportModal(true);
@@ -645,10 +617,6 @@ const ProjectView = () => {
   const openCCTPModal = () => {
     handleClose();
     generateCCTP();
-  };
-  const openDPGFModal = () => {
-    handleClose();
-    generateDPGF();
   };
 
   const getLevel3 = async id => {
