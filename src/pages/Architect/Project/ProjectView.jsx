@@ -82,8 +82,11 @@ import {
 import { downloadBlob } from './ReportsGen/data';
 import {
   exportDOCXSimpleBPU,
+  exportDOCXSimpleDPGF,
   exportDOCXTradesAndTranchesBPU,
-  exportDOCXTradesBPU
+  exportDOCXTradesAndTranchesDPGF,
+  exportDOCXTradesBPU,
+  exportDOCXTradesDPGF
 } from './ReportsGen/genDocx';
 
 const StyledMenu = styled(props => (
@@ -951,17 +954,16 @@ const ProjectView = () => {
     try {
       let res;
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleDPGF(projectWorkData, currentProject);
+        res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesDPGF(projectWorkData, currentProject);
+        res = await exportDOCXTradesDPGF(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTrancesDPGF(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesDPGF(projectWorkData, currentProject);
       } else {
         console.trace('Show me');
+        return;
       }
-      setBlob(res.blob);
-      setFilename(res.filename);
-      setOpenDPGFReportModal(true);
+      downloadBlob(res.blob, res.filename);
     } catch (e) {
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
@@ -1566,7 +1568,7 @@ const ProjectView = () => {
                         {t('Generate BPU')}
                       </MenuItem>
                       <MenuItem
-                        onClick={openDPGFModal}
+                        onClick={generateDPGF}
                         style={{ height: 28, fontSize: 15 }}
                         disabled={currentProject.structure != 'DPGF'}>
                         {t('Generate DPGF')}
