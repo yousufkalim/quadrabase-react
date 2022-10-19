@@ -71,19 +71,26 @@ import {
   exportPDFTradesAndTrancesDPGF,
   exportPDFSimpleCCTP,
   exportPDFTradesCCTP,
-  exportPDFTradesAndTranchesCCTP,
+  exportPDFTradesAndTranchesCCTP
 } from './ReportsGen/genPDF';
 
-const StyledMenu = styled((props) => (
+import {
+  exportXLSXSimpleEstimation,
+  exportXLSXTradesEstimation,
+  exportXLSXTradesAndTranchesEstimation
+} from './ReportsGen/genExcel';
+import { downloadBlob } from './ReportsGen/data';
+
+const StyledMenu = styled(props => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'left',
+      horizontal: 'left'
     }}
     transformOrigin={{
       vertical: 'tp',
-      horizontal: 'left',
+      horizontal: 'left'
     }}
     {...props}
   />
@@ -96,19 +103,19 @@ const StyledMenu = styled((props) => (
     boxShadow:
       'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
     '& .MuiMenu-list': {
-      padding: '4px 0',
+      padding: '4px 0'
     },
     '& .MuiMenuItem-root': {
       '& .MuiSvgIcon-root': {
         fontSize: 18,
         color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
+        marginRight: theme.spacing(1.5)
       },
       '&:active': {
-        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
-      },
-    },
-  },
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity)
+      }
+    }
+  }
 }));
 
 const ProjectView = () => {
@@ -184,7 +191,7 @@ const ProjectView = () => {
   const [openDeleteTranchModal, setOpenDeleteTranchModal] = useState(false);
   const [selectedData, setSelectedData] = useState({
     type: '',
-    data: {},
+    data: {}
   });
   const [tranchesData, setTranchesData] = useState([]);
   const [selectedTrade, setSelectedTrade] = useState('');
@@ -227,7 +234,7 @@ const ProjectView = () => {
 
   useEffect(() => {
     if (selectedFamily && store.user && options) {
-      let tempFam = options.find((item) => item._id === selectedFamily);
+      let tempFam = options.find(item => item._id === selectedFamily);
       let famName = tempFam.name.toUpperCase();
       if (famName === 'PRESCRIPTEUR') {
         getProjectLibraries();
@@ -244,7 +251,7 @@ const ProjectView = () => {
 
   const getFamilies = async () => {
     const result = await api('get', `/Families/architect/getAll`);
-    let temp = result.data.families.find((item) => {
+    let temp = result.data.families.find(item => {
       let name = item.name.toUpperCase();
       return name === 'TRAVAUX PUBLICS';
     });
@@ -257,8 +264,8 @@ const ProjectView = () => {
     const result = await api('get', `/project/${id}`);
     setCurrentProject(result?.data?.project);
     let chap = result?.data?.project?.chap0part2;
-    chap.map((parentItem) => {
-      parentItem?.id?.level2?.map((item) => {
+    chap.map(parentItem => {
+      parentItem?.id?.level2?.map(item => {
         item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
       });
       parentItem.id.level2 = parentItem?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
@@ -271,7 +278,7 @@ const ProjectView = () => {
     if (currentProject.market_type === 'TradesAndTranches') {
       const result = await api('get', `/project/worksByTranches/${id}`);
       let data = result?.data?.works ?? [];
-      data.forEach((_) => {
+      data.forEach(_ => {
         const __ = _.data;
         __.sort((a, b) => a.work.ranking - b.work.ranking);
       });
@@ -299,9 +306,9 @@ const ProjectView = () => {
       setTotalHT(tempAmount?.toFixed(2));
 
       if (currentProject.market_type === 'TradesAndTranches') {
-        data.map((item) => {
+        data.map(item => {
           let tempArray2 = [];
-          item.data.map((item2) => {
+          item.data.map(item2 => {
             let tempObject = {};
             tempObject.tranch = item2.tranch.name;
             tempObject.ranking = item2.tranch.ranking;
@@ -340,7 +347,7 @@ const ProjectView = () => {
     } else if (currentProject.market_type === 'Trades') {
       const result = await api('get', `/project/worksByTrades/${id}`);
       let data = result?.data?.works ?? [];
-      data.forEach((_) => {
+      data.forEach(_ => {
         _.data.sort((a, b) => a.work.ranking - b.work.ranking);
       });
       let tempAmount = 0;
@@ -390,7 +397,8 @@ const ProjectView = () => {
   // func to get all general libraries
   const getProjectLibraries = async () => {
     try {
-      const response = store?.user?._id && (await api('get', `/BookLibraries/getByArchitect/${store.user._id}`));
+      const response =
+        store?.user?._id && (await api('get', `/BookLibraries/getByArchitect/${store.user._id}`));
       let temp = response?.data?.bookLibrary.sort((a, b) => a.ranking - b.ranking);
 
       setGeneralLibrariesData(temp);
@@ -417,7 +425,7 @@ const ProjectView = () => {
   };
 
   // func to get all general libraries
-  const getLevel2 = async (id) => {
+  const getLevel2 = async id => {
     try {
       setLoadingLevel(id);
       setCategories([]);
@@ -437,7 +445,7 @@ const ProjectView = () => {
       'delete',
       `/project/deleteWork/${currentProject._id}`,
       {
-        data: { workId: deleteWorkId },
+        data: { workId: deleteWorkId }
       },
       t
     );
@@ -452,7 +460,7 @@ const ProjectView = () => {
       'delete',
       `/project/deleteWorkDetail/${currentProject._id}`,
       {
-        data: { workDetailId: deleteWorkDetailId },
+        data: { workDetailId: deleteWorkDetailId }
       },
       t
     );
@@ -462,7 +470,7 @@ const ProjectView = () => {
   };
 
   // open modal func
-  const openModal = async (work) => {
+  const openModal = async work => {
     if (work.numberOfWorkDetails === 0) {
       setSelectedWork(work);
       setOpenWorkModal(true);
@@ -494,14 +502,14 @@ const ProjectView = () => {
     setOpenCctpModal(!openCctpModal);
   };
 
-  const handleOpenProvidersModal = (providers) => {
+  const handleOpenProvidersModal = providers => {
     if (providers) {
       setProviderList(providers);
     }
     setOpenProvidersModal(!openProvidersModal);
   };
 
-  const handleOpenDeleteWorkModal = (id) => {
+  const handleOpenDeleteWorkModal = id => {
     if (id) {
       setDeleteWorkId(id);
     }
@@ -512,7 +520,7 @@ const ProjectView = () => {
     setOpenDeleteTradeModal(!openDeleteTradeModal);
   };
 
-  const handleOpenDeleteChapModal = (item) => {
+  const handleOpenDeleteChapModal = item => {
     if (item?.item?._id) {
       setDeleteChap(item);
     }
@@ -523,28 +531,28 @@ const ProjectView = () => {
     setOpenDeleteTranchModal(!openDeleteTranchModal);
   };
 
-  const handleOpenDeleteWorkDetailModal = (id) => {
+  const handleOpenDeleteWorkDetailModal = id => {
     if (id) {
       setDeleteWorkDetailId(id);
     }
     setOpenDeleteWorkDetailModal(!openDeleteWorkDetailModal);
   };
 
-  const handleOpenEditWorkModal = (work) => {
+  const handleOpenEditWorkModal = work => {
     if (work) {
       setEditWork(work);
     }
     setOpenEditWorkModal(!openEditWorkModal);
   };
 
-  const handleOpenEditWWDModal = (work) => {
+  const handleOpenEditWWDModal = work => {
     if (work) {
       setEditWork(work);
     }
     setOpenEditWWDModal(!openEditWWDModal);
   };
 
-  const handleOpenEditWorkDetailModal = (workDetail) => {
+  const handleOpenEditWorkDetailModal = workDetail => {
     if (workDetail) {
       seteditWorkDetail(workDetail);
     }
@@ -554,8 +562,8 @@ const ProjectView = () => {
   const handleOpenEditChap0Part2Modal = () => {
     if (currentProject.chap0part2.length > 0) {
       let chap = currentProject.chap0part2;
-      chap.map((parentItem) => {
-        parentItem?.id?.level2?.map((item) => {
+      chap.map(parentItem => {
+        parentItem?.id?.level2?.map(item => {
           item.level3 = item?.level3?.sort((a, b) => a.ranking - b.ranking);
         });
         parentItem.id.level2 = parentItem?.id?.level2?.sort((a, b) => a.ranking - b.ranking);
@@ -567,7 +575,7 @@ const ProjectView = () => {
     }
   };
 
-  const handleOpenEditChapModal = (item) => {
+  const handleOpenEditChapModal = item => {
     if (item?.item?._id) {
       setEditChapItem(item);
       setOpenEditChapModal(true);
@@ -576,7 +584,7 @@ const ProjectView = () => {
     }
   };
 
-  const handleOpenAddChapModal = (item) => {
+  const handleOpenAddChapModal = item => {
     if (item?.item?._id) {
       setEditChapItem(item);
       setOpenAddChapModal(true);
@@ -591,7 +599,7 @@ const ProjectView = () => {
   const handleOpenUpdateTranchesModal = () => setOpenUpdateTranchesModal(!openUpdateTranchesModal);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -600,7 +608,7 @@ const ProjectView = () => {
 
   // for trades dropdown menu
   const open2 = Boolean(anchorEl2);
-  const handleClick2 = (event) => {
+  const handleClick2 = event => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
@@ -632,7 +640,7 @@ const ProjectView = () => {
     generateDPGF();
   };
 
-  const getLevel3 = async (id) => {
+  const getLevel3 = async id => {
     try {
       setLoadingLevel(id);
       const result = await api('get', `/BookLibraries/getLevel3/${id}`);
@@ -648,7 +656,7 @@ const ProjectView = () => {
     const result = await api('get', `/Tranches/${currentProject._id}`);
     const data = result.data.tranches.sort((a, b) => a.ranking - b.ranking);
     let temp = [];
-    data.map((item) => {
+    data.map(item => {
       if (item.trade === selectedTrade) {
         temp.push(item);
       }
@@ -666,10 +674,15 @@ const ProjectView = () => {
 
   // handle delete
   const handleTradeDelete = async () => {
-    const inUse = tranchesData.find((item) => item.trade === selectedData.data._id);
+    const inUse = tranchesData.find(item => item.trade === selectedData.data._id);
     if (!inUse) {
       if (tradesData.length > 1) {
-        const result = await api('delete', `/Trades/${selectedData.data._id}/${currentProject._id}`, {}, t);
+        const result = await api(
+          'delete',
+          `/Trades/${selectedData.data._id}/${currentProject._id}`,
+          {},
+          t
+        );
         toast.success(t(result.data.message));
         handleOpenDeleteTradeModal();
         getTrades();
@@ -685,7 +698,12 @@ const ProjectView = () => {
   // handle delete
   const handleTranchDelete = async () => {
     if (tranchesData.length > 1) {
-      const result = await api('delete', `/Tranches/${selectedData.data._id}/${currentProject._id}`, {}, t);
+      const result = await api(
+        'delete',
+        `/Tranches/${selectedData.data._id}/${currentProject._id}`,
+        {},
+        t
+      );
       toast.success(t(result.data.message));
       handleOpenDeleteTranchModal();
       getTranches();
@@ -705,8 +723,8 @@ const ProjectView = () => {
         {
           data: {
             type: deleteChap.type,
-            id: deleteChap.item._id,
-          },
+            id: deleteChap.item._id
+          }
         },
         t
       );
@@ -717,8 +735,8 @@ const ProjectView = () => {
         {
           data: {
             type: deleteChap.type,
-            id: deleteChap.item._id,
-          },
+            id: deleteChap.item._id
+          }
         },
         t
       );
@@ -729,17 +747,17 @@ const ProjectView = () => {
   };
 
   //trade Up
-  const handleTradeUp = async (id) => {
-    let filteredIndex = tradesData.findIndex((dt) => dt._id == id);
+  const handleTradeUp = async id => {
+    let filteredIndex = tradesData.findIndex(dt => dt._id == id);
     if (filteredIndex != 0) {
       let tempArr = [...tradesData];
       let prevIndex = filteredIndex - 1;
 
       api('put', `/Trades/${id}`, {
-        ranking: prevIndex,
+        ranking: prevIndex
       }).then(() => {
         api('put', `/Trades/${tradesData[prevIndex]._id}`, {
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = tradesData[filteredIndex - 1];
           tempArr[filteredIndex - 1] = tradesData[filteredIndex];
@@ -750,17 +768,17 @@ const ProjectView = () => {
   };
 
   //trade Down
-  const handleTradeDown = async (id) => {
-    let filteredIndex = tradesData.findIndex((dt) => dt._id == id);
+  const handleTradeDown = async id => {
+    let filteredIndex = tradesData.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== tradesData.length - 1) {
       let tempArr = [...tradesData];
       let nextIndex = filteredIndex + 1;
       api('put', `/Trades/${id}`, {
-        ranking: nextIndex,
+        ranking: nextIndex
       }).then(() => {
         api('put', `/Trades/${tradesData[nextIndex]._id}`, {
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = tradesData[nextIndex];
           tempArr[nextIndex] = tradesData[filteredIndex];
@@ -771,17 +789,17 @@ const ProjectView = () => {
   };
 
   //tranch Up
-  const handleTranchUp = async (id) => {
-    let filteredIndex = tranchesData.findIndex((dt) => dt._id == id);
+  const handleTranchUp = async id => {
+    let filteredIndex = tranchesData.findIndex(dt => dt._id == id);
     if (filteredIndex != 0) {
       let tempArr = [...tranchesData];
       let prevIndex = filteredIndex - 1;
 
       api('put', `/Tranches/${id}`, {
-        ranking: prevIndex,
+        ranking: prevIndex
       }).then(() => {
         api('put', `/Tranches/${tranchesData[prevIndex]._id}`, {
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = tranchesData[filteredIndex - 1];
           tempArr[filteredIndex - 1] = tranchesData[filteredIndex];
@@ -792,17 +810,17 @@ const ProjectView = () => {
   };
 
   //tranch Down
-  const handleTranchDown = async (id) => {
-    let filteredIndex = tranchesData.findIndex((dt) => dt._id == id);
+  const handleTranchDown = async id => {
+    let filteredIndex = tranchesData.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== tranchesData.length - 1) {
       let tempArr = [...tranchesData];
       let nextIndex = filteredIndex + 1;
       api('put', `/Tranches/${id}`, {
-        ranking: nextIndex,
+        ranking: nextIndex
       }).then(() => {
         api('put', `/Tranches/${tranchesData[nextIndex]._id}`, {
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = tranchesData[nextIndex];
           tempArr[nextIndex] = tranchesData[filteredIndex];
@@ -812,8 +830,8 @@ const ProjectView = () => {
     }
   };
 
-  const handleTradeSelect = (id) => setSelectedTrade(id);
-  const handleTrancheSelect = (id) => setSelectedTranche(id);
+  const handleTradeSelect = id => setSelectedTrade(id);
+  const handleTrancheSelect = id => setSelectedTranche(id);
 
   const handleTechnicalDoc = () => {
     let doc = [];
@@ -839,18 +857,16 @@ const ProjectView = () => {
     try {
       let res;
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleEstimation(projectWorkData, currentProject);
+        res = exportXLSXSimpleEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesEstimation(projectWorkData, currentProject);
+        res = exportXLSXTradesEstimation(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesEstimation(projectWorkData, currentProject);
+        res = exportXLSXTradesAndTranchesEstimation(projectWorkData, currentProject);
       } else {
         console.trace('Show me');
         return;
       }
-      setBlob(res.blob);
-      setFilename(res.filename);
-      setOpenEstimationReportModal(true);
+      downloadBlob(res.blob, res.filename);
     } catch (e) {
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
@@ -908,7 +924,11 @@ const ProjectView = () => {
       } else if (currentProject.market_type == 'Trades') {
         res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportPDFTradesAndTranchesCCTP(
+          projectWorkData,
+          currentProject,
+          selectedCCTPIndexes
+        );
       } else {
         console.trace('Show me');
       }
@@ -1014,18 +1034,30 @@ const ProjectView = () => {
               title={cctpModalTitle}
               open={openCctpModal}
               onClose={handleOpenCctpModal}
-              component={<CctpModal handleOpenCctpModal={handleOpenCctpModal} cctp_text={cctp_text} />}
+              component={
+                <CctpModal handleOpenCctpModal={handleOpenCctpModal} cctp_text={cctp_text} />
+              }
             />
             <Modal
               open={openDeleteWorkModal}
               onClose={handleOpenDeleteWorkModal}
-              component={<DeleteModal handleCancel={handleOpenDeleteWorkModal} handleDelete={handleDeleteWork} />}
+              component={
+                <DeleteModal
+                  handleCancel={handleOpenDeleteWorkModal}
+                  handleDelete={handleDeleteWork}
+                />
+              }
             />
 
             <Modal
               open={openDeleteWorkDetailModal}
               onClose={handleOpenDeleteWorkDetailModal}
-              component={<DeleteModal handleCancel={handleOpenDeleteWorkDetailModal} handleDelete={handleDeleteWorkDetail} />}
+              component={
+                <DeleteModal
+                  handleCancel={handleOpenDeleteWorkDetailModal}
+                  handleDelete={handleDeleteWorkDetail}
+                />
+              }
             />
             <Modal
               title={t('Edit a Work')}
@@ -1192,7 +1224,9 @@ const ProjectView = () => {
             />
 
             <Modal
-              title={editChapItem?.type === 'level0' ? t('Add Chap0 Level2') : t('Add Chap0 Level3')}
+              title={
+                editChapItem?.type === 'level0' ? t('Add Chap0 Level2') : t('Add Chap0 Level3')
+              }
               open={openAddChapModal}
               onClose={handleOpenAddChapModal}
               component={
@@ -1208,7 +1242,12 @@ const ProjectView = () => {
             <Modal
               open={openDeleteChap}
               onClose={handleOpenDeleteChapModal}
-              component={<DeleteModal handleCancel={handleOpenDeleteChapModal} handleDelete={handleChapDelete} />}
+              component={
+                <DeleteModal
+                  handleCancel={handleOpenDeleteChapModal}
+                  handleDelete={handleChapDelete}
+                />
+              }
             />
 
             <Modal
@@ -1242,7 +1281,12 @@ const ProjectView = () => {
             <Modal
               open={openDeleteTranchModal}
               onClose={handleOpenDeleteTranchModal}
-              component={<DeleteModal handleCancel={handleOpenDeleteTranchModal} handleDelete={handleTranchDelete} />}
+              component={
+                <DeleteModal
+                  handleCancel={handleOpenDeleteTranchModal}
+                  handleDelete={handleTranchDelete}
+                />
+              }
             />
             <Modal
               title={t('Add Trade')}
@@ -1273,19 +1317,33 @@ const ProjectView = () => {
               title={t('Providers')}
               open={openProvidersModal}
               onClose={handleOpenProvidersModal}
-              component={<ProviderModal handleOpenProviderModal={handleOpenProvidersModal} providers={providerList} />}
+              component={
+                <ProviderModal
+                  handleOpenProviderModal={handleOpenProvidersModal}
+                  providers={providerList}
+                />
+              }
             />
             <Modal
               open={openDeleteTradeModal}
               onClose={handleOpenDeleteTradeModal}
-              component={<DeleteModal handleCancel={handleOpenDeleteTradeModal} handleDelete={handleTradeDelete} />}
+              component={
+                <DeleteModal
+                  handleCancel={handleOpenDeleteTradeModal}
+                  handleDelete={handleTradeDelete}
+                />
+              }
             />
             <Modal
               title={t('Technical Doc')}
               open={openDocModal}
               onClose={handleDocModal}
               component={
-                <TechnicalDocModal handleDocModal={handleDocModal} technicalDoc={technicalDoc} onClose={handleDocModal} />
+                <TechnicalDocModal
+                  handleDocModal={handleDocModal}
+                  technicalDoc={technicalDoc}
+                  onClose={handleDocModal}
+                />
               }
             />
             <div className={classes.container}>
@@ -1300,16 +1358,14 @@ const ProjectView = () => {
                     variant="contained"
                     className={classes.btn}
                     startIcon={<BuildIcon style={{ color: '#f1966c', fontSize: 18 }} />}
-                    onClick={handleOpenPropertiesModal}
-                  >
+                    onClick={handleOpenPropertiesModal}>
                     {t('Properties')}
                   </Button>
                   <Button
                     variant="contained"
                     className={classes.btn}
                     startIcon={<LogoutIcon style={{ color: '#f1966c', fontSize: 18 }} />}
-                    onClick={() => history.push('/architect/index')}
-                  >
+                    onClick={() => history.push('/architect/index')}>
                     {t('To Leave')}
                   </Button>
                 </div>
@@ -1317,9 +1373,8 @@ const ProjectView = () => {
               <div
                 style={{
                   width: '100vw',
-                  display: 'flex',
-                }}
-              >
+                  display: 'flex'
+                }}>
                 <div className={classes.left_container}>
                   <div>
                     <div
@@ -1328,9 +1383,8 @@ const ProjectView = () => {
                         marginBottom: 15,
                         display: 'flex',
                         justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
+                        alignItems: 'center'
+                      }}>
                       <div>
                         <i>{t('General Libraries')}</i>a
                       </div>
@@ -1338,7 +1392,7 @@ const ProjectView = () => {
                     <InputDropdown
                       options={options}
                       value={selectedFamily}
-                      onChange={(e) => setSelectedFamily(e.target.value)}
+                      onChange={e => setSelectedFamily(e.target.value)}
                       height={40}
                       backgroundColor="white"
                     />
@@ -1366,10 +1420,10 @@ const ProjectView = () => {
                       display: 'flex',
                       justifyContent: 'center',
                       padding: 10,
-                      marginLeft: -20,
-                    }}
-                  >
-                    {(currentProject.market_type === 'TradesAndTranches' || currentProject.market_type === 'Trades') && (
+                      marginLeft: -20
+                    }}>
+                    {(currentProject.market_type === 'TradesAndTranches' ||
+                      currentProject.market_type === 'Trades') && (
                       <>
                         <Tooltip title="Ajouter un Lot" placement="top">
                           <ListIcon
@@ -1377,8 +1431,8 @@ const ProjectView = () => {
                               fontSize: 18,
                               cursor: 'pointer',
                               '&:hover': {
-                                color: '#f1966c',
-                              },
+                                color: '#f1966c'
+                              }
                             }}
                             onClick={handleTradesModal}
                           />
@@ -1388,9 +1442,8 @@ const ProjectView = () => {
                             marginRight: 10,
                             marginLeft: 10,
                             fontSize: 20,
-                            color: 'lightgray',
-                          }}
-                        >
+                            color: 'lightgray'
+                          }}>
                           |
                         </div>
                       </>
@@ -1403,8 +1456,8 @@ const ProjectView = () => {
                               fontSize: 18,
                               cursor: 'pointer',
                               '&:hover': {
-                                color: '#f1966c',
-                              },
+                                color: '#f1966c'
+                              }
                             }}
                             onClick={handleTranchesModal}
                           />
@@ -1415,9 +1468,8 @@ const ProjectView = () => {
                             marginRight: 10,
                             marginLeft: 10,
                             fontSize: 20,
-                            color: 'lightgray',
-                          }}
-                        >
+                            color: 'lightgray'
+                          }}>
                           |
                         </div>
                       </>
@@ -1429,8 +1481,8 @@ const ProjectView = () => {
                           fontSize: 18,
                           cursor: 'pointer',
                           '&:hover': {
-                            color: '#f1966c',
-                          },
+                            color: '#f1966c'
+                          }
                         }}
                         onClick={handleOpenEditChap0Part2Modal}
                       />
@@ -1440,9 +1492,8 @@ const ProjectView = () => {
                         marginRight: 10,
                         marginLeft: 10,
                         fontSize: 20,
-                        color: 'lightgray',
-                      }}
-                    >
+                        color: 'lightgray'
+                      }}>
                       |
                     </div>
                     <Box
@@ -1453,10 +1504,9 @@ const ProjectView = () => {
                       onClick={handleClick}
                       sx={{
                         '&:hover': {
-                          color: '#f1966c',
-                        },
-                      }}
-                    >
+                          color: '#f1966c'
+                        }
+                      }}>
                       <Tooltip title="Générer les documents" placement="top">
                         <div>
                           <InsertDriveFileIcon
@@ -1464,8 +1514,8 @@ const ProjectView = () => {
                               fontSize: 18,
                               cursor: 'pointer',
                               '&:hover': {
-                                color: '#f1966c',
-                              },
+                                color: '#f1966c'
+                              }
                             }}
                           />
                           <ArrowDropDownIcon
@@ -1473,8 +1523,8 @@ const ProjectView = () => {
                               fontSize: 18,
                               cursor: 'pointer',
                               '&:hover': {
-                                color: '#f1966c',
-                              },
+                                color: '#f1966c'
+                              }
                             }}
                           />
                         </div>
@@ -1488,36 +1538,34 @@ const ProjectView = () => {
                       onClose={handleClose}
                       anchorOrigin={{
                         vertical: 'top',
-                        horizontal: 'left',
+                        horizontal: 'left'
                       }}
                       transformOrigin={{
                         vertical: 'top',
-                        horizontal: 'left',
+                        horizontal: 'left'
                       }}
-                      sx={{ mt: 2.5 }}
-                    >
-                      <MenuItem onClick={openEstimationModal} style={{ width: 180, height: 28, fontSize: 15 }}>
+                      sx={{ mt: 2.5 }}>
+                      <MenuItem
+                        onClick={generateEstimate}
+                        style={{ width: 180, height: 28, fontSize: 15 }}>
                         {t('Generate Estimate')}
                       </MenuItem>
                       <MenuItem
                         onClick={openDQEModal}
                         style={{ height: 28, fontSize: 15 }}
-                        disabled={currentProject.structure == 'DPGF'}
-                      >
+                        disabled={currentProject.structure == 'DPGF'}>
                         {t('Generate The DQE')}
                       </MenuItem>
                       <MenuItem
                         onClick={openBPUModal}
                         style={{ height: 28, fontSize: 15 }}
-                        disabled={currentProject.structure == 'DPGF'}
-                      >
+                        disabled={currentProject.structure == 'DPGF'}>
                         {t('Generate BPU')}
                       </MenuItem>
                       <MenuItem
                         onClick={openDPGFModal}
                         style={{ height: 28, fontSize: 15 }}
-                        disabled={currentProject.structure != 'DPGF'}
-                      >
+                        disabled={currentProject.structure != 'DPGF'}>
                         {t('Generate DPGF')}
                       </MenuItem>
                       <Divider />
@@ -1536,9 +1584,8 @@ const ProjectView = () => {
                       backgroundColor: 'white',
                       height: '80vh',
                       overflow: 'hidden',
-                      marginRight: 50,
-                    }}
-                  >
+                      marginRight: 50
+                    }}>
                     <StyledMenu
                       id="demo-positioned-menu"
                       aria-labelledby="demo-positioned-button"
@@ -1547,14 +1594,13 @@ const ProjectView = () => {
                       onClose={handleClose2}
                       anchorOrigin={{
                         vertical: 'top',
-                        horizontal: 'left',
+                        horizontal: 'left'
                       }}
                       transformOrigin={{
                         vertical: 'top',
-                        horizontal: 'left',
+                        horizontal: 'left'
                       }}
-                      sx={{ mt: 2.5 }}
-                    >
+                      sx={{ mt: 2.5 }}>
                       <MenuItem
                         onClick={() => {
                           if (selectedData.type === 'trade') {
@@ -1563,8 +1609,7 @@ const ProjectView = () => {
                             handleOpenUpdateTranchesModal();
                           }
                           handleClose2();
-                        }}
-                      >
+                        }}>
                         {t('To Modify')}
                       </MenuItem>
                       <MenuItem
@@ -1583,8 +1628,7 @@ const ProjectView = () => {
                             }
                           }
                           handleClose2();
-                        }}
-                      >
+                        }}>
                         {t('To Delete')}
                       </MenuItem>
                       <MenuItem
@@ -1595,8 +1639,7 @@ const ProjectView = () => {
                             handleTranchUp(selectedData.data._id);
                           }
                           handleClose2();
-                        }}
-                      >
+                        }}>
                         {t('Up')}
                       </MenuItem>
                       <MenuItem
@@ -1607,22 +1650,24 @@ const ProjectView = () => {
                             handleTranchDown(selectedData.data._id);
                           }
                           handleClose2();
-                        }}
-                      >
+                        }}>
                         {t('Down')}
                       </MenuItem>
                     </StyledMenu>
                     <TableContainer component={Paper} sx={{ height: '85%' }}>
-                      <Table sx={{ tableLayout: 'auto' }} size="small" stickyHeader aria-label="sticky table">
+                      <Table
+                        sx={{ tableLayout: 'auto' }}
+                        size="small"
+                        stickyHeader
+                        aria-label="sticky table">
                         <TableHead>
                           <TableRow style={{ whiteSpace: 'nowrap' }}>
                             <TableCell
                               style={{
                                 fontWeight: 900,
                                 fontSize: 16,
-                                padding: '2px 16px',
-                              }}
-                            >
+                                padding: '2px 16px'
+                              }}>
                               {t('Designation')}
                             </TableCell>
                             <TableCell
@@ -1630,9 +1675,8 @@ const ProjectView = () => {
                               style={{
                                 fontWeight: 900,
                                 fontSize: 16,
-                                padding: '2px 16px',
-                              }}
-                            >
+                                padding: '2px 16px'
+                              }}>
                               {t('Unit')}
                             </TableCell>
                             <TableCell
@@ -1640,9 +1684,8 @@ const ProjectView = () => {
                               style={{
                                 fontWeight: 900,
                                 fontSize: 16,
-                                padding: '2px 16px',
-                              }}
-                            >
+                                padding: '2px 16px'
+                              }}>
                               {t('Qty')}
                             </TableCell>
                             <TableCell
@@ -1650,9 +1693,8 @@ const ProjectView = () => {
                               style={{
                                 fontWeight: 900,
                                 fontSize: 16,
-                                padding: '2px 16px',
-                              }}
-                            >
+                                padding: '2px 16px'
+                              }}>
                               PU HT
                             </TableCell>
                             <TableCell
@@ -1660,9 +1702,8 @@ const ProjectView = () => {
                               style={{
                                 fontWeight: 900,
                                 fontSize: 16,
-                                padding: '2px 16px',
-                              }}
-                            >
+                                padding: '2px 16px'
+                              }}>
                               {t('Total HT')}
                             </TableCell>
                           </TableRow>
@@ -1676,44 +1717,45 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item2._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108, 0.7)',
-                                      cursor: 'pointer',
-                                    }}
-                                  >
+                                        selectedTrade === item2._id
+                                          ? 'rgb(241, 150, 108)'
+                                          : 'rgba(241, 150, 108, 0.7)',
+                                      cursor: 'pointer'
+                                    }}>
                                     <TableCell
                                       component="th"
                                       scope="row"
                                       colSpan={5}
                                       onClick={() => handleTradeSelect(item2._id)}
                                       style={{
-                                        padding: '2px 16px',
-                                      }}
-                                    >
+                                        padding: '2px 16px'
+                                      }}>
                                       <div
                                         style={{
                                           width: '100%',
                                           fontSize: 16,
                                           fontWeight: 600,
-                                          display: 'flex',
-                                        }}
-                                      >
+                                          display: 'flex'
+                                        }}>
                                         {item2.name}{' '}
                                         {selectedTrade === item2._id && (
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={open2 ? 'demo-positioned-menu' : undefined}
+                                            aria-controls={
+                                              open2 ? 'demo-positioned-menu' : undefined
+                                            }
                                             aria-haspopup="true"
                                             aria-expanded={open2 ? 'true' : undefined}
-                                            onClick={(e) => {
+                                            onClick={e => {
                                               setSelectedData({
                                                 type: 'trade',
-                                                data: item2,
+                                                data: item2
                                               });
                                               handleClick2(e);
                                             }}
                                             sx={{
                                               fontSize: 18,
-                                              cursor: 'pointer',
+                                              cursor: 'pointer'
                                             }}
                                           />
                                         )}
@@ -1727,9 +1769,13 @@ const ProjectView = () => {
                                         <TradeTable
                                           projectWorkData={item.data}
                                           handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
-                                          handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
+                                          handleOpenDeleteWorkDetailModal={
+                                            handleOpenDeleteWorkDetailModal
+                                          }
                                           handleOpenEditWorkModal={handleOpenEditWorkModal}
-                                          handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
+                                          handleOpenEditWorkDetailModal={
+                                            handleOpenEditWorkDetailModal
+                                          }
                                           handleOpenEditWWDModal={handleOpenEditWWDModal}
                                           currentProject={currentProject}
                                           getworks={getworks}
@@ -1744,10 +1790,9 @@ const ProjectView = () => {
                                     style={{
                                       padding: '2px 16px',
                                       fontWeight: 600,
-                                      fontSize: 16,
+                                      fontSize: 16
                                     }}
-                                    align="right"
-                                  >
+                                    align="right">
                                     {item2.name} Total HT :
                                   </TableCell>
                                   <TableCell
@@ -1757,11 +1802,12 @@ const ProjectView = () => {
                                     style={{
                                       padding: '2px 16px',
                                       fontWeight: 600,
-                                      fontSize: 16,
+                                      fontSize: 16
                                     }}
-                                    align="right"
-                                  >
-                                    {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : '0,00'}
+                                    align="right">
+                                    {tradeTotalIndex !== -1
+                                      ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
+                                      : '0,00'}
                                   </TableCell>
                                   <br />
                                 </>
@@ -1775,10 +1821,11 @@ const ProjectView = () => {
                                   <TableRow
                                     sx={{
                                       backgroundColor:
-                                        selectedTrade === item3._id ? 'rgb(241, 150, 108)' : 'rgba(241, 150, 108,0.7)',
-                                      cursor: 'pointer',
-                                    }}
-                                  >
+                                        selectedTrade === item3._id
+                                          ? 'rgb(241, 150, 108)'
+                                          : 'rgba(241, 150, 108,0.7)',
+                                      cursor: 'pointer'
+                                    }}>
                                     <TableCell
                                       component="th"
                                       scope="row"
@@ -1793,33 +1840,33 @@ const ProjectView = () => {
                                         });
                                         handleTrancheSelect(temp[0]);
                                       }}
-                                      style={{ padding: '2px 16px' }}
-                                    >
+                                      style={{ padding: '2px 16px' }}>
                                       <div
                                         style={{
                                           width: '100%',
                                           fontSize: 16,
                                           fontWeight: 600,
-                                          display: 'flex',
-                                        }}
-                                      >
+                                          display: 'flex'
+                                        }}>
                                         {item3.name}{' '}
                                         {selectedTrade === item3._id && (
                                           <ArrowDropDownIcon
                                             id="demo-positioned-button"
-                                            aria-controls={open2 ? 'demo-positioned-menu' : undefined}
+                                            aria-controls={
+                                              open2 ? 'demo-positioned-menu' : undefined
+                                            }
                                             aria-haspopup="true"
                                             aria-expanded={open2 ? 'true' : undefined}
-                                            onClick={(e) => {
+                                            onClick={e => {
                                               setSelectedData({
                                                 type: 'trade',
-                                                data: item3,
+                                                data: item3
                                               });
                                               handleClick2(e);
                                             }}
                                             sx={{
                                               fontSize: 18,
-                                              cursor: 'pointer',
+                                              cursor: 'pointer'
                                             }}
                                           />
                                         )}
@@ -1834,43 +1881,45 @@ const ProjectView = () => {
                                         <>
                                           <TableRow
                                             sx={{
-                                              backgroundColor: selectedTranche === item4._id ? 'rgb(227, 226, 229)' : '#fff',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
+                                              backgroundColor:
+                                                selectedTranche === item4._id
+                                                  ? 'rgb(227, 226, 229)'
+                                                  : '#fff',
+                                              cursor: 'pointer'
+                                            }}>
                                             <TableCell
                                               colSpan={5}
                                               onClick={() => {
                                                 handleTrancheSelect(item4._id);
                                                 handleTradeSelect(item4.trade);
                                               }}
-                                              style={{ padding: '2px 16px' }}
-                                            >
+                                              style={{ padding: '2px 16px' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
                                                   fontSize: 16,
                                                   fontWeight: 600,
-                                                  display: 'flex',
-                                                }}
-                                              >
+                                                  display: 'flex'
+                                                }}>
                                                 {item4.name}
                                                 {selectedTranche === item4._id && (
                                                   <ArrowDropDownIcon
                                                     id="demo-positioned-button"
-                                                    aria-controls={open2 ? 'demo-positioned-menu' : undefined}
+                                                    aria-controls={
+                                                      open2 ? 'demo-positioned-menu' : undefined
+                                                    }
                                                     aria-haspopup="true"
                                                     aria-expanded={open2 ? 'true' : undefined}
-                                                    onClick={(e) => {
+                                                    onClick={e => {
                                                       setSelectedData({
                                                         type: 'tranch',
-                                                        data: item4,
+                                                        data: item4
                                                       });
                                                       handleClick2(e);
                                                     }}
                                                     sx={{
                                                       fontSize: 18,
-                                                      cursor: 'pointer',
+                                                      cursor: 'pointer'
                                                     }}
                                                   />
                                                 )}
@@ -1879,24 +1928,40 @@ const ProjectView = () => {
                                           </TableRow>
 
                                           {projectWorkData?.map((item, index) => {
-                                            if (item3?._id === item?.data[0]?.tranchData[0]?.trade?._id) {
+                                            if (
+                                              item3?._id ===
+                                              item?.data[0]?.tranchData[0]?.trade?._id
+                                            ) {
                                               tradeTotalIndex = index;
                                               return (
                                                 <>
                                                   {item.data.map((item2, index2) => {
-                                                    if (item2?.tranchData[0]?.tranch?._id === item4?._id) {
+                                                    if (
+                                                      item2?.tranchData[0]?.tranch?._id ===
+                                                      item4?._id
+                                                    ) {
                                                       tranchTotalAmount = item2.tranchAmount;
                                                       return (
                                                         <>
                                                           <TradeTable
                                                             projectWorkData={item2.tranchData}
-                                                            handleOpenDeleteWorkModal={handleOpenDeleteWorkModal}
-                                                            handleOpenDeleteWorkDetailModal={handleOpenDeleteWorkDetailModal}
-                                                            handleOpenEditWorkModal={handleOpenEditWorkModal}
-                                                            handleOpenEditWorkDetailModal={handleOpenEditWorkDetailModal}
+                                                            handleOpenDeleteWorkModal={
+                                                              handleOpenDeleteWorkModal
+                                                            }
+                                                            handleOpenDeleteWorkDetailModal={
+                                                              handleOpenDeleteWorkDetailModal
+                                                            }
+                                                            handleOpenEditWorkModal={
+                                                              handleOpenEditWorkModal
+                                                            }
+                                                            handleOpenEditWorkDetailModal={
+                                                              handleOpenEditWorkDetailModal
+                                                            }
                                                             currentProject={currentProject}
                                                             getworks={getworks}
-                                                            handleOpenEditWWDModal={handleOpenEditWWDModal}
+                                                            handleOpenEditWWDModal={
+                                                              handleOpenEditWWDModal
+                                                            }
                                                           />
                                                         </>
                                                       );
@@ -1908,14 +1973,15 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ padding: '2px 16px', fontSize: 16 }}>
                                               <div
                                                 style={{
                                                   width: '100%',
                                                   fontWeight: 600,
-                                                  textAlign: 'right',
-                                                }}
-                                              >
+                                                  textAlign: 'right'
+                                                }}>
                                                 {item4.name} Total HT :
                                               </div>
                                             </TableCell>
@@ -1925,9 +1991,8 @@ const ProjectView = () => {
                                                   width: '100%',
                                                   fontWeight: 600,
                                                   textAlign: 'right',
-                                                  fontSize: 16,
-                                                }}
-                                              >
+                                                  fontSize: 16
+                                                }}>
                                                 {formatNumber(tranchTotalAmount.toFixed(2))}
                                               </div>
                                             </TableCell>
@@ -1944,9 +2009,8 @@ const ProjectView = () => {
                                           width: '100%',
                                           fontWeight: 600,
                                           textAlign: 'right',
-                                          fontSize: 16,
-                                        }}
-                                      >
+                                          fontSize: 16
+                                        }}>
                                         {item3.name} Total HT :
                                       </div>
                                     </TableCell>
@@ -1956,10 +2020,11 @@ const ProjectView = () => {
                                           width: '100%',
                                           fontWeight: 600,
                                           textAlign: 'right',
-                                          fontSize: 16,
-                                        }}
-                                      >
-                                        {tradeTotalIndex !== -1 ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2)) : '0,00'}
+                                          fontSize: 16
+                                        }}>
+                                        {tradeTotalIndex !== -1
+                                          ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
+                                          : '0,00'}
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -1984,57 +2049,62 @@ const ProjectView = () => {
                     </TableContainer>
                     <div
                       style={{
-                        height: '15%',
-                      }}
-                    >
+                        height: '15%'
+                      }}>
                       <Divider style={{ backgroundColor: 'lightgray' }} />
                       <div
                         style={{
                           height: '100%',
                           display: 'flex',
-                          justifyContent: 'flex-end',
+                          justifyContent: 'flex-end'
                           // overflow: 'scroll',
-                        }}
-                      >
+                        }}>
                         <div
                           style={{
                             width: '50%',
                             padding: '20px 40px 0px',
                             fontWeight: 900,
-                            fontSize: '13px',
-                          }}
-                        >
+                            fontSize: '13px'
+                          }}>
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total HT')} :</div>
-                            <div className={classes.fotter_amount}>{formatNumber(parseFloat(totalHT)?.toFixed(2))} €</div>
+                            <div className={classes.fotter_amount}>
+                              {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
+                            </div>
                           </div>
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>
                               {t('VAT')} ({currentProject?.vat?.value?.toFixed(2)}%) :
                             </div>
                             <div className={classes.fotter_amount}>
-                              {formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2))} €
+                              {formatNumber(
+                                ((totalHT / 100) * currentProject?.vat?.value).toFixed(2)
+                              )}{' '}
+                              €
                             </div>
                           </div>
                           <div
                             style={{
                               width: '100%',
                               display: 'flex',
-                              justifyContent: 'flex-end',
-                            }}
-                          >
+                              justifyContent: 'flex-end'
+                            }}>
                             <div
                               style={{
                                 width: '28%',
                                 height: 1,
-                                backgroundColor: 'black',
-                              }}
-                            ></div>
+                                backgroundColor: 'black'
+                              }}></div>
                           </div>
                           <div className={classes.flex_container}>
-                            <div className={classes.fotter_text}>{t('Total  Amount  including  VAT')} :</div>
+                            <div className={classes.fotter_text}>
+                              {t('Total  Amount  including  VAT')} :
+                            </div>
                             <div className={classes.fotter_amount}>
-                              {formatNumber((totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2))} €
+                              {formatNumber(
+                                (totalHT * (1 + currentProject?.vat?.value / 100))?.toFixed(2)
+                              )}{' '}
+                              €
                             </div>
                           </div>
                         </div>
