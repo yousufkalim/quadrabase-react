@@ -82,10 +82,13 @@ import {
 import { downloadBlob } from './ReportsGen/data';
 import {
   exportDOCXSimpleBPU,
+  exportDOCXSimpleCCTP,
   exportDOCXSimpleDPGF,
   exportDOCXTradesAndTranchesBPU,
+  exportDOCXTradesAndTranchesCCTP,
   exportDOCXTradesAndTranchesDPGF,
   exportDOCXTradesBPU,
+  exportDOCXTradesCCTP,
   exportDOCXTradesDPGF
 } from './ReportsGen/genDocx';
 
@@ -924,27 +927,22 @@ const ProjectView = () => {
   async function generateCCTP() {
     try {
       let res;
-      setCCTP_loading(true);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesCCTP(
+        res = await exportDOCXTradesAndTranchesCCTP(
           projectWorkData,
           currentProject,
           selectedCCTPIndexes
         );
       } else {
         console.trace('Show me');
+        return;
       }
-      setCCTP_loading(false);
-      setBlob(res.blob);
-      setFilename(res.filename);
-      setCCTPURL(res.url);
-      setOpenCCTPReportModal(true);
+      downloadBlob(res.blob, res.filename);
     } catch (e) {
-      setCCTP_loading(false);
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
     }
