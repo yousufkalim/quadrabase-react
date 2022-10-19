@@ -80,6 +80,11 @@ import {
   exportXLSXTradesAndTranchesEstimation
 } from './ReportsGen/genExcel';
 import { downloadBlob } from './ReportsGen/data';
+import {
+  exportDOCXSimpleBPU,
+  exportDOCXTradesAndTranchesBPU,
+  exportDOCXTradesBPU
+} from './ReportsGen/genDocx';
 
 const StyledMenu = styled(props => (
   <Menu
@@ -897,17 +902,16 @@ const ProjectView = () => {
     try {
       let res;
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportPDFSimpleBPU(projectWorkData, currentProject);
+        res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportPDFTradesBPU(projectWorkData, currentProject);
+        res = await exportDOCXTradesBPU(projectWorkData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportPDFTradesAndTranchesBPU(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
       } else {
         console.trace('Show me');
+        return;
       }
-      setBlob(res.blob);
-      setFilename(res.filename);
-      setOpenBPUReportModal(true);
+      downloadBlob(res.blob, res.filename);
     } catch (e) {
       toast.error("Le rapport n'a pas été généré correctement.");
       console.trace(e);
@@ -1556,7 +1560,7 @@ const ProjectView = () => {
                         {t('Generate The DQE')}
                       </MenuItem>
                       <MenuItem
-                        onClick={openBPUModal}
+                        onClick={generateBPU}
                         style={{ height: 28, fontSize: 15 }}
                         disabled={currentProject.structure == 'DPGF'}>
                         {t('Generate BPU')}
