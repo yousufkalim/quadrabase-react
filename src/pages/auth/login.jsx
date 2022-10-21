@@ -93,6 +93,7 @@ const Login = () => {
               placeholder="**********"
               labelFont={18}
               style={InputStyle}
+              ignoreCase={true}
             />
             <div className="forget-pass">
               {!showPassword ? (
