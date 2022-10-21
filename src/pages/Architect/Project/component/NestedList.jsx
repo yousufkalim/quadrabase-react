@@ -90,6 +90,17 @@ const NestedList = (props) => {
     }
   };
 
+  // for level 3
+  const [openLevel3, setOpenLevel3] = React.useState('');
+
+  const handleClicklevel3 = (id) => {
+    if (id) {
+      setOpenLevel3(id);
+    } else {
+      setOpenLevel3('');
+    }
+  };
+
   // dropdown menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [menuItem, setMenuItem] = React.useState([]);
@@ -102,6 +113,7 @@ const NestedList = (props) => {
   const handleAnchorElClose = () => {
     setAnchorEl(null);
   };
+  console.log("props",props)
 
   return (
     <List
@@ -382,16 +394,44 @@ const NestedList = (props) => {
                       <Collapse in={open2} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                           {props.level3?.map((item3) => {
+                            let open3 = openLevel3 === item3._id;
                             return (
                               <>
                                 <ListItem sx={{ pl: 8, height: 28 }}>
                                   <ListItemIcon sx={{ mr: -3 }}>
-                                    <CircleIcon
+                                  {open3 ? (
+                            <ExpandLess
+                              sx={{
+                                color: '#f2966c',
+                                fontSize: 24,
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                props.setLevel4([]);
+                                handleClicklevel3();
+                              }}
+                            />
+                          ) : (
+                            <ExpandMore
+                              sx={{
+                                color: '#f2966c',
+                                fontSize: 24,
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                handleClicklevel3(item3._id);
+                                props.getLevel4(item3);
+                              }}
+                            />
+                          )}
+
+                                    {/* <CircleIcon
                                       sx={{
                                         color: '#f2966c',
                                         fontSize: 14,
                                       }}
-                                    />
+                                    /> */}
+                                    
                                   </ListItemIcon>
                                   <ListItemText
                                     primary={
@@ -443,6 +483,84 @@ const NestedList = (props) => {
                                     onClick={() => props.openModal(item3)}
                                   />
                                 </ListItem>
+
+{/* add work detailZ */}
+
+{props.loading === item3._id && <LinearProgress color="inherit" />}
+                      <Collapse in={open3} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          {props.level4?.map((item4) => {
+                            return (
+                              <>
+                              {/* {console.log("item4",item4)} */}
+                                <ListItem sx={{ pl: 8, height: 28 }}>
+                                  <ListItemIcon sx={{ mr: -3 }}>
+                                    <CircleIcon
+                                      sx={{
+                                        color: '#f2966c',
+                                        fontSize: 14,
+                                      }}
+                                    />
+                                    
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary={
+                                      <NoMaxWidthTooltip
+                                        title={item4?.name}
+                                        placement="top"
+                                        TransitionComponent={Zoom}
+                                      >
+                                        <div
+                                          style={{
+                                            fontSize: 13,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            cursor: 'default',
+                                          }}
+                                        >
+                                          <div
+                                            style={{
+                                              whiteSpace: 'nowrap',
+                                              overflow: 'hidden',
+                                              textOverflow: 'ellipsis',
+                                            }}
+                                          >
+                                            {item4?.name}
+                                          </div>
+                                          {/* <ArrowDropDownIcon
+                                            id="demo-positioned-button"
+                                            aria-controls={
+                                              openLevel ? 'demo-positioned-menu' : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={openLevel ? 'true' : undefined}
+                                            // onClick={(e) => handleAnchorElClick(e, item3)}
+                                            sx={{
+                                              fontSize: 18,
+                                              cursor: 'pointer',
+                                            }}
+                                          /> */}
+                                        </div>
+                                      </NoMaxWidthTooltip>
+                                    }
+                                  />
+                                  {/* <AddCircleRoundedIcon
+                                    sx={{
+                                      color: '#f2966c',
+                                      fontSize: 18,
+                                      cursor: 'pointer',
+                                    }}
+                                    onClick={() => props.openModal(item3)}
+                                  /> */}
+                                </ListItem>
+
+                </>
+              );
+            })}  
+            </List>
+            </Collapse>
+{/* end */}
+
                               </>
                             );
                           })}

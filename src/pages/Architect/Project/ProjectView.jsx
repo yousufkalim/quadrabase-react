@@ -169,6 +169,7 @@ const ProjectView = () => {
   const [openDPGFReportModal, setOpenDPGFReportModal] = useState(false);
 
   const [works, setworks] = useState([]);
+  const [works4, setworks4] = useState([]);
   const [tradeTotal, setTradeTotal] = useState([]);
   const [openTranchesModal, setOpenTranchesModal] = useState(false);
   const [openTradesModal, setOpenTradesModal] = useState(false);
@@ -643,6 +644,34 @@ const ProjectView = () => {
       setLoadingLevel('');
     }
   };
+  const getLevel4 = async (work) => {
+    try {
+      console.log("work id isss",work._id)
+      setLoadingLevel(work._id);
+      if (work.numberOfWorkDetails === 0) {
+        
+        setLoadingLevel('');
+      }else{
+        setLoadingLevel(work._id);
+        const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
+        setworks4(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
+        setLoadingLevel('');
+      }
+        
+    } catch (err) {
+      setLoadingLevel('');
+    }
+  };
+  console.log("loading isss",loadingLevel)
+  // if (work.numberOfWorkDetails === 0) {
+  //   setSelectedWork(work);
+  //   setOpenWorkModal(true);
+  // } else {
+  //   const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
+  //   setSelectedWork(work);
+  //   setWorkDetails(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
+  //   setOpenWorkDetailModal(true);
+  // }
 
   const getTranches = async () => {
     const result = await api('get', `/Tranches/${currentProject._id}`);
@@ -1353,7 +1382,11 @@ const ProjectView = () => {
                       getLevel3={getLevel3}
                       setLevel3={setworks}
                       level3={works}
+                      getLevel4={getLevel4}
+                      setLevel4={setworks4}
+                      level4={works4}
                       loading={loadingLevel}
+                      
                       openModal={openModal}
                       openCctpModal={handleOpenCctpModal}
                       handleOpenProvidersModal={handleOpenProvidersModal}
