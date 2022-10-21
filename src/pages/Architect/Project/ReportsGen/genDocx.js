@@ -12,7 +12,7 @@ import {
   TableRow,
   VerticalAlign,
   TableOfContents,
-  ShadingType,
+  ShadingType
 } from 'docx';
 
 import {
@@ -39,7 +39,7 @@ import {
   footerDataGenSimpleDPGF,
   textRunsSplitGen,
   dataColumnsEstimation,
-  footerColumnsSimpleEstimation,
+  footerColumnsSimpleEstimation
 } from './data.js';
 
 import {
@@ -56,15 +56,18 @@ import {
   fontType,
   l0Text,
   ln1Font,
-  l0Font,
+  l0Font
 } from './docxFormatting';
 
 const Spacer = new Paragraph({
-  text: '',
+  text: ''
 });
 
 async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(
+    `${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(),
+    `${currentProject?.name ?? 'N/A'}`
+  );
 
   const rows = rowsGenSimpleEstimation(data, noPrice);
   const footerData = footerDataGenSimpleEstimation(data, currentProject, noPrice, true);
@@ -83,16 +86,16 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -102,22 +105,22 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -127,21 +130,21 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -155,17 +158,17 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 22,
-              bold: 'true',
-            }),
-          ],
-        }),
+              bold: 'true'
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: {
-        fill: '#DCDADA',
+        fill: '#DCDADA'
       },
-      columnSpan: i === 1 && 2,
+      columnSpan: i === 1 && 2
     });
 
     tableBodyColumns.push(tableCell);
@@ -190,22 +193,23 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
                 : AlignmentType.RIGHT,
             children: [
               new TextRun({
-                text: currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                text:
+                  currentRow[0].length === 3 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
                 size: 16,
-                italics: currentRow[0].length === 3 && (j === 1 || j === 0) ? true : false,
-              }),
-            ],
-          }),
+                italics: currentRow[0].length === 3 && (j === 1 || j === 0) ? true : false
+              })
+            ]
+          })
         ],
         verticalAlign: VerticalAlign.CENTER,
         margins: normalMargin,
         shading: i == 0 ? firstRowShade : null,
-        columnSpan: j === 1 && 2,
+        columnSpan: j === 1 && 2
       });
       tableRowCells.push(tableCell);
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -215,11 +219,11 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
       alignment: AlignmentType.CENTER,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const tableFooterRows = [];
@@ -233,15 +237,15 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimation[i],
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     const tableCell2 = new TableCell({
       children: [
@@ -250,20 +254,20 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
           children: [
             new TextRun({
               text: `${footerData[i]}`,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: i == 0 ? firstRowShade : null,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableFooterRows.push(tableRow);
   }
@@ -271,8 +275,8 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   const tableFooter = [
     new Table({
       alignment: AlignmentType.RIGHT,
-      rows: [...tableFooterRows],
-    }),
+      rows: [...tableFooterRows]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody, Spacer, ...tableFooter];
@@ -280,23 +284,28 @@ async function exportDOCXSimpleEstimation(data, currentProject, noPrice) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(
+    `${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(),
+    `${currentProject?.name ?? 'N/A'}`
+  );
 
   const rows = rowsGenTradesEstimation(data, noPrice);
   const footerData = footerDataGenTradesEstimation(data, currentProject, noPrice, false);
@@ -323,16 +332,16 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -342,22 +351,22 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -367,21 +376,21 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -395,17 +404,17 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 22,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: {
-        fill: '#DCDADA',
+        fill: '#DCDADA'
       },
-      columnSpan: i === 1 && 2,
+      columnSpan: i === 1 && 2
     });
 
     tableBodyColumns.push(tableCell);
@@ -434,14 +443,14 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                   new TextRun({
                     text: `${currentRow[j]}`,
                     size: 16,
-                    bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
-                  }),
-                ],
-              }),
+                    bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false
+                  })
+                ]
+              })
             ],
             verticalAlign: VerticalAlign.CENTER,
             margins: normalMargin,
-            columnSpan: j === 1 && 5,
+            columnSpan: j === 1 && 5
           });
           tableRowCells.push(tableCell);
         }
@@ -461,23 +470,26 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text: currentRow[0].length === 5 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                  text:
+                    currentRow[0].length === 5 && j === 1
+                      ? `  ${currentRow[j]}`
+                      : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 5 && (j === 1 || j === 0) ? true : false,
-                  bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false,
-                }),
-              ],
-            }),
+                  bold: currentRow[0].length === 1 || currentRow[0].length === 0 ? true : false
+                })
+              ]
+            })
           ],
           verticalAlign: VerticalAlign.CENTER,
           margins: normalMargin,
-          columnSpan: j === 1 && 2,
+          columnSpan: j === 1 && 2
         });
         tableRowCells.push(tableCell);
       }
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -487,11 +499,11 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
       alignment: AlignmentType.CENTER,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const tableFooterRows = [];
@@ -508,15 +520,15 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimationNoSpace[i],
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: firstRowShade,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     const tableCell2 = new TableCell({
       children: [
@@ -525,20 +537,20 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
           children: [
             new TextRun({
               text: `${footerData[i]}`,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: null,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableFooterRows.push(tableRow);
   }
@@ -546,8 +558,8 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   const tableFooter = [
     new Table({
       alignment: AlignmentType.RIGHT,
-      rows: [...tableFooterRows],
-    }),
+      rows: [...tableFooterRows]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody, Spacer, ...tableFooter];
@@ -555,23 +567,28 @@ async function exportDOCXTradesEstimation(data, currentProject, noPrice) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
   return { blob, filename };
 }
 
 async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPrice) {
-  const headArr = headGen(`${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(), `${currentProject?.name ?? 'N/A'}`);
+  const headArr = headGen(
+    `${noPrice ? 'DQE' : 'Estim'}`.toUpperCase(),
+    `${currentProject?.name ?? 'N/A'}`
+  );
 
   const rows = rowsGenTradesAndTranchesEstimation(data, noPrice);
   const footerData = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
@@ -580,7 +597,11 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
+    const currentRowDOCXParsedData = docxParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1,
+      noPrice
+    );
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
@@ -598,16 +619,16 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -617,22 +638,22 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -642,21 +663,21 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -670,17 +691,17 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 22,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: {
-        fill: '#DCDADA',
+        fill: '#DCDADA'
       },
-      columnSpan: i === 1 && 2,
+      columnSpan: i === 1 && 2
     });
 
     tableBodyColumns.push(tableCell);
@@ -709,14 +730,19 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   new TextRun({
                     text: `${currentRow[j]}`,
                     size: 16,
-                    bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
-                  }),
-                ],
-              }),
+                    bold:
+                      currentRow[0].length === 1 ||
+                      currentRow[0].length === 3 ||
+                      currentRow[0].length === 0
+                        ? true
+                        : false
+                  })
+                ]
+              })
             ],
             verticalAlign: VerticalAlign.CENTER,
             margins: normalMargin,
-            columnSpan: j === 1 && 5,
+            columnSpan: j === 1 && 5
           });
           tableRowCells.push(tableCell);
         }
@@ -736,23 +762,31 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
                   : AlignmentType.RIGHT,
               children: [
                 new TextRun({
-                  text: currentRow[0].length === 7 && j === 1 ? `  ${currentRow[j]}` : `${currentRow[j]}`,
+                  text:
+                    currentRow[0].length === 7 && j === 1
+                      ? `  ${currentRow[j]}`
+                      : `${currentRow[j]}`,
                   size: 16,
                   italics: currentRow[0].length === 7 && (j === 1 || j === 0) ? true : false,
-                  bold: currentRow[0].length === 1 || currentRow[0].length === 3 || currentRow[0].length === 0 ? true : false,
-                }),
-              ],
-            }),
+                  bold:
+                    currentRow[0].length === 1 ||
+                    currentRow[0].length === 3 ||
+                    currentRow[0].length === 0
+                      ? true
+                      : false
+                })
+              ]
+            })
           ],
           verticalAlign: VerticalAlign.CENTER,
           margins: normalMargin,
-          columnSpan: j === 1 && 2,
+          columnSpan: j === 1 && 2
         });
         tableRowCells.push(tableCell);
       }
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -762,11 +796,11 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
       alignment: AlignmentType.CENTER,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const tableFooterRows = [];
@@ -783,15 +817,15 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
           children: [
             new TextRun({
               text: footerColumnsSimpleEstimationNoSpace[i],
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: firstRowShade,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     const tableCell2 = new TableCell({
       children: [
@@ -800,20 +834,20 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
           children: [
             new TextRun({
               text: footerData[i],
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.CENTER,
       margins: normalMargin,
       shading: null,
-      width: { size: 50, type: WidthType.PERCENTAGE },
+      width: { size: 50, type: WidthType.PERCENTAGE }
     });
     tableRowCells.push(tableCell1);
     tableRowCells.push(tableCell2);
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableFooterRows.push(tableRow);
   }
@@ -821,8 +855,8 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   const tableFooter = [
     new Table({
       alignment: AlignmentType.RIGHT,
-      rows: [...tableFooterRows],
-    }),
+      rows: [...tableFooterRows]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody, Spacer, ...tableFooter];
@@ -830,18 +864,20 @@ async function exportDOCXTradesAndTranchesEstimation(data, currentProject, noPri
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }`;
   return { blob, filename };
 }
 
@@ -868,10 +904,10 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 text: work,
                 font: fontType,
                 size: l0Font,
-                italics: currentRow[1].type == 'workDetail' ? true : false,
-              }),
-            ],
-          }),
+                italics: currentRow[1].type == 'workDetail' ? true : false
+              })
+            ]
+          })
         ];
       } else if (j == 1) {
         docxObjs = [
@@ -882,15 +918,15 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 font: fontType,
                 size: l0Font,
                 bold: true,
-                italics: currentRow[1].type == 'workDetail' ? true : false,
-              }),
-            ],
+                italics: currentRow[1].type == 'workDetail' ? true : false
+              })
+            ]
           }),
           ...(currentRow[1].type == 'workDetail'
             ? [l0Text(`${work.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
             : await textRunsSplitGen(work.text, ln1Font)),
           work.unit && l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-          l0Text(''),
+          l0Text('')
         ];
       } else if (j == 2) {
         if (work) {
@@ -901,21 +937,21 @@ async function exportDOCXSimpleBPU(data, currentProject) {
       }
       const tableCell = new TableCell({
         children: docxObjs,
-        verticalAlign: VerticalAlign.TOP,
-        margins: normalMargin,
+        verticalAlign: VerticalAlign.CENTER,
+        margins: normalMargin
       });
       tableRowCells.push(tableCell);
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
 
   const tableBody = [
     new Table({
-      rows: [...tableBodyRows],
-    }),
+      rows: [...tableBodyRows]
+    })
   ];
 
   const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
@@ -923,14 +959,14 @@ async function exportDOCXSimpleBPU(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -959,13 +995,13 @@ async function exportDOCXTradesBPU(data, currentProject) {
         verticalAlign: VerticalAlign.TOP,
         margins: normalMargin,
         shading: {
-          fill: '#C0C0C0',
-        },
+          fill: '#C0C0C0'
+        }
       });
       tradeTableRowCells.push(tableCell);
     }
     const tradeTableRow = new TableRow({
-      children: tradeTableRowCells,
+      children: tradeTableRowCells
     });
     tableBodyRows.push(tradeTableRow);
 
@@ -983,10 +1019,10 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   text: workCurrentRow,
                   font: fontType,
                   size: l0Font,
-                  italics: work[1].type == 'workDetail' > 0 ? true : false,
-                }),
-              ],
-            }),
+                  italics: work[1].type == 'workDetail' > 0 ? true : false
+                })
+              ]
+            })
           ];
         } else if (k == 1) {
           docxObjs = [
@@ -997,15 +1033,16 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   font: fontType,
                   size: l0Font,
                   bold: true,
-                  italics: work[1].type == 'workDetail' > 0 ? true : false,
-                }),
-              ],
+                  italics: work[1].type == 'workDetail' > 0 ? true : false
+                })
+              ]
             }),
             ...(work[1].type == 'workDetail'
               ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
               : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
-            workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-            l0Text(''),
+            workCurrentRow.unit &&
+              l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
+            l0Text('')
           ];
         } else if (k == 2) {
           if (workCurrentRow) {
@@ -1017,12 +1054,12 @@ async function exportDOCXTradesBPU(data, currentProject) {
         const tableCell = new TableCell({
           children: docxObjs,
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         workTableRowCells.push(tableCell);
       }
       const workTableRow = new TableRow({
-        children: workTableRowCells,
+        children: workTableRowCells
       });
       tableBodyRows.push(workTableRow);
     }
@@ -1030,8 +1067,8 @@ async function exportDOCXTradesBPU(data, currentProject) {
 
   const tableBody = [
     new Table({
-      rows: [...tableBodyRows],
-    }),
+      rows: [...tableBodyRows]
+    })
   ];
 
   const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
@@ -1039,14 +1076,14 @@ async function exportDOCXTradesBPU(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1075,13 +1112,13 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
         verticalAlign: VerticalAlign.TOP,
         margins: normalMargin,
         shading: {
-          fill: '#C0C0C0',
-        },
+          fill: '#C0C0C0'
+        }
       });
       tradeTableRowCells.push(tableCell);
     }
     const tradeTableRow = new TableRow({
-      children: tradeTableRowCells,
+      children: tradeTableRowCells
     });
     tableBodyRows.push(tradeTableRow);
 
@@ -1095,12 +1132,12 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
         const tableCell = new TableCell({
           children: docxObjs,
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         tranchTableRowCells.push(tableCell);
       }
       const tranchTableRow = new TableRow({
-        children: tranchTableRowCells,
+        children: tranchTableRowCells
       });
       tableBodyRows.push(tranchTableRow);
 
@@ -1118,10 +1155,10 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     text: workCurrentRow,
                     font: fontType,
                     size: l0Font,
-                    italics: work[1].type == 'workDetail' > 0 ? true : false,
-                  }),
-                ],
-              }),
+                    italics: work[1].type == 'workDetail' > 0 ? true : false
+                  })
+                ]
+              })
             ];
           } else if (l == 1) {
             docxObjs = [
@@ -1132,15 +1169,16 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     font: fontType,
                     size: l0Font,
                     bold: true,
-                    italics: work[1].type == 'workDetail' > 0 ? true : false,
-                  }),
-                ],
+                    italics: work[1].type == 'workDetail' > 0 ? true : false
+                  })
+                ]
               }),
               ...(work[1].type == 'workDetail'
                 ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
                 : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
-              workCurrentRow.unit && l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-              l0Text(''),
+              workCurrentRow.unit &&
+                l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
+              l0Text('')
             ];
           } else if (l == 2) {
             if (workCurrentRow) {
@@ -1152,12 +1190,12 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           const tableCell = new TableCell({
             children: docxObjs,
             verticalAlign: VerticalAlign.TOP,
-            margins: normalMargin,
+            margins: normalMargin
           });
           workTableRowCells.push(tableCell);
         }
         const workTableRow = new TableRow({
-          children: workTableRowCells,
+          children: workTableRowCells
         });
         tableBodyRows.push(workTableRow);
       }
@@ -1166,8 +1204,8 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
 
   const tableBody = [
     new Table({
-      rows: [...tableBodyRows],
-    }),
+      rows: [...tableBodyRows]
+    })
   ];
 
   const children = [...tableHeader, ...tableBody, ...BPUSignatureSection];
@@ -1175,14 +1213,14 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1194,37 +1232,37 @@ const BPUSignatureSection = [
   new Paragraph({
     children: [
       new TextRun({
-        text: ``,
-      }),
-    ],
+        text: ``
+      })
+    ]
   }),
   new Paragraph({
     children: [
       new TextRun({
         text: `                 Fait à :                                   Le : `,
         font: fontType,
-        size: l0Font,
-      }),
-    ],
+        size: l0Font
+      })
+    ]
   }),
   new Paragraph({
     children: [
       new TextRun({
         text: `                 L'entrepreneur soussigné`,
         font: fontType,
-        size: l0Font,
-      }),
-    ],
+        size: l0Font
+      })
+    ]
   }),
   new Paragraph({
     children: [
       new TextRun({
         text: `                 Cachet et signature`,
         font: fontType,
-        size: l0Font,
-      }),
-    ],
-  }),
+        size: l0Font
+      })
+    ]
+  })
 ];
 
 async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
@@ -1238,7 +1276,7 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const tableOfContent = new TableOfContents('Summary', {
     hyperlink: true,
-    headingStyleRange: '1-5',
+    headingStyleRange: '1-5'
   });
 
   const tableOfContentSection = [
@@ -1246,15 +1284,16 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     new Paragraph({
       children: [
         new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          text:
+            localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
           size: l4Font,
-          font: fontType,
-        }),
+          font: fontType
+        })
       ],
-      heading: HeadingLevel.HEADING_6,
+      heading: HeadingLevel.HEADING_6
     }),
     tableOfContent,
-    Spacer,
+    Spacer
   ];
 
   // Parse Chap0
@@ -1274,11 +1313,11 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
         shading: {
           color: 'D9D9D9',
           type: ShadingType.SOLID,
-          fill: 'D9D9D9',
+          fill: 'D9D9D9'
         },
         spacing: {
           before: i == 0 ? 6 * 20 : 4 * 20,
-          after: 3 * 20,
+          after: 3 * 20
         },
         children: [
           new TextRun({
@@ -1286,10 +1325,10 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
-            color: '000000',
-          }),
+            color: '000000'
+          })
         ],
-        heading: HeadingLevel.HEADING_1,
+        heading: HeadingLevel.HEADING_1
       })
     );
     const cctpArr = _.arr;
@@ -1317,22 +1356,28 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [
+    ...parsedHead,
+    ...tableOfContentSection,
+    ...parsedChap0part1,
+    ...parsedChap0part2,
+    ...parsedCCTPs
+  ];
 
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
     features: {
-      updateFields: true,
+      updateFields: true
     },
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1351,7 +1396,7 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 
   const tableOfContent = new TableOfContents('Summary', {
     hyperlink: true,
-    headingStyleRange: '1-5',
+    headingStyleRange: '1-5'
   });
 
   const tableOfContentSection = [
@@ -1359,15 +1404,16 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     new Paragraph({
       children: [
         new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          text:
+            localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
           size: l4Font,
-          font: fontType,
-        }),
+          font: fontType
+        })
       ],
-      heading: HeadingLevel.HEADING_6,
+      heading: HeadingLevel.HEADING_6
     }),
     tableOfContent,
-    Spacer,
+    Spacer
   ];
 
   // Parse Chap0
@@ -1387,11 +1433,11 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
         shading: {
           color: 'D9D9D9',
           type: ShadingType.SOLID,
-          fill: 'D9D9D9',
+          fill: 'D9D9D9'
         },
         spacing: {
           before: i == 0 ? 6 * 20 : 4 * 20,
-          after: 3 * 20,
+          after: 3 * 20
         },
         children: [
           new TextRun({
@@ -1399,10 +1445,10 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
             size: l4Font,
             bold: true,
             font: fontType,
-            color: '000000',
-          }),
+            color: '000000'
+          })
         ],
-        heading: HeadingLevel.HEADING_1,
+        heading: HeadingLevel.HEADING_1
       })
     );
     const cctpArr = _.arr;
@@ -1430,22 +1476,28 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     }
   }
 
-  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [
+    ...parsedHead,
+    ...tableOfContentSection,
+    ...parsedChap0part1,
+    ...parsedChap0part2,
+    ...parsedCCTPs
+  ];
 
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
     features: {
-      updateFields: true,
+      updateFields: true
     },
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1464,7 +1516,7 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
 
   const tableOfContent = new TableOfContents('Summary', {
     hyperlink: true,
-    headingStyleRange: '1-5',
+    headingStyleRange: '1-5'
   });
 
   const tableOfContentSection = [
@@ -1472,15 +1524,16 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     new Paragraph({
       children: [
         new TextRun({
-          text: localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
+          text:
+            localStorage.getItem('i18nextLng') == 'en' ? 'Table of Contents' : 'Table des matières',
           size: l4Font,
-          font: fontType,
-        }),
+          font: fontType
+        })
       ],
-      heading: HeadingLevel.HEADING_6,
+      heading: HeadingLevel.HEADING_6
     }),
     tableOfContent,
-    Spacer,
+    Spacer
   ];
 
   // Parse Chap0
@@ -1500,11 +1553,11 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
         shading: {
           color: 'D9D9D9',
           type: ShadingType.SOLID,
-          fill: 'D9D9D9',
+          fill: 'D9D9D9'
         },
         spacing: {
           before: i == 0 ? 6 * 20 : 4 * 20,
-          after: 3 * 20,
+          after: 3 * 20
         },
         children: [
           new TextRun({
@@ -1512,10 +1565,10 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
             size: l4Font,
             bold: true,
             font: fontType,
-            color: '000000',
-          }),
+            color: '000000'
+          })
         ],
-        heading: HeadingLevel.HEADING_1,
+        heading: HeadingLevel.HEADING_1
       })
     );
     const cctpArr = _.arr;
@@ -1543,22 +1596,28 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     }
   }
 
-  const children = [...parsedHead, ...tableOfContentSection, ...parsedChap0part1, ...parsedChap0part2, ...parsedCCTPs];
+  const children = [
+    ...parsedHead,
+    ...tableOfContentSection,
+    ...parsedChap0part1,
+    ...parsedChap0part2,
+    ...parsedCCTPs
+  ];
 
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
     features: {
-      updateFields: true,
+      updateFields: true
     },
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1581,16 +1640,16 @@ function _parseHead(headArr) {
                       text: headArr[0],
                       font: fontType,
                       size: l2Font,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -1601,16 +1660,16 @@ function _parseHead(headArr) {
                       text: headArr[1],
                       font: fontType,
                       size: l2Font,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               width: { size: 100, type: WidthType.PERCENTAGE },
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -1621,21 +1680,21 @@ function _parseHead(headArr) {
                       text: headArr[2],
                       font: fontType,
                       size: l2Font,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
   return tableHeader;
 }
@@ -1650,13 +1709,17 @@ function _parseChap0part1(part1) {
       {
         color: 'D9D9D9',
         type: ShadingType.SOLID,
-        fill: 'D9D9D9',
+        fill: 'D9D9D9'
       }
     )
   );
   arr.push(l3Text('0.1 DESCRIPTION DU MARCHE', null, { before: 12 * 20, after: 12 * 20 }));
   arr.push(l2Text('0.1.1 OBJET DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
-  arr.push(l1Text('Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'));
+  arr.push(
+    l1Text(
+      'Le présent Cahier des Clauses Techniques Particulières (C.C.T.P.) concerne les travaux ci-après :'
+    )
+  );
   arr.push(l1Text(part1.description, true));
   arr.push(l2Text('0.1.2 INTERVENANTS DU MARCHE', null, { before: 6 * 20, after: 12 * 20 }));
   for (let i = 0; i < part1.stakeholders.length; i++) {
@@ -1693,16 +1756,16 @@ function _parseChap0part1(part1) {
             new TextRun({
               text: '   ',
               font: fontType,
-              size: l1Font,
+              size: l1Font
             }),
             new TextRun({
               text: `${stakeholder.email}`,
               font: fontType,
               size: l1Font,
               color: '4472C4',
-              underline: true,
-            }),
-          ],
+              underline: true
+            })
+          ]
         })
       );
     }
@@ -1715,7 +1778,7 @@ function _parseChap0part1(part1) {
           text: 'Le marché est un marché à : ',
           size: l1Font,
           font: fontType,
-          color: '000000',
+          color: '000000'
         }),
         new TextRun({
           text: part1.market_type,
@@ -1723,9 +1786,9 @@ function _parseChap0part1(part1) {
           bold: true,
           italics: true,
           font: fontType,
-          color: '000000',
-        }),
-      ],
+          color: '000000'
+        })
+      ]
     })
   );
   return arr;
@@ -1779,16 +1842,16 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -1798,22 +1861,22 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -1823,21 +1886,21 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -1851,23 +1914,23 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.TOP,
       width:
         i == 4 || i == 5
           ? {
               size: 13,
-              type: WidthType.PERCENTAGE,
+              type: WidthType.PERCENTAGE
             }
           : null,
       margins: _calculateDPGFMargins(i),
       shading: {
-        fill: '#DCDADA',
-      },
+        fill: '#DCDADA'
+      }
     });
 
     tableBodyColumns.push(tableCell);
@@ -1889,14 +1952,14 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   size: 22,
-                  bold: true,
-                }),
-              ],
+                  bold: true
+                })
+              ]
             }),
-            ...docxObjs,
+            ...docxObjs
           ],
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         tableRowCells.push(tableCell);
       } else {
@@ -1908,19 +1971,19 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j]}`,
                   bold: currentRow[0].length === 3 ? true : false,
-                  italics: currentRow[0].length === 3 && j === 1 ? true : false,
-                }),
-              ],
-            }),
+                  italics: currentRow[0].length === 3 && j === 1 ? true : false
+                })
+              ]
+            })
           ],
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         tableRowCells.push(tableCell);
       }
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -1930,11 +1993,11 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
       alignment: AlignmentType.TOP,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody, Spacer];
@@ -1942,14 +2005,14 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -1963,7 +2026,7 @@ function _calculateDPGFMargins(index) {
       top: convertInchesToTwip(0.06),
       bottom: convertInchesToTwip(0.06),
       left: convertInchesToTwip(0.72),
-      right: convertInchesToTwip(0.72),
+      right: convertInchesToTwip(0.72)
     };
   } else {
     return normalMargin;
@@ -1997,16 +2060,16 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -2016,22 +2079,22 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -2041,21 +2104,21 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -2069,23 +2132,23 @@ async function exportDOCXTradesDPGF(data, currentProject) {
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.TOP,
       width:
         i == 4 || i == 5
           ? {
               size: 13,
-              type: WidthType.PERCENTAGE,
+              type: WidthType.PERCENTAGE
             }
           : null,
       margins: _calculateDPGFMargins(i),
       shading: {
-        fill: '#DCDADA',
-      },
+        fill: '#DCDADA'
+      }
     });
 
     tableBodyColumns.push(tableCell);
@@ -2107,14 +2170,14 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   size: 22,
-                  bold: true,
-                }),
-              ],
+                  bold: true
+                })
+              ]
             }),
-            ...docxObjs,
+            ...docxObjs
           ],
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         tableRowCells.push(tableCell);
       } else {
@@ -2125,21 +2188,24 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
-                  bold: currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1) ? true : false,
-                  italics: currentRow[0].length === 5 && j === 1 ? true : false,
-                }),
-              ],
-            }),
+                  bold:
+                    currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1)
+                      ? true
+                      : false,
+                  italics: currentRow[0].length === 5 && j === 1 ? true : false
+                })
+              ]
+            })
           ],
           verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
-          shading: currentRow[0].length === 1 ? firstRowShade : null,
+          shading: currentRow[0].length === 1 ? firstRowShade : null
         });
         tableRowCells.push(tableCell);
       }
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -2149,11 +2215,11 @@ async function exportDOCXTradesDPGF(data, currentProject) {
       alignment: AlignmentType.CENTER,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody];
@@ -2161,14 +2227,14 @@ async function exportDOCXTradesDPGF(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -2203,16 +2269,16 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
+                fill: '#C4C8CC'
+              }
             }),
             new TableCell({
               children: [
@@ -2222,22 +2288,22 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: {
                 top: convertInchesToTwip(0.06),
                 bottom: convertInchesToTwip(0.06),
                 left: convertInchesToTwip(0.24),
-                right: convertInchesToTwip(0.24),
+                right: convertInchesToTwip(0.24)
               },
               shading: {
-                fill: '#C4C8CC',
+                fill: '#C4C8CC'
               },
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 100, type: WidthType.PERCENTAGE }
             }),
             new TableCell({
               children: [
@@ -2247,21 +2313,21 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[2],
                       size: 22,
-                      bold: true,
-                    }),
-                  ],
-                }),
+                      bold: true
+                    })
+                  ]
+                })
               ],
               verticalAlign: VerticalAlign.CENTER,
               margins: normalMargin,
               shading: {
-                fill: '#C4C8CC',
-              },
-            }),
-          ],
-        }),
-      ],
-    }),
+                fill: '#C4C8CC'
+              }
+            })
+          ]
+        })
+      ]
+    })
   ];
 
   const tableBodyColumns = [];
@@ -2275,23 +2341,23 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
             new TextRun({
               text: dataColumnsEstimation[i],
               size: 26,
-              bold: true,
-            }),
-          ],
-        }),
+              bold: true
+            })
+          ]
+        })
       ],
       verticalAlign: VerticalAlign.TOP,
       width:
         i == 4 || i == 5
           ? {
               size: 13,
-              type: WidthType.PERCENTAGE,
+              type: WidthType.PERCENTAGE
             }
           : null,
       margins: _calculateDPGFMargins(i),
       shading: {
-        fill: '#DCDADA',
-      },
+        fill: '#DCDADA'
+      }
     });
 
     tableBodyColumns.push(tableCell);
@@ -2313,14 +2379,14 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   size: 22,
-                  bold: true,
-                }),
-              ],
+                  bold: true
+                })
+              ]
             }),
-            ...docxObjs,
+            ...docxObjs
           ],
           verticalAlign: VerticalAlign.TOP,
-          margins: normalMargin,
+          margins: normalMargin
         });
         tableRowCells.push(tableCell);
       } else {
@@ -2332,23 +2398,25 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j]}`,
                   bold:
-                    currentRow[0].length === 1 || currentRow[0].length === 3 || (currentRow[0].length === 7 && j === 1)
+                    currentRow[0].length === 1 ||
+                    currentRow[0].length === 3 ||
+                    (currentRow[0].length === 7 && j === 1)
                       ? true
                       : false,
-                  italics: currentRow[0].length === 7 && j === 1 ? true : false,
-                }),
-              ],
-            }),
+                  italics: currentRow[0].length === 7 && j === 1 ? true : false
+                })
+              ]
+            })
           ],
           verticalAlign: VerticalAlign.TOP,
           margins: normalMargin,
-          shading: currentRow[0].length === 1 ? firstRowShade : null,
+          shading: currentRow[0].length === 1 ? firstRowShade : null
         });
         tableRowCells.push(tableCell);
       }
     }
     const tableRow = new TableRow({
-      children: tableRowCells,
+      children: tableRowCells
     });
     tableBodyRows.push(tableRow);
   }
@@ -2358,11 +2426,11 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
       alignment: AlignmentType.CENTER,
       rows: [
         new TableRow({
-          children: tableBodyColumns,
+          children: tableBodyColumns
         }),
-        ...tableBodyRows,
-      ],
-    }),
+        ...tableBodyRows
+      ]
+    })
   ];
 
   const children = [...tableHeader, Spacer, ...tableBody];
@@ -2370,14 +2438,14 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
   const sections = [
     {
       properties: {
-        ...pageMargin,
+        ...pageMargin
       },
-      children: children,
-    },
+      children: children
+    }
   ];
 
   const doc = new Document({
-    sections: sections,
+    sections: sections
   });
 
   const blob = await Packer.toBlob(doc);
@@ -2391,20 +2459,20 @@ const pageMargin = {
       top: convertInchesToTwip(0.1),
       bottom: convertInchesToTwip(0.1),
       left: convertInchesToTwip(0.3),
-      right: convertInchesToTwip(0.3),
-    },
-  },
+      right: convertInchesToTwip(0.3)
+    }
+  }
 };
 
 const normalMargin = {
   top: convertInchesToTwip(0.03),
   bottom: convertInchesToTwip(0.03),
   left: convertInchesToTwip(0.12),
-  right: convertInchesToTwip(0.12),
+  right: convertInchesToTwip(0.12)
 };
 
 const firstRowShade = {
-  fill: '#DCDADA',
+  fill: '#DCDADA'
 };
 
 export {
@@ -2419,5 +2487,5 @@ export {
   exportDOCXTradesAndTranchesCCTP,
   exportDOCXSimpleDPGF,
   exportDOCXTradesDPGF,
-  exportDOCXTradesAndTranchesDPGF,
+  exportDOCXTradesAndTranchesDPGF
 };

@@ -14,7 +14,7 @@ import {
   footerDataGenTradesEstimation,
   footerDataGenTradesAndTranchesEstimation,
   dataColumnsEstimation,
-  footerColumnsSimpleEstimation,
+  footerColumnsSimpleEstimation
 } from './data.js';
 
 const ABC = [
@@ -43,122 +43,122 @@ const ABC = [
   'W',
   'X',
   'Y',
-  'Z',
+  'Z'
 ];
 
 // Styles
 const Font1 = {
   font: {
-    bold: true,
-  },
+    bold: true
+  }
 };
 
 // Styles
 const Font2 = {
   font: {
-    italic: true,
-  },
+    italic: true
+  }
 };
 
 const Fill1 = {
   fill: {
-    fgColor: { rgb: 'FFBFBFBF' },
+    fgColor: { rgb: 'FFBFBFBF' }
   },
-  ...Font1,
+  ...Font1
 };
 
 const TitleStyle = {
   fill: {
-    fgColor: { rgb: 'FFBFBFBF' },
+    fgColor: { rgb: 'FFBFBFBF' }
   },
   font: {
     bold: true,
     sz: 11,
-    name: 'Calibri',
-  },
+    name: 'Calibri'
+  }
 };
 
 // For trades
 const Fill2 = {
   fill: {
-    fgColor: { rgb: 'FFD3D3D3' },
+    fgColor: { rgb: 'FFD3D3D3' }
   },
-  ...Font1,
+  ...Font1
 };
 
 // For trades and tranches
 const Fill3 = {
   fill: {
-    fgColor: { rgb: 'FFF2F2F2' },
-  },
+    fgColor: { rgb: 'FFF2F2F2' }
+  }
 };
 
 // For trades total
 const Fill4 = {
   fill: {
-    fgColor: { rgb: 'FFFFFFFF' },
+    fgColor: { rgb: 'FFFFFFFF' }
   },
-  ...Font1,
+  ...Font1
 };
 
 // For tranch total
 const Fill5 = {
   fill: {
-    fgColor: { rgb: 'FFFFFFFF' },
+    fgColor: { rgb: 'FFFFFFFF' }
   },
-  ...Font1,
+  ...Font1
 };
 
 const BorderFirst2 = {
   border: {
     top: {
-      style: 'thin',
+      style: 'thin'
     },
     bottom: {
-      style: 'thin',
+      style: 'thin'
     },
     left: {
-      style: 'thin',
+      style: 'thin'
     },
     right: {
-      style: 'thin',
-    },
-  },
+      style: 'thin'
+    }
+  }
 };
 
 const BorderRestAll = {
   border: {
     top: {
-      style: 'dotted',
+      style: 'dotted'
     },
     bottom: {
-      style: 'dotted',
+      style: 'dotted'
     },
     left: {
-      style: 'thin',
+      style: 'thin'
     },
     right: {
-      style: 'thin',
-    },
-  },
+      style: 'thin'
+    }
+  }
 };
 
 const textAlignment1 = {
   alignment: {
-    horizontal: 'left',
-  },
+    horizontal: 'left'
+  }
 };
 
 const textAlignment2 = {
   alignment: {
-    horizontal: 'center',
-  },
+    horizontal: 'center'
+  }
 };
 
 const textAlignment3 = {
   alignment: {
-    horizontal: 'right',
-  },
+    horizontal: 'right'
+  }
 };
 
 const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
@@ -183,21 +183,33 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
     {
       v: header[0],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     },
     {
       v: header[1],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } }
     },
-    '',
-    '',
-    '',
+    {
+      v: '',
+      t: 's',
+      s: BorderFirst2
+    },
+    {
+      v: '',
+      t: 's',
+      s: BorderFirst2
+    },
+    {
+      v: '',
+      t: 's',
+      s: BorderFirst2
+    },
     {
       v: header[2],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
-    },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
+    }
   ];
   XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
@@ -212,7 +224,7 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
-    ...BorderFirst2,
+    ...BorderFirst2
   });
 
   // Apply styling to body
@@ -225,15 +237,15 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
       'WorkAndWorkDetail3',
       {
         ...Font2,
-        ...BorderRestAll,
+        ...BorderRestAll
       },
       {
         ...textAlignment2,
-        ...BorderRestAll,
+        ...BorderRestAll
       },
       {
         ...textAlignment3,
-        ...BorderRestAll,
+        ...BorderRestAll
       }
     );
     cursor = cursor + 1;
@@ -249,19 +261,19 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
   const merge = [
     {
       s: { r: 0, c: 1 },
-      e: { r: 0, c: 4 },
+      e: { r: 0, c: 4 }
     },
     {
       s: { r: 1, c: 1 },
-      e: { r: 1, c: 5 },
-    },
+      e: { r: 1, c: 4 }
+    }
   ];
 
   stopAt = cursor;
   for (let i = 0; i < footerDataFloatsArr.length; i++) {
     let obj = {
       s: { r: stopAt + i, c: 1 },
-      e: { r: stopAt + i, c: 4 },
+      e: { r: stopAt + i, c: 4 }
     };
     merge.push(obj);
   }
@@ -274,9 +286,11 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
 
   const wbout = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
   const blob = new Blob([wbout], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }.xlsx`;
   return { blob, filename };
 };
 
@@ -308,12 +322,12 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     {
       v: header[0],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     },
     {
       v: header[1],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } }
     },
     '',
     '',
@@ -321,8 +335,8 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     {
       v: header[2],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
-    },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
+    }
   ];
   XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
@@ -337,18 +351,18 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
-    ...BorderFirst2,
+    ...BorderFirst2
   });
 
   const merge = [
     {
       s: { r: 0, c: 1 },
-      e: { r: 0, c: 4 },
+      e: { r: 0, c: 4 }
     },
     {
       s: { r: 1, c: 1 },
-      e: { r: 1, c: 5 },
-    },
+      e: { r: 1, c: 5 }
+    }
   ];
 
   // Trades styling
@@ -368,15 +382,15 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
         'WorkAndWorkDetail2',
         {
           ...Font2,
-          ...BorderRestAll,
+          ...BorderRestAll
         },
         {
           ...textAlignment2,
-          ...BorderRestAll,
+          ...BorderRestAll
         },
         {
           ...textAlignment3,
-          ...BorderRestAll,
+          ...BorderRestAll
         }
       );
       cursor = cursor + 1;
@@ -385,7 +399,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
-      e: { r: cursor - 1, c: 4 },
+      e: { r: cursor - 1, c: 4 }
     });
     cursor = cursor + 1;
   }
@@ -394,7 +408,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
   for (let i = 0; i < footerDataFloatsArr.length; i++) {
     const obj = {
       s: { r: stopAt + i, c: 1 },
-      e: { r: stopAt + i, c: 4 },
+      e: { r: stopAt + i, c: 4 }
     };
     merge.push(obj);
   }
@@ -413,9 +427,11 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
 
   const wbout = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
   const blob = new Blob([wbout], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }.xlsx`;
   return { blob, filename };
 };
 
@@ -428,7 +444,12 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   footerColumnsSimpleEstimationNoSpace.splice(0, 1);
 
   let xlsxParsedData = [];
-  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice, false);
+  const footerDataFloatsArr = footerDataGenTradesAndTranchesEstimation(
+    data,
+    currentProject,
+    noPrice,
+    false
+  );
   const xlsxParsedFooterData = xlsxParsedFooterDataGenEstimation(
     footerDataFloatsArr,
     footerColumnsSimpleEstimationNoSpace,
@@ -437,7 +458,11 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
 
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
-    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(currentRow, i + 1, noPrice);
+    const currentRowXLSXParsedData = xlsxParsedDataGenTradesAndTranchesEstimation(
+      currentRow,
+      i + 1,
+      noPrice
+    );
     xlsxParsedData = xlsxParsedData.concat(currentRowXLSXParsedData);
   }
 
@@ -448,12 +473,12 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     {
       v: header[0],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     },
     {
       v: header[1],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'center' } }
     },
     '',
     '',
@@ -461,8 +486,8 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     {
       v: header[2],
       t: 's',
-      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } },
-    },
+      s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
+    }
   ];
   XLSX.utils.sheet_add_aoa(ws, [titleRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
@@ -477,18 +502,18 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   applyRowStyle(ws, cursor, { ...textAlignment1, ...Fill1, ...BorderFirst2 }, 'header', {
     ...textAlignment2,
     ...Fill1,
-    ...BorderFirst2,
+    ...BorderFirst2
   });
 
   const merge = [
     {
       s: { r: 0, c: 1 },
-      e: { r: 0, c: 4 },
+      e: { r: 0, c: 4 }
     },
     {
       s: { r: 1, c: 1 },
-      e: { r: 1, c: 5 },
-    },
+      e: { r: 1, c: 5 }
+    }
   ];
 
   cursor = cursor + 1;
@@ -515,15 +540,15 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
           'WorkAndWorkDetail',
           {
             ...Font2,
-            ...BorderRestAll,
+            ...BorderRestAll
           },
           {
             ...textAlignment2,
-            ...BorderRestAll,
+            ...BorderRestAll
           },
           {
             ...textAlignment3,
-            ...BorderRestAll,
+            ...BorderRestAll
           }
         );
         cursor = cursor + 1;
@@ -532,7 +557,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
       applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill4, ...BorderFirst2 });
       merge.push({
         s: { r: cursor - 1, c: 1 },
-        e: { r: cursor - 1, c: 4 },
+        e: { r: cursor - 1, c: 4 }
       });
       cursor = cursor + 1;
     }
@@ -540,7 +565,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     applyRowStyle(ws, cursor, { ...textAlignment3, ...Fill5, ...BorderFirst2 });
     merge.push({
       s: { r: cursor - 1, c: 1 },
-      e: { r: cursor - 1, c: 4 },
+      e: { r: cursor - 1, c: 4 }
     });
     cursor = cursor + 1;
   }
@@ -549,7 +574,7 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
   for (let i = 0; i < footerDataFloatsArr.length; i++) {
     const obj = {
       s: { r: stopAt + i, c: 1 },
-      e: { r: stopAt + i, c: 4 },
+      e: { r: stopAt + i, c: 4 }
     };
     merge.push(obj);
   }
@@ -568,9 +593,11 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
 
   const wbout = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
   const blob = new Blob([wbout], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   });
-  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${noPrice ? 'DQE' : 'Estim'}.xlsx`;
+  const filename = `${currentProject?.name ?? 'N/A'} - ${Date.now()} - ${
+    noPrice ? 'DQE' : 'Estim'
+  }.xlsx`;
   return { blob, filename };
 };
 
@@ -584,7 +611,11 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
       } else {
         ws[`${char}${rownum}`].s = style2;
       }
-    } else if (type === 'WorkAndWorkDetail' || type === 'WorkAndWorkDetail2' || type === 'WorkAndWorkDetail3') {
+    } else if (
+      type === 'WorkAndWorkDetail' ||
+      type === 'WorkAndWorkDetail2' ||
+      type === 'WorkAndWorkDetail3'
+    ) {
       if (char === 'A') {
         if (type === 'WorkAndWorkDetail') {
           if (ws[`${char}${rownum}`].v.length >= 7) {
@@ -647,4 +678,8 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
   }
 }
 
-export { exportXLSXSimpleEstimation, exportXLSXTradesEstimation, exportXLSXTradesAndTranchesEstimation };
+export {
+  exportXLSXSimpleEstimation,
+  exportXLSXTradesEstimation,
+  exportXLSXTradesAndTranchesEstimation
+};

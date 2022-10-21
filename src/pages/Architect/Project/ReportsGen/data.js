@@ -187,20 +187,18 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arr.push(`${prefix}${workIndex + 1}`);
       arr.push(data[i].work.name);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.')?.replace(' ', ',') ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
 
       if (noPrice) {
         arr.push('');
         arr.push('');
       } else {
-        arr.push(
-          formatNumber(data[i].work?.unit_price?.toFixed(2), '.')?.replace(' ', ',') ?? '0.00'
-        );
+        arr.push(formatNumber(data[i].work?.unit_price?.toFixed(2), '.') ?? '0.00');
         arr.push(
           formatNumber(
             ((data[i].work?.unit_price ?? 0) * (data[i].work.quantity ?? 0))?.toFixed(2),
             '.'
-          )?.replace(' ', ',')
+          )
         );
       }
 
@@ -213,20 +211,18 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
         arrD.push(`${prefix}${workIndex + 1}.1`);
         arrD.push(`${data[i].workDetails.name}`);
         arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
+        arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
 
         if (noPrice) {
           arrD.push('');
           arrD.push('');
         } else {
-          arrD.push(
-            formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ',')
-          );
+          arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
           arrD.push(
             formatNumber(
               (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
               '.'
-            )?.replace(' ', ',')
+            )
           );
         }
 
@@ -240,18 +236,18 @@ function rowsGenEstimationHandleWorksAndWorkDetails({ data, prefix = '', noPrice
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(`${data[i].workDetails.name}`);
       arrD.push(data[i].workDetailsUnit?.symbol ?? '');
-      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.')?.replace(' ', ','));
+      arrD.push(formatNumber(data[i].workDetails.quantity.toFixed(2), '.'));
 
       if (noPrice) {
         arrD.push('');
         arrD.push('');
       } else {
-        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.')?.replace(' ', ','));
+        arrD.push(formatNumber(data[i].workDetails.unit_price.toFixed(2), '.'));
         arrD.push(
           formatNumber(
             (data[i].workDetails.unit_price * data[i].workDetails.quantity).toFixed(2),
             '.'
-          )?.replace(' ', ',')
+          )
         );
       }
 
@@ -451,7 +447,7 @@ function xlsxParsedDataGenTradesEstimation(trade, index, noPrice) {
     if (j == 1) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} : `;
     } else if (j == 5) {
-      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? tradeTotal : '';
+      tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? tradeTotal.replace(',', ' ') : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
     }
@@ -514,7 +510,9 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       if (j == 1) {
         trancheTotalHTObj[dataColumnsEstimation[j]] = `Total ${currentObj.tranch} :`;
       } else if (j == 5) {
-        trancheTotalHTObj[dataColumnsEstimation[j]] = !noPrice ? trancheTotalHT ?? '' : '';
+        trancheTotalHTObj[dataColumnsEstimation[j]] = !noPrice
+          ? trancheTotalHT.replace(',', ' ') ?? ''
+          : '';
       } else {
         trancheTotalHTObj[dataColumnsEstimation[j]] = '';
       }
@@ -538,7 +536,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
-        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')?.replace(' ', ',')
+        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')
         : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
@@ -937,15 +935,9 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
-        ' ',
-        ','
-      ),
-      formatNumber(
-        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
-        '.'
-      )?.replace(' ', ',')
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
     ];
   } else {
     footerData = ['', '', ''];
@@ -985,15 +977,9 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
-        ' ',
-        ','
-      ),
-      formatNumber(
-        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
-        '.'
-      )?.replace(' ', ',')
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
     ];
   } else {
     footerData = ['', '', ''];
@@ -1036,15 +1022,9 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
 
   if (!noPrice) {
     footerData = [
-      formatNumber(totalHT.toFixed(2), '.')?.replace(' ', ','),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.')?.replace(
-        ' ',
-        ','
-      ),
-      formatNumber(
-        Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2),
-        '.'
-      )?.replace(' ', ',')
+      formatNumber(totalHT.toFixed(2), '.'),
+      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
+      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
     ];
   } else {
     footerData = ['', '', ''];
@@ -1666,6 +1646,7 @@ const tagsToDocxMap = {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
+    const center = text.includes('PU HT');
 
     const objsArr = [];
 
@@ -1683,7 +1664,7 @@ const tagsToDocxMap = {
         }
       } else {
         currentText = currentText.replace(tagsRegEx, '');
-        objsArr.push(docText({ text: currentText, size: size ?? l1Font, bold: false }));
+        objsArr.push(docText({ text: currentText, size: size ?? l1Font, bold: false, center }));
       }
     }
 
