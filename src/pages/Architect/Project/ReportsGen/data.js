@@ -1552,9 +1552,17 @@ function parseCCTPData(data, index) {
           kIndex++;
         }
       }
-      libObj.arr.push(catObj);
+
+      // Skipping if category doesn't have works and cctp
+      if (catObj.arr.length > 0 || catObj.cctp) {
+        libObj.arr.push(catObj);
+      }
     }
-    cp.push(libObj);
+
+    // Skipping if library doesn't have categories and cctp
+    if (libObj.arr.length > 0 || currentObjLib.cctp) {
+      cp.push(libObj);
+    }
   }
 
   return cp;
