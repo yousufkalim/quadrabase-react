@@ -12,7 +12,8 @@ import {
   TableRow,
   VerticalAlign,
   TableOfContents,
-  ShadingType
+  ShadingType,
+  PageBreak
 } from 'docx';
 
 import {
@@ -1302,6 +1303,13 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
+
+    // insert page break after each chapter
+    parsedChap0part2.push(
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      })
+    );
   }
 
   // Parse CCTPs
@@ -1353,6 +1361,15 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
           parsedCCTPs.push(...docxObjs);
         }
       }
+    }
+
+    // insert page break after each chapter
+    if (i != cctps.length - 1) {
+      parsedCCTPs.push(
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        })
+      );
     }
   }
 
@@ -1422,6 +1439,13 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
+
+    // insert page break after each chapter
+    parsedChap0part2.push(
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      })
+    );
   }
 
   // Parse CCTPs
@@ -1473,6 +1497,15 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
           parsedCCTPs.push(...docxObjs);
         }
       }
+    }
+
+    // insert page break after each chapter
+    if (i != cctps.length - 1) {
+      parsedCCTPs.push(
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        })
+      );
     }
   }
 
@@ -1542,6 +1575,13 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
+
+    // insert page break after each chapter
+    parsedChap0part2.push(
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      })
+    );
   }
 
   // Parse CCTPs
@@ -1593,6 +1633,15 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
           parsedCCTPs.push(...docxObjs);
         }
       }
+    }
+
+    // insert page break after each chapter
+    if (i != cctps.length - 1) {
+      parsedCCTPs.push(
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        })
+      );
     }
   }
 
