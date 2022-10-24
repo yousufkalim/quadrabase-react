@@ -1842,6 +1842,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[0],
                       size: 22,
+                      font: fontType,
                       bold: true
                     })
                   ]
@@ -1861,7 +1862,8 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                     new TextRun({
                       text: headArr[1],
                       size: 22,
-                      bold: true
+                      bold: true,
+                      font: fontType
                     })
                   ]
                 })
@@ -1885,6 +1887,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[2],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -1913,6 +1916,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
+              font: fontType,
               size: 26,
               bold: true
             })
@@ -1951,6 +1955,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j].title}`,
+                  font: fontType,
                   size: 22,
                   bold: true
                 })
@@ -1970,6 +1975,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
+                  font: fontType,
                   bold: currentRow[0].length === 3 ? true : false,
                   italics: currentRow[0].length === 3 && j === 1 ? true : false
                 })
@@ -2059,6 +2065,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[0],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2078,6 +2085,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[1],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2103,6 +2111,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[2],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2131,6 +2140,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
+              font: fontType,
               size: 26,
               bold: true
             })
@@ -2169,6 +2179,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j].title}`,
+                  font: fontType,
                   size: 22,
                   bold: true
                 })
@@ -2188,6 +2199,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
+                  font: fontType,
                   bold:
                     currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1)
                       ? true
@@ -2268,6 +2280,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[0],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2287,6 +2300,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[1],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2312,6 +2326,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                   children: [
                     new TextRun({
                       text: headArr[2],
+                      font: fontType,
                       size: 22,
                       bold: true
                     })
@@ -2340,6 +2355,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
           children: [
             new TextRun({
               text: dataColumnsEstimation[i],
+              font: fontType,
               size: 26,
               bold: true
             })
@@ -2378,6 +2394,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j].title}`,
+                  font: fontType,
                   size: 22,
                   bold: true
                 })
@@ -2397,6 +2414,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
+                  font: fontType,
                   bold:
                     currentRow[0].length === 1 ||
                     currentRow[0].length === 3 ||
