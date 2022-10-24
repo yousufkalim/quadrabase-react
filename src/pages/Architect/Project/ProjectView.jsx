@@ -1941,7 +1941,7 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
+                                            <TableCell colSpan={3} style={{ padding: '2px 16px', fontSize: 16 }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -1952,7 +1952,7 @@ const ProjectView = () => {
                                                 {item4.name} Total HT :
                                               </div>
                                             </TableCell>
-                                            <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
+                                            <TableCell colSpan={2} style={{ padding: '2px 16px' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2034,7 +2034,8 @@ const ProjectView = () => {
                             width: '50%',
                             padding: '20px 40px 0px',
                             fontWeight: 900,
-                            fontSize: '13px',
+                            fontSize: '15px',
+                            color:"black"
                           }}
                         >
                           <div className={classes.flex_container}>
