@@ -1784,6 +1784,16 @@ function _parseHead(headArr) {
 function _parseChap0part1(part1) {
   const arr = [];
   arr.push(
+    ...[
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      }),
+      new Paragraph({
+        children: [new TextRun('')]
+      })
+    ]
+  );
+  arr.push(
     l4Text(
       'CHAP 0 - CLAUSES GENERALES',
       null,
