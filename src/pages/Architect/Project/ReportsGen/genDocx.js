@@ -1306,9 +1306,14 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
 
     // insert page break after each chapter
     parsedChap0part2.push(
-      new Paragraph({
-        children: [new TextRun(''), new PageBreak()]
-      })
+      ...[
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        }),
+        new Paragraph({
+          children: [new TextRun('')]
+        })
+      ]
     );
   }
 
@@ -1366,9 +1371,14 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
     // insert page break after each chapter
     if (i != cctps.length - 1) {
       parsedCCTPs.push(
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        })
+        ...[
+          new Paragraph({
+            children: [new TextRun(''), new PageBreak()]
+          }),
+          new Paragraph({
+            children: [new TextRun('')]
+          })
+        ]
       );
     }
   }
@@ -1442,9 +1452,14 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
 
     // insert page break after each chapter
     parsedChap0part2.push(
-      new Paragraph({
-        children: [new TextRun(''), new PageBreak()]
-      })
+      ...[
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        }),
+        new Paragraph({
+          children: [new TextRun('')]
+        })
+      ]
     );
   }
 
@@ -1502,9 +1517,14 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
     // insert page break after each chapter
     if (i != cctps.length - 1) {
       parsedCCTPs.push(
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        })
+        ...[
+          new Paragraph({
+            children: [new TextRun(''), new PageBreak()]
+          }),
+          new Paragraph({
+            children: [new TextRun('')]
+          })
+        ]
       );
     }
   }
@@ -1578,9 +1598,14 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
 
     // insert page break after each chapter
     parsedChap0part2.push(
-      new Paragraph({
-        children: [new TextRun(''), new PageBreak()]
-      })
+      ...[
+        new Paragraph({
+          children: [new TextRun(''), new PageBreak()]
+        }),
+        new Paragraph({
+          children: [new TextRun('')]
+        })
+      ]
     );
   }
 
@@ -1638,9 +1663,14 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
     // insert page break after each chapter
     if (i != cctps.length - 1) {
       parsedCCTPs.push(
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        })
+        ...[
+          new Paragraph({
+            children: [new TextRun(''), new PageBreak()]
+          }),
+          new Paragraph({
+            children: [new TextRun('')]
+          })
+        ]
       );
     }
   }
@@ -1676,6 +1706,9 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
 
 function _parseHead(headArr) {
   const tableHeader = [
+    new Paragraph({
+      children: [new TextRun('')]
+    }),
     new Table({
       rows: [
         new TableRow({
