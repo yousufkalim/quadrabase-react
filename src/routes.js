@@ -21,6 +21,7 @@ import Libraries from './pages/auth/libraries';
 import Services from './pages/auth/services';
 import Contact from './pages/auth/contactUs';
 import Privacy from './pages/auth/privacy';
+import MentionsLegal from './pages/auth/MentionLegal';
 import Terms from './pages/auth/terms';
 import CgvPage from './pages/auth/cgv';
 import Units from './pages/admin/bookLibraries/Units';
@@ -33,6 +34,7 @@ import Chap0 from './pages/admin/bookLibraries/Chap0';
 import FileManager from './pages/admin/fileManager';
 import Cgu from './pages/admin/staticPages/Cgu';
 import Cgv from './pages/admin/staticPages/Cgv';
+import MentionLegal from './pages/admin/staticPages/MentionLegal';
 import AdminPrivacy from './pages/admin/staticPages/Privacy';
 import Product from './pages/admin/staticPages/Product';
 import Supports from './pages/admin/staticPages/Supports';
@@ -265,6 +267,14 @@ var routes = [
     layout: '/admin',
   },
   {
+    path: '/MentionLegal',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: MentionLegal,
+    layout: '/admin',
+  },
+  
+  {
     path: '/privacy',
     name: 'Dashboard',
     icon: 'ni ni-tv-2 text-primary',
@@ -378,6 +388,13 @@ var routes = [
     name: 'Auth',
     icon: 'ni ni-tv-2 text-primary',
     component: Privacy,
+    layout: '/auth',
+  },
+  {
+    path: '/mentionlegal',
+    name: 'Auth',
+    icon: 'ni ni-tv-2 text-primary',
+    component: MentionsLegal,
     layout: '/auth',
   },
   {

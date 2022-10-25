@@ -79,7 +79,7 @@ export default function Home() {
       </div>
       <div ref={myRef} className="scroll">
         <div className="spc_home_heading">
-          <Typography className="spc_home_heading_typo">Interêt pour vous</Typography>
+          <Typography className="spc_home_heading_typo">Intérêt pour vous</Typography>
         </div>
 
         <Grid container spacing={1} className="spc_grid">

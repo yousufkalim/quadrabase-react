@@ -1546,7 +1546,7 @@ const Register = () => {
                                     width: 'auto',
                                   }}
                                 >
-                                  <div
+                                  {/* <div
                                     style={{
                                       border: 0,
                                       padding: 0,
@@ -1556,9 +1556,9 @@ const Register = () => {
                                     }}
                                   >
                                     Coordonées :{' '}
-                                  </div>
+                                  </div> */}
                                 </div>
-                                <div style={{ fontSize: 15 }}>
+                                {/* <div style={{ fontSize: 15 }}>
                                   <div style={{ marginBottom: 10 }}>
                                     Titulaire : QBSoft 20 avenuw Félix Raybaud 06130 GRASSE
                                   </div>
@@ -1566,7 +1566,7 @@ const Register = () => {
                                     IBAN : FR76 1695 8000 0115 4724 0729 575
                                   </div>
                                   <div>BIC/SWIFT : QNTOFRP1XXX / BNPAFRPP</div>
-                                </div>
+                                </div> */}
                                 <div
                                   style={{
                                     display: 'flex',
@@ -1611,16 +1611,18 @@ const Register = () => {
                         </div>
                       )}
                     </div>
-                    <div
+                    <a
                       style={{
                         cursor: 'pointer',
                         color: '#FF8616',
                         whiteSpace: 'nowrap',
                       }}
-                      onClick={() => history.push('/auth/cgv')}
+                      href="/auth/cgv"
+                      // onClick={() => history.push('/auth/cgv')}
+                      target="_blank"
                     >
                       Conditions Générales des Ventes (CGV)
-                    </div>
+                    </a>
                   </>
                 ) : (
                   <>

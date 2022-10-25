@@ -132,6 +132,7 @@ const AddWorkDetailsModal = ({
       }
     }
   };
+  console.log("work dEtail",workDetails)
 
   return (
     <div style={{ width: '50vw', maxHeight: '80vh', overflow: 'auto' }}>
