@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
-import Logo from '../images/Logo_QBSoft_12.png';
+// import Logo from '../images/Logo_QBSoft_12.png';
+import Logo from '../images/qlogo.svg';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -491,6 +492,19 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                                 }opacity-100 2xl:opacity-100 duration-200`}
                               >
                                 {translate('Supports pédagogiques')}
+                              </span>
+                            </NavLink>
+                            <NavLink
+                              exact
+                              to="/admin/MentionLegal"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
+                                {translate('Mentions légales')}
                               </span>
                             </NavLink>
                           </li>

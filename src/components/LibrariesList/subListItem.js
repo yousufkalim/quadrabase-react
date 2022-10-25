@@ -128,7 +128,7 @@ export default function subList(props) {
             />
           ) : (
             <FontAwesomeIcon
-              icon={faAngleUp}
+              icon={faAngleRight}
               onClick={() => {
                 setCurrentFamily(_id);
                 setPrevLevel([]);

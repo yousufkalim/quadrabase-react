@@ -171,6 +171,7 @@ const ProjectView = () => {
   const [openDPGFReportModal, setOpenDPGFReportModal] = useState(false);
 
   const [works, setworks] = useState([]);
+  const [works4, setworks4] = useState([]);
   const [tradeTotal, setTradeTotal] = useState([]);
   const [openTranchesModal, setOpenTranchesModal] = useState(false);
   const [openTradesModal, setOpenTradesModal] = useState(false);
@@ -630,6 +631,34 @@ const ProjectView = () => {
       setLoadingLevel('');
     }
   };
+  const getLevel4 = async (work) => {
+    try {
+      console.log("work id isss",work._id)
+      setLoadingLevel(work._id);
+      if (work.numberOfWorkDetails === 0) {
+        
+        setLoadingLevel('');
+      }else{
+        setLoadingLevel(work._id);
+        const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
+        setworks4(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
+        setLoadingLevel('');
+      }
+        
+    } catch (err) {
+      setLoadingLevel('');
+    }
+  };
+  console.log("loading isss",loadingLevel)
+  // if (work.numberOfWorkDetails === 0) {
+  //   setSelectedWork(work);
+  //   setOpenWorkModal(true);
+  // } else {
+  //   const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
+  //   setSelectedWork(work);
+  //   setWorkDetails(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
+  //   setOpenWorkDetailModal(true);
+  // }
 
   const getTranches = async () => {
     const result = await api('get', `/Tranches/${currentProject._id}`);
@@ -1378,7 +1407,11 @@ const ProjectView = () => {
                       getLevel3={getLevel3}
                       setLevel3={setworks}
                       level3={works}
+                      getLevel4={getLevel4}
+                      setLevel4={setworks4}
+                      level4={works4}
                       loading={loadingLevel}
+                      
                       openModal={openModal}
                       openCctpModal={handleOpenCctpModal}
                       handleOpenProvidersModal={handleOpenProvidersModal}
@@ -1944,9 +1977,7 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ padding: '2px 16px', fontSize: 16 }}>
+                                            <TableCell colSpan={3} style={{ padding: '2px 16px', fontSize: 16 }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -1956,7 +1987,7 @@ const ProjectView = () => {
                                                 {item4.name} Total HT :
                                               </div>
                                             </TableCell>
-                                            <TableCell colSpan={1} style={{ padding: '2px 16px' }}>
+                                            <TableCell colSpan={2} style={{ padding: '2px 16px' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2035,8 +2066,10 @@ const ProjectView = () => {
                             width: '50%',
                             padding: '20px 40px 0px',
                             fontWeight: 900,
-                            fontSize: '13px'
-                          }}>
+                            fontSize: '15px',
+                            color:"black"
+                          }}
+                        >
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total HT')} :</div>
                             <div className={classes.fotter_amount}>

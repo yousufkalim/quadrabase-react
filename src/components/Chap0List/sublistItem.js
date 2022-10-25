@@ -104,7 +104,7 @@ export default function subList(props) {
             />
           ) : (
             <FontAwesomeIcon
-              icon={faAngleUp}
+              icon={faAngleRight}
               onClick={() => {
                 getNextLevel(_id);
                 handleClick(level, _id, obj);

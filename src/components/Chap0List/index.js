@@ -62,7 +62,7 @@ function NestedList(props) {
                     />
                   ) : (
                     <FontAwesomeIcon
-                      icon={faAngleUp}
+                      icon={faAngleRight}
                       onClick={() => {
                         handleClick2(family);
                       }}
