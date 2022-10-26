@@ -11,18 +11,18 @@ const MentionLegal = () => {
   const [docId, setDocId] = useState('');
 
   useEffect(() => {
-    getCgv();
+    getMentionLegal();
   }, []);
 
-  const getCgv = async () => {
+  const getMentionLegal = async () => {
     const result = await api('get', `/StaticPages/`);
-    setData(result.data.data.cgv);
+    setData(result.data.data.mentionLegal);
     setDocId(result.data.data._id);
   };
 
   const handleUpdate = async () => {
-    const result = await api('put', `/StaticPages/${docId}`, { cgv: data });
-    setData(result.data.data.cgv);
+    const result = await api('put', `/StaticPages/${docId}`, { mentionLegal: data });
+    setData(result.data.data.mentionLegal);
     setDocId(result.data.data._id);
     toast.success(t(result.data.message));
   };
@@ -33,7 +33,7 @@ const MentionLegal = () => {
         <div className="flex justify-between pb-3">
           <h1 className="text-2xl font-bold">MentionLegal</h1>
         </div>
-        {/* data is of cgv page we have to make api for MentionLegal to change data */}
+        {/* data is of getMentionLegal page we have to make api for MentionLegal to change data */}
 
         <RichTextEditor setValue={setData} value={data} />
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>

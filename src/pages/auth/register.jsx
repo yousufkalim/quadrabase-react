@@ -491,6 +491,7 @@ const Register = () => {
   };
 
   const generateQuote = async () => {
+    console.log("type",type)
     if (type === 'Prescripteur') {
       let temp = [];
       subscriptionsData.map((item) => {
@@ -547,7 +548,9 @@ const Register = () => {
             ? 'Mandat administratif'
             : 'SEPA',
       };
+      console.log("invoiceData",invoiceData)
       const result = await api('post', `/Providers/quote/download`, invoiceData);
+      console.log("result.data",result.data)
       window.open(result.data.path, '_blank');
     }
   };
