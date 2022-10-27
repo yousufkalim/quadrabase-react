@@ -924,10 +924,19 @@ async function exportDOCXSimpleBPU(data, currentProject) {
             ]
           }),
           ...(currentRow[1].type == 'workDetail'
-            ? [l0Text(`${work.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+            ? [
+                l0Text(
+                  `${work.text.toUpperCase()} (EN TOUTES LETTRES) :`,
+                  true,
+                  undefined,
+                  undefined,
+                  undefined,
+                  true
+                )
+              ]
             : await textRunsSplitGen(work.text, ln1Font)),
-          work.unit && l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-          l0Text('')
+          work.unit ? l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true) : null,
+          currentRow[1].type !== 'workDetail' ? l0Text('') : null
         ];
       } else if (j == 2) {
         if (work) {
@@ -936,6 +945,8 @@ async function exportDOCXSimpleBPU(data, currentProject) {
           docxObjs = [lineBreak()];
         }
       }
+
+      docxObjs = docxObjs.filter(obj => obj !== null);
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.CENTER,
@@ -1039,11 +1050,21 @@ async function exportDOCXTradesBPU(data, currentProject) {
               ]
             }),
             ...(work[1].type == 'workDetail'
-              ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+              ? [
+                  l0Text(
+                    `${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`,
+                    true,
+                    undefined,
+                    undefined,
+                    undefined,
+                    true
+                  )
+                ]
               : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
-            workCurrentRow.unit &&
-              l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-            l0Text('')
+            workCurrentRow.unit
+              ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
+              : null,
+            work[1].type !== 'workDetail' ? l0Text('') : null
           ];
         } else if (k == 2) {
           if (workCurrentRow) {
@@ -1052,9 +1073,11 @@ async function exportDOCXTradesBPU(data, currentProject) {
             docxObjs = [lineBreak()];
           }
         }
+
+        docxObjs = docxObjs.filter(obj => obj !== null);
         const tableCell = new TableCell({
           children: docxObjs,
-          verticalAlign: VerticalAlign.TOP,
+          verticalAlign: VerticalAlign.CENTER,
           margins: normalMargin
         });
         workTableRowCells.push(tableCell);
@@ -1175,11 +1198,21 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                 ]
               }),
               ...(work[1].type == 'workDetail'
-                ? [l0Text(`${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`, true)]
+                ? [
+                    l0Text(
+                      `${workCurrentRow.text.toUpperCase()} (EN TOUTES LETTRES) :`,
+                      true,
+                      undefined,
+                      undefined,
+                      undefined,
+                      true
+                    )
+                  ]
                 : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
-              workCurrentRow.unit &&
-                l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true),
-              l0Text('')
+              workCurrentRow.unit
+                ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
+                : null,
+              work[1].type !== 'workDetail' ? l0Text('') : null
             ];
           } else if (l == 2) {
             if (workCurrentRow) {
@@ -1188,9 +1221,11 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
               docxObjs = [lineBreak()];
             }
           }
+
+          docxObjs = docxObjs.filter(obj => obj !== null);
           const tableCell = new TableCell({
             children: docxObjs,
-            verticalAlign: VerticalAlign.TOP,
+            verticalAlign: VerticalAlign.CENTER,
             margins: normalMargin
           });
           workTableRowCells.push(tableCell);
