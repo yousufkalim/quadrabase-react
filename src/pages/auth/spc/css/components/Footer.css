@@ -48,6 +48,11 @@
     padding:1.5% 4%;
 }
 
+.fabrow:nth-child(even) {
+    background-color: #ededed;
+    padding: 5px 0px;
+}
+
 @media only screen and (max-width: 660px) {
     .footer-flex-container{
         flex-direction: column;
