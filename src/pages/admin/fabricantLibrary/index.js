@@ -40,7 +40,7 @@ export default function Index(props) {
   const handleSubmit = async () => {
     try {
       if (!library) {
-        return Notifier('please Enter Library', 'error', translate);
+        return Notifier('Veuillez entrer dans la bibliothèque', 'error', translate);
       }
       // call post api
       let response = await Axios({
