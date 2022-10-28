@@ -27,6 +27,8 @@ import CgvPage from './pages/auth/cgv';
 import Units from './pages/admin/bookLibraries/Units';
 import Stakeholders from './pages/admin/bookLibraries/Stakeholders';
 
+import FabricantLibrary from './pages/admin/fabricantLibrary/index';
+
 import Families from './pages/admin/bookLibraries/Families';
 import VAT from './pages/admin/bookLibraries/VAT';
 import CCTP from './pages/admin/bookLibraries/CCTP';
@@ -185,6 +187,13 @@ var routes = [
     name: 'Dashboard',
     icon: 'ni ni-tv-2 text-primary',
     component: Providers,
+    layout: '/admin',
+  },
+  {
+    path: '/fabricant',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-primary',
+    component: FabricantLibrary,
     layout: '/admin',
   },
   {

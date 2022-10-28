@@ -507,6 +507,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen, translate }) {
                                 {translate('Mentions légales')}
                               </span>
                             </NavLink>
+
+                            <NavLink
+                              exact
+                              to="/admin/fabricant"
+                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                            >
+                              <span
+                                className={`text-sm font-medium lg:opacity-0 lg:${
+                                  !sidebarExpanded ? `sidebar-expanded:` : ``
+                                }opacity-100 2xl:opacity-100 duration-200`}
+                              >
+                                {translate('Fabricants')}
+                              </span>
+                            </NavLink>
+
+
+                            
                           </li>
                         </ul>
                       </div>

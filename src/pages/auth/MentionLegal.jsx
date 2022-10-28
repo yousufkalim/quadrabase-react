@@ -15,7 +15,7 @@ const MentionLegal = () => {
 
   const getTerms = async () => {
     const result = await api('get', `/StaticPages/`);
-    setData(result.data.data.cgv);
+    setData(result.data.data.mentionLegal);
   };
   return (
     <div

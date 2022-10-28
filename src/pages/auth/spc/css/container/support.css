@@ -20,6 +20,11 @@
   text-align: center !important;
   letter-spacing: -0.015em !important;
 }
+.dotIcon{
+  text-align: right !important;
+  position: relative !important;
+  top: -47% !important;
+}
 .spc_title {
   font-style: normal !important;
   font-weight: 600 !important;
