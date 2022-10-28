@@ -1504,7 +1504,7 @@ function Single({ token, loading, libraryData, setFabLoading, fabloading }) {
                 ))}
             </>
           )}
-          {dumyData?.map((data, i) => (
+          {/* {dumyData?.map((data, i) => (
             <>
               <ManufacturersListItem
                 text={data.title}
@@ -1514,7 +1514,7 @@ function Single({ token, loading, libraryData, setFabLoading, fabloading }) {
                 data={data}
               />
             </>
-          ))}
+          ))} */}
         </div>
       </>
     </Grid>

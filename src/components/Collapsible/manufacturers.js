@@ -67,10 +67,10 @@ export default function Collapsible(props) {
   const handleSubmit = async () => {
     try {
       if (!name) {
-        return Notifier('Please Enter name', 'error', t);
+        return Notifier('Veuillez entrer le nom du fabricant', 'error', t);
       }
       if (!url) {
-        return Notifier('Please Enter url', 'error', t);
+        return Notifier("Veuillez saisir l'URL du fabricant", 'error', t);
       }
       setFabLoading(true);
 
