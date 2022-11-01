@@ -402,7 +402,7 @@ const Index = () => {
           </h1>
 
           <div style={{ display: 'flex' }}>
-            {currentFolder?.name?.toLowerCase() !== 'Logo Fabricant' && (
+            {currentFolder?.name?.toLowerCase() !== 'logo fabricant' && (
               <Button
                 variant="outlined"
                 label="Add a folder"
