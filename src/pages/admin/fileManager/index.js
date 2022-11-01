@@ -41,6 +41,7 @@ const Index = () => {
   const [openDeleteFolder, setOpenDeleteFolder] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
 
   useEffect(() => {
@@ -53,8 +54,8 @@ const Index = () => {
         method: 'get',
         url: `${baseUrl}/Folders/`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.folder;
       setCurrentFolder();
@@ -64,14 +65,14 @@ const Index = () => {
     }
   };
 
-  const getSubFolders = async (id) => {
+  const getSubFolders = async id => {
     try {
       let response = await Axios({
         method: 'get',
         url: `${baseUrl}/Folders/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data;
       setCurrentFolder(data.parentFolder);
@@ -81,7 +82,7 @@ const Index = () => {
     }
   };
 
-  const handleUpload = async (e) => {
+  const handleUpload = async e => {
     try {
       const files = e.target.files;
       let form_data = new FormData();
@@ -92,8 +93,8 @@ const Index = () => {
         url: `${baseUrl}/Folders/upload/${currentFolder._id}`,
         data: form_data,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       setCurrentFolder(response.data.folder);
       Notifier(response.data.message, 'success', t);
@@ -107,26 +108,34 @@ const Index = () => {
     try {
       let response = {};
 
-      if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
+      if (
+        selectedFolder.type === 'docx' ||
+        selectedFolder.type === 'images' ||
+        selectedFolder.type === 'videos'
+      ) {
         response = await Axios({
           method: 'put',
           url: `${baseUrl}/Folders/deleteFile/${currentFolder._id}`,
           data: { type: selectedFolder.type, _id: selectedFolder._id },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
       } else {
         response = await Axios({
           method: 'delete',
           url: `${baseUrl}/Folders/${selectedFolder._id}`,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
       }
 
-      if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
+      if (
+        selectedFolder.type === 'docx' ||
+        selectedFolder.type === 'images' ||
+        selectedFolder.type === 'videos'
+      ) {
         getSubFolders(currentFolder._id);
       } else if (selectedFolder.parentFolder) {
         getSubFolders(selectedFolder.parentFolder);
@@ -152,14 +161,14 @@ const Index = () => {
       new MouseEvent('click', {
         bubbles: true,
         cancelable: true,
-        view: window,
+        view: window
       })
     );
     document.body.removeChild(link);
   };
 
   // convert url into blob
-  const blobFromURL = async (url) => {
+  const blobFromURL = async url => {
     const res = await fetch(url);
     const blob = await res.blob();
     return blob;
@@ -190,7 +199,7 @@ const Index = () => {
   const formik = useFormik({
     initialValues: FOLDER_STATE,
     validationSchema: FOLDER_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         let response = {};
         if (!currentFolder) {
@@ -199,8 +208,8 @@ const Index = () => {
             url: `${baseUrl}/Folders/create`,
             data: values,
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           });
           getFolders();
         } else {
@@ -209,8 +218,8 @@ const Index = () => {
             url: `${baseUrl}/Folders/createSubFolder/${currentFolder._id}`,
             data: values,
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           });
           getSubFolders(currentFolder._id);
         }
@@ -223,23 +232,27 @@ const Index = () => {
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
 
   const Editformik = useFormik({
     initialValues: FOLDER_STATE,
     validationSchema: FOLDER_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         let response = {};
-        if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
+        if (
+          selectedFolder.type === 'docx' ||
+          selectedFolder.type === 'images' ||
+          selectedFolder.type === 'videos'
+        ) {
           response = await Axios({
             method: 'put',
             url: `${baseUrl}/Folders/updateFile/${currentFolder._id}`,
             data: { type: selectedFolder.type, _id: selectedFolder._id, name: values.name },
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           });
         } else {
           response = await Axios({
@@ -247,12 +260,16 @@ const Index = () => {
             url: `${baseUrl}/Folders/${selectedFolder._id}`,
             data: values,
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           });
         }
 
-        if (selectedFolder.type === 'docx' || selectedFolder.type === 'images' || selectedFolder.type === 'videos') {
+        if (
+          selectedFolder.type === 'docx' ||
+          selectedFolder.type === 'images' ||
+          selectedFolder.type === 'videos'
+        ) {
           getSubFolders(currentFolder._id);
         } else if (selectedFolder.parentFolder) {
           getSubFolders(selectedFolder.parentFolder);
@@ -268,81 +285,101 @@ const Index = () => {
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
+  const handleCopyClip = async () => {
+    navigator.clipboard.writeText(`${url}/${selectedFolder?.uri}`);
+    // Notifier('Copied', 'success');
+  };
 
   return (
-    <div className='w-full  md:mx-auto py-9 '>
+    <div className="w-full  md:mx-auto py-9 ">
       <Menu
-        id='demo-positioned-menu'
-        aria-labelledby='demo-positioned-button'
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
-        sx={{ mt: 2.5 }}
-      >
+        sx={{ mt: 2.5 }}>
         <MenuItem
           style={{
             width: 200,
-            height: 30,
+            height: 30
           }}
           onClick={() => {
             handleOpenEditFolder();
             handleClose();
-          }}
-        >
+          }}>
           {t('Rename')}
         </MenuItem>
         <MenuItem
           style={{
             width: 200,
-            height: 30,
+            height: 30
           }}
           onClick={() => {
             handleOpenDeleteFolder();
             handleClose();
-          }}
-        >
+          }}>
           {t('Delete')}
         </MenuItem>
+        {selectedFolder?.type === 'images' && (
+          <MenuItem
+            style={{
+              width: 200,
+              height: 30
+            }}
+            onClick={() => {
+              handleCopyClip();
+              handleClose();
+            }}>
+            {t('copie')}
+          </MenuItem>
+        )}
       </Menu>
       <Modal
-        title='Add a folder'
+        title="Add a folder"
         open={openAddFolders}
         translate={t}
         onClose={handleOpenAddFolder}
-        width='40%'
-        buttonLabel='Create'
+        width="40%"
+        buttonLabel="Create"
         onSubmit={formik.handleSubmit}
         component={<AddFolders translate={t} formik={formik} />}
       />
       <Modal
-        title='Rename folder'
+        title="Rename folder"
         open={openEditFolders}
         translate={t}
         onClose={handleOpenEditFolder}
-        width='40%'
-        buttonLabel='Update'
+        width="40%"
+        buttonLabel="Update"
         onSubmit={Editformik.handleSubmit}
         component={<EditFolders translate={t} formik={Editformik} editData={selectedFolder} />}
       />
       <Modal
         open={openDeleteFolder}
         delete={true}
-        width='40%'
-        component={<DeleteModal translate={t} handleClose={handleOpenDeleteFolder} handleDelete={handleDeleteFolder} />}
+        width="40%"
+        component={
+          <DeleteModal
+            translate={t}
+            handleClose={handleOpenDeleteFolder}
+            handleDelete={handleDeleteFolder}
+          />
+        }
       />
-      <div className='container mx-auto px-6'>
-        <div className='flex justify-between pb-3'>
-          <h1 className='text-2xl font-bold'>
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between pb-3">
+          <h1 className="text-2xl font-bold">
             {currentFolder && (
               <IconButton onClick={handleBack}>
                 {' '}
@@ -354,21 +391,28 @@ const Index = () => {
           </h1>
 
           <div style={{ display: 'flex' }}>
-            <Button variant='outlined' label='Add a folder' translate={t} onClick={handleOpenAddFolder} startIcon={<AddIcon />} />{' '}
+            {currentFolder?.name?.toLowerCase() !== 'manufacturers logo' && (
+              <Button
+                variant="outlined"
+                label="Add a folder"
+                translate={t}
+                onClick={handleOpenAddFolder}
+                startIcon={<AddIcon />}
+              />
+            )}
             &nbsp;&nbsp;
             {currentFolder?.name?.toLowerCase() !== 'documentation générale' && (
               <label
-                className='file-button'
+                className="file-button"
                 style={{
                   color: 'white',
-                  cursor: 'pointer',
-                }}
-              >
-                <AddIcon fontSize='md' /> &nbsp;{t('Add a file')}
+                  cursor: 'pointer'
+                }}>
+                <AddIcon fontSize="md" /> &nbsp;{t('Add a file')}
                 <TextInput
-                  type='file'
-                  placeholder='Document'
-                  name='document'
+                  type="file"
+                  placeholder="Document"
+                  name="document"
                   onChange={handleUpload}
                   style={{ display: 'none' }}
                 />
@@ -377,7 +421,7 @@ const Index = () => {
           </div>
         </div>
         <Grid container spacing={4}>
-          {folders?.map((item) => {
+          {folders?.map(item => {
             return (
               <Grid item xs={12} sm={12} md={12}>
                 <Card sx={{ display: 'flex', cursor: 'pointer', position: 'relative', height: 45 }}>
@@ -386,31 +430,31 @@ const Index = () => {
                       sx={{ whiteSpace: 'nowrap', overflow: 'hidden', paddingY: '6px' }}
                       onClick={() => {
                         getSubFolders(item._id);
-                      }}
-                    >
-                      <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
-                        <FolderIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
+                      }}>
+                      <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                        <FolderIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
                       </Typography>
                     </CardContent>
-                    {item.name.toLowerCase() !== 'documentation générale' && (
-                      <IconButton
-                        style={{ position: 'absolute', right: 5, top: 5 }}
-                        id='demo-positioned-button'
-                        aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup='true'
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) => handleClick(e, item)}
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                    )}
+
+                    {item.name.toLowerCase() !== 'documentation générale' &&
+                      item.name.toLowerCase() !== 'manufacturers logo' && (
+                        <IconButton
+                          style={{ position: 'absolute', right: 5, top: 5 }}
+                          id="demo-positioned-button"
+                          aria-controls={open ? 'demo-positioned-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          onClick={e => handleClick(e, item)}>
+                          <MoreVertIcon />
+                        </IconButton>
+                      )}
                   </Box>
                 </Card>
               </Grid>
             );
           })}
           {currentFolder?.files.docx.length > 0 &&
-            currentFolder?.files.docx.map((item) => {
+            currentFolder?.files.docx.map(item => {
               return (
                 <Grid item xs={12} sm={12} md={12}>
                   <Card
@@ -418,34 +462,34 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
-                      height: 45,
-                    }}
-                  >
+                      height: 45
+                    }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <CardContent
                         sx={{
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
-                          paddingY: '6px',
+                          paddingY: '6px'
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${url}/${item.uri}`);
                           downloadBlob(blob, item.name);
-                        }}
-                      >
-                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
-                          <InsertDriveFileIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
+                        }}>
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <InsertDriveFileIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
+                          {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id='demo-positioned-button'
+                        id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup='true'
+                        aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) => handleClick(e, { type: 'docx', _id: item._id, name: item.name })}
-                        style={{ position: 'absolute', right: 5, top: 5 }}
-                      >
+                        onClick={e =>
+                          handleClick(e, { type: 'docx', _id: item._id, name: item.name })
+                        }
+                        style={{ position: 'absolute', right: 5, top: 5 }}>
                         <MoreVertIcon />
                       </IconButton>
                     </Box>
@@ -454,7 +498,7 @@ const Index = () => {
               );
             })}
           {currentFolder?.files.videos.length > 0 &&
-            currentFolder?.files.videos.map((item) => {
+            currentFolder?.files.videos.map(item => {
               return (
                 <Grid item xs={12} sm={12} md={12}>
                   <Card
@@ -462,34 +506,34 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
-                      height: 45,
-                    }}
-                  >
+                      height: 45
+                    }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <CardContent
                         sx={{
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
-                          paddingY: '6px',
+                          paddingY: '6px'
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${url}/${item.uri}`);
                           downloadBlob(blob, item.name);
-                        }}
-                      >
-                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
-                          <VideocamIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
+                        }}>
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <VideocamIcon fontSize="medium" color="primary" /> &nbsp;&nbsp;{' '}
+                          {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id='demo-positioned-button'
+                        id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup='true'
+                        aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) => handleClick(e, { type: 'videos', _id: item._id, name: item.name })}
-                        style={{ position: 'absolute', right: 5, top: 5 }}
-                      >
+                        onClick={e =>
+                          handleClick(e, { type: 'videos', _id: item._id, name: item.name })
+                        }
+                        style={{ position: 'absolute', right: 5, top: 5 }}>
                         <MoreVertIcon />
                       </IconButton>
                     </Box>
@@ -498,7 +542,7 @@ const Index = () => {
               );
             })}
           {currentFolder?.files.images.length > 0 &&
-            currentFolder?.files.images.map((item) => {
+            currentFolder?.files.images.map(item => {
               return (
                 <Grid item xs={12} sm={12} md={12}>
                   <Card
@@ -506,34 +550,39 @@ const Index = () => {
                       display: 'flex',
                       cursor: 'pointer',
                       position: 'relative',
-                      height: 45,
-                    }}
-                  >
+                      height: 45
+                    }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <CardContent
                         sx={{
                           flex: '1 0 auto',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
-                          paddingY: '6px',
+                          paddingY: '6px'
                         }}
                         onClick={async () => {
                           let blob = await blobFromURL(`${url}/${item.uri}`);
+
                           downloadBlob(blob, item.name);
-                        }}
-                      >
-                        <Typography component='div' variant='p' sx={{ fontSize: 16 }}>
-                          <ImageIcon fontSize='medium' color='primary' /> &nbsp;&nbsp; {item.name}
+                        }}>
+                        <Typography component="div" variant="p" sx={{ fontSize: 16 }}>
+                          <ImageIcon fontSize="medium" color="primary" /> &nbsp;&nbsp; {item.name}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        id='demo-positioned-button'
+                        id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup='true'
+                        aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={(e) => handleClick(e, { type: 'images', _id: item._id, name: item.name })}
-                        style={{ position: 'absolute', right: 5, top: 5 }}
-                      >
+                        onClick={e =>
+                          handleClick(e, {
+                            type: 'images',
+                            _id: item._id,
+                            name: item.name,
+                            uri: item?.uri
+                          })
+                        }
+                        style={{ position: 'absolute', right: 5, top: 5 }}>
                         <MoreVertIcon />
                       </IconButton>
                     </Box>
