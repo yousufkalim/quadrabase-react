@@ -402,7 +402,7 @@ const Index = () => {
           </h1>
 
           <div style={{ display: 'flex' }}>
-            {currentFolder?.name?.toLowerCase() !== 'manufacturers logo' && (
+            {currentFolder?.name?.toLowerCase() !== 'Logo Fabricant' && (
               <Button
                 variant="outlined"
                 label="Add a folder"
@@ -448,7 +448,7 @@ const Index = () => {
                     </CardContent>
 
                     {item.name.toLowerCase() !== 'documentation générale' &&
-                      item.name.toLowerCase() !== 'manufacturers logo' && (
+                      item.name.toLowerCase() !== 'logo fabricant' && (
                         <IconButton
                           style={{ position: 'absolute', right: 5, top: 5 }}
                           id="demo-positioned-button"
