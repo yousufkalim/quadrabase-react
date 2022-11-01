@@ -289,7 +289,18 @@ const Index = () => {
   });
   const handleCopyClip = async () => {
     navigator.clipboard.writeText(`${url}/${selectedFolder?.uri}`);
+
     // Notifier('Copied', 'success');
+  };
+
+  const alphaSorting = array => {
+    const myData = array.sort(function (a, b) {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      return 0;
+    });
+
+    return array;
   };
 
   return (
@@ -542,7 +553,7 @@ const Index = () => {
               );
             })}
           {currentFolder?.files.images.length > 0 &&
-            currentFolder?.files.images.map(item => {
+            alphaSorting(currentFolder?.files.images)?.map(item => {
               return (
                 <Grid item xs={12} sm={12} md={12}>
                   <Card
