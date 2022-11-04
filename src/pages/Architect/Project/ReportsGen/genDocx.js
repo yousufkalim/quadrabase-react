@@ -1031,7 +1031,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   text: workCurrentRow,
                   font: fontType,
                   size: l0Font,
-                  italics: work[1].type == 'workDetail' > 0 ? true : false
+                  italics: work[1].type == 'workDetail' ? true : false
                 })
               ]
             })
@@ -1045,7 +1045,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
                   font: fontType,
                   size: l0Font,
                   bold: true,
-                  italics: work[1].type == 'workDetail' > 0 ? true : false
+                  italics: work[1].type == 'workDetail' ? true : false
                 })
               ]
             }),
@@ -1179,7 +1179,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     text: workCurrentRow,
                     font: fontType,
                     size: l0Font,
-                    italics: work[1].type == 'workDetail' > 0 ? true : false
+                    italics: work[1].type == 'workDetail' ? true : false
                   })
                 ]
               })
@@ -1193,7 +1193,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                     font: fontType,
                     size: l0Font,
                     bold: true,
-                    italics: work[1].type == 'workDetail' > 0 ? true : false
+                    italics: work[1].type == 'workDetail' ? true : false
                   })
                 ]
               }),
