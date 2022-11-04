@@ -1,2 +1,2 @@
-import { baseUrl } from '../config';
-export { baseUrl };
+import { baseUrl, url } from '../config';
+export { baseUrl, url };

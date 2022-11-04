@@ -118,7 +118,7 @@ export default function Collapsible(props) {
             boxShadow: ' 0px 5px 19px rgba(0, 0, 0, 0.05)',
             borderRadius: '10px'
           }}>
-          <div style={{ display: 'flex', padding: '25px 15px' }}>
+          <div style={{ display: 'flex', padding: '12px 12px' }}>
             <Avatar aria-label="recipe" className={` ${expanded ? 'spc_active' : 'spc_nonactive'}`}>
               {props.avatartitle}
             </Avatar>

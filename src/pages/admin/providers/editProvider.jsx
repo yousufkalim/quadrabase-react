@@ -5,10 +5,66 @@ import TextInput from '../../../components/TextInput';
 import TextArea from '../../../components/TextArea';
 import RadioButton from '../../../components/RadioButton';
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@mui/styles';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Paper, TextField } from '@mui/material';
+import { baseUrl, url } from '../../../utils/BaseUrl';
 
 export default function AddExpense(props) {
   const { translate, formik } = props;
+  const { logoUrl, setLogoUrl, values } = props;
   const { t } = useTranslation();
+  const useStyles = makeStyles({
+    customTextField: {
+      '& input::placeholder': {
+        color: 'white',
+        '@media (max-width: 780px)': {
+          paddingLeft: '-2px'
+        }
+      }
+    },
+    customTextFieldestablish: {
+      '& input::placeholder': {
+        color: 'black',
+        fontSize: '13px',
+        '@media (max-width: 780px)': {
+          fontSize: '12px',
+          paddingLeft: '-2px'
+        }
+      }
+    },
+    option: {
+      background: 'white ',
+      color: 'black',
+      '&:hover': {
+        backgroundColor: 'black !important',
+        color: 'white !important'
+      }
+    },
+
+    select: {
+      background: 'orange',
+      color: 'pink',
+      '&:before': {
+        borderColor: 'black'
+      },
+      '&:after': {
+        borderColor: 'purple'
+      }
+    }
+  });
+  const classes = useStyles();
+
+  const handleChangeUrl = async item => {
+    if (item.target.textContent) {
+      // console.log('onselect', url + '/uploads/images/' + item.target.textContent);
+      setLogoUrl(url + '/uploads/images/' + item.target.textContent);
+    }
+  };
+  const onChangeUrl = async e => {
+    // console.log('e', e.target.value);
+    setLogoUrl(e.target.value);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -245,7 +301,39 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full md:w-1/2  px-3">
-          <TextInput
+        <span style={{ fontSize: '13px', fontWeight: 900 }}>Logo</span>
+
+<Autocomplete
+  classes={{
+    option: classes.option
+  }}
+  className="autocomplte"
+  PaperComponent={({ children }) => (
+    <Paper style={{ background: 'white' }}>{children}</Paper>
+  )}
+  options={values}
+  freeSolo
+  getOptionLabel={option => option.label}
+  onChange={handleChangeUrl}
+  style={{
+    marginTop: '0px'
+  }}
+  renderInput={params => (
+    <TextField
+      classes={{ root: classes.customTextFieldestablish }}
+      className="establish"
+      {...params}
+      placeholder="Logo"
+      // label="Logo"
+      variant="outlined"
+      value={logoUrl}
+      name="logo"
+      onChange={onChangeUrl}
+    />
+  )}
+  // value={!education_level && ""}
+/>
+          {/* <TextInput
             type="text"
             placeholder="Logo"
             label="Logo"
@@ -256,7 +344,7 @@ export default function AddExpense(props) {
           />
           <div className="text-red-600 ">
             {formik.touched.logo && formik.errors.logo ? <small>{formik.errors.logo}</small> : null}
-          </div>
+          </div> */}
         </div>
       </div>
 
