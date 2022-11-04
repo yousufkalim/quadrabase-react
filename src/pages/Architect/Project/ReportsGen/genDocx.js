@@ -949,7 +949,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
       docxObjs = docxObjs.filter(obj => obj !== null);
       const tableCell = new TableCell({
         children: docxObjs,
-        verticalAlign: VerticalAlign.CENTER,
+        verticalAlign: VerticalAlign.TOP,
         margins: normalMargin
       });
       tableRowCells.push(tableCell);
@@ -1077,7 +1077,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
         docxObjs = docxObjs.filter(obj => obj !== null);
         const tableCell = new TableCell({
           children: docxObjs,
-          verticalAlign: VerticalAlign.CENTER,
+          verticalAlign: VerticalAlign.TOP,
           margins: normalMargin
         });
         workTableRowCells.push(tableCell);
@@ -1225,7 +1225,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
           docxObjs = docxObjs.filter(obj => obj !== null);
           const tableCell = new TableCell({
             children: docxObjs,
-            verticalAlign: VerticalAlign.CENTER,
+            verticalAlign: VerticalAlign.TOP,
             margins: normalMargin
           });
           workTableRowCells.push(tableCell);
