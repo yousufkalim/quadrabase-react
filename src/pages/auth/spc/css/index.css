@@ -14,12 +14,26 @@
 .css-1qqsdnr-MuiAutocomplete-root .MuiOutlinedInput-root{
   padding: 0px !important;
 }
+/* for live */
+.css-xxees4 .MuiOutlinedInput-root{
+  padding: 0px !important;
+}
+.css-igs3ac{
+  border: 1px solid #e5e7eb !important;
+
+}
+fieldset{
+  border: 1px solid #e5e7eb !important;
+
+}
+/*  */
 
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline{
   border: 1px solid #e5e7eb !important;
   
 
 }
+
 
 .autocomplte:hover{
   padding: 0px !important;
