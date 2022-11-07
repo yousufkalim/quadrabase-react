@@ -15,9 +15,16 @@
   padding: 0px !important;
 }
 
-.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover{
-  border: none !important;
-  outline: none !important;
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border: 1px solid #e5e7eb !important;
+  
+
+}
+
+.autocomplte:hover{
+  padding: 0px !important;
+  
+  
 }
 
 .css-185gdzj-MuiCardHeader-root{
