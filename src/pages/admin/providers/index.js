@@ -27,6 +27,8 @@ export default function Index(props) {
   const [deletemodal, setdeleteModal] = React.useState(false);
   const [providerModal, setproviderModal] = React.useState(false);
   const [provider, setprovider] = useState([]);
+  const [values, setValues] = useState([]);
+  const [logoUrl, setLogoUrl] = useState('');
 
   const [headCells, setheadCells] = React.useState('');
 
@@ -45,7 +47,7 @@ export default function Index(props) {
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
-  const handleDeleteModal = (id) => {
+  const handleDeleteModal = id => {
     if (id) {
       setproviderDeleteId(id);
     }
@@ -58,8 +60,8 @@ export default function Index(props) {
         method: 'delete',
         url: `${baseUrl}/Providers/${providerDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       Notifier(response.data.message, 'success', translate);
     } catch (error) {
@@ -68,23 +70,23 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
-  const handleEditModal = async (id) => {
+  const handleEditModal = async id => {
     if (id) {
       setproviderId(id);
-      let filteredData = providersData.find((data) => data._id == id);
+      let filteredData = providersData.find(data => data._id == id);
       seteditData(filteredData);
     }
     seteditModal(!editmodal);
   };
-  const handleProvider = async (id) => {
+  const handleProvider = async id => {
     if (id) {
       try {
         let response = await Axios({
           method: 'get',
           url: `${baseUrl}/Providers/works/${id}`,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
         let data = response.data.works;
         if (data && data.length == 0) {
@@ -107,11 +109,11 @@ export default function Index(props) {
         data: {
           subscriptionId: selectedSubscription,
           start_date: startDate,
-          end_date: endDate,
+          end_date: endDate
         },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       Notifier(response.data.message, 'success', translate);
       handleSubscriptionModal();
@@ -123,7 +125,7 @@ export default function Index(props) {
   };
 
   // Subscription Modal
-  const handleSubscriptionModal = (row) => {
+  const handleSubscriptionModal = row => {
     if (row?._id) {
       setproviderId(row._id);
       if (row.subscription?.name) {
@@ -145,8 +147,8 @@ export default function Index(props) {
         method: 'get',
         url: `${baseUrl}/Providers/`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.providers;
       setprovidersData(data);
@@ -156,52 +158,78 @@ export default function Index(props) {
     //}
   };
 
+  const getAllLogos = async e => {
+    // call api
+    let response = await Axios({
+      method: 'get',
+      url: `${baseUrl}/fabricant/alllogo`
+    });
+    let data = response.data;
+    var alllogos = []; // //debugger;
+    for (var i = 0; i < data?.length; i++) {
+      alllogos.push({
+        id: i,
+        label: data[i],
+        value: data[i]
+      });
+    }
+    if (alllogos.length === data?.length) {
+      setValues(alllogos);
+    }
+  };
+  useEffect(() => {
+    getAllLogos();
+  }, []);
+
   useEffect(() => {
     getProviders();
   }, [modal, editmodal, deletemodal]);
   useEffect(() => {
     let array = [];
-    ProviderheadCells.slice(0, ProviderheadCells.length - 1).map((cell) => array.push(cell.id));
+    ProviderheadCells.slice(0, ProviderheadCells.length - 1).map(cell => array.push(cell.id));
     setheadCells(array);
   }, []);
   //create provider
   const formik = useFormik({
     initialValues: PROVIDER_STATE,
     validationSchema: PROVIDER_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
+        console.log('values formik', values, logoUrl);
         let response = await Axios({
           method: 'post',
           url: `${baseUrl}/Providers/create`,
-          data: values,
+          data: { ...values, logo: logoUrl },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         Notifier(response.data.message, 'success', translate);
         handleModal();
+        setLogoUrl('');
+
         formik.resetForm();
       } catch (err) {
         Notifier(err.response.data.message, 'error', translate);
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
   // edit peovider
   const edit_formik = useFormik({
     initialValues: PROVIDER_STATE,
     validationSchema: PROVIDER_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         let response = await Axios({
           method: 'put',
           url: `${baseUrl}/Providers/${providerId}`,
-          data: values,
+          data: { ...values, logo: logoUrl },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         Notifier(response.data.message, 'success', translate);
@@ -211,7 +239,7 @@ export default function Index(props) {
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
   return (
     <>
@@ -222,7 +250,15 @@ export default function Index(props) {
         onSubmit={formik.handleSubmit}
         onClose={handleModal}
         translate={translate}
-        component={<AddProvider translate={translate} formik={formik} />}
+        component={
+          <AddProvider
+            translate={translate}
+            formik={formik}
+            setLogoUrl={setLogoUrl}
+            logoUrl={logoUrl}
+            values={values}
+          />
+        }
       />
       <Modal
         title="List Of Works"
@@ -245,6 +281,9 @@ export default function Index(props) {
             editData={editData}
             formik={edit_formik}
             editmodal={editmodal}
+            setLogoUrl={setLogoUrl}
+            logoUrl={logoUrl}
+            values={values}
           />
         }
       />

@@ -1,27 +1,87 @@
-import React from "react";
-import TextInput from "../../../components/TextInput";
-import TextArea from "../../../components/TextArea";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import TextInput from '../../../components/TextInput';
+import TextArea from '../../../components/TextArea';
+import { makeStyles } from '@mui/styles';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Paper, TextField } from '@mui/material';
+import Axios from 'axios';
+import { baseUrl, url } from '../../../utils/BaseUrl';
+
+import { useTranslation } from 'react-i18next';
 export default function AddExpense(props) {
+  const { logoUrl, setLogoUrl, values } = props;
+
+  const useStyles = makeStyles({
+    customTextField: {
+      '& input::placeholder': {
+        color: 'white',
+        '@media (max-width: 780px)': {
+          paddingLeft: '-2px'
+        }
+      }
+    },
+    customTextFieldestablish: {
+      '& input::placeholder': {
+        color: 'black',
+        fontSize: '13px',
+        '@media (max-width: 780px)': {
+          fontSize: '12px',
+          paddingLeft: '-2px'
+        }
+      }
+    },
+    option: {
+      background: 'white ',
+      color: 'black',
+      '&:hover': {
+        backgroundColor: 'black !important',
+        color: 'white !important'
+      }
+    },
+
+    select: {
+      background: 'orange',
+      color: 'pink',
+      '&:before': {
+        borderColor: 'black'
+      },
+      '&:after': {
+        borderColor: 'purple'
+      }
+    }
+  });
+  const classes = useStyles();
+
   const { translate, formik } = props;
   const { t } = useTranslation();
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    if (["telephone_no", "contact_no", "zipcode"].includes(name)) {
-      formik.setFieldValue(name, value.replace(/\D/g, ""));
+    if (['telephone_no', 'contact_no', 'zipcode'].includes(name)) {
+      formik.setFieldValue(name, value.replace(/\D/g, ''));
     } else {
       formik.setFieldValue(name, value);
     }
   };
+
+  const handleChangeUrl = async item => {
+    if (item.target.textContent) {
+      // console.log('onselect', url + '/uploads/images/' + item.target.textContent);
+      setLogoUrl(url + '/uploads/images/' + item.target.textContent);
+    }
+  };
+  const onChangeUrl = async e => {
+    // console.log('e', e.target.value);
+    setLogoUrl(e.target.value);
+  };
+  console.log('logoUrl', logoUrl);
   return (
     <form
       className="w-full pt-9"
       style={{
-        position: "relative",
-        overflowY: "auto",
-        overflowX: "hidden",
-      }}
-    >
+        position: 'relative',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+      }}>
       <div className="flex no-wrap -mx-3 mb-2">
         <div className="w-full px-3 mb-6 md:mb-0">
           <TextInput
@@ -34,7 +94,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.establishment && formik.errors.establishment ? <small>{formik.errors.establishment}</small> : null}
+            {formik.touched.establishment && formik.errors.establishment ? (
+              <small>{formik.errors.establishment}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -50,7 +112,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address1 && formik.errors.address1 ? <small>{formik.errors.address1}</small> : null}
+            {formik.touched.address1 && formik.errors.address1 ? (
+              <small>{formik.errors.address1}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -64,7 +128,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.address2 && formik.errors.address2 ? <small>{formik.errors.address2}</small> : null}
+            {formik.touched.address2 && formik.errors.address2 ? (
+              <small>{formik.errors.address2}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -81,7 +147,9 @@ export default function AddExpense(props) {
             translate={translate}
           />
           <div className="text-red-600 ">
-            {formik.touched.po_box && formik.errors.po_box ? <small>{formik.errors.po_box}</small> : null}
+            {formik.touched.po_box && formik.errors.po_box ? (
+              <small>{formik.errors.po_box}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2  px-3">
@@ -95,7 +163,9 @@ export default function AddExpense(props) {
             value={formik.values.zipcode}
           />
           <div className="text-red-600 ">
-            {formik.touched.zipcode && formik.errors.zipcode ? <small>{t(formik.errors.zipcode)}</small> : null}
+            {formik.touched.zipcode && formik.errors.zipcode ? (
+              <small>{t(formik.errors.zipcode)}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -145,7 +215,9 @@ export default function AddExpense(props) {
             value={formik.values.name}
           />
           <div className="text-red-600 ">
-            {formik.touched.name && formik.errors.name ? <small>{t(formik.errors.name)}</small> : null}
+            {formik.touched.name && formik.errors.name ? (
+              <small>{t(formik.errors.name)}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -159,7 +231,9 @@ export default function AddExpense(props) {
             value={formik.values.firstname}
           />
           <div className="text-red-600 ">
-            {formik.touched.firstname && formik.errors.firstname ? <small>{t(formik.errors.firstname)}</small> : null}
+            {formik.touched.firstname && formik.errors.firstname ? (
+              <small>{t(formik.errors.firstname)}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -175,7 +249,9 @@ export default function AddExpense(props) {
             value={formik.values.telephone_no}
           />
           <div className="text-red-600 ">
-            {formik.touched.telephone_no && formik.errors.telephone_no ? <small>{formik.errors.telephone_no}</small> : null}
+            {formik.touched.telephone_no && formik.errors.telephone_no ? (
+              <small>{formik.errors.telephone_no}</small>
+            ) : null}
           </div>
         </div>
         <div className="w-full md:w-1/2  px-3">
@@ -189,7 +265,9 @@ export default function AddExpense(props) {
             value={formik.values.email}
           />
           <div className="text-red-600 ">
-            {formik.touched.email && formik.errors.email ? <small>{t(formik.errors.email)}</small> : null}
+            {formik.touched.email && formik.errors.email ? (
+              <small>{t(formik.errors.email)}</small>
+            ) : null}
           </div>
         </div>
       </div>
@@ -210,7 +288,39 @@ export default function AddExpense(props) {
           </div>
         </div>
         <div className="w-full md:w-1/2  px-3">
-          <TextInput
+          <span style={{ fontSize: '13px', fontWeight: 900 }}>Logo</span>
+
+          <Autocomplete
+            classes={{
+              option: classes.option
+            }}
+            className="autocomplte"
+            PaperComponent={({ children }) => (
+              <Paper style={{ background: 'white' }}>{children}</Paper>
+            )}
+            options={values}
+            freeSolo
+            getOptionLabel={option => option.label}
+            onChange={handleChangeUrl}
+            style={{
+              marginTop: '0px'
+            }}
+            renderInput={params => (
+              <TextField
+                classes={{ root: classes.customTextFieldestablish }}
+                className="establish"
+                {...params}
+                placeholder="Logo"
+                // label="Logo"
+                variant="outlined"
+                value={logoUrl}
+                name="logo"
+                onChange={onChangeUrl}
+              />
+            )}
+            // value={!education_level && ""}
+          />
+          {/* <TextInput
             type="text"
             placeholder="Logo"
             label="Logo"
@@ -218,7 +328,7 @@ export default function AddExpense(props) {
             translate={translate}
             onChange={formik.handleChange}
             value={formik.values.logo}
-          />
+          /> */}
           <div className="text-red-600 ">
             {formik.touched.logo && formik.errors.logo ? <small>{formik.errors.logo}</small> : null}
           </div>
