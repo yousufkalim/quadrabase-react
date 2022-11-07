@@ -493,12 +493,12 @@ const NestedList = (props) => {
                             return (
                               <>
                               {/* {console.log("item4",item4)} */}
-                                <ListItem sx={{ pl: 8, height: 28 }}>
-                                  <ListItemIcon sx={{ mr: -3 }}>
+                                <ListItem sx={{ pl: 12, height: 28}}>
+                                  <ListItemIcon sx={{ mr: -4 }}>
                                     <CircleIcon
                                       sx={{
                                         color: '#f2966c',
-                                        fontSize: 14,
+                                        fontSize: 11,
                                       }}
                                     />
                                     
@@ -512,7 +512,7 @@ const NestedList = (props) => {
                                       >
                                         <div
                                           style={{
-                                            fontSize: 13,
+                                            fontSize: 11,
                                             display: 'flex',
                                             alignItems: 'center',
                                             cursor: 'default',
@@ -525,7 +525,7 @@ const NestedList = (props) => {
                                               textOverflow: 'ellipsis',
                                             }}
                                           >
-                                            {item4?.name}
+                                            {item4?.name}aa
                                           </div>
                                           {/* <ArrowDropDownIcon
                                             id="demo-positioned-button"

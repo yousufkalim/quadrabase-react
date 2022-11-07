@@ -14,17 +14,12 @@
 .css-1qqsdnr-MuiAutocomplete-root .MuiOutlinedInput-root{
   padding: 0px !important;
 }
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input:hover{
-  border-color: white !important;
+
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover{
   border: none !important;
-  /* background-color: green !important; */
-} 
-.MuiInput-underline:hover:not(.Mui-disabled):before {
-  border: 0 !important;
+  outline: none !important;
 }
-.MuiAutocomplete-root fieldset:hover{
-  border-color: #2196F3 !important;
-}
+
 .css-185gdzj-MuiCardHeader-root{
   padding: 9px !important;
 }
