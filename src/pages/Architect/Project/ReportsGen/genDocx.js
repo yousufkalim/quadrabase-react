@@ -2099,7 +2099,11 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0 ? AlignmentType.END : AlignmentType.CENTER,
+                parseInt(currentRow[j]) && j !== 0
+                  ? AlignmentType.END
+                  : j === 1
+                  ? AlignmentType.START
+                  : AlignmentType.CENTER,
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
@@ -2324,7 +2328,11 @@ async function exportDOCXTradesDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0 ? AlignmentType.END : AlignmentType.CENTER,
+                parseInt(currentRow[j]) && j !== 0
+                  ? AlignmentType.END
+                  : j === 1
+                  ? AlignmentType.START
+                  : AlignmentType.CENTER,
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
@@ -2540,7 +2548,11 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0 ? AlignmentType.END : AlignmentType.CENTER,
+                parseInt(currentRow[j]) && j !== 0
+                  ? AlignmentType.END
+                  : j === 1
+                  ? AlignmentType.START
+                  : AlignmentType.CENTER,
               children: [
                 new TextRun({
                   text: `${currentRow[j]}`,
