@@ -9,6 +9,8 @@ import Grid from '@mui/material/Grid';
 const MentionLegal = () => {
   const [data, setData] = useState('');
 
+  console.log("mention legal data",data)
+
   useEffect(() => {
     getTerms();
   }, []);
@@ -38,7 +40,8 @@ const MentionLegal = () => {
           <div
             style={{ padding: '0px 15px 0px 20px' }}
             dangerouslySetInnerHTML={{ __html: data }}
-          ></div>
+          ></div> 
+        
         </Grid>
       </div>
       <Footer />

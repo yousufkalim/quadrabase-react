@@ -263,12 +263,21 @@ function SingleData({ data, token, t, setFabLoading }) {
       Notifier(error.response.data.message, 'error', t);
     }
   };
+  const alphaSorting = array => {
+    const myData = array.sort(function (a, b) {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      return 0;
+    });
+
+    return array;
+  };
 
   return (
     <>
       <div>
         <List dense={true} sx={{ marginLeft: '5px' }}>
-          {data?.fabricants?.map(e => (
+          {alphaSorting(data?.fabricants)?.map(e => (
             <div
               className={`${token ? 'fabrow' : ''}`}
               style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -291,8 +291,10 @@ i18n
           'Stakeholder type deleted successfully': 'Stakeholder type deleted successfully',
           'Stakeholder type updated successfully': 'Stakeholder type updated successfully',
           'Provider List': 'Provider List',
+          'Provider Lists': 'Provider Lists',
           Add: 'Add',
           'Associated Provider': 'Associated Provider',
+          'Associated Providers': 'Associated Providers',
           Remove: 'Remove',
           'Must be exactly 5 characters': 'Must be exactly 5 characters',
           Required: 'Required',
@@ -465,7 +467,8 @@ i18n
           'Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2':
             'Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2',
           'Project updated successfully': 'Project updated successfully',
-          'Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES': 'Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES',
+          'Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES':
+            'Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES',
           'Add a Work': 'Add a Work',
           'Select Work Details': 'Select Work Details',
           'Project Properties': 'Project Properties',
@@ -511,8 +514,10 @@ i18n
           'Trade deleted successfully': 'Trade deleted successfully',
           'Project Name': 'Project Name',
           'Chapter selection': 'Chapter selection',
-          'The last remaining Batch cannot be deleted.': 'The last remaining Batch cannot be deleted',
-          'The last remaining Slice cannot be deleted.': 'The last remaining Slice cannot be deleted',
+          'The last remaining Batch cannot be deleted.':
+            'The last remaining Batch cannot be deleted',
+          'The last remaining Slice cannot be deleted.':
+            'The last remaining Slice cannot be deleted',
           'Delete tranches first': 'Delete tranches first',
           'Private Libraries': 'Private Libraries',
           Architect: 'Architect',
@@ -528,7 +533,8 @@ i18n
           'Projets restants': 'Projets restants',
           'Projects in progress': 'Projects in progress',
           'Number of Projects': 'Number of Projects',
-          'Please select a chap. 0 part 2 from properties': 'Please select a chap. 0 part 2 from properties',
+          'Please select a chap. 0 part 2 from properties':
+            'Please select a chap. 0 part 2 from properties',
           'Project Date': 'Project Date',
           'No text': 'No text',
           'Update Trade': 'Update Trade',
@@ -559,7 +565,8 @@ i18n
           'Number of Projects': 'Number of Projects',
           'Pack Price': 'Pack Price',
           'Family already in use': 'Family already in use',
-          'This family does not have a Chap. 0 part 2': 'This family does not have a Chap. 0 part 2',
+          'This family does not have a Chap. 0 part 2':
+            'This family does not have a Chap. 0 part 2',
           'Email Address': 'Email Address',
           Telephone: 'Telephone',
           Products: 'Products',
@@ -606,8 +613,8 @@ i18n
           'Created successfully': 'Created successfully',
           'Add title': 'Add title',
           'Edit text': 'Edit text',
-          'Edit Profile': 'Edit Profile',
-        },
+          'Edit Profile': 'Edit Profile'
+        }
       },
       fr: {
         translations: {
@@ -902,8 +909,10 @@ i18n
           'Stakeholder type deleted successfully': 'Type de partie prenante supprimé avec succès',
           'Stakeholder type updated successfully': 'Type de partie prenante mis à jour avec succès',
           'Provider List': 'Liste des fabricant',
+          'Provider Lists': 'Liste des fabricants',
           Add: 'Ajouter',
           'Associated Provider': 'Fabricant associé',
+          'Associated Providers': 'Fabricant associés',
           Remove: 'Retirer',
           'Must be exactly 5 characters': 'Code postal incorrect',
           Required: 'Champ obligatoire',
@@ -1008,8 +1017,10 @@ i18n
           'Old Password': 'Ancien mot de passe',
           'New Password': 'Nouveau mot de passe',
           Establishment: 'Établissement',
-          'Please Wait, Loading Project Data!': 'Veuillez patienter, chargement des données du projet !',
-          'Please Wait, Generating CCTP report!': 'Veuillez patienter, génération du rapport CCTP !',
+          'Please Wait, Loading Project Data!':
+            'Veuillez patienter, chargement des données du projet !',
+          'Please Wait, Generating CCTP report!':
+            'Veuillez patienter, génération du rapport CCTP !',
           'Success!': 'Succès!',
           'Architect Not Found!': 'Architecte introuvable !',
           'Subscription Unassigned!': 'Abonnement non attribué !',
@@ -1070,7 +1081,8 @@ i18n
           'General Chap. 0 part 2': 'Général Chap. 0 partie 2',
           'Architect Chap. 0 part 2': 'Architecte Chap. 0 partie 2',
           'Select Stakeholder': 'Sélectionnez un Intervenant',
-          'Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2': 'Le Chap0Part2 existe déjà.',
+          'Seleted General Chap. 0 part 2 already exists in Architect Chap. 0 part 2':
+            'Le Chap0Part2 existe déjà.',
           'Project updated successfully': 'Projet mis à jour avec succès',
           'Edit Chap. 0 part 2 - CLAUSES MUNICIPALITIES': 'Modifier Chap0 part2 – CLAUSES COMMUNES',
           'Add a Work': 'Ajouter un Ouvrage',
@@ -1119,8 +1131,10 @@ i18n
           'Trade deleted successfully': 'Lot supprimé avec succès',
           'Project Name': 'Nom du projet',
           'Chapter selection': 'Sélection du Chapitre',
-          'The last remaining Batch cannot be deleted.': 'on ne peut supprimer le dernier Lot restant',
-          'The last remaining Slice cannot be deleted.': 'La dernière tranche restante ne peut pas être supprimée.',
+          'The last remaining Batch cannot be deleted.':
+            'on ne peut supprimer le dernier Lot restant',
+          'The last remaining Slice cannot be deleted.':
+            'La dernière tranche restante ne peut pas être supprimée.',
           'Delete tranches first': 'Supprimer les tranches en premier',
           'Private Libraries': 'Bibliothèques Prescripteurs',
           Architect: 'Prescripteur',
@@ -1199,9 +1213,9 @@ i18n
           Warning: 'Avertissement',
           Continue: 'Continuer',
           'Add title': 'Ajouter un Titre',
-          'Edit text': 'Modifier le texte',
-        },
-      },
+          'Edit text': 'Modifier le texte'
+        }
+      }
     },
 
     fallbackLng: 'fr',
@@ -1213,8 +1227,8 @@ i18n
 
     keySeparator: false, // we use content as keys
     interpolation: {
-      escapeValue: false,
-    },
+      escapeValue: false
+    }
   });
 
 export default i18n;
