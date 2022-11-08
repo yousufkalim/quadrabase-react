@@ -422,6 +422,7 @@ const Index = () => {
                 <AddIcon fontSize="md" /> &nbsp;{t('Add a file')}
                 <TextInput
                   type="file"
+                  accept={currentFolder?.name?.toLowerCase() == 'logo fabricant' && 'image/png'}
                   placeholder="Document"
                   name="document"
                   onChange={handleUpload}

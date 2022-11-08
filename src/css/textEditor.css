@@ -8,3 +8,19 @@
   -webkit-margin-end: 0px;
   -webkit-padding-start: 40px;
 }
+menu, ol, ul {
+  list-style: disc;
+  margin: 0;
+  padding: 0;
+}
+
+table tr td {
+  border: 1px solid #dadada;
+  min-width: 2em;
+  padding: 0.4em;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  vertical-align: middle;
+}
