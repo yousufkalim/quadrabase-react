@@ -1518,8 +1518,18 @@ function parseSorterWorks(works, index) {
 function parseCCTPData(data, index) {
   const cp = [];
 
-  for (let i = 0; i < data.length; i++) {
-    const currentObjLib = data[i];
+  // Filtering data to skip the libs that doesn't have categories and cctp
+  let filteredData = data.filter(lib => {
+    // Skipping if category doesn't have works and cctp
+    let filteredCats = lib.pcategories.filter(
+      cat => cat.cctp || cat.pworks.filter(_ => _.work?.cctp_text[index]).length > 0
+    );
+
+    return lib.cctp || filteredCats.length > 0;
+  });
+
+  for (let i = 0; i < filteredData.length; i++) {
+    const currentObjLib = filteredData[i];
     const libObj = {
       title: `${index + 1}.${i + 1} ${currentObjLib.title}`,
       cctp: currentObjLib.cctp,
@@ -1551,16 +1561,10 @@ function parseCCTPData(data, index) {
         }
       }
 
-      // Skipping if category doesn't have works and cctp
-      if (catObj.arr.length > 0 || catObj.cctp) {
-        libObj.arr.push(catObj);
-      }
+      libObj.arr.push(catObj);
     }
 
-    // Skipping if library doesn't have categories and cctp
-    if (libObj.arr.length > 0 || currentObjLib.cctp) {
-      cp.push(libObj);
-    }
+    cp.push(libObj);
   }
 
   return cp;
