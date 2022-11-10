@@ -1,84 +1,84 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import Modal from "../../../components/Modal";
-import DeleteModal from "../../../components/DeleteModal";
-import List from "../../../components/LibrariesList/index.js";
-import ListMenu from "../../../components/LibrariesList/listMenu";
-import Loader from "../../../components/Loader";
+import Modal from '../../../components/Modal';
+import DeleteModal from '../../../components/DeleteModal';
+import List from '../../../components/LibrariesList/index.js';
+import ListMenu from '../../../components/LibrariesList/listMenu';
+import Loader from '../../../components/Loader';
 
-import Notifier from "../../../utils/Notifier";
-import Families from "./Families";
+import Notifier from '../../../utils/Notifier';
+import Families from './Families';
 
-import AddLibrary from "./addLibrary";
-import AddCategory from "./addCategory";
-import AddWork from "./addWork";
-import EditWork from "./editWork";
+import AddLibrary from './addLibrary';
+import AddCategory from './addCategory';
+import AddWork from './addWork';
+import EditWork from './editWork';
 
-import AddWorkDetail from "./addWorkDetail";
-import EditWorkDetail from "./editWorkDetail";
+import AddWorkDetail from './addWorkDetail';
+import EditWorkDetail from './editWorkDetail';
 
-import EditLibrary from "./editLibrary";
-import EditCategory from "./editCategory";
+import EditLibrary from './editLibrary';
+import EditCategory from './editCategory';
 
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
-import LibraryReducer from "./reducer";
-import { initialState } from "./initialState";
-import actionTypes from "./actionTypes";
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
+import { getToken } from '../../../utils/Auth';
+import LibraryReducer from './reducer';
+import { initialState } from './initialState';
+import actionTypes from './actionTypes';
 
 export default function Index(props) {
   const { translate } = props;
   const token = getToken();
   const [state, dispatch] = React.useReducer(LibraryReducer, initialState);
   const [familiesData, setFamiliesData] = React.useState([]);
-  const [currentFamily, setCurrentFamily] = React.useState("");
+  const [currentFamily, setCurrentFamily] = React.useState('');
   const [librariesData, setlibrariesData] = React.useState([]);
   const [Level2, setLevel2] = React.useState([]);
   const [Level3, setLevel3] = React.useState([]);
   const [Level4, setLevel4] = React.useState([]);
-  const [LevelID, setLevelID] = React.useState("");
-  const [Index, setIndex] = React.useState("");
+  const [LevelID, setLevelID] = React.useState('');
+  const [Index, setIndex] = React.useState('');
 
-  const [LibraryID, setLibraryID] = React.useState("");
+  const [LibraryID, setLibraryID] = React.useState('');
   const [LevelData, setLevelData] = React.useState([]);
   const [parentFamily, setFarentFamily] = React.useState([]);
-  const [Level, setLevel] = React.useState("");
+  const [Level, setLevel] = React.useState('');
   const [parentLevel, setparentLevel] = React.useState(false);
   const [Text, setText] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [loadingData, setLoadingData] = React.useState("");
+  const [loadingData, setLoadingData] = React.useState('');
 
   const openanchorEl = Boolean(state.anchorEl);
   const handleanchorEl = (event, id, level) => {
     // setAnchorEl(event.currentTarget);
     dispatch({
       type: actionTypes.anchorEl,
-      anchorEl: event.currentTarget,
+      anchorEl: event.currentTarget
     });
     setLevel(level);
 
     setLevelID(id);
     switch (level) {
-      case "level0":
-        setText("Add_Library");
+      case 'level0':
+        setText('Add_Library');
         setparentLevel(true);
         break;
-      case "level1":
-        setText("Add_Category");
+      case 'level1':
+        setText('Add_Category');
         setparentLevel(false);
         break;
-      case "level2":
-        setText("Add_Work");
+      case 'level2':
+        setText('Add_Work');
         setparentLevel(false);
         break;
-      case "level3":
-        setText("Add_Work_Detail");
+      case 'level3':
+        setText('Add_Work_Detail');
         setparentLevel(false);
         break;
       default:
         setparentLevel(false);
-        setText("");
+        setText('');
         break;
     }
   };
@@ -86,40 +86,40 @@ export default function Index(props) {
   const handleanchorElClose = () => {
     dispatch({
       type: actionTypes.anchorEl,
-      anchorEl: null,
+      anchorEl: null
     });
   };
   const handleClick = (level, id, obj) => {
     dispatch({
       type: level,
-      obj,
+      obj
     });
-    if (level === "level1") {
+    if (level === 'level1') {
       setLibraryID(id);
       handleLibraryData(id);
     }
   };
-  const handleLibraryData = (id) => {
+  const handleLibraryData = id => {
     let filteredData = handleEditLibrary(id);
 
     setLevelData(filteredData);
   };
 
-  const handleModalClick = (value) => {
+  const handleModalClick = value => {
     if (Level == actionTypes.LEVEL_0) {
       switch (value) {
         case `Add_Library_${Level}`:
           setFarentFamily([LevelID]);
           dispatch({
             type: actionTypes.ADD_LIBRARY,
-            addlibrary: true,
+            addlibrary: true
           });
 
           break;
         case `Manage_Families_${Level}`:
           dispatch({
             type: actionTypes.MANAGE_FAMILIES,
-            managefamily: true,
+            managefamily: true
           });
 
           break;
@@ -131,7 +131,7 @@ export default function Index(props) {
         case `Add_Category_${Level}`:
           dispatch({
             type: actionTypes.ADD_CATEGORY,
-            addcategory: true,
+            addcategory: true
           });
           break;
         case `Edit_${Level}`:
@@ -140,14 +140,14 @@ export default function Index(props) {
             type: actionTypes.EDIT_LIBRARY,
             editlibrary: true,
             editLibraryData: filteredData,
-            editlibraryId: LevelID,
+            editlibraryId: LevelID
           });
           break;
         case `Delete_${Level}`:
           dispatch({
             type: actionTypes.DELETE_LIBRARY,
             deletelibrary: true,
-            libraryDeleteId: LevelID,
+            libraryDeleteId: LevelID
           });
           break;
 
@@ -171,7 +171,7 @@ export default function Index(props) {
         case `Add_Work_${Level}`:
           dispatch({
             type: actionTypes.ADD_WORK,
-            addwork: true,
+            addwork: true
           });
           break;
         case `Edit_${Level}`:
@@ -180,14 +180,14 @@ export default function Index(props) {
             type: actionTypes.EDIT_CATEGORY,
             editcategory: true,
             editCategoryData: filteredData,
-            editcategoryId: LevelID,
+            editcategoryId: LevelID
           });
           break;
         case `Delete_${Level}`:
           dispatch({
             type: actionTypes.DELETE_CATEGORY,
             deletecategory: true,
-            categoryDeleteId: LevelID,
+            categoryDeleteId: LevelID
           });
           break;
 
@@ -211,7 +211,7 @@ export default function Index(props) {
         case `Add_Work_Detail_${Level}`:
           dispatch({
             type: actionTypes.ADD_WORK_DETAIL,
-            addworkdetail: true,
+            addworkdetail: true
           });
           break;
         case `Edit_${Level}`:
@@ -221,14 +221,14 @@ export default function Index(props) {
             type: actionTypes.EDIT_WORK,
             editwork: true,
             editWorkData: filteredData,
-            editworkId: LevelID,
+            editworkId: LevelID
           });
           break;
         case `Delete_${Level}`:
           dispatch({
             type: actionTypes.DELETE_WORK,
             deletework: true,
-            workDeleteId: LevelID,
+            workDeleteId: LevelID
           });
           break;
         case `Top_${Level}`:
@@ -255,14 +255,14 @@ export default function Index(props) {
             type: actionTypes.EDIT_WORK_DETAIL,
             editworkdetail: true,
             editWorkDetailData: filteredData,
-            editworkdetailId: LevelID,
+            editworkdetailId: LevelID
           });
           break;
         case `Delete_${Level}`:
           dispatch({
             type: actionTypes.DELETE_WORK_DETAIL,
             deleteworkdetail: true,
-            workDetailDeleteId: LevelID,
+            workDetailDeleteId: LevelID
           });
           break;
         case `Top_${Level}`:
@@ -300,28 +300,28 @@ export default function Index(props) {
       addworkdetail: false,
       editworkdetail: false,
       deleteworkdetail: false,
-      managefamily: false,
+      managefamily: false
     });
   };
 
   //LibraryTop
-  const handleLibraryTop = async (id) => {
-    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+  const handleLibraryTop = async id => {
+    let filteredIndex = librariesData.findIndex(dt => dt._id == id);
 
     if (filteredIndex != 0) {
       let minRanking = Math.min.apply(
         Math,
-        librariesData.map((item) => {
+        librariesData.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...librariesData];
         tempArr[filteredIndex].ranking = minRanking - 1;
@@ -333,9 +333,9 @@ export default function Index(props) {
   };
 
   //LibraryUp
-  const handleLibraryUp = async (id) => {
+  const handleLibraryUp = async id => {
     // setIndex(id);
-    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+    let filteredIndex = librariesData.findIndex(dt => dt._id == id);
     if (filteredIndex != 0) {
       let tempArr = [...librariesData];
       let prevIndex = filteredIndex - 1;
@@ -343,20 +343,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           tempArr[filteredIndex] = librariesData[filteredIndex - 1];
           tempArr[filteredIndex - 1] = librariesData[filteredIndex];
@@ -366,9 +366,9 @@ export default function Index(props) {
     }
   };
   //Library Down
-  const handleLibraryDown = async (id) => {
+  const handleLibraryDown = async id => {
     // setIndex(id);
-    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+    let filteredIndex = librariesData.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== librariesData.length - 1) {
       let tempArr = [...librariesData];
@@ -376,20 +376,20 @@ export default function Index(props) {
       let prev = tempArr[nextIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/${id}`,
         data: { ranking: nextIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           tempArr[filteredIndex] = librariesData[nextIndex];
           tempArr[nextIndex] = librariesData[filteredIndex];
@@ -400,23 +400,23 @@ export default function Index(props) {
   };
 
   // Library Bottom
-  const handleLibraryBottom = async (id) => {
-    let filteredIndex = librariesData.findIndex((dt) => dt._id == id);
+  const handleLibraryBottom = async id => {
+    let filteredIndex = librariesData.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== librariesData.length - 1) {
       let maxRanking = Math.max.apply(
         Math,
-        librariesData.map((item) => {
+        librariesData.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...librariesData];
         tempArr[filteredIndex].ranking = maxRanking + 1;
@@ -428,24 +428,24 @@ export default function Index(props) {
   };
 
   //Category Top
-  const handleCategoryTop = async (id) => {
+  const handleCategoryTop = async id => {
     let categories = Level2;
-    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+    let filteredIndex = categories.findIndex(dt => dt._id == id);
 
     if (filteredIndex != 0) {
       let minRanking = Math.min.apply(
         Math,
-        categories.map((item) => {
+        categories.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...categories];
         tempArr[filteredIndex].ranking = minRanking - 1;
@@ -457,10 +457,10 @@ export default function Index(props) {
   };
 
   //categoryUp
-  const handleCategoryUp = async (id) => {
+  const handleCategoryUp = async id => {
     // setIndex(id);
     let categories = Level2;
-    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+    let filteredIndex = categories.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== 0) {
       let tempArr = [...categories];
@@ -468,20 +468,20 @@ export default function Index(props) {
 
       let prev = tempArr[prevIndex];
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editCategory/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel2(Level2[0].book_library);
@@ -490,10 +490,10 @@ export default function Index(props) {
     }
   };
   //categoryDown
-  const handleCategoryDown = async (id) => {
+  const handleCategoryDown = async id => {
     // setIndex(id);
     let categories = Level2;
-    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+    let filteredIndex = categories.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== categories.length - 1) {
       let tempArr = [...categories];
@@ -502,20 +502,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editCategory/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel2(Level2[0].book_library);
@@ -525,24 +525,24 @@ export default function Index(props) {
   };
 
   // Category Bottom
-  const handleCategoryBottom = async (id) => {
+  const handleCategoryBottom = async id => {
     let categories = Level2;
-    let filteredIndex = categories.findIndex((dt) => dt._id == id);
+    let filteredIndex = categories.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== categories.length - 1) {
       let maxRanking = Math.max.apply(
         Math,
-        categories.map((item) => {
+        categories.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editCategory/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...categories];
         tempArr[filteredIndex].ranking = maxRanking + 1;
@@ -554,24 +554,24 @@ export default function Index(props) {
   };
 
   //Work Top
-  const handleWorkTop = async (id) => {
+  const handleWorkTop = async id => {
     let works = Level3;
-    let filteredIndex = works.findIndex((dt) => dt._id == id);
+    let filteredIndex = works.findIndex(dt => dt._id == id);
 
     if (filteredIndex != 0) {
       let minRanking = Math.min.apply(
         Math,
-        works.map((item) => {
+        works.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWork/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...works];
         tempArr[filteredIndex].ranking = minRanking - 1;
@@ -583,11 +583,11 @@ export default function Index(props) {
   };
 
   //workUp
-  const handleWorkUp = async (id) => {
+  const handleWorkUp = async id => {
     // setIndex(id);
 
     let works = Level3;
-    let filteredIndex = works.findIndex((dt) => dt._id == id);
+    let filteredIndex = works.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== 0) {
       let tempArr = [...works];
@@ -596,20 +596,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWork/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editWork/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel3(Level3[0].category);
@@ -618,10 +618,10 @@ export default function Index(props) {
     }
   };
   //workDown
-  const handleWorkDown = async (id) => {
+  const handleWorkDown = async id => {
     // setIndex(id);
     let works = Level3;
-    let filteredIndex = works.findIndex((dt) => dt._id == id);
+    let filteredIndex = works.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== works.length - 1) {
       let tempArr = [...works];
@@ -630,20 +630,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWork/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editWork/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel3(Level3[0].category);
@@ -652,24 +652,24 @@ export default function Index(props) {
     }
   };
   // Work Bottom
-  const handleWorkBottom = async (id) => {
+  const handleWorkBottom = async id => {
     let works = Level3;
-    let filteredIndex = works.findIndex((dt) => dt._id == id);
+    let filteredIndex = works.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== works.length - 1) {
       let maxRanking = Math.max.apply(
         Math,
-        works.map((item) => {
+        works.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWork/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...works];
         tempArr[filteredIndex].ranking = maxRanking + 1;
@@ -681,23 +681,23 @@ export default function Index(props) {
   };
 
   //handleWorkDetailTop
-  const handleWorkDetailTop = async (id) => {
+  const handleWorkDetailTop = async id => {
     let work_details = Level4;
-    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+    let filteredIndex = work_details.findIndex(dt => dt._id == id);
     if (filteredIndex != 0) {
       let minRanking = Math.min.apply(
         Math,
-        work_details.map((item) => {
+        work_details.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
         data: { ranking: minRanking - 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...work_details];
         tempArr[filteredIndex].ranking = minRanking - 1;
@@ -709,10 +709,10 @@ export default function Index(props) {
   };
 
   //workdetailUp
-  const handleWorkDetailUp = async (id) => {
+  const handleWorkDetailUp = async id => {
     // setIndex(id);
     let work_details = Level4;
-    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+    let filteredIndex = work_details.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== 0) {
       let tempArr = [...work_details];
@@ -721,20 +721,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editWorkDetail/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel4(Level4[0].work);
@@ -743,10 +743,10 @@ export default function Index(props) {
     }
   };
   //workdetailDown
-  const handleWorkDetailDown = async (id) => {
+  const handleWorkDetailDown = async id => {
     // setIndex(id);
     let work_details = Level4;
-    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+    let filteredIndex = work_details.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== work_details.length - 1) {
       let tempArr = [...work_details];
@@ -755,20 +755,20 @@ export default function Index(props) {
       let prev = tempArr[prevIndex];
 
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
         data: { ranking: prevIndex },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/BookLibraries/editWorkDetail/${prev._id}`,
           data: { ranking: filteredIndex },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }).then(() => {
           handleanchorElClose();
           getLevel4(Level4[0].work);
@@ -778,24 +778,24 @@ export default function Index(props) {
   };
 
   // workdetail Bottom
-  const handleWorkDetailBottom = async (id) => {
+  const handleWorkDetailBottom = async id => {
     let work_details = Level4;
-    let filteredIndex = work_details.findIndex((dt) => dt._id == id);
+    let filteredIndex = work_details.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== work_details.length - 1) {
       let maxRanking = Math.max.apply(
         Math,
-        work_details.map((item) => {
+        work_details.map(item => {
           return item.ranking;
         })
       );
       Axios({
-        method: "put",
+        method: 'put',
         url: `${baseUrl}/BookLibraries/editWorkDetail/${id}`,
         data: { ranking: maxRanking + 1 },
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       }).then(() => {
         let tempArr = [...work_details];
         tempArr[filteredIndex].ranking = maxRanking + 1;
@@ -810,193 +810,193 @@ export default function Index(props) {
   const handleDeleteLibrary = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/BookLibraries/${state.libraryDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       getBookLibraries(currentFamily);
       handleClose();
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
   };
   //delete Category
   const handleDeleteCategory = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/BookLibraries/deleteCategory/${state.categoryDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       getLevel2(response?.data?.Category?.book_library);
       handleClose();
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
   };
   //delete Work
   const handleDeleteWork = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/BookLibraries/deleteWork/${state.workDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       getLevel3(response?.data?.Work?.category);
       handleClose();
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
   };
   //delete Work Detail
   const handleDeleteWorkDetail = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/BookLibraries/deleteWorkDetail/${state.workDetailDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       getLevel4(response?.data?.WorkDetail?.work);
       handleClose();
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response) Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
   };
-  const handleEditLibrary = (id) => {
+  const handleEditLibrary = id => {
     let filteredData;
     if (id) {
-      filteredData = librariesData.find((data) => data._id == id);
+      filteredData = librariesData.find(data => data._id == id);
     }
     return filteredData;
   };
 
-  const handleEditCategory = (id) => {
+  const handleEditCategory = id => {
     let filteredData;
     if (id) {
-      filteredData = Level2.find((data) => data._id == id);
+      filteredData = Level2.find(data => data._id == id);
     }
     return filteredData;
   };
 
-  const handleEditWork = (id) => {
+  const handleEditWork = id => {
     let filteredData;
     if (id) {
-      filteredData = Level3.find((data) => data._id == id);
+      filteredData = Level3.find(data => data._id == id);
     }
 
     return filteredData;
   };
-  const handleEditWorkDetail = (id) => {
+  const handleEditWorkDetail = id => {
     let filteredData;
     if (id) {
-      filteredData = Level4.find((data) => data._id == id);
+      filteredData = Level4.find(data => data._id == id);
     }
 
     return filteredData;
   };
-  const getBookLibraries = async (id) => {
+  const getBookLibraries = async id => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getByFamily/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.bookLibraries.sort((a, b) => a.ranking - b.ranking);
       setlibrariesData(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
     //}
   };
 
-  const getLevel2 = async (id) => {
+  const getLevel2 = async id => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel2/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.categories.sort((a, b) => a.ranking - b.ranking);
       setLevel2(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
-  const getLevel3 = async (id) => {
+  const getLevel3 = async id => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel3/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.works.sort((a, b) => a.ranking - b.ranking);
       setLevel3(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
-  const getLevel4 = async (id) => {
+  const getLevel4 = async id => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/BookLibraries/getLevel4/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.workDetails.sort((a, b) => a.ranking - b.ranking);
       setLevel4(data);
-      setLoadingData("");
+      setLoadingData('');
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
-      setLoadingData("");
+      if (error.response) console.log(error.response.data.message, 'error ');
+      setLoadingData('');
     }
   };
 
   const getFamilies = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Families/`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.families.sort((a, b) => a.ranking - b.ranking);
-      data = data.filter((item) => {
+      data = data.filter(item => {
         let famName = item.name.toUpperCase();
-        return famName !== "PRESCRIPTEUR";
+        return famName !== 'PRESCRIPTEUR';
       });
       setFamiliesData(data);
       setLoading(false);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
       setLoading(false);
     }
   };
@@ -1023,7 +1023,7 @@ export default function Index(props) {
         anchorEl={state.anchorEl}
         text={Text}
         level={Level}
-        id={"demo-customized-button"}
+        id={'demo-customized-button'}
         parentLevel={parentLevel}
         translate={translate}
         {...props}
@@ -1075,13 +1075,20 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Add Category")}
+        title={translate('Add Category')}
         // width="50%"
         height="65%"
         library={true}
         open={state.addcategory}
         translate={translate}
-        component={<AddCategory translate={translate} handleClose={handleClose} BookLibraryId={LevelID} getLevel2={getLevel2} />}
+        component={
+          <AddCategory
+            translate={translate}
+            handleClose={handleClose}
+            BookLibraryId={LevelID}
+            getLevel2={getLevel2}
+          />
+        }
       />
       <Modal
         title="Add Work"
@@ -1091,19 +1098,32 @@ export default function Index(props) {
         open={state.addwork}
         translate={translate}
         component={
-          <AddWork translate={translate} handleClose={handleClose} categoryId={LevelID} getLevel3={getLevel3} works={Level3} />
+          <AddWork
+            translate={translate}
+            handleClose={handleClose}
+            categoryId={LevelID}
+            getLevel3={getLevel3}
+            works={Level3}
+          />
         }
       />
       <Modal
-        title={translate("Add Work detail")}
+        title={translate('Add Work detail')}
         open={state.addworkdetail}
         translate={translate}
         width="30%"
         library={true}
-        component={<AddWorkDetail translate={translate} handleClose={handleClose} workId={LevelID} getLevel4={getLevel4} />}
+        component={
+          <AddWorkDetail
+            translate={translate}
+            handleClose={handleClose}
+            workId={LevelID}
+            getLevel4={getLevel4}
+          />
+        }
       />
       <Modal
-        title={translate("Edit Library")}
+        title={translate('Edit Library')}
         height="60%"
         translate={translate}
         open={state.editlibrary}
@@ -1136,7 +1156,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Edit Work")}
+        title={translate('Edit Work')}
         open={state.editwork}
         translate={translate}
         library={true}
@@ -1156,7 +1176,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Edit Work Detail")}
+        title={translate('Edit Work Detail')}
         open={state.editworkdetail}
         width="30%"
         translate={translate}
@@ -1175,22 +1195,46 @@ export default function Index(props) {
       <Modal
         open={state.deletelibrary}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteLibrary} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleClose}
+            handleDelete={handleDeleteLibrary}
+          />
+        }
       />
       <Modal
         open={state.deletecategory}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteCategory} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleClose}
+            handleDelete={handleDeleteCategory}
+          />
+        }
       />
       <Modal
         open={state.deletework}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteWork} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleClose}
+            handleDelete={handleDeleteWork}
+          />
+        }
       />
       <Modal
         open={state.deleteworkdetail}
         delete={true}
-        component={<DeleteModal translate={translate} handleClose={handleClose} handleDelete={handleDeleteWorkDetail} />}
+        component={
+          <DeleteModal
+            translate={translate}
+            handleClose={handleClose}
+            handleDelete={handleDeleteWorkDetail}
+          />
+        }
       />
     </>
   );

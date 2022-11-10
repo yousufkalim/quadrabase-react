@@ -9,12 +9,12 @@
   -webkit-padding-start: 40px;
 }
 menu, ol, ul {
-  list-style: disc;
-  margin: 0;
-  padding: 0;
+  list-style: disc !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-table tr td {
+/* table tr td {
   border: 1px solid #dadada;
   min-width: 2em;
   padding: 0.4em;
@@ -23,4 +23,4 @@ table tr td {
   -ms-user-select: text;
   user-select: text;
   vertical-align: middle;
-}
+} */

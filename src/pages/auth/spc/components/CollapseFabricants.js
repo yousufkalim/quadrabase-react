@@ -11,7 +11,14 @@ const primaryCol = '#7E7B75';
 
 const ManufacturersListItem = Collapsible;
 
-const CollapseFabricants = ({ token, loading, libraryData, setFabLoading, fabloading }) => {
+const CollapseFabricants = ({
+  token,
+  loading,
+  libraryData,
+  setFabLoading,
+  fabloading,
+  setLibraryData
+}) => {
   return (
     <>
       <Grid container spacing={1}>
@@ -21,6 +28,7 @@ const CollapseFabricants = ({ token, loading, libraryData, setFabLoading, fabloa
           libraryData={libraryData}
           setFabLoading={setFabLoading}
           fabloading={fabloading}
+          setLibraryData={setLibraryData}
         />
       </Grid>
     </>
@@ -1469,7 +1477,7 @@ let dumyData = [
   }
 ];
 
-function Single({ token, loading, libraryData, setFabLoading, fabloading }) {
+function Single({ token, loading, libraryData, setFabLoading, fabloading, setLibraryData }) {
   return (
     <Grid
       xs={12}
@@ -1499,6 +1507,7 @@ function Single({ token, loading, libraryData, setFabLoading, fabloading }) {
                       data={data}
                       setFabLoading={setFabLoading}
                       fabloading={fabloading}
+                      setLibraryData={setLibraryData}
                     />
                   </>
                 ))}
