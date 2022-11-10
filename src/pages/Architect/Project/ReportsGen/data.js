@@ -286,7 +286,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       };
       arr.push(obj);
       arr.push(data[i].workUnit?.symbol ?? '');
-      arr.push(data[i].work?.quantity?.toFixed(2) ?? '');
+      arr.push(formatNumber(data[i].work?.quantity?.toFixed(2), '.') ?? '');
       arr.push('');
       arr.push('');
 
@@ -299,7 +299,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
         arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
         arrD.push(data[i].workDetails.name);
         arrD.push(data[i].workDetailsUnit.symbol);
-        arrD.push(data[i].workDetails.quantity.toFixed(2) ?? '');
+        arrD.push(formatNumber(data[i].workDetails?.quantity?.toFixed(2), '.') ?? '');
         arrD.push('');
         arrD.push('');
 
@@ -313,7 +313,7 @@ function rowsGenDPGFHandleWorksAndWorkDetails(toBeModifiedArr, data, prefix) {
       arrD.push(`${prefix}${workIndex + 1}.${workDetailsIndex + 1}`);
       arrD.push(data[i].workDetails.name);
       arrD.push(data[i].workDetailsUnit.symbol);
-      arrD.push(data[i].workDetails.quantity.toFixed(2) ?? '');
+      arrD.push(formatNumber(data[i].workDetails?.quantity?.toFixed(2), '.') ?? '');
       arrD.push('');
       arrD.push('');
 
