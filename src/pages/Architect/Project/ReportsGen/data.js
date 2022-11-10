@@ -1643,7 +1643,8 @@ function parseHTMLTag(str) {
       tagName: _.tagName,
       innerHTML: _.innerHTML,
       classList: _.classList,
-      src: _.src
+      src: _.src,
+      children: _.children
     };
     parsedObjsArr.push(obj);
   }
@@ -1753,19 +1754,56 @@ const tagsToDocxMap = {
     });
   },
   OL: async function (_) {
-    const listItemsArr = [];
-    return listItemsArr;
+    let children = _.children || null;
+    if (children) {
+      let parsedTags = [];
+
+      for (let i = 0; i < children.length; i++) {
+        if (!this[children[i].tagName]) {
+          continue;
+        }
+        let li = await this[children[i].tagName](children[i]);
+        parsedTags.push(li);
+      }
+
+      return parsedTags;
+    } else {
+      const listItemsArr = [];
+      return listItemsArr;
+    }
   },
   UL: async function (_) {
-    const listItemsArr = [];
-    return listItemsArr;
+    let children = _.children || null;
+    if (children) {
+      let parsedTags = [];
+
+      for (let i = 0; i < children.length; i++) {
+        if (!this[children[i].tagName]) {
+          continue;
+        }
+        let li = await this[children[i].tagName](children[i]);
+        parsedTags.push(li);
+      }
+
+      return parsedTags;
+    } else {
+      const listItemsArr = [];
+      return listItemsArr;
+    }
   },
   LI: async function (_) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
-      text: text,
+      text: {
+        children: [
+          new TextRun({
+            text: text.trim(),
+            font: fontType
+          })
+        ]
+      },
       bullet: {
         level: 0
       }
