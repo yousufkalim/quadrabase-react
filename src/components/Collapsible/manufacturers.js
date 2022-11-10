@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
+import { alpha } from '@mui/material/styles';
 import Axios from 'axios';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import Notifier from '../../utils/Notifier';
 import { baseUrl } from '../../utils/BaseUrl';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -30,6 +32,7 @@ import AddFabricant from '../../pages/admin/fabricantLibrary/Addfabricant';
 import EditFabricant from '../../pages/admin/fabricantLibrary/EditFabricant';
 
 import DeleteModal from '../../components/DeleteModal';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const primaryCol = '#7E7B75';
 
@@ -41,7 +44,16 @@ export default function Collapsible(props) {
   });
   const { name, url } = formData;
 
-  const { avatartitle, text, expandComponent, data, token, fabloading, setFabLoading } = props;
+  const {
+    avatartitle,
+    text,
+    expandComponent,
+    data,
+    token,
+    fabloading,
+    setFabLoading,
+    setLibraryData
+  } = props;
   const [modal, setModal] = React.useState(false);
 
   const ExpandMore = styled(props => {
@@ -66,6 +78,7 @@ export default function Collapsible(props) {
   };
   const handleSubmit = async () => {
     try {
+      console.log('data?.fabricants.length', data?.fabricants.length);
       if (!name) {
         return Notifier('Veuillez entrer le nom du fabricant', 'error', t);
       }
@@ -78,7 +91,7 @@ export default function Collapsible(props) {
       let response = await Axios({
         method: 'post',
         url: `${baseUrl}/fabricant/addFabricant`,
-        data: { ...formData, libraryId: data?._id },
+        data: { ...formData, libraryId: data?._id, ranking: data?.fabricants.length },
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -146,7 +159,13 @@ export default function Collapsible(props) {
 
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent sx={{ background: '#F5F6F8', paddingLeft: '2%' }}>
-              <SingleData data={data} token={token} t={t} setFabLoading={setFabLoading} />
+              <SingleData
+                data={data}
+                token={token}
+                t={t}
+                setFabLoading={setFabLoading}
+                setLibraryData={setLibraryData}
+              />
 
               {/* {expandComponent} */}
             </CardContent>
@@ -173,7 +192,7 @@ export default function Collapsible(props) {
   );
 }
 
-function SingleData({ data, token, t, setFabLoading }) {
+function SingleData({ data, token, t, setFabLoading, setLibraryData }) {
   const [deletemodal, setDeleteModal] = React.useState(false);
   const [editmodal, setEditModal] = React.useState(false);
   const [fab, setId] = React.useState('');
@@ -243,7 +262,7 @@ function SingleData({ data, token, t, setFabLoading }) {
     try {
       console.log('data fabricnat', fab, newfabricant);
 
-      setFabLoading(true);
+      // setFabLoading(true);
       // update fabricant
       let response = await Axios({
         method: 'put',
@@ -253,12 +272,87 @@ function SingleData({ data, token, t, setFabLoading }) {
           Authorization: `Bearer ${token}`
         }
       });
-      setFabLoading(false);
+      console.log('update', response?.data?.data);
+      setLibraryData(response?.data?.data);
+
+      // setFabLoading(false);
 
       Notifier(response.data.message, 'success', t);
       setNewFabricant('');
       handleEditModal();
       // setFabLoading(false)
+    } catch (error) {
+      Notifier(error.response.data.message, 'error', t);
+    }
+  };
+
+  const handleFabricantDown = async () => {
+    try {
+      let filteredIndex = data?.fabricants?.findIndex(dt => dt._id == fab?._id);
+      console.log('filteredIndex', filteredIndex);
+      console.log('data?.fabricants', data?.fabricants);
+      console.log('ab?.id', fab?._id);
+
+      if (filteredIndex !== data?.fabricants.length - 1) {
+        let tempArr = [...data?.fabricants];
+        let prevIndex = filteredIndex + 1;
+        let prev = tempArr[prevIndex];
+        console.log('prevIndex', prevIndex);
+
+        await Axios({
+          method: 'put',
+          url: `${baseUrl}/fabricant/${fab?._id}`,
+          data: { ranking: prevIndex },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        let response = await Axios({
+          method: 'put',
+          url: `${baseUrl}/fabricant/${prev?._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log('update', response?.data?.data);
+        setLibraryData(response?.data?.data);
+      }
+    } catch (error) {
+      Notifier(error.response.data.message, 'error', t);
+    }
+  };
+  const handleFabricantUp = async () => {
+    try {
+      let filteredIndex = data?.fabricants?.findIndex(dt => dt._id == fab?._id);
+
+      if (filteredIndex !== 0) {
+        let tempArr = [...data?.fabricants];
+        let prevIndex = filteredIndex - 1;
+        let prev = tempArr[prevIndex];
+        console.log('prevIndex', prevIndex);
+
+        await Axios({
+          method: 'put',
+          url: `${baseUrl}/fabricant/${fab?._id}`,
+          data: { ranking: prevIndex },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        let response = await Axios({
+          method: 'put',
+          url: `${baseUrl}/fabricant/${prev?._id}`,
+          data: { ranking: filteredIndex },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log('update', response?.data?.data);
+        setLibraryData(response?.data?.data);
+      }
     } catch (error) {
       Notifier(error.response.data.message, 'error', t);
     }
@@ -269,9 +363,55 @@ function SingleData({ data, token, t, setFabLoading }) {
       if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
       return 0;
     });
+    let data1 = array.sort((a, b) => a.ranking - b.ranking);
 
     return array;
   };
+  const [anchorEl, setanchorEl] = React.useState(null);
+
+  const handleClick = event => {
+    setanchorEl(event.currentTarget);
+  };
+  const handleClose = event => {
+    setanchorEl(null);
+  };
+
+  const StyledMenu = styled(props => (
+    <Menu
+      elevation={0}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left'
+      }}
+      transformOrigin={{
+        vertical: 'tp',
+        horizontal: 'left'
+      }}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    '& .MuiPaper-root': {
+      borderRadius: 6,
+      marginTop: theme.spacing(1),
+      minWidth: 180,
+      color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+      boxShadow:
+        'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.00) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.00) 0px 4px 6px -2px',
+      '& .MuiMenu-list': {
+        padding: '4px 0'
+      },
+      '& .MuiMenuItem-root': {
+        '& .MuiSvgIcon-root': {
+          fontSize: 18,
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5)
+        },
+        '&:active': {
+          backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity)
+        }
+      }
+    }
+  }));
 
   return (
     <>
@@ -300,26 +440,61 @@ function SingleData({ data, token, t, setFabLoading }) {
                 </div>
               </a>
               {token ? (
-                <div>
-                  <IconButton
-                    color="info"
-                    aria-label="edit"
-                    onClick={() => {
-                      handleEditModal();
-                      setId(e);
-                    }}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    aria-label="delete"
-                    onClick={() => {
-                      handleDeleteModal();
-                      setId(e);
-                    }}>
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
+                <>
+                  <div>
+                    <IconButton>
+                      <MoreVertIcon
+                        onClick={t => {
+                          handleClick(t);
+                          setId(e);
+                        }}
+                      />
+                    </IconButton>
+                  </div>
+                  <StyledMenu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}>
+                    <MenuItem
+                      onClick={() => {
+                        handleEditModal();
+                        handleClose();
+                      }}
+                      disableRipple>
+                      <FontAwesomeIcon sx={{ fontSize: '1rem' }} icon={faEdit} />
+                      {t('Edit')}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleDeleteModal();
+
+                        handleClose();
+                      }}
+                      disableRipple>
+                      <FontAwesomeIcon sx={{ fontSize: '1rem' }} icon={faTrash} />
+                      {t('Delete')}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleFabricantUp();
+                        handleClose();
+                      }}
+                      disableRipple>
+                      <FontAwesomeIcon sx={{ fontSize: '1rem' }} icon="" />
+                      {t('Up')}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleFabricantDown();
+                        handleClose();
+                      }}
+                      disableRipple>
+                      <FontAwesomeIcon sx={{ fontSize: '1rem' }} icon="" />
+                      {t('Down')}
+                    </MenuItem>
+                  </StyledMenu>
+                </>
               ) : (
                 ''
               )}

@@ -35,6 +35,9 @@ export default function Index(props) {
   useEffect(() => {
     getFabricant();
   }, [modal, fabloading]);
+  useEffect(() => {
+    console.log('a');
+  }, []);
 
   // add subscription
   const handleSubmit = async () => {
@@ -72,6 +75,7 @@ export default function Index(props) {
         }
       });
       let data = response.data.fabricants;
+
       console.log('get fabricant data', data);
       setLoading(false);
       setLibraryData(data);
@@ -102,6 +106,7 @@ export default function Index(props) {
             loading={loading}
             setFabLoading={setFabLoading}
             fabloading={fabloading}
+            setLibraryData={setLibraryData}
           />
         </div>
       </div>

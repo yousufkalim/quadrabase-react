@@ -312,7 +312,7 @@ export default function DenseTable({
                   fontSize: 15,
                   ['@media (max-width:1665px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '50vw',
+                    width: '53vw',
                   },
                   ['@media (max-width:1500px)']: {
                     // eslint-disable-line no-useless-computed-key
@@ -336,7 +336,7 @@ export default function DenseTable({
                   },
                   ['@media (max-width:1200px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '34vw',
+                    width: '38vw',
                   },
                   ['@media (max-width:1150px)']: {
                     // eslint-disable-line no-useless-computed-key
@@ -509,14 +509,14 @@ export default function DenseTable({
                 <TableCell
                   sx={{
                     borderRight: '1px solid lightgray',
-                    width: '50vw',
+                    width: '53vw',
                     display: 'flex',
                     alignItems: 'center',
                     padding: '2px 16px',
                     fontSize: 15,
                     ['@media (max-width:1665px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '43vw',
+                      width: '48vw',
                     },
                     ['@media (max-width:1500px)']: {
                       // eslint-disable-line no-useless-computed-key
@@ -528,7 +528,7 @@ export default function DenseTable({
                     },
                     ['@media (max-width:1355px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '34vw',
+                      width: '38vw',
                     },
                     ['@media (max-width:1300px)']: {
                       // eslint-disable-line no-useless-computed-key
@@ -676,7 +676,7 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                 {row?.unit?.symbol}
+                 {row?.unit?.symbol}nop1
                 </TableCell>
                 <TableCell
                   align="right"
@@ -721,14 +721,14 @@ export default function DenseTable({
                         scope="row"
                         sx={{
                           borderRight: '1px solid lightgray',
-                          width: '50vw',
+                          width: '53vw',
                           display: 'flex',
                           alignItems: 'center',
                           padding: '2px 16px',
                           fontSize: 15,
                           ['@media (max-width:1665px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '43vw',
+                            width: '48vw',
                           },
                           ['@media (max-width:1500px)']: {
                             // eslint-disable-line no-useless-computed-key
@@ -740,7 +740,7 @@ export default function DenseTable({
                           },
                           ['@media (max-width:1355px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '34vw',
+                            width: '38vw',
                           },
                           ['@media (max-width:1300px)']: {
                             // eslint-disable-line no-useless-computed-key

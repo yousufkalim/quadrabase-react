@@ -28,7 +28,7 @@ import Appbar from './spc/components/Appbar';
 export default function Home() {
   const [index, setIndex] = React.useState(0);
   const history = useHistory();
-  const handleChange = (newValue) => {
+  const handleChange = newValue => {
     setIndex(newValue);
   };
 
@@ -42,33 +42,33 @@ export default function Home() {
     {
       icon: Icon1,
       heading: 'Gain de temps en conception',
-      text: 'S’appuyant sur une base de données de plus de 43’000 ouvrages/prestations/produits, Quadrabase couvrira plus de 80% des besoins pour vos projets. Le concept utilisé, déposé et protégé à l’INPI, vous permettra de diviser par 4 le temps de conception de vos documents techniques.',
+      text: 'S’appuyant sur une base de données de plus de 43’000 ouvrages/prestations/produits, Quadrabase couvrira plus de 80% des besoins pour vos projets. Le concept utilisé, déposé et protégé à l’INPI, vous permettra de diviser par 4 le temps de conception de vos documents techniques.'
     },
     {
       icon: Icon2,
       heading: 'Textes prérédigés à forte valeur ajoutée',
-      text: 'Une attention toute particulière à été mise dans le contenu des descriptifs d’ouvrages ainsi que pour les textes composant les différents chapitres du CCTP afin de vous assurer un contenu le plus adapté et complet possible.      ',
+      text: 'Une attention toute particulière à été mise dans le contenu des descriptifs d’ouvrages ainsi que pour les textes composant les différents chapitres du CCTP afin de vous assurer un contenu le plus adapté et complet possible.      '
     },
     {
       icon: Icon3,
       heading: 'Adaptation des textes suivant les spécificités ',
-      text: 'Vous aurez à tout moment la possibilité de modifier et enrichir les informations de base proposées pour les adapter aux spécificités de votre projet.',
+      text: 'Vous aurez à tout moment la possibilité de modifier et enrichir les informations de base proposées pour les adapter aux spécificités de votre projet.'
     },
     {
       icon: Icon4,
       heading: 'Génération automatique des documents',
-      text: 'Après la construction de la grille projet, un simple clic sur le document à produire lancera sa génération et sa mise en page automatiquement au format souhaité (Excel, Word ou PDF). Si besoin, vous pourrez toujours revenir modifier votre document initial et autant de fois que nécessaire.',
+      text: 'Après la construction de la grille projet, un simple clic sur le document à produire lancera sa génération et sa mise en page automatiquement au format souhaité (Excel, Word ou PDF). Si besoin, vous pourrez toujours revenir modifier votre document initial et autant de fois que nécessaire.'
     },
     {
       icon: Icon5,
       heading: 'Sélection de fabricants avec lien vers leur site',
-      text: 'Nous avons sélectionné pour vous les Fabricants Français des produits du BTP. Ils seront d’une part, listés et classés suivant leur domaine d’activité et d’autre part, référencés au droit des Ouvrages/Prestations/Produits qui les concernent. Un lien hypertexte permettra d’accéder directement sur leur site internet.',
+      text: 'Nous avons sélectionné pour vous les Fabricants Français des produits du BTP. Ils seront d’une part, listés et classés suivant leur domaine d’activité et d’autre part, référencés au droit des Ouvrages/Prestations/Produits qui les concernent. Un lien hypertexte permettra d’accéder directement sur leur site internet.'
     },
     {
       icon: Icon6,
       heading: 'Prix très compétitifs',
-      text: 'Les tarifs de nos services ont été spécialement étudiés pour qu’ils soient les plus adaptés à vos budgets.',
-    },
+      text: 'Les tarifs de nos services ont été spécialement étudiés pour qu’ils soient les plus adaptés à vos budgets.'
+    }
   ];
 
   return (
@@ -83,14 +83,13 @@ export default function Home() {
         </div>
 
         <Grid container spacing={1} className="spc_grid">
-          {data.map((items) => (
+          {data.map(items => (
             <>
               <Grid xs={12} sm={12} md={4} className="spc_homegrid">
                 <img src={items.icon}></img>
                 <Typography
                   className="spc_grid_heading"
-                  style={{ paddingTop: '6%', paddingBottom: '8%' }}
-                >
+                  style={{ paddingTop: '6%', paddingBottom: '8%' }}>
                   {items.heading}
                 </Typography>
                 <Typography className="spc_grid_para">{items.text}</Typography>
@@ -175,29 +174,25 @@ export default function Home() {
             display: 'flex',
 
             /* justify-content: space-evenly; */
-            padding: '0 7% 0 7%',
-          }}
-        >
+            padding: '0 7% 0 7%'
+          }}>
           <Button
             className={`${index == '0' ? 'spc_home_btn' : 'spc_footer_btn'}`}
-            onClick={() => handleChange(0)}
-          >
+            onClick={() => handleChange(0)}>
             Les fonctionnalités
           </Button>
           <div className="spc_divider"></div>
           <Button
             className={`${index == '1' ? 'spc_home_btn' : 'spc_footer_btn'}`}
             onClick={() => handleChange(1)}
-            sx={{ marginLeft: '1%' }}
-          >
+            sx={{ marginLeft: '1%' }}>
             Les sources documentaires
           </Button>
           <div className="spc_divider"></div>
           <Button
             className={`${index == '2' ? 'spc_home_btn' : 'spc_footer_btn'}`}
             onClick={() => handleChange(2)}
-            sx={{ marginLeft: '1%' }}
-          >
+            sx={{ marginLeft: '1%' }}>
             La base de données
           </Button>
         </div>
@@ -210,7 +205,7 @@ export default function Home() {
               width: '45% !Important',
               borderRadius: '20px',
               marginTop: '1% !Important',
-              marginBottom: '2%',
+              marginBottom: '2%'
             }}
           />
         </div>
@@ -223,74 +218,74 @@ export default function Home() {
             {index === 0 ? (
               <ul>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Création et gestion des projets
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Saisie des données générales du projet,
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Choix du type de marché (lots, tranches, subséquent)
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Construction du projet à partir des ouvrages des bibliothèques
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Création d’ouvrages spécifiques au projet
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Calcul automatique des totaux
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Réorganisation de la structure du projet
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Gestion du Chapitre 0 du CCTP (Clauses communes)
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Adaptation des descriptifs d’ouvrages et des textes du CCTP
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Génération et visualisation des documents au format Xml
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Transfert des documents vers Word, Excel ou PDF
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Création de Bibliothèques d’ouvrages spécifiques à chaque Prescripteur
                 </li>
               </ul>
             ) : index === 1 ? (
               <ul>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Cahier des Clauses Techniques Générales (CCTG)
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Documents Techniques Unifiés (DTU)
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Normes NF et EN
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Guides Techniques
                 </li>
                 <li>
-                  <CircleIcon style={{ fontSize: 8 }} />
+                  {/* <CircleIcon style={{ fontSize: 8 }} /> */}
                   &nbsp;&nbsp;Documentations des Fabricants
                 </li>
               </ul>

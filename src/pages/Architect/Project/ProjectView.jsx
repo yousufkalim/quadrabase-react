@@ -1386,7 +1386,7 @@ const ProjectView = () => {
                         alignItems: 'center'
                       }}>
                       <div>
-                        <i>{t('General Libraries')}</i>a
+                        <i>{t('General Libraries')}</i>
                       </div>
                     </div>
                     <InputDropdown
@@ -1699,7 +1699,7 @@ const ProjectView = () => {
                                 fontSize: 16,
                                 padding: '2px 16px'
                               }}>
-                              PU HT
+                              PU HT123
                             </TableCell>
                             <TableCell
                               align="center"
@@ -1713,6 +1713,7 @@ const ProjectView = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          
                           {currentProject.market_type === 'Trades' ? (
                             tradesData?.map((item2, index2) => {
                               let tradeTotalIndex = -1;

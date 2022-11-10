@@ -189,6 +189,16 @@ export default function AddExpense(props) {
     setDocuments([]);
     setFileName('');
   };
+  const alphaSorting = array => {
+    const myData = array.sort(function (a, b) {
+      if (a.establishment.toLowerCase() < b.establishment.toLowerCase()) return -1;
+      if (a.establishment.toLowerCase() > b.establishment.toLowerCase()) return 1;
+      return 0;
+    });
+    
+
+    return array;
+  };
 
   return (
     <form className="w-full  pt-1 pb-5">
@@ -306,7 +316,7 @@ export default function AddExpense(props) {
               overflow: 'auto',
             }}
           >
-            {ProviderOptions?.map((item) => (
+            {alphaSorting(ProviderOptions)?.map((item) => (
               <h3
                 onClick={() => setSelectedProvider(item)}
                 style={{
@@ -340,7 +350,7 @@ export default function AddExpense(props) {
               overflow: 'auto',
             }}
           >
-            {associatedProviders?.map((item) => (
+            {alphaSorting(associatedProviders)?.map((item) => (
               <h3
                 onClick={() => setSelectedAssociatedProvider(item)}
                 style={{
