@@ -9,9 +9,9 @@
   -webkit-padding-start: 40px;
 }
 menu, ol, ul {
-  list-style: disc !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  list-style: disc ;
+  margin: 0 ;
+  padding: 0 ;
 }
 
 /* table tr td {
