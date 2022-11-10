@@ -1,7 +1,7 @@
 .textEditor ul,
 .textEditor ol {
   display: block;
-  list-style-type: disc;
+  list-style-type: disc !important;
   -webkit-margin-before: 1em;
   -webkit-margin-after: 1em;
   -webkit-margin-start: 0px;
@@ -9,7 +9,7 @@
   -webkit-padding-start: 40px;
 }
 menu, ol, ul {
-  list-style: disc ;
+  list-style: disc  !important;
   margin: 0 ;
   padding: 0 ;
 }
