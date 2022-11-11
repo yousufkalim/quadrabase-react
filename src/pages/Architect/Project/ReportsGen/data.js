@@ -863,6 +863,9 @@ function docxParsedDataGenTradesDPGF(trade, index) {
     docxParsedData.push(arr);
   }
 
+  // At the end of the trade we have to add total field for that trade
+  docxParsedData.push(['', `Total ${trade.trade}  :`, '']);
+
   return docxParsedData;
 }
 
@@ -909,7 +912,13 @@ function docxParsedDataGenTradesAndTranchesDPGF(trade, index) {
       }
       docxParsedData.push(arr);
     }
+
+    // At the end of the tranch we have to add total field for that tranch
+    docxParsedData.push(['', `Total ${currentObj.tranch}  :`, '']);
   }
+
+  // At the end of the trade we have to add total field for that trade
+  docxParsedData.push(['', `Total ${trade.trade}  :`, '']);
 
   return docxParsedData;
 }

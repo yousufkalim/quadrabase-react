@@ -1955,6 +1955,10 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
 
   const rows = rowsGenSimpleDPGF(data);
 
+  // At the end of the array we have to add total fields for whole document
+  rows.push(['', 'Total HT  :', '']);
+  rows.push(['', 'Montant total TTC  :', '']);
+
   const tableHeader = [
     new Table({
       alignment: AlignmentType.CENTER,
@@ -2072,6 +2076,36 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
   for (let i = 0; i < rows.length; i++) {
     const currentRow = rows[i];
     const tableRowCells = [];
+
+    // If row length is 3, it means we have to add total fields here
+    if (currentRow.length === 3) {
+      for (let j = 0; j < currentRow.length; j++) {
+        const tableCell = new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.END,
+              children: [
+                new TextRun({
+                  text: `${currentRow[j]}`,
+                  font: fontType,
+                  bold: true
+                })
+              ]
+            })
+          ],
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+          columnSpan: j === 1 && 4
+        });
+        tableRowCells.push(tableCell);
+      }
+      const tableRow = new TableRow({
+        children: tableRowCells
+      });
+      tableBodyRows.push(tableRow);
+      continue;
+    }
+
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
         const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
@@ -2184,6 +2218,10 @@ async function exportDOCXTradesDPGF(data, currentProject) {
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
+  // At the end of the array we have to add total fields for whole document
+  docxParsedData.push(['', 'Total HT  :', '']);
+  docxParsedData.push(['', 'Montant total TTC  :', '']);
+
   const tableHeader = [
     new Table({
       alignment: AlignmentType.CENTER,
@@ -2301,6 +2339,36 @@ async function exportDOCXTradesDPGF(data, currentProject) {
   for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
+
+    // If row length is 3, it means we have to add total fields here
+    if (currentRow.length === 3) {
+      for (let j = 0; j < currentRow.length; j++) {
+        const tableCell = new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.END,
+              children: [
+                new TextRun({
+                  text: `${currentRow[j]}`,
+                  font: fontType,
+                  bold: true
+                })
+              ]
+            })
+          ],
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+          columnSpan: j === 1 && 4
+        });
+        tableRowCells.push(tableCell);
+      }
+      const tableRow = new TableRow({
+        children: tableRowCells
+      });
+      tableBodyRows.push(tableRow);
+      continue;
+    }
+
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
         const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
@@ -2404,6 +2472,10 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
     docxParsedData = docxParsedData.concat(currentRowDOCXParsedData);
   }
 
+  // At the end of the array we have to add total fields for whole document
+  docxParsedData.push(['', 'Total HT  :', '']);
+  docxParsedData.push(['', 'Montant total TTC  :', '']);
+
   const tableHeader = [
     new Table({
       alignment: AlignmentType.CENTER,
@@ -2521,6 +2593,36 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
   for (let i = 0; i < docxParsedData.length; i++) {
     const currentRow = docxParsedData[i];
     const tableRowCells = [];
+
+    // If row length is 3, it means we have to add total fields here
+    if (currentRow.length === 3) {
+      for (let j = 0; j < currentRow.length; j++) {
+        const tableCell = new TableCell({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.END,
+              children: [
+                new TextRun({
+                  text: `${currentRow[j]}`,
+                  font: fontType,
+                  bold: true
+                })
+              ]
+            })
+          ],
+          verticalAlign: VerticalAlign.CENTER,
+          margins: normalMargin,
+          columnSpan: j === 1 && 4
+        });
+        tableRowCells.push(tableCell);
+      }
+      const tableRow = new TableRow({
+        children: tableRowCells
+      });
+      tableBodyRows.push(tableRow);
+      continue;
+    }
+
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
         const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
