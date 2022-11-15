@@ -1977,9 +1977,9 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-                                            <TableCell
-                                              colSpan={3}
-                                              style={{ padding: '2px 16px', fontSize: 16 }}>
+
+                                            <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
+
                                               <div
                                                 style={{
                                                   width: '100%',
