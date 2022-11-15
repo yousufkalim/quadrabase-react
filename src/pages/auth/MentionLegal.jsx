@@ -38,6 +38,7 @@ const MentionLegal = () => {
       <div>
         <Grid container spacing={1} sx={{ padding: '2% 6%' }}>
           <div
+          id="Alltables"
             style={{ padding: '0px 15px 0px 20px' }}
             dangerouslySetInnerHTML={{ __html: data }}
           ></div> 

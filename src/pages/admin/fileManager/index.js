@@ -288,6 +288,7 @@ const Index = () => {
     }
   });
   const handleCopyClip = async () => {
+    console.log('${url}/${selectedFolder?.uri}', `${url}/${selectedFolder?.uri}`);
     navigator.clipboard.writeText(`${url}/${selectedFolder?.uri}`);
 
     // Notifier('Copied', 'success');

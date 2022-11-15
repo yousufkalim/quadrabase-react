@@ -11,9 +11,12 @@ if (window.location.host === 'quadrabase-dev.falconweb.app') {
 } else if (window.location.host === 'quadrabase-staging.falconweb.app') {
   baseUrl = 'https://quadrabase-api-staging.falconweb.app/api/v1';
   url = 'https://quadrabase-api-staging.falconweb.app';
-} else if (window.location.host === 'quadrabase.fr'|| window.location.host === 'www.quadrabase.fr') {
+} else if (
+  window.location.host === 'quadrabase.fr' ||
+  window.location.host === 'www.quadrabase.fr'
+) {
   baseUrl = 'https://api.quadrabase.fr/api/v1';
-  url = 'https://api.quadrabase.fr/';
+  url = 'https://api.quadrabase.fr';
 }
 
 module.exports = { baseUrl, url };

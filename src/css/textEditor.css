@@ -20,13 +20,28 @@
 }
 menu, ul {
   list-style: disc  !important;
-  margin: 0 ;
-  padding: 0 ;
+  -webkit-margin-before: 1em !important;
+  -webkit-margin-after: 1em !important;
+  -webkit-margin-start: 0px !important;
+  -webkit-margin-end: 0px !important;
+  -webkit-padding-start: 40px !important;
 }
 menu, ol {
   list-style: auto  !important;
-  margin: 0 ;
-  padding: 0 ;
+  -webkit-margin-before: 1em !important; 
+  -webkit-margin-after: 1em !important;
+  -webkit-margin-start: 0px !important;
+  -webkit-margin-end: 0px !important;
+  -webkit-padding-start: 40px !important;
+}
+
+#Alltables table tr td{
+  border: 1px solid #dadada !important;
+  padding: 0.4em !important;
+}
+
+#Alltables{
+  width: 100% !important;
 }
 
 /* table tr td {

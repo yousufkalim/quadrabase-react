@@ -18,18 +18,18 @@ const CctpModal = ({ handleOpenCgvModal }) => {
   return (
     <div style={{ width: '45vw', height: '80vh', overflow: 'hidden' }}>
       <div
+        id="Alltables"
         style={{
           fontSize: 18,
           border: '1px solid lightgray',
           padding: 15,
           height: '90%',
           overflowX: 'hidden',
-          overflowY: 'scroll',
+          overflowY: 'scroll'
         }}
         dangerouslySetInnerHTML={{
-          __html: data,
-        }}
-      ></div>
+          __html: data
+        }}></div>
       <br />
       <div style={{ width: '100%', textAlign: 'right' }}>
         <Button
@@ -37,10 +37,9 @@ const CctpModal = ({ handleOpenCgvModal }) => {
           style={{
             backgroundColor: '#8C1244',
             marginRight: '10px !important',
-            height: '35px !important',
+            height: '35px !important'
           }}
-          onClick={handleOpenCgvModal}
-        >
+          onClick={handleOpenCgvModal}>
           {t('Close')}
         </Button>
       </div>
