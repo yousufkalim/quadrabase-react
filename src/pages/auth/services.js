@@ -18,9 +18,8 @@ const Services = () => {
   return (
     <div
       style={{
-        height: '100vh',
-      }}
-    >
+        height: '100vh'
+      }}>
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
@@ -31,9 +30,9 @@ const Services = () => {
       <div className="w-full  md:mx-auto py-20 ">
         <div className="container mx-auto px-6">
           <div
+            id="Alltables"
             style={{ padding: '0px 15px 0px 20px' }}
-            dangerouslySetInnerHTML={{ __html: data }}
-          ></div>
+            dangerouslySetInnerHTML={{ __html: data }}></div>
         </div>
       </div>
       <Footer />

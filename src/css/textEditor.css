@@ -1,5 +1,5 @@
-.textEditor ul,
-.textEditor ol {
+
+.textEditor ul {
   display: block;
   list-style-type: disc !important;
   -webkit-margin-before: 1em;
@@ -8,10 +8,40 @@
   -webkit-margin-end: 0px;
   -webkit-padding-start: 40px;
 }
-menu, ol, ul {
+
+.textEditor ol {
+  display: block;
+  list-style-type: auto !important;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
+}
+menu, ul {
   list-style: disc  !important;
-  margin: 0 ;
-  padding: 0 ;
+  -webkit-margin-before: 1em !important;
+  -webkit-margin-after: 1em !important;
+  -webkit-margin-start: 0px !important;
+  -webkit-margin-end: 0px !important;
+  -webkit-padding-start: 40px !important;
+}
+menu, ol {
+  list-style: auto  !important;
+  -webkit-margin-before: 1em !important; 
+  -webkit-margin-after: 1em !important;
+  -webkit-margin-start: 0px !important;
+  -webkit-margin-end: 0px !important;
+  -webkit-padding-start: 40px !important;
+}
+
+#Alltables table tr td{
+  border: 1px solid #dadada !important;
+  padding: 0.4em !important;
+}
+
+#Alltables{
+  width: 100% !important;
 }
 
 /* table tr td {

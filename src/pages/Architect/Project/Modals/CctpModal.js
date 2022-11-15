@@ -1,36 +1,35 @@
-import React from "react";
-import { Button } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const CctpModal = ({ handleOpenCctpModal, cctp_text }) => {
   const { t } = useTranslation();
   return (
-    <div style={{ width: "45vw", maxHeight: "80vh", overflow: "auto" }}>
+    <div style={{ width: '45vw', maxHeight: '80vh', overflow: 'auto' }}>
       <div
+        id="Alltables"
         style={{
           fontSize: 18,
-          border: "1px solid lightgray",
+          border: '1px solid lightgray',
           padding: 15,
           height: 250,
-          overflowX: "hidden",
-          overflowY: "scroll",
+          overflowX: 'hidden',
+          overflowY: 'scroll'
         }}
         dangerouslySetInnerHTML={{
-          __html: cctp_text?.length > 5 ? cctp_text : t("No text"),
-        }}
-      ></div>
+          __html: cctp_text?.length > 5 ? cctp_text : t('No text')
+        }}></div>
       <br />
-      <div style={{ width: "100%", textAlign: "right" }}>
+      <div style={{ width: '100%', textAlign: 'right' }}>
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#3b373c",
-            marginRight: "10px !important",
-            height: "35px !important",
+            backgroundColor: '#3b373c',
+            marginRight: '10px !important',
+            height: '35px !important'
           }}
-          onClick={handleOpenCctpModal}
-        >
-          {t("Close")}
+          onClick={handleOpenCctpModal}>
+          {t('Close')}
         </Button>
       </div>
     </div>

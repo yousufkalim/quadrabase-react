@@ -320,6 +320,7 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === 'logo' ? (
                           <TableCell key={index} align="center" title={row[record]}>
+                            
                             <img src={row[record] ? row[record] : noLogo} width="65%" />
                           </TableCell>
                         ) : record == 'provider_subscriptionStartDate' ? (
