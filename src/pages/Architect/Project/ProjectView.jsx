@@ -1699,7 +1699,7 @@ const ProjectView = () => {
                                 fontSize: 16,
                                 padding: '2px 16px'
                               }}>
-                              PU HT123
+                              PU HT
                             </TableCell>
                             <TableCell
                               align="center"
