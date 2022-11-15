@@ -339,7 +339,7 @@ const ProjectView = () => {
         });
       }
 
-      setProjectWorkData(data);
+      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
     } else if (currentProject.market_type === 'Trades') {
       const result = await api('get', `/project/worksByTrades/${id}`);
       let data = result?.data?.works ?? [];
@@ -368,7 +368,7 @@ const ProjectView = () => {
       });
       setTradeTotal(tempArray);
       setTotalHT(tempAmount?.toFixed(2));
-      setProjectWorkData(data);
+      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
     } else {
       const result = await api('get', `/project/works/${id}`);
       let data = result?.data?.works ?? [];
@@ -386,7 +386,7 @@ const ProjectView = () => {
         }
       });
       setTotalHT(temp);
-      setProjectWorkData(data);
+      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
     }
   };
 
@@ -631,25 +631,23 @@ const ProjectView = () => {
       setLoadingLevel('');
     }
   };
-  const getLevel4 = async (work) => {
+  const getLevel4 = async work => {
     try {
-      console.log("work id isss",work._id)
+      console.log('work id isss', work._id);
       setLoadingLevel(work._id);
       if (work.numberOfWorkDetails === 0) {
-        
         setLoadingLevel('');
-      }else{
+      } else {
         setLoadingLevel(work._id);
         const result = await api('get', `/BookLibraries/getLevel4/${work._id}`);
         setworks4(result.data.workDetails.sort((a, b) => a.ranking - b.ranking));
         setLoadingLevel('');
       }
-        
     } catch (err) {
       setLoadingLevel('');
     }
   };
-  console.log("loading isss",loadingLevel)
+  console.log('loading isss', loadingLevel);
   // if (work.numberOfWorkDetails === 0) {
   //   setSelectedWork(work);
   //   setOpenWorkModal(true);
@@ -770,6 +768,7 @@ const ProjectView = () => {
           tempArr[filteredIndex] = tradesData[filteredIndex - 1];
           tempArr[filteredIndex - 1] = tradesData[filteredIndex];
           setTradesData(tempArr);
+          getTrades();
         });
       });
     }
@@ -791,6 +790,7 @@ const ProjectView = () => {
           tempArr[filteredIndex] = tradesData[nextIndex];
           tempArr[nextIndex] = tradesData[filteredIndex];
           setTradesData(tempArr);
+          getTrades();
         });
       });
     }
@@ -1411,7 +1411,6 @@ const ProjectView = () => {
                       setLevel4={setworks4}
                       level4={works4}
                       loading={loadingLevel}
-                      
                       openModal={openModal}
                       openCctpModal={handleOpenCctpModal}
                       handleOpenProvidersModal={handleOpenProvidersModal}
@@ -1978,7 +1977,9 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
+
                                             <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
+
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2068,9 +2069,8 @@ const ProjectView = () => {
                             padding: '20px 40px 0px',
                             fontWeight: 900,
                             fontSize: '15px',
-                            color:"black"
-                          }}
-                        >
+                            color: 'black'
+                          }}>
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total HT')} :</div>
                             <div className={classes.fotter_amount}>
