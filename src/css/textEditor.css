@@ -18,15 +18,16 @@
   -webkit-margin-end: 0px;
   -webkit-padding-start: 40px;
 }
-menu, ul {
+#Alltables ul {
   list-style: disc  !important;
+
   -webkit-margin-before: 1em !important;
   -webkit-margin-after: 1em !important;
   -webkit-margin-start: 0px !important;
   -webkit-margin-end: 0px !important;
   -webkit-padding-start: 40px !important;
 }
-menu, ol {
+#Alltables ol {
   list-style: auto  !important;
   -webkit-margin-before: 1em !important; 
   -webkit-margin-after: 1em !important;
