@@ -1957,6 +1957,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
 
   // At the end of the array we have to add total fields for whole document
   rows.push(['', 'Total HT  :', '']);
+  rows.push(['', `T.V.A (${currentProject?.vat?.value}%)  :`, '']);
   rows.push(['', 'Montant total TTC  :', '']);
 
   const tableHeader = [
@@ -2220,6 +2221,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
 
   // At the end of the array we have to add total fields for whole document
   docxParsedData.push(['', 'Total HT  :', '']);
+  docxParsedData.push(['', `T.V.A (${currentProject?.vat?.value}%)  :`, '']);
   docxParsedData.push(['', 'Montant total TTC  :', '']);
 
   const tableHeader = [
@@ -2474,6 +2476,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
 
   // At the end of the array we have to add total fields for whole document
   docxParsedData.push(['', 'Total HT  :', '']);
+  docxParsedData.push(['', `T.V.A (${currentProject?.vat?.value}%)  :`, '']);
   docxParsedData.push(['', 'Montant total TTC  :', '']);
 
   const tableHeader = [
