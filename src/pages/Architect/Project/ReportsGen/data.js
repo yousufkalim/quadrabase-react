@@ -1545,6 +1545,7 @@ function parseCCTPData(data, index) {
     let filteredCats = lib.pcategories.filter(
       cat => cat.cctp || cat.pworks.filter(_ => _.work?.cctp_text[index]).length > 0
     );
+    lib.pcategories = filteredCats;
 
     return lib.cctp || filteredCats.length > 0;
   });
