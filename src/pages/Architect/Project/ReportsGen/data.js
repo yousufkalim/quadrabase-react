@@ -1,8 +1,20 @@
-import { Paragraph, TextRun, UnderlineType, ImageRun } from 'docx';
+import {
+  Paragraph,
+  TextRun,
+  UnderlineType,
+  ImageRun,
+  Table,
+  AlignmentType,
+  TableRow,
+  TableCell,
+  VerticalAlign,
+  convertInchesToTwip,
+  WidthType
+} from 'docx';
 import reactImageSize from 'react-image-size';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { htmlTagRegex, cctpArr } from '../../../../utils/Constants';
+import { cctpArr } from '../../../../utils/Constants';
 import { formatNumber } from '../../../../utils/markThousand';
 import {
   l4Font,
@@ -1579,14 +1591,17 @@ function parseCCTPData(data, index) {
   return cp;
 }
 
-async function textRunsSplitGen(str, size) {
+async function textRunsSplitGen(str, size, alignment) {
   let strSingle = String(str);
 
   let textRunArr = [];
-  if (htmlTagRegex.test(strSingle)) {
+
+  // We cannot store regex in a variable, this will cause inconsistent test results
+  // see this article for better understanding https://dev.to/dvddpl/why-is-my-regex-working-intermittently-4f4g
+  if (/<\/?[^>]+>/gi.test(strSingle)) {
     // replace "&nbsp;"
     strSingle = strSingle.replace(/\&nbsp;/g, ' ');
-    textRunArr = await handleBuiltInCCTPs(strSingle, size);
+    textRunArr = await handleBuiltInCCTPs(strSingle, size, alignment);
   } else {
     textRunArr = handleImportedCCTPs(strSingle);
   }
@@ -1618,7 +1633,7 @@ function handleImportedCCTPs(str) {
   return objsArr;
 }
 
-async function handleBuiltInCCTPs(str, size) {
+async function handleBuiltInCCTPs(str, size, alignment) {
   let strSingle = String(str);
   const parsedObjsArr = parseHTMLTag(strSingle);
 
@@ -1627,7 +1642,7 @@ async function handleBuiltInCCTPs(str, size) {
     let currentObj = parsedObjsArr[i];
     let docxObj =
       tagsToDocxMap[currentObj.tagName] &&
-      (await tagsToDocxMap[currentObj.tagName](currentObj, size));
+      (await tagsToDocxMap[currentObj.tagName](currentObj, size, alignment));
     if (docxObj) {
       if (Array.isArray(docxObj)) {
         docxObjsArr.push(...docxObj);
@@ -1653,7 +1668,8 @@ function parseHTMLTag(str) {
       innerHTML: _.innerHTML,
       classList: _.classList,
       src: _.src,
-      children: _.children
+      children: _.children,
+      attributes: _.attributes
     };
     parsedObjsArr.push(obj);
   }
@@ -1662,17 +1678,19 @@ function parseHTMLTag(str) {
 }
 
 const tagsToDocxMap = {
-  P: async function (_, size) {
+  P: async function (_, size, alignment) {
     const text = _.innerHTML;
 
     const textArr = text.split('<br>');
-    const center = text.includes('PU HT');
+    const center = text.includes('PU HT') || alignment === 'CENTER';
 
     const objsArr = [];
 
     for (let i = 0; i < textArr.length; i++) {
       let currentText = textArr[i];
-      if (htmlTagRegex.test(currentText)) {
+      // We cannot store regex in a variable, this will cause inconsistent test results
+      // see this article for better understanding https://dev.to/dvddpl/why-is-my-regex-working-intermittently-4f4g
+      if (/<\/?[^>]+>/gi.test(currentText)) {
         const parsedObjsArr = parseHTMLTag(currentText);
         for (let j = 0; j < parsedObjsArr.length; j++) {
           const obj = parsedObjsArr[j];
@@ -1699,11 +1717,12 @@ const tagsToDocxMap = {
       ]
     });
   },
-  STRONG: async function (_, size) {
+  STRONG: async function (_, size, alignment) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
+      alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
           text: text,
@@ -1714,11 +1733,12 @@ const tagsToDocxMap = {
       ]
     });
   },
-  EM: async function (_, size) {
+  EM: async function (_, size, alignment) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
+      alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
           text: text,
@@ -1729,11 +1749,12 @@ const tagsToDocxMap = {
       ]
     });
   },
-  U: async function (_, size) {
+  U: async function (_, size, alignment) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
+      alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
           text: text,
@@ -1747,11 +1768,12 @@ const tagsToDocxMap = {
       ]
     });
   },
-  S: async function (_, size) {
+  S: async function (_, size, alignment) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
     return new Paragraph({
+      alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
           text: text,
@@ -1818,7 +1840,7 @@ const tagsToDocxMap = {
       }
     });
   },
-  SPAN: async function (_) {
+  SPAN: async function (_, sz, alignment) {
     let text = _.innerHTML;
     text = text.replace(tagsRegEx, '');
 
@@ -1834,6 +1856,8 @@ const tagsToDocxMap = {
     }
 
     return new Paragraph({
+      alignment: AlignmentType[alignment || 'LEFT'],
+
       children: [
         new TextRun({
           text: text,
@@ -1844,33 +1868,104 @@ const tagsToDocxMap = {
     });
   },
   IMG: async function (_) {
-    const response = await axios.get(_.src, {
-      responseType: 'arraybuffer'
-    });
+    try {
+      const response = await axios.get(_.src, {
+        responseType: 'arraybuffer'
+      });
 
-    const buffer = Buffer.from(response.data);
+      const buffer = Buffer.from(response.data);
 
-    const originalSize = await reactImageSize(_.src);
-    const originalAspectRatio = originalSize.width / originalSize.height;
+      const originalSize = await reactImageSize(_.src);
+      const originalAspectRatio = originalSize.width / originalSize.height;
 
-    let height;
-    const width = 400;
+      let height;
+      const width = 400;
 
-    height = width / originalAspectRatio;
+      height = width / originalAspectRatio;
 
-    const image = new ImageRun({
-      data: buffer,
-      transformation: {
-        height: height,
-        width: width
+      const image = new ImageRun({
+        data: buffer,
+        transformation: {
+          height: height,
+          width: width
+        }
+      });
+
+      const paragraph = new Paragraph({
+        children: [image]
+      });
+
+      return paragraph;
+    } catch (err) {
+      console.log('Image parse error', err);
+    }
+  },
+  TABLE: async function (table) {
+    try {
+      // This function will convert Table's html into docx table,
+      // Table structure should strictly be like this emmet shortcut "table>tbody>tr*2>td*3", use this emmet shortcut to generate example structure
+      // Note: tr and td tags can be multiple and td tag can contain other text tags
+      let rows = [];
+
+      // This will convert TD tags into docx format and create rows and cells
+      // The rows array should be like this [ [cell 1, cell 2, cell 3], [ cell 1, cell 2, cell 3 ] ]
+      for (let i = 0; i < table.children[0]?.children?.length; i++) {
+        const tds = table.children[0]?.children[i]?.children; // All the td elements in current row
+        let row = [];
+        for (let j = 0; j < tds.length; j++) {
+          // looping through all the td elements to convert in docx
+          if (tds[j]?.children?.length) {
+            // If td element have more child (e.g, strong, p, i, u)
+            row[j] = await textRunsSplitGen(tds[j].innerHTML, undefined, 'CENTER');
+          } else {
+            // If td element have text only
+            row[j] = [
+              new Paragraph({
+                alignment: AlignmentType.CENTER,
+                children: [
+                  new TextRun({
+                    text: tds[j].innerText,
+                    font: fontType
+                  })
+                ]
+              })
+            ];
+          }
+        }
+        rows.push(row);
       }
-    });
 
-    const paragraph = new Paragraph({
-      children: [image]
-    });
+      const docxTable = new Table({
+        alignment: AlignmentType.LEFT,
+        width: {
+          size: 100,
+          type: WidthType.PERCENTAGE
+        },
+        // As I told above we have array of arrays, first array is containing rows and second is containing cells
+        rows: Array.from(rows).map(row => {
+          // Row generation
+          return new TableRow({
+            children: Array.from(row).map(cell => {
+              // Cell generation
+              return new TableCell({
+                children: cell,
+                verticalAlign: VerticalAlign.CENTER,
+                margins: {
+                  top: convertInchesToTwip(0.03),
+                  bottom: convertInchesToTwip(0.03),
+                  left: convertInchesToTwip(0.12),
+                  right: convertInchesToTwip(0.12)
+                }
+              });
+            })
+          });
+        })
+      });
 
-    return paragraph;
+      return docxTable;
+    } catch (err) {
+      console.log('Table parsing error', err);
+    }
   }
 };
 
