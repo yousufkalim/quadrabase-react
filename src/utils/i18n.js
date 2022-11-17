@@ -912,7 +912,7 @@ i18n
           'Provider Lists': 'Liste des fabricants',
           Add: 'Ajouter',
           'Associated Provider': 'Fabricant associé',
-          'Associated Providers': 'Fabricant associés',
+          'Associated Providers': 'Fabricants associés',
           Remove: 'Retirer',
           'Must be exactly 5 characters': 'Code postal incorrect',
           Required: 'Champ obligatoire',

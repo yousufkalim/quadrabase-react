@@ -676,7 +676,7 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                 {row?.unit?.symbol}nop1
+                 {row?.unit?.symbol}
                 </TableCell>
                 <TableCell
                   align="right"
