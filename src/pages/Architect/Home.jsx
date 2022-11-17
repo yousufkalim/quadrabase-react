@@ -37,19 +37,19 @@ const Home = () => {
   const [renewModal, setRenewModal] = useState(false);
   const [assignSub, setAssignSub] = useState({
     id: '',
-    email: '',
+    email: ''
   });
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [type, setType] = useState('');
 
   useEffect(() => {
     let array = [];
-    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map((cell) =>
+    SubscriptionheadCells.slice(0, SubscriptionheadCells.length - 1).map(cell =>
       array.push(cell.id)
     );
     setSubscriptionHeadCells(array);
     let temp = [];
-    MyProjectHeadCells.slice(0, MyProjectHeadCells.length).map((cell) => temp.push(cell.id));
+    MyProjectHeadCells.slice(0, MyProjectHeadCells.length).map(cell => temp.push(cell.id));
     setProjectHeadCells(temp);
   }, []);
 
@@ -59,7 +59,7 @@ const Home = () => {
 
   const getSubscriptions = async () => {
     const result = await api('get', `/licenses/${store.user._id}`);
-    let data = result.data.license.map((item) => {
+    let data = result.data.license.map(item => {
       item.subType = 'Prescripteur';
       return item;
     });
@@ -76,11 +76,11 @@ const Home = () => {
     setAssignSubModal(!assignSubModal);
   };
 
-  const handleView = (id) => {
+  const handleView = id => {
     history.push(`/projectview/${id}`);
   };
 
-  const handleBuySubModal = (type) => {
+  const handleBuySubModal = type => {
     if (type) {
       setType(type);
     }
@@ -98,7 +98,7 @@ const Home = () => {
     history.push('/auth/register');
   };
 
-  return store?.user?.authorized.toUpperCase() === 'YES' ? (
+  return store?.user?.authorized?.toUpperCase() === 'YES' ? (
     <div className="home-container">
       <Modal
         open={buySubModal}
@@ -155,12 +155,11 @@ const Home = () => {
               borderRadius: 2,
               whiteSpace: 'nowrap',
               ':hover': {
-                backgroundColor: '#8C1244',
-              },
+                backgroundColor: '#8C1244'
+              }
             }}
             onClick={handleBuySubModal}
-            startIcon={<AddCircleOutlineIcon />}
-          >
+            startIcon={<AddCircleOutlineIcon />}>
             Commander
           </Button>
         </div>
@@ -186,8 +185,8 @@ const Home = () => {
                       remaining:
                         mySubscription?.projects - store?.user?.projects?.length > 0
                           ? mySubscription?.projects - store?.user?.projects?.length
-                          : 0,
-                    },
+                          : 0
+                    }
                   ]
                 : []
             }
@@ -206,9 +205,8 @@ const Home = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          textAlign: 'center',
-        }}
-      >
+          textAlign: 'center'
+        }}>
         <img src={noSubcription} />
         <span className="no-subscription-text">
           {t('To use the Quadrabase application')}, <br />
@@ -220,10 +218,9 @@ const Home = () => {
             textTransform: 'none',
             backgroundColor: '#8C1244',
             borderRadius: 8,
-            marginTop: 35,
+            marginTop: 35
           }}
-          onClick={handleNoSub}
-        >
+          onClick={handleNoSub}>
           {t('Subscribe to Quadrabase')}
         </Button>
       </div>
