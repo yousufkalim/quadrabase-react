@@ -936,7 +936,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
               ]
             : await textRunsSplitGen(work.text, ln1Font)),
           work.unit ? l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true) : null,
-          work[1].type === 'workDetail' ? l0Text('') : null
+          work[1].type === 'workDetail' || work.unit ? l0Text('') : null
         ];
       } else if (j == 2) {
         if (work) {
@@ -1064,7 +1064,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
             workCurrentRow.unit
               ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
               : null,
-            work[1].type === 'workDetail' ? l0Text('') : null
+            work[1].type === 'workDetail' || workCurrentRow.unit ? l0Text('') : null
           ];
         } else if (k == 2) {
           if (workCurrentRow) {
@@ -1212,7 +1212,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
               workCurrentRow.unit
                 ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
                 : null,
-              work[1].type === 'workDetail' ? l0Text('') : null
+              work[1].type === 'workDetail' || workCurrentRow.unit ? l0Text('') : null
             ];
           } else if (l == 2) {
             if (workCurrentRow) {
