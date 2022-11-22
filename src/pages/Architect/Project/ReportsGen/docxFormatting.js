@@ -85,11 +85,19 @@ function l1Text(text, bold = false, linebreaks, spacing) {
   });
 }
 
-function l0Text(text, bold = false, center = false, linebreaks, spacing, italics = false) {
+function l0Text(
+  text,
+  bold = false,
+  center = false,
+  linebreaks,
+  spacing,
+  italics = false,
+  font = l0Font
+) {
   return docText({
     text: text,
     linebreaks: linebreaks,
-    size: l0Font,
+    size: font,
     bold: bold,
     font: fontType,
     center: center,

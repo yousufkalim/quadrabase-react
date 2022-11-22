@@ -905,7 +905,7 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 text: work,
                 font: fontType,
                 size: l0Font,
-                italics: currentRow[1].type == 'workDetail' ? true : false
+                italics: currentRow[1]?.type == 'workDetail' ? true : false
               })
             ]
           })
@@ -919,11 +919,11 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                 font: fontType,
                 size: l0Font,
                 bold: true,
-                italics: currentRow[1].type == 'workDetail' ? true : false
+                italics: currentRow[1]?.type == 'workDetail' ? true : false
               })
             ]
           }),
-          ...(currentRow[1].type == 'workDetail'
+          ...(currentRow[1]?.type == 'workDetail'
             ? [
                 l0Text(
                   `${work.text.toUpperCase()} (EN TOUTES LETTRES) :`,
@@ -934,9 +934,9 @@ async function exportDOCXSimpleBPU(data, currentProject) {
                   true
                 )
               ]
-            : await textRunsSplitGen(work.text, ln1Font)),
+            : await textRunsSplitGen(work.text, l0Font)),
           work.unit ? l0Text(`${work.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true) : null,
-          work[1].type === 'workDetail' || work.unit ? l0Text('') : null
+          currentRow[1]?.type === 'workDetail' || work.unit ? l0Text('') : null
         ];
       } else if (j == 2) {
         if (work) {
@@ -1001,7 +1001,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
     const tradeTableRowCells = [];
     for (let j = 0; j < trade.rows.length; j++) {
       const tradeCurrentRow = trade.rows[j];
-      let docxObjs = [l0Text(tradeCurrentRow, true)];
+      let docxObjs = [l0Text(tradeCurrentRow, true, false, undefined, undefined, false, 11 * 2)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.TOP,
@@ -1060,7 +1060,7 @@ async function exportDOCXTradesBPU(data, currentProject) {
                     true
                   )
                 ]
-              : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
+              : await textRunsSplitGen(workCurrentRow.text, l0Font)),
             workCurrentRow.unit
               ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
               : null,
@@ -1130,7 +1130,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
     const tradeTableRowCells = [];
     for (let j = 0; j < trade.rows.length; j++) {
       const tradeCurrentRow = trade.rows[j];
-      let docxObjs = [l0Text(tradeCurrentRow, true)];
+      let docxObjs = [l0Text(tradeCurrentRow, true, false, undefined, undefined, false, 11 * 2)];
       const tableCell = new TableCell({
         children: docxObjs,
         verticalAlign: VerticalAlign.TOP,
@@ -1208,7 +1208,7 @@ async function exportDOCXTradesAndTranchesBPU(data, currentProject) {
                       true
                     )
                   ]
-                : await textRunsSplitGen(workCurrentRow.text, ln1Font)),
+                : await textRunsSplitGen(workCurrentRow.text, l0Font)),
               workCurrentRow.unit
                 ? l0Text(`${workCurrentRow.unit.toUpperCase()} (EN TOUTES LETTRES) :`, true)
                 : null,
@@ -2730,8 +2730,8 @@ const pageMargin = {
 };
 
 const normalMargin = {
-  top: convertInchesToTwip(0.03),
-  bottom: convertInchesToTwip(0.03),
+  top: convertInchesToTwip(0.04),
+  bottom: convertInchesToTwip(0.04),
   left: convertInchesToTwip(0.12),
   right: convertInchesToTwip(0.12)
 };
