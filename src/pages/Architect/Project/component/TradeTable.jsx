@@ -460,7 +460,7 @@ export default function DenseTable({
                 align="center"
                 style={{
                   borderRight: '1px solid lightgray',
-                  width: '4vw',
+                  width: '9vw',
                   padding: '2px 16px',
                   fontSize: 15,
                 }}
@@ -526,14 +526,11 @@ export default function DenseTable({
                       // eslint-disable-line no-useless-computed-key
                       width: '38vw',
                     },
-                    ['@media (max-width:1355px)']: {
+                    ['@media (max-width:1300px)']: {
                       // eslint-disable-line no-useless-computed-key
                       width: '38vw',
                     },
-                    ['@media (max-width:1300px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '30vw',
-                    },
+                    
                     ['@media (max-width:1245px)']: {
                       // eslint-disable-line no-useless-computed-key
                       width: '28vw',
@@ -671,7 +668,7 @@ export default function DenseTable({
                   align="center"
                   style={{
                     borderRight: '1px solid lightgray',
-                    width: '4vw',
+                    width: '9vw',
                     padding: '2px 16px',
                     fontSize: 15,
                   }}
@@ -707,6 +704,7 @@ export default function DenseTable({
                     width: '6vw',
                     padding: '2px 16px',
                     fontSize: 15,
+                    textAlign:"left"
                   }}
                 >
                   {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
@@ -738,14 +736,11 @@ export default function DenseTable({
                             // eslint-disable-line no-useless-computed-key
                             width: '38vw',
                           },
-                          ['@media (max-width:1355px)']: {
+                          ['@media (max-width:1300px)']: {
                             // eslint-disable-line no-useless-computed-key
                             width: '38vw',
                           },
-                          ['@media (max-width:1300px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '30vw',
-                          },
+                          
                           ['@media (max-width:1245px)']: {
                             // eslint-disable-line no-useless-computed-key
                             width: '28vw',
@@ -875,7 +870,7 @@ export default function DenseTable({
                         align="center"
                         style={{
                           borderRight: '1px solid lightgray',
-                          width: '4vw',
+                          width: '9vw',
                           padding: '2px 16px',
                           fontSize: 15,
                         }}
@@ -901,6 +896,7 @@ export default function DenseTable({
                           padding: '2px 16px',
                           whiteSpace: 'nowrap',
                           fontSize: 15,
+                          
                         }}
                       >
                         {formatNumber(parseFloat(row2.unit_price).toFixed(2))}
@@ -912,6 +908,7 @@ export default function DenseTable({
                           width: '6vw',
                           padding: '2px 16px',
                           fontSize: 15,
+                          textAlign:"left"
                         }}
                       >
                         {formatNumber(parseFloat(row2.quantity * row2.unit_price).toFixed(2))}
