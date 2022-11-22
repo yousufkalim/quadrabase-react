@@ -534,7 +534,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       _.slice(0, -3);
       _ = _.replace(' ', '');
       _ = _.replace(',', '');
-      _ = parseInt(_);
+      _ = parseFloat(_);
       tradeTotal = tradeTotal + _;
     }
   }
@@ -546,7 +546,7 @@ function xlsxParsedDataGenTradesAndTranchesEstimation(trade, index, noPrice) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = `Total ${trade.trade} :`;
     } else if (j == 5) {
       tradeTotalHTObj[dataColumnsEstimation[j]] = !noPrice
-        ? formatNumber(parseInt(tradeTotal).toFixed(2), '.')
+        ? formatNumber(parseFloat(tradeTotal).toFixed(2), '.')
         : '';
     } else {
       tradeTotalHTObj[dataColumnsEstimation[j]] = '';
@@ -839,7 +839,7 @@ function calculateTotalHT(data, noPrice) {
     _.slice(0, -3);
     _ = _.replace(' ', '');
     _ = _.replace(',', '');
-    _ = parseInt(_);
+    _ = parseFloat(_);
     totalHT = totalHT + _;
   }
 
@@ -953,11 +953,11 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   });
 
   if (!noPrice) {
-    footerData = [
-      formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
-    ];
+    const ht = totalHT.toFixed(2);
+    const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
+    const montant = parseFloat(ht) + parseFloat(vat);
+    // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
+    footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
     footerData = ['', '', ''];
   }
@@ -995,11 +995,11 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   });
 
   if (!noPrice) {
-    footerData = [
-      formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
-    ];
+    const ht = totalHT.toFixed(2);
+    const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
+    const montant = parseFloat(ht) + parseFloat(vat);
+    // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
+    footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
     footerData = ['', '', ''];
   }
@@ -1040,11 +1040,11 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
   });
 
   if (!noPrice) {
-    footerData = [
-      formatNumber(totalHT.toFixed(2), '.'),
-      formatNumber(((totalHT / 100) * currentProject?.vat?.value).toFixed(2), '.'),
-      formatNumber(Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2), '.')
-    ];
+    const ht = totalHT.toFixed(2);
+    const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
+    const montant = parseFloat(ht) + parseFloat(vat);
+    // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
+    footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
     footerData = ['', '', ''];
   }
