@@ -493,7 +493,7 @@ export default function DenseTable({
                 align="right"
                 style={{
                   borderRight: '1px solid lightgray',
-                  width: '6vw',
+                  width: '12vw',
                   padding: '2px 16px',
                   fontSize: 15,
                 }}
@@ -905,7 +905,7 @@ export default function DenseTable({
                         align="right"
                         style={{
                           borderRight: '1px solid lightgray',
-                          width: '6vw',
+                          width: '12vw',
                           padding: '2px 16px',
                           fontSize: 15,
                           textAlign:"left"
