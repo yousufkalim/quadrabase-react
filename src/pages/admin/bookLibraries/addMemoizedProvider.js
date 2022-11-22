@@ -1,33 +1,32 @@
-import React, { useState } from "react";
-import Notifier from "../../../utils/Notifier";
+import React, { useState } from 'react';
+import Notifier from '../../../utils/Notifier';
 
-import TextInput from "../../../components/TextInput";
-import Button from "../../../components/Button";
-import SelectField from "../../../components/SelectField";
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
+import TextInput from '../../../components/TextInput';
+import Button from '../../../components/Button';
+import SelectField from '../../../components/SelectField';
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
 function Index(props) {
   const { isLoading, ProviderOptions, translate } = props;
-  const [Name, setName] = useState("");
+  const [Name, setName] = useState('');
   const [documents, setDocuments] = useState([]);
-  const [fileName, setFileName] = useState("");
+  const [fileName, setFileName] = useState('');
 
-  const [testErrorMessage, settestErrorMessage] = useState("");
-  const [docErrorMessage, setdocErrorMessage] = useState("");
+  const [testErrorMessage, settestErrorMessage] = useState('');
+  const [docErrorMessage, setdocErrorMessage] = useState('');
 
   const handleAdd = () => {
     if (!Name) {
-      settestErrorMessage("Required");
+      settestErrorMessage('Required');
     } else {
-      settestErrorMessage("");
-
+      settestErrorMessage('');
       let obj = { provider: Name, documents: documents };
       props.onAdd(obj);
-      setName(" ");
-      setDocuments("");
+      setName(' ');
+      setDocuments('');
     }
   };
-  const handleFileChange = async (e) => {
+  const handleFileChange = async e => {
     const files = e.target.files;
     let form_data = new FormData();
 
@@ -36,18 +35,18 @@ function Index(props) {
     }
     try {
       let response = await Axios({
-        method: "post",
+        method: 'post',
         url: `${baseUrl}/fileUploader`,
-        data: form_data,
+        data: form_data
       });
       let documents = response.data.files;
       setFileName(files[0].name);
       setDocuments(documents);
     } catch (error) {
       if (error.response) {
-        Notifier(error.response.data.message, "error");
+        Notifier(error.response.data.message, 'error');
       }
-      console.log(error?.response?.data?.message, "error ");
+      console.log(error?.response?.data?.message, 'error ');
     }
   };
 
@@ -58,11 +57,11 @@ function Index(props) {
           <div className="w-full md:w-5/12  pt-0.5 px-1 ">
             <SelectField
               name="Name"
-              label={translate("Select Provider")}
+              label={translate('Select Provider')}
               value={Name}
-              onChange={(e) => {
+              onChange={e => {
                 setName(e.target.value);
-                settestErrorMessage("");
+                settestErrorMessage('');
               }}
               options={ProviderOptions}
             />
@@ -73,17 +72,15 @@ function Index(props) {
           <div
             className="w-full md:w-5/12   px-1 "
             style={{
-              border: "1px solid gray",
+              border: '1px solid gray',
               height: 35,
               padding: 4,
               marginTop: 29,
               marginLeft: 5,
-              borderRadius: 4,
-            }}
-          >
-            <label style={{ cursor: "pointer" }}>
-              {translate("Choose file")} -{" "}
-              {fileName ? fileName : translate("no file chosen")}
+              borderRadius: 4
+            }}>
+            <label style={{ cursor: 'pointer' }}>
+              {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
               <TextInput
                 type="file"
                 placeholder="Document"
@@ -91,7 +88,7 @@ function Index(props) {
                 name="document"
                 onChange={handleFileChange}
                 multiple={true}
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               />
             </label>
 
@@ -103,7 +100,7 @@ function Index(props) {
             <Button
               onClick={handleAdd}
               disabled={isLoading}
-              label={translate("Add Provider")}
+              label={translate('Add Provider')}
               default={true}
             />
           </div>
