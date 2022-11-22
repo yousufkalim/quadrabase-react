@@ -970,7 +970,7 @@ i18n
           'Renew Subscription': "Renouveler l'abonnement",
           'Add Project': 'Ajouter un projet',
           Simple: 'Simple',
-          Trades: 'Lots',
+          Trades: 'Lots multiples',
           Trade: 'Lot',
           'Trades And Tranches': 'Lots et tranches',
           'Purchase Order': 'Bon de commande',
