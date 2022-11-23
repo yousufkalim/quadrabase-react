@@ -2109,7 +2109,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
 
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu, 20);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
@@ -2118,7 +2118,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   font: fontType,
-                  size: 22,
+                  size: 20,
                   bold: true
                 })
               ]
@@ -2373,7 +2373,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
 
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu, 20);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
@@ -2382,7 +2382,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   font: fontType,
-                  size: 22,
+                  size: 20,
                   bold: true
                 })
               ]
@@ -2411,6 +2411,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
                     currentRow[0].length === 1 || (currentRow[0].length === 5 && j === 1)
                       ? true
                       : false,
+                  size: currentRow[0].length === 1 ? l1Font : l0Font,
                   italics: currentRow[0].length === 5 && j === 1 ? true : false
                 })
               ]
@@ -2628,7 +2629,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
 
     for (let j = 0; j < currentRow.length; j++) {
       if (typeof currentRow[j] == 'object') {
-        const docxObjs = await textRunsSplitGen(currentRow[j].bpu);
+        const docxObjs = await textRunsSplitGen(currentRow[j].bpu, 20);
         const tableCell = new TableCell({
           children: [
             new Paragraph({
@@ -2637,7 +2638,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                 new TextRun({
                   text: `${currentRow[j].title}`,
                   font: fontType,
-                  size: 22,
+                  size: 20,
                   bold: true
                 })
               ]
@@ -2668,6 +2669,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
                     (currentRow[0].length === 7 && j === 1)
                       ? true
                       : false,
+                  size: currentRow[0].length === 1 ? l1Font : l0Font,
                   italics: currentRow[0].length === 7 && j === 1 ? true : false
                 })
               ]
