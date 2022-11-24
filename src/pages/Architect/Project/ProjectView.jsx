@@ -1799,20 +1799,20 @@ const ProjectView = () => {
                                     align="right">
                                     {item2.name} Total HT :
                                   </TableCell>
-                                  <TableCell
-                                    component="th"
-                                    scope="row"
-                                    colSpan={1}
-                                    style={{
-                                      padding: '2px 16px',
-                                      fontWeight: 600,
-                                      fontSize: 16
-                                    }}
-                                    align="right">
-                                    {tradeTotalIndex !== -1
+                                
+                                  <TableCell colSpan={4} style={{ padding: '2px 26px 0 0' }}>
+                                              <div
+                                                style={{
+                                                  width: '100%',
+                                                  fontWeight: 600,
+                                                  textAlign: 'right',
+                                                  fontSize: 13
+                                                }}>
+                                                {tradeTotalIndex !== -1
                                       ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
                                       : '0,00'}
-                                  </TableCell>
+                                              </div>
+                                            </TableCell>
                                   <br />
                                 </>
                               );

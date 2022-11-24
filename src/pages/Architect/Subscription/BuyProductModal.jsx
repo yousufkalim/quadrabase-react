@@ -212,7 +212,7 @@ const BuyProductModal = ({ handleBuySubModal, type, user, t }) => {
                     />
                     <div className="amount-container">
                       <div>Total HT</div>
-                      <div>{formatNumber((item.count * item.price).toFixed(2))} €</div>
+                     <div>{formatNumber((item.count * item.price).toFixed(2))} €</div>
                     </div>
                   </div>
                   <br />
