@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from "react";
-import InputWithLabel from "../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../css/home";
-import { Grid, Button, Typography } from "@mui/material";
-import api from "../../../api";
-import RowRadioButtonsGroup from "./component/RadioGroup";
-import InputDropdown from "../../../components/Architect/InputDropdown";
-import Autocomplete from "../../../components/Architect/Autocomplete";
-import DatePicker from "../../../components/Architect/DatePicker";
-import { Store, UpdateStore } from "../../../StoreContext";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import InputWithLabel from '../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../css/home';
+import { Grid, Button, Typography } from '@mui/material';
+import api from '../../../api';
+import RowRadioButtonsGroup from './component/RadioGroup';
+import InputDropdown from '../../../components/Architect/InputDropdown';
+import Autocomplete from '../../../components/Architect/Autocomplete';
+import DatePicker from '../../../components/Architect/DatePicker';
+import { Store, UpdateStore } from '../../../StoreContext';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 const TOC = [
   {
-    value: "Simple",
-    label: "Simple",
+    value: 'Simple',
+    label: 'Simple'
   },
   {
-    value: "Trades",
-    label: "Trades",
+    value: 'Trades',
+    label: 'Trades'
   },
   {
-    value: "TradesAndTranches",
-    label: "Trades And Tranches",
+    value: 'TradesAndTranches',
+    label: 'Trades And Tranches'
   },
   {
-    value: "PurchaseOrder",
-    label: "Purchase Order",
-  },
+    value: 'PurchaseOrder',
+    label: 'Purchase Order'
+  }
 ];
 
 const TOP = [
   {
-    value: "DQEAndBPU",
-    label: "DQE & BPU",
+    value: 'DQEAndBPU',
+    label: 'DQE & BPU'
   },
   {
-    value: "DPGF",
-    label: "DPGF",
-  },
+    value: 'DPGF',
+    label: 'DPGF'
+  }
 ];
 
 const AddProjectModal = ({ handleAddProjectModal }) => {
@@ -50,23 +50,23 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
 
   //  States
   const [values, setValues] = useState({
-    name: "",
-    prescriber: "",
-    vat: "",
-    market_type: "Simple",
-    structure: "DQEAndBPU",
+    name: '',
+    prescriber: '',
+    vat: '',
+    market_type: 'Simple',
+    structure: 'DQEAndBPU',
     stakeholders: [],
-    date: moment().format("YYYY-MM-DD"),
+    date: moment().format('YYYY-MM-DD')
   });
   const [options, setOptions] = useState([]);
 
-  const [stakeholderText, setStakeholderText] = useState("");
+  const [stakeholderText, setStakeholderText] = useState('');
   const [stakeholderByType1, setStakeholderByType1] = useState([]);
-  const [selectedStakeholder, setSelectedStakeholder] = useState("");
+  const [selectedStakeholder, setSelectedStakeholder] = useState('');
 
-  const [stakeholderText2, setStakeholderText2] = useState("");
+  const [stakeholderText2, setStakeholderText2] = useState('');
   const [stakeholderByType2, setStakeholderByType2] = useState([]);
-  const [selectedStakeholder2, setSelectedStakeholder2] = useState("");
+  const [selectedStakeholder2, setSelectedStakeholder2] = useState('');
 
   //   useEffect to get vat
   useEffect(() => {
@@ -80,10 +80,10 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
 
   //   func to get vat
   const getVat = async () => {
-    const result = await api("get", `/VAT/getAll`);
+    const result = await api('get', `/VAT/getAll`);
     setOptions(result?.data?.vat?.sort((a, b) => a.ranking - b.ranking));
     result &&
-      setValues((prev) => {
+      setValues(prev => {
         prev.vat = result?.data?.vat[0]?._id;
         return { ...prev };
       });
@@ -91,22 +91,22 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
 
   //   func to get stakeholders
   const getStakeholders = async () => {
-    const result = await api("get", `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
+    const result = await api('get', `/Stakeholders/getByTypeName/Maitre d'Ouvrage`);
     setStakeholderByType1(result.data.stakeholders);
-    const result2 = await api("get", `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
+    const result2 = await api('get', `/Stakeholders/getByTypeName/Maitre d'Oeuvre`);
     setStakeholderByType2(result2.data.stakeholders);
   };
 
   // handle change function
   const handleChange = (name, value) => {
-    setValues((prev) => {
+    setValues(prev => {
       prev[name] = value;
       return { ...prev };
     });
   };
 
   //   handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let data = values;
     data.architect = store.user._id;
@@ -114,23 +114,23 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
       data.client = selectedStakeholder;
     } else {
       const result = await api(
-        "post",
+        'post',
         `/stakeholders/byproject/create/Maitre d'Ouvrage`,
         {
-          type: "",
+          type: '',
           establishment: stakeholderText,
-          service: "",
-          address1: "",
-          address2: "",
-          po_box: "",
-          zipcode: "",
-          lastname: "",
-          firstname: "",
-          email: "",
-          contact_no: "",
-          entity: "",
-          city: "",
-          ranking: 0,
+          service: '',
+          address1: '',
+          address2: '',
+          po_box: '',
+          zipcode: '',
+          lastname: '',
+          firstname: '',
+          email: '',
+          contact_no: '',
+          entity: '',
+          city: '',
+          ranking: 0
         },
         t
       );
@@ -140,23 +140,23 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
       data.prescriber = selectedStakeholder2;
     } else {
       const result = await api(
-        "post",
+        'post',
         `/stakeholders/byproject/create/Maitre d'Oeuvre`,
         {
-          type: "",
+          type: '',
           establishment: stakeholderText2,
-          service: "",
-          address1: "",
-          address2: "",
-          po_box: "",
-          zipcode: "",
-          lastname: "",
-          firstname: "",
-          email: "",
-          contact_no: "",
-          entity: "",
-          city: "",
-          ranking: 0,
+          service: '',
+          address1: '',
+          address2: '',
+          po_box: '',
+          zipcode: '',
+          lastname: '',
+          firstname: '',
+          email: '',
+          contact_no: '',
+          entity: '',
+          city: '',
+          ranking: 0
         },
         t
       );
@@ -164,10 +164,10 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
     }
     data.stakeholders.push(data.client);
     data.stakeholders.push(data.prescriber);
-    const result = await api("post", `/project/create`, data, t);
+    const result = await api('post', `/project/create`, data, t);
     toast.success(t(result.data.message));
     handleAddProjectModal();
-    const response = await api("get", "/Architects/current/loggedIn");
+    const response = await api('get', '/Architects/current/loggedIn');
     if (response.data.user) {
       updateStore({ loggedIn: true, user: response.data.user });
     }
@@ -179,12 +179,12 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         {/* All fields */}
         <br />
         <InputWithLabel
-          label={t("Project Name")}
+          label={t('Project Name')}
           required={true}
           name="name"
           type="text"
           value={values.name}
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
         />
         <br />
         <br />
@@ -210,80 +210,79 @@ const AddProjectModal = ({ handleAddProjectModal }) => {
         <Grid container spacing={2}>
           <Grid item zeroMinWidth xs>
             <DatePicker
-              label={t("Project Date")}
+              label={t('Project Date')}
               name="date"
               value={values.date}
-              onChange={(e) => {
-                handleChange("date", moment(e).format("YYYY-MM-DD"));
+              onChange={e => {
+                handleChange('date', moment(e).format('YYYY-MM-DD'));
               }}
               width="100% !important"
             />
           </Grid>
           <Grid item zeroMinWidth xs>
             <InputDropdown
-              label={t("VAT")}
+              label={t('VAT')}
               required={true}
               name="vat"
               value={values.vat}
               options={options}
               type="text"
-              onChange={(e) => handleChange(e.target.name, e.target.value)}
+              onChange={e => handleChange(e.target.name, e.target.value)}
             />
           </Grid>
         </Grid>
         <RowRadioButtonsGroup
           row={true}
-          label={t("Type Of Contract")}
+          label={t('Type Of Contract')}
           data={TOC}
           value={values.market_type}
           name="market_type"
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
         />
         <br />
+        <div style={{ margin: '3px', padding: '5px' }} />
         <RowRadioButtonsGroup
           row={true}
-          label={t("Type Of Project")}
+          label={t('Type Of Project')}
           data={TOP}
           value={values.structure}
           name="structure"
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
         />
         <div>
           <Typography>* Mentions obligatoires</Typography>
         </div>
 
         {/* register button */}
-        <div style={{ width: "100%", textAlign: "right" }}>
+        <div style={{ width: '100%', textAlign: 'right' }}>
           <Button
             variant="contained"
             sx={{
-              textTransform: "none",
-              backgroundColor: "#8C1244",
+              textTransform: 'none',
+              backgroundColor: '#8C1244',
               borderRadius: 2,
-              whiteSpace: "nowrap",
-              ":hover": {
-                backgroundColor: "#8C1244",
-              },
+              whiteSpace: 'nowrap',
+              ':hover': {
+                backgroundColor: '#8C1244'
+              }
             }}
-            onClick={handleAddProjectModal}
-          >
-            {t("Close")}
+            onClick={handleAddProjectModal}>
+            {t('Close')}
           </Button>
           &nbsp;&nbsp;
           <Button
             variant="contained"
             sx={{
-              textTransform: "none",
-              backgroundColor: "#8C1244",
+              textTransform: 'none',
+              backgroundColor: '#8C1244',
               borderRadius: 2,
-              whiteSpace: "nowrap",
-              ":hover": {
-                backgroundColor: "#8C1244",
-              },
+              whiteSpace: 'nowrap',
+              ':hover': {
+                backgroundColor: '#8C1244'
+              }
             }}
-            type="submit"
-          >
-            {t("Create")}
+            type="submit">
+            {t('Create')}
           </Button>
         </div>
       </form>

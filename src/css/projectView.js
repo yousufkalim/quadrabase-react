@@ -7,41 +7,45 @@ export const useStyles = makeStyles({
     position: 'relative',
     overflowX: 'hidden',
     height: '100vh',
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#eeeeee'
   },
   container: {
     padding: '10px 20px',
-    height: '100vh',
+    height: '100vh'
   },
   flex_container: {
     display: 'flex',
     justifyContent: 'space-between',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap'
   },
   btn: {
     backgroundColor: '#3b373c !important',
     marginRight: '10px !important',
     height: '35px !important',
-    borderRadius: 10,
+    borderRadius: 10
   },
   left_container: {
     width: '400px',
-    marginTop: 20,
+    marginTop: 20
   },
   right_container: {
     width: '100%',
     marginTop: 20,
-    paddingLeft: 20,
+    paddingLeft: 20
   },
   fotter_text: {
     width: '70%',
+    ['@media (max-width:1215px)']: {
+      // eslint-disable-line no-useless-computed-key
+      width: '48%'
+    },
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   fotter_amount: {
     width: '30%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',
-  },
+    alignItems: 'flex-end'
+  }
 });
