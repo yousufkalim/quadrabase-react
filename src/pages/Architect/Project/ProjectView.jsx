@@ -1804,13 +1804,13 @@ const ProjectView = () => {
                                     {item2.name} Total HT :
                                   </TableCell>
                                 
-                                  <TableCell colSpan={4} style={{ padding: '2px 26px 0 0' }}>
+                                  <TableCell colSpan={4} style={{ padding: '2px 10px 0 0' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
                                                   fontWeight: 600,
                                                   textAlign: 'right',
-                                                  fontSize: 13
+                                                  fontSize: 16
                                                 }}>
                                                 {tradeTotalIndex !== -1
                                       ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
