@@ -494,7 +494,7 @@ export default function DenseTable({
                 style={{
                   borderRight: '1px solid lightgray',
                   width: '12vw',
-                  padding: '2px 25px 0 0' ,
+                  padding: '2px 20px 0 0' ,
                   fontSize: 15,
                 }}
               >
