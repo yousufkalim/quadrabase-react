@@ -16,24 +16,28 @@ const Footer = () => {
             onClick={() => history.push('/auth/home')}
           />
           <div className="link-container">
-            <a  href='/auth/terms'  style={{ cursor: 'pointer' }} target="_blank">
+            <a href="/auth/terms" style={{ cursor: 'pointer' }} target="_blank">
               CGU
             </a>
             &nbsp;&nbsp;&nbsp;
-            <a href='/auth/cgv'   style={{ cursor: 'pointer' }}  target="_blank">
+            <a href="/auth/cgv" style={{ cursor: 'pointer' }} target="_blank">
               CGV
             </a>
             &nbsp;&nbsp;&nbsp;
-            <a  href='/auth/privacy'
-            //  onClick={() => history.push('/auth/privacy')} 
-             style={{ cursor: 'pointer' }}  target="_blank"> 
+            <a
+              href="/auth/privacy"
+              //  onClick={() => history.push('/auth/privacy')}
+              style={{ cursor: 'pointer' }}
+              target="_blank">
               Politique de confidentialité
             </a>
             &nbsp;&nbsp;&nbsp;
-            <a  href='/auth/mentionlegal'
-            //  onClick={() => history.push('/auth/privacy')} 
-             style={{ cursor: 'pointer' }}  target="_blank"> 
-              Mentions légales 
+            <a
+              href="/auth/mentionlegal"
+              //  onClick={() => history.push('/auth/privacy')}
+              style={{ cursor: 'pointer' }}
+              target="_blank">
+              Mentions légales
             </a>
           </div>
         </div>
