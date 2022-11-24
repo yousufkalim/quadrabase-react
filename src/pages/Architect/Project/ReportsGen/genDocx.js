@@ -1338,18 +1338,6 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
-
-    // insert page break after each chapter
-    parsedChap0part2.push(
-      ...[
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        }),
-        new Paragraph({
-          children: [new TextRun('')]
-        })
-      ]
-    );
   }
 
   // Parse CCTPs
@@ -1357,6 +1345,13 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
   for (let i = 0; i < cctps.length; i++) {
     const _ = cctps[i];
     parsedCCTPs.push(
+      // Insert page break before each CCTP
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      }),
+      new Paragraph({
+        children: [new TextRun('')]
+      }),
       new Paragraph({
         shading: {
           color: 'D9D9D9',
@@ -1401,20 +1396,6 @@ async function exportDOCXSimpleCCTP(data, currentProject, selectedCCTPIndexes) {
           parsedCCTPs.push(...docxObjs);
         }
       }
-    }
-
-    // insert page break after each chapter
-    if (i != cctps.length - 1) {
-      parsedCCTPs.push(
-        ...[
-          new Paragraph({
-            children: [new TextRun(''), new PageBreak()]
-          }),
-          new Paragraph({
-            children: [new TextRun('')]
-          })
-        ]
-      );
     }
   }
 
@@ -1484,18 +1465,6 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
-
-    // insert page break after each chapter
-    parsedChap0part2.push(
-      ...[
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        }),
-        new Paragraph({
-          children: [new TextRun('')]
-        })
-      ]
-    );
   }
 
   // Parse CCTPs
@@ -1503,6 +1472,13 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
   for (let i = 0; i < cctps.length; i++) {
     const _ = cctps[i];
     parsedCCTPs.push(
+      // Insert page break before each CCTP
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      }),
+      new Paragraph({
+        children: [new TextRun('')]
+      }),
       new Paragraph({
         shading: {
           color: 'D9D9D9',
@@ -1547,20 +1523,6 @@ async function exportDOCXTradesCCTP(data, currentProject, selectedCCTPIndexes) {
           parsedCCTPs.push(...docxObjs);
         }
       }
-    }
-
-    // insert page break after each chapter
-    if (i != cctps.length - 1) {
-      parsedCCTPs.push(
-        ...[
-          new Paragraph({
-            children: [new TextRun(''), new PageBreak()]
-          }),
-          new Paragraph({
-            children: [new TextRun('')]
-          })
-        ]
-      );
     }
   }
 
@@ -1630,18 +1592,6 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   if (chap0) {
     parsedChap0part1 = _parseChap0part1(chap0.part1);
     parsedChap0part2 = await _parseChap0part2(chap0.part2);
-
-    // insert page break after each chapter
-    parsedChap0part2.push(
-      ...[
-        new Paragraph({
-          children: [new TextRun(''), new PageBreak()]
-        }),
-        new Paragraph({
-          children: [new TextRun('')]
-        })
-      ]
-    );
   }
 
   // Parse CCTPs
@@ -1649,6 +1599,13 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
   for (let i = 0; i < cctps.length; i++) {
     const _ = cctps[i];
     parsedCCTPs.push(
+      // Insert page break before each CCTP
+      new Paragraph({
+        children: [new TextRun(''), new PageBreak()]
+      }),
+      new Paragraph({
+        children: [new TextRun('')]
+      }),
       new Paragraph({
         shading: {
           color: 'D9D9D9',
@@ -1693,20 +1650,6 @@ async function exportDOCXTradesAndTranchesCCTP(data, currentProject, selectedCCT
           parsedCCTPs.push(...docxObjs);
         }
       }
-    }
-
-    // insert page break after each chapter
-    if (i != cctps.length - 1) {
-      parsedCCTPs.push(
-        ...[
-          new Paragraph({
-            children: [new TextRun(''), new PageBreak()]
-          }),
-          new Paragraph({
-            children: [new TextRun('')]
-          })
-        ]
-      );
     }
   }
 
