@@ -305,50 +305,50 @@ export default function DenseTable({
                 scope="row"
                 sx={{
                   borderRight: '1px solid lightgray',
-                  width: '55vw',
+                  width: '50vw',
                   display: 'flex',
                   alignItems: 'center',
                   padding: '2px 16px',
                   fontSize: 15,
                   ['@media (max-width:1665px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '53vw',
+                    width: '47vw',
                   },
                   ['@media (max-width:1500px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '46vw',
+                    width: '42vw',
                   },
                   ['@media (max-width:1420px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '44vw',
+                    width: '40vw',
                   },
                   ['@media (max-width:1355px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '41vw',
+                    width: '39vw',
                   },
                   ['@media (max-width:1300px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '39vw',
+                    width: '35vw',
                   },
                   ['@media (max-width:1245px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '36.5vw',
+                    width: '33vw',
                   },
                   ['@media (max-width:1200px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '38vw',
+                    width: '30vw',
                   },
                   ['@media (max-width:1150px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '31.5vw',
+                    width: '29vw',
                   },
                   ['@media (max-width:1100px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '30vw',
+                    width: '26vw',
                   },
                   ['@media (max-width:1075px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '28vw',
+                    width: '23vw',
                   },
                   ['@media (max-width:1050px)']: {
                     // eslint-disable-line no-useless-computed-key
@@ -494,7 +494,7 @@ export default function DenseTable({
                 style={{
                   borderRight: '1px solid lightgray',
                   width: '12vw',
-                  padding: '2px 16px',
+                  padding: '2px 25px 0 0' ,
                   fontSize: 15,
                 }}
               >
