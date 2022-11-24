@@ -864,12 +864,13 @@ const ProjectView = () => {
   async function generateEstimate() {
     try {
       let res;
+      const sortedData = projectWorkData.sort((a, b) => a.ranking - b.ranking);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = exportXLSXSimpleEstimation(projectWorkData, currentProject);
+        res = exportXLSXSimpleEstimation(sortedData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = exportXLSXTradesEstimation(projectWorkData, currentProject);
+        res = exportXLSXTradesEstimation(sortedData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = exportXLSXTradesAndTranchesEstimation(projectWorkData, currentProject);
+        res = exportXLSXTradesAndTranchesEstimation(sortedData, currentProject);
       } else {
         console.trace('Show me');
         return;
@@ -884,12 +885,13 @@ const ProjectView = () => {
   async function generateDQE() {
     try {
       let res;
+      const sortedData = projectWorkData.sort((a, b) => a.ranking - b.ranking);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = exportXLSXSimpleEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXSimpleEstimation(sortedData, currentProject, true);
       } else if (currentProject.market_type == 'Trades') {
-        res = exportXLSXTradesEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXTradesEstimation(sortedData, currentProject, true);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = exportXLSXTradesAndTranchesEstimation(projectWorkData, currentProject, true);
+        res = exportXLSXTradesAndTranchesEstimation(sortedData, currentProject, true);
       } else {
         console.trace('Show me');
         return;
@@ -904,12 +906,13 @@ const ProjectView = () => {
   async function generateBPU() {
     try {
       let res;
+      const sortedData = projectWorkData.sort((a, b) => a.ranking - b.ranking);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportDOCXSimpleBPU(projectWorkData, currentProject);
+        res = await exportDOCXSimpleBPU(sortedData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportDOCXTradesBPU(projectWorkData, currentProject);
+        res = await exportDOCXTradesBPU(sortedData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportDOCXTradesAndTranchesBPU(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesBPU(sortedData, currentProject);
       } else {
         console.trace('Show me');
         return;
@@ -924,13 +927,14 @@ const ProjectView = () => {
   async function generateCCTP() {
     try {
       let res;
+      const sortedData = projectWorkData.sort((a, b) => a.ranking - b.ranking);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportDOCXSimpleCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportDOCXSimpleCCTP(sortedData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportDOCXTradesCCTP(projectWorkData, currentProject, selectedCCTPIndexes);
+        res = await exportDOCXTradesCCTP(sortedData, currentProject, selectedCCTPIndexes);
       } else if (currentProject.market_type == 'TradesAndTranches') {
         res = await exportDOCXTradesAndTranchesCCTP(
-          projectWorkData,
+          sortedData,
           currentProject,
           selectedCCTPIndexes
         );
@@ -948,12 +952,13 @@ const ProjectView = () => {
   async function generateDPGF() {
     try {
       let res;
+      const sortedData = projectWorkData.sort((a, b) => a.ranking - b.ranking);
       if (currentProject.market_type == 'Simple' || currentProject.market_type == 'PurchaseOrder') {
-        res = await exportDOCXSimpleDPGF(projectWorkData, currentProject);
+        res = await exportDOCXSimpleDPGF(sortedData, currentProject);
       } else if (currentProject.market_type == 'Trades') {
-        res = await exportDOCXTradesDPGF(projectWorkData, currentProject);
+        res = await exportDOCXTradesDPGF(sortedData, currentProject);
       } else if (currentProject.market_type == 'TradesAndTranches') {
-        res = await exportDOCXTradesAndTranchesDPGF(projectWorkData, currentProject);
+        res = await exportDOCXTradesAndTranchesDPGF(sortedData, currentProject);
       } else {
         console.trace('Show me');
         return;
@@ -1712,7 +1717,6 @@ const ProjectView = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          
                           {currentProject.market_type === 'Trades' ? (
                             tradesData?.map((item2, index2) => {
                               let tradeTotalIndex = -1;
@@ -1977,9 +1981,9 @@ const ProjectView = () => {
                                           })}
 
                                           <TableRow style={{ whiteSpace: 'nowrap' }}>
-
-                                            <TableCell colSpan={4} style={{ padding: '2px 16px', fontSize: 16 }}>
-
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ padding: '2px 16px', fontSize: 16 }}>
                                               <div
                                                 style={{
                                                   width: '100%',

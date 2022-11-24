@@ -17,7 +17,7 @@ const TranchesModal = ({
   getTranches,
   tradeOption,
   currentProject,
-  selectedTrade,
+  selectedTrade
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -29,11 +29,11 @@ const TranchesModal = ({
   }, []);
 
   // handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let maxRanking = Math.max.apply(
       Math,
-      tranchesData.map((item) => {
+      tranchesData.map(item => {
         return item.ranking;
       })
     );
@@ -42,9 +42,9 @@ const TranchesModal = ({
       `/Tranches/create`,
       {
         name,
-        ranking: maxRanking > 0 ? maxRanking + 1 : 0,
+        ranking: maxRanking >= 0 ? maxRanking + 1 : 0,
         trade,
-        project: currentProject,
+        project: currentProject
       },
       t
     );
@@ -63,7 +63,7 @@ const TranchesModal = ({
           options={tradeOption}
           label={t('Trade')}
           value={trade}
-          onChange={(e) => setTrade(e.target.value)}
+          onChange={e => setTrade(e.target.value)}
           backgroundColor="white"
           required
         />
@@ -74,7 +74,7 @@ const TranchesModal = ({
           name="text"
           type="text"
           value={name}
-          handleChange={(e) => setName(e.target.value)}
+          handleChange={e => setName(e.target.value)}
         />
 
         {/* create button */}

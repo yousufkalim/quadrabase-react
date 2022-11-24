@@ -20,11 +20,11 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
   }, []);
 
   // handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let maxRanking = Math.max.apply(
       Math,
-      tradesData.map((item) => {
+      tradesData.map(item => {
         return item.ranking;
       })
     );
@@ -33,8 +33,8 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
       `/Trades/create`,
       {
         name,
-        ranking: maxRanking > 0 ? maxRanking + 1 : 0,
-        project: currentProject,
+        ranking: maxRanking >= 0 ? maxRanking + 1 : 0,
+        project: currentProject
       },
       t
     );
@@ -55,7 +55,7 @@ const TradesModal = ({ handleTradesModal, currentProject, tradesData, getTrades 
           name="text"
           type="text"
           value={name}
-          handleChange={(e) => setName(e.target.value)}
+          handleChange={e => setName(e.target.value)}
         />
         <br />
         <br />
