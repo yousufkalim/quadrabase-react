@@ -702,9 +702,9 @@ export default function DenseTable({
                   style={{
                     borderRight: '1px solid lightgray',
                     width: '6vw',
-                    padding: '2px 16px',
+                    padding: '2px 25px',
                     fontSize: 15,
-                    textAlign:"left"
+                    // textAlign:"left"
                   }}
                 >
                   {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
@@ -906,9 +906,9 @@ export default function DenseTable({
                         style={{
                           borderRight: '1px solid lightgray',
                           width: '12vw',
-                          padding: '2px 16px',
+                          padding: '2px 25px',
                           fontSize: 15,
-                          textAlign:"left"
+                          // textAlign:"left"
                         }}
                       >
                         {formatNumber(parseFloat(row2.quantity * row2.unit_price).toFixed(2))}

@@ -29,7 +29,7 @@ const Terms = () => {
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading">Conditions d'utilisation</Typography>
+          <Typography className="spc_suppportHeroheading">CONDITIONS GENERALES DE VENTE</Typography>
         </div>
       </div>
 
