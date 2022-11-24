@@ -673,9 +673,7 @@ function applyRowStyle(ws, rownum, style, type, style2, style3, style4) {
         }
       }
     } else {
-      if (ws[`${char}${rownum}`]) {
-        ws[`${char}${rownum}`].s = style;
-      }
+      ws[`${char}${rownum}`].s = style;
     }
   }
 }
