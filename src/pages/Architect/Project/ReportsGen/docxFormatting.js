@@ -26,7 +26,7 @@ function docText({
     children: text.split('\n').map(
       line =>
         new TextRun({
-          text: line,
+          text: line.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           break: linebreaks,
           size: size,
           bold: bold,

@@ -1726,7 +1726,7 @@ const tagsToDocxMap = {
       alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
-          text: text,
+          text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
           size: size ?? l2Font,
           bold: true
@@ -1742,7 +1742,7 @@ const tagsToDocxMap = {
       alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
-          text: text,
+          text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
           size: size ?? l2Font,
           italics: true
@@ -1758,7 +1758,7 @@ const tagsToDocxMap = {
       alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
-          text: text,
+          text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
           size: size ?? l2Font,
           underline: {
@@ -1777,7 +1777,7 @@ const tagsToDocxMap = {
       alignment: AlignmentType[alignment || 'LEFT'],
       children: [
         new TextRun({
-          text: text,
+          text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
           size: size ?? l2Font,
           strike: true
@@ -1831,7 +1831,7 @@ const tagsToDocxMap = {
       text: {
         children: [
           new TextRun({
-            text: text.trim(),
+            text: text.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
             font: fontType
           })
         ]
@@ -1861,7 +1861,7 @@ const tagsToDocxMap = {
 
       children: [
         new TextRun({
-          text: text,
+          text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
           size: size
         })
@@ -1925,7 +1925,7 @@ const tagsToDocxMap = {
                 alignment: AlignmentType.CENTER,
                 children: [
                   new TextRun({
-                    text: tds[j].innerText,
+                    text: tds[j].innerText.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
                     font: fontType
                   })
                 ]
