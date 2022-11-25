@@ -1810,7 +1810,7 @@ const ProjectView = () => {
                                                   width: '100%',
                                                   fontWeight: 600,
                                                   textAlign: 'right',
-                                                  fontSize: 13
+                                                  fontSize: 16
                                                 }}>
                                                 {tradeTotalIndex !== -1
                                       ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
