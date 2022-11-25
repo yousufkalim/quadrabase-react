@@ -312,7 +312,7 @@ export default function DenseTable({
                   fontSize: 15,
                   ['@media (max-width:1665px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '47vw',
+                    width: '48vw',
                   },
                   ['@media (max-width:1500px)']: {
                     // eslint-disable-line no-useless-computed-key
@@ -328,7 +328,7 @@ export default function DenseTable({
                   },
                   ['@media (max-width:1300px)']: {
                     // eslint-disable-line no-useless-computed-key
-                    width: '35vw',
+                    width: '38vw',
                   },
                   ['@media (max-width:1245px)']: {
                     // eslint-disable-line no-useless-computed-key
@@ -338,26 +338,26 @@ export default function DenseTable({
                     // eslint-disable-line no-useless-computed-key
                     width: '30vw',
                   },
-                  ['@media (max-width:1150px)']: {
-                    // eslint-disable-line no-useless-computed-key
-                    width: '29vw',
-                  },
-                  ['@media (max-width:1100px)']: {
-                    // eslint-disable-line no-useless-computed-key
-                    width: '26vw',
-                  },
-                  ['@media (max-width:1075px)']: {
-                    // eslint-disable-line no-useless-computed-key
-                    width: '23vw',
-                  },
-                  ['@media (max-width:1050px)']: {
-                    // eslint-disable-line no-useless-computed-key
-                    width: '26vw',
-                  },
-                  ['@media (max-width:1020px)']: {
-                    // eslint-disable-line no-useless-computed-key
-                    width: '24vw',
-                  },
+                  // ['@media (max-width:1150px)']: {
+                  //   // eslint-disable-line no-useless-computed-key
+                  //   width: '29vw',
+                  // },
+                  // ['@media (max-width:1100px)']: {
+                  //   // eslint-disable-line no-useless-computed-key
+                  //   width: '30vw',
+                  // },
+                  // ['@media (max-width:1075px)']: {
+                  //   // eslint-disable-line no-useless-computed-key
+                  //   width: '23vw',
+                  // },
+                  // ['@media (max-width:1050px)']: {
+                  //   // eslint-disable-line no-useless-computed-key
+                  //   width: '26vw',
+                  // },
+                  // ['@media (max-width:1020px)']: {
+                  //   // eslint-disable-line no-useless-computed-key
+                  //   width: '24vw',
+                  // },
                 }}
               >
                 <div
@@ -500,6 +500,7 @@ export default function DenseTable({
               >
                 {formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
               </TableCell>
+              
             </TableRow>
           );
         } else if (workDetails.length > 0 && row._id !== work[index - 1]?._id) {
@@ -509,7 +510,7 @@ export default function DenseTable({
                 <TableCell
                   sx={{
                     borderRight: '1px solid lightgray',
-                    width: '53vw',
+                    width: '50vw',
                     display: 'flex',
                     alignItems: 'center',
                     padding: '2px 16px',
@@ -520,11 +521,11 @@ export default function DenseTable({
                     },
                     ['@media (max-width:1500px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '41vw',
+                      width: '42vw',
                     },
                     ['@media (max-width:1420px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '38vw',
+                      width: '40vw',
                     },
                     ['@media (max-width:1300px)']: {
                       // eslint-disable-line no-useless-computed-key
@@ -533,32 +534,32 @@ export default function DenseTable({
                     
                     ['@media (max-width:1245px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '28vw',
+                      width: '33vw',
                     },
                     ['@media (max-width:1200px)']: {
                       // eslint-disable-line no-useless-computed-key
-                      width: '26vw',
+                      width: '30vw',
                     },
-                    ['@media (max-width:1150px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '24vw',
-                    },
-                    ['@media (max-width:1100px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '22vw',
-                    },
-                    ['@media (max-width:1075px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '20vw',
-                    },
-                    ['@media (max-width:1050px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '18vw',
-                    },
-                    ['@media (max-width:1020px)']: {
-                      // eslint-disable-line no-useless-computed-key
-                      width: '16vw',
-                    },
+                    // ['@media (max-width:1150px)']: {
+                    //   // eslint-disable-line no-useless-computed-key
+                    //   width: '29vw',
+                    // },
+                    // ['@media (max-width:1100px)']: {
+                    //   // eslint-disable-line no-useless-computed-key
+                    //   width: '30vw',
+                    // },
+                    // ['@media (max-width:1075px)']: {
+                    //   // eslint-disable-line no-useless-computed-key
+                    //   width: '20vw',
+                    // },
+                    // ['@media (max-width:1050px)']: {
+                    //   // eslint-disable-line no-useless-computed-key
+                    //   width: '19vw',
+                    // },
+                    // ['@media (max-width:1020px)']: {
+                    //   // eslint-disable-line no-useless-computed-key
+                    //   width: '16vw',
+                    // },
                   }}
                 >
                   <div
@@ -719,7 +720,7 @@ export default function DenseTable({
                         scope="row"
                         sx={{
                           borderRight: '1px solid lightgray',
-                          width: '53vw',
+                          width: '50vw',
                           display: 'flex',
                           alignItems: 'center',
                           padding: '2px 16px',
@@ -730,11 +731,11 @@ export default function DenseTable({
                           },
                           ['@media (max-width:1500px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '41vw',
+                            width: '42vw',
                           },
                           ['@media (max-width:1420px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '38vw',
+                            width: '40vw',
                           },
                           ['@media (max-width:1300px)']: {
                             // eslint-disable-line no-useless-computed-key
@@ -743,32 +744,32 @@ export default function DenseTable({
                           
                           ['@media (max-width:1245px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '28vw',
+                            width: '33vw',
                           },
                           ['@media (max-width:1200px)']: {
                             // eslint-disable-line no-useless-computed-key
-                            width: '26vw',
+                            width: '30vw',
                           },
-                          ['@media (max-width:1150px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '24vw',
-                          },
-                          ['@media (max-width:1100px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '22vw',
-                          },
-                          ['@media (max-width:1075px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '20vw',
-                          },
-                          ['@media (max-width:1050px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '18vw',
-                          },
-                          ['@media (max-width:1020px)']: {
-                            // eslint-disable-line no-useless-computed-key
-                            width: '16vw',
-                          },
+                          // ['@media (max-width:1150px)']: {
+                          //   // eslint-disable-line no-useless-computed-key
+                          //   width: '29vw',
+                          // },
+                          // ['@media (max-width:1100px)']: {
+                          //   // eslint-disable-line no-useless-computed-key
+                          //   width: '30vw',
+                          // },
+                          // ['@media (max-width:1075px)']: {
+                          //   // eslint-disable-line no-useless-computed-key
+                          //   width: '20vw',
+                          // },
+                          // ['@media (max-width:1050px)']: {
+                          //   // eslint-disable-line no-useless-computed-key
+                          //   width: '19vw',
+                          // },
+                          // ['@media (max-width:1020px)']: {
+                          //   // eslint-disable-line no-useless-computed-key
+                          //   width: '16vw',
+                          // },
                         }}
                       >
                         &nbsp;&nbsp;&nbsp;
