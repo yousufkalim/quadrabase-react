@@ -31,13 +31,25 @@ export const useStyles = makeStyles({
   right_container: {
     width: '100%',
     marginTop: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
+    ['@media (max-width:1300px)']: {
+      // eslint-disable-line no-useless-computed-key
+      overflowX: 'scroll'
+    }
   },
   fotter_text: {
     width: '70%',
     ['@media (max-width:1215px)']: {
       // eslint-disable-line no-useless-computed-key
       width: '48%'
+    },
+    ['@media (max-width:1040px)']: {
+      // eslint-disable-line no-useless-computed-key
+      width: '15%'
+    },
+    ['@media (max-width:870)']: {
+      // eslint-disable-line no-useless-computed-key
+      width: '0%'
     },
     display: 'flex',
     justifyContent: 'flex-end'

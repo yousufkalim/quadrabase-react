@@ -1662,7 +1662,8 @@ const ProjectView = () => {
                         sx={{ tableLayout: 'auto' }}
                         size="small"
                         stickyHeader
-                        aria-label="sticky table">
+                        aria-label="sticky table"
+                        >
                         <TableHead>
                           <TableRow style={{ whiteSpace: 'nowrap' }}>
                             <TableCell
@@ -1673,6 +1674,7 @@ const ProjectView = () => {
                               }}>
                               {t('Designation')}
                             </TableCell>
+                            
                             <TableCell
                               align="center"
                               style={{
@@ -1709,6 +1711,7 @@ const ProjectView = () => {
                               }}>
                               {t('Total HT')}
                             </TableCell>
+                          
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -1800,7 +1803,7 @@ const ProjectView = () => {
                                     {item2.name} Total HT :
                                   </TableCell>
                                 
-                                  <TableCell colSpan={4} style={{ padding: '2px 10px 0 0' }}>
+                                  <TableCell colSpan={4} style={{ padding: '2px 19px 0 0' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
