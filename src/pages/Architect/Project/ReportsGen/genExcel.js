@@ -365,6 +365,8 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     }
   ];
 
+  cursor = cursor + 1;
+
   // Trades styling
   for (let i = 0; i < rows.length; i++) {
     const tradeRow = rows[i];
@@ -372,7 +374,7 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     applyRowStyle(ws, cursor, { ...Fill2, ...BorderFirst2 });
     cursor = cursor + 1;
     const workAndWorkDetailsRows = tradeRow.rows;
-    for (let j = 0; j < workAndWorkDetailsRows.length + 1; j++) {
+    for (let j = 0; j < workAndWorkDetailsRows.length; j++) {
       // This is not supposed to work
       // WorkAndWorkDetail row style
       applyRowStyle(

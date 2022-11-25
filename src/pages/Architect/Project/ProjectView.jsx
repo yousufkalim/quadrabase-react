@@ -368,7 +368,7 @@ const ProjectView = () => {
       });
       setTradeTotal(tempArray);
       setTotalHT(tempAmount?.toFixed(2));
-      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
+      setProjectWorkData(data);
     } else {
       const result = await api('get', `/project/works/${id}`);
       let data = result?.data?.works ?? [];
@@ -1803,20 +1803,20 @@ const ProjectView = () => {
                                     align="right">
                                     {item2.name} Total HT :
                                   </TableCell>
-                                
+
                                   <TableCell colSpan={4} style={{ padding: '2px 26px 0 0' }}>
-                                              <div
-                                                style={{
-                                                  width: '100%',
-                                                  fontWeight: 600,
-                                                  textAlign: 'right',
-                                                  fontSize: 13
-                                                }}>
-                                                {tradeTotalIndex !== -1
-                                      ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
-                                      : '0,00'}
-                                              </div>
-                                            </TableCell>
+                                    <div
+                                      style={{
+                                        width: '100%',
+                                        fontWeight: 600,
+                                        textAlign: 'right',
+                                        fontSize: 13
+                                      }}>
+                                      {tradeTotalIndex !== -1
+                                        ? formatNumber(tradeTotal[tradeTotalIndex]?.toFixed(2))
+                                        : '0,00'}
+                                    </div>
+                                  </TableCell>
                                   <br />
                                 </>
                               );
@@ -1993,7 +1993,9 @@ const ProjectView = () => {
                                                 {item4.name} Total HT :
                                               </div>
                                             </TableCell>
-                                            <TableCell colSpan={4} style={{ padding: '2px 26px 0 0' }}>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ padding: '2px 26px 0 0' }}>
                                               <div
                                                 style={{
                                                   width: '100%',
@@ -2078,7 +2080,7 @@ const ProjectView = () => {
                           <div className={classes.flex_container}>
                             <div className={classes.fotter_text}>{t('Total HT')} :</div>
                             <div className={classes.fotter_amount}>
-                              {formatNumber(parseFloat(totalHT)?.toFixed(2))} € 
+                              {formatNumber(parseFloat(totalHT)?.toFixed(2))} €
                             </div>
                           </div>
                           <div className={classes.flex_container}>
