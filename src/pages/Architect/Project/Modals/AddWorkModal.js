@@ -20,7 +20,7 @@ const AddWorkModal = ({
   setSelectedWork,
   getworks,
   selectedTrade,
-  selectedTranche,
+  selectedTranche
 }) => {
   const { t } = useTranslation();
   const [values, setValues] = useState({
@@ -30,7 +30,7 @@ const AddWorkModal = ({
     quantity: '1.00',
     ranking: 0,
     work_details: [],
-    category: '',
+    category: ''
   });
   const [options, setOptions] = useState([]);
   const [tranch, setTranch] = useState('');
@@ -38,7 +38,7 @@ const AddWorkModal = ({
 
   useEffect(() => {
     selectedWork &&
-      setValues((prev) => {
+      setValues(prev => {
         prev.name = selectedWork.name;
         prev.unit = selectedWork.unit;
         prev.category = selectedWork.category;
@@ -63,27 +63,29 @@ const AddWorkModal = ({
 
   // handle change function
   const handleChange = (name, value) => {
-    setValues((prev) => {
+    setValues(prev => {
       prev[name] = value;
       return { ...prev };
     });
   };
 
   // handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let data = values;
+    console.log('data is d', data);
     data.unit_price = values.unit_price.replace(/\s/g, '').split(',').join('.');
     data.quantity = values.quantity.replace(/\s/g, '').split(',').join('.');
     data.cctp_text = selectedWork.cctp_text;
     data.bpu_text = selectedWork.bpu_text;
     data.work_details = selectedWorkDetail;
     data.providers = selectedWork.providers;
+    console.log('2data is d2', data);
     if (currentProject.market_type === 'Trades') {
       if (trade) {
         let tempRankings = [];
-        projectWorkData.map((item1) => {
-          item1.data.map((item2) => {
+        projectWorkData.map(item1 => {
+          item1.data.map(item2 => {
             tempRankings.push(item2.work.ranking);
           });
         });
@@ -108,9 +110,9 @@ const AddWorkModal = ({
         data.trade = trade;
         if (tranch) {
           let tempRankings = [];
-          projectWorkData.map((item1) => {
-            item1.data.map((item2) => {
-              item2.tranchData.map((item3) => {
+          projectWorkData.map(item1 => {
+            item1.data.map(item2 => {
+              item2.tranchData.map(item3 => {
                 tempRankings.push(item3.work.ranking);
               });
             });
@@ -139,7 +141,7 @@ const AddWorkModal = ({
     } else {
       let maxRanking = Math.max.apply(
         Math,
-        projectWorkData.map((item) => {
+        projectWorkData.map(item => {
           return item.work.ranking;
         })
       );
@@ -164,7 +166,7 @@ const AddWorkModal = ({
           name="name"
           type="text"
           value={values.name}
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
         />
         <br />
         <br />
@@ -172,7 +174,7 @@ const AddWorkModal = ({
           name="unit"
           label={t('Unit')}
           value={values.unit}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
+          onChange={e => handleChange(e.target.name, e.target.value)}
           options={options}
         />
         <br />
@@ -182,17 +184,17 @@ const AddWorkModal = ({
           name="quantity"
           type="text"
           value={values.quantity}
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
             let temp = values.quantity.replace(/\s/g, '').split(',').join('.');
-            setValues((prev) => {
+            setValues(prev => {
               prev['quantity'] = formatNumber(parseFloat(temp).toFixed(2).toString(), '.');
               return { ...prev };
             });
           }}
           onFocus={() => {
             let temp = values.quantity.replace(/\s/g, '').split(',').join('.');
-            setValues((prev) => {
+            setValues(prev => {
               prev['quantity'] = formatNumber(parseFloat(temp).toFixed(2).toString(), '.');
               return { ...prev };
             });
@@ -206,17 +208,17 @@ const AddWorkModal = ({
           name="unit_price"
           type="text"
           value={values.unit_price}
-          handleChange={(e) => handleChange(e.target.name, e.target.value)}
+          handleChange={e => handleChange(e.target.name, e.target.value)}
           onBlur={() => {
             let temp = values.unit_price.replace(/\s/g, '').split(',').join('.');
-            setValues((prev) => {
+            setValues(prev => {
               prev['unit_price'] = formatNumber(parseFloat(temp).toFixed(2).toString());
               return { ...prev };
             });
           }}
           onFocus={() => {
             let temp = values.unit_price.replace(/\s/g, '').split(',').join('.');
-            setValues((prev) => {
+            setValues(prev => {
               prev['unit_price'] = formatNumber(parseFloat(temp).toFixed(2).toString());
               return { ...prev };
             });
@@ -228,14 +230,13 @@ const AddWorkModal = ({
             variant="contained"
             style={{
               backgroundColor: '#3b373c',
-              height: '35px',
+              height: '35px'
             }}
             onClick={() => {
               setSelectedWorkDetail([]);
               setSelectedWork();
               setOpenWorkModal(false);
-            }}
-          >
+            }}>
             {t('Close')}
           </Button>
           &nbsp;&nbsp;
@@ -243,10 +244,9 @@ const AddWorkModal = ({
             variant="contained"
             style={{
               backgroundColor: '#3b373c',
-              height: '35px',
+              height: '35px'
             }}
-            type="submit"
-          >
+            type="submit">
             {t('Submit')}
           </Button>
         </div>
