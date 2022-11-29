@@ -23,37 +23,37 @@ const pages = [
   // },
   {
     title: 'Supports pédagogiques',
-    path: '/auth/support',
+    path: '/auth/support'
   },
   {
     title: 'Documentation',
-    path: '/auth/documentation',
+    path: '/auth/documentation'
   },
   {
     title: 'Fabricants',
-    path: '/auth/fabricant',
+    path: '/auth/fabricant'
   },
   {
     title: 'Bibliothèques',
-    path: '/auth/libraries',
+    path: '/auth/libraries'
   },
   {
-    title: 'Produits',
-    path: '/auth/services',
-  },
+    title: 'Tarifs',
+    path: '/auth/services'
+  }
   // {
   //   title: "Commande",
   //   path: null
   // },
 ];
 
-const ResponsiveAppBar = (props) => {
+const ResponsiveAppBar = props => {
   const history = useHistory();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   let [scroll, setScroll] = React.useState(false);
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
 
@@ -61,7 +61,7 @@ const ResponsiveAppBar = (props) => {
     setAnchorElNav(null);
   };
 
-  const navTo = (path) => {
+  const navTo = path => {
     if (path) {
       history.push(path);
     }
@@ -94,17 +94,15 @@ const ResponsiveAppBar = (props) => {
             ? props.backgroundColor
             : '#8c1244'
           : '#8c1244',
-        boxShadow: 'none',
-      }}
-    >
+        boxShadow: 'none'
+      }}>
       <Container maxWidth="lg" className="spc_containerdiv">
         <Toolbar disableGutters>
           <Typography
             variant=""
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'none', lg: 'flex' } }}
-          >
+            sx={{ mr: 2, display: { xs: 'none', md: 'none', lg: 'flex' } }}>
             <img src={!scroll ? props.logo : Quadralogo2} onClick={() => navTo('/auth/home')}></img>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex', lg: 'none' } }}>
@@ -114,8 +112,7 @@ const ResponsiveAppBar = (props) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+              color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
@@ -123,27 +120,25 @@ const ResponsiveAppBar = (props) => {
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'flex', lg: 'none' },
-              }}
-            >
-              {pages.map((page) => (
+                display: { xs: 'block', md: 'flex', lg: 'none' }
+              }}>
+              {pages.map(page => (
                 <MenuItem
                   key={page.title}
                   onClick={() => {
                     navTo(page.path);
                     handleCloseNavMenu();
-                  }}
-                >
+                  }}>
                   <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
@@ -155,20 +150,18 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'none' },
+              display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'none' }
             }}
-            onClick={() => navTo('/auth/home')}
-          >
+            onClick={() => navTo('/auth/home')}>
             <img src={Quadralogo}></img>
           </Typography>
           <Box
             sx={{
               flexGrow: 2,
-              display: { xs: 'none !important', md: 'none !important', lg: 'flex !important' },
+              display: { xs: 'none !important', md: 'none !important', lg: 'flex !important' }
             }}
-            className="spc_navitems"
-          >
-            {pages.map((page) => (
+            className="spc_navitems">
+            {pages.map(page => (
               <Button
                 key={page.title}
                 onClick={() => {
@@ -181,9 +174,8 @@ const ResponsiveAppBar = (props) => {
                   padding: '0 1% 0 1%',
                   textTransform: 'capitalize',
                   fontSize: '14px',
-                  whiteSpace: 'nowrap',
-                }}
-              >
+                  whiteSpace: 'nowrap'
+                }}>
                 {page.title}
               </Button>
             ))}

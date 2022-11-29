@@ -23,7 +23,7 @@ const Services = () => {
       <div className="spc_supportheaderdiv">
         <Appbar logo={Quadralogo}></Appbar>
         <div className="spc_">
-          <Typography className="spc_suppportHeroheading">Produits</Typography>
+          <Typography className="spc_suppportHeroheading">Tarifs</Typography>
         </div>
       </div>
 

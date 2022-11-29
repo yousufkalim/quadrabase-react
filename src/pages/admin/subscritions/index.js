@@ -37,7 +37,7 @@ export default function Index(props) {
     formik.resetForm();
   };
   //   delete architect modal
-  const handleDeleteModal = (id) => {
+  const handleDeleteModal = id => {
     if (id) {
       setProductDeleteId(id);
     }
@@ -50,8 +50,8 @@ export default function Index(props) {
         method: 'delete',
         url: `${baseUrl}/Subscriptions/${productDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       Notifier(response.data.message, 'success', translate);
     } catch (error) {
@@ -60,11 +60,11 @@ export default function Index(props) {
 
     setdeleteModal(!deletemodal);
   };
-  const handleEditModal = async (id) => {
+  const handleEditModal = async id => {
     if (id) {
       setProductId(id);
       try {
-        let filteredData = productData.find((data) => data._id == id);
+        let filteredData = productData.find(data => data._id == id);
         seteditData(filteredData);
       } catch (error) {
         if (error.response) Notifier(error.response.data.message, 'error ', translate);
@@ -79,8 +79,8 @@ export default function Index(props) {
         method: 'get',
         url: `${baseUrl}/Subscriptions/`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.subscription.sort((a, b) => a.reference - b.reference);
       setProductData(data);
@@ -95,14 +95,14 @@ export default function Index(props) {
   }, [modal, editmodal, deletemodal]);
   useEffect(() => {
     let array = [];
-    ProductheadCells.slice(0, ProductheadCells.length - 1).map((cell) => array.push(cell.id));
+    ProductheadCells.slice(0, ProductheadCells.length - 1).map(cell => array.push(cell.id));
     setheadCells(array);
   }, []);
 
   const formik = useFormik({
     initialValues: PRODUCT_STATE,
     validationSchema: PRODUCT_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         const data = {
           name: values.name,
@@ -110,15 +110,15 @@ export default function Index(props) {
           duration: values.duration,
           projects: values.projects,
           price: values.price.toString().replace(/\s/g, '').split(',').join('.'),
-          reference: values.reference,
+          reference: values.reference
         };
         let response = await Axios({
           method: 'post',
           url: `${baseUrl}/Subscriptions/create`,
           data: data,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
         Notifier(response.data.message, 'success', translate);
         handleModal();
@@ -128,12 +128,12 @@ export default function Index(props) {
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
   const edit_formik = useFormik({
     initialValues: PRODUCT_STATE,
     validationSchema: PRODUCT_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         const data = {
           name: values.name,
@@ -141,15 +141,15 @@ export default function Index(props) {
           duration: values.duration,
           projects: values.projects,
           price: values.price.toString().replace(/\s/g, '').split(',').join('.'),
-          reference: values.reference,
+          reference: values.reference
         };
         let response = await Axios({
           method: 'put',
           url: `${baseUrl}/Subscriptions/${productId}`,
           data: data,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         Notifier(response.data.message, 'success', translate);
@@ -159,7 +159,7 @@ export default function Index(props) {
 
         console.log('Errror->>>', err);
       }
-    },
+    }
   });
   return (
     <>
