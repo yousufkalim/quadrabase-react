@@ -338,8 +338,8 @@ const ProjectView = () => {
           item.data = tempArray2.sort((a, b) => a.ranking - b.ranking);
         });
       }
-
-      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
+      setProjectWorkData(data)
+      
     } else if (currentProject.market_type === 'Trades') {
       const result = await api('get', `/project/worksByTrades/${id}`);
       let data = result?.data?.works ?? [];
@@ -386,7 +386,7 @@ const ProjectView = () => {
         }
       });
       setTotalHT(temp);
-      setProjectWorkData(data.sort((a, b) => a.ranking - b.ranking));
+      setProjectWorkData(data)
     }
   };
 
