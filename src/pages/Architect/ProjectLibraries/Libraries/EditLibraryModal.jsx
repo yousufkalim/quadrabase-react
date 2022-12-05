@@ -114,9 +114,9 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
     data.architect = store.user._id;
     console.log("edit data",data)
     
-    // const result = await api('put', `/BookLibraries/update/${library._id}`, data, t);
-    // toast.success(t(result.data.message));
-    // handleOpenEditLibrariesModal();
+    const result = await api('put', `/BookLibraries/update/${library._id}`, data, t);
+    toast.success(t(result.data.message));
+    handleOpenEditLibrariesModal();
   };
 
   // jsx
