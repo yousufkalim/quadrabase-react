@@ -101,13 +101,18 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
     e.preventDefault();
     let data = values;
     data.cctp_text = [];
+    console.log("cctp_text1",cctp_text1)
+    console.log("cctp_text2",cctp_text2)
+    console.log("cctp_text3",cctp_text3)
+    console.log("cctp_text4",cctp_text4)
     
 
-    cctp_text1 && data.cctp_text.push(cctp_text1=="<p><br></p>"?"":cctp_text1);
-    cctp_text2 && data.cctp_text.push(cctp_text2=="<p><br></p>"?"":cctp_text2);
-    cctp_text3 && data.cctp_text.push(cctp_text3=="<p><br></p>"?"":cctp_text3);
-    cctp_text4 && data.cctp_text.push(cctp_text4=="<p><br></p>"?"":cctp_text4);
+     data.cctp_text.push(cctp_text1=="<p><br></p>"||cctp_text1==""?"":cctp_text1);
+     data.cctp_text.push(cctp_text2=="<p><br></p>"||cctp_text2==""?"":cctp_text2);
+     data.cctp_text.push(cctp_text3=="<p><br></p>"||cctp_text3==""?"":cctp_text3);
+     data.cctp_text.push(cctp_text4=="<p><br></p>"||cctp_text1==""?"":cctp_text4);
     data.architect = store.user._id;
+    console.log("edit data",data)
     
     const result = await api('put', `/BookLibraries/update/${library._id}`, data, t);
     toast.success(t(result.data.message));
