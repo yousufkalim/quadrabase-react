@@ -88,6 +88,7 @@ const AddLibraryModal = ({ handleOpenLibrariesModal, librariesData }) => {
     data.cctp_text[3] = cctp_text4 || '';
     data.architect = store.user._id;
     data.ranking = librariesData ? librariesData.length : 0;
+    console.log('data', data);
 
     const result = await api('post', `/BookLibraries/architect/create`, data, t);
     toast.success(t(result.data.message));

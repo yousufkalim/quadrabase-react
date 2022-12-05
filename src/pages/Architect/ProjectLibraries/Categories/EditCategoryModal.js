@@ -97,10 +97,10 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
     // cctp_text3 && data.cctp_text.push(cctp_text3);
     // cctp_text4 && data.cctp_text.push(cctp_text4);
 
-    cctp_text1 && data.cctp_text.push(cctp_text1 == '<p><br></p>' ? '' : cctp_text1);
-    cctp_text2 && data.cctp_text.push(cctp_text2 == '<p><br></p>' ? '' : cctp_text2);
-    cctp_text3 && data.cctp_text.push(cctp_text3 == '<p><br></p>' ? '' : cctp_text3);
-    cctp_text4 && data.cctp_text.push(cctp_text4 == '<p><br></p>' ? '' : cctp_text4);
+    data.cctp_text.push(cctp_text1 == '<p><br></p>' || cctp_text1 == '' ? '' : cctp_text1);
+    data.cctp_text.push(cctp_text2 == '<p><br></p>' || cctp_text2 == '' ? '' : cctp_text2);
+    data.cctp_text.push(cctp_text3 == '<p><br></p>' || cctp_text3 == '' ? '' : cctp_text3);
+    data.cctp_text.push(cctp_text4 == '<p><br></p>' || cctp_text4 == '' ? '' : cctp_text4);
     const result = await api('put', `/BookLibraries/update/editCategory/${category._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditCatgeoryModal();
