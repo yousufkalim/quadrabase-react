@@ -55,10 +55,14 @@ export default function AddExpense(props) {
       values.categoryId = props.categoryId;
       let cctp_text = [];
 
-      cctp_text.push(cctp_text1);
-      cctp_text.push(cctp_text2);
-      cctp_text.push(cctp_text3);
-      cctp_text.push(cctp_text4);
+      // cctp_text.push(cctp_text1);
+      // cctp_text.push(cctp_text2);
+      // cctp_text.push(cctp_text3);
+      // cctp_text.push(cctp_text4);
+      cctp_text[0] = cctp_text1 || '';
+    cctp_text[1] = cctp_text2 || '';
+    cctp_text[2] = cctp_text3 || '';
+    cctp_text[3] = cctp_text4 || ''; 
       values.bpu_text = [bpu_text];
       values.cctp_text = cctp_text;
       values.unit_price = values.unit_price.replace(/\s/g, '').split(',').join('.');

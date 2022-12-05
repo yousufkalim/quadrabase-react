@@ -81,6 +81,7 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
         prev.type = 'private';
         return { ...prev };
       });
+      
     library.cctp_text[0] && setcctp_text1(library.cctp_text[0]);
     library.cctp_text[1] && setcctp_text2(library.cctp_text[1]);
     library.cctp_text[2] && setcctp_text3(library.cctp_text[2]);
@@ -100,11 +101,14 @@ const AddLibraryModal = ({ library, handleOpenEditLibrariesModal }) => {
     e.preventDefault();
     let data = values;
     data.cctp_text = [];
-    cctp_text1 && data.cctp_text.push(cctp_text1);
-    cctp_text2 && data.cctp_text.push(cctp_text2);
-    cctp_text3 && data.cctp_text.push(cctp_text3);
-    cctp_text4 && data.cctp_text.push(cctp_text4);
+    
+
+    cctp_text1 && data.cctp_text.push(cctp_text1=="<p><br></p>"?"":cctp_text1);
+    cctp_text2 && data.cctp_text.push(cctp_text2=="<p><br></p>"?"":cctp_text2);
+    cctp_text3 && data.cctp_text.push(cctp_text3=="<p><br></p>"?"":cctp_text3);
+    cctp_text4 && data.cctp_text.push(cctp_text4=="<p><br></p>"?"":cctp_text4);
     data.architect = store.user._id;
+    
     const result = await api('put', `/BookLibraries/update/${library._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditLibrariesModal();
