@@ -1,19 +1,19 @@
 // init
-import React, { useState, useEffect } from "react";
-import api from "../../../../api";
-import { toast } from "react-toastify";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../api';
+import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // component
-import InputWithLabel from "../../../../components/Architect/InputWithLabel";
-import { useStyles } from "../../../../css/projectLibraries";
-import { Button, Grid } from "@mui/material";
-import TextEditor from "../../../../components/Architect/TextEditor";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import InputWithLabel from '../../../../components/Architect/InputWithLabel';
+import { useStyles } from '../../../../css/projectLibraries';
+import { Button, Grid } from '@mui/material';
+import TextEditor from '../../../../components/Architect/TextEditor';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -24,8 +24,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -38,13 +37,13 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
 };
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
   };
 }
 
@@ -54,13 +53,13 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
   const classes = useStyles();
   // states
   const [values, setValues] = useState({
-    name: "",
-    cctp_text: [],
+    name: '',
+    cctp_text: []
   });
-  const [cctp_text1, setcctp_text1] = React.useState("");
-  const [cctp_text2, setcctp_text2] = React.useState("");
-  const [cctp_text3, setcctp_text3] = React.useState("");
-  const [cctp_text4, setcctp_text4] = React.useState("");
+  const [cctp_text1, setcctp_text1] = React.useState('');
+  const [cctp_text2, setcctp_text2] = React.useState('');
+  const [cctp_text3, setcctp_text3] = React.useState('');
+  const [cctp_text4, setcctp_text4] = React.useState('');
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -69,7 +68,7 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
 
   useEffect(() => {
     category &&
-      setValues((prev) => {
+      setValues(prev => {
         prev.name = category.name;
         prev.cctp_text = [];
         return { ...prev };
@@ -82,22 +81,27 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
 
   // handle change function
   const handleChange = (name, value) => {
-    setValues((prev) => {
+    setValues(prev => {
       prev[name] = value;
       return { ...prev };
     });
   };
 
   // handle Submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let data = values;
     data.cctp_text = [];
-    cctp_text1 && data.cctp_text.push(cctp_text1);
-    cctp_text2 && data.cctp_text.push(cctp_text2);
-    cctp_text3 && data.cctp_text.push(cctp_text3);
-    cctp_text4 && data.cctp_text.push(cctp_text4);
-    const result = await api("put", `/BookLibraries/update/editCategory/${category._id}`, data, t);
+    // cctp_text1 && data.cctp_text.push(cctp_text1);
+    // cctp_text2 && data.cctp_text.push(cctp_text2);
+    // cctp_text3 && data.cctp_text.push(cctp_text3);
+    // cctp_text4 && data.cctp_text.push(cctp_text4);
+
+    data.cctp_text.push(cctp_text1 == '<p><br></p>' || cctp_text1 == '' ? '' : cctp_text1);
+    data.cctp_text.push(cctp_text2 == '<p><br></p>' || cctp_text2 == '' ? '' : cctp_text2);
+    data.cctp_text.push(cctp_text3 == '<p><br></p>' || cctp_text3 == '' ? '' : cctp_text3);
+    data.cctp_text.push(cctp_text4 == '<p><br></p>' || cctp_text4 == '' ? '' : cctp_text4);
+    const result = await api('put', `/BookLibraries/update/editCategory/${category._id}`, data, t);
     toast.success(t(result.data.message));
     handleOpenEditCatgeoryModal();
   };
@@ -108,19 +112,19 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
       {/* All fields */}
       <br />
       <InputWithLabel
-        label={t("Name")}
+        label={t('Name')}
         required={true}
         name="name"
         type="text"
         value={values.name}
-        handleChange={(e) => handleChange(e.target.name, e.target.value)}
+        handleChange={e => handleChange(e.target.name, e.target.value)}
       />
       <br />
       <br />
 
       {/* CCTP Tab View */}
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "#f2f2f2" }}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#f2f2f2' }}>
           <Tabs value={selectedTabIndex} onChange={handleTabChange} aria-label="CCTPs">
             <Tab label="CCTP1" {...a11yProps(0)} />
             <Tab label="CCTP2" {...a11yProps(1)} />
@@ -145,13 +149,13 @@ const EditCategoryModal = ({ handleOpenEditCatgeoryModal, category }) => {
       <br />
 
       {/* create button */}
-      <div style={{ width: "100%", textAlign: "right" }}>
+      <div style={{ width: '100%', textAlign: 'right' }}>
         <Button variant="contained" className={classes.btn} onClick={handleOpenEditCatgeoryModal}>
-          {t("Close")}
-        </Button>{" "}
+          {t('Close')}
+        </Button>{' '}
         &nbsp;&nbsp;
         <Button variant="contained" className={classes.btn} type="submit">
-          {t("Update")}
+          {t('Update')}
         </Button>
       </div>
     </form>

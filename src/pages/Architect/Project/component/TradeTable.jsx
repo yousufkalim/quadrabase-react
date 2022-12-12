@@ -674,6 +674,7 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
+                  {console.log("row?.unit?.symbol",row?.unit?.symbol?row?.unit?.symbol:"no")}
                  {row?.unit?.symbol}
                 </TableCell>
                 <TableCell
@@ -685,7 +686,8 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                  {row.quantity && formatNumber(parseFloat(row.quantity).toFixed(2), '.')}
+                  {/* {row.quantity && formatNumber(parseFloat(row.quantity).toFixed(2), '.')} */}
+                  {row.quantity ? formatNumber(parseFloat(row.quantity).toFixed(2), '.'): row?.unit?.symbol? "0,00":""}
                 </TableCell>
                 <TableCell
                   align="right"
@@ -696,7 +698,9 @@ export default function DenseTable({
                     fontSize: 15,
                   }}
                 >
-                  {row.unit_price && formatNumber(parseFloat(row.unit_price).toFixed(2))}
+                  
+                 {/* {row.unit_price && formatNumber(parseFloat(row.unit_price).toFixed(2))} */}
+                 {row.unit_price ? formatNumber(parseFloat(row.unit_price).toFixed(2)):row?.unit?.symbol? "0,00":""}
                 </TableCell>
                 <TableCell
                   align="right"
@@ -708,7 +712,8 @@ export default function DenseTable({
                     // textAlign:"left"
                   }}
                 >
-                  {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))}
+                  {/* {row.unit_price && row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2))} */}
+                  {row.unit_price  ? row.quantity && formatNumber(parseFloat(row.unit_price * row.quantity).toFixed(2)):row?.unit?.symbol? "0,00":""}
                 </TableCell>
               </TableRow>
               {workDetails.map((row2, index) => {
