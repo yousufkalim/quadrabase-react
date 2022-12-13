@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import '../../css/home.css';
 import noSubcription from '../../assets/noSubcription.png';
 import { UpdateStore } from '../../StoreContext';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // Importing Components
 import { Button } from '@mui/material';
@@ -41,6 +43,16 @@ const Home = () => {
   });
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [type, setType] = useState('');
+
+  const { search } = useLocation();
+  const success = new URLSearchParams(search).get('success');
+
+  useEffect(() => {
+    if (success) {
+      toast.success('Subscription Added Successfully');
+      history.push('/architect/index');
+    }
+  }, []);
 
   useEffect(() => {
     let array = [];
@@ -93,9 +105,9 @@ const Home = () => {
   const handleNoSub = () => {
     localStorage.setItem('archId', store?.user._id);
     localStorage.setItem('step', 2);
-    localStorage.removeItem('token');
-    updateStore({ loggedIn: false, user: {} });
-    history.push('/auth/register');
+    // localStorage.removeItem('token');
+    // updateStore({ loggedIn: true, user: {} });
+    history.push('/architect/subscribe');
   };
 
   return store?.user?.authorized?.toUpperCase() === 'YES' ? (

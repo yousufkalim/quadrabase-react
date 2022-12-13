@@ -27,7 +27,7 @@ const InputStyle = {
   marginTop: 5,
   backgroundColor: 'transparent',
   height: 40,
-  borderRadius: 10,
+  borderRadius: 10
 };
 
 const steps = ['Informations générales', 'Informations de connexion'];
@@ -36,63 +36,63 @@ const schema1 = {
   establishment: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 32,
-    },
+      maximum: 32
+    }
   },
   address_1: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'is required' }
   },
   postal_code: {
     length: {
       minimum: 5,
-      maximum: 5,
-    },
+      maximum: 5
+    }
   },
   city: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 32,
-    },
-  },
+      maximum: 32
+    }
+  }
 };
 
 const schema2 = {
   first_name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 32,
-    },
+      maximum: 32
+    }
   },
   last_name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 32,
-    },
+      maximum: 32
+    }
   },
   email: {
     email: true,
     length: {
-      maximum: 64,
-    },
+      maximum: 64
+    }
   },
   password: {
     length: {
       maximum: 128,
-      minimum: 6, //// minimum requirement 6 characters
-    },
+      minimum: 6 //// minimum requirement 6 characters
+    }
   },
   confirm_password: {
     length: {
       maximum: 128,
-      minimum: 6, //// minimum requirement 6 characters
-    },
+      minimum: 6 //// minimum requirement 6 characters
+    }
   },
   phone: {
     length: {
       minimum: 10,
-      maximum: 10,
-    },
-  },
+      maximum: 10
+    }
+  }
 };
 
 const options = [
@@ -100,12 +100,12 @@ const options = [
   { _id: 2, title: 2 },
   { _id: 3, title: 3 },
   { _id: 4, title: 4 },
-  { _id: 5, title: 5 },
+  { _id: 5, title: 5 }
 ];
 
 const typeOptions = [
   { _id: 'Prescripteur', title: 'Prescripteur' },
-  { _id: 'Fabricant', title: 'Fabricant' },
+  { _id: 'Fabricant', title: 'Fabricant' }
 ];
 
 // component
@@ -134,10 +134,10 @@ const Register = () => {
       address_2: '',
       po_box: '',
       postal_code: '',
-      city: '',
+      city: ''
     },
     error: {},
-    touched: {},
+    touched: {}
   });
 
   const [form2, setForm2] = useState({
@@ -147,10 +147,10 @@ const Register = () => {
       email: '',
       password: '',
       confirm_password: '',
-      phone: '',
+      phone: ''
     },
     error: {},
-    touched: {},
+    touched: {}
   });
 
   const [totalDuration, setTotalDuration] = useState(0);
@@ -160,7 +160,7 @@ const Register = () => {
   const [total, setTotal] = useState({
     subTotal: 0,
     tax: 0,
-    grandTotal: 0,
+    grandTotal: 0
   });
 
   const [fabricantSubAmounts, setFabricantSubAmount] = useState({
@@ -170,7 +170,7 @@ const Register = () => {
     referDuration: 0,
     alertName: '',
     referName: '',
-    count: 1,
+    count: 1
   });
 
   useEffect(() => {
@@ -191,22 +191,24 @@ const Register = () => {
         localStorage.removeItem('provId');
         localStorage.removeItem('step');
       }
+    } else if (window.location.pathname === '/architect/subscribe') {
+      history.push('/architect/index');
     }
   }, []);
 
   useEffect(() => {
     const errors = validate(form1.values, schema1);
-    setForm1((formState) => ({
+    setForm1(formState => ({
       ...formState,
-      errors: errors || {},
+      errors: errors || {}
     }));
   }, [form1.values]);
 
   useEffect(() => {
     const errors = validate(form2.values, schema2);
-    setForm2((formState) => ({
+    setForm2(formState => ({
       ...formState,
-      errors: errors || {},
+      errors: errors || {}
     }));
   }, [form2.values]);
 
@@ -223,14 +225,14 @@ const Register = () => {
         referDuration: 0,
         alertName: '',
         referName: '',
-        count: 1,
+        count: 1
       };
-      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+      let temp2 = subscriptionOptions.find(item => item._id === selectedSubscription);
       temp = {
         ...temp,
         refer: temp2.price,
         referDuration: temp2.duration,
-        referName: temp2.name,
+        referName: temp2.name
       };
       setDuration(temp2.duration);
       setFabricantSubAmount(temp);
@@ -240,8 +242,8 @@ const Register = () => {
   useEffect(() => {
     if (selectedSubscriptions.length > 0) {
       let temp = [];
-      selectedSubscriptions.map((item1) => {
-        let existing = subscriptionOptions.find((item2) => item2._id === item1);
+      selectedSubscriptions.map(item1 => {
+        let existing = subscriptionOptions.find(item2 => item2._id === item1);
         existing.count = 0;
         temp.push(existing);
       });
@@ -255,14 +257,14 @@ const Register = () => {
       let tempTax = 0;
       let tempGrandTotal = 0;
       let tempDuration = 0;
-      subscriptionsData.map((item) => {
+      subscriptionsData.map(item => {
         tempSubTotal += item.count * item.price;
         tempDuration += item.count * item.duration;
       });
       setTotalDuration(tempDuration);
       tempTax = (tempSubTotal * 20) / 100;
       tempGrandTotal = tempSubTotal + tempTax;
-      setTotal((prev) => {
+      setTotal(prev => {
         prev.subTotal = tempSubTotal;
         prev.tax = tempTax;
         prev.grandTotal = tempGrandTotal;
@@ -273,8 +275,8 @@ const Register = () => {
 
   useEffect(() => {
     if (totalDuration === 0) {
-      setSubscriptionData((prev) => {
-        prev.map((item) => {
+      setSubscriptionData(prev => {
+        prev.map(item => {
           if (item.duration === 0) {
             item.count = 0;
           }
@@ -290,13 +292,13 @@ const Register = () => {
     let data = response.data.subscription.sort((a, b) => a.reference - b.reference);
 
     if (type === 'Prescripteur') {
-      let filteredData = data.filter((item) => item.type === 'Prescribers');
+      let filteredData = data.filter(item => item.type === 'Prescribers');
       setSubscriptionOptions(filteredData);
       let ids = [];
-      filteredData.map((item) => ids.push(item._id));
+      filteredData.map(item => ids.push(item._id));
       setSelectedSubscriptions(ids);
     } else {
-      let filteredData = data.filter((item) => item.type === 'Manufacturers');
+      let filteredData = data.filter(item => item.type === 'Manufacturers');
       setSubscriptionOptions(filteredData);
       setSelectedSubscription(filteredData[0]._id);
     }
@@ -305,28 +307,28 @@ const Register = () => {
   // handle change function
   const handleChange = (name, value) => {
     if (activeStep === 0) {
-      setForm1((formState) => ({
+      setForm1(formState => ({
         ...formState,
         values: {
           ...formState.values,
-          [name]: value,
+          [name]: value
         },
         touched: {
           ...formState.touched,
-          [name]: true,
-        },
+          [name]: true
+        }
       }));
     } else if (activeStep === 1) {
-      setForm2((formState) => ({
+      setForm2(formState => ({
         ...formState,
         values: {
           ...formState.values,
-          [name]: value,
+          [name]: value
         },
         touched: {
           ...formState.touched,
-          [name]: true,
-        },
+          [name]: true
+        }
       }));
     }
   };
@@ -340,7 +342,7 @@ const Register = () => {
       let data = {};
       if (type === 'Prescripteur') {
         let temp = [];
-        subscriptionsData.map((item) => {
+        subscriptionsData.map(item => {
           let subTotal = formatNumber((item.count * item.price).toFixed(2));
           let price = formatNumber(item.price.toFixed(2));
           temp.push({ ...item, subTotal, price });
@@ -352,16 +354,16 @@ const Register = () => {
               price_data: {
                 currency: 'eur',
                 product_data: {
-                  name: 'Subscription',
+                  name: 'Subscription'
                 },
-                unit_amount: parseInt(total.grandTotal * 100),
+                unit_amount: parseInt(total.grandTotal * 100)
               },
-              quantity: 1,
-            },
+              quantity: 1
+            }
           ],
           metaData: {
             id: archId,
-            type: 'architectSignup',
+            type: 'architectSignup'
           },
           invoiceData: {
             archId,
@@ -375,11 +377,11 @@ const Register = () => {
                 ? 'CB'
                 : paymentMethod === 'mandat'
                 ? 'Mandat administratif'
-                : 'SEPA',
-          },
+                : 'SEPA'
+          }
         };
       } else {
-        let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+        let temp2 = subscriptionOptions.find(item => item._id === selectedSubscription);
         data = {
           paymentMethod,
           line_items: [
@@ -387,16 +389,16 @@ const Register = () => {
               price_data: {
                 currency: 'eur',
                 product_data: {
-                  name: 'Subscription',
+                  name: 'Subscription'
                 },
                 unit_amount:
                   parseInt(
                     (fabricantSubAmounts.count * fabricantSubAmounts.refer * 20) / 100 +
                       fabricantSubAmounts.count * fabricantSubAmounts.refer
-                  ) * 100,
+                  ) * 100
               },
-              quantity: 1,
-            },
+              quantity: 1
+            }
           ],
           metaData: {
             id: archId,
@@ -406,7 +408,7 @@ const Register = () => {
             subscriptionEndDate: moment(
               moment(new Date()).add(fabricantSubAmounts.referDuration, 'months')
             ).format('YYYY/MM/DD'),
-            type: 'providerSignup',
+            type: 'providerSignup'
           },
           invoiceData: {
             archId,
@@ -438,8 +440,8 @@ const Register = () => {
                 ? 'CB'
                 : paymentMethod === 'mandat'
                 ? 'Mandat administratif'
-                : 'SEPA',
-          },
+                : 'SEPA'
+          }
         };
       }
 
@@ -463,7 +465,7 @@ const Register = () => {
         first_name: form2.values.first_name,
         email: form2.values.email,
         password: form2.values.password,
-        confirm_password: form2.values.confirm_password,
+        confirm_password: form2.values.confirm_password
       };
       const res = await api('post', `/Architects/createOnSingup`, data);
       setArchId(res.data.architect._id);
@@ -481,7 +483,7 @@ const Register = () => {
         zipcode: form1.values.postal_code,
         po_box: form1.values.po_box,
         establishment: form1.values.establishment,
-        password: form2.values.password,
+        password: form2.values.password
       };
       const res = await api('post', `/Providers/createOnSingup`, data);
       setArchId(res.data.provider._id);
@@ -491,10 +493,10 @@ const Register = () => {
   };
 
   const generateQuote = async () => {
-    console.log("type",type)
+    console.log('type', type);
     if (type === 'Prescripteur') {
       let temp = [];
-      subscriptionsData.map((item) => {
+      subscriptionsData.map(item => {
         let subTotal = formatNumber((item.count * item.price).toFixed(2));
         let price = formatNumber(item.price.toFixed(2));
         temp.push({ ...item, subTotal, price });
@@ -511,12 +513,12 @@ const Register = () => {
             ? 'CB'
             : paymentMethod === 'mandat'
             ? 'Mandat administratif'
-            : 'SEPA',
+            : 'SEPA'
       };
       const result = await api('post', `/Architects/quote/download`, invoiceData);
       window.open(result.data.path, '_blank');
     } else {
-      let temp2 = subscriptionOptions.find((item) => item._id === selectedSubscription);
+      let temp2 = subscriptionOptions.find(item => item._id === selectedSubscription);
       // to generate invoice
       let invoiceData = {
         archId,
@@ -546,11 +548,11 @@ const Register = () => {
             ? 'CB'
             : paymentMethod === 'mandat'
             ? 'Mandat administratif'
-            : 'SEPA',
+            : 'SEPA'
       };
-      console.log("invoiceData",invoiceData)
+      console.log('invoiceData', invoiceData);
       const result = await api('post', `/Providers/quote/download`, invoiceData);
-      console.log("result.data",result.data)
+      console.log('result.data', result.data);
       window.open(result.data.path, '_blank');
     }
   };
@@ -596,11 +598,11 @@ const Register = () => {
 
   const handleBack = () => setActiveStep(activeStep - 1);
 
-  const handleStep = (step) => () => {
+  const handleStep = step => () => {
     setActiveStep(step);
   };
 
-  const handleComplete = (e) => {
+  const handleComplete = e => {
     e?.preventDefault();
     if (activeStep === 1) {
       if (form2.values.password !== form2.values.confirm_password) {
@@ -620,9 +622,9 @@ const Register = () => {
   };
 
   // handle change for subscription
-  const handleSubscriptionChange = (event) => {
+  const handleSubscriptionChange = event => {
     const {
-      target: { value },
+      target: { value }
     } = event;
     let temp = typeof value === 'string' ? value.split(',') : value;
     setSelectedSubscriptions(temp);
@@ -651,8 +653,12 @@ const Register = () => {
             {!startStepper && !payment ? (
               <Box sx={{ width: '70%' }}>
                 <div
-                  style={{ width: '100%', textAlign: 'center', marginBottom: 40, color: '#8c1244' }}
-                >
+                  style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    marginBottom: 40,
+                    color: '#8c1244'
+                  }}>
                   <Typography variant="h4" gutterBottom>
                     S’INSCRIRE
                   </Typography>
@@ -663,9 +669,8 @@ const Register = () => {
                     display: 'flex',
                     flexDirection: 'row',
                     pt: 2,
-                    justifyContent: 'center',
-                  }}
-                >
+                    justifyContent: 'center'
+                  }}>
                   <Typography variant="h4" gutterBottom>
                     Choix du Statut
                   </Typography>
@@ -677,12 +682,12 @@ const Register = () => {
                   value={type}
                   options={typeOptions}
                   type="text"
-                  onChange={(e) => setType(e.target.value)}
+                  onChange={e => setType(e.target.value)}
                   style={{
                     width: '100%',
                     height: 40,
                     border: '1px solid #8C1244',
-                    borderRadius: 10,
+                    borderRadius: 10
                   }}
                 />
                 <Box
@@ -690,18 +695,16 @@ const Register = () => {
                     display: 'flex',
                     flexDirection: 'row',
                     pt: 2,
-                    justifyContent: 'center',
-                  }}
-                >
+                    justifyContent: 'center'
+                  }}>
                   <Button
                     variant="contained"
                     style={{
                       textTransform: 'none',
                       backgroundColor: '#8C1244',
-                      borderRadius: 8,
+                      borderRadius: 8
                     }}
-                    onClick={() => setStartStepper(true)}
-                  >
+                    onClick={() => setStartStepper(true)}>
                     Continuez
                   </Button>
                 </Box>
@@ -724,7 +727,7 @@ const Register = () => {
                                     type="text"
                                     name="establishment"
                                     value={form1.values.establishment}
-                                    onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                    onChange={e => handleChange(e.target.name, e.target.value)}
                                     required={true}
                                     labelColor="#8C1244"
                                     labelFont={18}
@@ -747,7 +750,7 @@ const Register = () => {
                                     type="text"
                                     name="service"
                                     value={form1.values.service}
-                                    onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                    onChange={e => handleChange(e.target.name, e.target.value)}
                                     required={true}
                                     labelColor="#8C1244"
                                     labelFont={18}
@@ -763,7 +766,7 @@ const Register = () => {
                                   type="text"
                                   name="establishment"
                                   value={form1.values.establishment}
-                                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                  onChange={e => handleChange(e.target.name, e.target.value)}
                                   required={true}
                                   labelColor="#8C1244"
                                   labelFont={18}
@@ -788,7 +791,7 @@ const Register = () => {
                                 type="text"
                                 name="address_1"
                                 value={form1.values.address_1}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                onChange={e => handleChange(e.target.name, e.target.value)}
                                 required={true}
                                 labelColor="#8C1244"
                                 labelFont={18}
@@ -809,7 +812,7 @@ const Register = () => {
                                 type="text"
                                 name="address_2"
                                 value={form1.values.address_2}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                onChange={e => handleChange(e.target.name, e.target.value)}
                                 required={true}
                                 labelColor="#8C1244"
                                 labelFont={18}
@@ -823,7 +826,7 @@ const Register = () => {
                                 type="text"
                                 name="po_box"
                                 value={form1.values.po_box}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                onChange={e => handleChange(e.target.name, e.target.value)}
                                 required={true}
                                 labelColor="#8C1244"
                                 labelFont={18}
@@ -837,7 +840,7 @@ const Register = () => {
                                 type="text"
                                 name="postal_code"
                                 value={form1.values.postal_code}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                onChange={e => handleChange(e.target.name, e.target.value)}
                                 required={true}
                                 labelColor="#8C1244"
                                 labelFont={18}
@@ -861,7 +864,7 @@ const Register = () => {
                                 type="text"
                                 name="city"
                                 value={form1.values.city}
-                                onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                onChange={e => handleChange(e.target.name, e.target.value)}
                                 required={true}
                                 labelColor="#8C1244"
                                 labelFont={18}
@@ -880,18 +883,16 @@ const Register = () => {
                             style={{
                               width: '100%',
                               textAlign: 'center',
-                              marginTop: 20,
-                            }}
-                          >
+                              marginTop: 20
+                            }}>
                             <Button
                               variant="contained"
                               style={{
                                 textTransform: 'none',
                                 backgroundColor: '#8C1244',
-                                borderRadius: 8,
+                                borderRadius: 8
                               }}
-                              onClick={() => setStartStepper()}
-                            >
+                              onClick={() => setStartStepper()}>
                               Retour
                             </Button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -905,15 +906,14 @@ const Register = () => {
                                   form1?.errors?.postal_code
                                     ? '#d9adad'
                                     : '#8C1244',
-                                borderRadius: 8,
+                                borderRadius: 8
                               }}
                               onClick={() => handleComplete()}
                               disabled={
                                 form1?.errors?.establishment ||
                                 form1?.errors?.address_1 ||
                                 form1?.errors?.postal_code
-                              }
-                            >
+                              }>
                               Suivant
                             </Button>
                           </div>
@@ -926,8 +926,7 @@ const Register = () => {
                                 <Grid
                                   container
                                   rowSpacing={1}
-                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                                >
+                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Nom *"
@@ -935,7 +934,7 @@ const Register = () => {
                                       type="text"
                                       name="last_name"
                                       value={form2.values.last_name}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -958,7 +957,7 @@ const Register = () => {
                                       type="text"
                                       name="first_name"
                                       value={form2.values.first_name}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -979,7 +978,7 @@ const Register = () => {
                                       type="email"
                                       name="email"
                                       value={form2.values.email}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1000,7 +999,7 @@ const Register = () => {
                                       type="number"
                                       name="phone"
                                       value={form2.values.phone}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1025,7 +1024,7 @@ const Register = () => {
                                       type={showPassword ? 'text' : 'password'}
                                       name="password"
                                       value={form2.values.password}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       placeholder="**********"
@@ -1063,7 +1062,7 @@ const Register = () => {
                                       type={showConfirmPassword ? 'text' : 'password'}
                                       name="confirm_password"
                                       value={form2.values.confirm_password}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       placeholder="**********"
@@ -1101,18 +1100,16 @@ const Register = () => {
                                   style={{
                                     width: '100%',
                                     textAlign: 'center',
-                                    marginTop: 20,
-                                  }}
-                                >
+                                    marginTop: 20
+                                  }}>
                                   <Button
                                     variant="contained"
                                     style={{
                                       textTransform: 'none',
                                       backgroundColor: '#8C1244',
-                                      borderRadius: 8,
+                                      borderRadius: 8
                                     }}
-                                    onClick={() => handleBack()}
-                                  >
+                                    onClick={() => handleBack()}>
                                     Retour
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1129,7 +1126,7 @@ const Register = () => {
                                         form2?.errors?.phone
                                           ? '#d9adad'
                                           : '#8C1244',
-                                      borderRadius: 8,
+                                      borderRadius: 8
                                     }}
                                     onClick={() => handleComplete()}
                                     disabled={
@@ -1139,8 +1136,7 @@ const Register = () => {
                                       form2?.errors?.password ||
                                       form2?.errors?.confirm_password ||
                                       form2?.errors?.phone
-                                    }
-                                  >
+                                    }>
                                     Valider
                                   </Button>
                                 </div>
@@ -1150,8 +1146,7 @@ const Register = () => {
                                 <Grid
                                   container
                                   rowSpacing={1}
-                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                                >
+                                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
                                       label="Nom *"
@@ -1159,7 +1154,7 @@ const Register = () => {
                                       type="text"
                                       name="last_name"
                                       value={form2.values.last_name}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1182,7 +1177,7 @@ const Register = () => {
                                       type="text"
                                       name="first_name"
                                       value={form2.values.first_name}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1203,7 +1198,7 @@ const Register = () => {
                                       type="email"
                                       name="email"
                                       value={form2.values.email}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1224,7 +1219,7 @@ const Register = () => {
                                       type="number"
                                       name="phone"
                                       value={form2.values.phone}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       labelFont={18}
@@ -1249,7 +1244,7 @@ const Register = () => {
                                       type={showPassword ? 'text' : 'password'}
                                       name="password"
                                       value={form2.values.password}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       placeholder="**********"
@@ -1287,7 +1282,7 @@ const Register = () => {
                                       type={showConfirmPassword ? 'text' : 'password'}
                                       name="confirm_password"
                                       value={form2.values.confirm_password}
-                                      onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                      onChange={e => handleChange(e.target.name, e.target.value)}
                                       required={true}
                                       labelColor="#8C1244"
                                       placeholder="**********"
@@ -1325,18 +1320,16 @@ const Register = () => {
                                   style={{
                                     width: '100%',
                                     textAlign: 'center',
-                                    marginTop: 20,
-                                  }}
-                                >
+                                    marginTop: 20
+                                  }}>
                                   <Button
                                     variant="contained"
                                     style={{
                                       textTransform: 'none',
                                       backgroundColor: '#8C1244',
-                                      borderRadius: 8,
+                                      borderRadius: 8
                                     }}
-                                    onClick={() => handleBack()}
-                                  >
+                                    onClick={() => handleBack()}>
                                     Retour
                                   </Button>
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1348,11 +1341,10 @@ const Register = () => {
                                         form2?.errors?.first_name || form2?.errors?.email
                                           ? '#d9adad'
                                           : '#8C1244',
-                                      borderRadius: 8,
+                                      borderRadius: 8
                                     }}
                                     onClick={() => handleComplete()}
-                                    disabled={form2?.errors?.first_name || form2?.errors?.email}
-                                  >
+                                    disabled={form2?.errors?.first_name || form2?.errors?.email}>
                                     Valider
                                   </Button>
                                 </div>
@@ -1383,8 +1375,7 @@ const Register = () => {
                                 <span>{item.name}</span>
                                 <br />
                                 <span
-                                  style={{ fontSize: 9, fontWeight: 900, whiteSpace: 'nowrap' }}
-                                >
+                                  style={{ fontSize: 9, fontWeight: 900, whiteSpace: 'nowrap' }}>
                                   {' '}
                                   {item.name.toUpperCase().includes('ABONNEMENT 1') && (
                                     <>
@@ -1404,8 +1395,8 @@ const Register = () => {
                                 options={options}
                                 value={item.count}
                                 disabled={totalDuration === 0 && item.duration === 0}
-                                onChange={(e) => {
-                                  setSubscriptionData((prev) => {
+                                onChange={e => {
+                                  setSubscriptionData(prev => {
                                     prev[index].count = e.target.value;
                                     return [...prev];
                                   });
@@ -1419,7 +1410,7 @@ const Register = () => {
                                   width: 60,
                                   fontSize: 20,
                                   fontWeight: 700,
-                                  padding: 5,
+                                  padding: 5
                                 }}
                               />
                               <div className="amount-container">
@@ -1445,9 +1436,8 @@ const Register = () => {
                               alignItems: 'flex-end',
                               color: 'black',
                               fontWeight: 600,
-                              fontSize: 20,
-                            }}
-                          >
+                              fontSize: 20
+                            }}>
                             <div className="amount-container" style={{ border: 0 }}>
                               Montant à payer :{' '}
                             </div>
@@ -1485,7 +1475,7 @@ const Register = () => {
                             value="card"
                             className="radio-button"
                             checked={paymentMethod === 'card'}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            onChange={e => setPaymentMethod(e.target.value)}
                           />
                         </div>
                         <div className="payment-flex-contaner">
@@ -1499,7 +1489,7 @@ const Register = () => {
                             value="sepa_debit"
                             className="radio-button"
                             checked={paymentMethod === 'sepa_debit'}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            onChange={e => setPaymentMethod(e.target.value)}
                           />
                         </div>
                         <div className="payment-flex-contaner">
@@ -1513,7 +1503,7 @@ const Register = () => {
                             value="mandat"
                             className="radio-button"
                             checked={paymentMethod === 'mandat'}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            onChange={e => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1521,9 +1511,8 @@ const Register = () => {
                       {paymentMethod === 'mandat' ? (
                         <div
                           style={{
-                            marginTop: 20,
-                          }}
-                        >
+                            marginTop: 20
+                          }}>
                           <div style={{ fontSize: 15 }}>
                             Merci de bien vouloir nous retourner votre bon de commande
                             <br />
@@ -1546,9 +1535,8 @@ const Register = () => {
                                     color: 'black',
                                     fontWeight: 600,
                                     fontSize: 20,
-                                    width: 'auto',
-                                  }}
-                                >
+                                    width: 'auto'
+                                  }}>
                                   {/* <div
                                     style={{
                                       border: 0,
@@ -1576,17 +1564,15 @@ const Register = () => {
                                     flexDirection: 'column',
                                     justifyContent: 'center',
                                     marginLeft: 30,
-                                    fontSize: 15,
-                                  }}
-                                >
+                                    fontSize: 15
+                                  }}>
                                   <div
                                     style={{
                                       cursor: 'pointer',
                                       color: '#FF8616',
-                                      whiteSpace: 'nowrap',
+                                      whiteSpace: 'nowrap'
                                     }}
-                                    onClick={generateQuote}
-                                  >
+                                    onClick={generateQuote}>
                                     Générer un devis
                                   </div>
                                   {/* <div
@@ -1606,10 +1592,9 @@ const Register = () => {
                             cursor: 'pointer',
                             color: '#FF8616',
                             whiteSpace: 'nowrap',
-                            marginTop: 10,
+                            marginTop: 10
                           }}
-                          onClick={generateQuote}
-                        >
+                          onClick={generateQuote}>
                           Générer un devis
                         </div>
                       )}
@@ -1618,12 +1603,11 @@ const Register = () => {
                       style={{
                         cursor: 'pointer',
                         color: '#FF8616',
-                        whiteSpace: 'nowrap',
+                        whiteSpace: 'nowrap'
                       }}
                       href="/auth/cgv"
                       // onClick={() => history.push('/auth/cgv')}
-                      target="_blank"
-                    >
+                      target="_blank">
                       Conditions Générales des Ventes (CGV)
                     </a>
                   </>
@@ -1634,7 +1618,7 @@ const Register = () => {
                       <BasicDropdown
                         options={subscriptionOptions}
                         value={selectedSubscription}
-                        onChange={(e) => {
+                        onChange={e => {
                           setSelectedSubscription(e.target.value);
                         }}
                         style={{
@@ -1644,7 +1628,7 @@ const Register = () => {
                           width: '110%',
                           fontSize: 20,
                           fontWeight: 700,
-                          padding: 5,
+                          padding: 5
                         }}
                       />
                       <br />
@@ -1661,8 +1645,8 @@ const Register = () => {
                           <BasicDropdown
                             options={options}
                             value={fabricantSubAmounts.count}
-                            onChange={(e) => {
-                              setFabricantSubAmount((prev) => {
+                            onChange={e => {
+                              setFabricantSubAmount(prev => {
                                 prev.count = e.target.value;
                                 return { ...prev };
                               });
@@ -1675,7 +1659,7 @@ const Register = () => {
                               width: 60,
                               fontSize: 20,
                               fontWeight: 700,
-                              padding: 5,
+                              padding: 5
                             }}
                           />
 
@@ -1702,9 +1686,8 @@ const Register = () => {
                                 alignItems: 'flex-end',
                                 color: 'black',
                                 fontWeight: 600,
-                                fontSize: 20,
-                              }}
-                            >
+                                fontSize: 20
+                              }}>
                               <div className="amount-container" style={{ border: 0 }}>
                                 Montant à payer :{' '}
                               </div>
@@ -1755,7 +1738,7 @@ const Register = () => {
                             value="card"
                             className="radio-button"
                             checked={paymentMethod === 'card'}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            onChange={e => setPaymentMethod(e.target.value)}
                           />
                         </div>
                         <div className="payment-flex-contaner">
@@ -1769,7 +1752,7 @@ const Register = () => {
                             value="sepa_debit"
                             className="radio-button"
                             checked={paymentMethod === 'sepa_debit'}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            onChange={e => setPaymentMethod(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1778,10 +1761,9 @@ const Register = () => {
                           cursor: 'pointer',
                           color: '#FF8616',
                           whiteSpace: 'nowrap',
-                          marginTop: 10,
+                          marginTop: 10
                         }}
-                        onClick={generateQuote}
-                      >
+                        onClick={generateQuote}>
                         Générer un devis
                       </div>
                     </div>
@@ -1789,10 +1771,9 @@ const Register = () => {
                       style={{
                         cursor: 'pointer',
                         color: '#FF8616',
-                        whiteSpace: 'nowrap',
+                        whiteSpace: 'nowrap'
                       }}
-                      onClick={() => history.push('/auth/cgv')}
-                    >
+                      onClick={() => history.push('/auth/cgv')}>
                       Conditions Générales des Ventes (CGV)
                     </div>
                   </>
@@ -1802,20 +1783,18 @@ const Register = () => {
                   style={{
                     width: '100%',
                     textAlign: 'center',
-                    marginTop: 40,
-                  }}
-                >
+                    marginTop: 40
+                  }}>
                   <Button
                     variant="contained"
                     style={{
                       textTransform: 'none',
                       backgroundColor: '#8C1244',
-                      borderRadius: 8,
+                      borderRadius: 8
                     }}
                     onClick={() => {
                       history.push('/auth/login');
-                    }}
-                  >
+                    }}>
                     Retour
                   </Button>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1826,11 +1805,10 @@ const Register = () => {
                       backgroundColor: '#8C1244',
                       backgroundColor:
                         type === 'Prescripteur' && total.grandTotal === 0 ? '#d9adad' : '#8C1244',
-                      borderRadius: 8,
+                      borderRadius: 8
                     }}
                     disabled={type === 'Prescripteur' && total.grandTotal === 0}
-                    onClick={() => handleFinish()}
-                  >
+                    onClick={() => handleFinish()}>
                     Valider
                   </Button>
                 </div>
