@@ -1,28 +1,28 @@
-import React from "react";
-import { TextField } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import React from 'react';
+import { TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() => ({
   field: {
-    width: "100%",
-    marginBottom: "20px",
+    width: '100%',
+    marginBottom: '20px'
   },
   multilineInput: {
-    height: "auto",
-  },
+    height: 'auto'
+  }
 }));
 
 const InputWithLabel = ({
-  value = "",
+  value = '',
   label,
   required = false,
   name,
   type,
   autoFocus = false,
-  placeholder = "",
+  placeholder = '',
   handleChange,
   error = false,
-  errorMessage = "",
+  errorMessage = '',
   multiline = false,
   disabled,
   min,
@@ -30,11 +30,11 @@ const InputWithLabel = ({
   style,
   inputStyle,
   onBlur,
-  onFocus,
+  onFocus
 }) => {
   const classes = useStyles();
 
-  if (type === "number") {
+  if (type === 'number') {
     return (
       <TextField
         error={error}
@@ -53,21 +53,21 @@ const InputWithLabel = ({
         InputProps={{
           className: classes.input,
           inputProps: { min: min, max: max },
-          sx: { height: 38 },
+          sx: { height: 38 }
         }}
         InputLabelProps={{
           shrink: true,
-          style: { color: "#3b373c" },
+          style: { color: '#3b373c' }
         }}
         placeholder={placeholder}
-        onChange={(e) => handleChange(e)}
+        onChange={e => handleChange(e)}
         style={style}
         disabled={disabled}
         onBlur={onBlur}
         onFocus={onFocus}
       />
     );
-  } else if (type === "file") {
+  } else if (type === 'file') {
     return (
       <TextField
         error={error}
@@ -84,14 +84,14 @@ const InputWithLabel = ({
         variant="outlined"
         InputProps={{
           className: multiline ? classes.multilineInput : classes.input,
-          sx: { height: 38 },
+          sx: { height: 38 }
         }}
         InputLabelProps={{
           shrink: true,
-          style: { color: "#3b373c" },
+          style: { color: '#3b373c' }
         }}
         placeholder={placeholder}
-        onChange={(e) => handleChange(e)}
+        onChange={e => handleChange(e)}
         style={style}
         disabled={disabled}
         onBlur={onBlur}
@@ -117,16 +117,17 @@ const InputWithLabel = ({
         InputProps={{
           inputProps: {
             className: multiline ? classes.multilineInput : classes.input,
-            style: inputStyle,
+            maxlength: max,
+            style: inputStyle
           },
-          sx: { height: 38 },
+          sx: { height: 38 }
         }}
         InputLabelProps={{
           shrink: true,
-          style: { color: "#3b373c" },
+          style: { color: '#3b373c' }
         }}
         placeholder={placeholder}
-        onChange={(e) => handleChange(e)}
+        onChange={e => handleChange(e)}
         style={style}
         disabled={disabled}
         onBlur={onBlur}

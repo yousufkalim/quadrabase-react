@@ -270,6 +270,7 @@ export default function EnhancedTable(props) {
                         backgroundColor: index % 2 !== 0 && '#F5F5F5',
                       }}
                     >
+                      {console.log("props.row",props.rows,row)}
                       {props?.rows?.map((record, index) =>
                         record == 'subscriptionEndDate' ? (
                           <TableCell align="left" title={row?.subscription?.end_date}>
@@ -282,8 +283,8 @@ export default function EnhancedTable(props) {
                         ) : record === 'subscriptionName' ? (
                           <TableCell key={index} align="left" title={row?.subscriptions?.name}>
                             {row?.subscription?.name
-                              ? row?.subscription?.name?.length > 20
-                                ? row?.subscription?.name.substring(0, 20) + '...'
+                              ? row?.subscription?.name?.length > 30
+                                ? row?.subscription?.name.substring(0, 30) + '...'
                                 : row?.subscription?.name
                               : 'Abonnement initiale'}
                           </TableCell>
