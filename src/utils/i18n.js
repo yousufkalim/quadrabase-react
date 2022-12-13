@@ -23,6 +23,7 @@ i18n
           //  sidebar
           Pages: 'Pages',
           Dashboard: 'Dashboard',
+          'Payment successfully.': 'Payment successfully.',
           // register
           'Create an Account!': 'Create an Account!',
           'First Name': 'First Name',
@@ -644,6 +645,7 @@ i18n
           Manufacturers: 'Fabricants',
           Login: 'Se connecter',
           // register
+          'Payment successfully.': 'Paiement avec succès.',
           'Create an Account!': 'Créer un compte',
           'First Name': 'Prénom',
           'Last Name': 'Nom',
