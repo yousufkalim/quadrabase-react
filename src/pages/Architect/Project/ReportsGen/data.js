@@ -1824,17 +1824,68 @@ const tagsToDocxMap = {
     }
   },
   LI: async function (_) {
-    let text = _.innerHTML;
-    text = text.replace(tagsRegEx, '');
+    let children = _.childNodes;
+    let parsedTags = [];
+
+    for (let i = 0; i < children.length; i++) {
+      switch (children[i].nodeName) {
+        case 'STRONG':
+          parsedTags.push(
+            new TextRun({
+              text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+              font: fontType,
+              size: l2Font,
+              bold: true
+            })
+          );
+          break;
+
+        case 'EM':
+          parsedTags.push(
+            new TextRun({
+              text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+              font: fontType,
+              italics: true
+            })
+          );
+          break;
+
+        case 'U':
+          parsedTags.push(
+            new TextRun({
+              text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+              font: fontType,
+              underline: {
+                color: '#000000',
+                type: UnderlineType.SINGLE
+              }
+            })
+          );
+          break;
+
+        case 'S':
+          parsedTags.push(
+            new TextRun({
+              text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+              font: fontType,
+              strike: true
+            })
+          );
+          break;
+
+        default:
+          parsedTags.push(
+            new TextRun({
+              text: children[i].textContent?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+              font: fontType
+            })
+          );
+      }
+    }
 
     return new Paragraph({
       text: {
-        children: [
-          new TextRun({
-            text: text.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
-            font: fontType
-          })
-        ]
+        children: parsedTags
       },
       bullet: {
         level: 0

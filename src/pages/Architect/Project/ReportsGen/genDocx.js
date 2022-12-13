@@ -2077,7 +2077,7 @@ async function exportDOCXSimpleDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0
+                parseInt(currentRow[j]) && j > 2
                   ? AlignmentType.END
                   : j === 1
                   ? AlignmentType.START
@@ -2341,7 +2341,7 @@ async function exportDOCXTradesDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0
+                parseInt(currentRow[j]) && j > 2
                   ? AlignmentType.END
                   : j === 1
                   ? AlignmentType.START
@@ -2597,7 +2597,7 @@ async function exportDOCXTradesAndTranchesDPGF(data, currentProject) {
           children: [
             new Paragraph({
               alignment:
-                parseInt(currentRow[j]) && j !== 0
+                parseInt(currentRow[j]) && j > 2
                   ? AlignmentType.END
                   : j === 1
                   ? AlignmentType.START
