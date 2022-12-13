@@ -49,7 +49,7 @@ const Home = () => {
 
   useEffect(() => {
     if (success) {
-      toast.success('Subscription Added Successfully');
+      toast.success(t('Subscription Added Successfully'));
       history.push('/architect/index');
     }
   }, []);
