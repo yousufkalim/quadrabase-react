@@ -124,6 +124,7 @@ const Index = () => {
 
             <br />
             <Typography className={classes.name} variant="h4">
+          
               {store.user.first_name} {store.user.last_name}
             </Typography>
             <Typography color="textSecondary" variant="body1">
@@ -143,6 +144,7 @@ const Index = () => {
                   label={t('Lastname')}
                   required={true}
                   name="last_name"
+                  max={12}
                   type="text"
                   value={values.last_name}
                   handleChange={(e) => handleChange(e.target.name, e.target.value)}
@@ -153,6 +155,7 @@ const Index = () => {
                   label={t('Firstname')}
                   required={true}
                   name="first_name"
+                  max={12}
                   type="text"
                   value={values.first_name}
                   handleChange={(e) => handleChange(e.target.name, e.target.value)}
