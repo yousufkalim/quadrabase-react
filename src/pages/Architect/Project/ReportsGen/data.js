@@ -1728,7 +1728,7 @@ const tagsToDocxMap = {
         new TextRun({
           text: text.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
           font: fontType,
-          size: size ?? l2Font,
+          size: size ?? l1Font,
           bold: true
         })
       ]
@@ -1834,7 +1834,7 @@ const tagsToDocxMap = {
             new TextRun({
               text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
               font: fontType,
-              size: l2Font,
+              size: l1Font,
               bold: true
             })
           );
@@ -1845,6 +1845,7 @@ const tagsToDocxMap = {
             new TextRun({
               text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
               font: fontType,
+              size: l1Font,
               italics: true
             })
           );
@@ -1855,6 +1856,7 @@ const tagsToDocxMap = {
             new TextRun({
               text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
               font: fontType,
+              size: l1Font,
               underline: {
                 color: '#000000',
                 type: UnderlineType.SINGLE
@@ -1868,6 +1870,7 @@ const tagsToDocxMap = {
             new TextRun({
               text: children[i].textContent?.trim().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
               font: fontType,
+              size: l1Font,
               strike: true
             })
           );
@@ -1877,7 +1880,8 @@ const tagsToDocxMap = {
           parsedTags.push(
             new TextRun({
               text: children[i].textContent?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
-              font: fontType
+              font: fontType,
+              size: l1Font
             })
           );
       }
