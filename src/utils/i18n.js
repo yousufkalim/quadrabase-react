@@ -1153,6 +1153,7 @@ i18n
           'Number of Projects': 'Nombre de projets',
           'Projects in progress': 'Projets en cours',
           'Projects remaining': 'Projets restants',
+          'Project Complete': 'Projet terminé',
           'Please select a chap. 0 part 2 from properties':
             'Vous devez d’abord sélectionner un Chap0 Part2 dans les Propriétés du Projet',
           'Project Date': 'Date du projet',

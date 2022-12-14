@@ -26,7 +26,7 @@ const Index = () => {
 
   useEffect(() => {
     let temp = [];
-    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map((cell) => temp.push(cell.id));
+    ProjectheadCells.slice(0, ProjectheadCells.length - 1).map(cell => temp.push(cell.id));
     setProjectHeadCells(temp);
   }, []);
 
@@ -48,6 +48,7 @@ const Index = () => {
     const projects = result?.data?.project.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
+    console.log('projects', projects);
     setProjectData(projects);
   };
 
@@ -57,18 +58,18 @@ const Index = () => {
     handleDeleteProjectModal();
   };
 
-  const handleView = (id) => {
+  const handleView = id => {
     history.push(`/projectview/${id}`);
   };
 
   const handleAddProjectModal = () => setAddProjectModal(!addProjectModal);
-  const handleDeleteProjectModal = (id) => {
+  const handleDeleteProjectModal = id => {
     if (id) {
       setDeleteId(id);
     }
     setOpenDeleteModal(!openDeleteModal);
   };
-  const handleOpenStatusModal = (item) => {
+  const handleOpenStatusModal = item => {
     if (item) setSelectedProject(item);
     setOpenStatusModal(!openStatusModal);
   };
