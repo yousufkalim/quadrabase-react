@@ -49,6 +49,7 @@ const Home = () => {
 
   const { search } = useLocation();
   const success = new URLSearchParams(search).get('success');
+  console.log("success",success)
 
 
   useEffect(() => {
@@ -88,8 +89,8 @@ const Home = () => {
     setProjectComplete(projectcomplete)
     setProjectData(projects);
   };
-  console.log("projectInProgressData",projectInProgressData)
-  console.log("projectComplete",projectComplete)
+  console.log("subscriptionHeadCells",subscriptionHeadCells)
+  console.log("subscriptionsData",subscriptionsData)
   console.log("totalproject",projectData)
   console.log("projectHeadCells",projectHeadCells)
 

@@ -115,6 +115,7 @@ const Register = () => {
 
   // states
   const [type, setType] = useState('Prescripteur');
+  const [mandatLoading, setMandatLoading] = useState(false);
   const [startStepper, setStartStepper] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
@@ -335,9 +336,7 @@ const Register = () => {
 
   // handle Finish function
   const handleFinish = async () => {
-    if (paymentMethod === 'mandat') {
-      history.push('/auth/login');
-    } else {
+   {
       // to creating account
       let data = {};
       if (type === 'Prescripteur') {
@@ -445,8 +444,21 @@ const Register = () => {
         };
       }
 
-      const res = await api('post', `/licenses/checkout`, data);
+      console.log("data",data)
+      if(data?.paymentMethod=="mandat"){
+        console.log("mandat",data)
+        setMandatLoading(true)
+        const res = await api('post', `/licenses/mandat`, data);
+        setMandatLoading(false)
+        history.push("/architect/index/?success=true");
+      }else{
+
+        const res = await api('post', `/licenses/checkout`, data);
       window.location = res.data.url;
+
+      }
+
+      
     }
   };
 
@@ -1804,10 +1816,10 @@ const Register = () => {
                       textTransform: 'none',
                       backgroundColor: '#8C1244',
                       backgroundColor:
-                        type === 'Prescripteur' && total.grandTotal === 0 ? '#d9adad' : '#8C1244',
+                        type === 'Prescripteur' && total.grandTotal === 0 ||mandatLoading? '#d9adad' : '#8C1244',
                       borderRadius: 8
                     }}
-                    disabled={type === 'Prescripteur' && total.grandTotal === 0}
+                    disabled={type === 'Prescripteur' && total.grandTotal === 0||mandatLoading}
                     onClick={() => handleFinish()}>
                     Valider
                   </Button>

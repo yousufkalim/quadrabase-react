@@ -255,6 +255,7 @@ export default function EnhancedTable(props) {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  props.data.slice().sort(getComparator(order, orderBy)) */}
+                 {console.log("props data",props.data)}
               {stableSort(props.data, getComparator(order, orderBy))
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 ?.map((row, index) => {
@@ -270,6 +271,7 @@ export default function EnhancedTable(props) {
                         backgroundColor: index % 2 !== 0 && '#F5F5F5',
                       }}
                     >
+                      {console.log("row issss",row)}
                       
                       {props?.rows?.map((record, index) =>
                         record == 'subscriptionEndDate' ? (
@@ -285,7 +287,7 @@ export default function EnhancedTable(props) {
                             {row?.subscription?.name
                               ? row?.subscription?.name?.length > 30
                                 ? row?.subscription?.name.substring(0, 30) + '...'
-                                : row?.subscription?.name
+                                : row?.subscription?.name 
                               : 'Abonnement initiale'}
                           </TableCell>
                         ) : record == 'assignedToName' ? (
