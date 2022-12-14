@@ -2,604 +2,604 @@ export const ArchitectheadCells = [
   {
     id: 'establishment',
 
-    label: 'Establishment',
+    label: 'Establishment'
   },
   {
     id: 'service',
 
-    label: 'Service',
+    label: 'Service'
   },
   {
     id: 'address_1',
 
-    label: 'Address 1',
+    label: 'Address 1'
   },
   {
     id: 'address_2',
 
-    label: 'Address 2',
+    label: 'Address 2'
   },
   {
     id: 'po_box',
 
-    label: 'PO Box',
+    label: 'PO Box'
   },
   {
     id: 'postal_code',
 
-    label: 'Postal Code',
+    label: 'Postal Code'
   },
   {
     id: 'city',
 
-    label: 'City',
+    label: 'City'
   },
   {
     id: 'email_address_client',
 
-    label: 'Email Address (Client)',
+    label: 'Email Address (Client)'
   },
   {
     id: 'last_name',
 
-    label: 'Last Name',
+    label: 'Last Name'
   },
   {
     id: 'first_name',
 
-    label: 'First Name',
+    label: 'First Name'
   },
   {
     id: 'phone',
 
-    label: 'Phone',
+    label: 'Phone'
   },
   {
     id: 'email',
 
-    label: 'Email',
+    label: 'Email'
   },
   {
     id: 'client_code',
 
-    label: 'Client Code',
+    label: 'Client Code'
   },
   {
     id: 'authorized',
-    label: 'Authorize',
+    label: 'Authorize'
   },
   {
     id: 'subscription',
-    label: 'Subscription',
+    label: 'Subscription'
   },
   {
     id: 'subscriptionStartDate',
 
-    label: 'Subscription Start Date',
+    label: 'Subscription Start Date'
   },
   {
     id: 'subscriptionEndDate',
 
-    label: 'Subscription End Date',
+    label: 'Subscription End Date'
   },
   {
     id: 'total_projects',
-    label: 'Total Projects',
+    label: 'Total Projects'
   },
   {
     id: 'ongoing_projects',
-    label: 'Ongoing Projects',
+    label: 'Ongoing Projects'
   },
   {
     id: 'remaining_projects',
-    label: 'Remaining Projects',
+    label: 'Remaining Projects'
   },
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 export const AdminheadCells = [
   {
     id: 'last_name',
 
-    label: 'Last Name',
+    label: 'Last Name'
   },
   {
     id: 'first_name',
 
-    label: 'First Name',
+    label: 'First Name'
   },
 
   {
     id: 'email',
 
-    label: 'Email',
+    label: 'Email'
   },
 
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const SupportheadCells = [
   {
     id: 'supportTitle',
 
-    label: 'supportTitle',
+    label: 'supportTitle'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const ProductheadCells = [
   {
     id: 'product_type',
 
-    label: 'Type of Customer',
+    label: 'Type of Customer'
   },
   {
     id: 'reference',
 
-    label: 'Reference',
+    label: 'Reference'
   },
   {
     id: 'name',
 
-    label: 'Name',
+    label: 'Name'
   },
 
   {
     id: 'duration',
 
-    label: 'Duration',
+    label: 'Duration'
   },
   {
     id: 'projects',
 
-    label: 'Projects',
+    label: 'Projects'
   },
   {
     id: 'productPrice',
 
-    label: 'Price excl. VAT',
+    label: 'Price excl. VAT'
   },
 
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const FamiliesheadCells = [
   {
     id: 'name',
 
-    label: 'Name',
+    label: 'Name'
   },
   {
     id: 'ranking',
 
-    label: 'Ranking',
+    label: 'Ranking'
   },
 
   {
     id: 'createdAt',
 
-    label: 'Date/',
+    label: 'Date/'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 export const UnitheadCells = [
   {
     id: 'name',
 
-    label: 'Name',
+    label: 'Name'
   },
   {
     id: 'symbol',
 
-    label: 'Symbol',
+    label: 'Symbol'
   },
   {
     id: 'ranking',
 
-    label: 'Ranking',
+    label: 'Ranking'
   },
 
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const VatheadCells = [
   {
     id: 'value',
 
-    label: 'Value',
+    label: 'Value'
   },
   {
     id: 'symbol',
 
-    label: 'Symbol',
+    label: 'Symbol'
   },
   {
     id: 'ranking',
 
-    label: 'Ranking',
+    label: 'Ranking'
   },
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 export const CctpheadCells = [
   {
     id: 'name',
 
-    label: 'Name',
+    label: 'Name'
   },
   {
     id: 'type',
 
-    label: 'Type',
+    label: 'Type'
   },
   {
     id: 'ranking',
 
-    label: 'Ranking',
+    label: 'Ranking'
   },
 
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 export const Chap0headCells = [
   {
     id: 'title',
 
-    label: 'Title',
+    label: 'Title'
   },
 
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const ProviderheadCells = [
   {
     id: 'establishment',
 
-    label: 'Establishment',
+    label: 'Establishment'
   },
   {
     id: 'logo',
 
-    label: 'Logo',
+    label: 'Logo'
   },
   {
     id: 'address1',
 
-    label: 'Address 1',
+    label: 'Address 1'
   },
   {
     id: 'address2',
 
-    label: 'Address 2',
+    label: 'Address 2'
   },
   {
     id: 'po_box',
 
-    label: 'PO Box',
+    label: 'PO Box'
   },
   {
     id: 'zipcode',
 
-    label: 'ZipCode',
+    label: 'ZipCode'
   },
   {
     id: 'city',
 
-    label: 'City',
+    label: 'City'
   },
   {
     id: 'email_address_client',
 
-    label: 'Email Address (Client)',
+    label: 'Email Address (Client)'
   },
   {
     id: 'name',
 
-    label: 'Name',
+    label: 'Name'
   },
   {
     id: 'firstname',
 
-    label: 'Firstname',
+    label: 'Firstname'
   },
 
   {
     id: 'telephone_no',
 
-    label: 'Telephone No.',
+    label: 'Telephone No.'
   },
   {
     id: 'email',
 
-    label: 'Email',
+    label: 'Email'
   },
   {
     id: 'client_code',
 
-    label: 'Client Code',
+    label: 'Client Code'
   },
   {
     id: 'authorized',
-    label: 'Authorize',
+    label: 'Authorize'
   },
   {
     id: 'url',
 
-    label: 'url',
+    label: 'url'
   },
   {
     id: 'provider_subscription',
-    label: 'Subscription',
+    label: 'Subscription'
   },
   {
     id: 'provider_subscriptionStartDate',
 
-    label: 'Subscription Start Date',
+    label: 'Subscription Start Date'
   },
   {
     id: 'provider_subscriptionEndDate',
 
-    label: 'Subscription End Date',
+    label: 'Subscription End Date'
   },
   {
     id: 'createdAt',
 
-    label: 'Date',
+    label: 'Date'
   },
   {
     id: 'action',
 
-    label: 'Action',
-  },
+    label: 'Action'
+  }
 ];
 
 export const SubscriptionheadCells = [
   {
     id: 'code',
 
-    label: 'Code',
+    label: 'Code'
   },
   {
     id: 'subscriptionName',
 
-    label: 'Désignation',
+    label: 'Désignation'
   },
   {
     id: 'subscriptionStartDate',
 
-    label: 'Sub Start Date',
+    label: 'Sub Start Date'
   },
   {
     id: 'subscriptionEndDate',
 
-    label: 'End Date',
+    label: 'End Date'
   },
   {
     id: 'subStatus',
 
-    label: 'Status',
+    label: 'Status'
   },
   {
     id: 'actions',
 
-    label: 'Actions',
-  },
+    label: 'Actions'
+  }
 ];
 
 export const ProviderSubscriptionheadCells = [
   {
     id: 'name',
-    label: 'Name',
+    label: 'Name'
   },
   {
     id: 'start_date',
-    label: 'Start Date',
+    label: 'Start Date'
   },
   {
     id: 'end_date',
-    label: 'End Date',
+    label: 'End Date'
   },
   {
     id: 'authorize',
-    label: 'Authorize',
-  },
+    label: 'Authorize'
+  }
 ];
 
 export const MyProjectHeadCells = [
   {
     id: 'totalProjects',
 
-    label: 'Number of Projects',
+    label: 'Number of Projects'
   },
   {
     id: 'inProgress',
 
-    label: 'Projects in progress',
+    label: 'Projects in progress'
   },
   {
     id: 'remaining',
 
-    label: 'Projects remaining',
-  },
+    label: 'Project Complete'
+  }
 ];
 
 export const StakeholderheadCells = [
   {
     id: 'type',
 
-    label: 'Type Of Stakeholder',
+    label: 'Type Of Stakeholder'
   },
   {
     id: 'establishment',
 
-    label: 'Establishment',
+    label: 'Establishment'
   },
   {
     id: 'service',
 
-    label: 'Service',
+    label: 'Service'
   },
   {
     id: 'address1',
 
-    label: 'Address 1',
+    label: 'Address 1'
   },
   {
     id: 'address2',
 
-    label: 'Address 2',
+    label: 'Address 2'
   },
   {
     id: 'po_box',
-    label: 'BP/CS',
+    label: 'BP/CS'
   },
   {
     id: 'zipcode',
 
-    label: 'CP',
+    label: 'CP'
   },
   {
     id: 'city',
 
-    label: 'City',
+    label: 'City'
   },
   {
     id: 'lastname',
 
-    label: 'Lastname',
+    label: 'Lastname'
   },
   {
     id: 'firstname',
-    label: 'Firstname',
+    label: 'Firstname'
   },
 
   {
     id: 'contact_no',
-    label: 'Telephone',
+    label: 'Telephone'
   },
 
   {
     id: 'email',
-    label: 'Email Address',
+    label: 'Email Address'
   },
 
   {
     id: 'actions',
 
-    label: 'Actions',
-  },
+    label: 'Actions'
+  }
 ];
 
 export const Chap0Part2headCells = [
   {
     id: 'chapTitle',
 
-    label: 'Title',
+    label: 'Title'
   },
   {
     id: 'actions',
 
-    label: 'Actions',
-  },
+    label: 'Actions'
+  }
 ];
 export const ProjectheadCells = [
   {
     id: 'projectName',
 
-    label: 'Name of the project',
+    label: 'Name of the project'
   },
   {
     id: 'client',
 
-    label: 'Owner',
+    label: 'Owner'
   },
   {
     id: 'market_type',
 
-    label: 'Type Of Contract',
+    label: 'Type Of Contract'
   },
   {
     id: 'createdAt',
 
-    label: 'Date Of Creation',
+    label: 'Date Of Creation'
   },
   {
     id: 'updatedAt',
 
-    label: 'Date Of Last Modification',
+    label: 'Date Of Last Modification'
   },
   {
     id: 'projectStatus',
 
-    label: 'Status',
+    label: 'Status'
   },
 
   {
     id: 'actions',
 
-    label: 'Actions',
-  },
+    label: 'Actions'
+  }
 ];

@@ -201,7 +201,9 @@ export default function DenseTable({
 
   // WorkDetail Up
   const handleWorkDetailUp = async (id) => {
+    
     let filteredIndex = workDetails.findIndex((dt) => dt._id == id);
+    
     if (filteredIndex != 0) {
       let tempArr = [...workDetails];
       let prevIndex = filteredIndex - 1;
@@ -244,6 +246,7 @@ export default function DenseTable({
   //workDetails Down
   const handleWorkDetailsDown = async (id) => {
     let filteredIndex = workDetails.findIndex((dt) => dt._id == id);
+    
 
     if (filteredIndex !== workDetails.length - 1) {
       let tempArr = [...workDetails];
@@ -848,7 +851,7 @@ export default function DenseTable({
                               </MenuItem> */}
                           <MenuItem
                             onClick={() => {
-                              handleWorkDetailUp(parentItem._id, menuItem2._id);
+                              handleWorkDetailUp(menuItem2._id);
                               handleAnchorElLevel2Close();
                             }}
                           >

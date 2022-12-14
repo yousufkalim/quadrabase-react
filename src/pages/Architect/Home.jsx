@@ -37,6 +37,9 @@ const Home = () => {
   const [assignSubModal, setAssignSubModal] = useState(false);
   const [buyProjectsModal, setBuyProjectsModal] = useState(false);
   const [renewModal, setRenewModal] = useState(false);
+  const [projectData, setProjectData] = useState([]);
+  const [projectInProgressData, setProjectInProgressData] = useState([]);
+  const [projectComplete, setProjectComplete] = useState([]);
   const [assignSub, setAssignSub] = useState({
     id: '',
     email: ''
@@ -47,7 +50,9 @@ const Home = () => {
   const { search } = useLocation();
   const success = new URLSearchParams(search).get('success');
 
+
   useEffect(() => {
+    console.log('success',success)
     if (success) {
       toast.success(t('Payment successfully.'));
       history.push('/architect/index');
@@ -68,6 +73,25 @@ const Home = () => {
   useEffect(() => {
     getSubscriptions();
   }, [buySubModal, assignSubModal, buyProjectsModal, renewModal, addProjectModal]);
+  useEffect(() => {
+    getProjects()
+  }, []);
+  const getProjects = async () => {
+    const result = await api('get', `/project/byArchitect/${store.user._id}`);
+    const projects = result?.data?.project.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    console.log('projects', projects);
+    let projectinprogress= projects.filter(project=>project?.status=="En cours")
+    let projectcomplete= projects.filter(project=>project?.status=="Complété")
+    setProjectInProgressData(projectinprogress)
+    setProjectComplete(projectcomplete)
+    setProjectData(projects);
+  };
+  console.log("projectInProgressData",projectInProgressData)
+  console.log("projectComplete",projectComplete)
+  console.log("totalproject",projectData)
+  console.log("projectHeadCells",projectHeadCells)
 
   const getSubscriptions = async () => {
     const result = await api('get', `/licenses/${store.user._id}`);
@@ -76,6 +100,8 @@ const Home = () => {
       return item;
     });
     setSubscriptionsData(data);
+    console.log("store?.user?",store?.user)
+    console.log("setMySubscription or store.user.projects",store?.user?.subscriptions)
     setMySubscription(store?.user?.subscriptions);
   };
 
@@ -191,12 +217,12 @@ const Home = () => {
               projectHeadCells
                 ? [
                     {
-                      totalProjects: mySubscription?.projects > 0 ? mySubscription?.projects : 0,
+                      totalProjects:projectData?.length >0?projectData?.length : 0,
                       inProgress:
-                        store?.user?.projects?.length > 0 ? store?.user?.projects?.length : 0,
+                      projectInProgressData?.length>0?projectInProgressData?.length : 0,
                       remaining:
-                        mySubscription?.projects - store?.user?.projects?.length > 0
-                          ? mySubscription?.projects - store?.user?.projects?.length
+                      projectComplete.length> 0
+                          ?projectComplete.length
                           : 0
                     }
                   ]

@@ -270,7 +270,7 @@ export default function EnhancedTable(props) {
                         backgroundColor: index % 2 !== 0 && '#F5F5F5',
                       }}
                     >
-                      {console.log("props.row",props.rows,row)}
+                      
                       {props?.rows?.map((record, index) =>
                         record == 'subscriptionEndDate' ? (
                           <TableCell align="left" title={row?.subscription?.end_date}>
