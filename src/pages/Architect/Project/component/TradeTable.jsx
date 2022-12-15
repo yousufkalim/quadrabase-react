@@ -603,15 +603,16 @@ export default function DenseTable({
                       }}
                       sx={{ mt: 1 }}
                     >
+                      {console.log("row uit price",row?.unit_price)}
                       {row._id === menuItem1._id && (
                         <MenuItem
                           onClick={() => {
-                            handleOpenEditWorkModal(menuItem1);
-                            // if (row.unit_price) {
-                            //   handleOpenEditWorkModal(menuItem1);
-                            // } else {
-                            //   handleOpenEditWWDModal(menuItem1);
-                            // }
+                            // handleOpenEditWorkModal(menuItem1);
+                            if (row.unit_price || row.unit_price!=undefined) {
+                              handleOpenEditWorkModal(menuItem1);
+                            } else {
+                              handleOpenEditWWDModal(menuItem1);
+                            }
                             handleAnchorElLevel1Close();
                           }}
                         >
