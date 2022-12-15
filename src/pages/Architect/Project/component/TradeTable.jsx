@@ -606,11 +606,12 @@ export default function DenseTable({
                       {row._id === menuItem1._id && (
                         <MenuItem
                           onClick={() => {
-                            if (row.unit_price) {
-                              handleOpenEditWorkModal(menuItem1);
-                            } else {
-                              handleOpenEditWWDModal(menuItem1);
-                            }
+                            handleOpenEditWorkModal(menuItem1);
+                            // if (row.unit_price) {
+                            //   handleOpenEditWorkModal(menuItem1);
+                            // } else {
+                            //   handleOpenEditWWDModal(menuItem1);
+                            // }
                             handleAnchorElLevel1Close();
                           }}
                         >
