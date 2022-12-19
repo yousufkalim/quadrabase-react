@@ -23,6 +23,7 @@ const Index = () => {
   const [projectData, setProjectData] = useState([]);
   const [projectHeadCells, setProjectHeadCells] = useState('');
   const [mySubscription, setMySubscription] = useState({});
+  const [projectInProgressData, setProjectInProgressData] = useState([]);
 
   useEffect(() => {
     let temp = [];
@@ -49,6 +50,9 @@ const Index = () => {
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
     console.log('projects', projects);
+    let projectinprogress = projects.filter(project => project?.status == 'En cours');
+    setProjectInProgressData(projectinprogress);
+
     setProjectData(projects);
   };
 
@@ -107,7 +111,7 @@ const Index = () => {
         rows={projectHeadCells}
         handleView={handleView}
         headerText={`${t('My Projects')} (${store?.user?.projects?.length}/${
-          mySubscription?.projects ? mySubscription?.projects : 0
+          projectInProgressData ? projectInProgressData.length : 0
         })`}
         type="project"
         buttonText={t('New Project')}
