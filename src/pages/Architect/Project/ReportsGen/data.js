@@ -1659,20 +1659,32 @@ async function handleBuiltInCCTPs(str, size, alignment) {
 function parseHTMLTag(str) {
   const elMain = document.createElement('div');
   elMain.innerHTML = str;
-  let htmlCollectionMain = elMain.children;
+  let htmlCollectionMain = elMain.childNodes;
 
   const parsedObjsArr = [];
   for (let i = 0; i < htmlCollectionMain.length; i++) {
     const _ = htmlCollectionMain[i];
-    const obj = {
-      tagName: _.tagName,
-      innerHTML: _.innerHTML,
-      classList: _.classList,
-      src: _.src,
-      children: _.children,
-      attributes: _.attributes
-    };
-    parsedObjsArr.push(obj);
+    if (_.nodeName == '#text') {
+      const obj = {
+        tagName: 'SPAN',
+        innerHTML: _.textContent,
+        classList: [],
+        src: undefined,
+        children: [],
+        attributes: { length: 0 }
+      };
+      parsedObjsArr.push(obj);
+    } else {
+      const obj = {
+        tagName: _.tagName,
+        innerHTML: _.innerHTML,
+        classList: _.classList,
+        src: _.src,
+        children: _.children,
+        attributes: _.attributes
+      };
+      parsedObjsArr.push(obj);
+    }
   }
 
   return parsedObjsArr;
@@ -1692,15 +1704,79 @@ const tagsToDocxMap = {
       // We cannot store regex in a variable, this will cause inconsistent test results
       // see this article for better understanding https://dev.to/dvddpl/why-is-my-regex-working-intermittently-4f4g
       if (/<\/?[^>]+>/gi.test(currentText)) {
-        const parsedObjsArr = parseHTMLTag(currentText);
-        for (let j = 0; j < parsedObjsArr.length; j++) {
-          const obj = parsedObjsArr[j];
-          const objElm =
-            tagsToDocxMap[obj.tagName] && (await tagsToDocxMap[obj.tagName](obj, size));
-          if (objElm) {
-            objsArr.push(objElm);
+        const children = parseHTMLTag(currentText);
+        let parsedTags = [];
+
+        for (let i = 0; i < children.length; i++) {
+          let text = children[i].innerHTML;
+          text = text.replace(tagsRegEx, '');
+
+          switch (children[i].tagName) {
+            case 'STRONG':
+              parsedTags.push(
+                new TextRun({
+                  text: text?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+                  font: fontType,
+                  size: l1Font,
+                  bold: true
+                })
+              );
+              break;
+
+            case 'EM':
+              parsedTags.push(
+                new TextRun({
+                  text: text?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+                  font: fontType,
+                  size: l1Font,
+                  italics: true
+                })
+              );
+              break;
+
+            case 'U':
+              parsedTags.push(
+                new TextRun({
+                  text: text?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+                  font: fontType,
+                  size: l1Font,
+                  underline: {
+                    color: '#000000',
+                    type: UnderlineType.SINGLE
+                  }
+                })
+              );
+              break;
+
+            case 'S':
+              parsedTags.push(
+                new TextRun({
+                  text: text?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+                  font: fontType,
+                  size: l1Font,
+                  strike: true
+                })
+              );
+              break;
+
+            default:
+              parsedTags.push(
+                new TextRun({
+                  text: text?.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<'),
+                  font: fontType,
+                  size: l1Font
+                })
+              );
           }
         }
+
+        objsArr.push(
+          new Paragraph({
+            text: {
+              children: parsedTags
+            }
+          })
+        );
       } else {
         currentText = currentText.replace(tagsRegEx, '');
         objsArr.push(docText({ text: currentText, size: size ?? l1Font, bold: false, center }));
