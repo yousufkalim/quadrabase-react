@@ -661,6 +661,7 @@ const Register = () => {
           onClick={() => history.push('/auth/home')}
         />
         <div className="register-right-container">
+          
           <div className="register-form-container">
             {!startStepper && !payment ? (
               <Box sx={{ width: '70%' }}>
@@ -724,6 +725,7 @@ const Register = () => {
             ) : (
               startStepper && (
                 <Box sx={{ width: '80%' }}>
+                  <div style={{fontSize:"33px",color:"red",textAlign:"center",padding:"27px 0px"}}><h1>S’inscrire</h1></div>
                   <Stepper activeStep={activeStep} handleStep={handleStep} completed={completed} />
                   <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
@@ -890,6 +892,11 @@ const Register = () => {
                                 ) : null}
                               </div>
                             </Grid>
+                            <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                           
+                              <div style={{fontSize:"20px",color:"red",padding:"30px 0px"}}><h1>*Mentions obligatoires</h1></div>
+                            
+                            </Grid>
                           </Grid>
                           <div
                             style={{
@@ -1042,6 +1049,7 @@ const Register = () => {
                                       placeholder="**********"
                                       labelFont={18}
                                       style={InputStyle}
+                                      ignoreCase={true}
                                     />
                                     <div className="forget-pass">
                                       {!showPassword ? (
@@ -1067,6 +1075,7 @@ const Register = () => {
                                         </div>
                                       ) : null}
                                     </div>
+                                    <div style={{fontSize:"12px",color:"red",padding:"0px 0px"}}><h1>*Mentions obligatoires</h1></div>
                                   </Grid>
                                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                                     <TextInput
@@ -1080,6 +1089,7 @@ const Register = () => {
                                       placeholder="**********"
                                       labelFont={18}
                                       style={InputStyle}
+                                      ignoreCase={true}
                                     />
                                     <div className="forget-pass">
                                       {!showConfirmPassword ? (
