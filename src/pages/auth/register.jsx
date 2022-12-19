@@ -1272,6 +1272,7 @@ const Register = () => {
                                       placeholder="**********"
                                       labelFont={18}
                                       style={InputStyle}
+                                      ignoreCase={true}
                                     />
                                     <div className="forget-pass">
                                       {!showPassword ? (
@@ -1310,6 +1311,7 @@ const Register = () => {
                                       placeholder="**********"
                                       labelFont={18}
                                       style={InputStyle}
+                                      ignoreCase={true}
                                     />
                                     <div className="forget-pass">
                                       {!showConfirmPassword ? (
