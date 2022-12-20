@@ -110,9 +110,9 @@ const Index = () => {
         data={projectData}
         rows={projectHeadCells}
         handleView={handleView}
-        headerText={`${t('My Projects')} (${store?.user?.projects?.length}/${
+        headerText={`${t('My Projects')} (${
           projectInProgressData ? projectInProgressData.length : 0
-        })`}
+        }/${store?.user?.projects?.length})`}
         type="project"
         buttonText={t('New Project')}
         buttonAction={handleAddProjectModal}
