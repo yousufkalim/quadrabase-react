@@ -1542,12 +1542,17 @@ function parseCCTPData(data, index) {
   // Filtering data to skip the libs that doesn't have categories and cctp
   let filteredData = data.filter(lib => {
     // Skipping if category doesn't have works and cctp
-    let filteredCats = lib.pcategories.filter(
-      cat => cat.cctp || cat.pworks.filter(_ => _.work?.cctp_text[index]).length > 0
-    );
+    let filteredCats = lib.pcategories.filter(cat => {
+      let filteredWorks = cat.pworks.filter(
+        _ => _.work?.cctp_text[index] && _.work?.cctp_text[index] !== '<p><br></p>'
+      );
+      cat.pworks = filteredWorks;
+
+      return (cat.cctp && cat.cctp !== '<p><br></p>') || filteredWorks.length > 0;
+    });
     lib.pcategories = filteredCats;
 
-    return lib.cctp || filteredCats.length > 0;
+    return (lib.cctp && lib.cctp !== '<p><br></p>') || filteredCats.length > 0;
   });
 
   for (let i = 0; i < filteredData.length; i++) {
