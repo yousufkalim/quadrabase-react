@@ -441,6 +441,7 @@ export default function EnhancedTable(props) {
                                   aria-label="delete"
                                   onClick={() => props.handleDeleteProjectModal(row._id)}
                                 >
+                                  
                                   <DeleteIcon />
                                 </IconButton>
                               </Tooltip>
@@ -462,6 +463,7 @@ export default function EnhancedTable(props) {
                                   aria-label="delete"
                                   onClick={() => props.handleDelete(row._id)}
                                 >
+                                  
                                   <DeleteIcon />
                                 </IconButton>
                               </Tooltip>
