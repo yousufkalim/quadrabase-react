@@ -1,25 +1,22 @@
-import React, { useEffect } from "react";
-import ArchitectsTable from "../../../components/Table";
-import Button from "../../../components/Button";
-import AddIcon from "@mui/icons-material/Add";
-import Modal from "../../../components/Modal";
-import DeleteModal from "../../../components/DeleteModal";
-import Notifier from "../../../utils/Notifier";
-import { ARCHITECT_STATE } from "../../../components/formik/initialValues";
-import {
-  ARCHITECT_YUP,
-  EDIT_ARCHITECT_YUP,
-} from "../../../components/formik/validations";
-import AddArchitect from "./addArchitect";
-import EditArchitect from "./editArchitect";
-import { useFormik } from "formik";
-import { ArchitectheadCells } from "../../../utils/tableHeads";
-import Axios from "axios";
-import { baseUrl } from "../../../utils/BaseUrl";
-import { getToken } from "../../../utils/Auth";
-import SubscriptionModal from "./SubscriptionModal";
-import moment from "moment";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react';
+import ArchitectsTable from '../../../components/Table';
+import Button from '../../../components/Button';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '../../../components/Modal';
+import DeleteModal from '../../../components/DeleteModal';
+import Notifier from '../../../utils/Notifier';
+import { ARCHITECT_STATE } from '../../../components/formik/initialValues';
+import { ARCHITECT_YUP, EDIT_ARCHITECT_YUP } from '../../../components/formik/validations';
+import AddArchitect from './addArchitect';
+import EditArchitect from './editArchitect';
+import { useFormik } from 'formik';
+import { ArchitectheadCells } from '../../../utils/tableHeads';
+import Axios from 'axios';
+import { baseUrl } from '../../../utils/BaseUrl';
+import { getToken } from '../../../utils/Auth';
+import SubscriptionModal from './SubscriptionModal';
+import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 export default function Index(props) {
   const { translate } = props;
@@ -27,38 +24,35 @@ export default function Index(props) {
   const [modal, setModal] = React.useState(false);
   const [editmodal, seteditModal] = React.useState(false);
   const [deletemodal, setdeleteModal] = React.useState(false);
-  const [headCells, setheadCells] = React.useState("");
+  const [headCells, setheadCells] = React.useState('');
 
-  const [architectId, setarchitectId] = React.useState("");
-  const [architectDeleteId, setarchitectDeleteId] = React.useState("");
+  const [architectId, setarchitectId] = React.useState('');
+  const [architectDeleteId, setarchitectDeleteId] = React.useState('');
 
   const [architectsData, setarchitectsData] = React.useState([]);
-  const [architectData, setarchitectData] = React.useState("");
+  const [architectData, setarchitectData] = React.useState('');
 
   const [editData, seteditData] = React.useState([]);
 
   const [subscriptionModal, setSubscriptionModal] = React.useState(false);
-  const [subscriptionArchitextId, setSubscriptionArchitextId] =
-    React.useState();
+  const [subscriptionArchitextId, setSubscriptionArchitextId] = React.useState();
 
   const [currentSubscription, setCurrentSubscription] = React.useState();
 
   const [options, setOptions] = React.useState([]);
   const { t } = useTranslation();
   // States for subscription popup
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
   const [projects, setProjects] = React.useState(5);
   const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(
-    moment(new Date()).add(1, "years")._d
-  );
+  const [endDate, setEndDate] = React.useState(moment(new Date()).add(1, 'years')._d);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
 
-    if (name == "subscription") {
+    if (name == 'subscription') {
       setValue(value);
-    } else if (name == "projects") {
+    } else if (name == 'projects') {
       setProjects(value);
     }
   };
@@ -66,21 +60,21 @@ export default function Index(props) {
   const getAllSubscriptions = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Subscriptions`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       setOptions(response.data.subscription);
     } catch (error) {
-      console.log(error?.response?.data?.message, "error ");
+      console.log(error?.response?.data?.message, 'error ');
     }
   };
 
   const handleModal = () => setModal(!modal);
   //   delete architect modal
-  const handleDeleteModal = (id) => {
+  const handleDeleteModal = id => {
     if (id) {
       setarchitectDeleteId(id);
     }
@@ -90,35 +84,34 @@ export default function Index(props) {
   const handleDelete = async () => {
     try {
       let response = await Axios({
-        method: "delete",
+        method: 'delete',
         url: `${baseUrl}/Architects/${architectDeleteId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
-      Notifier(response.data.message, "success", translate);
+      Notifier(response.data.message, 'success', translate);
     } catch (error) {
-      if (error.response)
-        Notifier(error.response.data.message, "error ", translate);
+      if (error.response) Notifier(error.response.data.message, 'error ', translate);
     }
 
     setdeleteModal(!deletemodal);
   };
 
-  const handleEditModal = async (id) => {
+  const handleEditModal = async id => {
     if (id) {
       setarchitectId(id);
-      let filteredData = architectsData.find((data) => data._id == id);
+      let filteredData = architectsData.find(data => data._id == id);
       seteditData(filteredData);
     }
     seteditModal(!editmodal);
   };
 
   // Subscription Modal
-  const handleSubscriptionModal = (id) => {
+  const handleSubscriptionModal = id => {
     if (id) {
       setSubscriptionArchitextId(id);
-      let filteredData = architectsData.find((data) => data._id == id);
+      let filteredData = architectsData.find(data => data._id == id);
       setarchitectData(filteredData);
       setCurrentSubscription(filteredData?.subscriptions);
     }
@@ -128,29 +121,29 @@ export default function Index(props) {
   const getArchitects = async () => {
     try {
       let response = await Axios({
-        method: "get",
+        method: 'get',
         url: `${baseUrl}/Architects`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       let data = response.data.architects;
+
       setarchitectsData(data);
     } catch (error) {
-      if (error.response) console.log(error.response.data.message, "error ");
+      if (error.response) console.log(error.response.data.message, 'error ');
     }
     //}
   };
+  console.log('architectsData', architectsData);
 
   useEffect(() => {
     getArchitects();
   }, [modal, editmodal, deletemodal, subscriptionModal]);
   useEffect(() => {
     setValue(currentSubscription?.subscription?._id);
-    currentSubscription?.start_date &&
-      setStartDate(moment(currentSubscription?.start_date)._i);
-    currentSubscription?.end_date &&
-      setEndDate(moment(currentSubscription?.end_date)._i);
+    currentSubscription?.start_date && setStartDate(moment(currentSubscription?.start_date)._i);
+    currentSubscription?.end_date && setEndDate(moment(currentSubscription?.end_date)._i);
     architectData &&
       Object.keys(architectData).length > 0 &&
       setProjects(architectData?.subscriptions?.projects ?? 5);
@@ -159,9 +152,7 @@ export default function Index(props) {
 
   useEffect(() => {
     let array = [];
-    ArchitectheadCells.slice(0, ArchitectheadCells.length - 1).map((cell) =>
-      array.push(cell.id)
-    );
+    ArchitectheadCells.slice(0, ArchitectheadCells.length - 1).map(cell => array.push(cell.id));
     setheadCells(array);
   }, []);
 
@@ -169,84 +160,84 @@ export default function Index(props) {
   const formik = useFormik({
     initialValues: ARCHITECT_STATE,
     validationSchema: ARCHITECT_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         let response = await Axios({
-          method: "post",
+          method: 'post',
           url: `${baseUrl}/Architects/create`,
           data: values,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleModal();
       } catch (err) {
         if (err.response) {
-          Notifier(err.response.data.message, "error", translate);
+          Notifier(err.response.data.message, 'error', translate);
         }
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
       formik.resetForm();
-    },
+    }
   });
 
   //edit Architect
   const edit_formik = useFormik({
     initialValues: ARCHITECT_STATE,
     validationSchema: EDIT_ARCHITECT_YUP,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Architects/${architectId}`,
           data: values,
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleEditModal();
       } catch (err) {
         if (err.response) {
-          Notifier(err.response.data.message, "error", translate);
+          Notifier(err.response.data.message, 'error', translate);
         }
-        console.log("Errror->>>", err);
+        console.log('Errror->>>', err);
       }
-    },
+    }
   });
 
   // add subscription
   const handleSubmit = async () => {
     try {
       if (!value) {
-        Notifier("Subscription is required", "error", translate);
+        Notifier('Subscription is required', 'error', translate);
       } else {
         let response = await Axios({
-          method: "put",
+          method: 'put',
           url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
           data: {
             subscriptionId: value,
             start_date: startDate,
             end_date: endDate,
-            projects: projects,
+            projects: projects
           },
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
-        Notifier(response.data.message, "success", translate);
+        Notifier(response.data.message, 'success', translate);
         handleSubscriptionModal();
       }
     } catch (error) {
-      Notifier(error.response.data.message, "error", translate);
+      Notifier(error.response.data.message, 'error', translate);
     }
   };
   return (
     <>
       <Modal
-        title={translate("Add Architect")}
+        title={translate('Add Architect')}
         open={modal}
         onClose={handleModal}
         translate={translate}
@@ -258,7 +249,7 @@ export default function Index(props) {
         title="Edit Architect"
         open={editmodal}
         onClose={handleEditModal}
-        buttonLabel={t("Update")}
+        buttonLabel={t('Update')}
         onSubmit={edit_formik.handleSubmit}
         translate={translate}
         component={
@@ -285,7 +276,7 @@ export default function Index(props) {
         }
       />
       <Modal
-        title={translate("Set Subscription")}
+        title={translate('Set Subscription')}
         open={subscriptionModal}
         onClose={handleSubscriptionModal}
         width="35%"
@@ -310,7 +301,7 @@ export default function Index(props) {
       <div className="w-full  md:mx-auto py-9 ">
         <div className="container mx-auto px-6">
           <div className="flex justify-between pb-3" t>
-            <h1 className="text-2xl font-bold">{translate("Architects")}</h1>
+            <h1 className="text-2xl font-bold">{translate('Architects')}</h1>
             <Button
               translate={translate}
               variant="outlined"

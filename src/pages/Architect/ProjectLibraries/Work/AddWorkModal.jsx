@@ -62,7 +62,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
   const [values, setValues] = useState({
     name: '',
     unit: '',
-    unit_price: 0,
+    unit_price: "0.00",
     cctp_text: [],
     bpu_text: [],
   });
@@ -225,7 +225,7 @@ const AddWorkModal = ({ handleOpenAddWorkModal, workData, category }) => {
             label="PU HT"
             value={values.unit_price}
             handleChange={(e) => handleChange(e.target.name, e.target.value)}
-            required={true}
+            required={true} 
             onBlur={() => {
               let temp = values.unit_price.replace(/\s/g, '').split(',').join('.');
               setValues((prev) => {

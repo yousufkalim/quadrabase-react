@@ -49,7 +49,7 @@ const Index = () => {
     const projects = result?.data?.project.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-    console.log('projects', projects);
+
     let projectinprogress = projects.filter(project => project?.status == 'En cours');
     setProjectInProgressData(projectinprogress);
 

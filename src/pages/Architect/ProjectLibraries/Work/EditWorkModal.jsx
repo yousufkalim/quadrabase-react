@@ -159,11 +159,17 @@ const EditWorkModal = ({ handleOpenEditWorkModal, work }) => {
     let data = values;
     data.cctp_text = [];
     data.bpu_text = [];
-    cctp_text1 && data.cctp_text.push(cctp_text1);
-    cctp_text2 && data.cctp_text.push(cctp_text2);
-    cctp_text3 && data.cctp_text.push(cctp_text3);
-    cctp_text4 && data.cctp_text.push(cctp_text4);
-    bpu_text1 && data.bpu_text.push(bpu_text1);
+    data.cctp_text.push(cctp_text1=="<p><br></p>"||cctp_text1==""?"":cctp_text1);
+     data.cctp_text.push(cctp_text2=="<p><br></p>"||cctp_text2==""?"":cctp_text2);
+     data.cctp_text.push(cctp_text3=="<p><br></p>"||cctp_text3==""?"":cctp_text3); 
+     data.cctp_text.push(cctp_text4=="<p><br></p>"||cctp_text1==""?"":cctp_text4);
+     data.bpu_text.push(bpu_text1=="<p><br></p>"||bpu_text1==""?"":bpu_text1);
+    // cctp_text1 && data.cctp_text.push(cctp_text1);
+    // cctp_text2 && data.cctp_text.push(cctp_text2);
+    // cctp_text3 && data.cctp_text.push(cctp_text3); 
+    // cctp_text4 && data.cctp_text.push(cctp_text4);
+    // bpu_text1 && data.bpu_text.push(bpu_text1);
+    console.log(" data.bpu_text ",bpu_text1)
     data.unit_price = values.unit_price.replace(/\s/g, '').split(',').join('.');
     if (documents.length !== 0) {
       let tempProvider = [];
