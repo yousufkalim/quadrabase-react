@@ -162,6 +162,17 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  
+  const getinProgressProject=(project)=>{
+    let inprogress =project.filter(project=>project.status=="En cours")
+    return inprogress?.length
+
+  }
+  const getinCompleteProject=(project)=>{
+    let completeProject =project.filter(project=>project.status=="Complété")
+    return completeProject?.length
+
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -279,28 +290,23 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === 'total_projects' ? (
                           <TableCell key={index} align="center" title={'total_projects'}>
-                            {row?.subscriptions?.projects
+                            {/* {row?.subscriptions?.projects
                               ? row?.subscriptions?.projects.length > 14
                                 ? row?.subscriptions?.projects.substring(0, 14) + '...'
                                 : row?.subscriptions?.projects
-                              : '0'}
-                          </TableCell>
-                        ) : record === 'ongoing_projects' ? (
-                          <TableCell key={index} align="center" title={'ongoing_projects'}>
-                            {`${row?.projects?.length ?? 0}`.length > 14
+                              : '0'} */}
+                               {`${row?.projects?.length ?? 0}`.length > 14
                               ? `${row?.projects?.length ?? 0}`.substring(0, 14) + '...'
                               : `${row?.projects?.length ?? 0}`}
                           </TableCell>
+                        ) : record === 'ongoing_projects' ? (
+                          <TableCell key={index} align="center" title={'ongoing_projects'}>
+                            
+                            {getinProgressProject(row?.projects)?getinProgressProject(row?.projects):0}
+                          </TableCell>
                         ) : record === 'remaining_projects' ? (
                           <TableCell key={index} align="center" title={'remaining_projects'}>
-                            {`${(row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)}`
-                              .length > 14
-                              ? `${
-                                  (row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)
-                                }`.substring(0, 14) + '...'
-                              : `${
-                                  (row?.subscriptions?.projects ?? 0) - (row?.projects?.length ?? 0)
-                                }`}
+                            {getinCompleteProject(row?.projects)?getinCompleteProject(row?.projects):0}
                           </TableCell>
                         ) : record === 'authorized' ? (
                           <TableCell key={index} align="center" title={'authroized'}>
