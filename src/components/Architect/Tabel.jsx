@@ -85,6 +85,7 @@ function EnhancedTableHead(props) {
       >
         {props.headCells &&
           props?.headCells?.map((headCell) => (
+
             <TableCell
               key={headCell.id}
               align={'left'}
@@ -107,7 +108,9 @@ function EnhancedTableHead(props) {
                 ) : null}
               </TableSortLabel>
             </TableCell>
+           
           ))}
+          
       </TableRow>
     </TableHead>
   );
@@ -319,7 +322,7 @@ export default function EnhancedTable(props) {
                             key={index}
                             align="left"
                             title={row[record]}
-                            style={{ width: props.type === 'project' && 450 }}
+                            style={{ width: props.type === 'project' && 250 }}
                           >
                             {row.name ? row.name : 'N/A'}
                           </TableCell>

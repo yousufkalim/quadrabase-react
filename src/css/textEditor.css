@@ -20,7 +20,6 @@
 }
 #Alltables ul {
   list-style: disc  !important;
-
   -webkit-margin-before: 1em !important;
   -webkit-margin-after: 1em !important;
   -webkit-margin-start: 0px !important;
@@ -43,6 +42,11 @@
 
 #Alltables{
   width: 100% !important;
+}
+
+.jodit-add-new-line_after{
+  
+  display: none !important;
 }
 
 /* table tr td {
