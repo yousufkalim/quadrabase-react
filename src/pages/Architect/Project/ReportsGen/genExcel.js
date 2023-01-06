@@ -211,7 +211,26 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
       s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     }
   ];
-  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
+
+  let blankRow = Array.from({ length: 6 }, () => ({
+    v: '',
+    t: 's',
+    s: {
+      fill: {
+        fgColor: { rgb: 'FFFFFF' }
+      },
+      border: {
+        top: {
+          style: 'thin'
+        },
+        bottom: {
+          style: 'thin'
+        }
+      }
+    }
+  }));
+
+  XLSX.utils.sheet_add_aoa(ws, [titleRow, blankRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -262,10 +281,6 @@ const exportXLSXSimpleEstimation = (data, currentProject, noPrice) => {
     {
       s: { r: 0, c: 1 },
       e: { r: 0, c: 4 }
-    },
-    {
-      s: { r: 1, c: 1 },
-      e: { r: 1, c: 4 }
     }
   ];
 
@@ -338,7 +353,26 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
       s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     }
   ];
-  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
+
+  let blankRow = Array.from({ length: 6 }, () => ({
+    v: '',
+    t: 's',
+    s: {
+      fill: {
+        fgColor: { rgb: 'FFFFFF' }
+      },
+      border: {
+        top: {
+          style: 'thin'
+        },
+        bottom: {
+          style: 'thin'
+        }
+      }
+    }
+  }));
+
+  XLSX.utils.sheet_add_aoa(ws, [titleRow, blankRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -358,10 +392,6 @@ const exportXLSXTradesEstimation = (data, currentProject, noPrice) => {
     {
       s: { r: 0, c: 1 },
       e: { r: 0, c: 4 }
-    },
-    {
-      s: { r: 1, c: 1 },
-      e: { r: 1, c: 5 }
     }
   ];
 
@@ -491,7 +521,26 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
       s: { ...TitleStyle, ...BorderFirst2, alignment: { horizontal: 'left' } }
     }
   ];
-  XLSX.utils.sheet_add_aoa(ws, [titleRow]);
+
+  let blankRow = Array.from({ length: 6 }, () => ({
+    v: '',
+    t: 's',
+    s: {
+      fill: {
+        fgColor: { rgb: 'FFFFFF' }
+      },
+      border: {
+        top: {
+          style: 'thin'
+        },
+        bottom: {
+          style: 'thin'
+        }
+      }
+    }
+  }));
+
+  XLSX.utils.sheet_add_aoa(ws, [titleRow, blankRow]);
   XLSX.utils.sheet_add_json(ws, xlsxParsedData, { origin: 'A3' });
 
   // Set column widths
@@ -511,10 +560,6 @@ const exportXLSXTradesAndTranchesEstimation = (data, currentProject, noPrice) =>
     {
       s: { r: 0, c: 1 },
       e: { r: 0, c: 4 }
-    },
-    {
-      s: { r: 1, c: 1 },
-      e: { r: 1, c: 5 }
     }
   ];
 

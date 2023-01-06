@@ -955,7 +955,8 @@ function footerDataGenSimpleEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     const ht = totalHT.toFixed(2);
     const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
-    const montant = parseFloat(ht) + parseFloat(vat);
+    let montant = parseFloat(ht) + parseFloat(vat);
+    montant = montant.toFixed(2);
     // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
     footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
@@ -997,7 +998,8 @@ function footerDataGenTradesEstimation(_data, currentProject, noPrice, addSpace)
   if (!noPrice) {
     const ht = totalHT.toFixed(2);
     const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
-    const montant = parseFloat(ht) + parseFloat(vat);
+    let montant = parseFloat(ht) + parseFloat(vat);
+    montant = montant.toFixed(2);
     // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
     footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
@@ -1042,7 +1044,8 @@ function footerDataGenTradesAndTranchesEstimation(data, currentProject, noPrice,
   if (!noPrice) {
     const ht = totalHT.toFixed(2);
     const vat = ((totalHT / 100) * currentProject?.vat?.value).toFixed(2);
-    const montant = parseFloat(ht) + parseFloat(vat);
+    let montant = parseFloat(ht) + parseFloat(vat);
+    montant = montant.toFixed(2);
     // Math.floor(totalHT * (1 + currentProject?.vat?.value / 100)).toFixed(2)
     footerData = [formatNumber(ht, '.'), formatNumber(vat, '.'), formatNumber(montant, '.')];
   } else {
