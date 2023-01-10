@@ -133,7 +133,7 @@ export default function Collapsible(props) {
       // update fabricant
       let response = await Axios({
         method: 'put',
-        url: `${baseUrl}/fabricant/${id}`,
+        url: `${baseUrl}/fabricant/library/${id}`,
         data: { library },
         headers: {
           Authorization: `Bearer ${token}`
