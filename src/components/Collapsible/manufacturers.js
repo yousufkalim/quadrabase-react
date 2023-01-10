@@ -31,6 +31,8 @@ import Modal from '../../components/Modal';
 import AddFabricant from '../../pages/admin/fabricantLibrary/Addfabricant';
 import EditFabricant from '../../pages/admin/fabricantLibrary/EditFabricant';
 
+import EditFabricantLibrary from '../../pages/admin/fabricantLibrary/EditLibrary';
+
 import DeleteModal from '../../components/DeleteModal';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -70,6 +72,10 @@ export default function Collapsible(props) {
   const handleModal = () => setModal(!modal);
 
   const [expanded, setExpanded] = React.useState(false);
+  const [editlibrarymodal, setEditLibraryModal] = React.useState(false);
+  const [library, setNewLibrary] = React.useState('');
+  const [libraryId, setlibraryId] = React.useState('');
+
   const [flag, setFlag] = React.useState(false);
   const handleFlag = () => setFlag(!flag);
 
@@ -112,9 +118,39 @@ export default function Collapsible(props) {
 
   const handleClick = event => {
     setanchorEl(event.currentTarget);
+    console.log('library id', event);
   };
+  console.log('libraryId', libraryId);
   const handleClose = event => {
     setanchorEl(null);
+  };
+  const handleEditLibraryModal = () => setEditLibraryModal(!editlibrarymodal);
+  const handleUpdateLibrary = async () => {
+    console.log('update library', library, props?.data?._id);
+    let id = props?.data?._id;
+    try {
+      // setFabLoading(true);
+      // update fabricant
+      let response = await Axios({
+        method: 'put',
+        url: `${baseUrl}/fabricant/${id}`,
+        data: { library },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('response', response.data);
+
+      setLibraryData(response?.data?.fabricants);
+
+      // setFabLoading(false);
+
+      Notifier(response.data.message, 'success', t);
+      handleEditLibraryModal();
+      // setFabLoading(false)
+    } catch (error) {
+      Notifier(error.response.data.message, 'error', t);
+    }
   };
 
   return (
@@ -146,15 +182,28 @@ export default function Collapsible(props) {
             </ExpandMore>
             {props.token ? (
               <IconButton>
-                <MoreVertIcon onClick={handleClick} />
+                <MoreVertIcon
+                  onClick={t => {
+                    handleClick(t);
+                    setlibraryId(props?.text);
+                  }}
+                />
               </IconButton>
             ) : (
               ''
             )}
           </div>
           <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+            <MenuItem
+              onClick={() => {
+                handleEditLibraryModal();
+                handleClose();
+              }}
+              disableRipple>
+              <FontAwesomeIcon sx={{ fontSize: '1rem' }} icon={faEdit} />
+              {t('Edit')}
+            </MenuItem>
             <MenuItem onClick={() => handleModal()}>Ajouter un fabricant</MenuItem>
-            {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
           </Menu>
 
           <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -172,6 +221,22 @@ export default function Collapsible(props) {
           </Collapse>
         </Card>
       </Grid>
+      <Modal
+        title={'Modifier la bibliothèque'}
+        open={editlibrarymodal}
+        onClose={handleEditLibraryModal}
+        translate={t}
+        buttonLabel="Update"
+        onSubmit={handleUpdateLibrary}
+        component={
+          <EditFabricantLibrary
+            translate={t}
+            setNewLibrary={setNewLibrary}
+            library={library}
+            text={props.text}
+          />
+        }
+      />
       <Modal
         title={'Ajouter un fabricant'}
         open={modal}
