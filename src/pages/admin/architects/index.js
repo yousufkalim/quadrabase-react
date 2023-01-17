@@ -284,12 +284,13 @@ export default function Index(props) {
         onSubmit={handleSubmit}
         buttonLabel="Save"
         component={
-          <SubscriptionModal
+          <SubscriptionModal 
             translate={translate}
             onChange={handleChange}
             options={options}
             value={value}
             projects={projects}
+            setProjects={setProjects}
             architectData={architectData}
             startDate={startDate}
             setStartDate={setStartDate}
