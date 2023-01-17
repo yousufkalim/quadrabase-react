@@ -11,6 +11,7 @@ const SubscriptionModal = (props) => {
     options,
     value,
     projects,
+    setProjects,
     onChange,
     architectData,
     startDate,
@@ -18,6 +19,20 @@ const SubscriptionModal = (props) => {
     endDate,
     setEndDate,
   } = props;
+  useEffect(()=>{
+    setProjects(architectData?.projects.length)
+  },[])
+
+  const getinProgressProject=(project)=>{
+    let inprogress =project.filter(project=>project.status=="En cours")
+    return inprogress?.length
+
+  }
+  const getinCompleteProject=(project)=>{
+    let completeProject =project.filter(project=>project.status=="Complété")
+    return completeProject?.length
+
+  }
   return (
     <form className="w-full  pt-9">
       <div className="flex no-wrap -mx-3 ">
@@ -90,7 +105,8 @@ const SubscriptionModal = (props) => {
             label={translate('Ongoing Projects')}
             name="projects"
             onChange={onChange}
-            value={architectData?.projects?.length}
+            // value={architectData?.projects?.length}
+            value={getinProgressProject(architectData.projects)}
             disabled={true}
           />
         </div>
@@ -104,9 +120,10 @@ const SubscriptionModal = (props) => {
             label={translate('Remaining Projects')}
             name="projects"
             onChange={onChange}
-            value={
-              (architectData?.subscriptions?.projects ?? 0) - (architectData?.projects?.length ?? 0)
-            }
+            // value={
+            //   (architectData?.subscriptions?.projects ?? 0) - (architectData?.projects?.length ?? 0)
+            // }
+            value={getinCompleteProject(architectData.projects)}
             disabled={true}
           />
         </div>

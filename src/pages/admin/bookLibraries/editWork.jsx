@@ -452,7 +452,8 @@ export default function AddExpense(props) {
               }}
             >
               <label style={{ cursor: 'pointer' }}>
-                {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
+                {associatedProviders.length === 0?translate('Select a manufacturer first'):translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
+                {/* {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')} */}
                 <TextInput
                   type="file"
                   placeholder="Document"

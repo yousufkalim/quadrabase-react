@@ -232,6 +232,12 @@ i18n
           'Subscription updated successfully': 'Subscription updated successfully',
           'Subscription deleted successfully': 'Subscription deleted successfully',
           'Subscription  not found': 'Subscription  not found',
+          // contact
+          "contact":"contact",
+          "Please Enter Name":"Please Enter Name",
+          "Please Enter Contact":"Please Enter Contact",
+          "Please Enter Email":"Please Enter Email",
+          "Please Enter Message":"Please Enter Message",
 
           // New
           'Welcome to Quadrabase': 'Welcome to Quadrabase',
@@ -287,6 +293,7 @@ i18n
           Top: 'Top',
           Bottom: 'Bottom',
           'Choose file': 'Choose file',
+          "Select a manufacturer first":"Select a manufacturer first",
           'no file chosen': 'no file chosen',
           'Stakeholder Type created successfully': 'Stakeholder Type created successfully',
           'Stakeholder type deleted successfully': 'Stakeholder type deleted successfully',
@@ -852,6 +859,12 @@ i18n
           'Subscription updated successfully': 'Abonnement mis à jour avec succès',
           'Subscription deleted successfully': 'Abonnement Supprimé avec succès',
           'Subscription  not found': 'Abonnement introuvable',
+          // contact
+          "contact":"contact",
+          "Please Enter Name":"Veuillez entrer le nom",
+          "Please Enter Contact":"Veuillez entrer le contact",
+          "Please Enter Email":"Veuillez saisir un e-mail",
+          "Please Enter Message":"Veuillez entrer un message",
 
           // New
           'Welcome to Quadrabase': 'Bienvenue sur Quadrabase',
@@ -908,6 +921,7 @@ i18n
           Top: 'En haut',
           Bottom: 'En bas',
           'Choose file': 'Choisir le fichier',
+          "Select a manufacturer first":"Sélectionner d’abord un fabricant",
           'no file chosen': 'aucun fichier choisi',
           'Stakeholder Type created successfully': 'Intervenant ajouté avec succès',
           'Stakeholder type deleted successfully': 'Type de partie prenante supprimé avec succès',

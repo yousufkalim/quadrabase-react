@@ -27,6 +27,22 @@ const Contact = () => {
   };
 
   const handleSubmit = () => {
+    if(values.name==""){
+      return toast.error(t("Please Enter Name")); 
+
+    }
+    if(values.phone==""){
+      return toast.error(t("Please Enter Contact")); 
+
+    }
+    if(values.email==""){
+      return toast.error(t("Please Enter Email")); 
+
+    }
+     if(values.message==""){
+      return toast.error(t("Please Enter Message")); 
+
+    }
     // Using global api to post data on server and handling the response
     api('post', '/Contact', values).then((response) => {
       toast.success(t(response.data.message));
