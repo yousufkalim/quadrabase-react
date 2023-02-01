@@ -135,7 +135,6 @@ export default function Index(props) {
     }
     //}
   };
-  console.log('architectsData', architectsData);
 
   useEffect(() => {
     getArchitects();
@@ -146,7 +145,7 @@ export default function Index(props) {
     currentSubscription?.end_date && setEndDate(moment(currentSubscription?.end_date)._i);
     architectData &&
       Object.keys(architectData).length > 0 &&
-      setProjects(architectData?.subscriptions?.projects ?? 5);
+      setProjects(architectData?.subscriptions?.subscription?.projects ?architectData?.subscriptions?.subscription?.projects:0);
     getAllSubscriptions();
   }, [subscriptionModal]);
 

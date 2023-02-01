@@ -20,16 +20,16 @@ const SubscriptionModal = (props) => {
     setEndDate,
   } = props;
   useEffect(()=>{
-    setProjects(architectData?.projects.length)
+    // setProjects(architectData?.projects.length)
   },[])
 
   const getinProgressProject=(project)=>{
-    let inprogress =project.filter(project=>project.status=="En cours")
+    let inprogress =project.filter(project=>project.status=="En cours" && !project?.deleted)
     return inprogress?.length
 
   }
   const getinCompleteProject=(project)=>{
-    let completeProject =project.filter(project=>project.status=="Complété")
+    let completeProject =project.filter(project=>project.status=="Complété" && !project?.deleted)
     return completeProject?.length
 
   }

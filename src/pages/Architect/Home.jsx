@@ -38,6 +38,8 @@ const Home = () => {
   const [buyProjectsModal, setBuyProjectsModal] = useState(false);
   const [renewModal, setRenewModal] = useState(false);
   const [projectData, setProjectData] = useState([]);
+  const [allprojects, setAllProjectData] = useState([]);
+  const [deletedProjects, setDeletedProjects] = useState([]);
   const [projectInProgressData, setProjectInProgressData] = useState([]);
   const [projectComplete, setProjectComplete] = useState([]);
   const [assignSub, setAssignSub] = useState({
@@ -49,11 +51,9 @@ const Home = () => {
 
   const { search } = useLocation();
   const success = new URLSearchParams(search).get('success');
-  console.log("success",success)
 
 
   useEffect(() => {
-    console.log('success',success)
     if (success) {
       toast.success(t('Payment successfully.'));
       history.push('/architect/index');
@@ -82,17 +82,16 @@ const Home = () => {
     const projects = result?.data?.project.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-    console.log('projects', projects);
-    let projectinprogress= projects.filter(project=>project?.status=="En cours")
-    let projectcomplete= projects.filter(project=>project?.status=="Complété")
+    setAllProjectData(projects)
+let deletedPro=projects.filter(project => project?.deleted);
+setDeletedProjects(deletedPro)
+
+    let projectinprogress= projects.filter(project=>project?.status=="En cours" &&!project?.deleted)
+    let projectcomplete= projects.filter(project=>project?.status=="Complété" && !project?.deleted)
     setProjectInProgressData(projectinprogress)
     setProjectComplete(projectcomplete)
     setProjectData(projects);
   };
-  console.log("subscriptionHeadCells",subscriptionHeadCells)
-  console.log("subscriptionsData",subscriptionsData)
-  console.log("totalproject",projectData)
-  console.log("projectHeadCells",projectHeadCells)
 
   const getSubscriptions = async () => {
     const result = await api('get', `/licenses/${store.user._id}`);
@@ -101,8 +100,7 @@ const Home = () => {
       return item;
     });
     setSubscriptionsData(data);
-    console.log("store?.user?",store?.user)
-    console.log("setMySubscription or store.user.projects",store?.user?.subscriptions)
+    
     setMySubscription(store?.user?.subscriptions);
   };
 
@@ -213,18 +211,19 @@ const Home = () => {
         </div>
         <div className="home-right-container">
           <Table
-            headCells={MyProjectHeadCells}
+            headCells={MyProjectHeadCells} 
             data={
               projectHeadCells
                 ? [
                     {
-                      totalProjects:projectData?.length >0?projectData?.length : 0,
+                      totalProjects:store?.user?.subscriptions?.subscription?.projects >0?store?.user?.subscriptions?.subscription?.projects :"----",
                       inProgress:
-                      projectInProgressData?.length>0?projectInProgressData?.length : 0,
+                      projectInProgressData.length?projectInProgressData.length:0,
                       remaining:
-                      projectComplete.length> 0
-                          ?projectComplete.length
-                          : 0
+                      projectComplete?projectComplete.length:0,
+                          deleted:deletedProjects.length> 0
+                          ?deletedProjects.length
+                          : 0,
                     }
                   ]
                 : []
