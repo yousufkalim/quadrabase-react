@@ -483,6 +483,11 @@ export const MyProjectHeadCells = [
     id: 'remaining',
 
     label: 'Project Complete'
+  },
+   {
+    id: 'deleted',
+
+    label: 'Projets supprimés'
   }
 ];
 

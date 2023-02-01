@@ -164,12 +164,12 @@ export default function EnhancedTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
   
   const getinProgressProject=(project)=>{
-    let inprogress =project.filter(project=>project.status=="En cours")
+    let inprogress =project.filter(project=>project.status=="En cours" && !project?.deleted)
     return inprogress?.length
 
   }
   const getinCompleteProject=(project)=>{
-    let completeProject =project.filter(project=>project.status=="Complété")
+    let completeProject =project.filter(project=>project.status=="Complété" && !project?.deleted)
     return completeProject?.length
 
   }
@@ -290,14 +290,12 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === 'total_projects' ? (
                           <TableCell key={index} align="center" title={'total_projects'}>
-                            {/* {row?.subscriptions?.projects
-                              ? row?.subscriptions?.projects.length > 14
-                                ? row?.subscriptions?.projects.substring(0, 14) + '...'
-                                : row?.subscriptions?.projects
-                              : '0'} */}
-                               {`${row?.projects?.length ?? 0}`.length > 14
+                            {row?.subscriptions?.subscription?.projects.length>0
+                              ? row?.subscriptions?.subscription?.projects.length :"-"
+                                }
+                               {/* {`${row?.projects?.length ?? 0}`.length > 14
                               ? `${row?.projects?.length ?? 0}`.substring(0, 14) + '...'
-                              : `${row?.projects?.length ?? 0}`}
+                              : `${row?.projects?.length ?? 0}`} */}
                           </TableCell>
                         ) : record === 'ongoing_projects' ? (
                           <TableCell key={index} align="center" title={'ongoing_projects'}>

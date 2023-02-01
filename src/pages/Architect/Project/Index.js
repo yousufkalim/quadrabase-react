@@ -21,6 +21,7 @@ const Index = () => {
   const [deleteId, setDeleteId] = useState('');
   const [selectedProject, setSelectedProject] = useState({});
   const [projectData, setProjectData] = useState([]);
+  const [allprojects, setAllProjectData] = useState([]);
   const [projectHeadCells, setProjectHeadCells] = useState('');
   const [mySubscription, setMySubscription] = useState({});
   const [projectInProgressData, setProjectInProgressData] = useState([]);
@@ -49,11 +50,14 @@ const Index = () => {
     const projects = result?.data?.project.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-
+    
     let projectinprogress = projects.filter(project => project?.status == 'En cours');
     setProjectInProgressData(projectinprogress);
+    let filterDeletedprojects =projects.filter(project => !project?.deleted);
+    
+    setAllProjectData(projects)
 
-    setProjectData(projects);
+    setProjectData(filterDeletedprojects);
   };
 
   const handleDeleteProject = async () => {
@@ -111,8 +115,8 @@ const Index = () => {
         rows={projectHeadCells}
         handleView={handleView}
         headerText={`${t('My Projects')} (${
-          projectInProgressData ? projectInProgressData.length : 0
-        }/${store?.user?.projects?.length})`}
+          allprojects?.length ?allprojects?.length : 0
+        }/${store?.user?.subscriptions?.subscription?.projects >0?store?.user?.subscriptions?.subscription?.projects:"-"})`}
         type="project"
         buttonText={t('New Project')}
         buttonAction={handleAddProjectModal}
