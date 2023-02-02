@@ -216,7 +216,7 @@ setDeletedProjects(deletedPro)
               projectHeadCells
                 ? [
                     {
-                      totalProjects:store?.user?.subscriptions?.subscription?.projects >0?store?.user?.subscriptions?.subscription?.projects :"----",
+                      totalProjects:store?.user?.subscriptions?.projects >0?store?.user?.subscriptions?.projects :"----",
                       inProgress:
                       projectInProgressData.length?projectInProgressData.length:0,
                       remaining:

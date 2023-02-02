@@ -116,7 +116,7 @@ const Index = () => {
         handleView={handleView}
         headerText={`${t('My Projects')} (${
           allprojects?.length ?allprojects?.length : 0
-        }/${store?.user?.subscriptions?.subscription?.projects >0?store?.user?.subscriptions?.subscription?.projects:"-"})`}
+        }/${store?.user?.subscriptions?.projects >0?store?.user?.subscriptions?.projects:"-"})`}
         type="project"
         buttonText={t('New Project')}
         buttonAction={handleAddProjectModal}

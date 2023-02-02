@@ -290,8 +290,9 @@ export default function EnhancedTable(props) {
                           </TableCell>
                         ) : record === 'total_projects' ? (
                           <TableCell key={index} align="center" title={'total_projects'}>
-                            {row?.subscriptions?.subscription?.projects.length>0
-                              ? row?.subscriptions?.subscription?.projects.length :"-"
+                            {console.log("row",row?.subscriptions?.projects)}
+                            {row?.subscriptions?.projects>0
+                              ? row?.subscriptions?.projects :"-"
                                 }
                                {/* {`${row?.projects?.length ?? 0}`.length > 14
                               ? `${row?.projects?.length ?? 0}`.substring(0, 14) + '...'

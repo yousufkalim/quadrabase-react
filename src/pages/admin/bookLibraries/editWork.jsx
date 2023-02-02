@@ -444,7 +444,7 @@ export default function AddExpense(props) {
                 height: 35,
                 padding: 4,
                 borderRadius: 4,
-                backgroundColor: associatedProviders.length === 0 && 'lightgray',
+                // backgroundColor: associatedProviders.length === 0 && 'lightgray',
                 width: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -452,8 +452,8 @@ export default function AddExpense(props) {
               }}
             >
               <label style={{ cursor: 'pointer' }}>
-                {associatedProviders.length === 0?translate('Select a manufacturer first'):translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
-                {/* {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')} */}
+                {/* {associatedProviders.length === 0?translate('Select a manufacturer first'):translate('Choose file')} - {fileName ? fileName : translate('no file chosen')} */}
+                {translate('Choose file')} - {fileName ? fileName : translate('no file chosen')}
                 <TextInput
                   type="file"
                   placeholder="Document"
@@ -461,7 +461,7 @@ export default function AddExpense(props) {
                   onChange={handleFileChange}
                   multiple={true}
                   style={{ display: 'none' }}
-                  disabled={associatedProviders.length === 0}
+                  // disabled={associatedProviders.length === 0}
                 />
               </label>
             </div>
