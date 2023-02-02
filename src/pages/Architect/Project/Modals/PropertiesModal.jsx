@@ -63,31 +63,31 @@ const Textarea = styled.textarea`
 const TOC = [
   {
     value: 'Simple',
-    label: 'Simple',
+    label: 'Simple'
   },
   {
     value: 'Trades',
-    label: 'Trades',
+    label: 'Trades'
   },
   {
     value: 'TradesAndTranches',
-    label: 'Trades And Tranches',
+    label: 'Trades And Tranches'
   },
   {
     value: 'PurchaseOrder',
-    label: 'Purchase Order',
-  },
+    label: 'Purchase Order'
+  }
 ];
 
 const TOP = [
   {
     value: 'DQEAndBPU',
-    label: 'DQE & BPU',
+    label: 'DQE & BPU'
   },
   {
     value: 'DPGF',
-    label: 'DPGF',
-  },
+    label: 'DPGF'
+  }
 ];
 
 function TabPanel(props) {
@@ -99,8 +99,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -113,13 +112,13 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
 };
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
   };
 }
 
@@ -128,7 +127,7 @@ const PropertiesModal = ({
   handleOpenPropertiesModal,
   currentProject,
   getProject,
-  familyOptions,
+  familyOptions
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -141,15 +140,15 @@ const PropertiesModal = ({
     reference: '',
     description: '',
     chap0part2: [],
-    architectStakeholder: [],
+    architectStakeholder: []
   });
 
   const [values2, setValues2] = useState({
     market_type: 'Simple',
-    structure: 'DQEAndBPU',
+    structure: 'DQEAndBPU'
   });
   const [values3, setValues3] = useState({
-    stakeholders: [],
+    stakeholders: []
   });
 
   const [options, setOptions] = useState([]);
@@ -182,8 +181,8 @@ const PropertiesModal = ({
   useEffect(() => {
     if (value === 2) {
       let temp = [];
-      allStakeholderOptions?.map((row) =>
-        values3?.stakeholders?.map((row2) => {
+      allStakeholderOptions?.map(row =>
+        values3?.stakeholders?.map(row2 => {
           if (row2.toString() == row._id.toString()) {
             temp.push(row);
           }
@@ -196,28 +195,28 @@ const PropertiesModal = ({
   //   useEffect to get vat
   useEffect(() => {
     if (currentProject) {
-      setValues((prev) => {
+      setValues(prev => {
         prev.name = currentProject?.name;
         prev.prescriber = currentProject?.prescriber;
         prev.vat = currentProject?.vat?._id;
         prev.reference = currentProject?.reference ? currentProject?.reference : '';
         prev.description = currentProject?.description ? currentProject?.description : '';
         let temp = [];
-        currentProject?.chap0part2?.map((item) => {
+        currentProject?.chap0part2?.map(item => {
           temp.push(item.id._id);
         });
         prev.chap0part2 = temp;
         return { ...prev };
       });
-      setValues2((prev) => {
+      setValues2(prev => {
         prev.market_type = currentProject?.market_type;
         prev.structure = currentProject?.structure;
         return { ...prev };
       });
 
-      let temp = currentProject?.stakeholders.map((item) => item._id);
+      let temp = currentProject?.stakeholders.map(item => item._id);
 
-      setValues3((prev) => {
+      setValues3(prev => {
         prev.stakeholders = temp;
         return { ...prev };
       });
@@ -256,7 +255,7 @@ const PropertiesModal = ({
     const result = await api('get', `/StakeholderTypes/`);
     const data = result.data.stakeholderTypes.sort((a, b) => a.ranking - b.ranking);
     setTypeOptions(data);
-    const selected = data.find((item) => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
+    const selected = data.find(item => item.text.toUpperCase() === "MAITRE D'OUVRAGE");
     setTypeValue(selected._id);
   };
 
@@ -296,16 +295,16 @@ const PropertiesModal = ({
 
     if (currentProject?.chap0part2?.length > 0) {
       let tempChap = result.data.data.chap0.find(
-        (item) => item._id === currentProject.chap0part2[0].id.chap0
+        item => item._id === currentProject.chap0part2[0].id.chap0
       );
       if (tempChap?.family) {
         setSelectedFam(tempChap.family);
         setShowPrivateChapList(false);
       } else {
-        let privateFam = familyOptions.find((item) => item.name.toUpperCase() === 'PRESCRIPTEUR');
+        let privateFam = familyOptions.find(item => item.name.toUpperCase() === 'PRESCRIPTEUR');
         setSelectedFam(privateFam._id);
         let chap = [];
-        result.data.data.architectsChap0.forEach((item) => {
+        result.data.data.architectsChap0.forEach(item => {
           if (item.type === 'private') {
             chap.push(item);
           }
@@ -321,7 +320,7 @@ const PropertiesModal = ({
 
   // handle change function
   const handleChange = (name, value) => {
-    setValues((prev) => {
+    setValues(prev => {
       prev[name] = value;
       return { ...prev };
     });
@@ -329,35 +328,35 @@ const PropertiesModal = ({
 
   // handle change function
   const handleChange2 = (name, value) => {
-    setValues2((prev) => {
+    setValues2(prev => {
       prev[name] = value;
       return { ...prev };
     });
   };
 
   // handle change for stakeholders
-  const handleStakeholdersChange = (event) => {
+  const handleStakeholdersChange = event => {
     const {
-      target: { value },
+      target: { value }
     } = event;
     let temp = typeof value === 'string' ? value.split(',') : value;
     if (values3.stakeholders.length < value.length) {
       let newVal = temp[temp.length - 1];
-      let compArr = stakeholderOptions.map((item) => item._id);
-      temp = temp.filter((val) => !compArr.includes(val));
+      let compArr = stakeholderOptions.map(item => item._id);
+      temp = temp.filter(val => !compArr.includes(val));
       temp.push(newVal);
     }
-    setValues3((prev) => {
+    setValues3(prev => {
       prev.stakeholders = temp;
       return { ...prev };
     });
     setOpenDropDown(false);
   };
 
-  const removeStakeholder = (id) => {
+  const removeStakeholder = id => {
     let temp = [];
-    temp = values3.stakeholders.filter((item) => item !== id);
-    setValues3((prev) => {
+    temp = values3.stakeholders.filter(item => item !== id);
+    setValues3(prev => {
       prev.stakeholders = temp;
       return { ...prev };
     });
@@ -365,11 +364,10 @@ const PropertiesModal = ({
   };
 
   //   handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     let data = values;
     !values.reference && delete data.reference;
-    !values.description && delete data.description;
     if (selectedStakeholder) {
       data.client = selectedStakeholder;
     } else {
@@ -377,7 +375,7 @@ const PropertiesModal = ({
         'put',
         `/stakeholders/${currentProject?.client._id}`,
         {
-          establishment: stakeholderText,
+          establishment: stakeholderText
         },
         t
       );
@@ -391,7 +389,7 @@ const PropertiesModal = ({
         'put',
         `/stakeholders/${currentProject?.prescriber._id}`,
         {
-          establishment: stakeholderText2,
+          establishment: stakeholderText2
         },
         t
       );
@@ -402,8 +400,8 @@ const PropertiesModal = ({
       delete data.chap0part2;
     } else {
       let temp = [];
-      data?.chap0part2?.map((item2) => {
-        chapOptions?.architectsChap0?.map((item) => {
+      data?.chap0part2?.map(item2 => {
+        chapOptions?.architectsChap0?.map(item => {
           if (item._id == item2) {
             item2 = { id: item2, status: 'selected' };
           }
@@ -422,7 +420,7 @@ const PropertiesModal = ({
   };
 
   //   handle submit
-  const handleSubmit2 = async (e) => {
+  const handleSubmit2 = async e => {
     e.preventDefault();
     const result = await api('put', `/project/${currentProject._id}`, values2, t);
     toast.success(t(result.data.message));
@@ -462,8 +460,8 @@ const PropertiesModal = ({
   };
 
   //Work Up
-  const handleStakeholderUp = async (id) => {
-    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
+  const handleStakeholderUp = async id => {
+    let filteredIndex = step3Values.findIndex(dt => dt._id == id);
     if (filteredIndex != 0) {
       let tempArr = [...step3Values];
       let prevIndex = filteredIndex - 1;
@@ -471,11 +469,11 @@ const PropertiesModal = ({
       let prev = tempArr[prevIndex];
       api('put', `/stakeholders/${id}`, {
         workId: id,
-        ranking: prevIndex,
+        ranking: prevIndex
       }).then(() => {
         api('put', `/stakeholders/${step3Values[prevIndex]._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = step3Values[filteredIndex - 1];
           tempArr[filteredIndex - 1] = step3Values[filteredIndex];
@@ -487,8 +485,8 @@ const PropertiesModal = ({
   };
 
   //Work Down
-  const handleStakeholderDown = async (id) => {
-    let filteredIndex = step3Values.findIndex((dt) => dt._id == id);
+  const handleStakeholderDown = async id => {
+    let filteredIndex = step3Values.findIndex(dt => dt._id == id);
 
     if (filteredIndex !== step3Values.length - 1) {
       let tempArr = [...step3Values];
@@ -496,11 +494,11 @@ const PropertiesModal = ({
       let prev = tempArr[nextIndex];
       api('put', `/stakeholders/${id}`, {
         workId: id,
-        ranking: nextIndex,
+        ranking: nextIndex
       }).then(() => {
         api('put', `/stakeholders/${step3Values[nextIndex]._id}`, {
           workId: prev._id,
-          ranking: filteredIndex,
+          ranking: filteredIndex
         }).then(() => {
           tempArr[filteredIndex] = step3Values[nextIndex];
           tempArr[nextIndex] = step3Values[filteredIndex];
@@ -522,20 +520,18 @@ const PropertiesModal = ({
           onClose={handleClose}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'left'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'left'
           }}
-          sx={{ mt: 2.5 }}
-        >
+          sx={{ mt: 2.5 }}>
           <MenuItem
             style={{ width: 150 }}
             onClick={() => {
               handleEditStakeholderModal();
-            }}
-          >
+            }}>
             {t('Edit')}
           </MenuItem>
           <MenuItem onClick={() => removeStakeholder(stakeId)}>{t('Delete')}</MenuItem>
@@ -569,7 +565,7 @@ const PropertiesModal = ({
               name="name"
               type="text"
               value={values.name}
-              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              handleChange={e => handleChange(e.target.name, e.target.value)}
             />
             <br />
             <br />
@@ -604,7 +600,7 @@ const PropertiesModal = ({
                   value={values.vat}
                   options={options}
                   type="text"
-                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                  onChange={e => handleChange(e.target.name, e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -614,7 +610,7 @@ const PropertiesModal = ({
               name="reference"
               type="text"
               value={values.reference}
-              handleChange={(e) => handleChange(e.target.name, e.target.value)}
+              handleChange={e => handleChange(e.target.name, e.target.value)}
             />
             <br />
             <br />
@@ -625,7 +621,7 @@ const PropertiesModal = ({
               name="description"
               type="text"
               value={values.description}
-              onChange={(e) => handleChange(e.target.name, e.target.value)}
+              onChange={e => handleChange(e.target.name, e.target.value)}
             />
             <br />
             <br />
@@ -635,13 +631,13 @@ const PropertiesModal = ({
               value={selectedFam}
               options={familyOptions}
               type="text"
-              onChange={(e) => {
+              onChange={e => {
                 setSelectedFam(e.target.value);
-                let tempFam = familyOptions.find((item) => item._id === e.target.value);
+                let tempFam = familyOptions.find(item => item._id === e.target.value);
                 let famName = tempFam.name.toUpperCase();
                 if (famName === 'PRESCRIPTEUR') {
                   let chap = [];
-                  chapOptions.architectsChap0.forEach((item) => {
+                  chapOptions.architectsChap0.forEach(item => {
                     if (item.type === 'private') {
                       chap.push(item);
                     }
@@ -652,7 +648,7 @@ const PropertiesModal = ({
                   }
                 } else {
                   let chap = [];
-                  chapOptions.chap0.forEach((item) => {
+                  chapOptions.chap0.forEach(item => {
                     if (item.family && item.family === e.target.value) {
                       chap.push(item._id);
                     }
@@ -674,7 +670,7 @@ const PropertiesModal = ({
                 value={selectedPrivateChap}
                 options={privateChapOptions}
                 type="text"
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedPrivateChap(e.target.value);
                   handleChange('chap0part2', [e.target.value]);
                 }}
@@ -689,8 +685,7 @@ const PropertiesModal = ({
               <Button
                 variant="contained"
                 className={classes.btn}
-                onClick={handleOpenPropertiesModal}
-              >
+                onClick={handleOpenPropertiesModal}>
                 {t('Close')}
               </Button>
               <Button variant="contained" className={classes.btn} type="submit">
@@ -708,7 +703,7 @@ const PropertiesModal = ({
               data={TOC}
               value={values2.market_type}
               name="market_type"
-              handleChange={(e) => handleChange2(e.target.name, e.target.value)}
+              handleChange={e => handleChange2(e.target.name, e.target.value)}
               disabled={true}
             />
             <br />
@@ -718,15 +713,14 @@ const PropertiesModal = ({
               data={TOP}
               value={values2.structure}
               name="structure"
-              handleChange={(e) => handleChange2(e.target.name, e.target.value)}
+              handleChange={e => handleChange2(e.target.name, e.target.value)}
             />
             {/* register button */}
             <div style={{ width: '100%', textAlign: 'right' }}>
               <Button
                 variant="contained"
                 className={classes.btn}
-                onClick={handleOpenPropertiesModal}
-              >
+                onClick={handleOpenPropertiesModal}>
                 {t('Close')}
               </Button>
               <Button variant="contained" className={classes.btn} type="submit">
@@ -742,7 +736,7 @@ const PropertiesModal = ({
                 name="type"
                 label={t('Select a type of stakeholder')}
                 value={typeValue}
-                onChange={(e) => setTypeValue(e.target.value)}
+                onChange={e => setTypeValue(e.target.value)}
                 options={typeOptions}
                 required={true}
               />
@@ -753,7 +747,7 @@ const PropertiesModal = ({
                 required={true}
                 name="family"
                 value={values3.stakeholders}
-                handleChange={(e) => handleStakeholdersChange(e)}
+                handleChange={e => handleStakeholdersChange(e)}
                 options={stakeholderOptions}
                 native={false}
                 open={openDropDown}
@@ -772,9 +766,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 140,
-                    }}
-                  >
+                      width: 140
+                    }}>
                     {t('Type of stakeholder')}
                   </TableCell>
                   <TableCell
@@ -783,9 +776,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 160,
-                    }}
-                  >
+                      width: 160
+                    }}>
                     {t('Name of stakeholder')}
                   </TableCell>
                   <TableCell
@@ -793,9 +785,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 140,
-                    }}
-                  >
+                      width: 140
+                    }}>
                     {t('Address 1')}
                   </TableCell>
                   <TableCell
@@ -804,9 +795,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 140,
-                    }}
-                  >
+                      width: 140
+                    }}>
                     {t('Address 2')}
                   </TableCell>
                   <TableCell
@@ -814,9 +804,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 140,
-                    }}
-                  >
+                      width: 140
+                    }}>
                     {t('Zipcode')}
                   </TableCell>
                   <TableCell
@@ -825,9 +814,8 @@ const PropertiesModal = ({
                       color: 'white',
                       fontWeight: 900,
                       fontSize: 12,
-                      width: 140,
-                    }}
-                  >
+                      width: 140
+                    }}>
                     {t('City')}
                   </TableCell>
 
@@ -835,17 +823,16 @@ const PropertiesModal = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {step3Values?.map((row) => {
+                {step3Values?.map(row => {
                   return (
                     <TableRow
                       key={row.name}
                       sx={{
                         '&:last-child td, &:last-child th': {
-                          border: 0,
+                          border: 0
                         },
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
+                        whiteSpace: 'nowrap'
+                      }}>
                       <TableCell align="left">{row.type.text}</TableCell>
                       <TableCell component="th" scope="row">
                         {row.establishment}
@@ -870,8 +857,7 @@ const PropertiesModal = ({
                           aria-controls={open ? 'demo-positioned-menu' : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? 'true' : undefined}
-                          onClick={(e) => handleClick(e, row, row._id)}
-                        >
+                          onClick={e => handleClick(e, row, row._id)}>
                           <MoreVertIcon color="primary" />
                         </IconButton>
                       </TableCell>
