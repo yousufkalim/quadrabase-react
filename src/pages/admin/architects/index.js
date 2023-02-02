@@ -145,7 +145,7 @@ export default function Index(props) {
     currentSubscription?.end_date && setEndDate(moment(currentSubscription?.end_date)._i);
     architectData &&
       Object.keys(architectData).length > 0 &&
-      setProjects(architectData?.subscriptions?.subscription?.projects ?architectData?.subscriptions?.subscription?.projects:0);
+      setProjects(architectData?.subscriptions?.projects ?architectData?.subscriptions?.projects:0);
     getAllSubscriptions();
   }, [subscriptionModal]);
 
@@ -210,9 +210,11 @@ export default function Index(props) {
   // add subscription
   const handleSubmit = async () => {
     try {
+      console.log("subscription value",value)
       if (!value) {
         Notifier('Subscription is required', 'error', translate);
       } else {
+        console.log("subscriptionArchitextId",subscriptionArchitextId,value,projects)
         let response = await Axios({
           method: 'put',
           url: `${baseUrl}/Architects/addsubscription/${subscriptionArchitextId}`,
