@@ -1720,6 +1720,11 @@ const tagsToDocxMap = {
           text = text.replace(tagsRegEx, '');
 
           switch (children[i].tagName) {
+            case 'IMG':
+              const parsedImage = await this.IMG(children[i]);
+              objsArr.push(parsedImage);
+              break;
+
             case 'STRONG':
               parsedTags.push(
                 new TextRun({
